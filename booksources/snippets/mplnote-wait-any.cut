@@ -1,0 +1,12 @@
+  Instead of an array of requests,
+  use an \indexmpldef{irequest_pool} object,
+  which acts like a vector of requests,
+  meaning that you can \lstinline+push_back+ onto it.
+  The \indexmpishow{irequest_pool} class has methods
+  \indexmplshow{waitany}, \indexmplshow{waitall},
+  \indexmplshow{testany}, \indexmplshow{testall},
+  \indexmplshow{waitsome}, \indexmplshow{testsome}.
+  %
+  \cxxverbatimsnippet[examples/mpi/mpl/irecvsource.cxx]{waitforanympl}
+  %
+  You can not declare a pool of a fixed size and assign elements.

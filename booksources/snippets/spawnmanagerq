@@ -1,0 +1,7 @@
+// spawnmanager.c
+MPI_Comm_size(MPI_COMM_WORLD, &world_size);
+MPI_Comm_rank(MPI_COMM_WORLD, &manager_rank);
+
+err = MPI_Comm_get_attr(MPI_COMM_WORLD, MPI_UNIVERSE_SIZE,
+	       (void*)&universe_sizep, &flag);
+  universe_size = *universe_sizep;

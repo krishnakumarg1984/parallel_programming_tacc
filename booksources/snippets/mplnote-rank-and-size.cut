@@ -1,0 +1,11 @@
+  \lstset{language=C++}
+  The rank of a process (by \indexmpldef{rank}) and
+  the size of a communicator (by \indexmpldef{size})
+  are both methods of the \indexmplshow{communicator} class:
+\begin{lstlisting}
+const mpl::communicator &comm_world =
+    mpl::environment::comm_world();
+int procid = comm_world.rank();
+int nprocs = comm_world.size();
+\end{lstlisting}
+  Note the predefined environment method \indexmplshow{comm_world}.

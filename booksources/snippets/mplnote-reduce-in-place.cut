@@ -1,0 +1,12 @@
+  In \ac{MPL}, the in-place variant is activated by
+  specifying only one instead of two buffer arguments.
+  %
+  \cxxverbatimsnippet[examples/mpi/mpl/collectscalar.cxx]{mplallreduce}
+  %
+  Reducing a buffer requires specification of a \lstinline+contiguous_layout+:
+  %
+  \cxxverbatimsnippet[examples/mpi/mpl/collectbuffer.cxx]{mplallreducebuffer}
+
+  Similarly for the rooted reduce:
+  %
+  \cxxverbatimsnippet[examples/mpi/mpl/collectscalar.cxx]{mplrootreduce}

@@ -1,0 +1,9 @@
+  In \ac{MPL}, the \indexmpldef{indexed_layout} is based on a vector
+  of 2-tuples denoting block length~/ block location.
+  %
+  \cxxverbatimsnippet[examples/mpi/mpl/indexed.cxx]{indexedmpl}
+  %
+  For the case where all block lengths are the same,
+  use \indexmpldef{indexed_block_layout}:
+  %
+  \cxxverbatimsnippet[examples/mpi/mpl/indexedblock.cxx]{indexedbmpl}

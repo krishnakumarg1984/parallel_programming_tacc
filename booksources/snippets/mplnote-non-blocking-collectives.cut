@@ -1,0 +1,4 @@
+  Non-blocking collectives have the same argument list as the
+  corresponding blocking variant, except that
+  instead of a \lstinline+void+ result,
+  they return an \indexmplshow{irequest}.

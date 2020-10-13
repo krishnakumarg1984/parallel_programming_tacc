@@ -1,0 +1,8 @@
+  \ac{MPL} uses a default value for the tag, and it can deduce the type
+  of the buffer. Sending a scalar becomes:
+  %
+  \cxxverbatimsnippet[examples/mpi/mpl/sendscalar.cxx]{mplsendscalar}
+  %
+  Sending a buffer uses a general mechanism that will be discussed later:
+  %
+  \cxxverbatimsnippet[examples/mpi/mpl/sendbuffer.cxx]{mplsendbuffer}

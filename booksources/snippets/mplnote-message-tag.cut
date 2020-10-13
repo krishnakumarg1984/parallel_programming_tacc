@@ -1,0 +1,7 @@
+  \ac{MPL} differs from other \acp{API} in its treatment of tags:
+  a~tag is not directly an integer, but an object of class \indexmplshow{tag}.
+  %
+  \cxxverbatimsnippet{mplsendrecv} % in an exercise
+  %
+  The \indexmplshow{tag} class has a couple of methods such as
+  \lstinline+mpl::tag::any()+.

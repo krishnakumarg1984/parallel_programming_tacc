@@ -1,0 +1,885 @@
+\begin{theindex}
+
+  \item {\catcode 95=12 \texttt  {-malloc_debug}}, \hyperpage{546}
+  \item {\catcode 95=12 \texttt  {-malloc_test}}, \hyperpage{546}
+
+  \indexspace
+
+  \item active target synchronization, \hyperpage{278}, \hyperpage{283}
+  \item address
+    \subitem physical, \hyperpage{349}
+    \subitem virtual, \hyperpage{349}
+  \item adjacency
+    \subitem graph, \hyperpage{520}
+  \item affinity, \hyperindexformat{\textbf}{574}
+    \subitem process and thread, \hyperpage{574--577}
+    \subitem thread
+      \subsubitem on multi-socket nodes, \hyperpage{452}
+  \item alignment, \hyperpage{204}
+  \item all-to-all, \hyperpage{37}
+  \item allocate
+    \subitem and private/shared data, \hyperpage{421}
+  \item allreduce, \hyperpage{36}
+  \item {\catcode 95=12 \texttt  {argc}}, \hyperpage{26}, 
+		\hyperpage{28}
+  \item {\catcode 95=12 \texttt  {argv}}, \hyperpage{26}, 
+		\hyperpage{28}
+  \item array
+    \subitem static, \hyperpage{42}
+  \item atomic operation, \hyperpage{434}, \hyperpage{460}
+    \subitem file, \hyperpage{334}
+    \subitem MPI, \hyperpage{293--298}
+    \subitem OpenMP, \hyperpage{436}
+
+  \indexspace
+
+  \item backfill, \hyperpage{615}
+  \item bandwidth, \hyperpage{78}
+    \subitem bisecection, \hyperpage{83}
+  \item barrier, \hyperpage{368}
+    \subitem implicit, \hyperpage{460}
+    \subitem non-blocking, \hyperpage{75}
+  \item \acl {BLAS} (BLAS), \hyperpage{496}
+  \item batch
+    \subitem job, \hyperpage{15}, \hyperpage{611}
+    \subitem scheduler, \hyperpage{15}
+    \subitem script, \hyperpage{611}
+    \subitem system, \hyperpage{610}
+  \item Beowulf cluster, \hyperpage{14}
+  \item block row, \hyperpage{506}
+  \item Boolean satisfiability, \hyperpage{33}
+  \item boost, \hyperpage{17}
+  \item breakpoint, \hyperpage{598}
+  \item broadcast, \hyperindexformat{\textbf}{35}
+  \item {\catcode 95=12 \texttt  {btl_openib_eager_limit}}, 
+		\hyperpage{121}
+  \item {\catcode 95=12 \texttt  {btl_openib_rndv_eager_limit}}, 
+		\hyperpage{121}
+  \item bucket brigade, \hyperpage{82}, \hyperindexformat{\textbf}{122}, 
+		\hyperpage{602}
+  \item buffer
+    \subitem MPI, in C, \hyperpage{41}
+    \subitem MPI, in Fortran, \hyperpage{41}
+    \subitem MPI, in MPL, \hyperpage{41}
+    \subitem MPI, in Python, \hyperpage{41}
+    \subitem receive, \hyperpage{118}
+  \item butterfly exchange, \hyperpage{604}
+
+  \indexspace
+
+  \item C
+    \subitem MPI bindigs, \hyperindexformat{\see{MPI, C bindings}}{17}
+  \item C++
+    \subitem MPI bindings, 
+		\hyperindexformat{\see{MPI, C++ bindings}}{17}
+    \subitem standard library, \hyperpage{199}
+      \subsubitem vector, \hyperpage{199}
+  \item C++ iterators
+    \subitem in OMP reduction, \hyperpage{431}
+  \item C99, \hyperpage{180}
+  \item {\catcode 95=12 \texttt  {c_sizeof}}, \hyperpage{203}
+  \item cacheline, \hyperpage{428}
+  \item callback, \hyperpage{540}
+  \item cast, \hyperpage{41}
+  \item {\catcode 95=12 \texttt  {CC}}, \hyperpage{601}
+  \item Charmpp, \hyperpage{15}
+  \item chunk, \hyperpage{409}
+  \item {\catcode 95=12 \texttt  {chunk}}, \hyperpage{409}
+  \item client, \hyperpage{271}
+  \item cluster, \hyperpage{610}
+  \item cmake, \hyperpage{616}
+  \item {\catcode 95=12 \texttt  {Codimension}}, \hyperpage{560}
+  \item collectives, \hyperindexformat{\textbf}{35}
+    \subitem neighbourhood, \hyperindexformat{\textbf}{340}, 
+		\hyperpage{371}
+    \subitem non-blocking, \hyperpage{72}
+      \subsubitem cancelling, \hyperpage{377}
+  \item column-major storage, \hyperpage{191}
+  \item communication
+    \subitem asynchronous, \hyperindexformat{\textbf}{149--150}
+    \subitem blocking, \hyperindexformat{\textbf}{118--123}
+      \subsubitem vs non-blocking, \hyperpage{370}
+    \subitem buffered, \hyperindexformat{\textbf}{154}, \hyperpage{371}
+    \subitem non-blocking, \hyperindexformat{\textbf}{129--142}
+    \subitem one-sided, \hyperpage{278--308}
+    \subitem one-sided, implementation of, \hyperpage{307--308}
+    \subitem persistent, \hyperindexformat{\textbf}{150--154}, 
+		\hyperpage{371}
+    \subitem synchronous, \hyperindexformat{\textbf}{149--150}
+    \subitem two-sided, 159
+  \item communicator, \hyperindexformat{\textbf}{29}, 
+		\hyperpage{246--259}
+    \subitem info object, \hyperpage{360}
+    \subitem inter, \hyperpage{254}, \hyperindexformat{\textbf}{255}, 
+		\hyperpage{268}
+    \subitem intra, \hyperpage{255}, \hyperpage{257}
+    \subitem object, \hyperpage{29}
+    \subitem peer, \hyperpage{255}
+    \subitem variable, \hyperpage{29}
+  \item compare-and-swap, \hyperpage{126}
+  \item compiler, \hyperpage{202}
+    \subitem optimization level, \hyperpage{593}
+  \item completion, \hyperindexformat{\textbf}{300}
+    \subitem local, \hyperpage{300}
+    \subitem remote, \hyperpage{300}
+  \item compute
+    \subitem node, \hyperpage{610}
+  \item {\catcode 95=12 \texttt  {configure.log}}, \hyperpage{491}
+  \item construct, \hyperpage{392}
+  \item contention, \hyperpage{83}
+  \item contiguous
+    \subitem data type, \hyperpage{184}
+  \item core, \hyperpage{23}, \hyperindexformat{\textbf}{387}
+  \item core dump, \hyperpage{593}
+  \item {\catcode 95=12 \texttt  {cosubscript}}, \hyperpage{561}
+  \item cpp, \hyperpage{390}
+  \item cpuinfo, \hyperindexformat{\textbf}{572}
+  \item Cray
+    \subitem MPI, \hyperpage{16}
+    \subitem T3E, \hyperpage{374}
+  \item critical   section
+    \subitem flush at, \hyperpage{461}
+  \item critical section, \hyperpage{427}, \hyperpage{435}, 
+		\hyperpage{469}
+  \item curly braces, \hyperpage{391}
+
+  \indexspace
+
+  \item Dalcin
+    \subitem Lisandro, \hyperpage{18}
+  \item data dependency, \hyperpage{446}
+  \item data race, \hyperindexformat{\see{race condition}}{460}
+  \item datatype, \hyperpage{178--212}
+    \subitem big, \hyperpage{209--210}
+    \subitem derived, \hyperpage{184--324}
+    \subitem different on sender and receiver, \hyperpage{188}
+    \subitem elementary, \hyperpage{179--183}
+      \subsubitem in C, \hyperpage{179}
+      \subsubitem in Fortran, \hyperpage{180}
+      \subsubitem in Python, \hyperpage{182}
+    \subitem signature, \hyperpage{200}
+  \item datatypes
+    \subitem derived, \hyperpage{178}
+    \subitem elementary, \hyperpage{178}
+  \item {\catcode 95=12 \texttt  {date}}, \hyperpage{613}
+  \item ddd, \hyperpage{593}
+  \item DDT, \hyperpage{593}, \hyperpage{600}
+  \item deadlock, \hyperpage{75}, \hyperpage{114}, 
+		\hyperindexformat{\textbf}{119}, \hyperpage{129}, 
+		\hyperpage{370}, \hyperpage{372}, \hyperpage{599}
+  \item debug flag, \hyperpage{594}
+  \item {\catcode 95=12 \texttt  {debug_mt}}, \hyperpage{366}
+  \item debugger, \hyperpage{593}
+  \item debugging, \hyperpage{593--600}
+    \subitem parallel, \hyperpage{599}
+  \item dense linear algebra, \hyperpage{251}
+  \item destructor, \hyperpage{249}
+  \item directive
+    \subitem end-of, \hyperpage{391}
+  \item directives, \hyperpage{391}, \hyperindexformat{\textbf}{391}
+    \subitem cpp, \hyperpage{399}
+  \item displacement unit, \hyperpage{304}
+  \item distributed array, \hyperpage{111}
+  \item distributed shared memory, \hyperpage{278}
+  \item doubling
+    \subitem recursive, \hyperindexformat{\see{recursive doubling}}{83}
+  \item dynamic mode, \hyperpage{388}
+
+  \indexspace
+
+  \item eager limit, \hyperindexformat{\textbf}{119--121}, 
+		\hyperpage{370}
+  \item Eclipse, \hyperpage{600}
+    \subitem PTP, \hyperpage{600}
+  \item edge
+    \subitem cuts, \hyperpage{520}
+    \subitem weight, \hyperpage{520}
+  \item ensemble, \hyperpage{615}
+  \item environment
+    \subitem of batch job, \hyperpage{613}
+  \item environment variables, \hyperpage{582}
+  \item epoch, \hyperindexformat{\textbf}{283}
+    \subitem access, \hyperpage{284}, \hyperpage{292}
+    \subitem communication, \hyperpage{283}
+    \subitem completion, \hyperpage{303}
+    \subitem exposure, \hyperpage{284}, \hyperpage{291}
+    \subitem passive target, \hyperindexformat{\textbf}{298}
+  \item error return, \hyperpage{17}
+  \item ethernet, \hyperpage{16}
+
+  \indexspace
+
+  \item false sharing, \hyperpage{406}, \hyperpage{428}
+  \item \acl {FFT} (FFT), \hyperpage{516}, \hyperpage{518}
+  \item fat-tree, \hyperpage{574}
+  \item fence, \hyperpage{283}
+  \item fftw, \hyperpage{492}, \hyperpage{516}
+  \item Fibonacci sequence, \hyperpage{438--440}
+  \item file
+    \subitem pointer
+      \subsubitem advance by write, \hyperpage{332}
+      \subsubitem individual, \hyperpage{331}
+    \subitem system
+      \subsubitem shared, \hyperpage{616}
+  \item file system
+    \subitem shared, \hyperpage{324}
+  \item first-touch, \hyperpage{456}, \hyperpage{575}
+  \item five-point stencil, \hyperpage{75}
+  \item fork/join model, \hyperindexformat{\textbf}{387}, 
+		\hyperpage{394}, \hyperpage{445}
+  \item Fortran
+    \subitem 1-based indexing, \hyperpage{136}
+    \subitem 90
+      \subsubitem bindings, \hyperpage{18}
+    \subitem 2008, \hyperpage{29}
+    \subitem array syntax, \hyperpage{416}
+    \subitem assumed-shape arrays in MPI, \hyperpage{365}
+    \subitem fixed-form source, \hyperpage{391}
+    \subitem forall loops, \hyperpage{416}
+    \subitem Fortran90, \hyperpage{26}
+    \subitem line length, \hyperpage{544}
+    \subitem MPI bindings, 
+		\hyperindexformat{\see{MPI, Fortran bindings}}{17}
+    \subitem MPI equivalences of scalar types, \hyperpage{180}
+    \subitem MPI issues, \hyperpage{364--365}
+  \item Fortran2008, \hyperpage{286}
+    \subitem MPI bindings, 
+		\hyperindexformat{\see{MPI, Fortran2008 bindings}}{17}
+  \item Fortran77
+    \subitem PETSc interface, \hyperpage{487}
+  \item Fortran90
+    \subitem PETSc interface, \hyperpage{487}
+  \item Fortran90 types
+    \subitem in MPI, \hyperpage{364}
+
+  \indexspace
+
+  \item gather, \hyperindexformat{\textbf}{35}
+  \item Gauss-Jordan algorithm, \hyperpage{49}
+  \item Gaussian elimination, \hyperpage{532}
+  \item gcc
+    \subitem thread affinity, \hyperpage{457}
+  \item gdb, \hyperpage{593--600}
+  \item {\catcode 95=12 \texttt  {gemv}}, \hyperpage{512}
+  \item {\catcode 95=12 \texttt  {getrusage}}, \hyperpage{551}
+  \item ghost region, \hyperpage{634}
+  \item GNU, \hyperpage{593}
+    \subitem gdb, \hyperindexformat{\see{gdb}}{593}
+  \item Gram-Schmidt, \hyperpage{40}
+  \item graph
+    \subitem partitioning
+      \subsubitem packages, \hyperpage{520}
+    \subitem topology, \hyperindexformat{\textbf}{340}, \hyperpage{371}
+    \subitem unweighted, \hyperpage{342}
+  \item graph topology, \hyperpage{574}
+  \item grid
+    \subitem Cartesian, \hyperpage{337}, \hyperpage{516}
+    \subitem periodic, \hyperpage{337}
+    \subitem processor, \hyperpage{574}
+  \item group, \hyperpage{291}
+  \item group of
+    \subitem processors, \hyperpage{293}
+
+  \indexspace
+
+  \item halo, \hyperpage{634}
+    \subitem update, \hyperpage{288}
+  \item halo region, \hyperpage{518}
+  \item handshake, \hyperpage{372}
+  \item hdf5, \hyperpage{324}, \hyperpage{587}
+  \item heap, \hyperpage{394}
+  \item heat equation, \hyperpage{454}
+  \item histogram, \hyperpage{437}
+  \item hostname, \hyperpage{362}
+  \item hwloc, \hyperpage{572}
+  \item {\catcode 95=12 \texttt  {hwloc}}, \hyperpage{575}
+  \item hybrid
+    \subitem computing, \hyperpage{615}
+  \item hyperthreading, \hyperpage{575}
+  \item Hypre, \hyperpage{540}
+  \item hypre, \hyperpage{492}, \hyperpage{538}
+    \subitem pilut, \hyperpage{539}
+
+  \indexspace
+
+  \item I/O
+    \subitem in OpenMP, \hyperpage{415}
+  \item {\catcode 95=12 \texttt  {I_MPI_ASYNC_PROGRESS}}, 
+		\hyperpage{366}
+  \item {\catcode 95=12 \texttt  {I_MPI_ASYNC_PROGRESS_...}}, 
+		\hyperpage{366}
+  \item {\catcode 95=12 \texttt  {I_MPI_ASYNC_PROGRESS_THREADS}}, 
+		\hyperpage{366}
+  \item {\catcode 95=12 \texttt  {I_MPI_EAGER_THRESHOLD}}, 
+		\hyperpage{121}
+  \item {\catcode 95=12 \texttt  {ibrun}}, \hyperpage{270}, 
+		\hyperpage{490}, \hyperpage{602}
+  \item idle, \hyperpage{615}
+  \item image, \hyperindexformat{\textbf}{560}
+  \item {\catcode 95=12 \texttt  {image_index}}, \hyperpage{561}
+  \item implicit barrier, \hyperpage{435}
+    \subitem after single directive, \hyperpage{415}
+  \item indexed
+    \subitem data type, \hyperpage{184}
+  \item inner product, \hyperpage{40}
+  \item input redirection
+    \subitem shell, \hyperpage{373}
+  \item instrumentation, \hyperpage{601}
+  \item Intel, \hyperpage{371}
+    \subitem compiler
+      \subsubitem thread affinity, \hyperpage{457}
+    \subitem compiler suite, \hyperpage{572}
+    \subitem Haswell, \hyperpage{575}
+    \subitem Knight's Landing, \hyperpage{387}, \hyperpage{464}
+      \subsubitem thread placement, \hyperpage{455}
+    \subitem KNL, \hyperpage{610}
+    \subitem MPI, \hyperpage{16}, \hyperpage{83}, \hyperpage{366}
+    \subitem mpi, \hyperpage{121}, \hyperpage{270}
+    \subitem Paragon, \hyperpage{366}
+    \subitem SandyBridge, \hyperpage{575}
+    \subitem Sandybridge, \hyperpage{387}
+    \subitem Skylake, \hyperpage{610}
+  \item interconnect, \hyperpage{606}
+  \item Internal Control Variable (ICV), 
+		\hyperindexformat{\textbf}{468--470}
+
+  \indexspace
+
+  \item job, \hyperpage{610}
+    \subitem array, \hyperpage{615}
+    \subitem cancel, \hyperpage{613}
+  \item job script, \hyperpage{611}
+  \item {\catcode 95=12 \texttt  {jumpshot}}, \hyperpage{602}
+
+  \indexspace
+
+  \item {\catcode 95=12 \texttt  {KIND}}, \hyperpage{203}
+  \item {\catcode 95=12 \texttt  {KMP_AFFINITY}}, \hyperpage{457}
+
+  \indexspace
+
+  \item Laplace equation, \hyperpage{509}
+  \item latency, \hyperpage{78}
+    \subitem hiding, \hyperindexformat{\textbf}{139}, \hyperpage{370}, 
+		\hyperpage{502}, \hyperpage{504}
+  \item latency hiding, \hyperpage{511}
+  \item {\catcode 95=12 \texttt  {launcher}}, \hyperpage{615}
+  \item {\catcode 95=12 \texttt  {lcobound}}, \hyperpage{561}
+  \item lexical scope, \hyperpage{418}
+  \item \acl {LAPACK} (LAPACK), \hyperpage{496}
+  \item linked list, \hyperpage{442}
+  \item linker
+    \subitem weak symbol, \hyperpage{369}
+  \item {\catcode 95=12 \texttt  {listing}}, \hyperpage{621}
+  \item load balancing, \hyperpage{406}
+  \item load imbalance, \hyperpage{406}
+  \item local refinement, \hyperpage{76}
+  \item lock, \hyperpage{436}, \hyperindexformat{\textbf}{436--438}
+    \subitem flush at, \hyperpage{461}
+    \subitem nested, \hyperpage{438}
+  \item login
+    \subitem node, \hyperpage{610}
+  \item Lonestar5, \hyperpage{575}
+  \item LU factorization, \hyperpage{408}, \hyperpage{532}
+  \item Lustre, \hyperpage{587}
+
+  \indexspace
+
+  \item {\catcode 95=12 \texttt  {make.log}}, \hyperpage{491}
+  \item malloc
+    \subitem and private/shared data, \hyperpage{421}
+  \item {\catcode 95=12 \texttt  {malloc}}, \hyperpage{394}, 
+		\hyperpage{456}
+  \item manager-worker, \hyperpage{627}
+  \item manager-worker model, \hyperpage{140}, \hyperpage{145}
+  \item Mandelbrot set, \hyperpage{33}, \hyperpage{81}, \hyperpage{424}, 
+		\hyperpage{627}
+  \item matching, \hyperpage{372}
+  \item matching queue, \hyperpage{144}
+  \item Matlab
+    \subitem parallel computing toolbox, \hyperpage{614}
+  \item matrix
+    \subitem sparse, \hyperpage{72}, \hyperpage{511}
+    \subitem transposition, \hyperpage{252}
+  \item matrix-vector product, \hyperpage{532}
+    \subitem dense, \hyperpage{53}
+    \subitem sparse, \hyperpage{56}
+  \item Mellanox, \hyperpage{371}
+  \item memory
+    \subitem coherent, \hyperpage{303}
+    \subitem shared, MPI, \hyperpage{280}
+  \item memory leak, \hyperpage{142}
+  \item message
+    \subitem collision, \hyperpage{371}
+    \subitem count, \hyperpage{147}
+    \subitem source, \hyperindexformat{\textbf}{118}
+    \subitem status, \hyperpage{118}, \hyperpage{128}, 
+		\hyperindexformat{\textbf}{144}
+      \subsubitem error, \hyperpage{147}
+      \subsubitem source, \hyperpage{145}
+      \subsubitem tag, \hyperpage{147}
+    \subitem tag, \hyperpage{116}, \hyperpage{582}
+  \item \acl {MPL} (MPL), \hyperpage{17}
+  \item messsage
+    \subitem target, \hyperindexformat{\textbf}{114}
+  \item MKL, \hyperpage{496}
+  \item mkl, \hyperpage{492}
+  \item ML, \hyperpage{540}
+  \item Monte Carlo codes, \hyperpage{32}
+  \item motherboard, \hyperpage{386}
+  \item {\catcode 95=12 \texttt  {move_pages}}, \hyperpage{457}
+  \item MPI
+    \subitem 1, \hyperpage{337}, \hyperpage{343}
+    \subitem 3, \hyperpage{72}, \hyperpage{195}, \hyperpage{199}, 
+		\hyperpage{293}, \hyperpage{365}
+      \subsubitem C++ bindings removed, \hyperpage{17}
+      \subsubitem Fortran2008 interface, \hyperpage{17}
+    \subitem C bindings, 17
+    \subitem C++ bindings, \hyperpage{17}
+    \subitem constants, \hyperpage{374--375}, \hyperpage{382--383}
+      \subsubitem compile-time, \hyperpage{374}, \hyperpage{382}
+      \subsubitem link-time, \hyperpage{374}, \hyperpage{382}
+    \subitem datatype
+      \subsubitem extent, \hyperpage{204}
+      \subsubitem size, \hyperpage{204}
+      \subsubitem subarray, \hyperpage{205}
+      \subsubitem vector, \hyperpage{204}
+    \subitem Fortran bindings, \hyperpage{17--18}
+    \subitem Fortran issues, 
+		\hyperindexformat{\see{Fortran, MPI issues}}{364}
+    \subitem Fortran2008 bindings, \hyperpage{17--18}
+    \subitem I/O, \hyperpage{364}, \hyperpage{587}
+    \subitem initialization, \hyperpage{26}
+    \subitem MPI-2, \hyperpage{360}
+    \subitem MPI-3, \hyperpage{209}, \hyperpage{346}
+    \subitem MPI-4, \hyperpage{346}
+    \subitem Python bindings, \hyperpage{18}
+    \subitem Python issues, \hyperpage{376}
+    \subitem semantics, \hyperpage{371--372}
+    \subitem tools interface, \hyperpage{369--370}
+    \subitem version, \hyperpage{362}
+  \item MPI-4, \hyperpage{203}
+  \item mpi.h, \hyperpage{25}
+  \item {\catcode 95=12 \texttt  {mpi.h}}, \hyperpage{18}
+  \item MPI/O, \hyperpage{324--334}
+  \item {\catcode 95=12 \texttt  {mpi4py}}, \hyperpage{18}, 
+		\hyperpage{31}
+  \item {\catcode 95=12 \texttt  {MPI_COMM_WORLD}}, \hyperpage{29}
+  \item {\catcode 95=12 \texttt  {mpi_f08}}, \hyperpage{17, 18}, 
+		\hyperpage{286}
+  \item mpich, \hyperpage{16}
+  \item {\catcode 95=12 \texttt  {mpicxx}}, \hyperpage{17}
+  \item mpiexec, \hyperpage{15}, \hyperpage{25}, \hyperpage{28}, 
+		\hyperpage{245}, \hyperpage{268}
+    \subitem options, \hyperpage{16}
+  \item {\catcode 95=12 \texttt  {mpiexec}}, \hyperpage{25}
+  \item mpif.h, \hyperpage{25}
+  \item mpirun, \hyperpage{15, 16}, \hyperpage{28}
+    \subitem and environment variables, \hyperpage{582}
+  \item MPL, \hyperindexformat{\textbf}{17}, \hyperpage{31}
+    \subitem compiling and linking, \hyperpage{17}
+  \item {\catcode 95=12 \texttt  {mulpd}}, \hyperpage{464}
+  \item {\catcode 95=12 \texttt  {mulsd}}, \hyperpage{464}
+  \item multicore, \hyperpage{388}
+  \item \acl {MPMD} (MPMD), \hyperpage{374}
+  \item mumps, \hyperpage{492}
+  \item {\catcode 95=12 \texttt  {MV2_IBA_EAGER_THRESHOLD}}, 
+		\hyperpage{121}
+  \item mvapich, \hyperpage{582}
+  \item mvapich2, \hyperpage{121}, \hyperpage{580}
+
+  \indexspace
+
+  \item nested parallelism, \hyperpage{399--401}
+  \item netcdf, \hyperpage{324}
+  \item network
+    \subitem card, \hyperpage{371}
+    \subitem contention, \hyperpage{371}
+    \subitem port
+      \subsubitem oversubscription, \hyperpage{371}
+  \item {\catcode 95=12 \texttt  {new}}, \hyperpage{394}
+  \item node, \hyperindexformat{\textbf}{23}, \hyperpage{610}
+    \subitem cluster, \hyperpage{386}
+  \item norm
+    \subitem one, \hyperpage{71}
+  \item {\catcode 95=12 \texttt  {np.frombuffer}}, \hyperpage{70}
+  \item {\catcode 95=12 \texttt  {num_images}}, \hyperpage{561}
+  \item {\catcode 95=12 \texttt  {numactl}}, \hyperpage{457}, 
+		\hyperpage{575}
+  \item numerical integration, \hyperpage{405}
+  \item Numpy, \hyperpage{182}
+  \item numpy, \hyperpage{18}, \hyperpage{41}, \hyperpage{183}, 
+		\hyperpage{282}, \hyperpage{376}
+
+  \indexspace
+
+  \item {\catcode 95=12 \texttt  {od}}, \hyperpage{324}
+  \item offloading
+    \subitem vs onloading, \hyperpage{371}
+  \item omp
+    \subitem barrier
+      \subsubitem implicit, \hyperpage{435}
+    \subitem for
+      \subsubitem barrier   behaviour, \hyperpage{435}
+    \subitem reduction, \hyperpage{427--431}
+      \subsubitem user-defined, \hyperindexformat{\textbf}{430--431}
+  \item {\catcode 95=12 \texttt  {OMP_NUM_THREADS}}, \hyperpage{582}, 
+		\hyperpage{614}
+  \item onloading, 
+		\hyperindexformat{\see{offloading, vs onloading}}{371}
+  \item opaque handle, \hyperpage{29}, \hyperpage{41}
+  \item OpenMP, \hyperpage{346}
+    \subitem accelerator support in, \hyperpage{472}
+    \subitem co-processor support in, \hyperpage{472}
+    \subitem compiling, \hyperpage{389--390}
+    \subitem environment variables, \hyperpage{390}, \hyperpage{394}, 
+		\hyperindexformat{\textbf}{468--470}
+    \subitem library     routines, \hyperpage{394}
+    \subitem library routines, \hyperindexformat{\textbf}{468--470}
+    \subitem places, \hyperpage{452}
+    \subitem running, \hyperpage{390}
+    \subitem tasks, \hyperpage{442--449}
+      \subsubitem data, \hyperpage{443--444}
+      \subsubitem dependencies, \hyperpage{446--447}
+      \subsubitem synchronization, \hyperpage{444--446}
+    \subitem version 4, \hyperpage{448}
+  \item OpenMPI, \hyperpage{121}
+  \item operating system, \hyperpage{472}
+  \item operator, \hyperpage{67--71}
+    \subitem predefined, \hyperpage{67}
+    \subitem user-defined, \hyperpage{68}
+  \item option
+    \subitem prefix, \hyperpage{551}
+  \item origin, \hyperpage{278}, \hyperpage{292}
+  \item overlapping computation and communication, 
+		\hyperindexformat{\see{latency, hiding}}{139}
+  \item owner computes, \hyperpage{113}
+
+  \indexspace
+
+  \item package, \hyperpage{572}
+  \item packing, \hyperpage{210}
+  \item page
+    \subitem small, \hyperpage{349}
+    \subitem table, \hyperpage{349}
+  \item parallel
+    \subitem data, \hyperpage{457}
+    \subitem embarrassingly, \hyperpage{457}
+  \item parallel region, \hyperpage{388}, \hyperpage{397--401}, 
+		\hyperpage{414}
+    \subitem barrier at the end of, \hyperpage{435}
+    \subitem dynamic scope, \hyperpage{400}, \hyperpage{419}
+    \subitem flush at, \hyperpage{461}
+  \item parallel regions
+    \subitem nested, \hyperpage{469}
+  \item {\catcode 95=12 \texttt  {parallel_for}}, \hyperpage{567}
+  \item parameter sweep, \hyperindexformat{\textbf}{615}
+  \item {\catcode 95=12 \texttt  {paraprof}}, \hyperpage{602}
+  \item parasails, \hyperpage{538}
+  \item ParMetis, \hyperpage{371}, \hyperpage{520}
+  \item partition, \hyperpage{613}
+  \item passive target synchronization, \hyperpage{279}, 
+		\hyperpage{293}, \hyperpage{298}
+  \item {\catcode 95=12 \texttt  {pbing}}, \hyperpage{457}
+  \item persistent communication, 
+		\hyperindexformat{\see{communication, persistent}}{150}
+  \item PETSc, \hyperpage{371}
+    \subitem log files, \hyperpage{491}
+  \item Petsc
+    \subitem interoperability with BLAS, \hyperpage{557}
+    \subitem interoperability with MPI, \hyperpage{557}
+  \item {\catcode 95=12 \texttt  {PETSC_ARCH}}, \hyperpage{488}
+  \item {\catcode 95=12 \texttt  {PETSC_DIR}}, \hyperpage{488}
+  \item {\catcode 95=12 \texttt  {PETSC_OPTIONS}}, \hyperpage{551}
+  \item pin a thread, \hyperpage{575}
+  \item ping-pong, \hyperpage{113}, \hyperpage{368}, \hyperpage{562}
+  \item {\catcode 95=12 \texttt  {PMI_RANK}}, \hyperpage{374}
+  \item point-to-point, \hyperpage{113}
+  \item pointer
+    \subitem null, \hyperpage{52}
+  \item polling, \hyperpage{137}, \hyperpage{366}
+  \item posting
+    \subitem of send/receive, \hyperpage{132}
+  \item pragma, \see{for list see under `omp'}{1}, 
+		\hyperindexformat{\textbf}{391}
+  \item preconditioner, \hyperpage{533}, 
+		\hyperindexformat{\textbf}{536}
+    \subitem block jacobi, \hyperpage{551}
+    \subitem field-split, \hyperpage{516}
+  \item prefix operation, \hyperpage{64}
+  \item private variables, \hyperpage{394}
+  \item {\catcode 95=12 \texttt  {proc_bind}}, \hyperpage{398}
+  \item process, \hyperpage{23}
+  \item processes status of, \hyperpage{373}
+  \item producer-consumer, \hyperpage{459}
+  \item {\catcode 95=12 \texttt  {PROFILEDIR}}, \hyperpage{601}
+  \item progress
+    \subitem asynchronous, \hyperpage{139, 140}, \hyperpage{366}
+  \item purify, \hyperpage{597}
+  \item PVM, \hyperpage{15}, \hyperpage{268}
+  \item {\catcode 95=12 \texttt  {pylauncher}}, \hyperpage{615}
+  \item Python
+    \subitem MPI bindigs, 
+		\hyperindexformat{\see{MPI, Python bindings}}{18}
+    \subitem multiprocessing, \hyperpage{614}
+    \subitem PETSc interface, \hyperpage{488}
+
+  \indexspace
+
+  \item queue, \hyperpage{610}
+    \subitem SYCL, \hyperpage{566}
+
+  \indexspace
+
+  \item race condition, \hyperpage{293}, \hyperpage{427}, 
+		\hyperpage{435}, \hyperpage{460}, \hyperpage{470}, 
+		\hyperpage{561}
+    \subitem in OpenMP, \hyperpage{460--461}
+  \item radix sort, \hyperpage{56}
+  \item RAID
+    \subitem array, \hyperpage{616}
+  \item RAM
+    \subitem disc, \hyperpage{616}
+  \item random number generation, \hyperpage{423}
+  \item random number generator, \hyperpage{471}
+  \item {\catcode 95=12 \texttt  {range}}, \hyperpage{567}
+  \item Ranger, \hyperpage{574}
+  \item {\catcode 95=12 \texttt  {rar}}, \hyperpage{305}
+  \item {\catcode 95=12 \texttt  {raw}}, \hyperpage{305}
+  \item ray tracing, \hyperpage{351}
+  \item recursive doubling, \hyperpage{83}
+  \item redirection, 
+		\hyperindexformat{\see{shell, input redirection}}{373}
+  \item reduction, \hyperindexformat{\textbf}{35}
+  \item region of code, \hyperpage{392}
+  \item register
+    \subitem SSE2, \hyperpage{464}
+  \item {\catcode 95=12 \texttt  {release_mt}}, \hyperpage{366}
+  \item residual, \hyperpage{533}
+  \item Riemann sums, \hyperpage{405}
+  \item RMA
+    \subitem active, \hyperpage{278}
+    \subitem passive, \hyperpage{279}
+  \item root, \hyperpage{42}
+  \item root process, \hyperpage{35}
+
+  \indexspace
+
+  \item {\catcode 95=12 \texttt  {sbatch}}, \hyperpage{611}
+  \item scalable
+    \subitem in space, \hyperpage{81}
+    \subitem in time, \hyperpage{81}
+  \item scalapack, \hyperpage{542}
+  \item scan, \hyperpage{37}
+    \subitem exclusive, \hyperpage{66}
+    \subitem inclusive, \hyperpage{65}
+  \item {\catcode 95=12 \texttt  {scancel}}, \hyperpage{612}
+  \item {\catcode 95=12 \texttt  {scanf}}, \hyperpage{547}
+  \item scatter, \hyperindexformat{\textbf}{35}
+  \item {\catcode 95=12 \texttt  {sched_setaffinity}}, \hyperpage{457}
+  \item schedule
+    \subitem clause, \hyperpage{409}
+  \item scope
+    \subitem lexical, \hyperpage{388}, \hyperpage{393}
+    \subitem of variables, \hyperpage{388}, \hyperpage{393}
+  \item {\catcode 95=12 \texttt  {SEEK_SET}}, \hyperpage{334}
+  \item segfault, \hyperpage{546}
+  \item segmentation fault, \hyperpage{595}
+  \item segmented scan, \hyperpage{67}
+  \item send
+    \subitem buffer, \hyperpage{114}
+    \subitem buffered, \hyperpage{154}
+  \item sentinel, \hyperindexformat{\textbf}{391}, \hyperpage{398}
+  \item sequential
+    \subitem semantics, \hyperpage{487}
+  \item sequential consistency, \hyperpage{461}
+  \item serialization, \hyperpage{122}
+  \item server, \hyperpage{271}
+  \item {\catcode 95=12 \texttt  {SetThreadAffinityMask}}, 
+		\hyperpage{457}
+  \item shared data, \hyperpage{388}
+  \item shared memory, \hyperindexformat{\see{memory, shared}}{346}
+  \item shared variables, \hyperpage{394}
+  \item shell
+    \subitem matrix, \hyperpage{540}
+  \item shmem, \hyperpage{374}
+  \item silo, \hyperpage{324}
+  \item SimGrid, \hyperpage{81}, \hyperpage{606--609}
+    \subitem compiler, \hyperpage{606}
+  \item {\catcode 95=12 \texttt  {sinfo}}, \hyperpage{611}
+  \item \acl {SPMD} (SPMD), \hyperpage{391}, \hyperpage{397}
+  \item {\catcode 95=12 \texttt  {sizeof}}, \hyperpage{280}, 
+		\hyperpage{365}
+  \item {\catcode 95=12 \texttt  {sleep}}, \hyperpage{613}
+  \item SLURM, \hyperpage{335}
+  \item {\catcode 95=12 \texttt  {smpicc}}, \hyperpage{606}
+  \item {\catcode 95=12 \texttt  {smpirun}}, \hyperpage{606}
+  \item socket, \hyperindexformat{\textbf}{23}, \hyperpage{347}, 
+		\hyperindexformat{\textbf}{386}, \hyperpage{579}
+  \item sort
+    \subitem odd-even transposition, \hyperpage{126}
+    \subitem radix, \hyperpage{56}
+    \subitem swap, \hyperpage{126}
+  \item sorting
+    \subitem radix, \hyperpage{56}
+  \item sparse approximate inverse, \hyperpage{537, 538}
+  \item sparse matrix vector product, \hyperpage{67}
+  \item spin-lock, \hyperpage{469}
+  \item {\catcode 95=12 \texttt  {squeue}}, \hyperpage{611--613}, 
+		\hyperpage{615}
+  \item {\catcode 95=12 \texttt  {srun}}, \hyperpage{611}
+  \item ssh, \hyperpage{15}
+    \subitem connection, \hyperpage{610}
+  \item {\catcode 95=12 \texttt  {ssh}}, \hyperpage{615}
+  \item stack, \hyperpage{394}, \hyperpage{469}
+    \subitem overflow, \hyperpage{419}
+    \subitem per thread, \hyperpage{419}
+  \item Stampede, \hyperpage{610}
+    \subitem compute node, \hyperpage{575}
+    \subitem largemem node, \hyperpage{575}
+    \subitem node, \hyperpage{387}
+  \item Stampede2, \hyperpage{610}
+  \item standard deviation, \hyperpage{36}
+  \item {\catcode 95=12 \texttt  {start/affinity}}, \hyperpage{457}
+  \item status
+    \subitem of received message, \hyperpage{128}
+  \item stderr, \hyperpage{373}
+  \item stdout, \hyperpage{373}
+  \item stdout/err of, \hyperpage{373}
+  \item stencil, \hyperpage{516}
+    \subitem nine-point, \hyperpage{338}
+    \subitem star, \hyperpage{338}
+  \item storage association, \hyperpage{419}, \hyperpage{422}
+  \item {\catcode 95=12 \texttt  {storage_size}}, \hyperpage{203}
+  \item stride, \hyperpage{191}
+  \item {\catcode 95=12 \texttt  {stringstream}}, \hyperpage{398}
+  \item struct
+    \subitem data type, \hyperpage{184}
+  \item structured block, \hyperpage{392}
+  \item Sun
+    \subitem compiler, \hyperpage{457}
+  \item {\catcode 95=12 \texttt  {SUNW_MP_PROCBIND}}, \hyperpage{457}
+  \item {\catcode 95=12 \texttt  {sycl::cpu_selector}}, \hyperpage{566}
+  \item {\catcode 95=12 \texttt  {sycl::host_selector}}, 
+		\hyperpage{566}
+  \item {\catcode 95=12 \texttt  {sycl::runtime_error}}, 
+		\hyperpage{566}
+  \item symbol table, \hyperpage{593, 594}
+  \item {\catcode 95=12 \texttt  {sync}}, \hyperpage{561}
+  \item synchronization
+    \subitem in OpenMP, \hyperpage{434--440}
+
+  \indexspace
+
+  \item TACC, \hyperpage{610}
+    \subitem portal, \hyperpage{488}
+  \item {\catcode 95=12 \texttt  {tacc_affinity}}, \hyperpage{457}, 
+		\hyperpage{575}, \hyperpage{579}
+  \item {\catcode 95=12 \texttt  {TACC_TAU_DIR}}, \hyperpage{601}
+  \item tag, \hyperindexformat{\see{message, tag}}{116}
+    \subitem bound on value, \hyperpage{362}
+  \item target, \hyperpage{278}, \hyperpage{292}
+    \subitem active synchronization, 
+		\hyperindexformat{\see{active target synchronization}}{278}
+    \subitem passive synchronization, 
+		\hyperindexformat{\see{passive target synchronization}}{278}
+  \item task
+    \subitem scheduler, \hyperpage{442}
+    \subitem scheduling point, \hyperpage{447}
+  \item {\catcode 95=12 \texttt  {taskset}}, \hyperpage{457}
+  \item TAU, \hyperpage{601--605}
+  \item {\catcode 95=12 \texttt  {TAU_PROFILE}}, \hyperpage{601}
+  \item {\catcode 95=12 \texttt  {tau_timecorrect}}, \hyperpage{602}
+  \item {\catcode 95=12 \texttt  {TAU_TRACE}}, \hyperpage{601}
+  \item {\catcode 95=12 \texttt  {this_image}}, \hyperpage{561}
+  \item thread
+    \subitem affinity, \hyperpage{452--456}
+    \subitem initial, \hyperindexformat{\textbf}{398}
+    \subitem master, \hyperindexformat{\textbf}{398}
+    \subitem migrating a, \hyperpage{455}
+    \subitem primary, \hyperindexformat{\textbf}{398}
+    \subitem private data, \hyperpage{422}
+  \item thread-safe, \hyperpage{470--471}
+  \item threads, \hyperpage{387}
+    \subitem hardware, \hyperpage{388}, \hyperpage{575}
+    \subitem master, \hyperpage{388}
+    \subitem team of, \hyperpage{387}, \hyperpage{398}
+  \item time slicing, \hyperpage{23}, \hyperpage{388}
+  \item time-slicing, \hyperpage{268}
+  \item timing
+    \subitem MPI, \hyperpage{367--368}
+  \item {\catcode 95=12 \texttt  {top}}, \hyperpage{613}, 
+		\hyperpage{615}
+  \item topology
+    \subitem virtual, \hyperpage{337}
+  \item TotalView, \hyperpage{593}, \hyperpage{600}
+  \item {\catcode 95=12 \texttt  {TRACEDIR}}, \hyperpage{601}
+  \item transpose, \hyperpage{74--75}
+    \subitem and all-to-all, \hyperpage{55--56}
+    \subitem data, \hyperpage{518}
+    \subitem recursive, \hyperpage{252}
+    \subitem through derived types, \hyperpage{208--209}
+  \item tree
+    \subitem traversal
+      \subsubitem post-order, \hyperpage{449}
+      \subsubitem pre-order, \hyperpage{449}
+  \item tunnel
+    \subitem ssh, \hyperpage{372}
+
+  \indexspace
+
+  \item {\catcode 95=12 \texttt  {ucobound}}, \hyperpage{561}
+  \item {\catcode 95=12 \texttt  {ulimit}}, \hyperpage{419}
+  \item Unix
+    \subitem process, \hyperpage{419}
+
+  \indexspace
+
+  \item {\catcode 95=12 \texttt  {valarray}}, \hyperpage{457}
+  \item valgrind, \hyperpage{597--598}
+  \item vector
+    \subitem data type, \hyperpage{184}
+    \subitem instructions, \hyperpage{463}
+  \item {\catcode 95=12 \texttt  {verbatim}}, \hyperpage{621}
+  \item virtual shared memory, \hyperpage{278}
+  \item VTune, \hyperpage{601}
+
+  \indexspace
+
+  \item wall clock, \hyperpage{367}
+  \item {\catcode 95=12 \texttt  {war}}, \hyperpage{305}
+  \item {\catcode 95=12 \texttt  {waw}}, \hyperpage{305}
+  \item weak symbol, \hyperindexformat{\see{linker, weak symbol}}{369}
+  \item while loop, \hyperpage{442}
+  \item while loops, \hyperpage{411}
+  \item window, \hyperpage{278--284}
+    \subitem consistency, \hyperpage{300}
+    \subitem displacement, \hyperpage{285}
+    \subitem displacement unit, \hyperpage{305}
+    \subitem info object, \hyperpage{360}
+    \subitem memory, \hyperindexformat{\seealso{memory model}}{303}
+      \subsubitem model, \hyperpage{303}
+      \subsubitem separate, \hyperpage{302, 303}
+      \subsubitem unified, \hyperpage{303}
+    \subitem memory allocation, \hyperpage{280--283}
+    \subitem private, \hyperpage{303}
+    \subitem public, \hyperpage{303}
+  \item work sharing, \hyperpage{388}
+  \item work sharing construct, \hyperpage{394}, \hyperpage{414}
+  \item workshare     
+    \subitem flush after, \hyperpage{461}
+  \item worksharing constructs
+    \subitem implied   barriers at, \hyperpage{435}
+  \item wormhole routing, \hyperpage{83}
+  \item wraparound connections, \hyperpage{337}
+
+  \indexspace
+
+  \item XSEDE
+    \subitem portal, \hyperpage{488}
+
+  \indexspace
+
+  \item Zoltan, \hyperpage{371}, \hyperpage{520}
+
+\end{theindex}

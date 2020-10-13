@@ -1,0 +1,7 @@
+int nworkers = universe_size-world_size;
+const char *worker_program = "spawnworker";
+int errorcodes[nworkers];
+MPI_Comm inter_to_workers;           /* intercommunicator */
+MPI_Comm_spawn(worker_program, MPI_ARGV_NULL, nworkers,
+		 MPI_INFO_NULL, 0, MPI_COMM_WORLD, &inter_to_workers,
+		 errorcodes);

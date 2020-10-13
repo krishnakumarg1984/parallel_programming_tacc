@@ -1,0 +1,272 @@
+% -*- latex -*-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%
+%%%% This text file is part of the source of 
+%%%% `Parallel Programming in MPI and OpenMP'
+%%%% by Victor Eijkhout, copyright 2012-2020
+%%%%
+%%%% dpcpp.tex : intro stuff about DPC++
+%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+This chapter explains the basic concepts of
+\ac{DPCPP}, and helps you get
+started on running your first program.
+
+\Level 0 {Logistics}
+
+Headers:
+\begin{lstlisting}
+#include <CL/sycl.hpp>
+using namespace cl::sycl;
+\end{lstlisting}
+
+\begin{remark}
+  Warning!
+  The \lstinline+cl::sycl+ name space has its own versions of \n{cout} and \n{endl}.
+  Make sure to use explicitly \lstinline+std::cout+ and \lstinline+std::end+.
+  Using the wrong I/O will cause tons of inscrutable error messages.
+\end{remark}
+
+\Level 0 {Platforms and devices}
+
+Since \ac{DPCPP} is cross-platform, we first need to discovers
+the devices.
+
+\begin{lstlisting}
+vector<sycl::platform> platforms = cl::sycl::platform::get_platforms();
+for (const auto &plat : platforms) {
+  cout << plat.get_info<sycl::info::platform::name>() << endl;
+  cout << plat.get_info<sycl::info::platform::vendor>() << " ";
+  cout << plat.get_info<sycl::info::platform::version>() << endl;
+  vector<cl::sycl::device> devices = plat.get_devices();
+  for (const auto &dev : devices) {
+    for (const auto &dev : devices) {
+      cout << dev.get_info<sycl::info::device::name>() << " " << endl;
+      cout << "  " << (dev.is_gpu() ? "is a gpu" : "is not a gpu") << endl;
+      cout << "  " << (dev.is_cpu() ? "is a cpu" : "is not a cpu") << endl;
+    }
+  }
+}
+\end{lstlisting}
+
+\Level 0 {Queues}
+
+The execution mechanism of SYCL is the
+\emph{queue}\index{queue!SYCL}:
+a sequence of actions that will be executed on a selected device.
+The only user action is submitting actions to a queue;
+the queue is executed at the end of the scope where it is declared.
+
+Queue execution is asynchronous with host code.
+
+\Level 1 {Device selectors}
+
+You need to select a device on which to execute the queue.
+A~single queue can only dispatch to a single device.
+
+A queue is coupled to one specific device,
+so it can not spread work over multiple devices.
+You can find a default device for the queue with
+\begin{lstlisting}
+  sycl::queue myqueue;
+\end{lstlisting}
+
+The following example explicitly assigns the queue to the CPU device
+using the \indextermtt{sycl::cpu_selector}.
+The \indextermtt{sycl::host_selector} bypasses any devices and
+make the code run on the host.
+
+\verbatimsnippet{cpuclass}
+
+\verbatimsnippet{devname}
+
+\begin{lstlisting}
+{ // open scope!
+  sycl::cpu_selector selector;
+  sycl::queue myqueue(selector);
+  cout << myqueue.get_device().get_info<sycl::info::device::name>() << endl;
+  myqueue.submit
+    ( [&] (sycl::handler &handle ) {
+      // some action
+      }
+    );
+} // queue will be executed at the close of the scope
+\end{lstlisting}
+
+If you try to select a device that is not available,
+a \indextermtt{sycl::runtime_error} exception will be thrown.
+
+\Level 1 {Queue execution}
+
+It seems that queue kernels will also be executed when only they
+go out of scope, but not the queue:
+\begin{lstlisting}
+cpu_selector selector;
+queue q(selector);
+{
+  q.submit( /* some kernel */ );
+} // here the kernel executes
+\end{lstlisting}
+
+\Level 0 {Kernels}
+
+One kernel per submit.
+
+\begin{lstlisting}
+  myqueue.submit( [&] ( handler &commandgroup ) {
+    commandgroup.parallel_for<uniquename> 
+    ( range<1>{N},
+    [=] ( id<1> idx ) { ... idx }
+    )
+  }
+\end{lstlisting}
+
+
+
+
+\begin{lstlisting}
+cgh.single_task(
+  [=]() {
+    // kernel function is executed EXACTLY once on a SINGLE work-item
+});
+\end{lstlisting}
+
+\Level 1 {Loops}
+  
+\begin{lstlisting}
+cgh.parallel_for(
+  range<3>(1024,1024,1024),
+  // using 3D in this example
+  [=](id<3> myID) {
+    // kernel function is executed on an n-dimensional range (NDrange)
+});
+
+cgh.parallel_for(
+  nd_range<3>( {1024,1024,1024},{16,16,16} ),
+  // using 3D in this example 
+  [=](nd_item<3> myID) {
+    // kernel function is executed on an n-dimensional range (NDrange)
+});
+
+cgh.parallel_for_work_group(
+  range<2>(1024,1024),
+  // using 2D in this example
+  [=](group<2> myGroup) {
+    // kernel function is executed once per work-group
+});
+
+grp.parallel_for_work_item(
+  range<1>(1024),
+  // using 1D in this example
+  [=](h_item<1> myItem) {
+    // kernel function is executed once per work-item
+});
+\end{lstlisting}
+
+\Level 2 {Loop indices}
+
+Kernels such as \indextermtt{parallel_for}
+expects two arguments:
+\begin{itemize}
+\item a \indextermtt{range} over which to index; and
+\item a lambda of one argument: an index.
+\end{itemize}
+
+There are several ways of indexing.
+The \lstinline+id<nd>+ class of multi-dimensional indices.
+\begin{lstlisting}
+myHandle.parallel_for<class uniqueID>
+   ( mySize,
+     [=]( id<1> index ) {
+       float x = index.get(0) * h;
+       deviceAccessorA[index] *= 2.;
+     }
+   )
+\end{lstlisting}
+
+\begin{lstlisting}
+cgh.parallel_for<class foo>(
+    range<1>{D*D*D},
+    [=](id<1> item) {
+        xx[ item[0] ] = 2 * item[0] + 1;
+    }
+)
+\end{lstlisting}
+
+While the C++ vectors remain one-dimensional,
+\ac{DPCPP} allows you to make multi-dimensional buffers:
+\begin{lstlisting}
+std::vector<int> y(D*D*D);
+buffer<int,1> y_buf(y.data(), range<1>(D*D*D));
+cgh.parallel_for<class foo2D>
+   (range<2>{D,D*D},
+    [=](id<2> item) {
+        yy[ item[0] + D*item[1] ] = 2;
+    }
+   );
+\end{lstlisting}
+
+\Level 1 {Task dependencies}
+
+Each \indexmplshow{submit} call can be said to correspond to a `task'.
+Since it returns a token, it becomes possible to specify
+task dependencies by refering to a token as a dependency
+in a later specified task.
+\begin{lstlisting}
+queue myQueue;
+auto myTokA = myQueue.submit
+   ( [&](handler& h) {
+       h.parallel_for<class taskA>(...);
+     }
+   );
+auto myTokB = myQueue.submit
+   ( [&](handler& h) {
+       h.depends_on(myTokA);
+       h.parallel_for<class taskB>(...);
+     }
+   );
+\end{lstlisting}
+
+
+\Level 0 {Unified memory}
+
+Arrays need to be declared in a way such that they can be
+access from any device.
+
+\begin{lstlisting}
+unsigned long global_range = 5000000;
+
+// create traditional data
+vector<float> myarray(global_range);
+
+// make sycl buffer around the C++ data
+sycl::range<1> vector_range{global_range};
+sycl::buffer<float, 1> myarray_buffer(myarray.data(), vector_range);
+
+myqueue.submit
+( [&] (sycl::handler &handle ) {
+  auto myarray =
+      myarray_buffer.get_access<sycl::access::mode::read_write>(handle);
+  // and now you can operate on that buffer
+\end{lstlisting}
+
+\Level 0 {Parallel output}
+
+There is a \lstinline+sycl::cout+ and \lstinline+sycl::endl+.
+
+\begin{lstlisting}
+namespace sycl = cl::sycl;
+
+myQueue.submit
+  ( [&](sycl::handler &cgh) {
+    // Create a output stream
+    sycl::stream cout(1024, 256, cgh);
+
+    // Submit a unique task, using a lambda
+    cgh.single_task<class hello_world>
+      ( [=]() {
+        cout << "Hello, World!" << sycl::endl; }
+\end{lstlisting}

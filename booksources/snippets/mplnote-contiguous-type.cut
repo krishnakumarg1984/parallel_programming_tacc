@@ -1,0 +1,4 @@
+  The \ac{MPL} interface makes extensive use of
+  \indexmpldef{contiguous_layout},
+  as it is the only way to declare a non-scalar buffer;
+  see section~\ref{sec:mpi-buffers}.

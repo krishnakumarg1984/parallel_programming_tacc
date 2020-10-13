@@ -1,0 +1,4 @@
+The \indexmplshow{status} object can be queried:
+\begin{lstlisting}
+int source = recv_status.source();
+\end{lstlisting}

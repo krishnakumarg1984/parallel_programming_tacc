@@ -1,0 +1,4 @@
+// fftsine.c
+ierr = VecView(signal,PETSC_VIEWER_STDOUT_WORLD); CHKERRQ(ierr);
+ierr = MatMult(transform,signal,frequencies); CHKERRQ(ierr);
+ierr = VecView(frequencies,PETSC_VIEWER_STDOUT_WORLD); CHKERRQ(ierr);

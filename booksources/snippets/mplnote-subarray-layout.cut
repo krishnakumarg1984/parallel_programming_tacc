@@ -1,0 +1,7 @@
+  The templated \indexmpldef{subarray_layout} class is constructed
+  from a vector of triplets of global size~/ subblock size~/ first coordinate.
+\begin{lstlisting}
+mpl::subarray_layout<int>(
+ { {ny, ny_l, ny_0}, {nx, nx_l, nx_0} }
+);
+\end{lstlisting}

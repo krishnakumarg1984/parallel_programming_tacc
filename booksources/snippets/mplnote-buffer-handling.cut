@@ -1,0 +1,29 @@
+  The C++ package \ac{MPL} uses polymorphism in its
+  \emph{buffer}\index{buffer!MPI, in MPL} handling,
+  in addition to the templating mechanism.
+  Thus, there are polymorphic methods for scalars,
+  and for buffers. For the latter, a layout specification is needed.
+\lstset{language=C++}
+\begin{lstlisting}
+float x;
+comm.Allreduce( x );
+float xx[2];
+comm.Allreduce( xx, mpl::contiguous_layout<float>(2) );
+\end{lstlisting}
+The \indexmplshow{contiguous_layout} is a `derived type';
+this will be discussed in more detail in
+section~\ref{sec:derived-types}.
+For now, interpret it as a way of indicating the count/type
+part of a buffer specification.
+
+If your buffer is a \lstinline+std::vector+ you need
+to take the \lstinline+.data()+ component of it:
+\begin{lstlisting}
+vector<float> xx(2);
+comm.Allreduce( xx.data(), mpl::contiguous_layout<float>(2) );
+\end{lstlisting}
+
+C++ has improved handling of \indextermsub{static}{array}s,
+so \ac{MPL} can send those without further layout specification:
+%
+\cxxverbatimsnippet[examples/mpi/mpl/sendarray.cxx]{mplsendarray}

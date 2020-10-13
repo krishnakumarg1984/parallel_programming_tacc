@@ -1,0 +1,10 @@
+  Gathering (by \indexmpldef{gather}) or scattering (by \indexmpldef{scatter})
+  a single scalar takes a scalar argument
+  and a raw array:
+  %
+  \cxxverbatimsnippet[examples/mpi/mpl/collectbuffer.cxx]{mplscattergatherx}
+  %
+  If more than a single scalar is gathered, or scattered into,
+  it becomes necessary to specify a layout:
+  %
+  \cxxverbatimsnippet[examples/mpi/mpl/collectbuffer.cxx]{mplscattergatherv}

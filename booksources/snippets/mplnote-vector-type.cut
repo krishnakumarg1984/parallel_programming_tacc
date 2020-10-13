@@ -1,0 +1,16 @@
+  MPL uses the \indexmpldef{strided_vector_layout} class:
+  %
+  \cxxverbatimsnippet[examples/mpi/mpl/vector.cxx]{vectormpl}
+  %
+  It is possible to to send containers by iterators
+  %
+  \cxxverbatimsnippet[examples/mpi/mpl/sendrange.cxx]{mplsendrange}
+  %
+  Non-contiguous iteratable objects can be send with a
+  \indexmpldef{iterator_layout}:
+  %
+\begin{lstlisting}
+std::list<int> v(20, 0);
+mpl::iterator_layout<int> l(v.begin(), v.end());
+comm_world.recv(&(*v.begin()), l, 0);
+\end{lstlisting}

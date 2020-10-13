@@ -1,0 +1,4 @@
+size_t size_of_struct = sizeof(struct object);
+MPI_Aint typesize;
+MPI_Type_extent(newstructuretype,&typesize);
+assert( typesize==size_of_struct );

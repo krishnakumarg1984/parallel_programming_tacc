@@ -1,0 +1,9 @@
+  In MPL, which is based on C++,
+  the naive construct would be:
+  %
+  \cxxverbatimsnippet[examples/mpi/mpl/commrank.cxx]{mplcommcopy}
+  %
+  However, if the variable will always correspond to the world communicator,
+  it is better to make it \lstinline{const} and declare it to be a reference:
+  %
+  \cxxverbatimsnippet[examples/mpi/mpl/commrank.cxx]{mplcommref}

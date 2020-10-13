@@ -1,0 +1,5 @@
+  The \indexmplshow{processor_name} call is an environment method
+  returning a \lstinline{std::string}:
+\begin{lstlisting}
+std::string mpl::environment::processor_name ();
+\end{lstlisting}

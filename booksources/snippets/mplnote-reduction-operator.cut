@@ -1,0 +1,6 @@
+  In \ac{MPL}, the reduction operator is a \lstinline+std::function+:
+  %
+  \cxxverbatimsnippet[examples/mpi/mpl/collectscalar.cxx]{mplallreduce}
+  %
+  Note the parentheses after the operator.
+  Also note that the operator comes first, not last.

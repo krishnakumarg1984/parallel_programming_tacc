@@ -1,0 +1,128 @@
+Here are some guidelines for how to submit assignments and projects.
+As a general rule, consider programming as an experimental science,
+and your writeup as a report on some tests you have done: explain
+the problem you're addressing, your strategy, your results.
+
+\paragraph*{\bf Structure of your writeup}
+
+Most of the projects in this book use a scientific question to allow
+you to prove your coding skills.
+That does not mean that turning in the code is sufficient, nor code plus sample output.
+Turn in a writeup in pdf form that was generated from a text
+processing program such 
+(preferably) \LaTeX\ (for a tutorial, see~\HPSCref{tut:latex}).
+
+Your writeup should have:
+\begin{itemize}
+\item Foremost, a short description of the purpose of your project and your results;
+\item An explanation of your algorithms or solution strategy;
+\item Relevant fragments of your code;
+\item A scientific discussion of what you observed,
+\item Any code-related observations.
+\item If applicable: graphs, both of application quantities and
+performance issues.
+(For parallel runs possibly TAU plots; see~\ref{tut:tau}).
+\end{itemize}
+
+\paragraph*{Observe, measure, hypothesize, deduce}
+
+Your project may be a scientific investigation of some
+phenomenon. Formulate hypotheses as to what you expect to observe,
+report on your observations, and draw conclusions.
+
+Quite often your program will display unexpected behaviour. It is important to observe
+this, and hypothesize what the reason might be for your observed behaviour.
+
+In most applications of computing machinery we care about the efficiency with which
+we find the solution. Thus, make sure that you do measurements. In general, make
+observations that allow you to judge whether your program behaves the way you
+would expect it to.
+
+\paragraph*{Including code}
+
+If you include code samples in your writeup, make sure they look good. For starters,
+use a mono-spaced font. In \LaTeX, you can use the \n{verbatim} environment or the 
+\n{verbatiminput} command. In that section option the source is included automatically,
+rather than cut and pasted. This is to be preferred, since your writeup will
+stay current after you edit the source file.
+
+Including whole source files makes for a long and boring writeup. The code samples in this
+book were generated as follows. In the source files, the relevant snippet was marked as
+\begin{verbatim}
+... boring stuff
+//snippet samplex
+  .. interesting! ..
+//snippet end
+... more boring stuff
+\end{verbatim}
+The files were then processed with the following command line (actually, included
+in a makefile, which requires doubling the dollar signs):
+\begin{verbatim}
+for f in *.{c,cxx,h} ; do
+  cat $x | awk 'BEGIN {f=0}
+                /snippet end/ {f=0}
+                f==1 {print $0 > file}
+                /snippet/ && !/end/ {f=1; file=$2 }
+               '
+done
+\end{verbatim}
+which gives (in this example) a file \n{samplex}. Other solutions are of course possible.
+
+\paragraph*{\bf Code formatting}
+
+Included code snippets should be readable. At a minimum you could 
+indent the code correctly in an editor before you include it in
+a \indextermtt{verbatim} environment. (Screenshots of your terminal
+window are a decidedly suboptimal solution.)
+But it's better to use the \indextermtt{listing} package which formats
+your code, include syntax coloring. For instance, 
+\begin{verbatim}
+\lstset{language=C++} % or Fortran or so
+\begin{lstlisting}
+for (int i=0; i<N; i++)
+  s += 1;
+\end{lstlisting}
+\end{verbatim}
+\lstset{language=C++} % or Fortran or so
+\begin{lstlisting}
+for (int i=0; i<N; i++)
+  s += 1;
+\end{lstlisting}
+
+\paragraph*{\bf Running your code}
+
+A single run doesn't prove anything. For a good report, you need to
+run your code for more than one input dataset (if available) and in
+more than one processor configuration. When you choose problem sizes,
+be aware that an average processor can do a billion operations per
+second: you need to make your problem large enough for the timings to
+rise above the level of random variations and startup phenomena.
+
+When you run a code in parallel, beware that on clusters the behaviour
+of a parallel code will always be different between one node and
+multiple nodes.  On a single node the MPI implementation is likely
+optimized to use the shared memory. This means that results obtained
+from a single node run will be unrepresentative. In fact, in timing
+and scaling tests you will often see a drop in (relative) performance
+going from one node to two.  Therefore you need to run your code in a
+variety of scenarios, using more than one node.
+
+\paragraph*{Reporting scaling}
+
+If you do a scaling analysis, a graph reporting runtimes should not
+have a linear time axis: a logarithmic graph is much easier to
+read. A~speedup graph can also be informative.
+
+Some algorithms are mathematically equivalent in their sequential and
+parallel versions. Others, such as iterative processes, can take more
+operations in parallel than sequentially, for instance because the
+number of iterations goes up. In this case, report both the speedup of
+a single iteration, and the total improvement of running the full
+algorithm in parallel.
+
+\paragraph*{Repository organization}
+
+If you submit your work through a repository, make sure you organize
+your submissions in subdirectories, and that you give a clear name to
+all files. Object files and binaries should not be in a repository
+since they are dependent on hardware and things like compilers.

@@ -1,0 +1,255 @@
+% -*- latex -*-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%
+%%%% This text file is part of the source of 
+%%%% `Parallel Programming in MPI and OpenMP'
+%%%% by Victor Eijkhout, copyright 2012-9
+%%%%
+%%%% mpi-elementary.tex : elementary datatypes
+%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\Level 0 {Elementary data types}
+\label{sec:elementary}
+\index{datatype!elementary|(}
+
+MPI has a number of elementary data types, corresponding to the 
+simple data types of programming languages.
+The names are made to resemble the types of C and~Fortran, 
+for instance \indexmpishow{MPI_FLOAT} and \indexmpishow{MPI_DOUBLE} in~C,
+versus
+\indexmpishow{MPI_REAL} and \indexmpishow{MPI_DOUBLE_PRECISION} in~Fortran.
+
+\begin{comment}
+  MPI calls accept arrays of elements:
+  \begin{lstlisting}
+    double x[20];
+    MPI_Send( x,20,MPI_DOUBLE, ..... )
+  \end{lstlisting}
+  so for a single element you need to take its address:
+  \begin{lstlisting}
+    double x;
+    MPI_Send( &x,1,MPI_DOUBLE, ..... )
+  \end{lstlisting}
+\end{comment}
+
+\Level 1 {C/C++}
+\index{datatype!elementary!in C}
+
+Here we illustrate the correspondence between a type used to declare a variable,
+and how this type appears in MPI communication routines:
+\begin{lstlisting}
+long int i;
+MPI_Send(&i,1,MPI_LONG_INT,target,tag,comm);
+\end{lstlisting}
+
+\begin{tabular}{|ll|}
+  \hline
+  C type&MPI type\\
+  \hline
+% char
+\lstinline+char+&\indexmpishow{MPI_CHAR}\\
+\lstinline+unsigned char+&\indexmpishow{MPI_UNSIGNED_CHAR}\\
+\lstinline+char+&\indexmpishow{MPI_SIGNED_CHAR}\\
+% int
+\lstinline+short+&\indexmpishow{MPI_SHORT}\\
+\lstinline+unsigned short+&\indexmpishow{MPI_UNSIGNED_SHORT}\\
+\lstinline+int+&\indexmpishow{MPI_INT}\\
+\lstinline+unsigned int+&\indexmpishow{MPI_UNSIGNED}\\
+\lstinline+long int+&\indexmpishow{MPI_LONG}\\
+\lstinline+unsigned long int+&\indexmpishow{MPI_UNSIGNED_LONG}\\
+\lstinline+long long int+&\indexmpishow{MPI_LONG_LONG_INT}\\
+% real
+\lstinline+float+&\indexmpishow{MPI_FLOAT}\\
+\lstinline+double+&\indexmpishow{MPI_DOUBLE}\\
+\lstinline+long double+&\indexmpishow{MPI_LONG_DOUBLE}\\
+% other
+\lstinline+unsigned char+&\indexmpishow{MPI_BYTE}\\
+(does not correspond to a C type)&\indexmpishow{MPI_PACKED}\\
+\lstinline+MPI_Aint+&\indexmpishow{MPI_AINT}\\
+  \hline
+\end{tabular}
+
+There is some, but not complete, support for \indexterm{C99} types.
+
+See section~\ref{sec:mpi-byte-type} for \indexmpishow{MPI_Aint}
+and more about byte counting.
+
+\Level 1 {Fortran}
+\index{datatype!elementary!in Fortran}
+\lstset{style=reviewcode,language=Fortran} %pyskip
+
+\begin{tabular}{|ll|}
+  \hline
+\indexmpishow{MPI_CHARACTER}&Character(Len=1)\\
+% int
+\indexmpishow{MPI_INTEGER}&\\
+\indexmpishow{MPI_INTEGER1}&\\
+\indexmpishow{MPI_INTEGER2}&\\
+\indexmpishow{MPI_INTEGER4}&\\
+\indexmpishow{MPI_INTEGER8}&(common compiler extension; not standard)\\
+\indexmpishow{MPI_INTEGER16}&\\
+% real
+\indexmpishow{MPI_REAL}&\\
+\indexmpishow{MPI_DOUBLE_PRECISION}&\\
+\indexmpishow{MPI_REAL2}&\\
+\indexmpishow{MPI_REAL4}&\\
+\indexmpishow{MPI_REAL8}&\\
+% complex
+\indexmpishow{MPI_COMPLEX}&\\
+\indexmpishow{MPI_DOUBLE_COMPLEX}&Complex(Kind=Kind(0.d0))\\
+% other
+\indexmpishow{MPI_LOGICAL}&\\
+\indexmpishow{MPI_PACKED}&\\
+  \hline
+\end{tabular}
+
+Not all these types need be supported, for instance
+\indexmpishow{MPI_INTEGER16} may not exist, in which case it will be
+equivalent to \indexmpishow{MPI_DATATYPE_NULL}.
+
+The default integer type \indexmpishow{MPI_INTEGER} is equivalent to
+\lstinline{INTEGER(KIND=MPI_INTEGER_KIND)}.
+
+The C type \indexmpishow{MPI_Count} corresponds to an integer of type
+\indexmpidef{MPI_COUNT_KIND}, used most prominently in `big data'
+routines such as \indexmpishow{MPI_Type_size_x} 
+(section~\ref{sec:mpi-type-size}):
+\begin{lstlisting}
+Integer(kind=MPI_COUNT_KIND) :: count
+call MPI_Type_size_x(my_type, count)
+\end{lstlisting}
+
+Kind \indexmpishow{MPI_ADDRESS_KIND} is used for \indexmpishow{MPI_Aint}
+quantities, used in \ac{RMA} windows; see section~\ref{sec:mpi-put}.
+
+The \indexmpidef{MPI_OFFSET_KIND}
+is used to define \indexmpishow{MPI_Offset} quantities,
+used in file I/O; section~\ref{sec:mpi-filepoint}.
+
+\Level 2 {Fortran90 kind-defined types}
+\label{sec:f90-types}
+
+If your Fortran code uses \lstinline{KIND} to define scalar types with
+specified precision, these do not in general correspond to any
+predefined MPI datatypes. Hence the following routines exist to make
+\emph{MPI equivalences of Fortran scalar types}%
+\index{Fortran!MPI equivalences of scalar types}:
+\indexmpiref{MPI_Type_create_f90_integer}
+\indexmpiref{MPI_Type_create_f90_real}
+\indexmpiref{MPI_Type_create_f90_complex}.
+
+Examples:
+\begin{lstlisting}
+INTEGER ( KIND = SELECTED_INTEGER_KIND(15) ) , &
+ DIMENSION(100) :: array INTEGER :: root , integertype , error 
+
+CALL MPI_Type_create_f90_integer( 15 , integertype , error )
+CALL MPI_Bcast ( array , 100 ,
+ & integertype , root ,
+ & MPI_COMM_WORLD , error )
+
+REAL ( KIND = SELECTED_REAL_KIND(15 ,300) ) , &
+ DIMENSION(100) :: array
+CALL MPI_Type_create_f90_real( 15 , 300 , realtype , error )
+
+COMPLEX ( KIND = SELECTED_REAL_KIND(15 ,300) ) , &
+ DIMENSION(100) :: array 
+CALL MPI_Type_create_f90_complex( 15 , 300 , complextype , error )
+\end{lstlisting}
+\lstset{style=reviewcode,language=C} %pyskip
+
+\Level 1 {Python}
+\index{datatype!elementary!in Python}
+
+In python, all buffer data comes from \indexterm{Numpy}.
+
+\begin{tabular}{|ll|}
+  \hline
+  mpi4py type&NumPy type\\
+  \hline
+  \n{MPI.INT}&\n{np.intc}\\
+  \n{MPI.LONG}&\n{np.int}\\
+  \n{MPI.FLOAT}&\n{np.float32}\\
+  \n{MPI.DOUBLE}&\n{np.float64}\\
+  \hline
+\end{tabular}
+
+Note that numpy native integers are C longs, and therefore 8 bytes.
+This is no problem if you send and receive contiguous buffers of integers,
+but it may trip you up in cases where the actual size of the integer matters,
+such as in derived types, or window definitions.
+
+Examples:
+
+\pverbatimsnippet[examples/mpi/p/inttype.py]{npintc}
+
+\pverbatimsnippet[examples/mpi/p/allgatherv.py]{bufallocp}
+
+\Level 1 {Byte addressing type}
+\label{sec:mpi-byte-type}
+
+So far we have mostly been taking about datatypes in the context of
+sending them. The \indexmpidef{MPI_Aint} type is not so much for
+sending, as it is for describing the size of objects, such as the size
+of an \indexmpishow{MPI_Win} object; section~\ref{sec:windows}.
+
+Addresses have type \indexmpishow{MPI_Aint} The start of the address range is
+given in \indexmpishow{MPI_BOTTOM}.
+
+Variables of type \indexmpishow{MPI_Aint} can be sent as \indexmpidef{MPI_AINT}:
+\begin{lstlisting}
+MPI_Aint address;
+MPI_Send( address,1,MPI_AINT, ... );
+\end{lstlisting}
+See section~\ref{sec:win-dynamic} for an example.
+
+In order to prevent overflow errors in byte calculations
+there are support routines \indexmpidef{MPI_Aint_add}
+\begin{lstlisting}
+MPI_Aint MPI_Aint_add(MPI_Aint base, MPI_Aint disp)
+\end{lstlisting}
+and similarly \indexmpidef{MPI_Aint_diff}.
+
+See also the \indexmpishow{MPI_Sizeof}
+(section~\ref{sec:mpi-type-match})
+and
+\indexmpishow{MPI_Get_address} routines.
+
+\Level 2 {Fortran}
+
+The equivalent of
+%\indexmpishowsub{MPI_Aint}{in Fortran}
+\indexmpishowf{MPI_Aint} in Fortran
+is an integer of kind \indexmpidef{MPI_ADDRESS_KIND}:
+\lstset{style=reviewcode,language=Fortran} %pyskip
+\begin{lstlisting}
+integer(kind=MPI_ADDRESS_KIND) :: winsize
+\end{lstlisting}
+\lstset{style=reviewcode,language=C} %pyskip
+
+Fortran lacks a \n{sizeof} operator to query the sizes of datatypes.
+Since sometimes exact byte counts are necessary,
+for instance in one-sided communication,
+Fortran can use the (deprecated) \indexmpiref{MPI_Sizeof} routine.
+See section~\ref{sec:mpi-type-match} for details.
+
+Example usage in \indexmpishow{MPI_Win_create}:
+\lstset{language=Fortran} %pyskip
+\begin{lstlisting}
+call MPI_Sizeof(windowdata,window_element_size,ierr)
+window_size = window_element_size*500
+call MPI_Win_create( windowdata,window_size,window_element_size,... )
+\end{lstlisting}
+\lstset{language=C} %pyskip
+
+\Level 2 {Python}
+
+Here is a good way for finding the size of \indexterm{numpy} datatypes
+in bytes:
+\pverbatimsnippet{windispp}% source is in one-sided chapter
+
+\index{datatype!elementary|)}
+

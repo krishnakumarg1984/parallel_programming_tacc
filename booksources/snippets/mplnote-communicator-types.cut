@@ -1,0 +1,4 @@
+\lstset{language=C++}
+\begin{lstlisting}
+const mpl::communicator &comm_world = mpl::environment::comm_world();
+\end{lstlisting}

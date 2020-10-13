@@ -1,0 +1,21 @@
+# -*- makefile -*-
+################################################################
+################################################################
+####
+#### This makefile is part of the source of 
+#### "Parallel Computing for Science and Engineering"
+#### by Victor Eijkhout, copyright 2013-2020
+####
+#### Make include file for mpi running
+####
+################################################################
+################################################################
+
+ifdef TACC_SYSTEM
+  MPIEXEC = ibrun
+  NPSEC =
+else
+  MPIEXEC = mpiexec
+  NP = 4
+  NPSEC = -n ${NP}
+endif

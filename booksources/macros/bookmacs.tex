@@ -1,0 +1,212 @@
+% -*- latex -*-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%
+%%%% This text file is part of the source of 
+%%%% `Introduction to High-Performance Scientific Computing'
+%%%% by Victor Eijkhout, copyright 2012-2020
+%%%%
+%%%% This book is distributed under a Creative Commons Attribution 3.0
+%%%% Unported (CC BY 3.0) license and made possible by funding from
+%%%% The Saylor Foundation \url{http://www.saylor.org}.
+%%%%
+%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%
+%%%% Outlining
+%%%%
+\OutlineLevelStart0{\chapter{#1}
+  \maillink{arabic{chapter} "#1"}{#1}{chapter}
+}
+\OutlineLevelStart1{\section{#1}
+\maillink{\arabic{chapter}.\arabic{section}}{#1}{section}
+}
+\OutlineLevelCont1{\section{#1}
+\maillink{\arabic{chapter}.\arabic{section}}{#1}{section}
+}
+\OutlineLevelStart2{\subsection{#1}
+  \maillink
+    {\arabic{chapter}.\arabic{section}.\arabic{subsection}}{#1}{subsection}
+}
+\OutlineLevelStart3{\subsubsection{#1}}
+\setcounter{secnumdepth}{4}
+\OutlineLevelStart4{\paragraph{\textit{#1}}}
+
+%%%%
+%%%% stuff
+%%%%
+\newcommand\mpistandard[1]{MPI-#1\index{MPI!MPI-#1}}
+\newcommand\furtherreading{\Level 0 {Further Reading}\label{sec:furtherreading-\chapshortname}}
+\newcommand\heading[1]{\paragraph*{\textbf{#1}}}
+
+{\catcode`\^^I=13 \globaldefs=1
+ \newcommand\listing[2]{\begingroup\small\par\vspace{1ex}
+  \catcode`\^^I=13 \def^^I{\leavevmode\hspace{40pt}}
+  \noindent\fbox{#1}
+  \verbatiminput{#2}\endgroup}
+ \newcommand\codelisting[1]{\begingroup\small\par\vspace{1ex}
+  \catcode`\^^I=13 \def^^I{\leavevmode\hspace{40pt}}
+  \noindent\fbox{#1}
+  \verbatiminput{#1}\endgroup}
+}
+\newcommand\inv{^{-1}}\newcommand\invt{^{-t}}
+\newcommand\setspan[1]{[\![#1]\!]}
+\newcommand\fp[2]{#1\cdot10^{#2}}
+\newcommand\fxp[2]{\langle #1,#2\rangle}
+\def\n#{\bgroup \catcode`\$=12 \catcode`\_=12 \catcode`\>=12 \catcode`\<=12 \catcode`\#=12
+  \catcode`\&=12 \catcode`\^=12 \catcode`\~=12 \def\\{\char`\\}\relax
+  \tt \let\next=}
+\let\exref\ref
+
+\newcommand\diag{\mathop{\mathrm {diag}}}
+\newcommand\argmin{\mathop{\mathrm {argmin}}}
+\newcommand\defined{
+  \mathrel{\lower 5pt \hbox{${\equiv\atop\mathrm{\scriptstyle D}}$}}}
+
+\newcommand\bbP{\mathbb{P}}
+\newcommand\bbR{\mathbb{R}}
+
+\newtheorem{remark}{Remark}
+\expandafter\ifx\csname definition\endcsname\relax
+    \newtheorem{definition}{Definition}
+\fi
+\expandafter\ifx\csname theorem\endcsname\relax
+    \newtheorem{theorem}{Theorem}
+\fi
+\expandafter\ifx\csname lemma\endcsname\relax
+    \newtheorem{lemma}{Lemma}
+\fi
+
+%%%%
+%%%% Verbatim source handling
+%%%%
+
+% each chapter has a list of sources
+\newcommand\addchaptersource[1]{
+  \ifinlistcs{#1}{\chapshortname:sourcelist}
+             {}
+             {\message{adding source #1}
+               %\globaldefs=1
+               \listcsadd{\chapshortname:sourcelist}{#1}
+               %\globaldefs=0
+             }
+}
+\newcounter{source}
+\newcommand\listchaptersources[1]{
+  \setcounter{source}{0}
+  \renewcommand*\do[1]{\message{counting <<##1>>}\stepcounter{source}}%
+  \dolistcsloop{#1:sourcelist}
+  \expandafter\ifnum\value{source}>0
+    \immediate\message{Sources: \arabic{source}}
+    \Level 0 {Sources used in this chapter}
+    \renewcommand*\do[1]{\ListOneSource{##1}}
+    \dolistcsloop{#1:sourcelist}
+  \fi
+}
+\newcommand\ListOneSource[1]{
+  \immediate\message{sourcing <<#1>>}
+  \Level 1 {Listing of code #1}
+  \label{lst:#1}
+  \begingroup \footnotesize
+  \immediate \write 18 { ./stripsource #1 }
+  \verbatiminput{input.cut}
+  \endgroup
+  \par
+}
+\def\LSR{\LSR}
+\def\ChapterSourceHeader#1\LSR{
+  \def\test{#1\LSR}
+  \ifx\test\LSR
+  \else
+    \Level 0 {Sources used in this chapter}
+  \fi
+}
+\def\ListSourcesRecursively#1{
+  \def\test{#1}
+  \ifx\test\LSR
+  \else
+  % list the file
+  \ListOneSource{#1}
+  % continue
+  \expandafter\ListSourcesRecursively
+  \fi
+}
+
+  %% \message{Test chapter list <<\the\chaptersourcelist>> }
+  %% \edef\temp{\noexpand\TestInChapterSources#1\the\chaptersourcelist\noexpand\LSR}
+  %% \temp
+  %% \ifIsInSourceList\else
+%% \def\TestInChapterSources#1#2\LSR{
+%%   \def\empty{}\def\test{#2}
+%%   \message{Test source <<#1>> in list <<#2>>}
+%%   \ifx\empty\test \IsInSourceListfalse
+%%   \else \TestInNonemptyChapterSources{#1}#2\LSR \fi
+%% }
+%% \def\TestInNonemptyChapterSources#1#2#3\LSR{
+%%   \def\test{#1}\def\testsource{#2}
+%%   \message{Test source <<#1>> against <<#2>>}
+%%   \if\test\testsource \IsInSourceListtrue
+%%   \else \TestInChapterSources{#1}#3\LSR
+%%   \fi
+%% }
+
+\newenvironment{question}{\begin{quotation}\textbf{Question.\ }}{\end{quotation}}
+\newenvironment{example}{\begin{quotation}\textbf{Example.\ }}{\end{quotation}}
+\newenvironment{specialnote}[1]
+               {\par\begin{raggedright}
+                 \leftskip=.5\unitindent
+                 \noindent\textsl{#1.}\kern1em\ignorespaces}
+               {\end{raggedright}\par}
+\newenvironment{fortrannote}
+  {\begin{specialnote}{Fortran note}}
+  {\end{specialnote}}
+\makeindex[name=python]
+%% \newenvironment{pythonnote}[1]
+%%   {\begin{specialnote}{Python note}\index[python]{#1}}
+%%   {\end{specialnote}}
+\argcomment
+    {pythonnote}
+    {\par\advance\leftskip by \unitindent
+      \index[python]{\CommentArg}%
+      \noindent \hbox{\kern-\unitindent \textsl{Python note.}}\ %
+    }
+    {\par\advance\leftskip by -\unitindent\relax}
+
+\newenvironment{taccnote}
+  {\begin{specialnote}{TACC note}}
+  {\end{specialnote}}
+\makeindex[name=mpl]
+%% \newenvironment{mplnote}[1]
+%%   {\begin{specialnote}{MPL note}\index[mpl]{#1}}
+%%   {\end{specialnote}}
+
+\newcounter{mplnote}
+\argcomment
+    {mplnote}
+    {\stepcounter{mplnote}
+      %\def\CommentCutFile{snippets/mplnote\arabic{mplnote}.out}
+      {\lccode32=45 \lccode47=45
+        \edef\tmp{\lowercase{\gdef\noexpand\CommentArg{\CommentArg}}}\tmp}
+      \def\CommentCutFile{snippets/mplnote-\CommentArg.cut}
+      %% \def\PrepareCutFile
+      %%     {\immediate\write\CommentStream{\CommentArg}}
+      \par\advance\leftskip by \unitindent
+      \index[mpl]{\CommentArg}%
+      \noindent \hbox{\kern-\unitindent \textsl{MPL note.}}\ %
+    }
+    {\par\advance\leftskip by -\unitindent\relax}
+
+\newenvironment{intelnote}
+  {\begin{specialnote}{Intel note}}
+  {\end{specialnote}}
+
+%% \newenvironment{highermath}
+%%     {\bigskip\begin{quotation}\noindent\emph{MMM}}
+%%     {\end{quotation}\bigskip\noindent\ignorespaces}
+
+
+\def\chaptertitle{\csname\chaptername title\endcsname}
+\def\chaptershorttitle{\csname\chaptername shorttitle\endcsname}
+

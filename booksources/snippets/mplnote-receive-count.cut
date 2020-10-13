@@ -1,0 +1,3 @@
+  In \ac{MPL}, the argument type is handled through templating:
+  %
+  \cxxverbatimsnippet[examples/mpi/mpl/recvstatus.cxx]{mplrecvcount}

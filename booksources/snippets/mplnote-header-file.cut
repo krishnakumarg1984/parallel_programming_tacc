@@ -1,0 +1,5 @@
+  To compile MPL programs, add a line
+\begin{lstlisting}
+#include <mpl/mpl.hpp>
+\end{lstlisting}
+  to your file.

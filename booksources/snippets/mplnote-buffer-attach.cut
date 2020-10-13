@@ -1,0 +1,4 @@
+\begin{lstlisting}
+void mpl::environment::buffer_attach (void *buff, int size);
+std::pair< void *, int > mpl::environment::buffer_detach ();
+\end{lstlisting}
