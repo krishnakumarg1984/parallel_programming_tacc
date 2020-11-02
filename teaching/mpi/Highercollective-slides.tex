@@ -12,7 +12,21 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{mpitwo}
-\sectionframe{User-defined operators}
+\begin{frame}[containsverbatim]{User-defined operators}
+\lstset{language=C}
+Given a reduction function:
+\begin{lstlisting}
+typedef void user_function
+    ( void *invec, void *inoutvec, int *len, 
+      MPI_Datatype *datatype); 
+\end{lstlisting}  
+create a new operator:
+\begin{lstlisting}
+MPI_Op rwz;
+MPI_Op_create(user_function,1,&rwz);
+MPI_Allreduce(data+procno,&positive_minimum,1,MPI_INT,rwz,comm);
+\end{lstlisting}
+\end{frame}
 
 \begin{exerciseframe}[onenorm]
   \input ex:one-norm-op

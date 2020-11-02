@@ -1,9 +1,9 @@
 // testhang.c
 if (procno==receiver) {
-  // post a receive
+// post a receive
   MPI_Request recv_request;
   MPI_Irecv(buffer,count,MPI_FLOAT, MPI_ANY_SOURCE,MPI_ANY_TAG,comm,&recv_request);
-  // test completion
+// test completion
   int recv_completed = 0;
   while (!recv_completed) {
     printf("sleep %d\n",nsleep); sleep(nsleep);

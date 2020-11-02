@@ -10,7 +10,7 @@ do {
     break;
   } else {
     int flag; MPI_Status status;
-    // force progress
+// force progress
     MPI_Iprobe
       ( MPI_ANY_SOURCE,MPI_ANY_TAG,
         comm, &flag, MPI_STATUS_IGNORE );

@@ -8,4 +8,3 @@ const mpl::communicator &comm_world =
 int procid = comm_world.rank();
 int nprocs = comm_world.size();
 \end{lstlisting}
-  Note the predefined environment method \indexmplshow{comm_world}.

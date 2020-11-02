@@ -21,6 +21,15 @@
 // calculate least common multiple of two arguments 
 template<typename T>
 class lcm : public std::function<T (T, T)> {
+public:
+  T operator()(T a, T b) {
+    T zero=T();
+    T t((a/gcd(a, b))*b);
+    if (t<zero)
+      return -t;
+    return t;
+  }
+private:
   // helper: calculate greatest common divisor
   T gcd(T a, T b) {
     T zero=T(), t;
@@ -30,14 +39,6 @@ class lcm : public std::function<T (T, T)> {
       t=a%b;  a=b;  b=t;
     }
     return a;
-  }
-public:
-  T operator()(T a, T b) {
-    T zero=T();
-    T t((a/gcd(a, b))*b);
-    if (t<zero)
-      return -t;
-    return t;
   }
 };
  
@@ -55,7 +56,7 @@ int main() {
     std::cout << "Arguments:\n";
     for (int r=0; r<comm_world.size(); ++r) {
       if (r>0)
-    comm_world.recv(v, r);
+        comm_world.recv(v, r);
       std::cout << v << '\n';
     }
     // display results of global reduction

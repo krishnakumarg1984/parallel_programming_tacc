@@ -136,7 +136,7 @@ multiple simultaneous messages between the same sender~/ receiver pair,
 the tag can be used to disambiguate between
 the messages.
 
-Unless otherwise needed, a tag value of zero is safe to use.
+Often, a tag value of zero is safe to use.
 Indeed, \ac{OO} interfaces to MPI typically have this as an optional
 parameter with value zero.
 If you do
@@ -150,9 +150,18 @@ section~\ref{sec:mpi_attr}.
   %
   \cxxverbatimsnippet[examples/mpi/mpl/sendscalar.cxx]{mplsendscalar}
   %
-  Sending a buffer uses a general mechanism that will be discussed later:
+\end{mplnote}
+
+\begin{mplnote}{Sending arrays}
+  C++ has improved handling of \indextermsub{static}{array}s,
+  so \ac{MPL} can send those without further layout specification:
+  %
+  \cxxverbatimsnippet[examples/mpi/mpl/sendarray.cxx]{mplsendarray}
+
+  Sending vectors uses a general mechanism that will be discussed later:
   %
   \cxxverbatimsnippet[examples/mpi/mpl/sendbuffer.cxx]{mplsendbuffer}
+  
 \end{mplnote}
 
 \Level 2 {Receive call}
@@ -170,8 +179,16 @@ This is similar in structure to the send call, with some exceptions.
 The \indextermsub{receive}{buffer} has the same buffer/count/data parameters as the send
 call.
 However, 
-the \n{count} argument here indicates the maximum length of a message; the
-actual length of the received message can be determined 
+the \n{count} argument here indicates the size of the buffer,
+rather than the actual length of a message.
+This sets an upper bound on the length if the incoming message.
+\begin{itemize}
+\item For sending messages with unknown length, use \indexmpishow{MPI_Probe};
+  section~\ref{sec:mpi-probe}.
+\item A message longer than the buffer size will give an overflow error,
+  typically ending your program; see section~\ref{sec:mpi-error}.
+\end{itemize}
+The length of the received message can be determined 
 from the status object; see section~\ref{sec:recvstatus},
 and~\ref{sec:mpi-status} for more detail.
 
@@ -182,6 +199,8 @@ This can be either a specific process rank, or it can be the
 \indexmpidef{MPI_ANY_SOURCE} wildcard. In the latter case, the actual
 source can be determined after the message has been received;
 see section~\ref{sec:recvstatus}.
+A~source value of \indexmpishow{MPI_PROC_NULL} is also allowed,
+which makes the receive succeed immediately with no data received.
 
 Similar to the messsage source, the message tag of a receive call can
 be a specific value or a wildcard, in this case
@@ -292,7 +311,6 @@ hangs because of a deadlock.
 \fverbatimsnippet[examples/mpi/f/sendblock.F90]{sendblock-f}
 %
 \pverbatimsnippet[examples/mpi/p/sendblock.py]{sendblockp}
-
 
 If you want a code to exhibit the same blocking behavior for  all message sizes,
 you force the send call to be blocking by using
@@ -604,36 +622,4 @@ send-receive call\footnote {There is an \n{MPI\_Compare\_and\_swap}
   for inspiration. Is it coincidence that the algorithm takes the same
   number of steps as in the single scalar case?
 \end{exercise}
-
-\Level 1 {Message status}
-\index{message!status|(}
-
-In section~\ref{sec:mpi-send-recv}
-you saw that \indexmpishow{MPI_Recv} has a `status' argument
-of type \indexmpishow{MPI_Status} that \indexmpishow{MPI_Send} lacks.
-(The various \indexmpishow{MPI_Wait...}  routines also have a status
-argument; see section~\ref{sec:nonblocking}.)
-Often you specify \indexmpishow{MPI_STATUS_IGNORE}
-for this argument: commonly you know
-what data is coming in and where it is coming from.
-
-However, in some circumstances the recipient may not know all details of a
-message when you make the receive call, so MPI has a way of querying
-the \emph{status}\index{status!of received message} of the message:
-\begin{itemize}
-\item If you are expecting multiple incoming messages, it may be most
-  efficient to deal with them in the order in which they arrive. So,
-  instead of waiting for specific message, you would specify
-  \indexmpishow{MPI_ANY_SOURCE} or \indexmpishow{MPI_ANY_TAG} in
-  the description of the receive message. 
-  Now you have to be able to ask `who did this message come from,
-  and what is in it'.
-\item Maybe you know the sender of a message, but the amount of data
-  is unknown. In that case you can overallocate your receive buffer,
-  and after the message is received ask how big it was, or you can
-  `probe' an incoming message and allocate enough data when you find
-  out how much data is being sent.
-\end{itemize}
-
-\index{message!status|)}
 

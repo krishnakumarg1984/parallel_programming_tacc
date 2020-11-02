@@ -28,7 +28,7 @@
   \end{itemize}
 \end{frame}
 
-\begin{frame}{simplified model}
+\begin{frame}{Simplified model}
   \begin{itemize}
   \item One process has a counter, which models the shared memory;
   \item Each process, if available, reads the counter; and
@@ -72,7 +72,7 @@
   \cverbatimsnippet{countdowngetput}
 \end{frame}
 
-\begin{frame}[containsverbatim]\frametitle{discussion}
+\begin{frame}[containsverbatim]\frametitle{Discussion}
   \begin{itemize}
   \item The multiple \indexmpishow{MPI_Put} calls conflict.
   \item Code is correct if in each iteration there is only one writer.

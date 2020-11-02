@@ -75,7 +75,13 @@ else
       CXX_COMPILER = ${MPI_CXX_COMPILER}
       F_COMPILER   = ${MPI_F_COMPILER}
     else ifeq "${MODE}" "1api"
-      CXX_COMPILER = dpcpp
+      ifeq "${TACC_SYSTEM}" "frontera"
+        CXX_COMPILER = syclcc
+        CXXFLAGS += -I${TACC_BOOST_INC}
+        LINK_FLAGS += -L${TACC_BOOST_LIB}
+      else
+        CXX_COMPILER = dpcpp
+      endif
     else # other modes use the regular compilers
 
 	ifeq "${TACC_FAMILY_COMPILER}" "intel"

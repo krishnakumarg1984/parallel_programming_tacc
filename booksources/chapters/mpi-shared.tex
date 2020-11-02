@@ -50,9 +50,11 @@ Here the \n{split_type} parameter has to be from the following (short) list:
 \begin{itemize}
 \item \indexmpishow{MPI_COMM_TYPE_SHARED}: split the communicator into subcommunicators
   of processes sharing a memory area.
-\item \indexmpishow{MPI_COMM_TYPE_HW_GUIDED} (\mpistandard{4}):
-  split using an \n{info} value from \indexmpidef{MPI_Get_hw_resource_types}.
-% https://github.com/mpi-forum/mpi-issues/issues/132
+\begin{mpifour}
+  \item \indexmpishow{MPI_COMM_TYPE_HW_GUIDED} (\mpistandard{4}):
+    split using an \n{info} value from \indexmpidef{MPI_Get_hw_resource_types}.
+    % https://github.com/mpi-forum/mpi-issues/issues/132
+\end{mpifour}
 \end{itemize}
 
 In the following example, \n{CORES_PER_NODE} is a platform-dependent

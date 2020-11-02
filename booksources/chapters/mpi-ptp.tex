@@ -144,6 +144,7 @@ if (mytid==ntids-1)
 \Level 0 {More about point-to-point communication}
 
 \Level 1 {Message probing}
+\label{sec:mpi-probe}
 
 MPI receive calls specify a receive buffer, and its size has to be
 enough for any data sent. In case you really have no idea how much data
@@ -181,9 +182,33 @@ that message through an object of type \indexmpidef{MPI_Message}.
 \label{sec:mpi-status}
 \index{message!status|(textbf}
 
-With some receive calls you know everything about the message in advance:
-its source, tag, and size. In other cases you want to leave some options
-open, and inspect the message for them after it was received.
+In section~\ref{sec:mpi-send-recv}
+you saw that \indexmpishow{MPI_Recv} has a `status' argument
+of type \indexmpishow{MPI_Status} that \indexmpishow{MPI_Send} lacks.
+(The various \indexmpishow{MPI_Wait...}  routines also have a status
+argument; see section~\ref{sec:nonblocking}.)
+Often you specify \indexmpishow{MPI_STATUS_IGNORE}
+for this argument: commonly you know
+what data is coming in and where it is coming from.
+
+However, in some circumstances the recipient may not know all details of a
+message when you make the receive call, so MPI has a way of querying
+the \emph{status}\index{status!of received message} of the message:
+\begin{itemize}
+\item If you are expecting multiple incoming messages, it may be most
+  efficient to deal with them in the order in which they arrive. So,
+  instead of waiting for specific message, you would specify
+  \indexmpishow{MPI_ANY_SOURCE} or \indexmpishow{MPI_ANY_TAG} in
+  the description of the receive message. 
+  Now you have to be able to ask `who did this message come from,
+  and what is in it'.
+\item Maybe you know the sender of a message, but the amount of data
+  is unknown. In that case you can overallocate your receive buffer,
+  and after the message is received ask how big it was, or you can
+  `probe' an incoming message and allocate enough data when you find
+  out how much data is being sent.
+\end{itemize}
+
 To do this, the receive call has a \indexmpiref{MPI_Status}
 parameter.
 
@@ -263,12 +288,18 @@ for how to use this.
 \end{mplnote}
 
 \Level 2 {Error}
+\label{sec:mpi-status-error}
 
 Any \emph{errors}\index{message!status!error}
 during the receive operation can be found as the
 \indexmpiref{MPI_ERROR}
 member of the status structure.
-
+This field is only set by functions that return multiple statuses,
+such as \indexmpishow{MPI_Waitall}.
+For functions that return a single status, any error is returned
+as the function result.
+For a function returning multiple statuses, the presence of any error
+is indicated by a result of \indexmpishow{MPI_ERR_IN_STATUS}.
 
 \Level 2 {Count}
 
@@ -278,7 +309,7 @@ can be found by
 \indexmpiref{MPI_Get_count}:
 
 This may be necessary since the \n{count} argument to \indexmpishow{MPI_Recv} is 
-the buffer size, not an indication of the actually expected number of
+the buffer size, not an indication of the actually received number of
 data items.
 
 Remarks.
@@ -295,7 +326,8 @@ Remarks.
 \end{itemize}
 
 \begin{mplnote}{Receive count}
-  In \ac{MPL}, the argument type is handled through templating:
+  The \lstinline+get_count+ function is a method of the status object.
+  The argument type is handled through templating:
   %
   \cxxverbatimsnippet[examples/mpi/mpl/recvstatus.cxx]{mplrecvcount}
 \end{mplnote}
@@ -315,8 +347,44 @@ the manager-worker model, and how it offers an opportunity for inspecting the
 \indexmpishow{MPI_SOURCE} field of the \indexmpishow{MPI_Status}
 object describing the data that was received.
 
-\Level 1 {Synchronous and asynchronous communication}
+\index{message!status|)}
 
+\Level 1 {Local and non-local communication sends}
+\label{sec:local-non-send}
+\index{communication!local|(textbf}
+\index{communication!non-local|(textbf}
+
+The MPI standard does not dictate whether communication is buffered.
+If a message is buffered, a send call can complete,
+even if no corresponding send has been posted yet.
+See section~\ref{sec:eager-limit}.
+Thus, in the standard communication, a send operation
+is \emph{non-local}: its completion may be depend on
+whether the corresponding receive has been posted.
+See also section~\ref{sec:mpi-local-non}.
+
+On the other hand, \indextermsub{buffered}{communication}
+(routines \indexmpishow{MPI_Bsend}, \indexmpishow{MPI_Ibsend},
+\indexmpishow{MPI_Bsend_init}; section~\ref{sec:buffered})
+is \emph{local}:
+the presence of an explicit buffer means that a send operation
+can complete no matter whether the receive has been posted.
+
+The \indextermsub{synchronous}{send} 
+(routines \indexmpishow{MPI_Ssend}, \indexmpishow{MPI_Issend},
+\indexmpishow{MPI_Ssend_init}; section~\ref{sec:handshake})
+is again non-local (even in the non-blocking variant)
+since it will only complete when the receive call has completed.
+
+Finally, the \indextermsub{ready mode}{send}
+(\indexmpishow{MPI_Rsend}, \indexmpishow{MPI_Irsend})
+is non-local in the sense that its only correct use
+is when the corresponding receive has been issued.
+
+\index{communication!local|)}
+\index{communication!non-local|)}
+
+\Level 1 {Synchronous and asynchronous communication}
 \index{communication!synchronous|(textbf}
 \index{communication!asynchronous|(textbf}
 
@@ -350,7 +418,7 @@ which is synchronous but non-blocking.
 
 \Level 1 {Persistent communication}
 \label{sec:persistent}
-\index{communication!persistent|(textbf}
+\index{persistent!point-to-point|(textbf}
 
 An \indexmpishow{MPI_Isend} or \indexmpishow{MPI_Irecv} call has an
 \indexmpishow{MPI_Request} parameter.  This is an object that gets
@@ -403,7 +471,7 @@ As with ordinary send commands, there are the variants
 \indexmpishow{MPI_Ssend_init},
 \indexmpishow{MPI_Rsend_init}.
 
-\index{communication!persistent|)}
+\index{persistent!point-to-point|)}
 
 \Level 1 {Buffered communication}
 \label{sec:buffered}
@@ -425,57 +493,32 @@ way of managing buffer space.
   buffer space used inside the MPI library or on the network card;
   figure~\ref{fig:bufattach}. If high-bandwdith memory is available,
   you could create your buffer there.
-\item You use the \indexmpishow{MPI_Bsend} call for sending, using
+\item You use the \indexmpiref{MPI_Bsend}
+  (or its \emph{local}\index{local!operation} variant \indexmpishow{MPI_Ibsend})
+  call for sending, using
   otherwise normal send and receive buffers;
 \item You detach the buffer when you're done with the buffered sends.
 \end{enumerate}
 
-\begin{mplnote}{Buffered send}
-  Attaching a buffer is done through \indexmpldef{bsend_buffer}
-  and a support routine \indexmpldef{bsend_size} helps in calculating
-  the buffer size:
-\begin{lstlisting}
-int size{ comm_world.bsend_size<decltype(x)>() };
-mpl::bsend_buffer<> buff(size);
-comm_world.bsend(x, 1);     
-\end{lstlisting}
-\end{mplnote}
+One advantage of buffered sends is that they are non-blocking:
+since there is a guaranteed buffer long enough to contain the
+message, it is not necessary to wait for the receiving process.
 
-\begin{mplnote}{Buffer attach}
-\begin{lstlisting}
-void mpl::environment::buffer_attach (void *buff, int size);
-std::pair< void *, int > mpl::environment::buffer_detach ();
-\end{lstlisting}
-\end{mplnote}
+We illustrate the use of buffered sends:
 
-\Level 2 {Bufferend send calls}
+\cverbatimsnippet{bsendbuf}
 
-Section~\ref{sec:nonblock} discusses non-blocking communication, where
-multiple sends will be under way. Since these sends are under way with
-possibly no receive having been posted, the send buffers can not be
-reused. It would be possible to reuse the send buffers if MPI had
-enough internal buffer space. For this, there is the
-\indextermsub{buffered}{send} mode, where you first give MPI internal buffer
-space; subsequently only a single send buffer is needed. The
-\indexmpiref{MPI_Bsend} call is non-blocking.
-
+\Level 2 {Buffer treatment}
 
 There can be only one buffer per process, attached with
 \indexmpiref{MPI_Buffer_attach}.
-%
 Its size should be enough
-for all outstanding \indexmpishow{MPI_Bsend} calls that are simultaneously
-outstanding, plus \indexmpidef{MPI_BSEND_OVERHEAD}.
+for all \indexmpishow{MPI_Bsend} calls that are simultaneously
+outstanding.
 You can compute the needed size of the buffer with \indexmpishow{MPI_Pack_size};
 see section~\ref{sec:pack}.
-
-The possible error codes are
-\begin{itemize}
-\item \indexmpishow{MPI_SUCCESS} the routine completed successfully.
-\item \indexmpishow{MPI_ERR_BUFFER} The buffer pointer is invalid;
-  this typically means that you have supplied a null pointer.
-\item \indexmpishow{MPI_ERR_INTERN} An internal error in MPI has been detected.
-\end{itemize}
+Additionally, a term of \indexmpidef{MPI_BSEND_OVERHEAD} is needed.
+See the above code fragment.
 
 The buffer is detached with \indexmpishow{MPI_Buffer_detach}:
 \begin{lstlisting}
@@ -485,11 +528,49 @@ int MPI_Buffer_detach(
 This returns the address and size of the buffer; the call blocks
 until all buffered messages have been delivered.
 
+Note that both
+\indexmpishow{MPI_Buffer_attach} and \indexmpishow{MPI_Buffer_detach}
+have a \lstinline+void*+ argument for the buffer, but 
+\begin{itemize}
+\item in the attach routine this is the address of the buffer,
+\item while the detach routine it is the address of the buffer pointer.
+\end{itemize}
+This is done so that the detach routine can zero the buffer pointer.
+
+While the buffered send is non-blocking like an \indexmpishow{MPI_Isend},
+there is no corresponding wait call.
 You can force delivery by
 \begin{lstlisting}
 MPI_Buffer_detach( &b, &n );
 MPI_Buffer_attach( b, n );
 \end{lstlisting}
+
+\begin{mplnote}{Buffered send}
+  Creating and attaching a buffer is done through \indexmpldef{bsend_buffer}
+  and a support routine \indexmpldef{bsend_size} helps in calculating
+  the buffer size:
+  \cxxverbatimsnippet{bsendbufmpl}
+\end{mplnote}
+
+\begin{mplnote}{Buffer attach and detach}
+  There is a separate attach routine, but normally this is called
+  by the constructor of the \lstinline+bsend_buffer+.
+  Likewise, the detach routine is called in the buffer destructor.
+\begin{lstlisting}
+void mpl::environment::buffer_attach (void *buff, int size);
+std::pair< void *, int > mpl::environment::buffer_detach ();
+\end{lstlisting}
+\end{mplnote}
+
+\Level 2 {Bufferend send calls}
+
+The possible error codes are
+\begin{itemize}
+\item \indexmpishow{MPI_SUCCESS} the routine completed successfully.
+\item \indexmpishow{MPI_ERR_BUFFER} The buffer pointer is invalid;
+  this typically means that you have supplied a null pointer.
+\item \indexmpishow{MPI_ERR_INTERN} An internal error in MPI has been detected.
+\end{itemize}
 
 The asynchronous version is \indexmpishow{MPI_Ibsend}, the persistent
 (see section~\ref{sec:persistent}) call is \indexmpishow{MPI_Bsend_init}.

@@ -74,19 +74,21 @@ MPI_Win_create (void *base, MPI_Aint size,
 \begin{itemize}
 \item \lstinline{size}: in bytes
 \item \lstinline{disp_unit}: \lstinline{sizeof(type)}
-\item Also: \indexmpishow{MPI_Win_allocate}, can use dedicated fast memory.
 \end{itemize}
 Also call \indexmpishow{MPI_Win_free} when done. This is important!
 \end{frame}
 
 \begin{frame}[containsverbatim]{Window allocation}
-  Instead of passing buffer, let MPI allocate:
+  Instead of passing buffer, let MPI allocate with
+  \indexmpishow{MPI_Win_allocate}\\
+  and return the buffer pointer:
 \lstset{language=C}
 \begin{lstlisting}
 int MPI_Win_allocate
    (MPI_Aint size, int disp_unit, MPI_Info info,
     MPI_Comm comm, void *baseptr, MPI_Win *win)
 \end{lstlisting}
+can use dedicated fast memory.
 \end{frame}
 
 \begin{frame}[containsverbatim]\frametitle{Active target synchronization}

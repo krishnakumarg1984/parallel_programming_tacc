@@ -76,8 +76,14 @@ other purposes or de-allocated.
   \label{fig:send-nonblocking}
 \end{figure}
 
-By contrast, the non-blocking calls \indexmpiref{MPI_Isend} and
-\indexmpiref{MPI_Irecv} do not wait for their counterpart: in effect
+By contrast, the non-blocking calls
+\indexmpiref{MPI_Isend} and \indexmpiref{MPI_Irecv}
+(where the `I' stands for
+`\emph{immediate}'\index{immediate operation}
+or
+`\emph{incomplete}'\index{incomplete operation|see{operation, incomplete}}
+)
+do not wait for their counterpart: in effect
 they tell the runtime system `here is some data and please send it as
 follows' or `here is some buffer space, and expect such-and-such data
 to come'.  This is illustrated in figure~\ref{fig:send-nonblocking}.
@@ -384,16 +390,6 @@ The last example we explicitly noted the possibility of
 overlapping computation and communication.
 
 \Level 1 {More about non-blocking communication}
-
-\Level 2 {Asynchronous progress}
-
-Above we saw that \n{Isend/Irecv} calls can overlap communication and
-computation. 
-However, for this to happen we need for the MPI
-implementation to make
-\indextermsub{asynchronous}{progress}: the message needs to make its way
-through the network while the application is busy computing.
-This is not automatic. See section~\ref{sec:progress} for more discussion.
 
 \Level 2 {Wait and test calls}
 \label{sec:mpitest}

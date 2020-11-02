@@ -115,11 +115,6 @@ How do we compute this?
 \end{enumerate}
 \end{frame}
 
-\begin{frame}{Reduction to single process}
-    Regular reduce: great for printing out summary information at the
-  end of your job.
-\end{frame}
-
 \begin{frame}[containsverbatim]{Allreduce syntax}
 \begin{lstlisting}
   int MPI_Allreduce(
@@ -263,6 +258,11 @@ random_value = random.random()
 \begin{optexerciseframe}
   \input ex:randomcoord
 \end{optexerciseframe}
+
+\begin{frame}{Reduction to single process}
+    Regular reduce: great for printing out summary information at the
+  end of your job.
+\end{frame}
 
 \begin{frame}[label=reduce,containsverbatim]{Reduction to root}
 \lstset{language=C}

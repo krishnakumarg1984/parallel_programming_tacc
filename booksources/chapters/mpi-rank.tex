@@ -4,7 +4,7 @@
 %%%%
 %%%% This text file is part of the source of 
 %%%% `Parallel Programming in MPI and OpenMP'
-%%%% by Victor Eijkhout, copyright 2012-9
+%%%% by Victor Eijkhout, copyright 2012-2020
 %%%%
 %%%% mpi-rank.tex : comm size and rank and such
 %%%%
@@ -112,6 +112,8 @@ comm.Send( buffer, target )
   %
   \cxxverbatimsnippet[examples/mpi/mpl/commrank.cxx]{mplcommcopy}
   %
+  Note the predefined environment method \indexmplshow{comm_world}.
+
   However, if the variable will always correspond to the world communicator,
   it is better to make it \lstinline{const} and declare it to be a reference:
   %
@@ -193,5 +195,4 @@ const mpl::communicator &comm_world =
 int procid = comm_world.rank();
 int nprocs = comm_world.size();
 \end{lstlisting}
-  Note the predefined environment method \indexmplshow{comm_world}.
 \end{mplnote}

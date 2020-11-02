@@ -2,7 +2,7 @@
 ################################################################
 ####
 #### This makefile is part of `Parallel Programming in MPI and OpenMP'
-#### by Victor Eijkhout, copyright 2013-9
+#### by Victor Eijkhout, copyright 2013-2020
 #### eijkhout@tacc.utexas.edu
 ####
 #### include Makefile for course slides MPI/OpenMP/hybrid
@@ -21,7 +21,7 @@ info::
 
 .PHONY: onepass
 onepass :
-	TEXINPUTS=.:..:../..:../taccstyle:../taccstyle/figures:../../chapters:../../exercises:../../graphics//:../../macros:../../hwloc:../../mpireference:../../snippets:../course-support:../../../hpc-book-private/teaching:../../../hpc-book-private/graphics:../../../hpc-book-private/snippets:${TEXINPUTS}${EXTRATEXINPUTS} ${ENGINE} ${FILE}
+	TEXINPUTS=.:..:../..:../taccstyle:../taccstyle/figures:../../chapters:../../exercises:../../graphics//:../../macros:../../hwloc:../../mpireference:../../snippets:../course-support:${TEXINPUTS}${EXTRATEXINPUTS} ${ENGINE} ${FILE}
 
 course pdf :: inex
 	@export course=${FILE} && export course=$${course%%.tex} \

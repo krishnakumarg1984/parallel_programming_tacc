@@ -91,6 +91,16 @@ that are real: for instance, the norm of a complex vector is a real
 number. For that reason, PETSc also has the type
 \indexpetscdef{PetscReal}. There is also an explicit \indexpetscdef{PetscComplex}.
 
+Furthermore, there is
+\begin{lstlisting}
+#define PETSC_BINARY_INT_SIZE    (32/8)
+#define PETSC_BINARY_FLOAT_SIZE  (32/8)
+#define PETSC_BINARY_CHAR_SIZE   (8/8)
+#define PETSC_BINARY_SHORT_SIZE  (16/8)
+#define PETSC_BINARY_DOUBLE_SIZE (64/8)
+#define PETSC_BINARY_SCALAR_SIZE sizeof(PetscScalar)  
+\end{lstlisting}
+
 \Level 1 {Integers}
 
 Integers in PETSc are likewise of a size determined at installation
@@ -99,6 +109,8 @@ there is a \indexpetscdef{PetscErrorCode} type for catching the return
 code of PETSc routines.
 
 For compatibility with other packages there are two more integer types:
+\index{Petsc!interoperability with MPI}%
+\index{Petsc!interoperability with BLAS}%
 \begin{itemize}
 \item \indexpetscdef{PetscBLASInt} is the integer type used by the
   \indexac{BLAS}~/ \indexac{LAPACK} library. This is 32-bits if the
@@ -135,6 +147,11 @@ corresponding to the current \indexpetscshow{PetscScalar}.
 
 For MPI calls, \indexpetscdef{MPIU_COMPLEX} is the MPI type
 corresponding to the current \indexpetscshow{PetscComplex}.
+
+\Level 1 {Booleans}
+
+There is a \indexpetscdef{PetscBool} datatype
+with values \indexpetscdef{PETSC_TRUE} and \indexpetscdef{PETSC_FALSE}.
 
 \Level 0 {Vec: Vectors}
 

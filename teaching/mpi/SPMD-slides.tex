@@ -141,7 +141,7 @@ mpirun -np 4 hostfile ... yourprogram arguments
 \begin{frame}[containsverbatim]{How to make exercises}
   \begin{itemize}
   \item Directory: \n{exercises-mpi-c} or \n{cxx} or \n{f} or \n{f08}
-    or \n{p}
+    or \n{p} or \n{mpl}
   \item If a slide has a \n{(exercisename)} over it, there will be a
     template program \n{exercisename.c} (or \n{F90} or \n{py}).
   \item Type \n{make exercisename} to compile it
@@ -151,7 +151,7 @@ module load python3 # or python2
 \end{verbatim}
 No compilation needed. Run:
 \begin{verbatim}
-ibrun python3 yourprogram.py # or python3
+ibrun python3 yourprogram.py # or python2
 \end{verbatim}
 \item Add an exercise of your own to the makefile: add the name to
     the \n{EXERCISES}
@@ -174,11 +174,16 @@ ibrun python3 yourprogram.py # or python3
 You need an include file:
 \begin{verbatim}
 #include "mpi.h" // for C
+
 use mpi_f08   ! for Fortran2008
 use mpi       ! for legacy Fortran90
+
+from mpi4py import MPI
+  
+#include <mpl/mpl.hpp>
 \end{verbatim}
 \begin{itemize}
-\item There are no real C++ bindings.
+\item There are no real C++ bindings, but see MPL.
 \item True Fortran bindings as of the 2008 standard.
 \begin{tacc}
 Provided in Intel compiler:
@@ -195,9 +200,9 @@ or newer. Not in gcc7.
 Then put these calls around your code:
 \lstset{language=C}
 \begin{lstlisting}
-ierr = MPI_Init(&argc,&argv); // zeros allowed
+MPI_Init(&argc,&argv); // zeros allowed
 // your code
-ierr = MPI_Finalize();  
+MPI_Finalize();  
 \end{lstlisting}
 and for Fortran:
 \lstset{language=Fortran}
@@ -213,16 +218,21 @@ call MPI_Finalize(ierr)
 \end{frame}
 \end{mpithree}
 
-\begin{frame}{About error codes}
+\begin{frame}[containsverbatim]{About error codes}
   MPI routines return an integer error code
   \begin{itemize}
-  \item In C: function result. Can be ignored.
+  \item In C: function result. Can be ignored; is ignored in this course.
+\lstset{language=C++}
+\begin{lstlisting}
+ierr = MPI_Init(0,0);
+if (ierr!=MPI_SUCCESS) /* do something */
+\end{lstlisting}
   \item In Fortran: as optional (F08 only) parameter.
   \item In Python: throwing exception.
   \end{itemize}
   There's actually not a lot you can do with an error code:\\
   very hard to recover from errors in parallel.\\
-  Just ignore them~\ldots
+  Mostly ignore them~\ldots
 \end{frame}
 
 \begin{frame}[containsverbatim]{Python bindings}

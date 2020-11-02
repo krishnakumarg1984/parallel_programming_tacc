@@ -1,8 +1,4 @@
-  Attaching a buffer is done through \indexmpldef{bsend_buffer}
+  Creating and attaching a buffer is done through \indexmpldef{bsend_buffer}
   and a support routine \indexmpldef{bsend_size} helps in calculating
   the buffer size:
-\begin{lstlisting}
-int size{ comm_world.bsend_size<decltype(x)>() };
-mpl::bsend_buffer<> buff(size);
-comm_world.bsend(x, 1);
-\end{lstlisting}
+  \cxxverbatimsnippet{bsendbufmpl}

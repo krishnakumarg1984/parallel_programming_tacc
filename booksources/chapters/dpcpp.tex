@@ -11,9 +11,16 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-This chapter explains the basic concepts of
-\ac{DPCPP}, and helps you get
+This chapter explains the basic concepts of Sycl/Dpc++,
+and helps you get
 started on running your first program.
+
+\begin{itemize}
+\item \indextermdef{SYCL} is a C++-based language for portable parallel programming.
+\item \indexac{DPCPP} is Intel's extension of Sycl.
+\item \indextermdef{OneAPI} is Intel's compiler suite,
+  which contains the \ac{DPCPP} compiler.
+\end{itemize}
 
 \Level 0 {Logistics}
 
@@ -35,22 +42,11 @@ using namespace cl::sycl;
 Since \ac{DPCPP} is cross-platform, we first need to discovers
 the devices.
 
-\begin{lstlisting}
-vector<sycl::platform> platforms = cl::sycl::platform::get_platforms();
-for (const auto &plat : platforms) {
-  cout << plat.get_info<sycl::info::platform::name>() << endl;
-  cout << plat.get_info<sycl::info::platform::vendor>() << " ";
-  cout << plat.get_info<sycl::info::platform::version>() << endl;
-  vector<cl::sycl::device> devices = plat.get_devices();
-  for (const auto &dev : devices) {
-    for (const auto &dev : devices) {
-      cout << dev.get_info<sycl::info::device::name>() << " " << endl;
-      cout << "  " << (dev.is_gpu() ? "is a gpu" : "is not a gpu") << endl;
-      cout << "  " << (dev.is_cpu() ? "is a cpu" : "is not a cpu") << endl;
-    }
-  }
-}
-\end{lstlisting}
+First we list the platforms:
+\cxxverbatimsnippet{dpcppplatforms}
+
+Then for each platform we list the devices:
+\cxxverbatimsnippet{dpcppdevices}
 
 \Level 0 {Queues}
 
@@ -123,9 +119,6 @@ One kernel per submit.
     )
   }
 \end{lstlisting}
-
-
-
 
 \begin{lstlisting}
 cgh.single_task(
@@ -231,7 +224,42 @@ auto myTokB = myQueue.submit
 \end{lstlisting}
 
 
-\Level 0 {Unified memory}
+\Level 0 {Memory access}
+
+Memory treatment in SYCL is a little complicated, because is (at the very least)
+host memory and device memory, which are not necessarily coherent.
+
+\begin{table}[ht]
+  \caption{Memory types and treatments}
+  \label{tab:sycl-mem}  
+  \begin{tabular}{|l|l|l|}
+    \hline
+    Location&allocation&copy \\
+    \hline
+    Host&\n{malloc}&\n{queue::memcpy}\\
+    &\n{malloc_host}&coherent host/device\\
+    Shared&\n{malloc_shared}&coherent host/device\\
+    \hline
+  \end{tabular}
+\end{table}
+
+Memory allocated with \indextermtt{malloc_host}
+is visible on the host:
+\verbatimsnippet{syclsharealloc}
+
+Note that you need to be in a parallel task. 
+The following gives a segmentation error:
+\begin{lstlisting}
+  [&](sycl::handler &cgh) {
+    shar_float[0] = host_float[0];
+  }
+\end{lstlisting}
+
+Ordinary memory, for instance from \indextermtt{malloc},
+has to be copied in a kernel:
+\verbatimsnippet{sycldevcalloc}
+
+\Level 1 {Buffers}
 
 Arrays need to be declared in a way such that they can be
 access from any device.
@@ -257,16 +285,19 @@ myqueue.submit
 
 There is a \lstinline+sycl::cout+ and \lstinline+sycl::endl+.
 
+\verbatimsnippet{syclcout}
+
+Since the end of a queue does not flush stdout,
+it may be necessary to call
+\indextermtt{sycl::queue::wait}
 \begin{lstlisting}
-namespace sycl = cl::sycl;
-
-myQueue.submit
-  ( [&](sycl::handler &cgh) {
-    // Create a output stream
-    sycl::stream cout(1024, 256, cgh);
-
-    // Submit a unique task, using a lambda
-    cgh.single_task<class hello_world>
-      ( [=]() {
-        cout << "Hello, World!" << sycl::endl; }
+myQueue.wait();  
 \end{lstlisting}
+
+\Level 0 {DPCPP extensions}
+
+Intel has made some extensions to SYCL:
+\begin{itemize}
+\item Unified Shared Memory,
+\item Ordered queues.
+\end{itemize}

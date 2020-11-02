@@ -3,6 +3,3 @@
   %
   \cxxverbatimsnippet[examples/mpi/mpl/sendscalar.cxx]{mplsendscalar}
   %
-  Sending a buffer uses a general mechanism that will be discussed later:
-  %
-  \cxxverbatimsnippet[examples/mpi/mpl/sendbuffer.cxx]{mplsendbuffer}

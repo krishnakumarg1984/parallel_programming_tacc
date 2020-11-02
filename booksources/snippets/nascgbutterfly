@@ -1,6 +1,6 @@
 // cgb.f
-do i = 1, l2npcols
-   call mpi_irecv( d,
+    do i = 1, l2npcols
+       call mpi_irecv( d,
 >                      1,
 >                      dp_type,
 >                      reduce_exch_proc(i),
@@ -8,7 +8,7 @@ do i = 1, l2npcols
 >                      mpi_comm_world,
 >                      request,
 >                      ierr )
-   call mpi_send(  sum,
+       call mpi_send(  sum,
 >                      1,
 >                      dp_type,
 >                      reduce_exch_proc(i),
@@ -16,7 +16,7 @@ do i = 1, l2npcols
 >                      mpi_comm_world,
 >                      ierr )
 
-   call mpi_wait( request, status, ierr )
+       call mpi_wait( request, status, ierr )
 
-   sum = sum + d
-enddo
+       sum = sum + d
+    enddo

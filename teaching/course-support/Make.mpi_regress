@@ -535,16 +535,16 @@ run_lockfetch run_lockfetchshared :
 	 && echo
 
 
-#### abandoned?
-.PHONY: run_onesidedbuild
-REGRESSIONRUNS += run_onesidedbuild
-run_onesidedbuild : onesidedbuild
-	@make --no-print-directory run_start PROGRAM=$@ NP=${NP}
-	@export atgram=$@ ; export program=$${atgram##run_} \
-	 && export success=1 \
-	 && ../course-support/onesidedbuild.py ${NP} onesidedbuild.out_total \
-	    || export success=$$? \
-	 && make --no-print-directory regress_success SUCCESS=$$success PROGRAM=$${program}
+# #### abandoned?
+# .PHONY: run_onesidedbuild
+# REGRESSIONRUNS += run_onesidedbuild
+# run_onesidedbuild : onesidedbuild
+# 	@make --no-print-directory run_start PROGRAM=$@ NP=${NP}
+# 	@export atgram=$@ ; export program=$${atgram##run_} \
+# 	 && export success=1 \
+# 	 && ../course-support/onesidedbuild.py ${NP} onesidedbuild.out_total \
+# 	    || export success=$$? \
+# 	 && make --no-print-directory regress_success SUCCESS=$$success PROGRAM=$${program}
 
 .PHONY: run_countdown
 REGRESSIONRUNS += run_countdown

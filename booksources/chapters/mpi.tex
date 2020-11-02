@@ -41,6 +41,11 @@ You can also query the number of keys in an info object with
 after which the keys can be queried in succession with
 \indexmpidef{MPI_Info_get_nthkey}
 
+Info objects that are marked as `In' or `Inout' arguments
+are parsed before that routine returns.
+This means that in non-blocking routines they can be freed immediately,
+unlike, for instance, send buffers.
+
 \Level 2 {Environment information}
 \label{sec:mpi-info-env}
 
@@ -138,7 +143,9 @@ Attributes are:
 \begin{itemize}
 \item \indexmpidef{MPI_TAG_UB}
   Upper bound for \emph{tag value}\index{tag!bound on value}.
+  (The lower bound is zero.)
   Note that \indexmpishow{MPI_TAG_UB} is the key, not the actual upper bound!
+  This value has to be at least 32767.
 \item \indexmpishow{MPI_HOST}
   Host process rank, if such exists, \indexmpishow{MPI_PROC_NULL}, otherwise.
 \item \indexmpishow{MPI_IO}
@@ -216,6 +223,9 @@ A few examples of what can go wrong:
   invalid communicator. A common error is to use a null communicator in
   a call.
 \item \indexmpidef{MPI_ERR_INTERN} An internal error in MPI has been detected.
+\item \indexmpidef{MPI_ERR_IN_STATUS} A functioning returning an array of statuses
+  has at least one status where the \indexmpishow{MPI_ERROR} field is set
+  to other than \indexmpishow{MPI_SUCCESS}. See section~\ref{sec:mpi-status-error}.
 \item \indexmpidef{MPI_ERR_INFO}: 
   invalid info object.
 \item \indexmpidef{MPI_ERR_OTHER}: an error occurred; use
@@ -230,32 +240,52 @@ A few examples of what can go wrong:
 \end{itemize}
 
 \Level 1 {Error handling}
+\label{sec:mpi-error}
 
 The MPI library has a general mechanism for dealing with errors that
-it detects. The default behaviour, where the full run is aborted, is
-equivalent to your code having the following
-call\indexmpishow{MPI_Comm_set_errhandler}:
-\begin{lstlisting}
-MPI_Comm_set_errhandler(MPI_COMM_WORLD,MPI_ERRORS_ARE_FATAL);
-\end{lstlisting}
+it detects: one can specify an error handler
+with \indexmpishow{MPI_Comm_set_errhandler},
+where some handlers of type \indexmpidef{MPI_Errhandler} are predefined.
 
 \begin{remark}
   The routine
   \lstinline{MPI_Errhandler_set} is deprecated.
 \end{remark}
 
+\Level 2 {Abort}
+
+The default behaviour, where the full run is aborted, is
+equivalent to your code having the following
+call to 
+\begin{lstlisting}
+MPI_Comm_set_errhandler(MPI_COMM_WORLD,MPI_ERRORS_ARE_FATAL);
+\end{lstlisting}
+
+The handler \indexmpidef{MPI_ERRORS_ARE_FATAL}, even though it is
+associated with a communicator, causes the whole application to abort.
+
+\begin{mpifour}
+  % https://github.com/mpi-forum/mpi-issues/issues/3
+  The handler \indexmpidef{MPI_ERRORS_ABORT} (\mpistandard{4})
+  aborts on the processes in the communicator for which it is specified.
+\end{mpifour}
+
+\Level 2 {Return}
+
 Another simple possibility is to specify
 \begin{lstlisting}
 MPI_Comm_set_errhandler(MPI_COMM_WORLD,MPI_ERRORS_RETURN);
 \end{lstlisting}
-which gives you the opportunity to write code that handles the error
-return value. The values \indexmpidef{MPI_ERRORS_ARE_FATAL} and
-\indexmpidef{MPI_ERRORS_RETURN} are of type \indexmpidef{MPI_Errhandler}.
+which causes the error code to be returned to the user.
+This gives you the opportunity to write code that handles the error
+return value. 
 
-In most cases where an MPI error occurs a complete abort is the
-sensible thing, since there are few ways to recover.
-Alternatively, you could compare the return code to \indexmpidef{MPI_SUCCESS}
+\Level 2 {Error printing}
+
+If the \indexmpishow{MPI_Errhandler} value \indexmpishow{MPI_ERRORS_RETURN} is used,
+you can compare the return code to \indexmpidef{MPI_SUCCESS}
 and  print out debugging information:
+
 \begin{lstlisting}
 int ierr;
 ierr = MPI_Something();
@@ -363,7 +393,24 @@ containing the new process(es) is not part of the
 old \indexmpishow{MPI_COMM_WORLD}, so it is better to set up your code as a
 collection of inter-communicators to begin with.
 
-\Level 0 {Asynchronous progress}
+\Level 0 {Local and non-local operations}
+\label{sec:mpi-local-non}
+
+Parallel programs are different from sequential ones in that
+an operation can behave differently deepending on what other processes are doing.
+
+\begin{itemize}
+\item A \index{non-local!operations|seealso{local operations}}%
+  \indextermbusdef{non-local}{operation}
+  is defined as one
+  where its successful completion requires an operation to be called
+  on another process.
+\item A \indextermbusdef{local}{operation} is one that is not non-local.
+\end{itemize}
+
+For local/non-local sends, see section~\ref{sec:local-non-send}.
+
+\Level 1 {Asynchronous progress}
 \label{sec:progress}
 
 The concept \indextermsub{asynchronous}{progress} describes
@@ -676,6 +723,11 @@ believes in off-loading network activity to the \ac{NIC}, while
 
 Either way, investigate the capabilities of your network.
 
+\Level 1 {MPIR}
+
+\indextermdef{MPIR} is the informally specified debugging interface
+for processes acquisition and message queue extraction.
+
 \Level 0 {Determinism}
 \label{sec:mpi-semantics}
 \index{MPI!semantics|(}
@@ -719,9 +771,10 @@ not do so. In effect, you may be shielded from you own programming
 mistake! Of course, if you then run a larger problem, and the small
 message becomes larger than the threshold, the deadlock will suddenly
 occur. So you find yourself in the situation that a bug only manifests
-itself on large problems, which are usually harder to debug. In this
-case, replacing every \indexmpishow{MPI_Send} with a \indexmpishow{MPI_Ssend} will force the
-handshake, even for small messages.
+itself on large problems, which are usually harder to debug.
+In this case,
+replacing every \indexmpishow{MPI_Send} with a \indexmpishow{MPI_Ssend}
+will force the handshake, even for small messages.
 
 Conversely, you may sometimes wish to avoid the handshake on large
 messages. MPI as a solution for this: the \indexmpishow{MPI_Rsend} (`ready
@@ -860,7 +913,7 @@ For symbols, the binary realization is not defined. For instance,
 \indexmpishow{MPI_COMM_WORLD} is of type \indexmpishow{MPI_Comm}, but
 the implementation of that type is not specified.
 
-See Annex~A of the 3.1 standard for full lists.
+See Annex~A of the \mpistandard{3.1} standard for full lists.
 
 The following are the compile-time constants:
 \begin{itemize}
@@ -973,6 +1026,10 @@ After the cancelling operation it is still necessary to call
 The \indexmpishow{MPI_Cancel} operation is local, so it can not be
 used for \emph{non-blocking
   collectives}\index{collectives!non-blocking!cancelling} or one-sided transfers.
+
+\begin{remark}
+  As of \mpistandard{3.2}, cancelling a send is deprecated.
+\end{remark}
 
 \Level 1 {Constants}
 

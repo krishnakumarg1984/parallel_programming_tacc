@@ -46,7 +46,7 @@
 \specialcomment{tacc}{\stepcounter{tacc}\def\CommentCutFile{tacc\arabic{tacc}.cut}}{}
 \newcounter{tacc}
 %\excludecomment{tacc}
-\excludecomment{xsede}
+\includecomment{xsede}
 \includecomment{utonly}
 
 \includecomment{onesided}
@@ -55,7 +55,7 @@
 
 \def\Location{}% redefine in the inex file
 \def\courseyear{2020}
-\def\Location{TACC APP institute MPI training \courseyear}
+\def\Location{TACC HPC Training \courseyear}
 \begin{xsede}
   \def\Location{TACC/XSEDE MPI training \courseyear}
 \end{xsede}
@@ -104,21 +104,6 @@
   This course introduces the main concepts
   through lecturing and exercises.
 \end{frame}
-
-\newcommand\coursepart[1]{
-  %\addcontentsline{toc}{part}{Section: #1}
-  \begin{frame}{}
-    \setbox0=\hbox to \hsize{\hfil\Huge{#1}\hfil}
-    \dimen0=\vsize
-    \advance\dimen0 by -\ht0 \advance\dimen0 by -\dp0
-    \divide\dimen0 by 2
-    \hbox{}
-    \vskip \dimen0
-    \box0
-    \vskip \dimen0
-    \hbox{}
-  \end{frame}
-}
 
 \coursepart{Basics}
 

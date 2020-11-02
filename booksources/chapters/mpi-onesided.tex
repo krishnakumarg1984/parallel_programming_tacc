@@ -367,7 +367,14 @@ error #6285: There is no matching specific subroutine for this generic subroutin
 
 \begin{exercise}
   \label{ex:randomput}
-  Write code where process~0 randomly writes in the window on 1~or~2.
+  Write code where:
+  \begin{itemize}
+  \item
+    process~0 computes a random number~$r$
+  \item if $r<.5$, zero writes in the window on~1;
+  \item if $r\geq .5$, zero writes in the window on~2.
+  \end{itemize}
+
 \end{exercise}
 
 \Level 1 {Get}

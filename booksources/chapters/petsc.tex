@@ -20,6 +20,8 @@ in between the calls to \indexmpishow{MPI_Init} and
 \indexpetscshow{PetscInitialize}.
 Petsc communicators are of type \indexpetscdef{PetscComm}.
 
+\endinput
+
 \Level 0 {Scalars}
 
 The definition of
@@ -27,7 +29,6 @@ The definition of
 depends on how PETSc was installed.
 This makes interoperability with other libraries such as
 \emph{MPI}%
-\index{Petsc!interoperability with MPI}
 a little tricky.
 
 The equivalent \indexpetscshow{MPI_Datatype} values are
@@ -39,22 +40,10 @@ The equivalent \indexpetscshow{MPI_Datatype} values are
 
 Similarly, for the
 \emph{BLAS}%
-\index{Petsc!interoperability with BLAS}
 library there  are:
 %
 \indexpetscdef{PetscBLASInt}
 
 No real types are needed since these are passed by reference.
 
-Furthermore, there is
-\begin{lstlisting}
-#define PETSC_BINARY_INT_SIZE    (32/8)
-#define PETSC_BINARY_FLOAT_SIZE  (32/8)
-#define PETSC_BINARY_CHAR_SIZE   (8/8)
-#define PETSC_BINARY_SHORT_SIZE  (16/8)
-#define PETSC_BINARY_DOUBLE_SIZE (64/8)
-#define PETSC_BINARY_SCALAR_SIZE sizeof(PetscScalar)  
-\end{lstlisting}
-
-\endinput
 

@@ -69,8 +69,8 @@ int main(int argc,char **argv) {
   MPI_Type_create_struct(structlen,blocklengths,displacements,types,&newstructuretype);
   MPI_Type_commit(&newstructuretype);
   if (procno==sender) {
-    MPI_Aint typesize;
-    MPI_Type_extent(newstructuretype,&typesize);
+    MPI_Aint typesize,typelb;
+    MPI_Type_get_extent(newstructuretype,&typelb,&typesize);
     assert( typesize==size_of_struct );
     printf("Type extent: %ld bytes; displacements: %ld %ld %ld\n",
 	   typesize,displacements[0],displacements[1],displacements[2]);

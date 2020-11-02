@@ -49,19 +49,25 @@ MPI_Isend(...); MPI_Irecv(...);
 // library call
 MPI_Waitall(...);  
 \end{lstlisting}
+\begin{itemize}
+\item Naively, the library can `catch' the user messages.
+\item With a duplicate communicator there is no confusion:\\
+  user and library both have their own `context' for their messages.
+\end{itemize}
+
 \end{frame}
 
-\frame[containsverbatim]{\frametitle{Use of a library}
+\frame[containsverbatim]{\frametitle{Interleaved library and user code}
   \cxxverbatimsnippet{catchmain}
 }
-\frame[containsverbatim]{\frametitle{Use of a library}
+\frame[containsverbatim]{\frametitle{Library internally has messages}
   \cxxverbatimsnippet{catchcalls}
 }
-\frame[containsverbatim]{\frametitle{Wrong way}
+\frame[containsverbatim]{\frametitle{Wrong way of setting up the library}
   \cxxverbatimsnippet{wrongcatchlib}
 }
 
-\frame[containsverbatim]{\frametitle{Right way}
+\frame[containsverbatim]{\frametitle{Right way of setting up the library}
   \cxxverbatimsnippet{rightcatchlib}
 }
 

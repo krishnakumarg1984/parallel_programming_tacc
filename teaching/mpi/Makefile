@@ -18,12 +18,10 @@ EXTRAFILES = jordan.pdf
 FILES = mpi_course mpithree_course mpl_course \
     tacc_foundations tacc_advanced tacc_institute2019
 INEX = tacc-full
-EXTRATEXINPUTS = :${HOME}/Software/TeX/LaTeX//
+EXTRATEXINPUTS = :${HOME}/Software/TeX/LaTeX//:${HOME}/Current/istc/scientific-computing-private/graphics//
 
 jordan.pdf :
 	@TEXINPUTS=../graphics:${TEXINPUTS} ${ENGINE} jordan.tex
-#:${HOME}/Software/TeX/LaTeX/libertine/latex:${HOME}/Software/TeX/LaTeX/mweights
-# tacc-foundations
 
 .PHONY: tacc-full online
 VERSIONS = tacc-full tacc-advanced online

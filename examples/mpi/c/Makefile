@@ -17,13 +17,14 @@ info ::
 	@echo "Do: make app (where app=${APPS})"
 
 APPS = init thread env outerr abort \
-    sendandrecv isendandirecv recvblock sendblock ssendblock irecv_source irecvnonblock \
+    sendandrecv isendandirecv recvblock bufring sendblock ssendblock \
+    irecv_source irecvnonblock \
     probe testhang findbarrier ibarriertest ibarrierprobe backintime reductpositive \
     putfence putfencealloc getfence windynamic anysource \
     cancel scan exscan itranspose progress interleavegather \
     postwaitwin passive numa \
     reduce reduceinplace allreduce allreduceinplace gather gatherv allgatherv \
-    reducescatter trueextent typematch countx tags \
+    reducescatter trueextent typesize typematch countx tags \
     contiguous vector vectorx getx stridestretch interleave indexed struct pack subarray \
     typefloat \
     itransposeblock transposealltoall \
@@ -40,10 +41,6 @@ LANGUAGE = C
 ifeq "${TACC_SYSTEM}" "macbookair"
 #  EXTRA_LIBS = -L/opt/local/lib -lefence
 endif
-# ${APPS} : $$@.o
-# 	${C_LINKER} ${CFLAGS} ${EXTRA_OBJS_$@} \
-# 	    ${EXTRA_LIBS} \
-# 	    $^ -o $@
 include ../../../makefiles/Make.compile
 
 ##

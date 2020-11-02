@@ -199,8 +199,19 @@
     {\par\advance\leftskip by -\unitindent\relax}
 
 \newenvironment{intelnote}
-  {\begin{specialnote}{Intel note}}
-  {\end{specialnote}}
+    {\begin{specialnote}{Intel note}}
+    {\end{specialnote}
+}
+
+\specialcomment{mpifour}
+    {\begingroup\def\ProcessCutFile{}\par}
+    {\par \hrule
+      \hbox{\textsl{The following material is for the (unreleased) MPI-4 standard only}}
+      \input{\CommentCutFile}
+      \par
+      \hrule
+      \endgroup
+    }
 
 %% \newenvironment{highermath}
 %%     {\bigskip\begin{quotation}\noindent\emph{MMM}}

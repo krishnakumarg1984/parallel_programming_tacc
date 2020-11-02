@@ -11,6 +11,21 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\Level 0 {Type matching}
+
+With derived types, you saw that it was not necessary for
+the type of the sender and receiver to match.
+Howver, when the send buffer is constructed,
+and the receive buffer unpacked,
+it is necessary for the successive types in that buffer to match.
+
+The types in the send and receive buffers also need to match
+the datatypes of the underlying architecture, with two exceptions.
+The \indexmpishow{MPI_PACKED} and \indexmpishow{MPI_BYTE} types
+can match any underlying type.
+However, this still does not mean that these types can be used
+on only sender or receiver, and a specific type on the other.
+
 \Level 0 {Type size}
 \label{sec:mpi-type-size}
 
@@ -48,12 +63,14 @@ count the gaps.
 
 \Level 1 {Extent and true extent}
 
-On the other hand, the \emph{datatype extent}\index{MPI!datatype!extent},
+The \emph{datatype extent}\index{MPI!datatype!extent},
 measured with
-\indexmpixref{MPI_Type_get_extent}{MPI_Type_get_true_extent}
+\indexmpixref{MPI_Type_get_extent}{MPI_Type_get_true_extent},
 is strictly the distance from the
-first to the last data item of the type, that is, with counting the
-gaps in the type.
+first to the last data item of the type,
+that is, with counting the gaps in the type.
+It is measured in bytes so the output parameters are
+of type \lstinline+MPI_Aint+.
 %
 \cverbatimsnippet[examples/mpi/c/typeextent.c]{vectortypeextent}
 

@@ -27,16 +27,6 @@ The following is the list of \emph{pre-defined operators}\index{operator!predefi
 
 \include mpi-opstable
 
-\begin{mplnote}{MPL operators}
-  In \ac{MPL}, operators are classes with an \lstinline+operator()+ method.
-  For example:
-  %
-  \cxxverbatimsnippet[examples/mpi/mpl/collectscalar.cxx]{mplallreduce}
-  %
-  (Note the parentheses after the operator; without that, \lstinline+mpl::min<int>+
-  is a type, and you get an error message about `type name is not allowed'.)
-\end{mplnote}
-
 \Level 2 {Minloc and maxloc}
 
 The \indexmpishow{MPI_MAXLOC} and \indexmpishow{MPI_MINLOC} operations
@@ -120,6 +110,11 @@ number in an array of nonnegative integers:
   The \n{assert} statement accounts for the fact that this mapping of
   MPI datatype to NumPy dtype only works for built-in MPI datatypes.
 \end{pythonnote}
+
+\begin{mplnote}{User-defined operators}
+  A user-defined operator is a templated class with an \lstinline+operator()+.
+  \cxxverbatimsnippet{mpluserreduct}
+\end{mplnote}
 
 The function has an array length argument~\n{len}, to allow for
 pointwise reduction on a whole array at once. The \n{inoutvec} array
@@ -351,6 +346,39 @@ fragment processes test for completion of the barrier, and failing to
 detect such completion, perform some local work.
 
 \cverbatimsnippet[examples/mpi/c/findbarrier.c]{ibarrierwork}
+
+\Level 0 {Persistent collectives}
+
+\begin{mpifour}
+% https://github.com/mpi-forum/mpi-issues/issues/25
+\index{persistent!collectives|textbf(}
+For each collective call, there is a persistent variant (\mpistandard{4}).
+This variant has the same calling sequence, except for a final
+\indexmpishow{MPI_Request} parameter.
+This request (or an array of requests) can then be used by
+\indexmpishow{MPI_Start} (or \indexmpishow{MPI_Startall})
+to initiate the actual communication.
+
+\indexmpidef{MPI_Barrier_init}
+\indexmpidef{MPI_Bcast_init}
+\indexmpidef{MPI_Reduce_init}
+\indexmpidef{MPI_Allreduce_init}
+\indexmpidef{MPI_Reduce_scatter_init}
+\indexmpidef{MPI_Reduce_scatter_block_init}
+\indexmpidef{MPI_Gather_init}
+\indexmpidef{MPI_Gatherv_init}
+\indexmpidef{MPI_Allgather_init}
+\indexmpidef{MPI_Allgatherv_init}
+\indexmpidef{MPI_Scatter_init}
+\indexmpidef{MPI_Scatterv_init}
+\indexmpidef{MPI_Alltoall_init}
+\indexmpidef{MPI_Alltoallv_init}
+\indexmpidef{MPI_Alltoallw_init}
+\indexmpidef{MPI_Scan_init}
+\indexmpidef{MPI_Exscan_init}
+
+\index{persistent!collectives|)}
+\end{mpifour}
 
 \Level 0 {Performance of collectives}
 
