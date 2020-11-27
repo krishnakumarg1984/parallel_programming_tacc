@@ -38,6 +38,8 @@
 %%%% stuff
 %%%%
 \newcommand\mpistandard[1]{MPI-#1\index{MPI!MPI-#1}}
+\newcommand\mpistandardsub[2]{MPI-#1\index{MPI!MPI-#1!#2}}
+\newcommand\ompstandard[1]{OpenMP-#1\index{OpenMP!OpenMP-#1}}
 \newcommand\furtherreading{\Level 0 {Further Reading}\label{sec:furtherreading-\chapshortname}}
 \newcommand\heading[1]{\paragraph*{\textbf{#1}}}
 
@@ -160,33 +162,26 @@
                  \noindent\textsl{#1.}\kern1em\ignorespaces}
                {\end{raggedright}\par}
 \newenvironment{fortrannote}
-  {\begin{specialnote}{Fortran note}}
-  {\end{specialnote}}
+  {\begin{specialnote}{Fortran note}\lstset{language=Fortran}}
+  {\end{specialnote}\lstset{language=C}}
+
 \makeindex[name=python]
-%% \newenvironment{pythonnote}[1]
-%%   {\begin{specialnote}{Python note}\index[python]{#1}}
-%%   {\end{specialnote}}
 \argcomment
     {pythonnote}
     {\par\advance\leftskip by \unitindent
       \index[python]{\CommentArg}%
       \noindent \hbox{\kern-\unitindent \textsl{Python note.}}\ %
+      \lstset{language=Python}%
     }
-    {\par\advance\leftskip by -\unitindent\relax}
+    {\par\advance\leftskip by -\unitindent
+      \lstset{language=C}
+      \relax}
 
-\newenvironment{taccnote}
-  {\begin{specialnote}{TACC note}}
-  {\end{specialnote}}
 \makeindex[name=mpl]
-%% \newenvironment{mplnote}[1]
-%%   {\begin{specialnote}{MPL note}\index[mpl]{#1}}
-%%   {\end{specialnote}}
-
 \newcounter{mplnote}
 \argcomment
     {mplnote}
-    {\stepcounter{mplnote}
-      %\def\CommentCutFile{snippets/mplnote\arabic{mplnote}.out}
+    {\refstepcounter{mplnote}
       {\lccode32=45 \lccode47=45
         \edef\tmp{\lowercase{\gdef\noexpand\CommentArg{\CommentArg}}}\tmp}
       \def\CommentCutFile{snippets/mplnote-\CommentArg.cut}
@@ -194,9 +189,21 @@
       %%     {\immediate\write\CommentStream{\CommentArg}}
       \par\advance\leftskip by \unitindent
       \index[mpl]{\CommentArg}%
-      \noindent \hbox{\kern-\unitindent \textsl{MPL note.}}\ %
+      \noindent \hbox{\kern-\unitindent \textsl{MPL note \arabic{mplnote}.}}\ %
+      \lstset{language=C++}%
     }
-    {\par\advance\leftskip by -\unitindent\relax}
+    {\par \noindent\textsl{End of MPL note}\par
+      \advance\leftskip by -\unitindent
+      \lstset{language=C}
+      \relax}
+\newenvironment
+    {mplimpl}
+    {\begin{quotation}\noindent\textsl{MPL implementation note:}\ }
+    {\end{quotation}}
+
+\newenvironment{taccnote}
+  {\begin{specialnote}{TACC note}}
+  {\end{specialnote}}
 
 \newenvironment{intelnote}
     {\begin{specialnote}{Intel note}}
@@ -205,8 +212,9 @@
 
 \specialcomment{mpifour}
     {\begingroup\def\ProcessCutFile{}\par}
-    {\par \hrule
+    {\par \smallskip \hrule
       \hbox{\textsl{The following material is for the (unreleased) MPI-4 standard only}}
+      \nobreak
       \input{\CommentCutFile}
       \par
       \hrule
