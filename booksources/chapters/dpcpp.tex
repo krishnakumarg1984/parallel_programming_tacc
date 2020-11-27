@@ -43,10 +43,10 @@ Since \ac{DPCPP} is cross-platform, we first need to discovers
 the devices.
 
 First we list the platforms:
-\cxxverbatimsnippet{dpcppplatforms}
+\cxxverbatimsnippet[code/dpcpp/cxx/devices.cxx]{dpcppplatforms}
 
 Then for each platform we list the devices:
-\cxxverbatimsnippet{dpcppdevices}
+\cxxverbatimsnippet[code/dpcpp/cxx/devices.cxx]{dpcppdevices}
 
 \Level 0 {Queues}
 
@@ -72,25 +72,14 @@ You can find a default device for the queue with
 
 The following example explicitly assigns the queue to the CPU device
 using the \indextermtt{sycl::cpu_selector}.
+\cxxverbatimsnippet[code/dpcpp/cxx/cpuname.cxx]{cpuclass}
+
 The \indextermtt{sycl::host_selector} bypasses any devices and
 make the code run on the host.
 
-\verbatimsnippet{cpuclass}
-
-\verbatimsnippet{devname}
-
-\begin{lstlisting}
-{ // open scope!
-  sycl::cpu_selector selector;
-  sycl::queue myqueue(selector);
-  cout << myqueue.get_device().get_info<sycl::info::device::name>() << endl;
-  myqueue.submit
-    ( [&] (sycl::handler &handle ) {
-      // some action
-      }
-    );
-} // queue will be executed at the close of the scope
-\end{lstlisting}
+It is good for your sanity to print the name of the device
+you are running on:
+\cxxverbatimsnippet[code/dpcpp/cxx/devname.cxx]{devname}
 
 If you try to select a device that is not available,
 a \indextermtt{sycl::runtime_error} exception will be thrown.
@@ -112,12 +101,12 @@ queue q(selector);
 One kernel per submit.
 
 \begin{lstlisting}
-  myqueue.submit( [&] ( handler &commandgroup ) {
+myqueue.submit( [&] ( handler &commandgroup ) {
     commandgroup.parallel_for<uniquename> 
-    ( range<1>{N},
-    [=] ( id<1> idx ) { ... idx }
-    )
-  }
+      ( range<1>{N},
+        [=] ( id<1> idx ) { ... idx }
+      )
+    } );
 \end{lstlisting}
 
 \begin{lstlisting}
@@ -126,6 +115,27 @@ cgh.single_task(
     // kernel function is executed EXACTLY once on a SINGLE work-item
 });
 \end{lstlisting}
+
+The \lstinline+submit+ call results in an event object:
+\begin{lstlisting}
+auto myevent = myqueue.submit( /* stuff */ );
+\end{lstlisting}
+This can be used for two purposes:
+\begin{enumerate}
+\item It becomes possible to wait for this specific event:
+\begin{lstlisting}
+myevent.wait();    
+\end{lstlisting}
+\item It can be used to indicate kernel dependencies:
+\begin{lstlisting}
+myqueue.submit( [=] (handler &h) {
+    h.depends_on(myevent);
+    /* stuff */
+    } );
+\end{lstlisting}
+\end{enumerate}
+
+\Level 0 {Parallel operations}
 
 \Level 1 {Loops}
   
@@ -223,6 +233,18 @@ auto myTokB = myQueue.submit
    );
 \end{lstlisting}
 
+\Level 1 {Race conditions}
+
+Sycl has the same problems with race conditions that
+other shared memory system have:
+
+\cxxverbatimsnippet{dpcppsumreduct}
+
+To get this working correctly would need either
+a reduction primitive or atomics on the accumulator.
+The 2020 proposed standard has improved atomics.
+
+\cxxverbatimsnippet{dpcppsumreduction}
 
 \Level 0 {Memory access}
 
@@ -245,7 +267,7 @@ host memory and device memory, which are not necessarily coherent.
 
 Memory allocated with \indextermtt{malloc_host}
 is visible on the host:
-\verbatimsnippet{syclsharealloc}
+\cxxverbatimsnippet[code/dpcpp/cxx/outshared.cxx]{syclsharealloc}
 
 Note that you need to be in a parallel task. 
 The following gives a segmentation error:
@@ -257,35 +279,29 @@ The following gives a segmentation error:
 
 Ordinary memory, for instance from \indextermtt{malloc},
 has to be copied in a kernel:
-\verbatimsnippet{sycldevcalloc}
+\cxxverbatimsnippet[code/dpcpp/cxx/outdevice.cxx]{sycldevcalloc}
 
 \Level 1 {Buffers}
 
 Arrays need to be declared in a way such that they can be
 access from any device.
 
-\begin{lstlisting}
-unsigned long global_range = 5000000;
+\cxxverbatimsnippet[code/dpcpp/cxx/forloop.cxx]{syclbufdef}
 
-// create traditional data
-vector<float> myarray(global_range);
+Inside the kernel, the array is then unpacked from the buffer:
 
-// make sycl buffer around the C++ data
-sycl::range<1> vector_range{global_range};
-sycl::buffer<float, 1> myarray_buffer(myarray.data(), vector_range);
+\cxxverbatimsnippet[code/dpcpp/cxx/forloop.cxx]{syclbufuse}
 
-myqueue.submit
-( [&] (sycl::handler &handle ) {
-  auto myarray =
-      myarray_buffer.get_access<sycl::access::mode::read_write>(handle);
-  // and now you can operate on that buffer
-\end{lstlisting}
+However, the \lstinline+get_access+ function results
+in a \lstinline+sycl::accessor+, not a pointer to a simple type.
+The precise type is templated and complicated, so this 
+is a good place to use \lstinline+auto+.
 
 \Level 0 {Parallel output}
 
 There is a \lstinline+sycl::cout+ and \lstinline+sycl::endl+.
 
-\verbatimsnippet{syclcout}
+\cxxverbatimsnippet[code/dpcpp/cxx/hello.cxx]{syclcout}
 
 Since the end of a queue does not flush stdout,
 it may be necessary to call

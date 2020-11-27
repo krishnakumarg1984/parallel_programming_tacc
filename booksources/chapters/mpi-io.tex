@@ -99,11 +99,9 @@ Similarly, \indexmpishow{MPI_File_close} is collective.
 
 \begin{pythonnote}{File open is class method}
   Note the slightly unusual syntax for opening a file:
-\lstset{language=Python}
 \begin{lstlisting}
 mpifile = MPI.File.Open(comm,filename,mode)
 \end{lstlisting}
-\lstset{language=C}
   Even though the file is
   opened on a communicator, it is a class method for the \n{MPI.File}
   class, rather than for the communicator object. The latter is passed

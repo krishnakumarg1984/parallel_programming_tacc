@@ -33,7 +33,7 @@ topology are defined:
   multi-dimensional `brick'; see
   section~\ref{sec:cartesian}.
 \item \indexmpishow{MPI_GRAPH}: this value describes the graph
-  topology that was defined in \indextermbus{MPI}{1};
+  topology that was defined in \mpistandard{1};
   section~\ref{sec:mpi-1-graph}. It is unnecessarily burdensome, since
   each process needs to know the total graph, and should therefore be
   considered obsolete; the type \indexmpishow{MPI_DIST_GRAPH} should
@@ -80,7 +80,6 @@ The cartesian topology is specified by giving
 \indexmpishow{MPI_Cart_create} the sizes of the processor grid along
 each axis, and whether the grid is periodic along that axis.
 
-\lstset{style=reviewcode,language=C} %pyskip
 \begin{lstlisting}
 int MPI_Cart_create(
   MPI_Comm comm_old, int ndims, int *dims, int *periods, 
@@ -91,7 +90,6 @@ Each point in this new communicator has a coordinate and a rank.  They
 can be queried with \indexmpishow{MPI_Cart_coords} and
 \indexmpishow{MPI_Cart_rank} respectively.
 
-\lstset{style=reviewcode,language=C} %pyskip
 \begin{lstlisting}
 int MPI_Cart_coords(
   MPI_Comm comm, int rank, int maxdims,
@@ -244,11 +242,9 @@ and \indexmpidef{MPI_Dist_graph_neighbors_count}.
 \begin{pythonnote}{Graph communicators}
   Graph communicator creation is a method of the \plstinline{Comm} class,
   and the graph communicator is a function return result:
-  \lstset{language=Python}
 \begin{lstlisting}
 graph_comm = oldcomm.Create_dist_graph(sources, degrees, destinations)
 \end{lstlisting}
-  \lstset{language=C}
   The weights, info, and reorder arguments have default values.
 \end{pythonnote}
 
@@ -336,7 +332,7 @@ that is not entirely true for two reasons.
 \Level 1 {Graph topology (deprecated)}
 \label{sec:mpi-1-graph}
 
-The original \indextermbus{MPI}{1} had a graph topology interface
+The original \mpistandard{1} had a graph topology interface
 \indexmpidef{MPI_Graph_create}
 which required each process to specify the full process graph. Since
 this is not scalable, it should be considered deprecated. Use the

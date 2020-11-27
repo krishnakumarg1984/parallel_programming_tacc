@@ -46,6 +46,18 @@ are parsed before that routine returns.
 This means that in non-blocking routines they can be freed immediately,
 unlike, for instance, send buffers.
 
+\begin{mpifour}
+  The routines \indexmpishow{MPI_Info_get} and \indexmpishow{MPI_Info_get_valuelen}
+  are not robust with respect to the C language \indexterm{null terminator}.
+  Therefore, they are deprecated, and should be replaced with
+  \indexmpidef{MPI_Info_get_string}, which always returns a null-terminated string.
+\begin{lstlisting}
+int MPI_Info_get_string
+   (MPI_Info info, const char *key, 
+    int *buflen, char *value, int *flag)  
+\end{lstlisting}
+\end{mpifour}
+
 \Level 2 {Environment information}
 \label{sec:mpi-info-env}
 
@@ -113,6 +125,9 @@ The following keys are defined in the \mpistandard{2} standard:
 \item \indexmpishow{chunked_size}: a comma separated list specifying the size of the subarrays used in chunking
 \item \indexmpishow{file_perm}: UNIX file permissions at time of creation, in octal
 \item \indexmpishow{io_node_list}: a comma separated list of I/O nodes to use
+\begin{mpifour}
+  \item \indexmpishow{mpi_minimum_memory_alignment}: aligment of allocated memory.
+\end{mpifour}
 \item \indexmpishow{nb_proc}: integer number of processes expected to access a file simultaneously
 \item \indexmpishow{num_io_nodes}: integer number of I/O nodes to use
 \item \indexmpishow{striping_factor}: integer number of I/O nodes/devices a file should be striped across
@@ -126,7 +141,7 @@ Additionally, file system-specific keys can exist.
 Some runtime (or installation dependendent) values are available as
 attributes through
 \indexmpiref{MPI_Comm_get_attr}.
-(The MPI-2 routine \indexmpidef{MPI_Attr_get} is deprecated).
+(The \mpistandard{2} routine \indexmpidef{MPI_Attr_get} is deprecated).
 The flag parameter has two functions:
 \begin{itemize}
 \item it returns whether the attributed was found;
@@ -228,11 +243,17 @@ A few examples of what can go wrong:
   to other than \indexmpishow{MPI_SUCCESS}. See section~\ref{sec:mpi-status-error}.
 \item \indexmpidef{MPI_ERR_INFO}: 
   invalid info object.
+\item \indexmpidef{MPI_ERR_NO_MEM} is returned by \indexmpishow{MPI_Mem_alloc}
+  if memory is exhausted.
 \item \indexmpidef{MPI_ERR_OTHER}: an error occurred; use
   \indexmpidef{MPI_Error_string} to retrieve further information
   about this error.
 \item \indexmpidef{MPI_ERR_PORT}: invalid port; this applies to
   \indexmpishow{MPI_Comm_connect} and such.
+\begin{mpifour}
+  \item \indexmpidef{MPI_ERR_PROC_ABORTED} is returned if a process tries to communicate
+    with a process that has aborted.
+\end{mpifour}
 \item \indexmpidef{MPI_ERR_SERVICE}: invalid service in
   \indexmpishow{MPI_Unpublish_name}.
 \item \indexmpidef{MPI_SUCCESS}: 
@@ -243,14 +264,34 @@ A few examples of what can go wrong:
 \label{sec:mpi-error}
 
 The MPI library has a general mechanism for dealing with errors that
-it detects: one can specify an error handler
-with \indexmpishow{MPI_Comm_set_errhandler},
-where some handlers of type \indexmpidef{MPI_Errhandler} are predefined.
+it detects:
+one can specify an error handler, specific to MPI objects.
+\begin{itemize}
+\item Most commonly, an error handler is associated with a communicator:
+  \indexmpishow{MPI_Comm_set_errhandler}
+  (and likewise it can be retrieved with \indexmpishow{MPI_Comm_get_errhandler});
+\item other possibilities are
+  \indexmpishow{MPI_File_set_errhandler},
+  \indexmpishow{MPI_File_call_errhandler},
+\begin{mpifour}
+  \indexmpishow{MPI_Session_set_errhandler},
+  \indexmpishow{MPI_Session_call_errhandler},
+\end{mpifour}
+  \indexmpishow{MPI_Win_set_errhandler},
+  \indexmpishow{MPI_Win_call_errhandler}.
+\end{itemize}
 
 \begin{remark}
   The routine
-  \lstinline{MPI_Errhandler_set} is deprecated.
+  \lstinline{MPI_Errhandler_set} is deprecated,
+  replaced by its \mpistandard{2} variant  \indexmpishow{MPI_Comm_set_errhandler}.
 \end{remark}
+
+Some handlers of type \indexmpidef{MPI_Errhandler} are predefined,
+but you can define your own with
+\indexmpishow{MPI_Errhandler_create},
+to be freed later with
+\indexmpishow{MPI_Errhandler_free}.
 
 \Level 2 {Abort}
 
@@ -354,7 +395,7 @@ See section~\ref{sec:f90-types} for MPI types corresponding to
 Use of other than contiguous data, for instance \n{A(1:N:2)}, was a
 problem in MPI calls, especially non-blocking ones. In that case it
 was best to copy the data to a contiguous array. This has been fixed
-in \indextermbus{MPI}{3}.
+in \mpistandard{3}.
 
 \begin{itemize}
 \item Fortran routines have the same prototype as C~routines except for the addition
@@ -538,6 +579,14 @@ t = MPI_Wtime();
 // absolutely nothing here
 t = MPI_Wtime()-t;
 \end{lstlisting}
+
+\begin{mplnote}{Timing}
+\begin{lstlisting}
+double mpl::environment::wtime();
+double mpl::environment::wtick();
+bool   mpl::environment::wtime_is_global();    
+\end{lstlisting}
+\end{mplnote}
 
 \Level 2 {Global timing}
 
@@ -968,42 +1017,6 @@ Assorted constants:
 \url{http://blogs.cisco.com/performance/mpi-outside-of-c-and-fortran}.)
 
 \index{MPI!constants|)}
-
-\Level 1 {32-bit size issues}
-
-The \n{size} parameter in MPI routines is defined as an \n{int},
-meaning that it is limited to 32-bit quantities.  There are ways
-around this, such as sending a number of
-\indexmpishow{MPI_Type_contiguous} blocks that add up to more than~$2^{31}$.
-
-\Level 1 {Python issues}
-\label{sec:python-stuff}
-\index{MPI!Python issues|(}
-
-\Level 2 {Byte calculations}
-
-The \indexmpishow{MPI_Win_create} routine needs a displacement in
-bytes. Here is a good way for finding the size of \indexterm{numpy} datatypes:
-\lstset{language=Python} %pyskip
-\begin{lstlisting}
-numpy.dtype('i').itemsize
-\end{lstlisting}
-
-\Level 2 {Arrays of objects}
-
-Objects of type \lstinline{MPI.Status} or \lstinline{MPI.Request} often need to be created
-in an array, for instance when looping through a number of \n{Isend} calls.
-In that case the following idiom may come in handy:
-
-\lstset{language=Python} %pyskip
-\begin{lstlisting}
-requests = [ None ] * nprocs
-for p in range(nprocs):
-  requests[p] = comm.Irecv( ... )
-\end{lstlisting}
-\lstset{language=C} %pyskip
-
-\index{MPI!Python issues|)}
 
 \Level 1 {Cancelling messages}
 

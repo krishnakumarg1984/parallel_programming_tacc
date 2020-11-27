@@ -67,57 +67,57 @@ First we need to introduce the concept of
 \indextermdef{communicator}, which is an abstract description of a
 group of processes. For now you only need to know about the existence
 of the \indexmpishow{MPI_Comm} data type, and that there is a
-pre-defined communicator \indextermttdef{MPI_COMM_WORLD} which
+pre-defined communicator \indexmpishow{MPI_COMM_WORLD} which
 describes all the processes involved in your parallel run.
 
-\begin{itemize}
-  \item
-In procedural languages (C/Fortran), a
-\emph{communicator}\index{communicator!variable} is a \emph{variable}
+
+In the procedural languages~C,
+a \emph{communicator}\index{communicator!variable} is a \emph{variable}
 that is passed to most routines:
-\lstset{language=C}
 \begin{lstlisting}
 #include <mpi.h>
 MPI_Comm comm = MPI_COMM_WORLD;
 MPI_Send( /* stuff */ comm );
 \end{lstlisting}
 
-\item
+\begin{fortrannote}
   In Fortran, pre-2008 a communicator was an \indexterm{opaque handle},
   stored in an \lstinline{Integer}. With \indextermbus{Fortran}{2008},
   communicators are derived types:
-\lstset{language=Fortran}
 \begin{lstlisting}
 use mpi_f098
 Type(MPI_Comm} :: comm = MPI_COMM_WORLD
 call MPI_Send( ... comm )
 \end{lstlisting}
+\end{fortrannote}
 
-\item
+\begin{pythonnote}{Communicator objects}
 In object-oriented languages, a communicator is an
 \emph{object}\index{communicator!object},
 and rather than passing it to routines,
 the routines are often methods of the communicator object:
-\lstset{language=Python}
 \begin{lstlisting}
 from mpi4py import MPI
 comm = MPI.COMM_WORLD
 comm.Send( buffer, target )
 \end{lstlisting}
-\end{itemize}
+\end{pythonnote}
 
 \begin{mplnote}{World communicator}
-  In MPL, which is based on C++,
-  the naive construct would be:
+  The naive way of declaring a communicator would be:
   %
   \cxxverbatimsnippet[examples/mpi/mpl/commrank.cxx]{mplcommcopy}
   %
-  Note the predefined environment method \indexmplshow{comm_world}.
+  calling the predefined environment method \indexmplshow{comm_world}.
 
   However, if the variable will always correspond to the world communicator,
   it is better to make it \lstinline{const} and declare it to be a reference:
   %
   \cxxverbatimsnippet[examples/mpi/mpl/commrank.cxx]{mplcommref}
+
+  \begin{mplimpl}
+    The copy constructor performs an \indexmpishow{MPI_Comm_dup}.
+  \end{mplimpl}
 \end{mplnote}
 
 You will
@@ -177,7 +177,7 @@ the \indexmpishow{MPI_Comm_rank} and \indexmpishow{MPI_Comm_size}
 routines are methods of the communicator class:
 
 \begin{pythonnote}{Communicator methods}
-\lstset{language=Python}
+Rank and size are methods of the communicator object:
 \begin{lstlisting}
 procid = comm.Get_rank()
 nprocs = comm.Get_size()
@@ -185,9 +185,8 @@ nprocs = comm.Get_size()
 \end{pythonnote}
 
 \begin{mplnote}{Rank and size}
-  \lstset{language=C++}
-  The rank of a process (by \indexmpldef{rank}) and
-  the size of a communicator (by \indexmpldef{size})
+  The rank of a process (by \lstinline+mpl::communicator::+\indexmpldef{rank}) and
+  the size of a communicator (by \lstinline+mpl::communicator::+\indexmpldef{size})
   are both methods of the \indexmplshow{communicator} class:
 \begin{lstlisting}
 const mpl::communicator &comm_world =

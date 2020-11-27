@@ -146,7 +146,7 @@ Fortran has type-specific nulls, such as
 
 A \emph{python}\index{Python!PETSc interface} interface was written by
 Lisandro Dalcin, and requires separate installation, based on already
-defined \indextermtt{PETSC_DIR} and \indextermtt{PETSC_ARCH}
+defined \indexpetscshow{PETSC_DIR} and \indexpetscshow{PETSC_ARCH}
 variables.  This can be downloaded at
 \url{https://bitbucket.org/petsc/petsc4py/src/master/}, with
 documentation at
@@ -313,6 +313,11 @@ procno = comm.getRank(self)
 
 The corresponding call to replace \indexmpishow{MPI_Finalize} is
 \indexpetscdef{PetscFinalize}.
+You can elegantly capture and return the error code by the idiom
+\begin{lstlisting}
+return PetscFinalize();
+\end{lstlisting}
+at the end of your main program.
 
 \Level 0 {PETSc installation}
 \label{sec:petsc-install}
@@ -366,7 +371,7 @@ performance.
 \label{sec:petsc-external}
 
 PETSc can extend its functionality through external packages such as
-\indexterm{mumps}, \indexterm{hypre}, \indexterm{fftw}. These can be
+\indexterm{mumps}, \indexterm{Hypre}, \indexterm{fftw}. These can be
 specified in two ways:
 \begin{enumerate}
 \item Referring to an installation already on your system:

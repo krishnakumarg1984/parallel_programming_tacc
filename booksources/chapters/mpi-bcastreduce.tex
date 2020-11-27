@@ -48,12 +48,15 @@ only one element is used.
 \end{exercise}
 
 \begin{mplnote}{Reduction operator}
-  In \ac{MPL}, the reduction operator is a \lstinline+std::function+:
+  The usual reduction operators are given as templated operators:
   %
   \cxxverbatimsnippet[examples/mpi/mpl/collectscalar.cxx]{mplallreduce}
   %
   Note the parentheses after the operator.
   Also note that the operator comes first, not last.
+  \begin{mplimpl}
+    The reduction operator is a \lstinline+std::function<T(T,T)>+:  
+  \end{mplimpl}
 \end{mplnote}
 
 For more about operators, see section~\ref{sec:mpi-ops}.
@@ -137,16 +140,17 @@ MPI_Allreduce( (void*)xx,(void*)yy,2,MPI_FLOAT, ... );
 but that is not necessary. The compiler will not complain
 if you leave out the cast.
 
-In~\emph{Fortran} parameters are always passed by reference,
-so the \emph{buffer}\index{buffer!MPI, in Fortran}
-is treated the same way:
-\lstset{language=Fortran}
+\begin{fortrannote}
+  In~\emph{Fortran} parameters are always passed by reference,
+  so the \emph{buffer}\index{buffer!MPI, in Fortran}
+  is treated the same way:
 \begin{lstlisting}
 Real*4 :: x
 Real*4,dimension(2) :: xx
 call MPI_Allreduce( x,1,MPI_REAL4, ... )
 call MPI_Allreduce( xx,2,MPI_REAL4, ... )
 \end{lstlisting}
+\end{fortrannote}
 
 In discussing \ac{OO} languages, we first note that
 the official C++ \ac{API} has been removed from the standard.
@@ -157,7 +161,6 @@ needed explicitly in \ac{OO} languages.
 \begin{pythonnote}{Buffers from numpy}
   In Python, all \emph{buffers}\index{buffer!MPI, in Python}
   are \indexterm{numpy} objects, which carry information about their type and size.
-\lstset{language=Python}
 \begin{lstlisting}
 x = numpy.zeros(1,dtype=np.float32)
 comm.Allreduce( x )
@@ -167,16 +170,15 @@ comm.Allreduce( xx )
 \end{pythonnote}
 
 \begin{mplnote}{Scalar buffers}
-  The C++ package \ac{MPL} uses polymorphism in its
-  \emph{buffer}\index{buffer!MPI, in MPL} handling,
-  in addition to the templating mechanism.
+  \emph{Buffer}\index{buffer!MPI, in MPL} type handling
+  is done through polymorphism and templating.
 
   Scalars are reduced as such:
-\lstset{language=C++}
 \begin{lstlisting}
 float x;
-comm.Allreduce( x );
+comm.allreduce( reducefunc(),x );
 \end{lstlisting}
+where the reduction function needs to be compatible with the type of the buffer.
 \end{mplnote}
 
 \begin{mplnote}{Vector buffers}
@@ -184,8 +186,8 @@ If your buffer is a \lstinline+std::vector+ you need
 to take the \lstinline+.data()+ component of it:
 \begin{lstlisting}
 vector<float> xx(2);
-// or float xx[2]
-comm.allreduce( plus<float>(), xx.data(), mpl::contiguous_layout<float>(2) );
+comm.allreduce( plus<float>(),
+    xx.data(), mpl::contiguous_layout<float>(2) );
 \end{lstlisting}
   The \indexmplshow{contiguous_layout} is a `derived type';
 this will be discussed in more detail in
@@ -194,7 +196,10 @@ For now, interpret it as a way of indicating the count/type
 part of a buffer specification.
 \end{mplnote}
 
-\lstset{language=C}
+\begin{mplnote}{Iterator buffers}
+  Many MPL routines have a way of specifying the buffer(s)
+  through a \lstinline{begin} and \lstinline{end} iterator.
+\end{mplnote}
 
 \Level 0 {Rooted collectives: broadcast, reduce}
 \label{sec:rooted}
@@ -282,7 +287,8 @@ using the \indexmpishow{MPI_IN_PLACE} specifier:
 %
 Now every process only has a receive buffer, so this
 has the advantage of saving half the memory.
-The input value is put in the receive buffer.
+Each process puts its input values in the receive buffer,
+and these are overwritten by the reduced result.
 
 The above example used \indexmpishow{MPI_IN_PLACE} in
 \indexmpishow{MPI_Allreduce};
@@ -308,8 +314,8 @@ in different branches of a condition is infelicitous. The following may be prefe
 %
 \cverbatimsnippet[examples/mpi/c/allreduceinplace.c]{tworeduceinplace}
 
-In Fortran the code is less elegant because you can not do
-these address calculations:
+In Fortran  you can not do these address calculations,
+so the only solution is having a condition:
 %
 \fverbatimsnippet[examples/mpi/f/reduceinplace.F90]{reduceinplace-f}
 

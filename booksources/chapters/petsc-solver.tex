@@ -114,6 +114,11 @@ to specify a different matrix here.
 The call \indexpetscshow{KSPSetFromOptions} can cover almost all of the 
 settings discussed next.
 
+KSP objects have many options to control them, so it is convenient
+to call \indexpetscshow{KSPView}
+(or use the commandline option \indexpetscoption{ksp_view})
+to get a listing of all the settings.
+
 \Level 1 {Tolerances}
 
 Since neither
@@ -288,7 +293,7 @@ Shell for user-defined PC&PCSHELL&shell  \\
 
 Here are some of the available preconditioner types.
 
-The \indexterm{hypre} package
+The \indexterm{Hypre} package
 (which needs to be installed during configuration time)
 contains itself several preconditioners.
 In your code, you can set the preconditioner to \lstinline{PCHYPRE},
@@ -333,7 +338,7 @@ For this reason, often incompletely $LU$ factorizations are popular.
 \item PETSc has natively a \lstinline{PCILU} type, but this can only be used sequentially.
   This may sound like a limitation, but in parallel it can still be used as the
   subdomain solver in a block methods; section~\ref{sec:petsc-bjac}.
-\item As part of \emph{hypre}, \emph{pilut}\index{hypre!pilut} is a parallel ILU.
+\item As part of \emph{Hypre}, \emph{pilut}\index{Hypre!pilut} is a parallel ILU.
 \end{itemize}
 
 There are many options for the ILU type, such as

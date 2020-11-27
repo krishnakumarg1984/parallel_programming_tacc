@@ -372,7 +372,7 @@ Normally you use \n{ibrun} without process count argument.
 
 Subarrays are naturally supported in Fortran through array sections:
 \fverbatimsnippet[examples/mpi/f08/section.F90]{fsectionsend}
-at least, since \indextermbus{MPI}{3}.
+at least, since \mpistandard{3}.
 
 The possibilities for the \n{order} parameter are
 \indexmpidef{MPI_ORDER_C} and \indexmpidef{MPI_ORDER_FORTRAN}.
@@ -463,7 +463,7 @@ the component type is a pointer.
 
 The structure type, created with \indexmpiref{MPI_Type_create_struct},
 can contain multiple data types. (The routine
-\indexmpishow{MPI_Type_struct} is deprecated with \indextermbus{MPI}{3}.)
+\indexmpishow{MPI_Type_struct} is deprecated with \mpistandard{3}.)
 %
 \begin{figure}[t]
   \includegraphics[scale=.09]{data-struct}

@@ -118,6 +118,7 @@ Note that the request is passed by reference, so that the wait routine
 can free it.
 
 \begin{mplnote}{Requests from non-blocking calls}
+  \label{mpl:irequest}
   The request object, which is in the class \indexmpldef{irequest},
   is a function result, not a parameter pass by reference.
   The single wait call is a method of the \indexmplshow{irequest}
@@ -132,12 +133,10 @@ can free it.
 This means that the normal sequence of first declaring, and then filling in,
 the request variable is not possible.
 
-The wait call always returns a \indexmplshow{status} object;
-not assigning it means that the destructor is called on it.
-
-To deal with multiple requests, there is a \indexmpldef{irequest_pool}
-that requests can be pushed onto:
-\cxxverbatimsnippet[examples/mpi/mpl/irecvsource.cxx]{mpirequestpush}
+\begin{mplimpl}
+  The wait call always returns a \indexmplshow{status} object;
+  not assigning it means that the destructor is called on it.
+\end{mplimpl}
 \end{mplnote}
 
 \Level 2 {More wait calls}
@@ -235,10 +234,14 @@ reference, and not an array of statuses!
 \end{fortrannote}
 
 \begin{mplnote}{Wait any}
+  \label{mpl:req_pool}
   Instead of an array of requests,
   use an \indexmpldef{irequest_pool} object,
   which acts like a vector of requests,
   meaning that you can \lstinline+push_back+ onto it.
+
+  \cxxverbatimsnippet[examples/mpi/mpl/irecvsource.cxx]{mpirequestpush}
+
   The \indexmpishow{irequest_pool} class has methods
   \indexmplshow{waitany}, \indexmplshow{waitall},
   \indexmplshow{testany}, \indexmplshow{testall},
@@ -402,7 +405,7 @@ The \lstinline{MPI_Test...} calls are themselves non-blocking: they
 test for whether one or more requests have been
 fullfilled, but otherwise immediately return.
 This can be used in the
-\indexterm{manager-worker model}: the manager process creates tasks, and
+\indexterm{manager-worker} model: the manager process creates tasks, and
 sends them to whichever worker process has finished its work.
 (This uses a receive from \indexmpishow{MPI_ANY_SOURCE}, and a
 subsequent test on the \indexmpishow{MPI_SOURCE} field of the receive status.)

@@ -251,5 +251,39 @@ Here is a good way for finding the size of \indexterm{numpy} datatypes
 in bytes:
 \pverbatimsnippet{windispp}% source is in one-sided chapter
 
+\Level 1 {Translating language type to MPI type}
+
+In some circumstances you may want to find the MPI type
+that corresponds to a type in your programming language.
+\begin{itemize}
+\item In C++ functions and classes can be templated,
+  meaning that the type is not fully known:
+\begin{lstlisting}
+template<typename T> {
+class something<T> {
+public:
+  void dosend(T input) {
+    MPI_Send( &input,1,/* ????? */ );
+  };
+};
+\end{lstlisting}
+(Note that in \ac{MPL} this is hardly ever needed
+because MPI calls are templated there.)
+\item Petsc installations use a generic identifier \indexpetscshow{PetscScalar}
+  (or \indexpetscshow{PetscReal})
+  with a configuration-dependent realization.
+\end{itemize}
+
+Section~\ref{sec:mpi-type-match} discusses one mechanism for
+translating language types to MPI.
+
+\begin{comment}
+In C, the \indexmpidef{MPI_Datatype} type is defined through the pre-processor,
+allowing you to write:
+\cverbatimsnippet{datatypevar}
+\end{comment}
+
+Petsc has its own translation mechanism; see section~\ref{sec:petsc-scalar}.
+
 \index{datatype!elementary|)}
 

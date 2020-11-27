@@ -192,7 +192,24 @@ for that language.
 C++ bindings were defined in the standard at one point,
 but they were declared deprecated,
 and have been officially removed in the \emph{MPI~3}%
-\index{MPI!3!C++ bindings removed}
+\mpistandardsub{3}{C++ bindings removed}
+Thus, MPI can be used from C++ by including
+\begin{verbatim}
+#include <mpi.h>
+\end{verbatim}
+and using the C API.
+
+\begin{mpifour}
+  The \mpistandard{4} standard supports integer arguments larger than 32 bits,
+  through the \lstinline+MPI_Count+ datatype.
+  All MPI routines are now polymorphic between using
+  \lstinline+int+ and \lstinline+MPI_Count+.
+  This requires including \indextermttdef{mpi.hpp}:
+\begin{verbatim}
+#include <mpi.hpp>
+\end{verbatim}
+  rather than \indextermtt{mpi.h}.
+\end{mpifour}
 
 The \indexterm{boost} library has its own version of MPI, but it seems
 not to be under further development.  A~recent

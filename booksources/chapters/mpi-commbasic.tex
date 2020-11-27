@@ -1,4 +1,9 @@
 % -*- latex -*-
+
+THIS FILE IS NO LONGER USED
+
+\endinput
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%
@@ -11,10 +16,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-A communicator is an object describing a group of processes. In many 
-applications all processes work together closely coupled, and the
-only communicator you need is \indexmpishow{MPI_COMM_WORLD}, the
-group describing all processes that your job starts with.
 %
 This group is fixed: it can neither be extended with additional
 processes, nor can it contract, for instance to eliminate crashed
@@ -30,9 +31,6 @@ independently of another subset. Examples are:
 \end{itemize}
 In this section we will see mechanisms for defining new communicators
 that are subsets of \lstinline{MPI_COMM_WORLD}\nobreak.
-Chapter~\ref{ch:mpi-proc} discusses dynamic process management, which, while
-not extending \lstinline{MPI_COMM_WORLD} does extend the set of
-available processes.
 
 \Level 1 {Communicator types}
 
@@ -47,6 +45,13 @@ There are three predefined communicators:
 \end{itemize}
 %Implementationally, communicators are integers, so you can use a 
 %simple test for equality.
+
+\begin{mplnote}{Predefined communicators}
+\begin{lstlisting}
+const communicator& mpl::environment::comm_world();
+const communicator& mpl::environment::comm_self();    
+\end{lstlisting}
+\end{mplnote}
 
 If you don't want to write \indexmpishow{MPI_COMM_WORLD} repeatedly, you can
 assign that value to a variable of type \indexmpiref{MPI_Comm}.

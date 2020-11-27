@@ -11,7 +11,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\Level 0 {Type matching}
+\Level 0 {Type maps and type matching}
 
 With derived types, you saw that it was not necessary for
 the type of the sender and receiver to match.
@@ -47,7 +47,7 @@ where the \lstinline{typeclass} argument is one of
 
 In Fortran, the size of the datatype in the language can be obtained with
 \indexmpishow{MPI_Sizeof} (note the non-optional error parameter!).
-This routine is deprecated in \indexterm{MPI-4}: use of
+This routine is deprecated in \mpistandard{4}: use of
 \indextermtt{storage_size} and/or \indextermtt{c_sizeof} is recommended.
 
 \fverbatimsnippet[examples/mpi/c/typematch.c]{typematchf}

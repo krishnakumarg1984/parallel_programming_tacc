@@ -137,6 +137,11 @@ The real and imaginary part can be extract with the functions
 \indexpetscdef{PetscRealPart} and \indexpetscdef{PetscImaginaryPart}
 which return a \indexpetscshow{PetscReal}.
 
+There are also routines \indexpetscdef{VecRealPart}
+and \indexpetscdef{VecImaginaryPart} that replace a vector
+with its real or imaginary part respectively.
+Likewise \indexpetscdef{MatRealPart} and \indexpetscdef{MatImaginaryPart}.
+
 \Level 1 {MPI Scalars}
 
 For MPI calls, \indexpetscdef{MPIU_REAL} is the MPI type
@@ -758,22 +763,69 @@ not with an independent \indexpetscshow{VecSetSizes}.
 
 \Level 0 {DMDA: distributed arrays}
 
+PETSc's \indexpetscshow{DM} objects raise the abstraction level
+from the linear algebra problem to the physics problem:
+they allow for a more direct expression of operators
+in terms of their domain of definition.
+In this section we look at the \indexpetscdef{DMDA}
+`distributed array' objects,
+which correspond to problems defined on Cartesian grids.
 Distributed arrays make it easier to construct the coefficient matrix
 of an operator that is defined as a \indexterm{stencil}
 on a 1/2/3-dimensional \indextermsub{Cartesian}{grid}.
 
 The main creation routine exists in three variants that mostly
 differ their number of parameters.
-For instance, \indexpetscref{DMDACreate2d} has parameters along the
+For instance, \indexpetscshow{DMDACreate2d} has parameters along the
 \clstinline{x,y} axes.
 However, \indexpetscdef{DMDACreate1d} has no parameter for the stencil type,
 since in 1D those are all the same, or for the process distribution.
 
-Once you have a grid, can create its associated matrix:
+\Level 1 {Grid definition}
+
+A two-dimensional grid is created with \indexpetscref{DMDACreate2d}
 \begin{lstlisting}
-DMSetUp(grid);
-DMCreateMatrix(grid,&A)
+DMDACreate2d( communicator,
+  x_boundary,y_boundary,
+  stenciltype,
+  gridx,gridy, procx,procy, dof,width, 
+  partitionx,partitiony, 
+  grid);
 \end{lstlisting}
+\begin{itemize}
+\item
+  Boundary type is a value of type \indexpetscdef{DMBoundaryType}.
+  Values are:
+  \begin{itemize}
+  \item \indexpetscshow{DM_BOUNDARY_NONE}
+  \item \indexpetscshow{DM_BOUNDARY_GHOSTED},
+  \item \indexpetscshow{DM_BOUNDARY_PERIODIC},
+  \end{itemize}
+\item
+  The stencil type is of type \indexpetscdef{DMStencilType},
+  with values
+  \begin{itemize}
+  \item \indexpetscshow{DM_STENCIL_BOX},
+  \item \indexpetscshow{DM_STENCIL_STAR},
+  \end{itemize}
+\item
+  The \lstinline{gridx,gridy} values are the global grid size.
+  This can easily be set with commandline options
+  \indexpetscoption{da_grid_x}\lstinline+/y/z+.
+\item
+  The \lstinline{procx,procy} variables are an explicit specification
+  of the processor grid. Failing this specification, PETSc will try to
+  find a distribution similar to the domain grid.
+\item \lstinline{dof} indicates the number of `degrees of freedom',
+  where 1~corresponds to a scalar problem.
+\item \lstinline{width} indicates the extent of the stencil:
+  1~for a 5-point stencil or more general a 2nd order stencil
+  for 2nd order \acp{PDE},
+  2~for 2nd order discretizations of a 4th order \ac{PDE}, et cetera.
+\item \lstinline{partitionx,partitiony} are arrays
+  giving explicit partitionings of the grid over the processors,
+  or \indexpetscshow{PETSC_NULL} for default distributions.
+\end{itemize}
 
 After you define a \indexpetscshow{DM} object, each process has a contiguous
 subdomain out of the total grid.
@@ -820,6 +872,12 @@ Values can be moved between local and global vectors by:
 \end{itemize}
 
 \Level 1 {Matrices of a distributed array}
+
+Once you have a grid, can create its associated matrix:
+\begin{lstlisting}
+DMSetUp(grid);
+DMCreateMatrix(grid,&A)
+\end{lstlisting}
 
 With this subdomain information you can then start to create the coefficient matrix:
 \begin{lstlisting}

@@ -165,7 +165,7 @@ Above you have seen how the `Isend' and `Irecv' routines can overlap communicati
 with computation. This is not possible with the collectives you have seen so far:
 they act like blocking sends or receives.
 However, there are also \indextermsub{non-blocking}{collectives},
-introduced in \indextermbus{MPI}{3}.
+introduced in \mpistandard{3}.
 
 Such operations can be used to increase efficiency.
 For instance, computing
@@ -255,6 +255,8 @@ else
   corresponding blocking variant, except that
   instead of a \lstinline+void+ result,
   they return an \indexmplshow{irequest}.
+  %
+  \cxxverbatimsnippet{mplireduce}
 \end{mplnote}
 
 \Level 1 {Examples}
@@ -346,39 +348,6 @@ fragment processes test for completion of the barrier, and failing to
 detect such completion, perform some local work.
 
 \cverbatimsnippet[examples/mpi/c/findbarrier.c]{ibarrierwork}
-
-\Level 0 {Persistent collectives}
-
-\begin{mpifour}
-% https://github.com/mpi-forum/mpi-issues/issues/25
-\index{persistent!collectives|textbf(}
-For each collective call, there is a persistent variant (\mpistandard{4}).
-This variant has the same calling sequence, except for a final
-\indexmpishow{MPI_Request} parameter.
-This request (or an array of requests) can then be used by
-\indexmpishow{MPI_Start} (or \indexmpishow{MPI_Startall})
-to initiate the actual communication.
-
-\indexmpidef{MPI_Barrier_init}
-\indexmpidef{MPI_Bcast_init}
-\indexmpidef{MPI_Reduce_init}
-\indexmpidef{MPI_Allreduce_init}
-\indexmpidef{MPI_Reduce_scatter_init}
-\indexmpidef{MPI_Reduce_scatter_block_init}
-\indexmpidef{MPI_Gather_init}
-\indexmpidef{MPI_Gatherv_init}
-\indexmpidef{MPI_Allgather_init}
-\indexmpidef{MPI_Allgatherv_init}
-\indexmpidef{MPI_Scatter_init}
-\indexmpidef{MPI_Scatterv_init}
-\indexmpidef{MPI_Alltoall_init}
-\indexmpidef{MPI_Alltoallv_init}
-\indexmpidef{MPI_Alltoallw_init}
-\indexmpidef{MPI_Scan_init}
-\indexmpidef{MPI_Exscan_init}
-
-\index{persistent!collectives|)}
-\end{mpifour}
 
 \Level 0 {Performance of collectives}
 

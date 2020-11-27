@@ -180,6 +180,7 @@ Instead, use \indexpetscref{PetscViewerRead}, which operates in terms of
 \indexpetscshow{PetscDataType}.
 
 \Level 1 {Exporting internal data structures}
+\label{sec:petsc-view}
 
 In order to export PETSc matrix or vector data structures
 there is a \indexpetscdef{PetscViewer} object type.
@@ -196,23 +197,9 @@ default viewer; for Fortran use \indexpetsctt{PETSC_NULL_VIEWER}.)
 Some viewers, such as \indexpetscshow{KSPView} are mostly for
 diagnostic purposes.  Thus, it is most convenient to activiate them
 through commandline options such \indexpetscshow{-ksp_view}.
-
-\Level 2 {Naming objects}
-
-A helpful facility for viewing is to name an object:
-that name will then be displayed when the object is viewed.
-\begin{lstlisting}
-Vec i_local;
-ierr = VecCreate(comm,&i_local); CHKERRQ(ierr);
-ierr = PetscObjectSetName((PetscObject)i_local,"space local"); CHKERRQ(ierr);
-\end{lstlisting}
-giving:
-\begin{verbatim}
-Vec Object: space local 4 MPI processes
-  type: mpi
-Process [0]
-[ ... et cetera ... ]
-\end{verbatim}
+If a viewer needs to be triggered at a specific location,
+calls such as \indexpetscdef{VecViewFromOptions} can be used.
+%% NO probably in combination with \indexpetscshow{VecSetOptionsPrefix}.
 
 \Level 2 {Viewer types}
 
@@ -244,6 +231,37 @@ PetscViewerPushFormat
     PETSC_VIEWER_ASCII_INFO_DETAIL);
 \end{lstlisting}
 and afterwards a corresponding \indexpetscdef{PetscViewerPopFormat}
+
+\Level 2 {Commandline option for viewers}
+
+Petsc objects viewers can be activated by calls such as \indexpetscshow{MatView},
+but often it is more convenient to do this through commandline options,
+such as \indexpetscoption{mat_view}, \indexpetscoption{vec_view},
+or \indexpetscoption{ksp_view}.
+By default, these output to \n{stdout} in \n{ascii} form,
+but this can be controlled by further option values:
+\begin{verbatim}
+program -mat_view binary:matrix.dat
+\end{verbatim}
+where \n{binary} forces a binary dump (\n{ascii} is the default)
+and a file name is explicitly given.
+
+\Level 2 {Naming objects}
+
+A helpful facility for viewing is to name an object:
+that name will then be displayed when the object is viewed.
+\begin{lstlisting}
+Vec i_local;
+ierr = VecCreate(comm,&i_local); CHKERRQ(ierr);
+ierr = PetscObjectSetName((PetscObject)i_local,"space local"); CHKERRQ(ierr);
+\end{lstlisting}
+giving:
+\begin{verbatim}
+Vec Object: space local 4 MPI processes
+  type: mpi
+Process [0]
+[ ... et cetera ... ]
+\end{verbatim}
 
 \Level 0 {Commandline options}
 \label{sec:petsc-options}
@@ -301,7 +319,8 @@ Together with a ton of other options, unfortunately.
 \Level 1 {Options prefix}
 
 In many cases, your code will have only one \lstinline{KSP} solver object,
-so specifying \indexpetscoption{-ksp_view} or \indexpetscoption{-ksp_monitor} will display~/ trace that one.
+so specifying \indexpetscoption{ksp_view} or \indexpetscoption{ksp_monitor}
+will display~/ trace that one.
 However, you may have multiple solvers, or nested solvers. You may then
 not want to display all of them.
 
@@ -325,6 +344,19 @@ KSPSetOptionsPrefix(space_solver,"space_");
 You can then use options \n{-time_ksp_monitor} and such.
 Note that the prefix does not have a leading dash,
 but it does have the trailing underscore.
+
+Similar routines:
+\begin{raggedright}
+  \indexpetscdef{MatSetOptionsPrefix}, 
+  \indexpetscdef{PCSetOptionsPrefix}, 
+  \indexpetscdef{PetscObjectSetOptionsPrefix}, 
+  \indexpetscdef{PetscViewerSetOptionsPrefix}, 
+  \indexpetscdef{SNESSetOptionsPrefix}, 
+  \indexpetscdef{TSSetOptionsPrefix}, 
+  \indexpetscdef{VecSetOptionsPrefix}, 
+\end{raggedright}
+and some more obscure ones.
+
 
 \Level 1 {Where to specify options}
 
@@ -357,6 +389,19 @@ can have a different precision from \indexpetscshow{PetscReal}.
 
 The routine \indexpetscdef{PetscGetCPUTime} is less useful, since it measures only
 time spent in computation, and ignores things such as communication.
+
+\Level 1 {Logging}
+
+Petsc does a lot of logging on its own operations.
+Additionally, you can introduce your own routines into this log.
+
+The simplest way to display statistics is to run
+with an option \indexpetscoption{log_view}.
+This takes an optional file name argument:
+\begin{verbatim}
+mpiexec -n 10 yourprogram -log_view :statistics.txt
+\end{verbatim}
+The corresponding routine is \indexpetscdef{PetscLogView}.
 
 \Level 0 {Memory management}
 \label{sec:petscmalloc}

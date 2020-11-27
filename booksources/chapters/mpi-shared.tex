@@ -54,8 +54,18 @@ Here the \n{split_type} parameter has to be from the following (short) list:
   \item \indexmpishow{MPI_COMM_TYPE_HW_GUIDED} (\mpistandard{4}):
     split using an \n{info} value from \indexmpidef{MPI_Get_hw_resource_types}.
     % https://github.com/mpi-forum/mpi-issues/issues/132
+  \item \indexmpishow{MPI_COMM_TYPE_HW_UNGUIDED} (\mpistandard{4}):
+    similar to \indexmpishow{MPI_COMM_TYPE_HW_GUIDED}, but the resulting communicators
+    should be a strict subset of the original communicator.
+    On processes where this condition can not be fullfilled,
+    \indexmpishow{MPI_COMM_NULL} will be returned.
 \end{mpifour}
 \end{itemize}
+
+\begin{mplnote}{Split by shared memory}
+  Similar to ordinary communicator splitting~\ref{mpl::split}:
+  \lstinline+communicator::+\indexmpldef{split_shared}.
+\end{mplnote}
 
 In the following example, \n{CORES_PER_NODE} is a platform-dependent
 constant:
@@ -92,6 +102,13 @@ instance if two sockets have memory directly attached to each, this
 would increase latency for some processes. To prevent this, the key
 \indexmpishow{alloc_shared_noncontig} can be set to \n{true} in the
 \indexmpishow{MPI_Info} object.
+\begin{mpifour}
+  In the contiguous case, the \indexmpishow{mpi_minimum_memory_alignment}
+  info argument
+  (section~\ref{sec:win-alloc})
+  applies only to the memory on the first process;
+  in the non-contiguous case it applies to all.
+\end{mpifour}
 
 \cverbatimsnippet[examples/mpi/c/numa.c]{winnoncontig}
 

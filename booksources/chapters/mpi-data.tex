@@ -35,22 +35,17 @@ Datatypes such as \indexmpishow{MPI_INT} are values
 of the type \indexmpidef{MPI_Datatype}.
 This type is handled differently in different languages.
 
-In C, the \indexmpidef{MPI_Datatype} type is defined through the pre-processor,
-allowing you to write:
-\cverbatimsnippet{datatypevar}
-
-In Fortran before 2008, datatypes variables are stored in
-\lstinline{Integer} variables.
-With the 2008 standard, datatypes are Fortran derived types:
-\lstset{language=Fortran}
+\begin{fortrannote}
+  In Fortran before 2008, datatypes variables are stored in
+  \lstinline{Integer} variables.
+  With the 2008 standard, datatypes are Fortran derived types:
 \begin{lstlisting}
 Type(Datatype) :: mytype
 \end{lstlisting}
-\lstset{language=C}
+\end{fortrannote}
 
 \begin{pythonnote}{Data types}
   There is a class
-\lstset{language=Python}
 \begin{lstlisting}
 mpi4py.MPI.Datatype
 \end{lstlisting}
@@ -60,7 +55,6 @@ mpi4py.MPI.Datatype.DOUBLE
 \end{lstlisting}
   which are themselves objects with methods
   for creating derived types.
-\lstset{language=C}
 \end{pythonnote}
 
 \begin{mplnote}{Data types}

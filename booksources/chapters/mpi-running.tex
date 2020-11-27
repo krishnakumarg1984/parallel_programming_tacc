@@ -70,7 +70,6 @@ against a different MPI.
 
 \begin{pythonnote}{Import mpi module}
   It's easiest to
-  \lstset{language=python}
 \begin{lstlisting}
 from mpi4py import MPI
 \end{lstlisting}
@@ -95,7 +94,6 @@ The init call is different between the various languages.
 
 In~C, you can pass \indextermtt{argc} and \indextermtt{argv}, the arguments
 of a C language main program:
-\lstset{style=reviewcode,language=C}
  \begin{lstlisting}
 int main(int argc,char **argv) {
     ....
@@ -114,6 +112,11 @@ so \indexmpishow{MPI_Init} lacks those arguments.
 
 \begin{mplnote}{Init, finalize}
   There is no initialization or finalize call.
+  \begin{mplimpl}
+    Initialization is done at the first \lstinline+mpl::environment+ method call,
+    such as \lstinline+comm_world+.
+  \end{mplimpl}
+
 \end{mplnote}
 
 This may look a bit like declaring `this is the parallel part of a

@@ -184,14 +184,23 @@ Next, one can obtain the memory from MPI by using
 \indexmpirep{MPI_Win_allocate},
 which has the data pointer as output. Note the \n{void*} in the
 C~prototype; it is still necessary to pass a pointer to a pointer:
-\lstset{style=reviewcode,language=C}
 \begin{lstlisting}
 double *window_data;
 MPI_Win_allocate( ... &window_data ... );
 \end{lstlisting}
 The routine \indexmpiref{MPI_Alloc_mem} performs only the allocation
 part of \indexmpishow{MPI_Win_allocate}, after which you need to
-\indexmpishow{MPI_Win_create}:
+\indexmpishow{MPI_Win_create}.
+\begin{itemize}
+\item
+  An error of \indexmpishow{MPI_ERR_NO_MEM} indicates that
+  no memory could be allocated.
+\begin{mpifour}
+  \item 
+    Allocated memory can be aligned by specifying an \indexmpishow{MPI_Info} key
+    of \indexmpishow{mpi_minimum_memory_alignment}.
+\end{mpifour}
+\end{itemize}
 
 This memory is freed with
 \begin{lstlisting}
@@ -578,7 +587,7 @@ conversely, multiple updates of the pointer may lead to work
 descriptors being skipped. These inconsistent views of the data are
 called a \indexterm{race condition}.
 
-In \indextermbus{MPI}{3} some atomic routines have been added.
+In \mpistandard{3} some atomic routines have been added.
 Both \indexmpiref{MPI_Fetch_and_op} and \indexmpiref{MPI_Get_accumulate}
 atomically retrieve data from the window indicated,
 and apply an operator, combining the data on the target
