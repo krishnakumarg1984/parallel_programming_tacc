@@ -18,10 +18,20 @@ onepass :
 	TEXINPUTS=.:graphics//:mpireference:snippets:macros:graphics:hwloc:..//:${TEXINPUTS} \
 	    pdflatex ${BOOKNAME}
 pdf :
-	make onepass
-	make onepass
-	make onepass
+	make --no-print-directory onepass
+	make --no-print-directory exercises_extract
+	make --no-print-directory onepass
+	make --no-print-directory onepass
 	cp ${BOOKNAME}.pdf ../
+exercises_extract : 
+	@echo "Extracting exercises"
+	@cd exercises ; \
+	for e in *.tex ; do \
+	  if [ `cat $$e | grep label | wc -l` -eq 1 ] ; then \
+	    export nam=`cat $$e | grep label | sed -e s/^.*label.// -e s/\}//` ; \
+	    cp $$e $$nam.tex ; \
+	  fi ; \
+	done
 clean ::
 	@rm -f ${BOOKNAME}.pdf acronyms.tex chapternames.tex
 
