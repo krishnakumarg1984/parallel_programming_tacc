@@ -99,8 +99,8 @@ a send/receive.
 \Level 1 {Request completion: wait calls}
 
 From the definition of \indexmpishow{MPI_Isend}~/
-\indexmpishow{MPI_Irecv}, you seen that non-blocking routinew yields
-an \indexmpiref{MPI_Request} object. This request can then be used to
+\indexmpishow{MPI_Irecv}, you seen that non-blocking routine yields
+an \indexmpidef{MPI_Request} object. This request can then be used to
 query whether the operation has concluded. You may also notice that
 the \indexmpishow{MPI_Irecv} routine does not yield an
 \indexmpishow{MPI_Status} object.  This makes sense: the status object
@@ -120,7 +120,8 @@ can free it.
 \begin{mplnote}{Requests from non-blocking calls}
   \label{mpl:irequest}
   The request object, which is in the class \indexmpldef{irequest},
-  is a function result, not a parameter pass by reference.
+  is a function result, not a parameter passed by reference,
+  as in the C~interface.
   The single wait call is a method of the \indexmplshow{irequest}
   class.
   %
@@ -228,7 +229,7 @@ reference, and not an array of statuses!
   The \n{index} parameter is the index in the array of requests,
   so it uses \emph{1-based indexing}\index{Fortran!1-based indexing}.
 
-  \fverbatimsnippet[examples/mpi/f/irecv_source.F90]{waitforany-f}
+  \fverbatimsnippet[examples/mpi/f/irecvsource.F90]{waitforany-f}
   \fverbatimsnippet[examples/mpi/f08/waitnull.F90]{waitany0f}
   \fverbatimsnippet[examples/mpi/f08/waitnull.F90]{waitany0f}
 \end{fortrannote}
@@ -258,7 +259,7 @@ The \indexmpishow{MPI_Waitany} routine can be used to implement
 \indexterm{polling}: occasionally check for incoming messages while
 other work is going on.
 %
-\cverbatimsnippet[examples/mpi/c/waitforany.c]{waitforany}
+\cverbatimsnippet[examples/mpi/c/irecvsource.c]{waitforany}
 %
 \pverbatimsnippet[examples/mpi/p/irecvsource.py]{waitforanyp}
 %

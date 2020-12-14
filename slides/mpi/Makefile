@@ -13,24 +13,12 @@
 info::
 
 COURSE = mpi
-FILE = mpi_course
-EXTRAFILES = jordan.pdf
-FILES = mpi_course mpithree_course mpl_course \
-    tacc_foundations tacc_advanced tacc_institute2019
-INEX = tacc-full
+COURSES  = mpi mpl mpithree
 EXTRATEXINPUTS = :${HOME}/Software/TeX/LaTeX//:${HOME}/Current/istc/scientific-computing-private/graphics//
+include ../course-support/Make.course
 
 jordan.pdf :
 	@TEXINPUTS=../graphics:${TEXINPUTS} ${ENGINE} jordan.tex
-
-.PHONY: tacc-full online
-VERSIONS = tacc-full tacc-advanced online
-info ::
-	@echo "make ${VERSIONS}"
-${VERSIONS} :
-	make course INEX=$@
-	cp ${FILE}.pdf $@.pdf
-	make --no-print-directory upload FILE=$@
 
 exercisecheck :
 	exercises=` grep exerciseframe *.tex | grep '\[' | cut -d [ -f 2 | cut -d ] -f 1 \
@@ -46,7 +34,6 @@ exercisecheck :
 	        done ; \
 	   done
 
-include ../course-support/Make.course
 include ../instructor-support/Make.course
 include ../../makefiles/Make.clean
 

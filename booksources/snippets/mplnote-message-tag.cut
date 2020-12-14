@@ -4,4 +4,8 @@
   \cxxverbatimsnippet{mplsendrecv} % in an exercise
   %
   The \indexmplshow{tag} class has a couple of methods such as
-  \lstinline+mpl::tag::any()+.
+  \lstinline+mpl::+\indexmplshow{tag::any}\lstinline+()+
+  (for the \indexmpishow{MPI_ANY_TAG} wildcard in receive calls)
+  and
+  \lstinline+mpl::+\indexmplshow{tag::up}\lstinline+()+
+  (for the \indexmpishow{MPI_TAG_UB} attribute).

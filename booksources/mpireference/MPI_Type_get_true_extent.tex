@@ -1,5 +1,6 @@
 Semantics:
 MPI_Type_get_extent(datatype,lb,extent)
+MPI_Type_get_extent_x(datatype,lb,extent)
 MPI_Type_get_true_extent(datatype,true_lb,true_extent)
 MPI_Type_get_true_extent_x(datatype,true_lb,true_extent)
 
@@ -12,6 +13,9 @@ extent / true_extent: (True) extent of data type (integer).
 
 C:
 int MPI_Type_get_extent(
+    MPI_Datatype datatype,
+    MPI_Aint *true_lb, MPI_Aint *true_extent)
+int MPI_Type_get_extent_x(
     MPI_Datatype datatype,
     MPI_Aint *true_lb, MPI_Aint *true_extent)
 int MPI_Type_get_true_extent(

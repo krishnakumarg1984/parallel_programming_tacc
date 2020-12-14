@@ -1,4 +1,4 @@
-// irecv_source.F90
+// irecvsource.F90
 if (mytid==ntids-1) then
    do p=1,ntids-1
       print *,"post"

@@ -18,7 +18,7 @@
 \Level 1 {Info objects}
 \label{sec:mpi-info}
 
-Certain MPI routines can accept \indexmpiref{MPI_Info} objects.
+Certain MPI routines can accept \indexmpidef{MPI_Info} objects.
 These contain key-value pairs that can offer system or implementation
 dependent information.
 
@@ -86,6 +86,7 @@ Note that these are the requested values; the running program can for instance
 have lower thread support.
 
 \Level 2 {Communicator and window information}
+\label{sec:mpi-comm-info}
 
 MPI has a built-in possibility of attaching information to
 \emph{communicators}\index{communicator!info object}
@@ -97,8 +98,8 @@ using the calls
 \indexmpishow{MPI_Win_get_info},
 \indexmpishow{MPI_Win_set_info}.
 
-Copying a communicator with \indexmpishow{MPI_Comm_dup} would cause
-the info to be copied; to attach new information to the copy there is
+Copying a communicator with \indexmpishow{MPI_Comm_dup} does not cause
+the info to be copied; to propagate information to the copy there is
 \indexmpidef{MPI_Comm_dup_with_info}.
 
 \Level 2 {File information}
@@ -229,6 +230,11 @@ A few examples of what can go wrong:
 \Level 1 {Error codes}
 \label{sec:mpi-err-codes}
 
+There are a bunch of error codes. These are all positive \lstinline{int} values,
+while \indexmpishow{MPI_SUCCESS} is zero.
+The maximum value of any built-in error code is \indexmpidef{MPI_ERR_LASTCODE}.
+User-defined error codes are all larger than this.
+
 \begin{itemize}
 \item \indexmpidef{MPI_ERR_ARG}: an argument was invalid that is not
   covered by another error code.
@@ -243,7 +249,7 @@ A few examples of what can go wrong:
   to other than \indexmpishow{MPI_SUCCESS}. See section~\ref{sec:mpi-status-error}.
 \item \indexmpidef{MPI_ERR_INFO}: 
   invalid info object.
-\item \indexmpidef{MPI_ERR_NO_MEM} is returned by \indexmpishow{MPI_Mem_alloc}
+\item \indexmpidef{MPI_ERR_NO_MEM} is returned by \indexmpishow{MPI_Alloc_mem}
   if memory is exhausted.
 \item \indexmpidef{MPI_ERR_OTHER}: an error occurred; use
   \indexmpidef{MPI_Error_string} to retrieve further information
@@ -256,8 +262,6 @@ A few examples of what can go wrong:
 \end{mpifour}
 \item \indexmpidef{MPI_ERR_SERVICE}: invalid service in
   \indexmpishow{MPI_Unpublish_name}.
-\item \indexmpidef{MPI_SUCCESS}: 
-  no error; MPI routine completed successfully.
 \end{itemize}
 
 \Level 1 {Error handling}
@@ -379,6 +383,52 @@ handler with \indexmpishow{MPI_Comm_get_errhandler}.
   can be called directly.
 \end{mplnote}
 
+\Level 1 {Defining your own MPI errors}
+
+You can define your own errors that behave like MPI errors.
+As an example, let's write a send routine that refuses to send
+zero-sized data.
+
+The first step to defining a new error is
+to define an error class with \indexmpidef{MPI_Add_error_class}:
+\begin{lstlisting}
+int nonzero_class;
+MPI_Add_error_class(&nonzero_class);
+\end{lstlisting}
+This error number is larger than \indexmpishow{MPI_ERR_LASTCODE},
+the upper bound on built-in error codes.
+The attribute \indexmpidef{MPI_LASTUSEDCODE} records the last issued value.
+
+Your new error code is then defined in this class 
+with \indexmpidef{MPI_Add_error_code},
+and an error string can be added with \indexmpidef{MPI_Add_error_string}:
+\begin{lstlisting}
+int nonzero_code;
+MPI_Add_error_code(nonzero_class,&nonzero_code);
+MPI_Add_error_string(nonzero_code,"Attempting to send zero buffer");
+\end{lstlisting}
+
+You can then call an error handler with this code.
+For instance to have a wrapped send routine that will not send zero-sized messages:
+%
+\cverbatimsnippet{nonzerosendwrap}
+%
+Here we used the default error handler associated with the communicator,
+but one can set a different one with \indexmpishow{MPI_Comm_create_errhandler}.
+
+We test our example:
+%
+\cverbatimsnippet{zerosendwrapmain}
+%
+which gives:
+\begin{verbatim}
+Trying to send buffer of length 1
+.. success
+Trying to send buffer of length 0
+Abort(1073742081) on node 0 (rank 0 in comm 0):
+Fatal error in MPI_Comm_call_errhandler: Attempting to send zero buffer
+\end{verbatim}
+
 \Level 0 {Fortran issues}
 \label{sec:mpi-fortran}
 \index{MPI!Fortran issues|see{Fortran, MPI issues}}
@@ -387,7 +437,7 @@ handler with \indexmpishow{MPI_Comm_get_errhandler}.
 MPI is typically written in C, what if you program \emph{Fortran}?
 
 See section~\ref{sec:f90-types} for MPI types corresponding to
-\emph{Fortran90 types}\index{Fortran90 types!in MPI}.
+\emph{Fortran90 types}\index{Fortran90!types!in MPI}.
 
 \Level 1 {Assumed-shape arrays}\index{Fortran!assumed-shape arrays in MPI}
 \label{sec:mpif-shape}
@@ -436,20 +486,39 @@ collection of inter-communicators to begin with.
 
 \Level 0 {Local and non-local operations}
 \label{sec:mpi-local-non}
+\label{sec:local-non-send}
+\index{communication!local|(textbf}
+\index{communication!non-local|(textbf}
 
-Parallel programs are different from sequential ones in that
-an operation can behave differently deepending on what other processes are doing.
+The MPI standard does not dictate whether communication is buffered.
+If a message is buffered, a send call can complete,
+even if no corresponding send has been posted yet.
+See section~\ref{sec:eager-limit}.
+Thus, in the standard communication, a send operation
+is \emph{non-local}: its completion may be depend on
+whether the corresponding receive has been posted.
+A \indextermbusdef{local}{operation} is one that is not non-local.
 
-\begin{itemize}
-\item A \index{non-local!operations|seealso{local operations}}%
-  \indextermbusdef{non-local}{operation}
-  is defined as one
-  where its successful completion requires an operation to be called
-  on another process.
-\item A \indextermbusdef{local}{operation} is one that is not non-local.
-\end{itemize}
+On the other hand, \indextermsub{buffered}{communication}
+(routines \indexmpishow{MPI_Bsend}, \indexmpishow{MPI_Ibsend},
+\indexmpishow{MPI_Bsend_init}; section~\ref{sec:buffered})
+is \emph{local}:
+the presence of an explicit buffer means that a send operation
+can complete no matter whether the receive has been posted.
 
-For local/non-local sends, see section~\ref{sec:local-non-send}.
+The \indextermsub{synchronous}{send} 
+(routines \indexmpishow{MPI_Ssend}, \indexmpishow{MPI_Issend},
+\indexmpishow{MPI_Ssend_init}; section~\ref{sec:handshake})
+is again non-local (even in the non-blocking variant)
+since it will only complete when the receive call has completed.
+
+Finally, the \indextermsub{ready mode}{send}
+(\indexmpishow{MPI_Rsend}, \indexmpishow{MPI_Irsend})
+is non-local in the sense that its only correct use
+is when the corresponding receive has been issued.
+
+\index{communication!local|)}
+\index{communication!non-local|)}
 
 \Level 1 {Asynchronous progress}
 \label{sec:progress}
@@ -579,14 +648,6 @@ t = MPI_Wtime();
 // absolutely nothing here
 t = MPI_Wtime()-t;
 \end{lstlisting}
-
-\begin{mplnote}{Timing}
-\begin{lstlisting}
-double mpl::environment::wtime();
-double mpl::environment::wtick();
-bool   mpl::environment::wtime_is_global();    
-\end{lstlisting}
-\end{mplnote}
 
 \Level 2 {Global timing}
 

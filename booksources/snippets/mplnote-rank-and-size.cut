@@ -1,6 +1,5 @@
-  \lstset{language=C++}
-  The rank of a process (by \indexmpldef{rank}) and
-  the size of a communicator (by \indexmpldef{size})
+  The rank of a process (by \lstinline+mpl::communicator::+\indexmpldef{rank}) and
+  the size of a communicator (by \lstinline+mpl::communicator::+\indexmpldef{size})
   are both methods of the \indexmplshow{communicator} class:
 \begin{lstlisting}
 const mpl::communicator &comm_world =

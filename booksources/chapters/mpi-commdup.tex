@@ -11,8 +11,17 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-With \indexmpishow{MPI_Comm_dup} you can make an exact duplicate of a communicator.
-This may seem pointless, but it is actually very useful for the design of
+With \indexmpiref{MPI_Comm_dup} you can make an exact duplicate of a communicator.
+There is a non-blocking variant \indexmpixref{MPI_Comm_idup}{MPI_Comm_dup}.
+
+These calls do not propagate info hints
+(sections \ref{sec:mpi-info} and~\ref{sec:mpi-comm-info});
+to achieve this,
+use \indexmpidef{MPI_Comm_dup_with_info} and \indexmpidef{MPI_Comm_idup_with_info}.
+
+\Level 1 {Communicator duplication for library use}
+
+Duplicating a communicator may seem pointless, but it is actually very useful for the design of
 software libraries. Image that you have a code
 \lstset{style=reviewcode,language=C}
 \begin{lstlisting}
@@ -50,9 +59,7 @@ Here
 \end{itemize}
 
 To prevent this confusion, the library should duplicate the outer
-communicator with
-%
-\indexmpiref{MPI_Comm_dup}
+communicator with \indexmpishow{MPI_Comm_dup}
 %
 and send all messages with respect to its duplicate. Now messages from the user
 code can never reach the library software, since they are on different communicators.

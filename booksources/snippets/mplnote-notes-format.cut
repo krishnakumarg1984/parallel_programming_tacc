@@ -1,1 +1,3 @@
-  MPL-specific notes will be indicated with a note like this.
+MPL\index{MPL!compiling and linking}
+is a C++ header-only library.
+Notes on MPI usage from MPL will be indicated like this.

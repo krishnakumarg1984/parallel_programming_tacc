@@ -18,7 +18,7 @@ info ::
 
 APPS = init thread env outerr abort \
     sendandrecv isendandirecv recvblock bufring sendblock ssendblock \
-    irecv_source irecvnonblock \
+    irecvsource irecvnonblock \
     probe testhang findbarrier ibarriertest ibarrierprobe backintime reductpositive \
     putfence putfencealloc getfence windynamic anysource \
     cancel scan exscan itranspose progress interleavegather \

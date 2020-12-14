@@ -147,9 +147,8 @@ INTEGER ( KIND = SELECTED_INTEGER_KIND(15) ) , &
  DIMENSION(100) :: array INTEGER :: root , integertype , error 
 
 CALL MPI_Type_create_f90_integer( 15 , integertype , error )
-CALL MPI_Bcast ( array , 100 ,
- & integertype , root ,
- & MPI_COMM_WORLD , error )
+CALL MPI_Bcast ( array , 100 , &
+ integertype , root , MPI_COMM_WORLD , error )
 
 REAL ( KIND = SELECTED_REAL_KIND(15 ,300) ) , &
  DIMENSION(100) :: array
@@ -274,8 +273,37 @@ because MPI calls are templated there.)
   with a configuration-dependent realization.
 \end{itemize}
 
-Section~\ref{sec:mpi-type-match} discusses one mechanism for
-translating language types to MPI.
+\Level 1 {Matching MPI and language type sizes}
+\label{sec:mpi-type-match}
+
+The size of a datatype is not always statically known, for instance if
+the Fortran \indextermtt{KIND} keyword is used. The translation of
+datatypes in the source language can be translated to MPI types with
+%
+\indexmpiref{MPI_Type_match_size}
+%
+where the \lstinline{typeclass} argument is one of
+\indexmpishow{MPI_TYPECLASS_REAL},
+\indexmpishow{MPI_TYPECLASS_INTEGER},
+\indexmpishow{MPI_TYPECLASS_COMPLEX}.
+
+\cverbatimsnippet[examples/mpi/c/typematch.c]{typematchc}
+
+In Fortran, the size of the datatype in the language can be obtained with
+\indexmpishow{MPI_Sizeof} (note the non-optional error parameter!).
+This routine is deprecated in \mpistandard{4}: use of
+\indextermtt{storage_size} and/or \indextermtt{c_sizeof} is recommended.
+
+\fverbatimsnippet[examples/mpi/c/typematch.c]{typematchf}
+
+The space that MPI takes for a structure type can be queried in a
+variety of ways. First of all \indexmpiref{MPI_Type_size} counts the
+\emph{datatype size}\index{MPI!datatype!size} as the 
+number of bytes occupied by the data in a type. That means that in an
+\emph{MPI vector datatype}\index{MPI!datatype!vector} it does not
+count the gaps.
+%
+\cverbatimsnippet[examples/mpi/c/typesize.c]{vectortypesize}
 
 \begin{comment}
 In C, the \indexmpidef{MPI_Datatype} type is defined through the pre-processor,

@@ -17,7 +17,7 @@ info ::
 	@echo "Do: make app (where app=${APPS})"
 
 APPS = commrank sendscalar  recvstatus sendbuffer sendarray sendrange sendobject \
-    isendandirecv irecvsource bufring \
+    isendandirecv irecvsource ireducescalar bufring \
     collectscalar collectarray collectbuffer reduceuser \
     vector struct indexed indexedblock \
     commsplit 
@@ -27,7 +27,7 @@ LANGUAGE = CXX
 .SECONDEXPANSION:
 include ../../../makefiles/Make.compile
 CPPSTANDARD = 17
-EXTRA_OPTIONS = -I${TACC_MPL_DIR}
+EXTRA_OPTIONS = -I${TACC_MPL_INC}
 
 info ::
 	@echo "make listsources : list of source files"

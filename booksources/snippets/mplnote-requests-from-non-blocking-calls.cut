@@ -1,5 +1,7 @@
+  \label{mpl:irequest}
   The request object, which is in the class \indexmpldef{irequest},
-  is a function result, not a parameter pass by reference.
+  is a function result, not a parameter passed by reference,
+  as in the C~interface.
   The single wait call is a method of the \indexmplshow{irequest}
   class.
   %
@@ -12,9 +14,7 @@
 This means that the normal sequence of first declaring, and then filling in,
 the request variable is not possible.
 
-The wait call always returns a \indexmplshow{status} object;
-not assigning it means that the destructor is called on it.
-
-To deal with multiple requests, there is a \indexmpldef{irequest_pool}
-that requests can be pushed onto:
-\cxxverbatimsnippet[examples/mpi/mpl/irecvsource.cxx]{mpirequestpush}
+\begin{mplimpl}
+  The wait call always returns a \indexmplshow{status} object;
+  not assigning it means that the destructor is called on it.
+\end{mplimpl}

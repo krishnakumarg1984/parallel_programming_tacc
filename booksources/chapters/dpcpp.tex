@@ -27,15 +27,45 @@ started on running your first program.
 Headers:
 \begin{lstlisting}
 #include <CL/sycl.hpp>
-using namespace cl::sycl;
 \end{lstlisting}
 
-\begin{remark}
-  Warning!
-  The \lstinline+cl::sycl+ name space has its own versions of \n{cout} and \n{endl}.
-  Make sure to use explicitly \lstinline+std::cout+ and \lstinline+std::end+.
-  Using the wrong I/O will cause tons of inscrutable error messages.
-\end{remark}
+You can now include namespace, but with care!
+If you use
+\begin{lstlisting}
+using namespace cl;
+\end{lstlisting}
+you have to prefix all SYCL class with \lstinline+sycl::+,
+which is a bit of a bother.
+However, if you use
+\begin{lstlisting}
+using namespace cl::sycl;
+\end{lstlisting}
+you run into the fact that SYCL has its own versions of many \ac{STL}
+commands, and so you w
+ill get name collisions.
+The most obvious example is that 
+the \lstinline+cl::sycl+ name space has its own versions of \n{cout} and \n{endl}.
+Therefore you have to use explicitly \lstinline+std::cout+ and \lstinline+std::end+.
+Using the wrong I/O will cause tons of inscrutable error messages.
+Additionally, SYCL has its own version of several math routines.
+
+Intel extension:
+\begin{lstlisting}
+using namespace sycl;
+\end{lstlisting}
+
+\begin{dpcppnote}
+  Intel's DPC++ extends the SYCL standard. If you want to write portable code,
+  use the \indextermtt{INTEL_CLANG_COMPILER} macros:
+You can test for the presence
+\begin{lstlisting}
+#ifdef __INTEL_CLANG_COMPILER
+  // DPC++ code
+#else
+  // SYCL code
+#endif
+\end{lstlisting}
+\end{dpcppnote}
 
 \Level 0 {Platforms and devices}
 
@@ -211,6 +241,21 @@ cgh.parallel_for<class foo2D>
     }
    );
 \end{lstlisting}
+
+\begin{dpcppnote}
+  There is an implicit conversion from the one-dimensional
+  \lstinline+sycl::id<1>+
+  to \lstinline+size_t+, so
+\begin{lstlisting}
+[=](sycl::id<1> i) {
+   data[i] = i;
+}
+\end{lstlisting}
+is legal, which in SYCL requires
+\begin{lstlisting}
+data[i[0]] = i[0];
+\end{lstlisting}
+\end{dpcppnote}
 
 \Level 1 {Task dependencies}
 

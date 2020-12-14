@@ -3,5 +3,6 @@
   scalar, layout, iterator. However, out of the nine conceivably possible
   routine prototypes, only the versions are available where the send and receive buffer
   are specified the same way.
+  Also, the send and receive tag need to be specified; they do not have default values.
 
   \cxxverbatimsnippet{mplsendrecv}% exercise, so no source

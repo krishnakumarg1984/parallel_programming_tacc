@@ -244,6 +244,7 @@
 
 %% mpi
 \newcommand\indexmpishow{\PackageIndex\mpiIndexRM}
+\newcommand\indexmpidepr{\PackageIndex\mpiIndexRd}
 \newcommand\indexmpidef {\PackageIndex\mpiIndexBF}
 \newcommand\indexmpiex  {\PackageIndex\mpiIndexIT}
 % versions that generate man page
@@ -253,12 +254,14 @@
 
 \newcommand\mpiIndexBF{\RoutineIndexFont{mpi}{textbf}\endgroup}
 \newcommand\mpiIndexRM{\RoutineIndexFont{mpi}{textrm}\endgroup}
+\newcommand\mpiIndexRd{\RoutineDeprcFont{mpi}{textrm}\endgroup}
 \newcommand\mpiIndexIT{\RoutineIndexFont{mpi}{textsl}\endgroup}
 \newcommand\mpiIndexAndRef{% this is called through afterassignment; \indexedroutine has been set
-  \let\referencedroutine\indexedroutine
+  \global\let\referencedroutine\indexedroutine
   \RoutineShowAndIndex{mpi}{textbf}% show name, index, reference to figure
-  \RoutineRefDisplay
-  \endgroup}
+  \endgroup % end of innocent characters
+  \def\routinefam{mpi}\RoutineRefDisplay
+}
 \newcommand\mpiIndexAndXRef{%
   \RoutineShowAndIndex{mpi}{textbf}%
   \endgroup}
@@ -276,7 +279,7 @@
 \newcommand\mplIndexAndRef{%
   \let\referencedroutine\indexedroutine
   \RoutineShowAndIndex{mpl}{textbf}%
-  \RoutineRefDisplay\endgroup}
+  \def\routinefam{mpl}\RoutineRefDisplay\endgroup}
 
 % omp
 \newcommand\indexompshow{\PackageIndex\ompIndexRM}
@@ -298,10 +301,11 @@
 \newcommand\ompIndexAndRef{%
   \let\referencedroutine\indexedroutine
   \RoutineIndexFont{omp}{textbf}%
-  \RoutineRefDisplay\endgroup}
+  \def\routinefam{omp}\RoutineRefDisplay\endgroup}
 
 % petsc
 \newcommand\indexpetscshow{\PackageIndex\petscIndexRM}
+\newcommand\indexpetscdepr{\PackageIndex\petscIndexRd}
 \newcommand\indexpetscdef {\PackageIndex\petscIndexBF}
 \newcommand\indexpetscref {\PackageIndex\petscIndexAndRef}
 \newcommand\indexpetscex  {\PackageIndex\petscIndexIT}
@@ -311,19 +315,20 @@
 
 \newcommand\petscIndexBF{\RoutineIndexFont{petsc}{textbf}\endgroup}
 \newcommand\petscIndexRM{\RoutineIndexFont{petsc}{textrm}\endgroup}
+\newcommand\petscIndexRd{\RoutineDeprcFont{petsc}{textrm}\endgroup}
 \newcommand\petscIndexIT{\RoutineIndexFont{petsc}{textsl}\endgroup}
 \newcommand\petscIndexTT{\RoutineIndexFont{petsc}{texttt}\endgroup}
 \newcommand\petscIndexAndRef{%
   \let\referencedroutine\indexedroutine
   \RoutineShowAndIndex{petsc}{textbf}%
-  \RoutineRefDisplay\endgroup}
+  \def\routinefam{petsc}\RoutineRefDisplay\endgroup}
 
 %%
 %% Define `indexedroutine' and invoke #1 which will process this
 %%
 \newcommand\PackageIndex[1]{\begingroup
     \InnocentChars \ShowRoutinetrue
-    \afterassignment#1\edef\indexedroutine
+    \afterassignment#1\xdef\indexedroutine
 }
 
 %%
@@ -347,6 +352,14 @@
     \noexpand\lstinline+\indexedroutine+%
     \noexpand\index[#1]{%
       \indexedroutine@{\catcode95=12 \noexpand\texttt{\indexedroutine}}|#2}%
+  }%
+  \tmp
+}
+\def\RoutineDeprcFont#1#2{% 
+  \edef\tmp{%
+    \noexpand\lstinline+\indexedroutine+%
+    \noexpand\index[#1]{%
+      \indexedroutine@{\catcode95=12 \noexpand\texttt{\indexedroutine} (deprecated)}|#2}%
   }%
   \tmp
 }
@@ -384,23 +397,33 @@
 %\captionsetup[manpage]{justification=justified,labelformat=empty}
 
 %\newcounter{manpage}
-{ \catcode`\_=13
+{ %\catcode`\_=13
   \gdef\RoutineRefDisplay{%
     \begin{manpage}
+      % counter and reference to counter
       \refstepcounter{manpage}%
-      % disable underscores
-      \RoutineRefStyle \catcode`\_=13 \def_{\underscore}
-      % heading
       \edef\labeltext{ref:\indexedroutine}
-      \ifx\indexedroutine\referencedroutine
-      \else
-          {\par \large \ref{\labeltext}\ \textbf{\texttt{\referencedroutine}}}
-      \fi
-      {\large \ref{\labeltext}\ \textbf{\texttt{\indexedroutine}}}
-      % routine
-      {\footnotesize \edef\tmp{\noexpand\verbatiminput{\referencedroutine}}\tmp }
-      %\caption{}
       \edef\tmp{\noexpand\label{\labeltext}}\tmp
+
+      % routine name
+      \ifx\indexedroutine\referencedroutine
+      \else \par \large \ref{\labeltext}\ \textbf{\texttt{\referencedroutine}}
+      \fi
+      { \RoutineRefStyle %\catcode`\_=13 \def_{\underscore}
+        Figure \ref{\labeltext}\ \textbf{\texttt{\indexedroutine}}
+      }
+
+      % routine display
+      {\footnotesize
+        \def\mpifam{mpi}
+        \ifx\mpifam\routinefam
+            \edef\apiname{api_\referencedroutine}
+            \message{apiname=\apiname}
+            \expandafter\lowercase\expandafter{\expandafter\input\expandafter{\apiname}}
+        \else
+            \edef\tmp{\noexpand\verbatiminput{\referencedroutine}}\tmp
+        \fi
+      }
     \end{manpage}
   }
 }

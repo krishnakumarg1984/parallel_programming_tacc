@@ -37,18 +37,14 @@
     MPI_Get_processor_name,
     % comm stuff
     MPI_Comm_size,MPI_Comm_rank,
-    MPI_Comm_dup,MPI_Comm_dup_with_info,MPI_Comm_split,MPI_Comm_split_type,
+    MPI_Comm_dup,MPI_Comm_dup_with_inf,MPI_Comm_idup,MPI_Comm_idup_with_info,
+    MPI_Comm_split,MPI_Comm_split_type,
     MPI_Comm_remote_size,MPI_Comm_get_parent,
     MPI_Comm_connect,MPI_Comm_disconnect,MPI_Comm_accept,
     MPI_Comm_group,MPI_Comm_create,MPI_Comm_create_group,
     MPI_Comm_join,MPI_Comm_free,MPI_Comm_set_name,
     MPI_Comm_compare,MPI_Comm_get_info,MPI_Comm_set_info,MPI_Comm_get_attr,
     MPI_Intercomm_create,MPI_Intercomm_merge,MPI_Comm_test_inter,MPI_Comm_remote_group,
-    MPI_Comm_create_errhandler,MPI_Comm_set_errhandler,MPI_Comm_get_errhandler,MPI_Comm_call_errhandler,
-    MPI_File_create_errhandler,MPI_File_set_errhandler,MPI_File_get_errhandler,MPI_File_call_errhandler,
-    MPI_Session_create_errhandler,MPI_Session_set_errhandler,MPI_Session_get_errhandler,MPI_Session_call_errhandler,
-    MPI_Win_create_errhandler,MPI_Win_set_errhandler,MPI_Win_get_errhandler,MPI_Win_call_errhandler,
-    MPI_Errhandler_set,
     MPI_Group_size,MPI_Group_rank,MPI_Group_incl,MPI_Group_excl,
     MPI_Group_union,MPI_Group_intersection,MPI_Group_difference,
     % collectives
@@ -69,10 +65,11 @@
     MPI_Recv,MPI_Irecv,MPI_Mrecv,MPI_Sendrecv,MPI_Sendrecv_replace,
     MPI_Isendrecv,MPI_Isendrecv_replace,MPI_Sendrecv_init,MPI_Sendrecv_replace_init,
     MPI_Send_init,MPI_Ssend_init,MPI_Rsend_init,MPI_Recv_init,MPI_Start,MPI_Startall,
+    MPI_Psend_init,MPI_Precv_init,MPI_Pready,MPI_Pready_range,MPI_Pready_list,MPI_Parrived,
     MPI_Wait,MPI_Wait...,MPI_Waitall,MPI_Waitany,MPI_Waitsome,
     MPI_Probe,MPI_Test,MPI_Test...,MPI_Testall,MPI_Testany,MPI_Iprobe,MPI_Mprobe,
     MPI_Request_free,MPI_Request_get_status,
-    MPI_Get_count,MPI_Get_elements,MPI_Get_elements_x,MPI_Get_address,
+    MPI_Get_count,MPI_Get_count_x,MPI_Get_elements,MPI_Get_elements_x,MPI_Get_address,
     MPI_Get_hw_resource_types,
     MPI_Buffer_attach,MPI_Buffer_detach,
     % operator
@@ -123,6 +120,13 @@
     % process
     MPI_Comm_spawn,MPI_Comm_spawn_multiple,
     MPI_Open_port,MPI_Close_port,MPI_Publish_name,MPI_Unpublish_name,
+    % errors
+    MPI_Add_error_class,MPI_Add_error_code,MPI_Add_error_string,
+    MPI_Comm_create_errhandler,MPI_Comm_set_errhandler,MPI_Comm_get_errhandler,MPI_Comm_call_errhandler,
+    MPI_File_create_errhandler,MPI_File_set_errhandler,MPI_File_get_errhandler,MPI_File_call_errhandler,
+    MPI_Session_create_errhandler,MPI_Session_set_errhandler,MPI_Session_get_errhandler,MPI_Session_call_errhandler,
+    MPI_Win_create_errhandler,MPI_Win_set_errhandler,MPI_Win_get_errhandler,MPI_Win_call_errhandler,
+    MPI_Errhandler_set,MPI_Errhandler_create,MPI_Errhandler_free,
     % utility and info
     MPI_Aint_add,MPI_Aint_diff,
     MPI_Get_version,MPI_Wtime,MPI_Wtick,
@@ -130,20 +134,31 @@
     MPI_Info_set,MPI_Info_get,MPI_Info_get_string,MPI_Info_delete,
     MPI_Info_get_nkeys,MPI_Info_get_nthkey,
     MPI_Attr_get,MPI_Error_string,MPI_Sizeof,
-    MPI_T_init_thread,MPI_T_pvar_get_num,
+    % tools interface
+    MPI_T_init_thread,MPI_T_finalize,
+    MPI_Cvar_get_num,MPI_T_cvar_get_info,MPI_T_cvar_get_index,
+    MPI_T_cvar_handle_alloc,MPI_T_cvar_handle_free,MPI_T_cvar_read,MPI_T_cvar_write,
+    MPI_T_pvar_get_num,MPI_T_pvar_get_info,MPI_T_pvar_get_index,
+    MPI_T_pvar_session_create,MPI_T_pvar_session_free,
+    MPI_T_pvar_handle_alloc,MPI_T_pvar_handle_free,
+    MPI_T_pvar_start,MPI_T_pvar_stop,MPI_T_pvar_read,MPI_T_pvar_write,
+    MPI_T_pvar_reset,MPI_T_pvar_readreset,
+    MPI_T_category_get_num,MPI_T_category_get_info,MPI_T_category_get_index,MPI_T_category_changed,
+    MPI_T_category_get_cvars,MPI_T_category_get_pvars,MPI_T_category_get_categories,
     %% OMP
     omp_set_num_threads,omp_get_num_threads,omp_get_max_threads,omp_get_thread_num,
     omp_get_num_procs,omp_in_parallel,omp_set_dynamic,omp_get_dynamic,omp_set_nested,
     omp_get_nested,omp_get_wtime,omp_get_wtick,omp_set_schedule,omp_get_schedule,
     omp_set_max_active_levels,omp_get_max_active_levels,omp_get_thread_limit,
     omp_get_level,omp_get_active_level,omp_get_ancestor_thread_num,omp_get_team_size,
-  },emphstyle={\color{red!70!black}\bfseries},
-  emph={[2] %% constants
+  },emphstyle={\color{red!70!black}\bfseries}
+}
+\lstset{emph={[2] %% constants
     MPI_VERSION,MPI_SUBVERSION,
     MPI_THREAD_SINGLE,MPI_THREAD_FUNNELED,MPI_THREAD_SERIALIZED,MPI_THREAD_MULTIPLE,
     MPI_ARGV_NULL,MPI_ARGVS_NULL,MPI_COMM_NULL,MPI_DATATYPE_NULL,MPI_INFO_NULL,MPI_INFO_ENV,
     MPI_OP_NULL,MPI_PROC_NULL,MPI_REQUEST_NULL,
-    MPI_ERROR,MPI_SUCCESS,
+    MPI_ERROR,MPI_SUCCESS,MPI_LASTUSEDCODE,MPI_ERR_LASTCODE,
     MPI_ERRORS_ARE_FATAL,MPI_ERRORS_RETURN,MPI_ERRORS_ABORT,
     MPI_ERRCODES_IGNORE,
     MPI_ERR_ARG,MPI_ERR_BUFFER,MPI_ERR_INTERN,MPI_ERR_INFO,MPI_ERR_IN_STATUS,
@@ -189,17 +204,34 @@
     MPI_WIN_BASE,MPI_WIN_SIZE,MPI_WIN_DISP_UNIT,
     MPI_WIN_CREATE_FLAVOR,MPI_WIN_FLAVOR_CREATE,MPI_WIN_FLAVOR_ALLOCATE,MPI_WIN_FLAVOR_DYNAMIC,MPI_WIN_FLAVOR_SHARED,
     MPI_WIN_MODEL,MPI_WIN_SEPARATE,MPI_WIN_UNIFIED,
+    % tools interface
+    MPI_T_ENUM_NULL,MPI_T_BIND_NO_OBJECT,MPI_T_ERR_INVALID_NAME,MPI_T_ERR_INVALID_INDEX,
+    MPI_T_PVAR_CLASS_STATE,MPI_T_PVAR_CLASS_LEVEL,MPI_T_PVAR_CLASS_SIZE,MPI_T_PVAR_CLASS_PERCENTAGE,MPI_T_PVAR_CLASS_HIGHWATERMARK,MPI_T_PVAR_CLASS_LOWWATERMARK,MPI_T_PVAR_CLASS_COUNTER,MPI_T_PVAR_CLASS_AGGREGATE,MPI_T_PVAR_CLASS_TIMER,MPI_T_PVAR_CLASS_GENERIC,
+    MPI_T_PVAR_SESSION_NULL,MPI_T_ERR_INVALID_HANDLE,MPI_T_PVAR_HANDLE_NULL,
+    MPI_T_PVAR_ALL_HANDLES,MPI_T_ERR_PVAR_NO_STARTSTOP,MPI_T_ERR_PVAR_NO_WRITE,
     %% OMP environment variables
     OMP_CANCELLATION,OMP_DISPLAY_ENV,OMP_DEFAULT_DEVICE,OMP_DYNAMIC,OMP_MAX_ACTIVE_LEVELS,
     OMP_MAX_TASK_PRIORITY,OMP_NESTED,OMP_NUM_THREADS,OMP_PROC_BIND,OMP_PLACES,OMP_STACKSIZE,
     OMP_SCHEDULE,OMP_THREAD_LIMIT,OMP_WAIT_POLICY,
-  },emphstyle={[2]\color{green!40!black}},
-  emph={[3] %% types
+  },emphstyle={[2]\color{green!40!black}}
+}
+
+\lstset{emph={[3] %% types
     MPI_Aint,MPI_Comm,MPI_Count,MPI_Datatype,MPI_Errhandler,MPI_File,MPI_Group,
     MPI_Info,MPI_Message,MPI_Offset,MPI_Op,MPI_Request,MPI_Status,
     MPI_User_function,MPI_Win,
+    MPI_T_enum,MPI_T_cvar_handle,MPI_T_pvar_session,MPI_T_pvar_handle,
     %% OMP directives
     for,sections,single,task,workshare,
+    %% MPL methods
+    environment,processor_name,communicator,comm_world,comm_self,split,wtime,wtick,
+    rank,size,tag,any,get_count,
+    allreduce,bcast,gather,scatter,
+    send_init,
+    bsend_buffer,bsend_size,bsend_init,buffer_attach,buffer_detach,
+    irequest,prequest,irequest_pool,prequest_pool,status,wait,wait_any,wait_all,
+    contiguous_layout,strided_vector_layout,iterator_layout,subarray_layout,indexed_layout,heterogeneous_layout,
+    threading_modes,single,funneled,serialized,multiple,
   },emphstyle={[3]\color{yellow!30!brown}\bfseries},
   emph={[4] %% PETSc functions
     AnyPetscRoutine,

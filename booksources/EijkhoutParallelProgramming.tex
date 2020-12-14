@@ -130,7 +130,7 @@
 \newif\ifprojects\projectsfalse
 \newcommand\PROJECT[2]{
 \ifprojects \vfill\pagebreak \else \projectstrue \fi
-\Level 1 {#1}\label{prj:#2}
+\Level 0 {#1}\label{prj:#2}
 \def\chapshortname{#2}
 {\SetBaseLevel 2 \input projects/#2
 \write\chapterlist{\chapshortname}
@@ -226,6 +226,7 @@
 \CHAPTER{MPI topic: Functional parallelism}{mpi-functional}
 \CHAPTER{MPI topic: Collectives}{mpi-collective}
 \CHAPTER{MPI topic: Point-to-point}{mpi-ptp}
+\CHAPTER{MPI topic: Communication modes}{mpi-persist}
 \CHAPTER{MPI topic: Data types}{mpi-data}
 \CHAPTER{MPI topic: Communicators}{mpi-comm}
 \CHAPTER{MPI topic: Process management}{mpi-proc}
@@ -233,9 +234,8 @@
 \CHAPTER{MPI topic: File I/O}{mpi-io}
 \CHAPTER{MPI topic: Topologies}{mpi-topo}
 \CHAPTER{MPI topic: Shared memory}{mpi-shared}
-%\CHAPTER{MPI by idiom}{mpi-idiom}
+\CHAPTER{MPI topic: Tools interface}{mpi-tools}
 \CHAPTER{MPI leftover topics}{mpi}
-\CHAPTER{MPI Reference}{mpiref}
 %\CHAPTER{MPI Examples}{mpiexamples}
 %\CHAPTER{MPI Review}{mpireview}
 
@@ -262,6 +262,7 @@
 
 \CHAPTER{PETSc basics}{petsc-design}
 \CHAPTER{PETSc objects}{petsc-objects}
+\CHAPTER{Grid support}{petsc-dmda}
 \CHAPTER{Finite Elements support}{petsc-fem}
 \CHAPTER{PETSc solvers}{petsc-solver}
 \CHAPTER{PETSc tools}{petsc-tools}
@@ -308,32 +309,27 @@
 \TUTORIAL{SimGrid}{simgrid}
 \TUTORIAL{Batch systems}{slurm}
 
-\part{Projects, index}
+\part{Class projects}
 
-\Level 0 {Class projects}
-
-%% \SetBaseLevel 1
-%% \input projects/mpiprojects
-%% \SetBaseLevel 0
 \PROJECT{A Style Guide to Project Submissions}{projectstyle}
 \PROJECT{Warmup Exercises}{warmup}
 \PROJECT{Mandelbrot set}{mandelbrot}
 \PROJECT{Data parallel grids}{grid}
 \PROJECT{N-body problems}{nbody}
 
-\Level 0 {Bibliography, index, and list of acronyms}
+\part {Bibliography, index, and list of acronyms}
 
 %% \Level 1 {Ascii table}
 %% \input ascii
 %% \vfill\pagebreak
 
-\Level 1 {Bibliography}
+\Level 0 {Bibliography}
 
 \bibliography{vle}
 \bibliographystyle{plain}
 \vfill\pagebreak
 
-\Level 1 {List of acronyms}
+\Level 0 {List of acronyms}
 
 \def\acitem#1#2{\item[#1] #2}
 \def\acitemi#1#2#3{\item[#1]{#2}\index{#1|see{#3}}}
@@ -349,38 +345,38 @@
 
 %Bold reference: defining passage; italic reference: illustration.
 
-\Level 1 {General Index}
+\Level 0 {General Index}
 
 \begin{multicols*}{2}
 \printindex
 \end{multicols*}
 
-\Level 1 {Index of MPI commands}
+\Level 0 {Index of MPI commands and keywords}
 
 \begin{multicols*}{2}
 \printindex[mpi]
 \end{multicols*}
 
-\Level 1 {MPL commands and topics}
+\Level 0 {MPL commands and topics}
 \label{sec:idx:mpl}
 
 \begin{multicols*}{2}
   \printindex[mpl]
 \end{multicols*}
 
-\Level 1 {MPI4Python notes}
+\Level 0 {Python notes}
 
 \begin{multicols*}{2}
   \printindex[python]
 \end{multicols*}
 
-\Level 1 {Index of OpenMP commands}
+\Level 0 {Index of OpenMP commands}
 
 \begin{multicols*}{2}
 \printindex[omp]
 \end{multicols*}
 
-\Level 1 {Index of PETSc commands}
+\Level 0 {Index of PETSc commands}
 
 \begin{multicols*}{2}
 \printindex[petsc]

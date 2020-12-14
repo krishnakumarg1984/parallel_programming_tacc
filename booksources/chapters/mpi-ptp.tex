@@ -14,7 +14,9 @@
 \Level 0 {Distributed computing and distributed data}
 
 One reason for using MPI is that sometimes you need to work on
-more data than can fit in the memory of a single processor.
+a single object,
+say a vector or a matrix,
+with a  data size larger than can fit in the memory of a single processor.
 With distributed memory, each processor then gets a part
 of the whole data structure and only works on that.
 
@@ -121,17 +123,19 @@ if (mytid==ntids-1)
   Load balancing is further discussed in~\HPSCref{sec:load}.
 \end{exercise}
 
-\begin{exercise}
-  \label{ex:inproduct}
-  Implement an inner product routine: let $x$ be a
-  distributed vector of size~$N$ with elements $x[i]=i$,
-  and compute~$x^tx$.
-  As before, the right value is $(2N^3+3N^2+N)/6$.
+\begin{comment}
+  \begin{exercise}
+    \label{ex:inproduct}
+    Implement an inner product routine: let $x$ be a
+    distributed vector of size~$N$ with elements $x[i]=i$,
+    and compute~$x^tx$.
+    As before, the right value is $(2N^3+3N^2+N)/6$.
 
-  Use the inner product value to scale to vector so that it has
-  norm~1.
-  Check that your computation is correct.
-\end{exercise}
+    Use the inner product value to scale to vector so that it has
+    norm~1.
+    Check that your computation is correct.
+  \end{exercise}
+\end{comment}
 
 %% \Level 0 {Blocking point-to-point operations}
 \input chapters/mpi-blocksend
@@ -207,7 +211,7 @@ the \emph{status}\index{status!of received message} of the message:
   out how much data is being sent.
 \end{itemize}
 
-To do this, the receive call has a \indexmpiref{MPI_Status}
+To do this, the receive call has a \indexmpidef{MPI_Status}
 parameter.
 
 This status is a property of the actually received messsage, so \indexmpishow{MPI_Irecv}
@@ -218,6 +222,8 @@ does not have a status parameter, but \indexmpishow{MPI_Wait} does.
   (or wait) call:
 
   \cxxverbatimsnippet{mplstatuscreate}
+
+  A constant \lstinline+mpl::+\indexmplshow{any_source} exists.
 \end{mplnote}
 
 The \indexmpishow{MPI_Status} object
@@ -241,7 +247,7 @@ sender = status.MPI_SOURCE;
 \end{lstlisting}
 
 The source of a message can be obttained as the
-\indexmpiref{MPI_SOURCE}
+\indexmpidef{MPI_SOURCE}
 member of the status structure.
 
 There are various scenarios where receiving from `any source' makes sense.
@@ -277,7 +283,7 @@ a value of \indexmpishow{MPI_ANY_TAG} can be used, and the actual
 \emph{tag}\index{message!status!tag}
 of a message can be retrieved as the
 %
-\indexmpiref{MPI_TAG}
+\indexmpidef{MPI_TAG}
 %
 member in the status structure. See the section about \clstinline+MPI_SOURCE+
 for how to use this.
@@ -289,7 +295,11 @@ for how to use this.
   \cxxverbatimsnippet{mplsendrecv} % in an exercise
   %
   The \indexmplshow{tag} class has a couple of methods such as
-  \lstinline+mpl::tag::any()+.
+  \lstinline+mpl::+\indexmplshow{tag::any}\lstinline+()+
+  (for the \indexmpishow{MPI_ANY_TAG} wildcard in receive calls)
+  and
+  \lstinline+mpl::+\indexmplshow{tag::up}\lstinline+()+
+  (for the \indexmpishow{MPI_TAG_UB} attribute).
 \end{mplnote}
 
 \Level 2 {Error}
@@ -297,7 +307,7 @@ for how to use this.
 
 Any \emph{errors}\index{message!status!error}
 during the receive operation can be found as the
-\indexmpiref{MPI_ERROR}
+\indexmpidef{MPI_ERROR}
 member of the status structure.
 This field is only set by functions that return multiple statuses,
 such as \indexmpishow{MPI_Waitall}.
@@ -353,73 +363,6 @@ the \indexterm{manager-worker} model, and how it offers an opportunity for inspe
 object describing the data that was received.
 
 \index{message!status|)}
-
-\Level 1 {Local and non-local communication sends}
-\label{sec:local-non-send}
-\index{communication!local|(textbf}
-\index{communication!non-local|(textbf}
-
-The MPI standard does not dictate whether communication is buffered.
-If a message is buffered, a send call can complete,
-even if no corresponding send has been posted yet.
-See section~\ref{sec:eager-limit}.
-Thus, in the standard communication, a send operation
-is \emph{non-local}: its completion may be depend on
-whether the corresponding receive has been posted.
-See also section~\ref{sec:mpi-local-non}.
-
-On the other hand, \indextermsub{buffered}{communication}
-(routines \indexmpishow{MPI_Bsend}, \indexmpishow{MPI_Ibsend},
-\indexmpishow{MPI_Bsend_init}; section~\ref{sec:buffered})
-is \emph{local}:
-the presence of an explicit buffer means that a send operation
-can complete no matter whether the receive has been posted.
-
-The \indextermsub{synchronous}{send} 
-(routines \indexmpishow{MPI_Ssend}, \indexmpishow{MPI_Issend},
-\indexmpishow{MPI_Ssend_init}; section~\ref{sec:handshake})
-is again non-local (even in the non-blocking variant)
-since it will only complete when the receive call has completed.
-
-Finally, the \indextermsub{ready mode}{send}
-(\indexmpishow{MPI_Rsend}, \indexmpishow{MPI_Irsend})
-is non-local in the sense that its only correct use
-is when the corresponding receive has been issued.
-
-\index{communication!local|)}
-\index{communication!non-local|)}
-
-\Level 1 {Synchronous and asynchronous communication}
-\index{communication!synchronous|(textbf}
-\index{communication!asynchronous|(textbf}
-
-It is easiest to think of blocking as a form of synchronization with
-the other process, but that is not quite true. Synchronization is a
-concept in itself, and we talk about \emph{synchronous} communication
-if there is actual coordination going on with the other process,
-and \emph{asynchronous} communication if there is not. Blocking then
-only refers to the program waiting until the user data is safe
-to reuse; in the synchronous case a blocking call means that the data
-is indeed transferred, in the asynchronous case it only means that the
-data has been transferred to some system buffer.
-%
-\begin{figure}[ht]
-\includegraphics[scale=.15]{block-vs-sync}
-\caption{Blocking and synchronicity}
-\label{fig:block-sync}
-\end{figure}
-The four possible cases are illustrated in figure~\ref{fig:block-sync}.
-
-MPI has a number of routines for synchronous communication,
-such as \indexmpishow{MPI_Ssend}.
-Driving home the point that non-blocking and asynchronous are
-different concepts, there is a routine \indexmpidef{MPI_Issend},
-which is synchronous but non-blocking.
-
-\cverbatimsnippet[examples/mpi/c/ssendblock.c]{ssendblock}
-
-\index{communication!synchronous|)}
-\index{communication!asynchronous|)}
 
 \Level 0 {Review questions}
 
@@ -596,7 +539,31 @@ do p=0,nprocs-1
 end do
 \end{lstlisting}
 
+\item Consider a ring-wise communication where
+\begin{lstlisting}
+int
+  next = (mytid+1) % ntids,
+  prev = (mytid+ntids-1) % ntids;
+\end{lstlisting}
+  and each process sends to \lstinline{next}, and receives from \lstinline{prev}.
 
+  The normal solution for preventing deadlock is to use both
+  \indexmpishow{MPI_Isend} and \indexmpishow{MPI_Irecv}. The send and
+  receive complete at the wait call. But does it matter in what
+  sequence you do the wait calls?
+  \begin{multicols}{2}
+    \cverbatimsnippet{ring3}
+    \columnbreak
+    \cverbatimsnippet{ring4}
+  \end{multicols}
+
+  Can we have one non-blocking and one blocking call?
+  Do these scenarios block?
+  \begin{multicols}{2}
+    \cverbatimsnippet{ring1}
+    \columnbreak
+    \cverbatimsnippet{ring2}
+  \end{multicols}
 \end{enumerate}
 
 \index{communication!two-sided|)}

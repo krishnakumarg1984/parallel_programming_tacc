@@ -48,8 +48,7 @@ int main(int argc,char **argv) {
   } else if (procno==receiver) {
     auto recv_status =
       comm_world.recv( target_buffer.data(),fiveints, sender );
-    int recv_count =
-      recv_status.get_count<int>();
+    int recv_count = recv_status.get_count<int>();
     assert(recv_count==count);
   }
   

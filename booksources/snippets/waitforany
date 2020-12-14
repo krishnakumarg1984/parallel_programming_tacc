@@ -1,4 +1,4 @@
-// irecv_source.c
+// irecvsource.c
 if (procno==nprocs-1) {
   int *recv_buffer;
   MPI_Request *request; MPI_Status status;

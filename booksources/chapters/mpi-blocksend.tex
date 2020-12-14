@@ -43,17 +43,19 @@ and it computes their value.
 \end{figure}
 %
 Now let's investigate how processor~$p$ goes about computing~$y_i$ for
-the $i$-values it owns. Let's assume that processor~$p$ also stores
+the $i$-values it owns. Let's assume that process~$p$ also stores
 the values $x_i$ for these same indices.
 Now, for many values~$i$ it can evalute the computation
 \[ y_{i} = (x_{i-1}+x_{i}+x_{i+1})/3 \]
 locally (figure~\ref{fig:3pt-interior}).
 
-However, there is a problem with computing the first index $i_p$
-on processor~$p$:
+However, there is a problem with computing~$y$
+in the first index $i_p$ on processor~$p$:
 \[ y_{i_p} = (x_{i_p-1}+x_{i_p}+x_{i_p+1})/3 \]
-The problem here is that the point to the left, $x_{i_p-1}$,
-is not stored on processor~$p$: it is stored on~$p-\nobreak1$
+The point to the left, $x_{i_p-1}$,
+is not stored on process~$p$
+(it is stored on~$p-\nobreak1$),
+so it is not immediately available for use by process~$p$.
 %
 \begin{figure}[t]
   \includegraphics[scale=.12]{threepoint-msg}
@@ -72,6 +74,8 @@ MPI realizes this through matched send and receive calls:
 \item One process does a send to a specific other process;
 \item the other process does a specific receive from that source.
 \end{itemize}
+
+We will now discuss the send and receive routines in detail.
 
 \Level 1 {Send example: ping-pong}
 \label{sec:mpi-send-recv}
@@ -128,23 +132,24 @@ see section~\ref{sec:blocking} for discussion.
   computational node halfway across the machine room, taking
   several network hops to reach. Of course, any
   self-respecting MPI implementation optimizes for the case where sender
-  and receiver have access to the same shared memory. However, even
-  then, there will be a copy operation from the sender buffer to the
-  receiver buffer, so there is no actual memory sharing going on.
+  and receiver have access to the same shared memory.
+  This means that a send/recv pair is realized as
+  a copy operation from the sender buffer to the
+  receiver buffer, rather than a network transfer.
 \end{remark}
 
 Next, a message can have a
 \emph{tag}\index{tag|see{message, tag}}\index{message!tag}.
-Many applications have each sender send only one message to a given
-receiver.
+Many applications have each sender send only one message at a time
+to a given receiver.
 For the case where there are
 multiple simultaneous messages between the same sender~/ receiver pair,
 the tag can be used to disambiguate between
 the messages.
 
 Often, a tag value of zero is safe to use.
-Indeed, \ac{OO} interfaces to MPI typically have this as an optional
-parameter with value zero.
+Indeed, \ac{OO} interfaces to MPI typically have  the tag
+as an optional parameter with value zero.
 If you do
 use tag values, you can use the key \indexmpishow{MPI_TAG_UB} to query
 what the maximum value is that can be used; see
@@ -185,18 +190,17 @@ This is similar in structure to the send call, with some exceptions.
 The \indextermsub{receive}{buffer} has the same buffer/count/data parameters as the send
 call.
 However, 
-the \n{count} argument here indicates the size of the buffer,
+the \lstinline{count} argument here indicates the size of the buffer,
 rather than the actual length of a message.
-This sets an upper bound on the length if the incoming message.
+This sets an upper bound on the length of the incoming message.
 \begin{itemize}
-\item For sending messages with unknown length, use \indexmpishow{MPI_Probe};
+\item For receiving messages with unknown length, use \indexmpishow{MPI_Probe};
   section~\ref{sec:mpi-probe}.
 \item A message longer than the buffer size will give an overflow error,
   typically ending your program; see section~\ref{sec:mpi-error}.
 \end{itemize}
 The length of the received message can be determined 
-from the status object; see section~\ref{sec:recvstatus},
-and~\ref{sec:mpi-status} for more detail.
+from the status object; see section~\ref{sec:mpi-status} for more detail.
 
 Mirroring the target argument of the \indexmpishow{MPI_Send} call,
 \indexmpishow{MPI_Recv} has a \indextermbusdef{message}{source}
@@ -204,9 +208,14 @@ argument.
 This can be either a specific process rank, or it can be the
 \indexmpidef{MPI_ANY_SOURCE} wildcard. In the latter case, the actual
 source can be determined after the message has been received;
-see section~\ref{sec:recvstatus}.
+see section~\ref{sec:mpi-status}.
 A~source value of \indexmpishow{MPI_PROC_NULL} is also allowed,
 which makes the receive succeed immediately with no data received.
+
+\begin{mplnote}{Any source}
+  The constant \lstinline+mpl::+\indexmplshow{any_source}
+  equals \indexmpishow{MPI_ANY_SOURCE} (by \lstinline+constexpr+).
+\end{mplnote}
 
 Similar to the messsage source, the message tag of a receive call can
 be a specific value or a wildcard, in this case
@@ -249,12 +258,6 @@ for more about the status object.
 \label{sec:blocking}
 \index{communication!blocking|(textbf}
 
-The use of \indexmpishow{MPI_Send} and \indexmpishow{MPI_Recv}
-is known as \emph{blocking communication}: when your code reaches a
-send or receive call, it blocks until the call is succesfully completed.
-For a receive call it is clear that the receiving code will wait until
-the data has actually come in, but for a send call this is more subtle.
-
 You may be tempted to think that the send call puts the data somewhere
 in the network, and the sending code can progress,
 as in figure~\ref{fig:send-ideal}, left.
@@ -274,6 +277,18 @@ This is not the case: data resides on the sender, and the sending call blocks,
 until the receiver has received all of it. (There is a exception for
 small messages, as explained in the next section.)
 
+The use of \indexmpishow{MPI_Send} and \indexmpishow{MPI_Recv}
+is known as \emph{blocking communication}: when your code reaches a
+send or receive call, it blocks until the call is succesfully completed.
+
+Technically, blocking operations are called
+\emph{non-local}\index{operation!non-local} since their execution
+depends on factors that are not local to the process.
+See section~\ref{sec:mpi-local-non}.
+
+For a receive call it is clear that the receiving code will wait until
+the data has actually come in, but for a send call this is more subtle.
+
 \Level 2 {Deadlock}
 
 Suppose two process need to exchange data, and consider the following
@@ -292,12 +307,20 @@ This is known as \indextermdef{deadlock}.
 \label{sec:eager-limit}
 \index{eager limit|(textbf}
 
-If you reverse the send and receive call, you should get deadlock,
-but in practice that code will often work. The reason is that
+If you reverse the send and receive call:
+\begin{lstlisting}
+other = 1-mytid; /* if I am 0, other is 1; and vice versa */
+send(target=other);
+receive(source=other);
+\end{lstlisting}
+you should get deadlock,
+since the send calls will be waiting for the receive operation to be posted.
+
+In practice, however, this code will often work. The reason is that
 MPI implementations sometimes send small messages regardless of whether
 the receive has been posted. This relies on the availability of
 some amount of available buffer space. The size under which this behaviour
-is used is sometimes referred to as the \emph{eager limit}.)
+is used is sometimes referred to as the \emph{eager limit}.
 
 The following code is guaranteed to block, since a \indexmpishow{MPI_Recv}
 always blocks:
@@ -343,7 +366,7 @@ if ( /* I am processor 0 */ ) {
 \end{lstlisting}
 
 The eager limit is implementation-specific. For instance, for
-\indextermbus{Intel}{mpi} there is a variable
+\indextermbus{Intel}{MPI} there is a variable
 \indextermtt{I_MPI_EAGER_THRESHOLD}, for \indexterm{mvapich2} it is
 \indextermtt{MV2_IBA_EAGER_THRESHOLD}, and for \indexterm{OpenMPI} the
 \texttt{--mca} options \indextermtt{btl_openib_eager_limit} and
@@ -458,7 +481,8 @@ successively passed down a sequence of processors.
 \end{exercise}
 
 \begin{remark}
-  There is an \lstinline{MPI_Scan} call that performs the same computation,
+  There is an \lstinline{MPI_Scan} routine (section~\ref{sec:scan})
+  that performs the same computation,
   but computationally more efficiently. Thus, this exercise only serves to illustrate
   the principle.
 \end{remark}
@@ -490,8 +514,9 @@ MPI_Sendrecv( ....
      ... );
 \end{lstlisting}
 This scheme is correct for all processes but the first and last. 
-MPI allows for the following solution which makes the code slightly 
-more homogeneous:
+In order to use the sendrecv call on these processes,
+we use \indexmpishow{MPI_PROC_NULL} for the non-existing
+processes that the endpoints communicate with.
 \begin{lstlisting}
 MPI_Comm_rank( .... &mytid );
 if ( /* I am not the first processor */ )
@@ -507,7 +532,7 @@ sendrecv(from=predecessor,to=successor);
 where the sendrecv call is executed by all processors.
 
 All processors but the last one send to their neighbour; the target
-value of \indexmpiref{MPI_PROC_NULL} for
+value of \indexmpidef{MPI_PROC_NULL} for
 the last processor means a `send to the null processor': no actual
 send is done. 
 The null processor value is also of use with the

@@ -47,8 +47,7 @@ int main(int argc,char **argv) {
       (source.data(),newvectortype,the_other);
   } else if (procno==receiver) {
     int recv_count;
-    mpl::status recv_status;
-    recv_status = comm_world.recv
+    mpl::status recv_status = comm_world.recv
       (target.data(),mpl::contiguous_layout<double>(count),
        the_other);
     recv_count = recv_status.get_count<double>();

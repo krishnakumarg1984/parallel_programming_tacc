@@ -2,3 +2,6 @@
   and a support routine \indexmpldef{bsend_size} helps in calculating
   the buffer size:
   \cxxverbatimsnippet{bsendbufmpl}
+
+  Constant: \lstinline+mpl::+\indexmplshow{bsend_overhead} is \lstinline{constexpr}'d
+  to the MPI constant \indexmpishow{MPI_BSEND_OVERHEAD}.

@@ -2,3 +2,5 @@
   corresponding blocking variant, except that
   instead of a \lstinline+void+ result,
   they return an \indexmplshow{irequest}.
+  %
+  \cxxverbatimsnippet{mplireduce}

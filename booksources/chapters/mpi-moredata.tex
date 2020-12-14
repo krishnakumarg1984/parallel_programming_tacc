@@ -26,40 +26,11 @@ can match any underlying type.
 However, this still does not mean that these types can be used
 on only sender or receiver, and a specific type on the other.
 
-\Level 0 {Type size}
+\Level 0 {Type extent}
 \label{sec:mpi-type-size}
 
-\Level 1 {Matching MPI and language type sizes}
-\label{sec:mpi-type-match}
-
-The size of a datatype is not always statically known, for instance if
-the Fortran \indextermtt{KIND} keyword is used. The translation of
-datatypes in the source language can be translated to MPI types with
-%
-\indexmpiref{MPI_Type_match_size}
-%
-where the \lstinline{typeclass} argument is one of
-\indexmpishow{MPI_TYPECLASS_REAL},
-\indexmpishow{MPI_TYPECLASS_INTEGER},
-\indexmpishow{MPI_TYPECLASS_COMPLEX}.
-
-\cverbatimsnippet[examples/mpi/c/typematch.c]{typematchc}
-
-In Fortran, the size of the datatype in the language can be obtained with
-\indexmpishow{MPI_Sizeof} (note the non-optional error parameter!).
-This routine is deprecated in \mpistandard{4}: use of
-\indextermtt{storage_size} and/or \indextermtt{c_sizeof} is recommended.
-
-\fverbatimsnippet[examples/mpi/c/typematch.c]{typematchf}
-
-The space that MPI takes for a structure type can be queried in a
-variety of ways. First of all \indexmpiref{MPI_Type_size} counts the
-\emph{datatype size}\index{MPI!datatype!size} as the 
-number of bytes occupied by the data in a type. That means that in an
-\emph{MPI vector datatype}\index{MPI!datatype!vector} it does not
-count the gaps.
-%
-\cverbatimsnippet[examples/mpi/c/typesize.c]{vectortypesize}
+See section~\ref{sec:mpi-type-match}
+about the related issue of type sizes.
 
 \Level 1 {Extent and true extent}
 
@@ -84,8 +55,8 @@ See section~\ref{sec:data:struct} for the code defining the structure type.
 \begin{remark}
   Routine \indexmpishow{MPI_Type_get_extent}
   replaces
-  deprecated functions \indexmpidef{MPI_Type_extent},
-  \indexmpidef{MPI_Type_lb}, \indexmpidef{MPI_Type_ub}.
+  deprecated functions \indexmpidepr{MPI_Type_extent},
+  \indexmpidepr{MPI_Type_lb}, \indexmpidepr{MPI_Type_ub}.
 \end{remark}
 
 The \emph{subarray datatype}\index{MPI!datatype!subarray} need not
@@ -108,8 +79,8 @@ indicating where the data starts, and the extent from that point.
 
 \cverbatimsnippet[examples/mpi/c/trueextent.c]{trueextent}
 
-There is also a `big data' routine
-\indexmpishow{MPI_Type_get_true_extent_x}.
+There is also a `big data' routine \indexmpishow{MPI_Type_get_true_extent_x}
+that has an \indexmpishow{MPI_Count} as output.
 
 \Level 1 {Extent resizing}
 
@@ -328,7 +299,7 @@ the computed subexpressions are only cast to \lstinline{size_t} if one operand i
 
 Above, we did not actually create a datatype that was bigger than~2G,
 but if you do so, you can query its extent by
-\indexmpixref{MPI_Type_get_extent_x}{MPI_Type_get_extent}
+\indexmpixref{MPI_Type_get_extent_x}{MPI_Type_get_true_extent}
 and
 \indexmpixref{MPI_Type_get_true_extent_x}{MPI_Type_get_true_extent}.
 

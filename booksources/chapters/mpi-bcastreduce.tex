@@ -397,6 +397,19 @@ commandline arguments, so we broadcast them from process~0.
 \pverbatimsnippet[examples/mpi/p/bcast.py]{bcastp}
 \end{pythonnote}
 
+\begin{mplnote}{Broadcast}
+  The broadcast call comes in two variants, with scalar argument
+  and general layout:
+\begin{lstlisting}
+ template<typename T >
+void mpl::communicator::bcast ( int root_rank,
+    T &data ) const;
+void mpl::communicator::bcast ( int root_rank,
+    T *data, const layout< T > &l ) const;
+\end{lstlisting}
+  Note that the root argument comes first.
+\end{mplnote}
+
 \begin{figure}[p]
   \tiny
   \begin{multicols}{3}

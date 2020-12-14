@@ -36,16 +36,16 @@ int main(int argc,char **argv) {
     double send_data = 1.;
     MPI_Send
       ( /* send buffer/count/type: */ &send_data,1,MPI_DOUBLE,
-	/* to: */ receiver, /* tag: */ 0,
-	/* communicator: */ comm);
+        /* to: */ receiver, /* tag: */ 0,
+        /* communicator: */ comm);
     printf("[%d] Send successfully concluded\n",procno);
   } else if (procno==receiver) {
     double recv_data;
     MPI_Recv
       ( /* recv buffer/count/type: */ &recv_data,1,MPI_DOUBLE,
-	/* from: */ sender, /* tag: */ 0,
-	/* communicator: */ comm,
-	/* recv status: */ MPI_STATUS_IGNORE);
+        /* from: */ sender, /* tag: */ 0,
+        /* communicator: */ comm,
+        /* recv status: */ MPI_STATUS_IGNORE);
     printf("[%d] Receive successfully concluded\n",procno);
   }
 
