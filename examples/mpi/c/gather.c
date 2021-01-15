@@ -3,7 +3,7 @@
    %%%%
    %%%% This program file is part of the book and course
    %%%% "Parallel Computing"
-   %%%% by Victor Eijkhout, copyright 2013-6
+   %%%% by Victor Eijkhout, copyright 2013-2021
    %%%%
    %%%% gather.c : illustrating MPI_Gather
    %%%%
@@ -28,7 +28,7 @@ int main(int argc,char **argv) {
   for (int i=0; i<localsize; i++)
     localdata[i] = procno+1;
   // we assume that each process has a value "localsize"
-  // the root process collectes these values
+  // the root process collects these values
 
   if (procno==root)
     localsizes = (int*) malloc( nprocs*sizeof(int) );

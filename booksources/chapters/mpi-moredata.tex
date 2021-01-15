@@ -42,8 +42,12 @@ first to the last data item of the type,
 that is, with counting the gaps in the type.
 It is measured in bytes so the output parameters are
 of type \lstinline+MPI_Aint+.
+
+In the following example we measure the extent of a vector type.
+Note that the extent is not the stride times the number of blocks,
+because that would count a `trailing gap'.
 %
-\cverbatimsnippet[examples/mpi/c/typeextent.c]{vectortypeextent}
+\cverbatimsnippet[examples/mpi/c/typesize.c]{vectortypeextent}
 
 Similarly, using \indexmpishow{MPI_Type_get_extent} counts the gaps
 in a \lstinline{struct} induced by \indexterm{alignment} issues.
@@ -87,8 +91,22 @@ that has an \indexmpishow{MPI_Count} as output.
 A type is partly characterized by its lower bound and extent,
 or equivalently lower bound and upperbound.
 Somewhat miraculously, you can actually change these to achieve special effects.
+This is needed for some cases of gather/scatter operations, or when the count
+of items in a buffer is more than one.
 
-Consider for instance figure~\ref{fig:stridesend} and exercise~\ref{ex:stridesend}.
+To understand the latter case, consider the vector type from the previous section.
+It is clear that
+\begin{lstlisting}
+MPI_Type_vector( 2*count,bs,stride,oldtype,&two_n_type );
+\end{lstlisting}
+will not give the same result as
+\begin{lstlisting}
+MPI_Type_vector( count,bs,stride,oldtype,&one_n_type );
+MPI_Type_contiguous( 2,&one_n_type,&two_n_type );
+\end{lstlisting}
+(Can you draw a picture of the two cases?)
+
+For the former case, consider figure~\ref{fig:stridesend} and exercise~\ref{ex:stridesend}.
 There, strided data was sent in individual transactions.
 Would it be possible to address all these interleaved packets in one
 gather or scatter call?
@@ -146,6 +164,21 @@ at starting points equal to the shrunk extent:
 \begin{verbatim}
  0 1 2 3 4 5 6 7 8 9 10 11
 \end{verbatim}
+
+\begin{figure}[ht]
+  \includegraphics[scale=.4]{stride-extent}
+  \caption{Interleaved gather from data with resized extent}
+  \label{fig:stride-extent}
+\end{figure}
+This is illustrated in figure~\ref{fig:stride-extent}.
+
+\begin{mplnote}{Extent resizing}
+  Resizing a datatype does not give a new type, but
+  does the resize `in place':
+\begin{lstlisting}
+void layout::resize(ssize_t lb, ssize_t extent);
+\end{lstlisting}
+\end{mplnote}
 
 \Level 2 {Example: dynamic vectors}
 

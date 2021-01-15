@@ -1,20 +1,5 @@
 ## inttype.py
-    sizeofint = np.dtype('int').itemsize
-    print("Size of numpy int: {}".format(sizeofint))
-##codesnippet npintc
-    data = np.empty(2*count,dtype=np.int)
-    for i in range(2*count):
-        data[i] = i
-    vectortype = MPI.INT.Create_vector(count,1,2)
-    vectortype.Commit()
-    comm.Send( [data,1,vectortype], receiver )
-elif procno==receiver:
-    data = np.empty(count,dtype=np.int)
-    comm.Recv( data, sender )
-    print(data)
-        
-## Send strided buffer as C ints
-if procno==sender:
-##codesnippet npintc
-    sizeofint = np.dtype('intc').itemsize
-    print("Size of C int: {}".format(sizeofint))
+sizeofint = np.dtype('int').itemsize
+print("Size of numpy int: {}".format(sizeofint))
+sizeofint = np.dtype('intc').itemsize
+print("Size of C int: {}".format(sizeofint))

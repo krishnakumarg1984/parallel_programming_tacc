@@ -39,7 +39,7 @@
   \lstset{style=reviewcode,language=C}
   \nobreak
   \ifx\xx\yy\else
-  \addchaptersource{#1}
+  {\globaldefs=1 \addchaptersource{#1} }
   \moveright .5\unitindent \hbox{%
     \textsl{For the full source of this example, see section~\ref{lst:#1}}
   }\par

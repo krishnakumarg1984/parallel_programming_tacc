@@ -4,7 +4,7 @@
 %%%%
 %%%% This text file is part of the source of 
 %%%% `Parallel Programming in MPI and OpenMP'
-%%%% by Victor Eijkhout, copyright 2012-2020
+%%%% by Victor Eijkhout, copyright 2012-2021
 %%%%
 %%%% mpi-rank.tex : comm size and rank and such
 %%%%
@@ -114,10 +114,25 @@ comm.Send( buffer, target )
   it is better to make it \lstinline{const} and declare it to be a reference:
   %
   \cxxverbatimsnippet[examples/mpi/mpl/commrank.cxx]{mplcommref}
+\end{mplnote}
+
+\begin{mplnote}{Communicator copying}
+  The communicator class has its copy operator deleted;
+  however, copy initialization exists:
+  %
+  \cxxverbatimsnippet[examples/mpi/mpl/commcompare.cxx]{mplcompare}
+  %
+  (This outputs true/false/false respectively.)
 
   \begin{mplimpl}
-    The copy constructor performs an \indexmpishow{MPI_Comm_dup}.
+    The copy initializer performs an \indexmpishow{MPI_Comm_dup}.
   \end{mplimpl}
+\end{mplnote}
+
+\begin{mplnote}{Communicator passing}
+  Pass communicators by reference to avoid communicator duplication:
+  %
+  \cxxverbatimsnippet{mplcommpass}
 \end{mplnote}
 
 You will
@@ -164,6 +179,7 @@ Hello from process 2 out of 5!
   unique file and writes to it. \emph{On some clusters this may not be
     advisable if you have large numbers of processors, since it can
     overload the file system.}
+  \exercisesource{commrank}
 \end{exercise}
 
 \begin{exercise}
@@ -177,8 +193,9 @@ that is, \indextermtt{mpi4py} and \indexac{MPL},
 the \indexmpishow{MPI_Comm_rank} and \indexmpishow{MPI_Comm_size}
 routines are methods of the communicator class:
 
-\begin{pythonnote}{Communicator methods}
-Rank and size are methods of the communicator object:
+\begin{pythonnote}{Communicator rank and size}
+  Rank and size are methods of the communicator object.
+  Note that their names are slightly different from the MPI standard names.
 \begin{lstlisting}
 procid = comm.Get_rank()
 nprocs = comm.Get_size()

@@ -4,7 +4,7 @@
 %%%%
 %%%% This text file is part of the source of 
 %%%% `Parallel Programming in MPI and OpenMP'
-%%%% by Victor Eijkhout, copyright 2012-2020
+%%%% by Victor Eijkhout, copyright 2012-2021
 %%%%
 %%%% mpi-bcastreduce.tex : about broadcast & reduce collectives
 %%%%
@@ -12,9 +12,9 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \Level 0 {Reduction}
+\label{sec:allreduce}
 
 \Level 1 {Reduce to all}
-\label{sec:allreduce}
 
 Above we saw a couple of scenarios where a quantity is reduced, with
 all proceses getting the result. The MPI call for this is
@@ -25,12 +25,6 @@ Example: we give each process a random number, and sum these numbers together.
 The result should be approximately $1/2$ times the number of processes.
 
 \cverbatimsnippet[examples/mpi/c/allreduce.c]{allreducec}
-
-For Python we illustrate both the native and the numpy variant. In the
-numpy variant we create an array for the receive buffer, even though
-only one element is used.
-
-\pverbatimsnippet[examples/mpi/p/allreduce.py]{allreducep}
 
 \begin{exercise}
   \label{ex:randommaxscale}
@@ -45,6 +39,30 @@ only one element is used.
   Compute the sum of the scaled numbers
   \[ \xi' = \sum_i x_i' \]
   and check that it is~1.
+  \exercisesource{randommax}
+\end{exercise}
+
+\begin{exercise}
+  \label{ex:fft-vector}
+  Implement a (very simple-minded) Fourier transform: if $f$ is a
+  function on the interval $[0,1]$, then the $n$-th Fourier
+  coefficient is
+  \[ f_n\hat = \int_0^1 f(t)e^{-2\pi x}\,dx \]
+  which we approximate by
+  \[ f_n\hat = \sum_{i=0}^{N-1} f(ih)e^{-in\pi/N} \]
+  \begin{itemize}
+  \item Make one distributed array for the $e^{-inh}$ coefficients,
+  \item make one distributed array for the $f(ih)$ values
+  \item calculate a couple of coefficients
+  \end{itemize}
+\end{exercise}
+
+\begin{exercise}
+  In the previous exercise you worked with a distributed array,
+  computing a local quantity and combining that into a global
+  quantity.
+  Why is it not a good idea to gather the whole distributed array on a
+  single processor, and do all the computation locally?
 \end{exercise}
 
 \begin{mplnote}{Reduction operator}
@@ -82,6 +100,9 @@ MPI_Allreduce( &local_inprod, &global_inprod, 1,MPI_DOUBLE ... )
   two vectors:
   \[ u \leftarrow u- (u^tv)/(u^tu) \]
   Implement this, and check that the result is indeed orthogonal.
+
+  Suggestion: fill $v$ with the values $\sin 2nh\pi$ where $n=2\pi/N$,
+  and $u$ with $\sin 2nh\pi + \sin 4nh\pi$. What does $u$ become after orthogonalization?
 \end{exercise}
 
 \Level 1 {Reduction operations}
@@ -122,12 +143,14 @@ First of all, in~\emph{C} the
 is always an \indexterm{opaque handle}, that is,
 a \lstinline+void*+ parameter to which you supply an address.
 This means that an MPI call can take two forms.
-For scalars:
+
+For scalars we need to use the ampersand operator to take the address:
 \begin{lstlisting}
 float x,y;
 MPI_Allreduce( &x,&y,1,MPI_FLOAT, ... );
 \end{lstlisting}
-and for longer buffers:
+But for arrays we use the fact that arrays and addresses are more-or-less
+equivalent in:
 \begin{lstlisting}
 float xx[2],yy[2];
 MPI_Allreduce( xx,yy,2,MPI_FLOAT, ... );
@@ -159,39 +182,45 @@ Specification of the buffer/count/datatype triplet is not
 needed explicitly in \ac{OO} languages.
 
 \begin{pythonnote}{Buffers from numpy}
-  In Python, all \emph{buffers}\index{buffer!MPI, in Python}
+  Most MPI routines in Python have both a native and a numpy variant.
+  The native variant looks the most `pythonic', and is very flexible,
+  but is usually demonstrably inefficient.
+  %
+  \pverbatimsnippet[examples/mpi/p/allreduce.py]{allreducep}
+
+  In the numpy variant, all \emph{buffers}\index{buffer!MPI, in Python}
   are \indexterm{numpy} objects, which carry information about their type and size.
-\begin{lstlisting}
-x = numpy.zeros(1,dtype=np.float32)
-comm.Allreduce( x )
-xs = numpy.zeros(2,dtype=np.float64)
-comm.Allreduce( xx )
-\end{lstlisting}
+  For scalar reductions this means we have to create an array for the receive buffer,
+  even though only one element is used.
+  %
+  \pverbatimsnippet[examples/mpi/p/allreduce.py]{allreducenump}
 \end{pythonnote}
 
 \begin{mplnote}{Scalar buffers}
   \emph{Buffer}\index{buffer!MPI, in MPL} type handling
   is done through polymorphism and templating.
 
-  Scalars are reduced as such:
+  Scalars are handled as such:
 \begin{lstlisting}
-float x;
-comm.allreduce( reducefunc(),x );
+float x,y;
+comm.bcast( 0,x ); // note: root first
+comm.allreduce( mpl::plus<float>,x,y );
 \end{lstlisting}
 where the reduction function needs to be compatible with the type of the buffer.
 \end{mplnote}
 
 \begin{mplnote}{Vector buffers}
+  \label{mpl:vec-buf}
 If your buffer is a \lstinline+std::vector+ you need
 to take the \lstinline+.data()+ component of it:
 \begin{lstlisting}
-vector<float> xx(2);
-comm.allreduce( plus<float>(),
-    xx.data(), mpl::contiguous_layout<float>(2) );
+vector<float> xx(2),yy(2);
+comm.allreduce( mpl::plus<float>(),
+    xx.data(), yy.data(), mpl::contiguous_layout<float>(2) );
 \end{lstlisting}
   The \indexmplshow{contiguous_layout} is a `derived type';
-this will be discussed in more detail in
-section~\ref{sec:derived-types}.
+this will be discussed in more detail elsewhere
+(see note~\ref{mpl:derived} and later).
 For now, interpret it as a way of indicating the count/type
 part of a buffer specification.
 \end{mplnote}
@@ -199,6 +228,8 @@ part of a buffer specification.
 \begin{mplnote}{Iterator buffers}
   Many MPL routines have a way of specifying the buffer(s)
   through a \lstinline{begin} and \lstinline{end} iterator.
+  %
+  \cxxverbatimsnippet[examples/mpi/mpl/sendrange.cxx]{mplsendrange}
 \end{mplnote}
 
 \Level 0 {Rooted collectives: broadcast, reduce}
@@ -314,10 +345,14 @@ in different branches of a condition is infelicitous. The following may be prefe
 %
 \cverbatimsnippet[examples/mpi/c/allreduceinplace.c]{tworeduceinplace}
 
-In Fortran  you can not do these address calculations,
-so the only solution is having a condition:
+In Fortran  you can not do these address calculations.
+You can use the solution with a conditional:
 %
 \fverbatimsnippet[examples/mpi/f/reduceinplace.F90]{reduceinplace-f}
+%
+but you can also solve this with pointers:
+%
+\fverbatimsnippet[examples/mpi/f08/reduceinplaceptr.F90]{reduceinplace-fptr}
 
 \begin{pythonnote}{In-place collectives}
   The value \lstinline+MPI.IN_PLACE+ can be used for the send buffer:
@@ -326,7 +361,7 @@ so the only solution is having a condition:
 \end{pythonnote}
 
 \begin{mplnote}{Reduce in place}
-  In \ac{MPL}, the in-place variant is activated by
+  The in-place variant is activated by
   specifying only one instead of two buffer arguments.
   %
   \cxxverbatimsnippet[examples/mpi/mpl/collectscalar.cxx]{mplallreduce}
@@ -334,8 +369,9 @@ so the only solution is having a condition:
   Reducing a buffer requires specification of a \lstinline+contiguous_layout+:
   %
   \cxxverbatimsnippet[examples/mpi/mpl/collectbuffer.cxx]{mplallreducebuffer}
-
-  Similarly for the rooted reduce:
+\end{mplnote}
+\begin{mplnote}{Rooted reduce}
+  Same story for the rooted reduce:
   %
   \cxxverbatimsnippet[examples/mpi/mpl/collectscalar.cxx]{mplrootreduce}
 \end{mplnote}
@@ -367,7 +403,7 @@ Here:
 Example: in general we can not assume that all processes get the
 commandline arguments, so we broadcast them from process~0.
 
-\cverbatimsnippet[examples/mpi/c/usage.c]{usage}
+\cverbatimsnippet[examples/mpi/c/init.c]{usage}
 
 \begin{comment}
   \begin{exercise}
@@ -402,10 +438,10 @@ commandline arguments, so we broadcast them from process~0.
   and general layout:
 \begin{lstlisting}
  template<typename T >
-void mpl::communicator::bcast ( int root_rank,
-    T &data ) const;
-void mpl::communicator::bcast ( int root_rank,
-    T *data, const layout< T > &l ) const;
+void mpl::communicator::bcast
+   ( int root_rank, T &data ) const;
+void mpl::communicator::bcast
+   ( int root_rank, T *data, const layout< T > &l ) const;
 \end{lstlisting}
   Note that the root argument comes first.
 \end{mplnote}
@@ -462,6 +498,7 @@ For the following exercise, study figure~\ref{fig:gauss-jordan-ex}.
 
 \begin{exercise}
   \label{ex:gaussjordancoll}
+  \exercisesource{jordan}
   The \indexterm{Gauss-Jordan algorithm} for solving a linear system
   with a matrix~$A$ (or computing its inverse) runs as follows:
   {\small

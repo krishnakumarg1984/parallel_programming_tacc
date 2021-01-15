@@ -12,12 +12,65 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 With \indexmpiref{MPI_Comm_dup} you can make an exact duplicate of a communicator.
-There is a non-blocking variant \indexmpixref{MPI_Comm_idup}{MPI_Comm_dup}.
+There is a non-blocking variant \indexmpiref{MPI_Comm_idup}.
 
 These calls do not propagate info hints
 (sections \ref{sec:mpi-info} and~\ref{sec:mpi-comm-info});
 to achieve this,
 use \indexmpidef{MPI_Comm_dup_with_info} and \indexmpidef{MPI_Comm_idup_with_info}.
+
+\begin{mplnote}{Communicator duplication}
+  Communicators can be duplicated but only during initialization.
+  Copy assignment has been deleted. Thus:
+\begin{lstlisting}
+// LEGAL: 
+mpl::communicator init = comm;
+// WRONG:
+mpl::communicator init;
+init = comm;
+\end{lstlisting}
+\end{mplnote}
+
+\Level 1 {Communicator comparing}
+\label{sec:comm-compare}
+
+You may wonder what `an exact copy' means precisely.
+For this, think of a communicator as a context label that you can attach to,
+among others, operations such as sends and receives.
+A~send and a receive `belong together' if they have the same communicator context.
+Conversely, a~send in one communicator can not be matched
+to a receive in a duplicate communicator, made by \indexmpishow{MPI_Comm_dup}.
+
+Testing whether two communicators are really the same
+is then more than testing if they comprise the same processes.
+The call \indexmpidef{MPI_Comm_compare} returns \indexmpishow{MPI_IDENT}
+if two communicator values are the same,
+and not if one is derived from the other by duplication:
+%
+\begin{multicols}{2}
+\cverbatimsnippet{commcopycompare}
+\columnbreak
+Output:
+\begin{verbatim}
+assign:    comm==copy: 1
+            congruent: 0
+            not equal: 0
+duplicate: comm==copy: 0
+            congruent: 1
+            not equal: 0
+\end{verbatim}
+\end{multicols}
+
+Communicators that are not actually the same can be
+\begin{itemize}
+\item consisting of the same processes, in the same order,
+  giving \indexmpidef{MPI_CONGRUENT};
+\item merely consisting of the same processes, but not in the same order,
+  giving \indexmpidef{MPI_SIMILAR};
+\item different, giving \indexmpidef{MPI_UNEQUAL}.
+\end{itemize}
+
+Comparing against \indexmpishow{MPI_COMM_NULL} is not allowed.
 
 \Level 1 {Communicator duplication for library use}
 

@@ -4,7 +4,7 @@
 %%%%
 %%%% This text file is part of the source of 
 %%%% `Parallel Programming in MPI and OpenMP'
-%%%% by Victor Eijkhout, copyright 2012-8
+%%%% by Victor Eijkhout, copyright 2012-2021
 %%%%
 %%%% omp-basics.tex : intro stuff
 %%%%
@@ -493,8 +493,40 @@ for variables and functions mentioned in this section).
 If you specify a greater amount of parallelism than the hardware supports,
 the runtime system will probably ignore your specification and choose a lower value.
 To ask how much parallelism is actually used in your parallel region,
-use \indexompshow{omp_get_num_threads}. To query these hardware limits,
-use \indexompshow{omp_get_num_procs}.
+use \indexompdef{omp_get_num_threads}. To query these hardware limits,
+use \indexompdef{omp_get_num_procs}.
+You can query the maximum number of threads with \indexompdef{omp_get_max_threads}.
+This equals the value of \indexompshow{OMP_NUM_THREADS},
+not the number of actually active threads in a parallel region.
+
+\begin{multicols}{2}
+  \cverbatimsnippet{ompproccount}
+  \columnbreak
+\tiny
+\begin{verbatim}
+[c:48] for t in 1 2 4 8 16 ; do OMP_NUM_THREADS=$t ./proccount ; done
+---------------- Parallelism report ----------------
+Sequential: count  4 cores and  1 threads out of max  1
+Parallel  : count  4 cores and  1 threads out of max  1
+Parallel  : count  4 cores and  1 threads out of max  1
+---------------- Parallelism report ----------------
+Sequential: count  4 cores and  1 threads out of max  2
+Parallel  : count  4 cores and  2 threads out of max  2
+Parallel  : count  4 cores and  1 threads out of max  2
+---------------- Parallelism report ----------------
+Sequential: count  4 cores and  1 threads out of max  4
+Parallel  : count  4 cores and  4 threads out of max  4
+Parallel  : count  4 cores and  1 threads out of max  4
+---------------- Parallelism report ----------------
+Sequential: count  4 cores and  1 threads out of max  8
+Parallel  : count  4 cores and  8 threads out of max  8
+Parallel  : count  4 cores and  1 threads out of max  8
+---------------- Parallelism report ----------------
+Sequential: count  4 cores and  1 threads out of max 16
+Parallel  : count  4 cores and 16 threads out of max 16
+Parallel  : count  4 cores and  1 threads out of max 16
+\end{verbatim}
+\end{multicols}
 
 Another limit on the number of threads is imposed when you use nested parallel regions.
 This can arise if you have a parallel region in a subprogram which is sometimes called

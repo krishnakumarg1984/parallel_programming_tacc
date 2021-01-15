@@ -11,7 +11,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{frame}[containsverbatim]\frametitle{Shared memory myths}
+\begin{numberedframe}{Shared memory myths}
   Myth:
   \begin{quote}
     MPI processes use network calls, whereas OpenMP threads access memory directly,
@@ -23,9 +23,9 @@
     has thread overhead, and affinity/coherence problems.
   \end{quote}
   Main problem with MPI on shared memory: data duplication.
-\end{frame}
+\end{numberedframe}
 
-\begin{frame}[containsverbatim]\frametitle{MPI shared memory}
+\begin{numberedframe}{MPI shared memory}
   \begin{itemize}
   \item Shared memory access: two processes can access each other's
     memory through \n{double*} (and such) pointers, if they are
@@ -36,9 +36,9 @@
   \item Good use case: every process needs access to large read-only
     dataset\\ Example: ray tracing.
   \end{itemize}
-\end{frame}
+\end{numberedframe}
 
-\begin{frame}[containsverbatim]\frametitle{Shared memory threatments in MPI}
+\begin{numberedframe}{Shared memory threatments in MPI}
   \begin{itemize}
   \item MPI uses optimizations for shared memory: copy instead of
     socket call
@@ -48,18 +48,18 @@
     memory,\\
     \emph{if that process is on shared memory}.
   \end{itemize}
-\end{frame}
+\end{numberedframe}
 
-\begin{frame}[containsverbatim]\frametitle{Shared memory per cluster node}
+\begin{numberedframe}{Shared memory per cluster node}
   \includegraphics[scale=.35]{ranger-node-small}
   \begin{itemize}
   \item Cluster node has shared memory
   \item Memory is attached to specific socket
   \item beware \ac{NUMA} effects
   \end{itemize}
-\end{frame}
+\end{numberedframe}
 
-\begin{frame}[containsverbatim]\frametitle{Shared memory interface}
+\begin{numberedframe}{Shared memory interface}
   Here is the high level overview; details next.
   \begin{itemize}
   \item Use \indexmpishow{MPI_Comm_split_type} to find processes on the same
@@ -70,9 +70,9 @@
     process' window data.
   \item You can now use \n{memcpy} instead of \indexmpishow{MPI_Put}.
   \end{itemize}
-\end{frame}
+\end{numberedframe}
 
-\begin{frame}[containsverbatim]\frametitle{Discover shared memory}
+\begin{numberedframe}{Discover shared memory}
   \begin{itemize}
   \item
     \indexmpishow{MPI_Comm_split_type} splits into communicators of same type.
@@ -81,9 +81,9 @@
   \end{itemize}
 
   \cverbatimsnippet{commsplittype}
-\end{frame}
+\end{numberedframe}
 
-\begin{frame}[containsverbatim]\frametitle{Allocate shared window}
+\begin{numberedframe}{Allocate shared window}
 Use \indexmpishow{MPI_Win_allocate_shared} to create a window that can
 be shared;
 \begin{itemize}
@@ -94,14 +94,14 @@ be shared;
   \indexmpishow{MPI_Info} object
 \end{itemize}
 \cverbatimsnippet[code/mpi/shared.c]{mpisharedwindow}
-\end{frame}
+\end{numberedframe}
 
-\begin{frame}[containsverbatim]\frametitle{Get pointer to other windows}
+\begin{numberedframe}{Get pointer to other windows}
   Use \indexmpishow{MPI_Win_shared_query}:
   \cverbatimsnippet[code/mpi/shared.c]{mpisharedpointer}
-\end{frame}
+\end{numberedframe}
 
-\begin{frame}[containsverbatim]\frametitle{Exciting example: bulk data}
+\begin{numberedframe}{Exciting example: bulk data}
   \begin{itemize}
   \item Application: ray tracing:\\
     large read-only data strcture describing the scene
@@ -110,7 +110,7 @@ be shared;
   \item Better: allocate shared data on process~0 of the shared communicator
   \item every else points to this object.
   \end{itemize}
-\end{frame}
+\end{numberedframe}
 
 \begin{exerciseframe}[shareddata]
   \input ex:shareddata  
@@ -118,9 +118,9 @@ be shared;
 
 \endinput
 
-\begin{frame}[containsverbatim]\frametitle{}
+\begin{numberedframe}{}
 \begin{lstlisting}
   
 \end{lstlisting}
-\end{frame}
+\end{numberedframe}
 

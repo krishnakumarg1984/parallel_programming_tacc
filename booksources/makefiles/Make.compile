@@ -5,7 +5,7 @@
 #### Victor Eijkhout
 #### eijkhout@tacc.utexas.edu
 ####
-#### copyright Victor Eijkhout 2012-2020
+#### copyright Victor Eijkhout 2012-2021
 ####
 #### Make include file with general compile rules
 ####
@@ -28,7 +28,7 @@ C_STD_FLAGS = -std=c99
 CPPSTANDARD = 11
 CXX_STD_FLAGS = -std=c++${CPPSTANDARD}
 
-CFLAGS += ${C_STD_FLAGS}
+CFLAGS   += ${C_STD_FLAGS}
 CXXFLAGS += ${CXX_STD_FLAGS}
 
 ifdef PETSC_DIR
@@ -110,15 +110,15 @@ else
 
 endif # end of petsc section
 
-OMPFLAGS_intel    = -g -qopenmp 
+OMPFLAGS_intel    = -qopenmp 
 OMPFLAGS_gcc      = -ggdb -fopenmp
-OMPFLAGS_clang    = -qopenmp
+OMPFLAGS_clang    = -fopenmp
 OMPFLAGS = ${OMPFLAGS_${TACC_FAMILY_COMPILER}}
 
 ifeq "${MODE}" "omp"
-  CFLAGS += ${OMPFLAGS}
+  CFLAGS   += ${OMPFLAGS}
   CXXFLAGS += ${OMPFLAGS}
-  FFLAGS += ${OMPFLAGS}
+  FFLAGS   += ${OMPFLAGS}
 endif
 
 CFLAGS   += ${OPTFLAGS}
@@ -160,7 +160,7 @@ LINK_FLAGS += ${OMPFLAGS}
 endif
 
 .SECONDEXPANSION:
-${APPS} : $$@.o
+${APPS} ${WRONGS} : $$@.o
 	${LINKER} -o $@ $^ ${LINK_FLAGS}
 
 info ::

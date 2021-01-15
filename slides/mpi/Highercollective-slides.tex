@@ -12,7 +12,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{mpitwo}
-\begin{frame}[containsverbatim]{User-defined operators}
+\begin{numberedframe}[containsverbatim]{User-defined operators}
 \lstset{language=C}
 Given a reduction function:
 \begin{lstlisting}
@@ -26,7 +26,7 @@ MPI_Op rwz;
 MPI_Op_create(user_function,1,&rwz);
 MPI_Allreduce(data+procno,&positive_minimum,1,MPI_INT,rwz,comm);
 \end{lstlisting}
-\end{frame}
+\end{numberedframe}
 
 \begin{exerciseframe}[onenorm]
   \input ex:one-norm-op
@@ -34,7 +34,7 @@ MPI_Allreduce(data+procno,&positive_minimum,1,MPI_INT,rwz,comm);
 \end{mpitwo}
 
 
-\begin{frame}[containsverbatim]\frametitle{Non-blocking collectives}
+\begin{numberedframe}{Non-blocking collectives}
   \label{sl:coll-nonblock-intro}
   \begin{itemize}
   \item Collectives are blocking.
@@ -46,9 +46,9 @@ MPI_Allreduce(data+procno,&positive_minimum,1,MPI_INT,rwz,comm);
   \item Imbalance resilience
   \item Allows pipelining
   \end{itemize}
-\end{frame}
+\end{numberedframe}
 
-\begin{frame}[containsverbatim]\frametitle{Use of non-blocking collectives}
+\begin{numberedframe}{Use of non-blocking collectives}
   \label{sl:coll-nonblock-use}
   \begin{itemize}
   \item Similar calls, but output a request object:
@@ -61,11 +61,11 @@ MPI_Isomething( <usual arguments>, MPI_Request *req);
   \item Multiple collectives can complete in any order
   \item No guaranteed progress.
   \end{itemize}
-\end{frame}
+\end{numberedframe}
 
 \protoslide{MPI_Ibcast}
 
-\begin{frame}[containsverbatim]\frametitle{Overlapping collectives}
+\begin{numberedframe}{Overlapping collectives}
   \label{sl:coll-nonblock-overlap}
   Independent collective and local operations:
 \[ y \leftarrow Ax + (x^tx)y \]
@@ -75,9 +75,9 @@ MPI_Iallreduce( .... x ..., &request);
 MPI_Wait(request);
 // do the addition
 \end{lstlisting}
-\end{frame}
+\end{numberedframe}
 
-\begin{frame}[containsverbatim]{Simultaneous reductions}
+\begin{numberedframe}{Simultaneous reductions}
   \label{sl:coll-nonblock-simult}
   Do two reductions (on the same communicator) with different
   operators simultaneously:
@@ -92,7 +92,7 @@ which translates to:
 MPI_Allreduce( &local_xy,  &global_xy, 1,MPI_DOUBLE,MPI_SUM,comm);
 MPI_Allreduce( &local_xinf,&global_xin,1,MPI_DOUBLE,MPI_MAX,comm);
 \end{lstlisting}
-\end{frame}
+\end{numberedframe}
 
 \begin{exerciseframe}[procgridnonblock]
   \label{sl:coll-nonblock-exgrid}
@@ -101,7 +101,7 @@ MPI_Allreduce( &local_xinf,&global_xin,1,MPI_DOUBLE,MPI_MAX,comm);
   \input ex:procgridnonblock
 \end{exerciseframe}
 
-\begin{frame}[containsverbatim]{Matching collectives}
+\begin{numberedframe}{Matching collectives}
   \label{sl:coll-nonblock-match}
   Blocking and non-blocking don't match: either all processes
   call the non-blocking or all call the blocking one.
@@ -115,34 +115,34 @@ else
   This is unlike the point-to-point behavior of non-blocking calls:
   you can catch a message with \indexmpishow{MPI_Irecv}
   that was sent with \indexmpishow{MPI_Send}.
-\end{frame}
+\end{numberedframe}
 
-\begin{frame}{Transpose as gather/scatter}
+\begin{numberedframe}{Transpose as gather/scatter}
   \includegraphics[scale=.3]{alltoall}
 
   Every process needs to do a scatter or gather.
-\end{frame}
+\end{numberedframe}
 
-\begin{frame}[containsverbatim]{Simultaneous collectives}
+\begin{numberedframe}{Simultaneous collectives}
   Transpose matrix by scattering all rows simultaneously.\\
   Each scatter involves all processes, but with a
   different spanning tree.
 
   \cverbatimsnippet{itransposescatter}
-\end{frame}
+\end{numberedframe}
 
 \sectionframe{Non-blocking barrier}
 
-\begin{frame}[containsverbatim]\frametitle{Just what is a barrier?}
+\begin{numberedframe}{Just what is a barrier?}
   \begin{itemize}
   \item Barrier is not \emph{time} synchronization but \emph{state}
     synchronization.
   \item Test on non-blocking barrier: `has everyone reached some
     state'
   \end{itemize}
-\end{frame}
+\end{numberedframe}
 
-\begin{frame}[containsverbatim]\frametitle{Use case: adaptive refinement}
+\begin{numberedframe}{Use case: adaptive refinement}
   \begin{itemize}
   \item Some processes decide locally to alter their structure
   \item \ldots~need to communicate that to neighbours
@@ -155,9 +155,9 @@ else
     \item Everyone probe for updates, test for barrier.    
     \end{itemize}
   \end{itemize}
-\end{frame}
+\end{numberedframe}
 
-\begin{frame}\frametitle{Use case: distributed termination detection}
+\begin{numberedframe}{Use case: distributed termination detection}
   \begin{itemize}
   \item Distributed termination detection (Matocha and Kamp, 1998):\\
     draw a global conclusion with local operations
@@ -165,19 +165,19 @@ else
   \item keeps doing local computation while testing for the barrier to
     complete
   \end{itemize}
-\end{frame}
+\end{numberedframe}
 
 \protoslide{MPI_Ibarrier}
 
-\begin{frame}[containsverbatim]\frametitle{Step1}
+\begin{numberedframe}{Step1}
   Do sends, post barrier.
 \cverbatimsnippet{ibarrierpost}
-\end{frame}
+\end{numberedframe}
 
-\begin{frame}[containsverbatim]\frametitle{Step2}
+\begin{numberedframe}{Step2}
   Poll for barrier and messages
 \cverbatimsnippet{ibarrierpoll}
-\end{frame}
+\end{numberedframe}
 
 \begin{exerciseframe}[ibarrierupdate]
   \begin{itemize}
@@ -190,21 +190,21 @@ else
 \end{exerciseframe}
 
 \begin{comment}
-  \begin{frame}[containsverbatim]\frametitle{Problem with `progress'}
+  \begin{numberedframe}{Problem with `progress'}
     \begin{itemize}
     \item Problem: \indexmpishow{MPI_Test} is local
     \item Something needs to force the barrier information to propagate
     \item Solution: force progress with \indexmpishow{MPI_Iprobe}
     \item Frowny face: barrier completion takes much longer than you'd expect.
     \end{itemize}
-  \end{frame}
+  \end{numberedframe}
 \end{comment}
 
 \endinput
 
-\begin{frame}[containsverbatim]\frametitle{}
+\begin{numberedframe}{}
 \begin{lstlisting}
   
 \end{lstlisting}
-\end{frame}
+\end{numberedframe}
 

@@ -4,7 +4,7 @@
 %%%%
 %%%% This text file is part of the source of 
 %%%% `Parallel Programming in MPI and OpenMP'
-%%%% by Victor Eijkhout, copyright 2012-2020
+%%%% by Victor Eijkhout, copyright 2012-2021
 %%%%
 %%%% dpcpp.tex : intro stuff about DPC++
 %%%%
@@ -41,31 +41,18 @@ However, if you use
 using namespace cl::sycl;
 \end{lstlisting}
 you run into the fact that SYCL has its own versions of many \ac{STL}
-commands, and so you w
-ill get name collisions.
+commands, and so you will get name collisions.
 The most obvious example is that 
 the \lstinline+cl::sycl+ name space has its own versions of \n{cout} and \n{endl}.
 Therefore you have to use explicitly \lstinline+std::cout+ and \lstinline+std::end+.
 Using the wrong I/O will cause tons of inscrutable error messages.
-Additionally, SYCL has its own version of several math routines.
+Additionally, SYCL has its own version of \lstinline{free},
+and of several math routines.
 
 Intel extension:
 \begin{lstlisting}
 using namespace sycl;
 \end{lstlisting}
-
-\begin{dpcppnote}
-  Intel's DPC++ extends the SYCL standard. If you want to write portable code,
-  use the \indextermtt{INTEL_CLANG_COMPILER} macros:
-You can test for the presence
-\begin{lstlisting}
-#ifdef __INTEL_CLANG_COMPILER
-  // DPC++ code
-#else
-  // SYCL code
-#endif
-\end{lstlisting}
-\end{dpcppnote}
 
 \Level 0 {Platforms and devices}
 
@@ -101,10 +88,10 @@ You can find a default device for the queue with
 \end{lstlisting}
 
 The following example explicitly assigns the queue to the CPU device
-using the \indextermtt{sycl::cpu_selector}.
+using the \lstinline+sycl::+\indexsyclshow{cpu_selector}.
 \cxxverbatimsnippet[code/dpcpp/cxx/cpuname.cxx]{cpuclass}
 
-The \indextermtt{sycl::host_selector} bypasses any devices and
+The \lstinline+sycl::+\indexsyclshow{host_selector} bypasses any devices and
 make the code run on the host.
 
 It is good for your sanity to print the name of the device
@@ -112,7 +99,13 @@ you are running on:
 \cxxverbatimsnippet[code/dpcpp/cxx/devname.cxx]{devname}
 
 If you try to select a device that is not available,
-a \indextermtt{sycl::runtime_error} exception will be thrown.
+a \lstinline+sycl::+\indexsyclshow{runtime_error} exception will be thrown.
+
+Intel extension:
+\begin{lstlisting}
+#include "CL/sycl/intel/fpga_extensions.hpp"
+fpga_selector
+\end{lstlisting}
 
 \Level 1 {Queue execution}
 
@@ -124,6 +117,14 @@ queue q(selector);
 {
   q.submit( /* some kernel */ );
 } // here the kernel executes
+\end{lstlisting}
+
+\Level 1 {Kernel ordering}
+
+Kernels are not necessarily executed in the order in which they are submitted.
+You can enforce this by specifying an \indextermsub{in-order}{queue}:
+\begin{lstlisting}
+sycl::queue myqueue{property::queue::inorder()};
 \end{lstlisting}
 
 \Level 0 {Kernels}
@@ -146,7 +147,7 @@ cgh.single_task(
 });
 \end{lstlisting}
 
-The \lstinline+submit+ call results in an event object:
+The \indexsyclshow{submit} call results in an event object:
 \begin{lstlisting}
 auto myevent = myqueue.submit( /* stuff */ );
 \end{lstlisting}
@@ -201,15 +202,15 @@ grp.parallel_for_work_item(
 
 \Level 2 {Loop indices}
 
-Kernels such as \indextermtt{parallel_for}
+Kernels such as \indexsyclshow{parallel_for}
 expects two arguments:
 \begin{itemize}
-\item a \indextermtt{range} over which to index; and
+\item a \indexsyclshow{range} over which to index; and
 \item a lambda of one argument: an index.
 \end{itemize}
 
 There are several ways of indexing.
-The \lstinline+id<nd>+ class of multi-dimensional indices.
+The \indexsyclshow{id<nd>} class of multi-dimensional indices.
 \begin{lstlisting}
 myHandle.parallel_for<class uniqueID>
    ( mySize,
@@ -244,7 +245,7 @@ cgh.parallel_for<class foo2D>
 
 \begin{dpcppnote}
   There is an implicit conversion from the one-dimensional
-  \lstinline+sycl::id<1>+
+  \lstinline+sycl::+\indexsyclshow{id<1>}
   to \lstinline+size_t+, so
 \begin{lstlisting}
 [=](sycl::id<1> i) {
@@ -296,6 +297,14 @@ The 2020 proposed standard has improved atomics.
 Memory treatment in SYCL is a little complicated, because is (at the very least)
 host memory and device memory, which are not necessarily coherent.
 
+There are also three mechanisms:
+\begin{itemize}
+\item Unified Shared Memory, based on ordinary C/C++ `star'-pointers.
+\item Buffers, using the \indexsyclshow{buffer} class;
+  this needs the \indexsyclshow{accessor} class to access the data.
+\item Images.
+\end{itemize}
+
 \begin{table}[ht]
   \caption{Memory types and treatments}
   \label{tab:sycl-mem}  
@@ -305,14 +314,23 @@ host memory and device memory, which are not necessarily coherent.
     \hline
     Host&\n{malloc}&\n{queue::memcpy}\\
     &\n{malloc_host}&coherent host/device\\
+    Device&\indexsyclshow{malloc_device}&\n{queue::memcpy}\\
     Shared&\n{malloc_shared}&coherent host/device\\
     \hline
   \end{tabular}
 \end{table}
 
-Memory allocated with \indextermtt{malloc_host}
+Memory allocated with \indexsyclshow{malloc_host}
 is visible on the host:
 \cxxverbatimsnippet[code/dpcpp/cxx/outshared.cxx]{syclsharealloc}
+
+Device memory is allocated with \indexsyclshow{malloc_device},
+passing the queue as parameter:
+%
+\cxxverbatimsnippet{sycldevcalloc}
+%
+Note the corresponding \indexsyclshow{free} call
+that also has the queue as parameter.
 
 Note that you need to be in a parallel task. 
 The following gives a segmentation error:
@@ -322,9 +340,9 @@ The following gives a segmentation error:
   }
 \end{lstlisting}
 
-Ordinary memory, for instance from \indextermtt{malloc},
+Ordinary memory, for instance from \indexsyclshow{malloc},
 has to be copied in a kernel:
-\cxxverbatimsnippet[code/dpcpp/cxx/outdevice.cxx]{sycldevcalloc}
+\cxxverbatimsnippet[code/dpcpp/cxx/outdevice.cxx]{sycldevcmemcpy}
 
 \Level 1 {Buffers}
 
@@ -337,20 +355,20 @@ Inside the kernel, the array is then unpacked from the buffer:
 
 \cxxverbatimsnippet[code/dpcpp/cxx/forloop.cxx]{syclbufuse}
 
-However, the \lstinline+get_access+ function results
-in a \lstinline+sycl::accessor+, not a pointer to a simple type.
+However, the \indexsyclshow{get_access} function results
+in a \lstinline+sycl::+\indexsyclshow{accessor}, not a pointer to a simple type.
 The precise type is templated and complicated, so this 
 is a good place to use \lstinline+auto+.
 
 \Level 0 {Parallel output}
 
-There is a \lstinline+sycl::cout+ and \lstinline+sycl::endl+.
+There is a \lstinline+sycl::+\indexsyclshow{cout} and \lstinline+sycl::+\indexsyclshow{endl}.
 
 \cxxverbatimsnippet[code/dpcpp/cxx/hello.cxx]{syclcout}
 
 Since the end of a queue does not flush stdout,
 it may be necessary to call
-\indextermtt{sycl::queue::wait}
+\lstinline+sycl::queue::+\indexsyclshow{wait}
 \begin{lstlisting}
 myQueue.wait();  
 \end{lstlisting}

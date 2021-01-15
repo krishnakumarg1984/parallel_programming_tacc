@@ -3,7 +3,7 @@
    %%%%
    %%%% This program file is part of the book and course
    %%%% "Parallel Computing"
-   %%%% by Victor Eijkhout, copyright 2020
+   %%%% by Victor Eijkhout, copyright 2020-2021
    %%%%
    %%%% reduceuser.cxx : user-defined reduction in MPL
    %%%%
@@ -20,7 +20,7 @@
  
 // calculate least common multiple of two arguments 
 template<typename T>
-class lcm : public std::function<T (T, T)> {
+class lcm { //  : public std::function<T (T, T)> 
 public:
   T operator()(T a, T b) {
     T zero=T();

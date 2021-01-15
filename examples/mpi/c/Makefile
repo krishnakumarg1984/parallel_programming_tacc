@@ -3,7 +3,7 @@
 ####
 #### This makefile is part of the source of 
 #### "Parallel Computing for Science and Engineering"
-#### by Victor Eijkhout, copyright 2013-2020
+#### by Victor Eijkhout, copyright 2013-2021
 ####
 #### This is the makefile for the C examples
 ####     in examples/mpi/c
@@ -28,7 +28,8 @@ APPS = init thread env outerr abort \
     contiguous vector vectorx getx stridestretch interleave indexed struct pack subarray \
     typefloat \
     itransposeblock transposealltoall \
-    commdupwrong commdupright commdupall commsplit commsplittype intercomm \
+    commdupwrong commdupright commdupall commcompare \
+    commsplit commsplittype intercomm \
     lockall sharedshared sharedbulk \
     cart graph rightgraphtwo persist \
     spawnmanager spawnworker \

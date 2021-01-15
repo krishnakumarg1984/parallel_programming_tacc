@@ -4,7 +4,7 @@
 %%%%
 %%%% This text file is part of the source of 
 %%%% `Parallel Programming in MPI and OpenMP'
-%%%% by Victor Eijkhout, copyright 2012-2020
+%%%% by Victor Eijkhout, copyright 2012-2021
 %%%%
 %%%% mpi-derived.tex : derived datatypes
 %%%%
@@ -56,6 +56,14 @@ heterogeneous data, et cetera.
 \label{sec:data-commit}
 
 The typical sequence of calls for creating a new datatype is as follows:
+\begin{itemize}
+\item You need a variable for the datatype;
+\item There is a create call, followed by a `commit' call where MPI
+  performs internal bookkeeping and optimizations;
+\item The datatype is used, possibly multiple times;
+\item When the datatype is no longer needed, it must be freed to prevent memory leaks.
+\end{itemize}
+In code:
 \begin{lstlisting}
 MPI_Datatype newtype;
 MPI_Type_something( < oldtype specifications >, &newtype );
@@ -64,7 +72,7 @@ MPI_Type_commit( &newtype );
 MPI_Type_free( &newtype );
 \end{lstlisting}
 
-or
+In Fortran2008:
 \lstset{language=Fortran}
 \begin{lstlisting}
 Type(MPI_Datatype) :: newvectortype
@@ -85,6 +93,7 @@ call MPI_Type_free(newvectortype)
 \end{pythonnote}
 
 \begin{mplnote}{Derived type handling}
+  \label{mpl:derived}
   In \ac{MPL} type creation routines are in the main namespace,
   templated over the datatypes.
   %
@@ -164,8 +173,19 @@ This is illustrated in figure~\ref{fig:data-contiguous}.
 \begin{mplnote}{Contiguous type}
   The \ac{MPL} interface makes extensive use of
   \indexmpldef{contiguous_layout},
-  as it is the only way to declare a non-scalar buffer;
-  see section~\ref{sec:mpi-buffers}.
+  as it is the main way to declare a non-scalar buffer;
+  see note~\ref{mpl:vec-buf}.
+\end{mplnote}
+
+\begin{mplnote}{Contiguous composing}
+  \label{mpl:cont_vector}
+  Contiguous layouts can only use elementary types or other contiguous layouts
+  as their `old' type.
+  To make a contiguous type for other layouts, use \indexmpidef{vector_layout}:
+  %
+  \cxxverbatimsnippet{mplcontvector}
+  %
+  (Contrast this with \indexmpldef{strided_vector_layout}; note~\ref{mpl:strided_vector}.)
 \end{mplnote}
 
 \Level 1 {Vector type}
@@ -222,14 +242,21 @@ declared as \lstinline{Integer}:
 \pverbatimsnippet[examples/mpi/p/vector.py]{vectorp}
 
 \begin{mplnote}{Vector type}
+  \label{mpl:strided_vector}
   MPL uses the \indexmpldef{strided_vector_layout} class:
   %
   \cxxverbatimsnippet[examples/mpi/mpl/vector.cxx]{vectormpl}
-  %
+
+  (See note~\ref{mpl:cont_vector} for non-strided vectors.)
+\end{mplnote}
+
+\begin{mplnote}{Iterator buffers}
   It is possible to to send containers by iterators
   %
   \cxxverbatimsnippet[examples/mpi/mpl/sendrange.cxx]{mplsendrange}
-  %
+\end{mplnote}
+
+\begin{mplnote}{Iterator layout}
   Non-contiguous iteratable objects can be send with a
   \indexmpldef{iterator_layout}:
   %
@@ -318,6 +345,7 @@ by replacing the index expression by \n{mat+1}.
   solution if you want to include that case?
 
   For testing, define the array as $x[i]=i$.
+  \exercisesource{stridesend}
 \end{exercise}
 
 \begin{exercise}
@@ -352,6 +380,7 @@ mpl::subarray_layout<int>(
 
 \begin{exercise}
   \label{ex:cubegather}
+  \exercisesource{cubegather}
 
   Assume that your number of processors is $P=Q^3$, and that each
   process has an array of identical size. Use
@@ -427,7 +456,9 @@ For Fortran we show the legacy syntax for once:
   of 2-tuples denoting block length~/ block location.
   %
   \cxxverbatimsnippet[examples/mpi/mpl/indexed.cxx]{indexedmpl}
-  %
+\end{mplnote}
+
+\begin{mplnote}{Indexed block type}
   For the case where all block lengths are the same,
   use \indexmpldef{indexed_block_layout}:
   %
@@ -501,12 +532,13 @@ as long as they have the same \indextermbus{datatype}{signature}.)
 
 \cverbatimsnippet[examples/mpi/c/struct.c]{structure}
 
-\fverbatimsnippet[examples/mpi/f/struct.F90]{fstructure}
-
 Note the \n{displacement} calculations in this example,
 which involve some not so elegant pointer arithmetic.
-(Alternatively, you could use \indexmpishow{MPI_Get_address}, which is
-the only way address calculations can be done in Fortran.)
+The following Fortran code uses \indexmpishow{MPI_Get_address},
+which is more elegant, and in fact
+the only way address calculations can be done in Fortran.
+
+\fverbatimsnippet[examples/mpi/f/struct.F90]{fstructure}
 
 It would have been incorrect to write
 \begin{lstlisting}
@@ -525,22 +557,24 @@ displacements[3] = sizeof(myobject); types[3] = MPI_UB;
 MPI_Type_create_struct(struclen+1,.....);
 \end{lstlisting}
 
-\begin{mplnote}{Struct type}
+\begin{mplnote}{Struct type scalar}
   One could describe the MPI struct type as a collection of
   displacements, to be applied to any set of items that conforms
   to the specifications.
   An \ac{MPL} \indexmplshow{heterogeneous_layout} on the other hand,
   incorporates the actual data. Thus you could write
-\begin{lstlisting}
-int i; float x; double z;
-heterogeneous_layout l( i,x,z );
-comm.send( l /* sort of */, receiver );
-\end{lstlisting}
-More complicated data than scalars takes more work:
-%
-\cxxverbatimsnippet[examples/mpi/mpl/struct.cxx]{structurempl}
-%]
-Here, the \indexmplshow{absolute} indicates the lack of an implicit buffer:
-the layout is absolute rather than a relative description.
-Note also the \indexmplshow{make_absolute}.
+  %
+  \cxxverbatimsnippet[examples/mpi/mpl/struct.cxx]{structuremplscalar}
+  %
+  Here, the \indexmplshow{absolute} indicates the lack of an implicit buffer:
+  the layout is absolute rather than a relative description.
+\end{mplnote}
+
+\begin{mplnote}{Struct type general}
+  More complicated data than scalars takes more work:
+  %
+  \cxxverbatimsnippet[examples/mpi/mpl/struct.cxx]{structurempl}
+  %
+  Note the \indexmplshow{make_absolute} in addition to
+  \indexmplshow{absolute} mentioned above.
 \end{mplnote}

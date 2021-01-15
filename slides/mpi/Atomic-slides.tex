@@ -11,12 +11,12 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{frame}{Justification}
+\begin{numberedframe}{Justification}
   MPI-1/2 lacked tools for race condition-free access.\\
   These have been added in MPI-3.
-\end{frame}
+\end{numberedframe}
 
-\begin{frame}{Emulating shared memory with one-sided communication}
+\begin{numberedframe}{Emulating shared memory with one-sided communication}
   \begin{itemize}
   \item One process stores a table of work descriptors, and a `stack pointer'
     stating how many there are.
@@ -26,18 +26,18 @@
     corresponding task.
   \item Non-collective behavior: processes only take a descriptor when they are available.
   \end{itemize}
-\end{frame}
+\end{numberedframe}
 
-\begin{frame}{Simplified model}
+\begin{numberedframe}{Simplified model}
   \begin{itemize}
   \item One process has a counter, which models the shared memory;
   \item Each process, if available, reads the counter; and
   \item \ldots~decrements the counter.
   \item (No actual work, therefore)
   \end{itemize}
-\end{frame}
+\end{numberedframe}
 
-\begin{frame}[containsverbatim]\frametitle{Race condition example}
+\begin{numberedframe}{Race condition example}
   \scriptsize
   \begin{tabbing}
     process 1: \texttt{I=I+2}\\
@@ -64,15 +64,15 @@
   \end{tabular}
 
   (In MPI, the read/write would be \indexmpishow{MPI_Get}~/ \indexmpishow{MPI_Put} calls)
-\end{frame}
+\end{numberedframe}
 
 \begin{mpithree}
-\begin{frame}[containsverbatim]\frametitle{Case study in shared memory: 1, wrong}
+\begin{numberedframe}{Case study in shared memory: 1, wrong}
   \label{sl:fetchput}
   \cverbatimsnippet{countdowngetput}
-\end{frame}
+\end{numberedframe}
 
-\begin{frame}[containsverbatim]\frametitle{Discussion}
+\begin{numberedframe}{Discussion}
   \begin{itemize}
   \item The multiple \indexmpishow{MPI_Put} calls conflict.
   \item Code is correct if in each iteration there is only one writer.
@@ -89,14 +89,14 @@ MPI_Win_fence(0,the_window);
 \end{lstlisting}
 ?
   \end{itemize}
-\end{frame}
+\end{numberedframe}
 
-\begin{frame}[containsverbatim]\frametitle{Case study in shared memory: 2, hm}
+\begin{numberedframe}{Case study in shared memory: 2, hm}
   \label{sl:fetchacc}
   \cverbatimsnippet{countdowngetacc}
-\end{frame}
+\end{numberedframe}
 
-\begin{frame}[containsverbatim]\frametitle{Discussion: need for atomics}
+\begin{numberedframe}{Discussion: need for atomics}
   \label{sl:fetchop}
   \begin{itemize}
   \item \indexmpishow{MPI_Accumulate} is atomic, so no conflicting writes.
@@ -108,26 +108,26 @@ MPI_Win_fence(0,the_window);
   Atomic `get-and-set-with-no-one-coming-in-between'.
   \indexmpishow{MPI_Fetch_and_op}~/ \indexmpishow{MPI_Get_accumulate}.\\
   Former is syntactic sugar around the latter.
-\end{frame}
+\end{numberedframe}
 
-\begin{frame}[containsverbatim]\frametitle{Case study in shared memory: 3, good}
+\begin{numberedframe}{Case study in shared memory: 3, good}
   \label{sl:fetchacc}
   \cverbatimsnippet{fetchopfence}
-\end{frame}
+\end{numberedframe}
 
-\begin{frame}{Allowable operators. (Hint!)}
+\begin{numberedframe}{Allowable operators. (Hint!)}
   \input mpi-opstable
 
   No user-defined operators.
-\end{frame}
+\end{numberedframe}
 
-\begin{frame}{Problem}
+\begin{numberedframe}{Problem}
   We are using fences, which are collective.\\
   What if a process is still operating on its local work?
 
   Better (but more tricky) solution:\\
   use passive target synchronization and locks.
-\end{frame}
+\end{numberedframe}
 
 \begin{exerciseframe}[lockfetch]
   \input ex:lockandfetch
@@ -141,9 +141,9 @@ MPI_Win_fence(0,the_window);
 
 \endinput
 
-\begin{frame}[containsverbatim]\frametitle{}
+\begin{numberedframe}{}
   \label{sl:}
-\end{frame}
+\end{numberedframe}
 
 %% this is already covered by the previous slides, not?
 \begin{optexerciseframe}

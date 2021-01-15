@@ -22,6 +22,9 @@ int main(int argc,char **argv) {
 #include "globalinit.c"
 
   if (procno==nprocs-1) {
+    /*
+     * The last process receives from every other process
+     */
     int *recv_buffer;
     MPI_Status status;
 
@@ -39,7 +42,8 @@ int main(int argc,char **argv) {
     }
   } else {
     /*
-     * Each rank waits an unpredictable amount of time
+     * Each rank waits an unpredictable amount of time,
+     * then sends to the last process in line.
      */
     float randomfraction = (rand() / (double)RAND_MAX);
     int randomwait = (int) ( nprocs * randomfraction );

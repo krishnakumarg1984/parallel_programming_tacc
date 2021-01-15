@@ -93,155 +93,195 @@
 
 \Level 0 {Basics}
 
-\begin{frame}[containsverbatim]{Header file}
+\begin{numberedframe}{Header file}
   \input{mplnote-header-file.cut}
-\end{frame}
-\begin{frame}[containsverbatim]{Init, finalize}
+\end{numberedframe}
+\begin{numberedframe}{Init, finalize}
   \input{mplnote-init,-finalize.cut}
-\end{frame}
-\begin{frame}[containsverbatim]{World communicator}
+\end{numberedframe}
+\begin{numberedframe}{World communicator}
   \input{mplnote-world-communicator.cut}
-\end{frame}
-\begin{frame}[containsverbatim]{Processor name}
+\end{numberedframe}
+\begin{numberedframe}{Processor name}
   \input{mplnote-processor-name.cut}
-\end{frame}
-\begin{frame}[containsverbatim]{Rank and size}
+\end{numberedframe}
+\begin{numberedframe}{Rank and size}
   \input{mplnote-rank-and-size.cut}
-\end{frame}
-\begin{frame}[containsverbatim]{Timing}
+\end{numberedframe}
+\begin{numberedframe}{Timing}
   \input{mplnote-timing.cut}
-\end{frame}
-\begin{frame}[containsverbatim]{Predefined communicators}
+\end{numberedframe}
+\begin{numberedframe}{Predefined communicators}
   \input{mplnote-predefined-communicators.cut}
-\end{frame}
+\end{numberedframe}
+\begin{numberedframe}{Communicator copying}
+  \input{mplnote-communicator-copying.cut}
+\end{numberedframe}
+\begin{numberedframe}{Communicator duplication}
+  \input{mplnote-communicator-duplication.cut}
+\end{numberedframe}
+\begin{numberedframe}{Communicator passing}
+  \input{mplnote-communicator-passing.cut}
+\end{numberedframe}
+
 
 \Level 0 {Collectives}
 
-\begin{frame}[containsverbatim]{Scalar buffers}
-  \input{mplnote-scalar-buffers.cut}
-\end{frame}
-\begin{frame}[containsverbatim]{Vector buffers}
-  \input{mplnote-vector-buffers.cut}
-\end{frame}
-\begin{frame}[containsverbatim]{Iterator buffers}
-  \input{mplnote-iterator-buffers.cut}
-\end{frame}
+\begin{frame}{Introduction}
+  Collectives have many polymophic variants, for instance for `in place',
+  and buffer handling.
 
-\begin{frame}[containsverbatim]{Gather scatter}
-  \input{mplnote-gather-scatter.cut}
+  Operators are handled through functors.
 \end{frame}
-\begin{frame}[containsverbatim]{Broadcast}
+\begin{numberedframe}{Scalar buffers}
+  \input{mplnote-scalar-buffers.cut}
+\end{numberedframe}
+\begin{numberedframe}{Vector buffers}
+  \input{mplnote-vector-buffers.cut}
+\end{numberedframe}
+\begin{numberedframe}{Iterator buffers}
+  \input{mplnote-iterator-buffers.cut}
+\end{numberedframe}
+
+\begin{numberedframe}{Broadcast}
   \input{mplnote-broadcast.cut}
-\end{frame}
-\begin{frame}[containsverbatim]{Reduce in place}
+\end{numberedframe}
+\begin{numberedframe}{Gather scatter}
+  \input{mplnote-gather-scatter.cut}
+\end{numberedframe}
+\begin{numberedframe}{Reduce in place}
   \footnotesize
   \input{mplnote-reduce-in-place.cut}
-\end{frame}
-\begin{frame}[containsverbatim]{Reduction operator}
+\end{numberedframe}
+\begin{numberedframe}{Rooted reduce}
+  \input{mplnote-rooted-reduce.cut}
+\end{numberedframe}
+
+\begin{numberedframe}{Reduction operator}
   \input{mplnote-reduction-operator.cut}
-\end{frame}
-\begin{frame}[containsverbatim]{User defined operators}
+\end{numberedframe}
+\begin{numberedframe}{User defined operators}
   \input{mplnote-user-defined-operators.cut}
-\end{frame}
-\begin{frame}[containsverbatim]{Non-blocking collectives}
+\end{numberedframe}
+\begin{numberedframe}{Non-blocking collectives}
   \input{mplnote-non-blocking-collectives.cut}
-\end{frame}
+\end{numberedframe}
 
 \Level 0 {Point-to-point communication}
 
-\begin{frame}[containsverbatim]{Blocking send and receive}
+\begin{numberedframe}{Blocking send and receive}
   \input{mplnote-blocking-send-and-receive.cut}
-\end{frame}
-\begin{frame}[containsverbatim]{Sending arrays}
+\end{numberedframe}
+\begin{numberedframe}{Sending arrays}
   \input{mplnote-sending-arrays.cut}
-\end{frame}
-\begin{frame}[containsverbatim]{Message tag}
+\end{numberedframe}
+\begin{numberedframe}{Message tag}
   \input{mplnote-message-tag.cut}
-\end{frame}
-\begin{frame}[containsverbatim]{Any source}
+\end{numberedframe}
+\begin{numberedframe}{Any source}
   \input{mplnote-any-source.cut}
-\end{frame}
-\begin{frame}[containsverbatim]{Status object}
-  \input{mplnote-status-object.cut}
-\end{frame}
-\begin{frame}[containsverbatim]{Send-recv call}
+\end{numberedframe}
+\begin{numberedframe}{Send-recv call}
   \input{mplnote-send-recv-call.cut}
-\end{frame}
-\begin{frame}[containsverbatim]{Status querying}
-  \input{mplnote-status-querying.cut}
-\end{frame}
-
-\begin{frame}[containsverbatim]{Receive count}
+\end{numberedframe}
+\begin{numberedframe}{Status object}
+  \input{mplnote-status-object.cut}
+\end{numberedframe}
+\begin{numberedframe}{Status source querying}
+  \input{mplnote-status-source-querying.cut}
+\end{numberedframe}
+\begin{numberedframe}{Receive count}
   \input{mplnote-receive-count.cut}
-\end{frame}
+\end{numberedframe}
 
-\begin{frame}[containsverbatim]{Requests from non-blocking calls}
+\begin{numberedframe}{Requests from non-blocking calls}
   \input{mplnote-requests-from-non-blocking-calls.cut}
-\end{frame}
-\begin{frame}[containsverbatim]{Wait any}
+\end{numberedframe}
+\begin{numberedframe}{Request pools}
+  \input{mplnote-request-pools.cut}
+\end{numberedframe}
+\begin{numberedframe}{Wait any}
   \input{mplnote-wait-any.cut}
-\end{frame}
+\end{numberedframe}
 
-\begin{frame}[containsverbatim]{Buffered send}
+\begin{numberedframe}{Buffered send}
   \input{mplnote-buffered-send.cut}
-\end{frame}
-\begin{frame}[containsverbatim]{Buffer attach and detach}
+\end{numberedframe}
+\begin{numberedframe}{Buffer attach and detach}
   \input{mplnote-buffer-attach-and-detach.cut}
-\end{frame}
-\begin{frame}[containsverbatim]{Persistent requests}
+\end{numberedframe}
+\begin{numberedframe}{Persistent requests}
   \input{mplnote-persistent-requests.cut}
-\end{frame}
+\end{numberedframe}
 
 \Level 0 {Derived Datatypes}
 
-\begin{frame}[containsverbatim]{Datatypes}
+\begin{numberedframe}{Datatypes}
   \input{mplnote-data-types.cut}
-\end{frame}
-\begin{frame}[containsverbatim]{Derived type handling}
+\end{numberedframe}
+\begin{numberedframe}{Derived type handling}
   \input{mplnote-derived-type-handling.cut}
-\end{frame}
-\begin{frame}[containsverbatim]{Contiguous type}
+\end{numberedframe}
+\begin{numberedframe}{Contiguous type}
   \input{mplnote-contiguous-type.cut}
-\end{frame}
-\begin{frame}[containsverbatim]{Vector type}
+\end{numberedframe}
+\begin{numberedframe}{Contiguous composing of types}
+  \input{mplnote-contiguous-composing.cut}
+\end{numberedframe}
+\begin{numberedframe}{Vector type}
   \input{mplnote-vector-type.cut}
-\end{frame}
-\begin{frame}[containsverbatim]{Subarray layout}
+\end{numberedframe}
+\begin{numberedframe}{Iterator buffers}
+  \input{mplnote-iterator-buffers.cut}
+\end{numberedframe}
+\begin{numberedframe}{Iterator layout}
+  \input{mplnote-iterator-layout.cut}
+\end{numberedframe}
+\begin{numberedframe}{Subarray layout}
   \input{mplnote-subarray-layout.cut}
-\end{frame}
-\begin{frame}[containsverbatim]{Indexed type}
+\end{numberedframe}
+\begin{numberedframe}{Indexed type}
   \input{mplnote-indexed-type.cut}
-\end{frame}
-\begin{frame}[containsverbatim]{Struct type}
-  \input{mplnote-struct-type.cut}
-\end{frame}
+\end{numberedframe}
+\begin{numberedframe}{Indexed block type}
+  \input{mplnote-indexed-block-type.cut}
+\end{numberedframe}
+\begin{numberedframe}{Struct type scalar}
+  \input{mplnote-struct-type-scalar.cut}
+\end{numberedframe}
+\begin{numberedframe}{Struct type general}
+  \input{mplnote-struct-type-general.cut}
+\end{numberedframe}
+\begin{numberedframe}{Extent resizing}
+  \input{mplnote-extent-resizing.cut}  
+\end{numberedframe}
 
 \Level 0 {Communicator manipulations}
 
-\begin{frame}[containsverbatim]{Split by shared memory}
-  \input{mplnote-split-by-shared-memory.cut}
-\end{frame}
-
-\begin{frame}[containsverbatim]{Communicator errhandler}
+\begin{numberedframe}{Communicator errhandler}
   \input{mplnote-communicator-errhandler.cut}
-\end{frame}
-\begin{frame}[containsverbatim]{Communicator splitting}
+\end{numberedframe}
+\begin{numberedframe}{Communicator splitting}
   \input{mplnote-communicator-splitting.cut}
-\end{frame}
+\end{numberedframe}
+\begin{numberedframe}{Split by shared memory}
+  \input{mplnote-split-by-shared-memory.cut}
+\end{numberedframe}
 
 \Level 0 {Process topologies}
 
 \Level 0 {Other}
 
-\begin{frame}[containsverbatim]{Timing}
+\begin{numberedframe}{Timing}
   \input{mplnote-timing.cut}
-\end{frame}
+\end{numberedframe}
 
-\begin{frame}[containsverbatim]{Threading support}
+\begin{numberedframe}{Threading support}
   \input{mplnote-threading-support.cut}
-\end{frame}
+\end{numberedframe}
 
-\begin{frame}{Missing material}
+\begin{frame}{Missing from MPL}
+  MPL is not a full MPI implementation
   \begin{itemize}
   \item File I/O
   \item One-sided communication
@@ -249,13 +289,6 @@
   \item Process management
   \end{itemize}
 \end{frame}
-
-\begin{comment}
-  \Level 0 {MPI File I/O}
-  \Level 0 {One-sided communication}
-  \Level 0 {Shared memory}
-  \Level 0 {Process management}
-\end{comment}
 
 \end{document}
 

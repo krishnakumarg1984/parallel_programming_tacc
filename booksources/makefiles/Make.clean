@@ -4,7 +4,7 @@
 ####
 #### This makefile is part of the source of 
 #### "Parallel Computing for Science and Engineering"
-#### by Victor Eijkhout, copyright 2013-2020
+#### by Victor Eijkhout, copyright 2013-2021
 ####
 #### Make include file for clean rules
 ####
@@ -16,17 +16,18 @@ info ::
 	@echo "make clean, total_clean"
 clean :: local_clean
 local_clean ::
-	@/bin/rm -rf *.o *~ *.gch *.inst.c a.out *.dSYM MULTI__* events.* *.mod \
+	@/bin/rm -rf *.o *~ *.gch *.inst.c a.out *.dSYM MULTI__* events.* *.mod *.pyc \
 	    *.{a,aux,blg,cut,idx,ilg,ind,log,mod,o,out,svn,toc} \
-	    idev[0-9]*.o[0-9]* ddt.o[0-9]* jobtest.o* tautrace_* \
+	    idev[0-9]*.o[0-9]* ddt.o[0-9]* jobtest.o* tautrace_* __pycache__ \
 	    dcvserver.out \
 	    ${APPS}
 INDENT =
 MAKEFILESDIR = makefiles
+MAKETRACESTRING = 
 recursive_clean  : local_clean
 	@for d in * ; do \
 	  if [ -d $${d} ] ; then \
-	    echo "${INDENT}cleaning in $${d}" \
+	    echo "${MAKETRACESTRING} cleaning in $${d}" \
 	    && ( \
 	       cd $${d} \
 	       && if [ -f Makefile ] ; then \

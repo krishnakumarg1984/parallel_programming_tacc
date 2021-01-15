@@ -42,10 +42,12 @@ int main(int argc,char **argv) {
     source[i] = i+.5;
 
   if (procno==sender) {
-    mpl::strided_vector_layout<double> newvectortype(count,1,stride);
+    mpl::strided_vector_layout<double>
+      newvectortype(count,1,stride);
     comm_world.send
       (source.data(),newvectortype,the_other);
-  } else if (procno==receiver) {
+  }
+  else if (procno==receiver) {
     int recv_count;
     mpl::status recv_status = comm_world.recv
       (target.data(),mpl::contiguous_layout<double>(count),

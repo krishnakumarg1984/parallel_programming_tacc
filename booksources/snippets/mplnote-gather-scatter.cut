@@ -1,4 +1,5 @@
-  Gathering (by \indexmpldef{gather}) or scattering (by \indexmpldef{scatter})
+  Gathering (by \lstinline+communicator::+\indexmpldef{gather})
+  or scattering (by \lstinline+communicator::+\indexmpldef{scatter})
   a single scalar takes a scalar argument
   and a raw array:
   %

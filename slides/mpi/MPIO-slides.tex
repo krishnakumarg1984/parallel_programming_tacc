@@ -11,7 +11,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{frame}[containsverbatim]{Overview}
+\begin{numberedframe}{Overview}
   This section discusses parallel I/O. What is the problem with
   regular I/O in parallel?
 
@@ -20,26 +20,26 @@
   \item \indexmpishow{MPI_File_open}\lstinline{/write/close} and variants
   \item parallel file pointer routines: \indexmpishow{MPI_File_set_view}\lstinline{/write_at}
   \end{itemize}
-\end{frame}
+\end{numberedframe}
 
-\begin{frame}{The trouble with parallel I/O}
+\begin{numberedframe}{The trouble with parallel I/O}
   \begin{itemize}
   \item Multiple process reads from one file: no problem.
   \item Multiple writes to one file: big problem.
   \item Everyone writes to separate file: stress on the file system,
     and requires post-processing.
   \end{itemize}
-\end{frame}
+\end{numberedframe}
 
-\begin{frame}{MPI I/O}
+\begin{numberedframe}{MPI I/O}
   \begin{itemize}
   \item Part of MPI since MPI-2
   \item Joint creation of one file from bunch of processes.
   \item You could also use \n{hdf5}, \n{netcdf}, \n{silo}~\ldots
   \end{itemize}
-\end{frame}
+\end{numberedframe}
 
-\begin{frame}[containsverbatim]{The usual bits}
+\begin{numberedframe}{The usual bits}
 \small
 \lstset{language=C}
 \begin{lstlisting}
@@ -58,9 +58,9 @@ MPI_File_close(&mpifile);
 type(MPI_File) :: mpifile ! F08
 integer        :: mpifile ! F90
 \end{lstlisting}
-\end{frame}
+\end{numberedframe}
 
-\begin{frame}[containsverbatim]{How do you make it unique for a process?}
+\begin{numberedframe}{How do you make it unique for a process?}
 \lstset{language=C}
 \begin{lstlisting}
 MPI_File_write_at
@@ -76,19 +76,19 @@ MPI_File_set_view
 MPI_File_write // no offset, we have a view
   (mpifile,output_data,nwords,MPI_INT,MPI_STATUS_IGNORE);
 \end{lstlisting}
-\end{frame}
+\end{numberedframe}
 
-\begin{frame}{Write at an offset}
+\begin{numberedframe}{Write at an offset}
   \includegraphics[scale=.35]{write-at-offset}
-\end{frame}
+\end{numberedframe}
 
-\begin{frame}{Write to a view}
+\begin{numberedframe}{Write to a view}
   \includegraphics[scale=.35]{write-at-view}
-\end{frame}
+\end{numberedframe}
 
-\begin{frame}{Write to a view}
+\begin{numberedframe}{Write to a view}
   \includegraphics[scale=.35]{write-at-complicated}
-\end{frame}
+\end{numberedframe}
 
 \begin{exerciseframe}[blockwrite]
   The given code works for one writing process. Compute a unique
@@ -113,9 +113,9 @@ MPI_File_write // no offset, we have a view
 
 \endinput
 
-\begin{frame}[containsverbatim]\frametitle{}
+\begin{numberedframe}{}
 \begin{verbatim}
 
 \end{verbatim}
-\end{frame}
+\end{numberedframe}
 

@@ -18,7 +18,7 @@ LANGUAGE = p
 info ::
 	@echo "nothing to make here...."
 EXERCISES = \
-    hello commrank prime randommax pingpong \
+    hello commrank prime randommax pingpong setdiff \
     rightsend isendirecv ibarrierupdate \
     onenorm bucketblock stridesend cubegather \
     randomput rightput countdown onesidedbuild \

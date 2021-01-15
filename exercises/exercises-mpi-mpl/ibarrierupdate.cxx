@@ -3,9 +3,9 @@
    %%%%
    %%%% This program file is part of the book and course
    %%%% "Parallel Computing"
-   %%%% by Victor Eijkhout, copyright 2018/9
+   %%%% by Victor Eijkhout, copyright 2018-2020
    %%%%
-   %%%% ibarrierupdate.c : illustrating MPI_Ibarrier
+   %%%% ibarrierupdate.c : illustrating MPI_Ibarrier in MPL
    %%%%
    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -16,16 +16,15 @@
 #include <sstream>
 #include <cmath>
 using namespace std;
-#include <mpi.h>
+#include <mpl/mpl.hpp>
 
 int main(int argc,char **argv) {
-  MPI_Comm comm;
-  int nprocs,procno;
 
-  MPI_Init(&argc,&argv);
-  comm = MPI_COMM_WORLD;
-  MPI_Comm_size(comm,&nprocs);
-  MPI_Comm_rank(comm,&procno);
+  const mpl::communicator &comm_world = mpl::environment::comm_world();
+  int nprocs,procno;
+  // compute communicator rank and size
+  nprocs = comm_world.size();
+  procno = comm_world.rank();
 
   // first set a unique random seed
   srand((int)(procno*(double)RAND_MAX/nprocs));
@@ -39,7 +38,8 @@ int main(int argc,char **argv) {
    * Pick random processes to send to, and post an Isend
    */
   double send_data[n_destinations];
-  MPI_Request send_requests[n_destinations];
+  mpl::irequest_pool send_requests;
+  //  MPI_Request send_requests[n_destinations];
   for (int idestination=0; idestination<n_destinations; idestination++) {
     int destination;
     destination = nprocs * (float)rand() / (double)RAND_MAX;
@@ -48,9 +48,8 @@ int main(int argc,char **argv) {
       proctext << "[" << procno << "] send to " << destination << endl;
       cerr << proctext.str(); proctext.clear();
     }
-    MPI_Isend
-      (send_data+idestination,1,MPI_DOUBLE,
-       destination,0,comm, send_requests+idestination);
+    send_requests.push
+      ( comm_world.isend(send_data[idestination],destination) );
   }
   
   /*
@@ -61,8 +60,8 @@ int main(int argc,char **argv) {
     proctext << "[" << procno << "] posting barrier " << endl;
     cerr << proctext.str(); proctext.clear();
   }
-  MPI_Request final_barrier;
-  MPI_Ibarrier(comm,&final_barrier);
+  mpl::irequest final_barrier = comm_world.ibarrier();
+  //  MPI_Ibarrier(comm,&final_barrier);
 
   int step=0;
   for ( ; ; step++) {
@@ -71,8 +70,8 @@ int main(int argc,char **argv) {
      * -- use MPI_Test to determine when the barrier is completed;
      * -- in that case you can quit
      */
-    int all_done_flag=0;
-    MPI_Test(&final_barrier,&all_done_flag,MPI_STATUS_IGNORE);
+    auto [all_done_flag,barrier_status] = final_barrier.test();
+    //    MPI_Test(&final_barrier,&all_done_flag,MPI_STATUS_IGNORE);
 /**** your code here ****/
 
     /*
@@ -85,13 +84,13 @@ int main(int argc,char **argv) {
     MPI_Status recv_status;
     double receive_data;
     int flag;
-    MPI_Iprobe(MPI_ANY_SOURCE,MPI_ANY_TAG,comm,&flag,&recv_status);
+    comm_world.iprobe( mpl::any_source,mpl::tag::any() );
+    //    MPI_Iprobe(MPI_ANY_SOURCE,MPI_ANY_TAG,comm,&flag,&recv_status);
 /**** your code here ****/
     int source;
 /**** your code here ****/
-    MPI_Recv
-      (&receive_data,1,MPI_DOUBLE,
-       source,MPI_ANY_TAG,comm,MPI_STATUS_IGNORE);
+    comm_world.recv( receive_data,source );
+    //    MPI_Recv(&receive_data,1,MPI_DOUBLE, source,MPI_ANY_TAG,comm,MPI_STATUS_IGNORE);
     {
       stringstream proctext;
       proctext << "[" << procno << "] received from " << source << endl;
@@ -104,8 +103,9 @@ int main(int argc,char **argv) {
     proctext << "[" << procno << "] concluded after " << step << " steps" << endl;
     cerr << proctext.str(); proctext.clear();
   }
-  MPI_Wait(&final_barrier,MPI_STATUS_IGNORE);
+  final_barrier.wait();
+  //  MPI_Wait(&final_barrier,MPI_STATUS_IGNORE);
 
-  MPI_Finalize();
+  //  MPI_Finalize();
   return 0;
 }

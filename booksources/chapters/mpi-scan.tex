@@ -4,7 +4,7 @@
 %%%%
 %%%% This text file is part of the source of 
 %%%% `Parallel Programming in MPI and OpenMP'
-%%%% by Victor Eijkhout, copyright 2012-2020
+%%%% by Victor Eijkhout, copyright 2012-2021
 %%%%
 %%%% mpi-bcastreduce.tex : about broadcast & reduce collectives
 %%%%
@@ -65,9 +65,29 @@ determined. In order to translate the local numbering $0\ldots n_p-1$ to a globa
 one does a scan with the number of local elements as input. The output is then the global 
 number of the first local variable.
 
+\begin{figure}[ht]
+  \includegraphics[scale=.5]{scanints}
+  \caption{Local arrays that together form a consecutive range}
+  \label{fig:scanints}
+\end{figure}
+
 \begin{exercise}
-  Do you use \indexmpishow{MPI_Scan} or \indexmpishow{MPI_Exscan} for this operation? How
-  would you describe the result of the other scan operation, given the
+  \label{ex:scanprint}
+  \begin{itemize}
+  \item Let each process compute a random value $n_{\scriptstyle\mathrm{local}}$,
+    and allocate an array of that length.
+    Define \[ N=\sum n_{\scriptstyle\mathrm{local}} \]
+  \item Fill the array with consecutive integers, so that all local arrays,
+    laid end-to-end,
+    contain the numbers~$0\cdots N-1$. (See figure~\ref{fig:scanints}.)
+  \end{itemize}
+  \exercisesource{scangather}
+\end{exercise}
+
+\begin{exercise}
+  Did you use \indexmpishow{MPI_Scan} or \indexmpishow{MPI_Exscan} for
+  the previous exercise?
+  How would you describe the result of the other scan operation, given the
   same input?
 \end{exercise}
 

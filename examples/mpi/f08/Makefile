@@ -13,7 +13,7 @@
 info ::
 	@echo "Do: make app (where app=${APPS})"
 
-APPS = section anysource putfence waitnull vector
+APPS = reduceinplace reduceinplaceptr section anysource putfence waitnull vector
 LANGUAGE = F
 MODE = mpi
 
@@ -34,9 +34,6 @@ include ../../../makefiles/Make.compile
 
 app_dependencies =
 .SECONDEXPANSION:
-${APPS} : $$@.o ${app_dependencies}
-	${F_LINKER} -o $@ $@.o ${app_dependencies}
-
 
 info ::
 	@echo "make run_PROGRAM (in: ${RUNS})"

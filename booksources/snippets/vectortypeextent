@@ -1,3 +1,4 @@
+MPI_Aint lb,asize;
 MPI_Type_vector(count,bs,stride,MPI_DOUBLE,&newtype);
 MPI_Type_commit(&newtype);
 MPI_Type_get_extent(newtype,&lb,&asize);

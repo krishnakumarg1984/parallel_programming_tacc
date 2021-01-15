@@ -4,7 +4,7 @@
 %%%%
 %%%% This text file is part of the source of 
 %%%% `Parallel Programming in MPI and OpenMP'
-%%%% by Victor Eijkhout, copyright 2012-2020
+%%%% by Victor Eijkhout, copyright 2012-2021
 %%%%
 %%%% mpi-io.tex : MPI/O
 %%%%
@@ -181,18 +181,32 @@ sending a receiving:
   elements in the file will be involved.
 \end{itemize}
 
+\Level 1 {Non-blocking read/write}
+
 Just like there are blocking and non-blocking sends, there are also
 non-blocking writes and reads:
 \indexmpiref{MPI_File_iwrite},
 \indexmpidef{MPI_File_iread} 
-operations, that output an \indexmpishow{MPI_Request} object,
+operations,
+and their collective versions
+\indexmpidef{MPI_File_iwrite_all},
+\indexmpidef{MPI_File_iread_all}.
+
+Also 
+\indexmpidef{MPI_File_iwrite_at_all},
+\indexmpidef{MPI_File_iread_at_all}.
+
+These routines output an \indexmpishow{MPI_Request} object,
 which can then be tested with
 \indexmpishow{MPI_Wait} or \indexmpishow{MPI_Test}.
 
-Having a non-blocking version of
-\indexmpishow{MPI_File_write_all} is tricky because there is no collective version
-of \indexmpishow{MPI_Wait} or \indexmpishow{MPI_Test}.
-Therefore, there are two routines:
+Non-blocking collective I/O functions
+much like other non-blocking collectives
+(section~{sec:mpi3collect}):
+the request is satisfied if all processes finish the collective.
+
+There are also \indextermsub{split}{collective} routines
+that function like non-blocking collective I/O, but with the request/wait mechanism:
 \indexmpishow{MPI_File_write_all_begin}~/
 \indexmpishow{MPI_File_write_all_end}
 (and similarly
@@ -201,11 +215,7 @@ Therefore, there are two routines:
 where the second routine blocks until the collective write/read
 has been concluded.
 
-\begin{remark}
-  So what is
-  \url{https://www.mpich.org/static/docs/latest/www3/MPI_File_iwrite_all.html}
-  ?
-\end{remark}
+Also \indexmpidef{MPI_File_iread_shared}, \indexmpidef{MPI_File_iwrite_shared}.
 
 \Level 1 {Individual file pointers, contiguous writes}
 \label{sec:mpi-filepoint}
@@ -232,6 +242,7 @@ which counts bytes.
   \label{ex:blockwrite}
   Create a buffer of length \n{nwords=3} on each process, and write
   these buffers as a sequence to one file with \indexmpishow{MPI_File_write_at}.
+  \exercisesource{blockwrite}
 \end{exercise}
 
 Instead of giving the position in the file explicitly, you can also
@@ -303,6 +314,7 @@ This call is collective, even if not all processes access the file.
 
 \begin{exercise}
   \label{ex:viewwrite}
+  \exercisesource{viewwrite}
   Write a file in the same way as in exercise~\ref{ex:blockwrite},
   but now use \indexmpishow{MPI_File_write} and use \indexmpishow{MPI_File_set_view} to set
   a view that determines where the data is written.

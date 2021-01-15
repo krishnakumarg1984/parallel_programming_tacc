@@ -159,3 +159,121 @@ in the order in which they were initiated, and competition from other
 connection attempts may prevent a particular connection attempt from
 being satisfied.
 
+\begin{mpifour}
+\Level 0 {Sessions}
+\label{sec:sessions}
+
+The most common way of initializing MPI,
+with \indexmpishow{MPI_Init} (or \indexmpishow{MPI_Init_thread}) and \indexmpishow{MPI_Finalize},
+is known as the \indexterm{world model}.
+Additionally, there is the \indexterm{session model},
+which can be described as doing multiple initializations and finalizations.
+The two models can be used in the same program, but there are limitations
+on how they can mix.
+
+\Level 1 {World model versus sessions model}
+
+The \indextermdef{world model} of using MPI can be described as:
+\begin{enumerate}
+\item There is a single call to \indexmpishow{MPI_Init} or \indexmpishow{MPI_Init_thread};
+\item There is a single call to \indexmpishow{MPI_Finalize};
+\item With very few exceptions, all MPI calls appear in between the initialize and finalize calls.
+\end{enumerate}
+
+In the \indextermdef{session model}, the world model has become a single session,
+and it is possible to start multiple sessions, each on their own set of processes,
+possibly identical or overlapping.
+
+An MPI \indextermdef{session} is initialized and finalized
+with \indexmpidef{MPI_Session_init} and \indexmpidef{MPI_Session_finalize},
+somewhat similar to \indexmpishow{MPI_Init} and \indexmpishow{MPI_Finalize}.
+
+\begin{lstlisting}
+MPI_Info       info;
+MPI_Errhandler errhandler;
+MPI_Session    session;
+MPI_Session_init(info,errhandler,&session);
+
+MPI_Info info_used;
+MPI_Session_get_info(session,&info_used);
+MPI_Info_free(&info_used);
+
+MPI_Session_finalize(&session);
+\end{lstlisting}
+
+The info object can contain implementation-specific data,
+but the key \indexmpishow{mpi_thread_support_level} is pre-defined.
+
+You can not mix in a single call objects
+from different sessions,
+from a session and from the world model,
+or from a session and from \indexmpishow{MPI_Comm_get_parent} or \indexmpishow{MPI_Comm_join}.
+
+\Level 1 {Process sets}
+
+Process sets are indicated with a \acf{URI},
+where the \acp{URI} \indexmpishow{mpi://WORLD} and \indexmpishow{mpi://SELF}
+are always defined.
+
+The following partial code creates a communicator equivalent to \indexmpishow{MPI_COMM_WORLD}
+in the session model:
+\begin{lstlisting}
+const char pset_name[] = "mpi://WORLD";
+MPI_Group_from_session_pset
+   (lib_shandle,pset_name,&wgroup);
+MPI_Comm_create_from_group
+   (wgroup,"parcompbook-example",
+    MPI_INFO_NULL,MPI_ERRORS_RETURN,&world_comm);
+\end{lstlisting}
+
+Further process sets can be found: \indexmpishow{MPI_Session_get_num_psets}.
+
+Get a specific one: \indexmpishow{MPI_Session_get_nth_pset}.
+
+Get the info object (section~\ref{sec:mpi-info}) from a process set:
+\indexmpishow{MPI_Session_get_pset_info}.
+This info object always has the key \indexmpishow{mpi_size}.
+
+\begin{comment}
+7.2.4 When using the Sessions Model (Section 11.3) for initialization of MPI
+re- sources, MPI_COMM_WORLD and MPI_COMM_SELF are not valid for use as
+a communica- tor.
+
+11.3 MPI objects derived from the Sessions Model shall not be
+intermixed in a single MPI procedure call with MPI objects derived
+from the World Model.
+
+Are those two at odds? The first one seems to imply that in the second
+statement objects from the world model can't even exist.
+\end{comment}
+
+\end{mpifour}
+
+\Level 0 {Functionality available outside init/finalize}
+
+\begin{raggedlist}
+\indexmpishow{MPI_Initialized}
+\indexmpishow{MPI_Finalized}
+\indexmpishow{MPI_Get_version}
+\indexmpishow{MPI_Get_library_version}
+\indexmpishow{MPI_Info_create}
+\indexmpishow{MPI_Info_create_env}
+\indexmpishow{MPI_Info_set}
+\indexmpishow{MPI_Info_delete}
+\indexmpishow{MPI_Info_get}
+\indexmpishow{MPI_Info_get_valuelen}
+\indexmpishow{MPI_Info_get_nkeys}
+\indexmpishow{MPI_Info_get_nthkey}
+\indexmpishow{MPI_Info_dup}
+\indexmpishow{MPI_Info_free}
+\indexmpishow{MPI_Info_f2c}
+\indexmpishow{MPI_Info_c2f}
+\indexmpishow{MPI_Session_create_errhandler}
+\indexmpishow{MPI_Session_call_errhandler}
+\indexmpishow{MPI_Errhandler_free}
+\indexmpishow{MPI_Errhandler_f2c}
+\indexmpishow{MPI_Errhandler_c2f}
+\indexmpishow{MPI_Error_string}
+\indexmpishow{MPI_Error_class}
+\end{raggedlist}
+Also all routines starting with \indexmpishow{MPI_Txxx}.

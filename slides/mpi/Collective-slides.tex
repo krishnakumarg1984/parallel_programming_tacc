@@ -11,7 +11,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{frame}[containsverbatim]{Overview}
+\begin{numberedframe}{Overview}
   In this section you will learn `collective' operations, that combine
   information from all processes.
 
@@ -21,9 +21,9 @@
   \item \indexmpishow{MPI_All_...} variants, \indexmpishow{MPI_....v} variants
   \item \indexmpishow{MPI_Barrier}, \indexmpishow{MPI_Alltoall}, \indexmpishow{MPI_Scan}
   \end{itemize}
-\end{frame}
+\end{numberedframe}
 
-\begin{frame}{Technically}
+\begin{numberedframe}{Technically}
   Routines can be `collective on a communicator': 
   \begin{itemize}
   \item They involve a communicator;
@@ -32,11 +32,11 @@
   \item Mostly about combining data, but also opening shared files,
     declaring `windows' for one-sided communication.
   \end{itemize}
-\end{frame}
+\end{numberedframe}
 
 \sectionframe{Concepts}
 
-\begin{frame}[containsverbatim]\frametitle{Collectives}
+\begin{numberedframe}{Collectives}
   Gathering and spreading information:
   \begin{itemize}
   \item Every process has data, you want to bring it together;
@@ -51,15 +51,15 @@
   \item Send the same data to everyone: broadcast.
   \item Send individual data to each process: scatter.
   \end{itemize}
-\end{frame}
+\end{numberedframe}
 
-\frame{\includegraphics[scale=.8]{collective_comm}}
+\frame{\includegraphics[scale=.6]{collective_comm}}
 
 \begin{exerciseframe}
   \input ex:collective-cases
 \end{exerciseframe}
 
-\begin{frame}[containsverbatim]\frametitle{More collectives}
+\begin{numberedframe}{More collectives}
   \begin{itemize}
   \item Instead of a root, collect to all: \indexmpishow{MPI_All...}
   \item Scatter/Gather individual data, but also individual size:
@@ -68,11 +68,11 @@
   \item Scan: like a reduction, but with partial results
   \item Non-blocking collectives.
   \end{itemize}
-\end{frame}
+\end{numberedframe}
 
 \sectionframe{Basic collectives}
 
-\begin{frame}[containsverbatim]{Allreduce: reduce-to-all}
+\begin{numberedframe}{Allreduce: reduce-to-all}
   \begin{itemize}
   \item \lstinline{MPI_Allreduce} does the same as:\\
     \lstinline{MPI_Reduce} (reduction) followed by \lstinline{MPI_Bcast} (broadcast)
@@ -80,9 +80,9 @@
   \item Same running time as either, half of reduce-followed-by-broadcast
   \item (And you don't have to think about who is the root)
   \end{itemize}
-\end{frame}
+\end{numberedframe}
 
-\begin{frame}{Motivation for allreduce}
+\begin{numberedframe}{Motivation for allreduce}
   Example: normalizing a vector
   \[ y \leftarrow x/\|x\| \]
   \begin{itemize}
@@ -93,9 +93,9 @@
   \item Every process scales its part of the vector.
   \item Question: what kind of reduction do you use for an inf-norm? One-norm? Two-norm?
   \end{itemize}
-\end{frame}
+\end{numberedframe}
 
-\begin{frame}[containsverbatim]{Another Allreduce}
+\begin{numberedframe}{Another Allreduce}
 Standard deviation:
 \[ \sigma = \sqrt{\frac1N \sum_i^N (x_i-\mu) }
 \qquad\hbox{where}\qquad \mu = \frac{\sum_i^Nx_i}N
@@ -113,9 +113,9 @@ How do we compute this?
   distributed data, so we need another reduction operation. Might as
   well use allreduce.
 \end{enumerate}
-\end{frame}
+\end{numberedframe}
 
-\begin{frame}[containsverbatim]{Allreduce syntax}
+\begin{numberedframe}{Allreduce syntax}
 \begin{lstlisting}
   int MPI_Allreduce(
     const void* sendbuf,
@@ -129,9 +129,9 @@ How do we compute this?
 \item \indexmpishow{MPI_Datatype} is \indexmpishow{MPI_INT}, \indexmpishow{MPI_REAL8} et cetera.
 \item \indexmpishow{MPI_Op} is \indexmpishow{MPI_SUM}, \indexmpishow{MPI_MAX} et cetera.
 \end{itemize}
-\end{frame}
+\end{numberedframe}
 
-\begin{frame}[containsverbatim]{Elementary datatypes}
+\begin{numberedframe}{Elementary datatypes}
 \begin{tabular}{|l|l|l|}
   \hline
   C&Fortran&meaning\\
@@ -152,9 +152,9 @@ How do we compute this?
 \end{tabular}  
 
 A bunch more.
-\end{frame}
+\end{numberedframe}
 
-\begin{frame}[containsverbatim]{MPI operators}
+\begin{numberedframe}{MPI operators}
 \begingroup \tt\catcode`\_=12\relax %pyskip
 \begin{tabular}{|l|l|}
   \hline
@@ -175,27 +175,27 @@ A bunch more.
 \endgroup %pyskip
 
 A couple more.
-\end{frame}
+\end{numberedframe}
 
-\begin{frame}[containsverbatim]\frametitle{Buffers in C}
+\begin{numberedframe}{Buffers in C}
   General principle: buffer argument is address in memory of the data.
   \begin{itemize}
   \item Buffer is void pointer: 
   \item write \lstinline{&x} or \lstinline{(void*)&x} for scalar
   \item write \lstinline{x} or \lstinline{(void*)x} for array
   \end{itemize}
-\end{frame}
+\end{numberedframe}
 
-\begin{frame}[containsverbatim]\frametitle{Buffers in Fortran}
+\begin{numberedframe}{Buffers in Fortran}
   General principle: buffer argument is address in memory of the data.
   \begin{itemize}
   \item Fortran always passes by reference:
   \item write \lstinline{x} for scalar
   \item write \lstinline{x} for array
   \end{itemize}
-\end{frame}
+\end{numberedframe}
 
-\begin{frame}[containsverbatim]\frametitle{Buffers in Python}
+\begin{numberedframe}{Buffers in Python}
   For many routines there are two variants:
   \begin{itemize}
   \item lowercase: can send Python objects;\\
@@ -212,13 +212,13 @@ comm.Recv(result, ...)
 \end{verbatim}
     basicaly wrapper around C code: fast
   \end{itemize}
-\end{frame}
+\end{numberedframe}
 
 \begin{exerciseframe}[randommax]
   \input ex:randommaxscale
 \end{exerciseframe}
 
-\begin{frame}[containsverbatim]{Random numbers in C}
+\begin{numberedframe}{Random numbers in C}
 \lstset{language=C}
 \begin{lstlisting}
 // Initialize the random number generator
@@ -226,9 +226,9 @@ srand(procno*(double)RAND_MAX/nprocs);
 // compute a random number
 randomfraction = (rand() / (double)RAND_MAX);
 \end{lstlisting}
-\end{frame}
+\end{numberedframe}
 
-\begin{frame}[containsverbatim]{Random numbers in Fortran}
+\begin{numberedframe}{Random numbers in Fortran}
 \lstset{language=Fortran}
 \begin{lstlisting}
 integer :: randsize
@@ -242,9 +242,9 @@ call random_seed(put=randseed)
 
 call random_number(random_value)
 \end{lstlisting}
-\end{frame}
+\end{numberedframe}
 
-\begin{frame}[containsverbatim]{Random numbers in Python}
+\begin{numberedframe}{Random numbers in Python}
 \lstset{language=Python}
 \begin{lstlisting}
 import random
@@ -253,18 +253,18 @@ random.seed(procno)
 
 random_value = random.random()
 \end{lstlisting}
-\end{frame}
+\end{numberedframe}
 
 \begin{optexerciseframe}
   \input ex:randomcoord
 \end{optexerciseframe}
 
-\begin{frame}{Reduction to single process}
+\begin{numberedframe}{Reduction to single process}
     Regular reduce: great for printing out summary information at the
   end of your job.
-\end{frame}
+\end{numberedframe}
 
-\begin{frame}[label=reduce,containsverbatim]{Reduction to root}
+\begin{numberedframe}{Reduction to root}
 \lstset{language=C}
 \begin{lstlisting}
 int MPI_Reduce
@@ -279,21 +279,9 @@ int MPI_Reduce
 \item \lstinline{count} is number of items in the buffer: 1~for scalar.
 \item \indexmpishow{MPI_Op} is \indexmpishow{MPI_SUM}, \indexmpishow{MPI_MAX} et cetera.
 \end{itemize}
-\end{frame}
+\end{numberedframe}
 
-%% \begin{longcourse}
-%%   \begin{exerciseframe}
-%%     \input ex:argv-bcast
-%%   \end{exerciseframe}
-%% \end{longcourse}
-
-%% \begin{full}
-%%   \begin{exerciseframe}[randommax]
-%%     \input ex:randommax
-%%   \end{exerciseframe}
-%% \end{full}
-
-\begin{frame}[label=bcast,containsverbatim]\frametitle{Broadcast}
+\begin{numberedframe}{Broadcast}
 \begin{lstlisting}
 int MPI_Bcast(
     void *buffer, int count, MPI_Datatype datatype, 
@@ -309,11 +297,11 @@ int MPI_Bcast(
   between C/Fortran.
 \item \lstinline{comm} is usually \indexmpishow{MPI_COMM_WORLD}
 \end{itemize}
-\end{frame}
+\end{numberedframe}
 
-\begin{frame}{Gauss-Jordan elimination}
+\begin{numberedframe}{Gauss-Jordan elimination}
   \url{https://youtu.be/aQYuwatlWME}
-\end{frame}
+\end{numberedframe}
 
 \begin{exerciseframe}[jordan]
   \small
@@ -325,56 +313,9 @@ int MPI_Bcast(
   per processor?
 \end{optexerciseframe}
 
-\sectionframe{Gather/Scatter, Scan, Barrier, and others}
+\sectionframe{Scan}
 
-\begin{frame}[containsverbatim]\frametitle{Gather/Scatter}
-{\small
-\begin{lstlisting}
-int MPI_Gather(
-  void *sendbuf, int sendcnt, MPI_Datatype sendtype,
-  void *recvbuf, int recvcnt, MPI_Datatype recvtype,
-  int root, MPI_Comm comm
-);
-int MPI_Scatter
-  (void* sendbuf, int sendcount, MPI_Datatype sendtype, 
-   void* recvbuf, int recvcount, MPI_Datatype recvtype, 
-   int root, MPI_Comm comm) 
-\end{lstlisting}
-}
-\begin{itemize}
-\item Compare buffers to \hyperlink{reduce}{\beamergotobutton{reduce}}
-\item Scatter: the \lstinline{sendcount} / Gather: the \lstinline{recvcount}:\\
-this is not, as you might expect, the total length of the
-buffer; instead, it is the amount of data to/from each process.
-\end{itemize}
-\end{frame}
-
-\begin{frame}{Gather pictured}
-  \includegraphics[scale=.4]{gather}
-\end{frame}
-
-\begin{exerciseframe}
-  \input ex:randomwhere
-\end{exerciseframe}
-
-\begin{frame}{Popular application of gather}
-  Matrix is constructed distributed, but needs to be brough to one
-  process:
-  
-  \includegraphics[scale=.4]{allgathermatrix}
-
-  This is not efficient in time or space. Do this
-  only when strictly necessary. Remember SPMD: try to keep everything
-  symmetrically parallel. 
-\end{frame}
-
-\protoslide{MPI_Allgather}
-
-\begin{frame}{Allgather pictured}
-  \includegraphics[scale=.4]{allgather}
-\end{frame}
-
-\begin{frame}[containsverbatim]\frametitle{Scan}
+\begin{numberedframe}{Scan}
 Scan or `parallel prefix': reduction with partial results
 
 \begin{itemize}
@@ -384,44 +325,95 @@ Scan or `parallel prefix': reduction with partial results
 \item Two variants: \indexmpishow{MPI_Scan} inclusive, and
   \indexmpishow{MPI_Exscan} exclusive.
 \end{itemize}
-\end{frame}
+\end{numberedframe}
 
 \protoslide{MPI_Scan}
 
-\begin{frame}[containsverbatim]\frametitle{V-type collectives}
+\begin{numberedframe}{For the next exercise}
+  \includegraphics[scale=.5]{scanints}
+\end{numberedframe}
+
+\begin{exerciseframe}[scangather]
+  \input ex:scanprint
+\end{exerciseframe}
+
+\sectionframe{Gather/Scatter, Barrier, and others}
+
+\protoslide{MPI_Gather}
+\protoslide{MPI_Scatter}
+
+\begin{numberedframe}{Gather/Scatter}
+\begin{itemize}
+\item Compare buffers to reduce
+\item Scatter: the \n{sendcount} / Gather: the \n{recvcount}:\\
+this is not, as you might expect, the total length of the
+buffer; instead, it is the amount of data to/from each process.
+\end{itemize}
+\end{numberedframe}
+
+\begin{numberedframe}{Gather pictured}
+  \includegraphics[scale=.4]{gather}
+\end{numberedframe}
+
+\begin{exerciseframe}
+  \input ex:randomwhere
+\end{exerciseframe}
+
+\begin{numberedframe}{Popular application of gather}
+  Matrix is constructed distributed, but needs to be brough to one
+  process:
+  
+  \includegraphics[scale=.4]{allgathermatrix}
+
+  This is not efficient in time or space. Do this
+  only when strictly necessary. Remember SPMD: try to keep everything
+  symmetrically parallel. 
+\end{numberedframe}
+
+\protoslide{MPI_Allgather}
+
+\begin{numberedframe}{Allgather pictured}
+  \includegraphics[scale=.4]{allgather}
+\end{numberedframe}
+
+\begin{numberedframe}{V-type collectives}
   \begin{itemize}
   \item Gather/scatter but with individual sizes
   \item Requires displacement in the gather/scatter buffer
   \end{itemize}
-\end{frame}
+\end{numberedframe}
 
 \protoslide{MPI_Gatherv}
 
-\begin{frame}[containsverbatim]\frametitle{All-to-all}
+\begin{exerciseframe}[scangather]
+  \input ex:scangather
+\end{exerciseframe}
+
+\begin{numberedframe}{All-to-all}
   \begin{itemize}
   \item Every process does a scatter;
   \item (equivalently: every process gather)
   \item each individual data, but amounts are identical
   \item Example: data transposition in FFT
   \end{itemize}
-\end{frame}
+\end{numberedframe}
 
-\begin{frame}{Data transposition}
+\begin{numberedframe}{Data transposition}
   \includegraphics[scale=.4]{alltoall}
 
   Example: each process knows who to send to, \\
   all-to-all gives information who to receive from
-\end{frame}
+\end{numberedframe}
 
-\begin{frame}[containsverbatim]\frametitle{All-to-allv}
+\begin{numberedframe}{All-to-allv}
   \begin{itemize}
   \item Every process does a scatter or gather;
   \item each individual data and individual amounts.
   \item Example: radix sort by least-significant digit.
   \end{itemize}
-\end{frame}
+\end{numberedframe}
 
-\begin{frame}{Radix sort}
+\begin{numberedframe}{Radix sort}
   \scriptsize
   Sort 4 numbers on two processes:
 
@@ -449,9 +441,9 @@ Scan or `parallel prefix': reduction with partial results
     decimal   & 1  & 2  & 5  & 7&\\
     \hline
   \end{tabular}
-\end{frame}
+\end{numberedframe}
 
-\begin{frame}[containsverbatim]{Reduce-scatter}
+\begin{numberedframe}{Reduce-scatter}
   \begin{itemize}
   \item 
     Pointwise reduction (one element per process) followed by scatter
@@ -460,17 +452,17 @@ Scan or `parallel prefix': reduction with partial results
     information, rather than gathered.
   \item Applications in both sparse and dense matrix-vector product.
   \end{itemize}
-\end{frame}
+\end{numberedframe}
 
-\begin{frame}{Example: sparse matrix setup}
+\begin{numberedframe}{Example: sparse matrix setup}
   Example: each process knows who to send to, \\
   all-to-all gives information how many messages to expect\\
   reduce-scatter leaves only relevant information
 
   \includegraphics[scale=.4]{reducescatter}
-\end{frame}
+\end{numberedframe}
 
-\begin{frame}[containsverbatim]\frametitle{Barrier}
+\begin{numberedframe}{Barrier}
 \begin{lstlisting}
 int MPI_Barrier( MPI_Comm comm )
 \end{lstlisting}
@@ -482,11 +474,11 @@ int MPI_Barrier( MPI_Comm comm )
     communication is a local synchronization
   \item One conceivable use: timing
   \end{itemize}
-\end{frame}
+\end{numberedframe}
 
 \sectionframe{User-defined operators}
 
-\begin{frame}[containsverbatim]\frametitle{MPI Operators}
+\begin{numberedframe}{MPI Operators}
   Define your own reduction operator
   \begin{itemize}
   \item Define operator between partial result and new operand
@@ -509,19 +501,19 @@ int MPI_Op_free(MPI_Op *op)
 \end{lstlisting}
 \item Make your own reduction scheme \indexmpishow{MPI_Reduce_local}
   \end{itemize}
-\end{frame}
+\end{numberedframe}
 
 \protoslide{MPI_Op_create}
 
-\begin{frame}[containsverbatim]\frametitle{Example}
+\begin{numberedframe}{Example}
   Smallest nonzero:
   
   \cverbatimsnippet{mpirwz}
-\end{frame}
+\end{numberedframe}
 
 \sectionframe{Performance of collectives}
 
-\begin{frame}{Naive realization of collectives}
+\begin{numberedframe}{Naive realization of collectives}
   Broadcast:
   
   \includegraphics[scale=.06]{graphics/bcast-simple}
@@ -535,9 +527,9 @@ int MPI_Op_free(MPI_Op *op)
   \item<3->Time for collective? Can you improve on that?
   \end{itemize}
 
-\end{frame}
+\end{numberedframe}
 
-\begin{frame}{Better implementation of collective}
+\begin{numberedframe}{Better implementation of collective}
   \includegraphics[scale=.07]{graphics/bcast-tree}
   
   \begin{itemize}
@@ -549,25 +541,25 @@ int MPI_Op_free(MPI_Op *op)
   \item<3-> How about the case of really long buffers?
   \end{itemize}
 
-\end{frame}
+\end{numberedframe}
 
 \endinput
 
-\begin{frame}[containsverbatim]\frametitle{}
+\begin{numberedframe}{}
 \begin{lstlisting}
   
 \end{lstlisting}
-\end{frame}
+\end{numberedframe}
 
-\begin{frame}[containsverbatim]\frametitle{}
+\begin{numberedframe}{}
 \begin{lstlisting}
   
 \end{lstlisting}
-\end{frame}
+\end{numberedframe}
 
-\begin{frame}[containsverbatim]\frametitle{}
+\begin{numberedframe}{}
 \begin{verbatim}
   
 \end{verbatim}
-\end{frame}
+\end{numberedframe}
 

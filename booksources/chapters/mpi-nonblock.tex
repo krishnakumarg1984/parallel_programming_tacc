@@ -4,7 +4,7 @@
 %%%%
 %%%% This text file is part of the source of 
 %%%% `Parallel Programming in MPI and OpenMP'
-%%%% by Victor Eijkhout, copyright 2012-2020
+%%%% by Victor Eijkhout, copyright 2012-2021
 %%%%
 %%%% mpi-nonblock.tex : blocking sends
 %%%%
@@ -119,15 +119,14 @@ can free it.
 
 \begin{mplnote}{Requests from non-blocking calls}
   \label{mpl:irequest}
-  The request object, which is in the class \indexmpldef{irequest},
-  is a function result, not a parameter passed by reference,
-  as in the C~interface.
-  The single wait call is a method of the \indexmplshow{irequest}
+  Non-blocking routines have an \indexmpldef{irequest} as function result.
+  Note: not a parameter passed by reference, as in the C~interface.
+  The various wait calls are methods of the \indexmplshow{irequest}
   class.
   %
   \cxxverbatimsnippet[examples/mpi/mpl/isendandirecv.cxx]{irecvexamplempl}
   %
-  You can not define the request variable:
+  You can not default-construct the request variable:
 \begin{lstlisting}
 // DOES NOT COMPILE mpl::irequest recv_request;
 \end{lstlisting}
@@ -195,6 +194,20 @@ If you don't need the status objects, you can pass
   blocking calls by non-blocking ones. How far apart can you put the
   \lstinline{MPI_Isend}~/ \lstinline{MPI_Irecv} calls and the
   corresponding \lstinline{MPI_Wait}s?
+  \exercisesource{bucketpipenonblock}
+\end{exercise}
+
+\begin{exercise}
+  \label{ex:setdiff}
+  Create two distributed arrays of positive integers.
+  Take the set difference of the two:
+  the first array needs to be transformed to remove from it those numbers
+  that are in the second array.
+
+  How could you solve this with an \lstinline+MPI_Allgather+ call?
+  Why is it not a good idea to do so?
+  Solve this exercise instead with a circular bucket brigade algorithm.
+  \exercisesource{setdiff}
 \end{exercise}
 
 \begin{pythonnote}{Request arrays}
@@ -234,23 +247,27 @@ reference, and not an array of statuses!
   \fverbatimsnippet[examples/mpi/f08/waitnull.F90]{waitany0f}
 \end{fortrannote}
 
-\begin{mplnote}{Wait any}
+\begin{mplnote}{Request pools}
   \label{mpl:req_pool}
   Instead of an array of requests,
   use an \indexmpldef{irequest_pool} object,
   which acts like a vector of requests,
-  meaning that you can \lstinline+push_back+ onto it.
+  meaning that you can \lstinline+push+ onto it.
 
   \cxxverbatimsnippet[examples/mpi/mpl/irecvsource.cxx]{mpirequestpush}
 
+  You can not declare a pool of a fixed size and assign elements.
+\end{mplnote}
+
+\begin{mplnote}{Wait any}
   The \indexmpishow{irequest_pool} class has methods
   \indexmplshow{waitany}, \indexmplshow{waitall},
   \indexmplshow{testany}, \indexmplshow{testall},
   \indexmplshow{waitsome}, \indexmplshow{testsome}.
+
+  The `any' methods return a \lstinline+std::pair<bool,size_t>+.
   %
   \cxxverbatimsnippet[examples/mpi/mpl/irecvsource.cxx]{waitforanympl}
-  %
-  You can not declare a pool of a fixed size and assign elements.
 \end{mplnote}
 
 \Level 3 {Polling with MPI Wait any}
@@ -301,6 +318,7 @@ and \indexmpishow{MPI_Waitsome}.
 
 \begin{exercise}
   \label{ex:3ptnonblock}
+  \exercisesource{isendirecv}
   Now use nonblocking send/receive routines to implement
   the three-point averaging operation
   \[ y_i=\bigl( x_{i-1}+x_i+x_{i+1} \bigr)/3\colon i=1,\ldots,N-1 \]
@@ -336,6 +354,7 @@ hardware, firmware, and MPI implementation.
 
 \begin{exercise}
   \label{ex:3ptnonblock-hide}
+  \exercisesource{isendirecvarray}
   Take your code of exercise~\ref{ex:3ptnonblock} and modify it to use
   latency hiding. Operations that can be performed without needing
   data from neighbours should be performed in between the

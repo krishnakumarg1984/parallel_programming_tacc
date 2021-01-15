@@ -4,7 +4,7 @@
 %%%%
 %%%% This LaTeX file is part of the source of 
 %%%% `Parallel Computing'
-%%%% by Victor Eijkhout, copyright 2012-2020
+%%%% by Victor Eijkhout, copyright 2012-2021
 %%%%
 %%%% idxmacs.tex : index-related macros.
 %%%%
@@ -14,6 +14,7 @@
 \makeindex
 \makeindex[name=mpi]
 % already elsewhere? \makeindex[name=mpl]
+\makeindex[name=sycl]
 \makeindex[name=omp]
 \makeindex[name=petsc]
 
@@ -283,6 +284,7 @@
 
 % omp
 \newcommand\indexompshow{\PackageIndex\ompIndexRM}
+\newcommand\indexompdepr{\PackageIndex\ompIndexRd}
 \newcommand\indexompdef {\PackageIndex\ompIndexBF}
 \newcommand\indexompref {\PackageIndex\ompIndexAndRef}
 \newcommand\indexompex  {\PackageIndex\ompIndexIT}
@@ -297,6 +299,7 @@
 
 \newcommand\ompIndexBF{\RoutineIndexFont{omp}{textbf}\endgroup}
 \newcommand\ompIndexRM{\RoutineIndexFont{omp}{textrm}\endgroup}
+\newcommand\ompIndexRd{\RoutineDeprcFont{omp}{textrm}\endgroup}
 \newcommand\ompIndexIT{\RoutineIndexFont{omp}{textsl}\endgroup}
 \newcommand\ompIndexAndRef{%
   \let\referencedroutine\indexedroutine
@@ -322,6 +325,12 @@
   \let\referencedroutine\indexedroutine
   \RoutineShowAndIndex{petsc}{textbf}%
   \def\routinefam{petsc}\RoutineRefDisplay\endgroup}
+
+% sycl
+\newcommand\indexsyclshow{\PackageIndex\syclIndexRM}
+\newcommand\indexsycldef {\PackageIndex\syclIndexBF}
+\newcommand\syclIndexBF{\RoutineIndexFont{sycl}{textbf}\endgroup}
+\newcommand\syclIndexRM{\RoutineIndexFont{sycl}{textrm}\endgroup}
 
 %%
 %% Define `indexedroutine' and invoke #1 which will process this
@@ -372,10 +381,10 @@
   \edef\tmp{%
     \noexpand\lstinline+\indexedroutine+%
     \noexpand\index[#1]{%
-      \indexedroutine@{\catcode95=12 \noexpand\texttt{\indexedroutine}}|#2}
+      \indexedroutine@{\catcode95=12 \noexpand\texttt{\indexedroutine}}|#2}\ \relax
     (figure\noexpand~\noexpand\ref{ref:\referencedroutine})%
   }%
-  \tmp
+  \tmp%
 }
 
 \newcommand\RoutineRefStyle{
@@ -399,7 +408,7 @@
 %\newcounter{manpage}
 { %\catcode`\_=13
   \gdef\RoutineRefDisplay{%
-    \begin{manpage}
+    \begin{manpage}%
       % counter and reference to counter
       \refstepcounter{manpage}%
       \edef\labeltext{ref:\indexedroutine}
@@ -417,14 +426,23 @@
       {\footnotesize
         \def\mpifam{mpi}
         \ifx\mpifam\routinefam
-            \edef\apiname{api_\referencedroutine}
-            \message{apiname=\apiname}
-            \expandafter\lowercase\expandafter{\expandafter\input\expandafter{\apiname}}
+            \edef\tmp{\lowercase{\def\noexpand\standardroutine{\referencedroutine}}}\tmp
+            \IfFileExists
+                {standard/\standardroutine.tex}
+                {\input{standard/\standardroutine}}
+                {% if no standard file, then maybe handwritten file
+                  \IfFileExists
+                      {mpireference/\referencedroutine.tex}
+                      {\verbatiminput{mpireference/\referencedroutine}}{}}
+            \IfFileExists{mplreference/\referencedroutine}
+                  {\edef\tmp{\noexpand\verbatiminput{mplreference/\referencedroutine}}\tmp}{}
+            \IfFileExists{pyreference/\referencedroutine}
+                  {\verbatiminput{pyreference/\referencedroutine}}{}
         \else
             \edef\tmp{\noexpand\verbatiminput{\referencedroutine}}\tmp
         \fi
       }
-    \end{manpage}
+    \end{manpage}%
   }
 }
 

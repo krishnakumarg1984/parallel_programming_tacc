@@ -11,7 +11,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{frame}[containsverbatim]{Overview}
+\begin{numberedframe}{Overview}
   This section discusses processes management; intra communicators.
 
   Commands learned:
@@ -19,9 +19,9 @@
   \item \indexmpishow{MPI_Comm_spawn}, \indexmpishow{MPI_UNIVERSE_SIZE}
   \item \indexmpishow{MPI_Comm_get_parent}, \indexmpishow{MPI_Comm_remote_size}
   \end{itemize}
-\end{frame}
+\end{numberedframe}
 
-\begin{frame}[containsverbatim]{Process management}
+\begin{numberedframe}{Process management}
   \begin{itemize}
   \item PVM was a precursor of MPI: could dynamically create new
     processes.
@@ -33,9 +33,9 @@
   \item Communication between the two communicators: `inter
     communicator'\\ (the old type is `intra communicator')
   \end{itemize}
-\end{frame}
+\end{numberedframe}
 
-\begin{frame}[containsverbatim]{Space for processes}
+\begin{numberedframe}{Space for processes}
   Probably a machine dependent component.
 
   Suggested standard:
@@ -52,26 +52,26 @@ Discover size of the universe:
 MPI_Attr_get(MPI_COMM_WORLD, MPI_UNIVERSE_SIZE,
   (void*)&universe_sizep, &flag);
 \end{lstlisting}
-\end{frame}
+\end{numberedframe}
 
-\begin{frame}[containsverbatim]{Manager program}
+\begin{numberedframe}{Manager program}
 \footnotesize
 \cverbatimsnippet{spawnmanagerq}
-\end{frame}
+\end{numberedframe}
 
-\begin{frame}[containsverbatim]{Manager program (cont'd)}
+\begin{numberedframe}{Manager program (cont'd)}
 \footnotesize
 \cverbatimsnippet{spawnmanager}
-\end{frame}
+\end{numberedframe}
 
-\begin{frame}[containsverbatim]\frametitle{Worker program}
+\begin{numberedframe}{Worker program}
 \cverbatimsnippet{spawnworker}
-\end{frame}
+\end{numberedframe}
 
 \endinput
 
-\begin{frame}[containsverbatim]\frametitle{}
+\begin{numberedframe}{}
 \begin{lstlisting}
 \end{lstlisting}
-\end{frame}
+\end{numberedframe}
 

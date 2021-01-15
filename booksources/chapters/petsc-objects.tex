@@ -115,13 +115,17 @@ For compatibility with other packages there are two more integer types:
 \item \indexpetscdef{PetscBLASInt} is the integer type used by the
   \indexac{BLAS}~/ \indexac{LAPACK} library. This is 32-bits if the
   \indexpetscshow{-download-blas-lapack} option is used, but it can be 64-bit if
-  \indexterm{MKL} is used. The routine \indexpetscdef{PetscBLASIntCast} casts a
+  \indexterm{MKL} is used.
+  The routine \indexpetscdef{PetscBLASIntCast} casts a
   \indexpetscshow{PetscInt} to \indexpetscshow{PetscBLASInt}, or returns
   \indexpetscshow{PETSC_ERR_ARG_OUTOFRANGE} if it is too large.
 \item \indexpetscdef{PetscMPIInt} is the integer type of the MPI library, which is
   always 32-bits.
+  The routine \indexpetscdef{PetscMPIIntCast} casts a
+  \indexpetscshow{PetscInt} to \indexpetscshow{PetscMPIInt}, or returns
+  \indexpetscshow{PETSC_ERR_ARG_OUTOFRANGE} if it is too large.
 \end{itemize}
-Many other packages do not support 64-bit integers.
+Many external packages do not support 64-bit integers.
 
 \Level 1 {Complex}
 
@@ -421,6 +425,29 @@ into it.
   %
   \fverbatimsnippet[examples/petsc/f/vecset.F90]{vecinspect90}
 \end{fortrannote}
+
+\Level 1 {File I/O}
+\label{sec:vecviewload}
+
+As mentioned above, \indexpetscshow{VecView} can be used for
+displaying a vector on the terminal screen.
+However, viewers are actually much more general.
+As explained in section~\ref{sec:petsc-view},
+they can also be used to export vector data, for instance to file.
+
+The converse operation, to load a vector that was exported in this manner,
+is \indexpetscdef{VecLoad}.
+
+Since these operations are each other's inverses,
+usually you don't need to know the file format.
+But just in case:
+\begin{lstlisting}
+PetscInt    VEC_FILE_CLASSID
+PetscInt    number of rows
+PetscScalar *values of all entries
+\end{lstlisting}
+That is, the file starts with a magic number, then the number of vector elements,
+and subsequently all scalar values.
 
 \Level 0 {Mat: Matrices}
 

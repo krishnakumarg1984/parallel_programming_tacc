@@ -154,11 +154,22 @@ void func(...) {
 \end{lstlisting}
 
 By default, the nested parallel region will have only one thread. To
-allow nested thread creation, set
+allow nested thread creation,
+set \indexompdepr{OMP_NESTED} (default: false):
 \begin{verbatim}
 OMP_NESTED=true
  or
 omp_set_nested(1)
+\end{verbatim}
+For more fine-grained control use the environment variable
+\indexompdef{OMP_MAX_ACTIVE_LEVELS} (default:~1)
+or the functions
+\indexompdef{omp_set_max_active_levels} and \indexompdef{omp_get_max_active_levels}:
+\begin{verbatim}
+OMP_MAX_ACTIVE_LEVELS=3
+ or
+void omp_set_max_active_levels(int);
+int omp_get_max_active_levels(void);
 \end{verbatim}
 
 \begin{exercise}

@@ -66,10 +66,16 @@ but we will do that in a couple of steps. First of all:
 \index{transpose!and all-to-all|)}
 
 \Level 1 {All-to-all-v}
+\label{sec:alltoallv}
 
 The major part of the \indexterm{radix sort} algorithm consist
 of every process sending some of its elements to
 each of the other processes.
+The routine \indexmpiref{MPI_Alltoallv} is used for this pattern:
+\begin{itemize}
+\item Every rank scatters its data to all others,
+\item but the amount of data is different per rank.
+\end{itemize}
 
 \begin{exercise}
   \label{ex:radixsort2}
@@ -174,7 +180,14 @@ Set up separate row and column communicators with
 \indexmpishow{MPI_Comm_split}, use \indexmpishow{MPI_Reduce_scatter} to combine
 local products.
 %
-\cverbatimsnippet[examples/mpi/c/mvp2d.c]{mvp2d}
+%%%% we seem to have lost this program....
+%\cverbatimsnippet[examples/mpi/c/mvp2d.c]{mvp2d}
+\begin{lstlisting}
+MPI_Allgather(&my_x,1,MPI_DOUBLE,
+   	  local_x,1,MPI_DOUBLE,environ.col_comm);
+MPI_Reduce_scatter(local_y,&my_y,&ione,MPI_DOUBLE,
+	  MPI_SUM,environ.row_comm);
+\end{lstlisting}
 
 \Level 0 {Barrier}
 \label{sec:barrier}

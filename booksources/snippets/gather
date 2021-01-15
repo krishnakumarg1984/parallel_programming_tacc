@@ -1,6 +1,6 @@
 // gather.c
 // we assume that each process has a value "localsize"
-// the root process collectes these values
+// the root process collects these values
 
   if (procno==root)
     localsizes = (int*) malloc( nprocs*sizeof(int) );

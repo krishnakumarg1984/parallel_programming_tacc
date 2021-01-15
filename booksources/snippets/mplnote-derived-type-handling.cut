@@ -1,3 +1,4 @@
+  \label{mpl:derived}
   In \ac{MPL} type creation routines are in the main namespace,
   templated over the datatypes.
   %

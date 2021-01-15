@@ -5,6 +5,3 @@ float
 comm_world.allreduce(mpl::plus<float>(), xrank,xreduce);
 // in place
 comm_world.allreduce(mpl::plus<float>(), xrank);
-if ( comm_world.rank()==comm_world.size()-1 )
-  std::cout << "Allreduce got: separate=" << xreduce
-            << ", inplace=" << xrank << std::endl;

@@ -4,7 +4,7 @@
 %%%%
 %%%% This text file is part of the source of 
 %%%% `Parallel Programming in MPI and OpenMP'
-%%%% by Victor Eijkhout, copyright 2012-2020
+%%%% by Victor Eijkhout, copyright 2012-2021
 %%%%
 %%%% mpi-gatherscatter.tex : about gather & scatter collectives
 %%%%
@@ -87,11 +87,13 @@ Two things to note about these routines:
   a~parameter for this long array is always present. Non-root processes can use
   a \indextermsub{null}{pointer} here.
 \item More elegantly, the \indexmpishow{MPI_IN_PLACE} option can be
-  used buffers that are not applicable. See section~\ref{sec:allreduce-inplace}.
+  used for buffers that are not applicable, such as the receive buffer on a sending process.
+  See section~\ref{sec:allreduce-inplace}.
 \end{itemize}
 
 \begin{mplnote}{Gather/scatter}
-  Gathering (by \indexmpldef{gather}) or scattering (by \indexmpldef{scatter})
+  Gathering (by \lstinline+communicator::+\indexmpldef{gather})
+  or scattering (by \lstinline+communicator::+\indexmpldef{scatter})
   a single scalar takes a scalar argument
   and a raw array:
   %
@@ -139,6 +141,17 @@ originates from a different scatter operation.
   Does that change anything essential about structure of the code?
 \end{exercise}
 
+\begin{exercise}
+  \label{ex:scangather}
+  Take the code from exercise~\ref{ex:scanprint} and extend it to gather
+  all local buffers onto rank zero.
+  Since the local arrays are of differing lengths,
+  this requires \indexmpishow{MPI_Gatherv}.
+
+  How do you construct the lengths and displacements arrays?
+  \exercisesource{scangather}
+\end{exercise}
+
 \Level 1 {Allgather}
 
 \begin{figure}[ht]
@@ -165,8 +178,8 @@ usage.
 
 \begin{exercise}
   Can you think of another algorithm for taking the set difference of
-  two distributed vectors. Hint: look up `bucket-brigade algorithm'
-  in~\cite{Eijkhout:IHPSClulu}. What is the time and space complexity
+  two distributed vectors. Hint: look up \indexterm{bucket brigade};
+  section~\ref algorithm'. What is the time and space complexity
   of this algorithm? Can you think of other advantages beside a
   reduction in workspace?
 \end{exercise}

@@ -4,7 +4,7 @@
 %%%%
 %%%% This text file is part of the source of 
 %%%% `Introduction to High-Performance Scientific Computing'
-%%%% by Victor Eijkhout, copyright 2012-2020
+%%%% by Victor Eijkhout, copyright 2012-2021
 %%%%
 %%%% This book is distributed under a Creative Commons Attribution 3.0
 %%%% Unported (CC BY 3.0) license and made possible by funding from
@@ -45,6 +45,7 @@
   % we use \label{ex:foo} and \frame[label=exfoo]
   \hyperlink{#1}{\noexpand\beamergotobutton{ex#1}}%
 }
+\newcommand\exercisesource[1]{}
 
 \newcommand\diag{\mathop{\mathrm {diag}}}
 \newcommand\argmin{\mathop{\mathrm {argmin}}}
@@ -135,6 +136,12 @@
 %%%%
 %%%% Environments
 %%%%
+\newcounter{slidecount}
+\newenvironment
+    {numberedframe}[1]
+    {\refstepcounter{slidecount}
+      \begin{frame}[containsverbatim]{\arabic{slidecount}\ #1}}
+    {\end{frame}}
 \newenvironment{question}{\begin{quotation}\textbf{Question.\ }}{\end{quotation}}
 \newenvironment{fortrannote}
   {\begin{quotation}\noindent\textsl{Fortran note.\kern1em}\ignorespaces}
@@ -145,6 +152,8 @@
 \newenvironment{taccnote}
   {\begin{quotation}\noindent\textsl{TACC note.\kern1em}\ignorespaces}
   {\end{quotation}}
+\newenvironment{mpifour}
+  {\begin{quotation}\textbf{MPI-4:\ }\ignorespaces}{\end{quotation}}
 
 %% \newenvironment{highermath}
 %%     {\bigskip\begin{quotation}\noindent\emph{MMM}}

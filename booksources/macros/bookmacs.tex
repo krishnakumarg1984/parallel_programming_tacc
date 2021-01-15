@@ -154,13 +154,14 @@
 %%   \fi
 %% }
 
+\newenvironment{raggedlist}{\begingroup\rightskip=0pt plus 2in}{\par\endgroup}
 \newenvironment{question}{\begin{quotation}\textbf{Question.\ }}{\end{quotation}}
 \newenvironment{example}{\begin{quotation}\textbf{Example.\ }}{\end{quotation}}
 \newenvironment{specialnote}[1]
                {\par\begin{raggedright}
                  \leftskip=.5\unitindent
                  \noindent\textsl{#1.}\kern1em\ignorespaces}
-               {\end{raggedright}\par}
+               {\par\end{raggedright}}
 \newenvironment{fortrannote}
   {\begin{specialnote}{Fortran note}\lstset{language=Fortran}}
   {\end{specialnote}\lstset{language=C}}
@@ -222,6 +223,7 @@
       \nobreak
       \input{\CommentCutFile}
       \par
+      \hbox{\textsl{End of MPI-4 material}}
       \hrule
       \endgroup
     }

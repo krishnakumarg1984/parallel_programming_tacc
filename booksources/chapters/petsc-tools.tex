@@ -129,6 +129,14 @@ This testing is only done if the commandline argument
 \indextermtt{-malloc_debug} (\indextermtt{-malloc_test} in debug mode)
 is supplied, so it carries no overhead for production runs.
 
+\Level 2 {Valgrind}
+
+Valgrind is rather verbose in its output.
+To limit the number of ranks that run under valgrind:
+\begin{verbatim}
+mpiexec -n 3 valgrind --track-origins=yes ./app -args : -n 5 ./app -args
+\end{verbatim}
+
 \Level 0 {Program output}
 
 PETSc has as variety of mechanisms to export or visualize program data.
@@ -189,17 +197,13 @@ binary dump to file, or communication to a running Matlab process.
 Calls such as  \indexpetscshow{MatView} or \indexpetscshow{KSPView}
 accept a \lstinline{PetscViewer} argument.
 
+In cases where this makes sense, there is also an inverse `load' operation.
+See section \ref{sec:vecviewload} for vectors.
+
 Some viewers are predefined, such as
 \indexpetscdef{PETSC_VIEWER_STDOUT_WORLD} for ascii rendering to
 standard out. (In~C, specifying zero or \n{NULL} also uses this
 default viewer; for Fortran use \indexpetsctt{PETSC_NULL_VIEWER}.)
-
-Some viewers, such as \indexpetscshow{KSPView} are mostly for
-diagnostic purposes.  Thus, it is most convenient to activiate them
-through commandline options such \indexpetscshow{-ksp_view}.
-If a viewer needs to be triggered at a specific location,
-calls such as \indexpetscdef{VecViewFromOptions} can be used.
-%% NO probably in combination with \indexpetscshow{VecSetOptionsPrefix}.
 
 \Level 2 {Viewer types}
 
@@ -245,6 +249,52 @@ program -mat_view binary:matrix.dat
 \end{verbatim}
 where \n{binary} forces a binary dump (\n{ascii} is the default)
 and a file name is explicitly given.
+
+If a viewer needs to be triggered at a specific location,
+calls such as \indexpetscdef{VecViewFromOptions} can be used.
+%% NO probably in combination with \indexpetscshow{VecSetOptionsPrefix}.
+These routines all have a similar calling sequence:
+\begin{lstlisting}
+#include "petscsys.h"    
+PetscErrorCode  PetscObjectViewFromOptions(PetscObject obj,PetscObject bobj,const char optionname[])
+PetscErrorCode  VecViewFromOptions(Vec A,PetscObject obj,const char name[])
+\end{lstlisting}
+
+\begin{raggedlist}
+  \indexpetscshow{AOViewFromOptions},
+  \indexpetscshow{DMViewFromOptions},
+  \indexpetscshow{ISViewFromOptions},
+  \indexpetscshow{ISLocalToGlobalMappingViewFromOptions},
+  \indexpetscshow{KSPConvergedReasonViewFromOptions},
+  \indexpetscshow{KSPViewFromOptions},
+  \indexpetscshow{MatPartitioningViewFromOptions},
+  \indexpetscshow{MatCoarsenViewFromOptions},
+  \indexpetscshow{MatViewFromOptions},
+  \indexpetscshow{PetscObjectViewFromOptions},
+  \indexpetscshow{PetscPartitionerViewFromOptions},
+  \indexpetscshow{PetscDrawViewFromOptions},
+  \indexpetscshow{PetscRandomViewFromOptions},
+  \indexpetscshow{PetscDualSpaceViewFromOptions},
+  \indexpetscshow{PetscSFViewFromOptions},
+  \indexpetscshow{PetscFEViewFromOptions},
+  \indexpetscshow{PetscFVViewFromOptions},
+  \indexpetscshow{PetscSectionViewFromOptions},
+  \indexpetscshow{PCViewFromOptions},
+  \indexpetscshow{PetscSpaceViewFromOptions},
+  \indexpetscshow{PFViewFromOptions},
+  \indexpetscshow{PetscLimiterViewFromOptions},
+  \indexpetscshow{PetscLogViewFromOptions},
+  \indexpetscshow{PetscDSViewFromOptions},
+  \indexpetscshow{PetscViewerViewFromOptions},
+  \indexpetscshow{SNESConvergedReasonViewFromOptions},
+  \indexpetscshow{SNESViewFromOptions},
+  \indexpetscshow{TSTrajectoryViewFromOptions},
+  \indexpetscshow{TSViewFromOptions},
+  \indexpetscshow{TaoLineSearchViewFromOptions},
+  \indexpetscshow{TaoViewFromOptions},
+  \indexpetscshow{VecViewFromOptions},
+  \indexpetscshow{VecScatterViewFromOptions},
+\end{raggedlist}
 
 \Level 2 {Naming objects}
 
@@ -345,8 +395,8 @@ You can then use options \n{-time_ksp_monitor} and such.
 Note that the prefix does not have a leading dash,
 but it does have the trailing underscore.
 
+\begin{raggedlist}
 Similar routines:
-\begin{raggedright}
   \indexpetscdef{MatSetOptionsPrefix}, 
   \indexpetscdef{PCSetOptionsPrefix}, 
   \indexpetscdef{PetscObjectSetOptionsPrefix}, 
@@ -354,8 +404,8 @@ Similar routines:
   \indexpetscdef{SNESSetOptionsPrefix}, 
   \indexpetscdef{TSSetOptionsPrefix}, 
   \indexpetscdef{VecSetOptionsPrefix}, 
-\end{raggedright}
 and some more obscure ones.
+\end{raggedlist}
 
 
 \Level 1 {Where to specify options}

@@ -15,12 +15,10 @@ info ::
 
 APPS = init local sendblock ssendblock sendrecv anysource \
     putfence getfence exscan \
-    irecvsource reduce reduceinplace allreduce gather gatherv \
+    irecvsource reduce reduceinplace reduceinplaceptr allreduce gather gatherv \
     contiguous vector struct indexed pack matchkind \
     persist typematch
 
-listapps :
-	@echo ${APPS}
 listsources :
 	@for a in ${APPS} ; do \
 	  for e in F F90 ; do \
@@ -28,24 +26,9 @@ listsources :
 	  done ; \
 	done | awk 'BEGIN { v="" } {v = v " " $$0} END {print v}'
 
-ifdef TACC_TAU_DIR
-  FC = tau_f90.sh
-else
-  FC  = mpif90
-endif
-
-OPTLEVEL = 0
-F90FLAGS = -c -g -O${OPTLEVEL}
-
-info ::
-	@echo "    debug flag: DEBUG=DEBUG/OPT (default: ${DEBUG})]"
-%.o : %.F90
-	${FC} ${F90FLAGS} -c $*.F90 
-
-app_dependencies =
-.SECONDEXPANSION:
-${APPS} : $$@.o ${app_dependencies}
-	${FC} -o $@ $@.o ${app_dependencies}
+LANGUAGE = F
+MODE = mpi
+include ../../../makefiles/Make.compile
 ${patsubst %,%.o,${APPS}} tools.o : globalinit.F90
 
 # rules for submitting to the queue and doing tau analysis
@@ -100,7 +83,6 @@ tau :
 info ::
 	@echo "make regression : do regression test on all apps"
 init_args = 5
-noap = `make listapps`
 regression : total_clean
 	@for app in init ; do \
 	  make $$app >/dev/null 2>&1 ; \

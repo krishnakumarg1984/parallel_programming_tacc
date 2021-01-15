@@ -3,6 +3,8 @@ vector<double>
   source(stride*count),
   target(count);
 if (procno==sender) {
-  mpl::strided_vector_layout<double> newvectortype(count,1,stride);
+  mpl::strided_vector_layout<double>
+    newvectortype(count,1,stride);
   comm_world.send
     (source.data(),newvectortype,the_other);
+}

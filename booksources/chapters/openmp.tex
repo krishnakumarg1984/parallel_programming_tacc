@@ -4,7 +4,7 @@
 %%%%
 %%%% This text file is part of the source of 
 %%%% `Parallel Programming in MPI and OpenMP'
-%%%% by Victor Eijkhout, copyright 2012-2020
+%%%% by Victor Eijkhout, copyright 2012-2021
 %%%%
 %%%% openmp.tex : topics that have not been rolled into their
 %%%%              own chapter yet.
@@ -25,27 +25,26 @@ storing this setting.
 
 The runtime functions are:
 \begin{itemize}
-\item \indexompdef{omp_set_num_threads}
-\item \indexompdef{omp_get_num_threads}
-\item \indexompdef{omp_get_max_threads}
-\item \indexompdef{omp_get_thread_num}
-\item \indexompdef{omp_get_num_procs}
-\item \indexompdef{omp_in_parallel}
-\item \indexompdef{omp_set_dynamic}
-\item \indexompdef{omp_get_dynamic}
-\item \indexompdef{omp_set_nested}
-\item \indexompdef{omp_get_nested}
-\item \indexompdef{omp_get_wtime}
-\item \indexompdef{omp_get_wtick}
-\item \indexompdef{omp_set_schedule}
-\item \indexompdef{omp_get_schedule}
-\item \indexompdef{omp_set_max_active_levels}
-\item \indexompdef{omp_get_max_active_levels}
-\item \indexompdef{omp_get_thread_limit}
-\item \indexompdef{omp_get_level}
-\item \indexompdef{omp_get_active_level}
-\item \indexompdef{omp_get_ancestor_thread_num}
-\item \indexompdef{omp_get_team_size}
+\item Counting threads and cores: \indexompshow{omp_set_num_threads},
+  \indexompshow{omp_get_num_threads},
+  \indexompshow{omp_get_max_threads}, \indexompshow{omp_get_num_procs};
+  see section~\ref{sec:omp-howmany}.
+\item Querying the current thread: \indexompshow{omp_get_thread_num}, \indexompshow{omp_in_parallel}
+\item \indexompshow{omp_set_dynamic}
+\item \indexompshow{omp_get_dynamic}
+\item \indexompshow{omp_set_nested}
+\item \indexompshow{omp_get_nested}
+\item \indexompshow{omp_get_wtime}
+\item \indexompshow{omp_get_wtick}
+\item \indexompshow{omp_set_schedule}
+\item \indexompshow{omp_get_schedule}
+\item \indexompshow{omp_set_max_active_levels}
+\item \indexompshow{omp_get_max_active_levels}
+\item \indexompshow{omp_get_thread_limit}
+\item \indexompshow{omp_get_level}
+\item \indexompshow{omp_get_active_level}
+\item \indexompshow{omp_get_ancestor_thread_num}
+\item \indexompshow{omp_get_team_size}
 %\item \indexompdef{omp_}
 \end{itemize}
 

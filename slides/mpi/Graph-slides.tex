@@ -11,7 +11,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{frame}[containsverbatim]{Overview}
+\begin{numberedframe}{Overview}
   This section discusses graph topologies.
 
   Commands learned:
@@ -20,18 +20,18 @@
     \indexmpishow{MPI_Dist_graph_neighbors_count}
   \item \indexmpishow{MPI_Neighbor_allgather} and such
   \end{itemize}
-\end{frame}
+\end{numberedframe}
 
-\begin{frame}[containsverbatim]{Process topologies}
+\begin{numberedframe}{Process topologies}
   \begin{itemize}
   \item Processes don't communicate at random
   \item Example: Cartesian grid, each process 4 (or so) neighbours
   \item Express operations in terms of topology
   \item Elegance of expression
   \end{itemize}
-\end{frame}
+\end{numberedframe}
 
-\begin{frame}[containsverbatim]{Process reordering}
+\begin{numberedframe}{Process reordering}
   \begin{itemize}
   \item Consecutive process numbering often the best:\\
     divide array by chunks
@@ -40,25 +40,25 @@
   \item Graph topology gives information from which to deduce
     renumbering
   \end{itemize}
-\end{frame}
+\end{numberedframe}
 
-\begin{frame}[containsverbatim]{MPI-1 topology}
+\begin{numberedframe}{MPI-1 topology}
   \begin{itemize}
   \item Cartesian topology
   \item Graph topology, globally specified.\\
     Not exactly scalable!
   \end{itemize}
-\end{frame}
+\end{numberedframe}
 
-\begin{frame}[containsverbatim]{MPI-3 topology}
+\begin{numberedframe}{MPI-3 topology}
   \begin{itemize}
   \item Graph topologies locally specified: scalable!
   \item Neighborhood collectives:\\
     expression close to the algorith.
   \end{itemize}
-\end{frame}
+\end{numberedframe}
 
-\begin{frame}[containsverbatim]{Example: 5-point stencil}
+\begin{numberedframe}{Example: 5-point stencil}
   Neighbor exchange,
   spelled out:
   \begin{itemize}
@@ -66,22 +66,22 @@
   \item Send and receive at the same time.
   \item Can optimally be done in four steps
   \end{itemize}
-\end{frame}
+\end{numberedframe}
 
-\begin{frame}[containsverbatim]{Step 1}
+\begin{numberedframe}{Step 1}
   \includegraphics[scale=.4]{gropptiming1}
-\end{frame}
+\end{numberedframe}
 
-\begin{frame}[containsverbatim]{Step 2}
+\begin{numberedframe}{Step 2}
   \includegraphics[scale=.4]{gropptiming2}
 
   The middle node is blocked because all its targets
   are already receiving\\
   or a channel is occupied:\\
   one missed turn
-\end{frame}
+\end{numberedframe}
 
-\begin{frame}{Neighbourhood collective}
+\begin{numberedframe}{Neighbourhood collective}
   \label{fig:graphcollective}
   This is really a `local gather':\\
   each node does a gather from its neighbors in whatever order.\\
@@ -91,18 +91,18 @@
 
   Distributed graph topology where each
   node has four neighbours
-\end{frame}
+\end{numberedframe}
 
-\begin{frame}[containsverbatim]{Why neighbourhood collectives?}
+\begin{numberedframe}{Why neighbourhood collectives?}
   \begin{itemize}
   \item Using \indexmpishow{MPI_Isend}~/ \indexmpishow{MPI_Irecv} is like spelling out a collective;
   \item Collectives can use pipelining as opposed to sending  a whole
     buffer;
   \item Collectives can use spanning trees as opposed to direct connections.
   \end{itemize}
-\end{frame}
+\end{numberedframe}
 
-\begin{frame}[containsverbatim]{Create graph topology}
+\begin{numberedframe}{Create graph topology}
 \lstset{language=C}
 \begin{lstlisting}
 int MPI_Dist_graph_create
@@ -121,9 +121,9 @@ int MPI_Dist_graph_create
 \item \lstinline{info}: \indexmpishow{MPI_INFO_NULL} will do
 \item \lstinline{reorder}: 1~if dynamically reorder processes
 \end{itemize}
-\end{frame}
+\end{numberedframe}
 
-\begin{frame}[containsverbatim]{Neighbourhood collectives}
+\begin{numberedframe}{Neighbourhood collectives}
 \begin{lstlisting}
 int MPI_Neighbor_allgather
    (const void *sendbuf, int sendcount,MPI_Datatype sendtype,
@@ -132,7 +132,7 @@ int MPI_Neighbor_allgather
 \end{lstlisting}
 Like an ordinary \indexmpishow{MPI_Allgather}, but\\
 the receive buffer has a length \lstinline{degree}.
-\end{frame}
+\end{numberedframe}
 
 \begin{exerciseframe}[rightgraph]
   \hyperlink{exserialsend}{\beamergotobutton{Earlier rightsend exercise}}
@@ -140,17 +140,17 @@ the receive buffer has a length \lstinline{degree}.
   \input ex:rightgraph
 \end{exerciseframe}
 
-\begin{frame}{Inspiring picture for the previous exercise}
+\begin{numberedframe}{Inspiring picture for the previous exercise}
   \label{fig:rightgraph}
 
   \includegraphics[scale=.5]{rightgraph}
 
   Solving the right-send exercise with neighbourhood
   collectives
-\end{frame}
+\end{numberedframe}
 
 \endinput
 
-\begin{frame}[containsverbatim]{}
-\end{frame}
+\begin{numberedframe}{}
+\end{numberedframe}
 

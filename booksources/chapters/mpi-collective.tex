@@ -4,7 +4,7 @@
 %%%%
 %%%% This text file is part of the source of 
 %%%% `Parallel Programming in MPI and OpenMP'
-%%%% by Victor Eijkhout, copyright 2012-2020
+%%%% by Victor Eijkhout, copyright 2012-2021
 %%%%
 %%%% mpi-collective.tex : driver file for the collectives chapter
 %%%%
@@ -104,17 +104,17 @@ and assume that every process stores just one~$x_i$ value.
   allreduce.
 \end{enumerate}
 
-As another examples,
-if $x,y$ are distributed vector objects, and you want to compute
-\[ y- (x^ty)x \]
-which is part of the Gramm-Schmidt algorithm; see~\HPSCref{app:gram-schmidt}.
-Again you need to use an allreduce to reduce the inner product value on all processors. 
-\begin{lstlisting}
-// compute local value
-localvalue = innerproduct( x[ localpart], y[ localpart ] );
-// compute inner product on the every process
-AllReduce( localvalue, reducedvalue );
-\end{lstlisting}
+%% As another examples,
+%% if $x,y$ are distributed vector objects, and you want to compute
+%% \[ y- (x^ty)x \]
+%% which is part of the Gramm-Schmidt algorithm; see~\HPSCref{app:gram-schmidt}.
+%% Again you need to use an allreduce to reduce the inner product value on all processors. 
+%% \begin{lstlisting}
+%% // compute local value
+%% localvalue = innerproduct( x[ localpart], y[ localpart ] );
+%% // compute inner product on the every process
+%% AllReduce( localvalue, reducedvalue );
+%% \end{lstlisting}
 
 \Level 1 {Synchronization}
 
@@ -150,38 +150,41 @@ We will now explain the MPI collectives in the following order.
 \item[Broadcast and reduce] We then introduce the concept of a root
   in the reduce (section~\ref{sec:reduce-root}) and broadcast
   (section~\ref{sec:bcast}) collectives.
+\item Sometimes you want a reduction with partial results, where each processor
+  computes the sum (or other operation) on the values of lower-numbered processors.
+  For this, you use a \indexterm{scan} collective (section~\ref{sec:scan}).
 \item[Gather and scatter] The gather/scatter collectives deal with
-  more than a single data item.
+  more than a single data item; section~\ref{sec:gatherscatter}.
 \end{itemize}
 
 There are more collectives or variants on the above.
 \begin{itemize}
+\item If every processor needs to broadcast to every other, you use an
+  \indexterm{all-to-all} operation (section~\ref{sec:alltoall}).
+\item The reduce-scatter is a lesser known combination of collectives;
+  section~\ref{sec:reducescatter}.
+\item A barrier is an operation that makes all processes wait until every
+  process has reached the barrier (section~\ref{sec:barrier}).
 \item If you want to gather or scatter information, but the contribution
   of each processor is of a different size, there are `variable' collectives;
   they have a~\n{v} in the name (section~\ref{sec:v-collective}).
-\item Sometimes you want a reduction with partial results, where each processor
-  computes the sum (or other operation) on the values of lower-numbered processors.
-  For this, you use a \indexterm{scan} collective (section~\ref{sec:scan}).
-\item If every processor needs to broadcast to every other, you use an
-  \indexterm{all-to-all} operation (section~\ref{sec:alltoall}).
-\item A barrier is an operation that makes all processes wait until every
-  process has reached the barrier (section~\ref{sec:barrier}).
 \end{itemize}
 
 Finally, there are some advanced topics in collectives.
 \begin{itemize}
 \item User-defined reduction operators; section~\ref{sec:mpi-op-create}.
 \item Non-blocking collectives; section~\ref{sec:mpi3collect}.
+\item We briefly discuss performance aspects of collectives in section~\ref{sec:collect-perform}.
+\item We discuss synchronization aspects in section~\ref{sec:collect-sync}.
 \end{itemize}
 
 \input chapters/mpi-bcastreduce
+\input chapters/mpi-scan
 
 \input chapters/mpi-gatherscatter
 \input chapters/mpi-alltoall
 
 \input chapters/mpi-vcollective
-
-\input chapters/mpi-scan
 
 %% more stuff (operators, non-blocking)
 \input chapters/mpi-morecollective

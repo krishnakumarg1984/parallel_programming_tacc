@@ -11,7 +11,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{frame}[containsverbatim]{Overview}
+\begin{numberedframe}{Overview}
   In this section you will learn about derived data types.
 
   Commands learned:
@@ -21,11 +21,11 @@
   \item \indexmpishow{MPI_Pack}~/ \indexmpishow{MPI_Unpack}
   \item F90 types
   \end{itemize}
-\end{frame}
+\end{numberedframe}
 
 \sectionframe{Discussion}
 
-\begin{frame}[containsverbatim]\frametitle{Motivation: datatypes in MPI}
+\begin{numberedframe}{Motivation: datatypes in MPI}
   All examples so far: 
   \begin{itemize}
   \item contiguous buffer
@@ -38,19 +38,19 @@
   \item Send \lstinline{struct} or \lstinline{Type} data.
   \end{itemize}
   MPI allows for recursive construction of data types.
-\end{frame}
+\end{numberedframe}
 
-\begin{frame}{Datatype topics}
+\begin{numberedframe}{Datatype topics}
   \begin{itemize}
   \item Elementary types: built-in.
   \item Derived types: user-defined.
   \item Packed data: not really a datatype.
   \end{itemize}
-\end{frame}
+\end{numberedframe}
 
 \sectionframe{Datatypes}
 
-\begin{frame}[containsverbatim]\frametitle{Elementary datatypes}
+\begin{numberedframe}{Elementary datatypes}
   \begin{tabular}{|l|l|}
     \hline
     \texttt{C/C++}&\texttt{Fortran}\\ \hline
@@ -72,10 +72,10 @@
 &\indexmpishow{MPI_DOUBLE_COMPLEX}\\ %&Complex(Kind=Kind(0.d0))\\
 \hline
 \end{tabular}
-\end{frame}
+\end{numberedframe}
 
 \begin{mpithree}
-\begin{frame}[containsverbatim]\frametitle{How to use derived types}
+\begin{numberedframe}{How to use derived types}
 \label{sl:derive-howto}
 Create, commit, use, free:
 \lstset{language=C}
@@ -95,10 +95,10 @@ Integer            :: newtype ! F90
 \end{lstlisting}
 The \lstinline{oldtype} can be elementary or derived.\\
 Recursively constructed types.
-\end{frame}
+\end{numberedframe}
 \end{mpithree}
 
-\begin{frame}[containsverbatim]\frametitle{Contiguous type}
+\begin{numberedframe}{Contiguous type}
 \lstset{language=C}
 \begin{lstlisting}
 int MPI_Type_contiguous(
@@ -108,18 +108,18 @@ int MPI_Type_contiguous(
 
 This one is indistinguishable from just sending \lstinline{count} instances
 of the \lstinline{old_type}.
-\end{frame}
+\end{numberedframe}
 
-\begin{frame}[containsverbatim]\frametitle{Example: non-contiguous data}
+\begin{numberedframe}{Example: non-contiguous data}
   Matrix in column storage:
   \begin{itemize}
   \item Columns are contiguous
   \item Rows are not contiguous
   \end{itemize}
   \includegraphics[scale=.1]{densearray}
-\end{frame}
+\end{numberedframe}
 
-\begin{frame}[containsverbatim]\frametitle{Vector type}
+\begin{numberedframe}{Vector type}
 \begin{lstlisting}
 int MPI_Type_vector(
   int count, int blocklength, int stride,
@@ -129,27 +129,27 @@ int MPI_Type_vector(
   \includegraphics[scale=.08]{data-vector}
 
 Used to pick a regular subset of elements from an array.
-\end{frame}
+\end{numberedframe}
 
-\begin{frame}[containsverbatim]\frametitle{}
+\begin{numberedframe}{}
 \cverbatimsnippet{vector}
-\end{frame}
+\end{numberedframe}
 
-\begin{frame}{Different send and receive types}
+\begin{numberedframe}{Different send and receive types}
   Send and receive type can differ. Example:\\
   Sender type: vector\\ receiver type: contiguous or elementary
 
   \includegraphics[scale=.1]{data-vector-to-contiguous}
 
   Receiver has no knowledge of the stride of the sender.
-\end{frame}
+\end{numberedframe}
 
-\begin{frame}{Illustration of the next exercise}
+\begin{numberedframe}{Illustration of the next exercise}
   \label{fig:stridesend}
   \includegraphics[scale=.3]{stridesend}
 
   Sending strided data from process zero to all others
-\end{frame}
+\end{numberedframe}
 
 \begin{exerciseframe}[stridesend]
   \input ex:stridesend
@@ -159,24 +159,24 @@ Used to pick a regular subset of elements from an array.
   \input ex:col-to-row
 \end{exerciseframe}
 
-\begin{frame}[containsverbatim]\frametitle{Indexed type}
+\begin{numberedframe}{Indexed type}
   \includegraphics[scale=.07]{data-indexed}
 \begin{lstlisting}
 int MPI_Type_indexed(
   int count, int blocklens[], int displacements[],
   MPI_Datatype old_type, MPI_Datatype *newtype);
 \end{lstlisting}
-\end{frame}
+\end{numberedframe}
 
-\begin{frame}[containsverbatim]\frametitle{Hindexed type}
+\begin{numberedframe}{Hindexed type}
   Similar to indexed but using byte offsets:\\
   explicit memory address.
 
   Example usage scenario: send linked list.\\
   Use \indexmpiref{MPI_Get_address}
-\end{frame}
+\end{numberedframe}
 
-\begin{frame}[containsverbatim]\frametitle{Heterogeneous: Structure type}
+\begin{numberedframe}{Heterogeneous: Structure type}
 \begin{lstlisting}
 int MPI_Type_create_struct(
   int count, int blocklengths[], MPI_Aint displacements[],
@@ -185,36 +185,30 @@ int MPI_Type_create_struct(
   \includegraphics[scale=.07]{data-struct}
 
 This gets very tedious\ldots
-\end{frame}
+\end{numberedframe}
 
 \sectionframe{Subarray type}
 
-\begin{frame}[containsverbatim]\frametitle{Submatrix storage}
+\begin{numberedframe}{Submatrix storage}
   \includegraphics[scale=.11]{denselda}
 
   \begin{itemize}
   \item Location of first element
   \item Stride, blocksize
   \end{itemize}
-\end{frame}
+\end{numberedframe}
 
   %% \includegraphics[scale=.08]{blasmatrix}
 
-\begin{frame}{BLAS/Lapack storage}
+\begin{numberedframe}{BLAS/Lapack storage}
   Three parameter description:
 
   \includegraphics[scale=.1]{blasmatrix}
 
   How about as a `block within a block'?
-\end{frame}
+\end{numberedframe}
 
-%% \begin{longcourse}
-%%   \begin{exerciseframe}
-%%     \input ex:submatrix
-%%   \end{exerciseframe}
-%% \end{longcourse}
-
-\begin{frame}[containsverbatim]\frametitle{Subarray type}
+\begin{numberedframe}{Subarray type}
   \begin{itemize}
   \item Vector type is convenient for 2D subarrays,
   \item it gets tedious in higher dimensions.
@@ -226,13 +220,13 @@ MPI_Type_create_subarray(
     array_of_starts, order, oldtype, newtype)  
 \end{lstlisting}
 Subtle: data does not start at the buffer start
-\end{frame}
+\end{numberedframe}
 
 \begin{exerciseframe}[cubegather]
   \input ex:cubegather
 \end{exerciseframe}
 
-\begin{frame}[containsverbatim]{Fortran `kind' types}
+\begin{numberedframe}{Fortran `kind' types}
   Check out
 \indexmpishow{MPI_Type_create_f90_integer},
 \indexmpishow{MPI_Type_create_f90_real},
@@ -246,11 +240,11 @@ REAL ( KIND = SELECTED_REAL_KIND(15 ,300) ) , &
 Type(MPI_Datatype) :: realtype
 CALL MPI_Type_create_f90_real( 15 , 300 , realtype , error )
 \end{lstlisting}
-\end{frame}
+\end{numberedframe}
 
 \sectionframe{Packed data}
 
-\begin{frame}[containsverbatim]\frametitle{Packing into buffer}
+\begin{numberedframe}{Packing into buffer}
 \lstset{language=C}
 \begin{lstlisting}
 int MPI_Pack(
@@ -263,10 +257,10 @@ int MPI_Unpack(
   void *outbuf, int outcount, MPI_Datatype datatype,
   MPI_Comm comm);
 \end{lstlisting}
-\end{frame}
+\end{numberedframe}
 
-\begin{frame}[containsverbatim]\frametitle{Example}
+\begin{numberedframe}{Example}
 \small
 \cverbatimsnippet{packunpack}
-\end{frame}
+\end{numberedframe}
 

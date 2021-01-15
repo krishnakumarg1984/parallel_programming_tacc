@@ -4,7 +4,7 @@
 %%%%
 %%%% This text file is part of the source of 
 %%%% `Parallel Programming in MPI and OpenMP'
-%%%% by Victor Eijkhout, copyright 2012-2020
+%%%% by Victor Eijkhout, copyright 2012-2021
 %%%%
 %%%% mpi-running.tex : about running MPI programs
 %%%%
@@ -45,6 +45,7 @@ The following exercise demonstrates this point.
     processor count.)
 \end{tacc}
 
+  \exercisesource{hello}
 \end{exercise}
 
 This exercise is illustrated in figure~\ref{fig:hello-parallel}.
@@ -128,6 +129,13 @@ multiple times in parallel.
   Add the commands \indexmpishow{MPI_Init} and \indexmpishow{MPI_Finalize}
   to your code. Put three different print statements in your code: one before the init,
   one between init and finalize, and one after the finalize. Again explain the output.
+
+  Run your program on a large scale, using a batch job.
+  Where does the output go?
+  Experiment with
+\begin{verbatim}
+MY_MPIRUN_OPTIONS="-prepend-rank" ibrun yourprogram
+\end{verbatim}
 \end{exercise}
 
 \begin{remark}

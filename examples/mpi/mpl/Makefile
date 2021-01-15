@@ -16,11 +16,12 @@ MAKEFLAGS += --no-builtin-rules
 info ::
 	@echo "Do: make app (where app=${APPS})"
 
-APPS = commrank sendscalar  recvstatus sendbuffer sendarray sendrange sendobject \
+APPS = commrank sendscalar  recvstatus sendbuffer sendarray sendrange \
     isendandirecv irecvsource ireducescalar bufring \
-    collectscalar collectarray collectbuffer reduceuser \
-    vector struct indexed indexedblock \
-    commsplit 
+    collectscalar collectbuffer reduceuser \
+    contiguous vector struct structscalar indexed indexedblock \
+    commcompare commpass commsplit
+WRONGS = collectarray sendobject
 
 MODE = mpi
 LANGUAGE = CXX

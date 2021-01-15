@@ -4,14 +4,14 @@
 %%%%
 %%%% This text file is part of the lecture slides for
 %%%% `Parallel Computing'
-%%%% by Victor Eijkhout, copyright 2012-2020
+%%%% by Victor Eijkhout, copyright 2012-2021
 %%%%
 %%%% SPMD-slides.tex : slides about MPI's SPMD mode
 %%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{frame}[containsverbatim]{Overview}
+\begin{numberedframe}{Overview}
   In this section you will learn how to think about parallelism in
   MPI.
 
@@ -23,33 +23,35 @@
     \indexmpishow{MPI_Get_processor_name}, \indexmpishow{MPI_Comm_size},
     \indexmpishow{MPI_Comm_rank}
   \end{itemize}
-\end{frame}
+\end{numberedframe}
 
 \sectionframe{The MPI worldview: SPMD}
 
-\frame{\frametitle{Computers when MPI was designed}
+\begin{numberedframe}{Computers when MPI was designed}
   \includegraphics[scale=.1]{mpi-node1}
 
   One processor and one  process per node;\\
   all communication goes through the network.
-}
+\end{numberedframe}
 
-\frame{\frametitle{Pure MPI}
+\begin{numberedframe}
+  {Pure MPI}
   \includegraphics[scale=.1]{mpi-node2}
 
   A node has multiple sockets, each with multiple cores.\\
   Pure MPI puts a process on each core: pretend shared memory doesn't exist.
-}
+\end{numberedframe}
 
-\frame{\frametitle{Hybrid programming}
+\begin{numberedframe}
+  {Hybrid programming}
   \includegraphics[scale=.1]{mpi-node3}
 
   Hybrid programming puts a process per node or per socket;\\
   further parallelism comes from threading.\\
   Not in this course\ldots
-}
+\end{numberedframe}
 
-\begin{frame}{Terminology}
+\begin{numberedframe}{Terminology}
   `Processor' is ambiguous: is that a chip or one independent
   instruction processing unit?
   \begin{itemize}
@@ -58,9 +60,9 @@
   \item Core: one instruction-stream processing unit
   \item Process: preferred terminology in talking about MPI.
   \end{itemize}  
-\end{frame}
+\end{numberedframe}
 
-\frame{\frametitle{SPMD}
+\begin{numberedframe}{SPMD}
   The basic model of MPI is\\
   `Single Program Multiple Data':\\
   each process is an instance of the same program.
@@ -71,11 +73,11 @@
 
   Communication calls do not see the cluster structure:\\
   data sending/receiving is the same for all neighbours.
-}
+\end{numberedframe}
 
 \sectionframe{Practicalities}
 
-\begin{frame}[containsverbatim]{Compiling and running}
+\begin{numberedframe}{Compiling and running}
   MPI compilers are usually called \indextermtt{mpicc},
   \indextermtt{mpif90}, \indextermtt{mpicxx}.
 
@@ -94,9 +96,9 @@ general case:
 mpiexec -n 4 hostfile ... yourprogram arguments
 mpirun -np 4 hostfile ... yourprogram arguments
 \end{verbatim}
-\end{frame}
+\end{numberedframe}
 
-\begin{frame}[containsverbatim]{Do I need a supercomputer?}
+\begin{numberedframe}{Do I need a supercomputer?}
   \begin{itemize}
   \item With \n{mpiexec} and such, you start a bunch of processes that
     execute your MPI program.
@@ -105,9 +107,9 @@ mpirun -np 4 hostfile ... yourprogram arguments
     your laptop. The OS will use `time slicing'.
   \item Of course it will not be very efficient\ldots
   \end{itemize}
-\end{frame}
+\end{numberedframe}
 
-\begin{frame}{Cluster setup}
+\begin{numberedframe}{Cluster setup}
   \small
   Typical cluster:
   \begin{itemize}
@@ -120,10 +122,10 @@ mpirun -np 4 hostfile ... yourprogram arguments
 
   Hostfile: the description of where your job runs. Usually generated
   by a \indexterm{job scheduler}.
-\end{frame}
+\end{numberedframe}
 
 \begin{tacc}
-  \begin{frame}[containsverbatim]{Lab setup}
+  \begin{numberedframe}{Lab setup}
     \begin{itemize}
     \item Open a terminal window on a TACC cluster.
     \item Type \n{idev -N 2 -n 32 -t 4:0:0 } which gives
@@ -135,10 +137,10 @@ mpirun -np 4 hostfile ... yourprogram arguments
     \item See the handout for reservations, project IDs, and location of training materials.
     \item Next slide for how to make and run exercises.
     \end{itemize}
-  \end{frame}
+  \end{numberedframe}
 \end{tacc}
 
-\begin{frame}[containsverbatim]{How to make exercises}
+\begin{numberedframe}{How to make exercises}
   \begin{itemize}
   \item Directory: \n{exercises-mpi-c} or \n{cxx} or \n{f} or \n{f08}
     or \n{p} or \n{mpl}
@@ -156,20 +158,20 @@ ibrun python3 yourprogram.py # or python2
 \item Add an exercise of your own to the makefile: add the name to
     the \n{EXERCISES}
   \end{itemize}
-\end{frame}
+\end{numberedframe}
 
 \begin{exerciseframe}[hello]
   \input ex:hello1
 \end{exerciseframe}
 
-\begin{frame}{In a picture}
+\begin{numberedframe}{In a picture}
   \includegraphics[scale=.35]{hello-parallel}
-\end{frame}
+\end{numberedframe}
 
 \sectionframe{We start learning MPI!}
 
 \begin{mpithree}
-\begin{frame}[containsverbatim]{MPI definitions}
+\begin{numberedframe}{MPI definitions}
 \label{sl:mpi-header}
 You need an include file:
 \begin{verbatim}
@@ -194,9 +196,9 @@ or newer. Not in gcc7.
 \end{tacc}
 (Legacy bindings are far inferior)
 \end{itemize}
-\end{frame}
+\end{numberedframe}
 
-\begin{frame}[containsverbatim]{MPI Init / Finalize}
+\begin{numberedframe}{MPI Init / Finalize}
 Then put these calls around your code:
 \lstset{language=C}
 \begin{lstlisting}
@@ -215,11 +217,12 @@ call MPI_Init(ierr) ! F90 style
 ! your code
 call MPI_Finalize(ierr)
 \end{lstlisting}
-\end{frame}
+\end{numberedframe}
 \end{mpithree}
 
-\begin{frame}[containsverbatim]{About error codes}
+\begin{numberedframe}{About error codes}
   MPI routines return an integer error code
+  (slide~\ref{sl:errhandler})
   \begin{itemize}
   \item In C: function result. Can be ignored; is ignored in this course.
 \lstset{language=C++}
@@ -232,12 +235,12 @@ if (ierr!=MPI_SUCCESS) /* do something */
   \end{itemize}
   There's actually not a lot you can do with an error code:\\
   very hard to recover from errors in parallel.\\
-  Mostly ignore them~\ldots
-\end{frame}
+  By default code bombs with (hoperfully informative) message.
+\end{numberedframe}
 
-\begin{frame}[containsverbatim]{Python bindings}
+\begin{numberedframe}{Python bindings}
 \begin{verbatim}
-module load python # or python2 or python3
+module load python3
 \end{verbatim}
 \begin{verbatim}
 from mpi4py import MPI
@@ -245,16 +248,17 @@ from mpi4py import MPI
 Run:
 \begin{tacc}
 \begin{verbatim}
-ibrun python yourprogram.py # or python2 or python3
+ibrun python3 yourprogram.py
 \end{verbatim}
 \end{tacc}
+Your local installation:
 \begin{verbatim}
 mpiexec -n 15 python yourprogram.py
 \end{verbatim}
 No initialization needed.
-\end{frame}
+\end{numberedframe}
 
-\begin{frame}[containsverbatim]{C++ bindings}
+\begin{numberedframe}{C++ bindings}
   MPI-1 had C++ bindings, by MPI-2 they were deprecated, in MPI-3 they have been removed.
   \begin{itemize}
   \item Easy solution: use the C~bindings unaltered.
@@ -271,31 +275,41 @@ No initialization needed.
       (I/O and one-sided mostly missing)
     \end{itemize}
   \end{itemize}
-\end{frame}
+\end{numberedframe}
 
 \begin{exerciseframe}[hello]
   \input ex:hello2
 \end{exerciseframe}
 
-\begin{frame}[containsverbatim]\frametitle{Process identification}
+\begin{numberedframe}{Process identification}
 Every process has a number (with respect to a communicator)
 \lstset{language=C}
 \begin{lstlisting}
-int MPI_Comm_rank( MPI_Comm comm, int *procno )
 int MPI_Comm_size( MPI_Comm comm, int *nprocs )
+int MPI_Comm_rank( MPI_Comm comm, int *procno )
 \end{lstlisting}
 Lowest number is always zero.
 
+This is a logical view of parallelism: mapping to physical
+processors/cores is invisible here.
+
 For now, the communicator will be \indexmpishow{MPI_COMM_WORLD}.
+\lstset{language=C}
+\begin{lstlisting}
+MPI_Comm comm = MPI_COMM_WORLD
+\end{lstlisting}
+\lstset{language=Fortran}
+\begin{lstlisting}
+Type(MPI_Comm) :: comm = MPI_COMM_WORLD
+\end{lstlisting}
+\lstset{language=C}
+\end{numberedframe}
 
-Note: mapping of ranks to actual processes and cores is not predictable!
-\end{frame}
-
-\begin{frame}
+\begin{numberedframe}{Illustration}
   \includegraphics[scale=.35]{rank-parallel}
-\end{frame}
+\end{numberedframe}
 
-\begin{frame}[containsverbatim]{About routine prototypes: C/C++}
+\begin{numberedframe}{About routine prototypes: C/C++}
   \label{sec:protos}
 Prototype:
 \lstset{language=C}
@@ -311,10 +325,10 @@ int errorcode;
 errorcode = MPI_Comm_size( comm,&nprocs );
 \end{lstlisting}
 (but forget about that error code most of the time)
-\end{frame}
+\end{numberedframe}
 
 \begin{mpithree}
-\begin{frame}[containsverbatim]{About routine prototypes: Fortran}
+\begin{numberedframe}{About routine prototypes: Fortran2008}
 Prototype
 \lstset{language=Fortran}
 \begin{lstlisting}
@@ -323,29 +337,39 @@ Type(MPI_Comm), INTENT(IN) :: comm
 INTEGER, INTENT(OUT) :: size
 INTEGER, OPTIONAL, INTENT(OUT) :: ierror
 \end{lstlisting}
-F90 differences:
-\begin{lstlisting}
-Integer, INTENT(IN) :: comm
-INTEGER, OPTIONAL :: ierror
-\end{lstlisting}
 Use:
 \begin{lstlisting}
 Type(MPI_Comm) :: comm = MPI_COMM_WORLD
 integer :: size
-CALL MPI_Comm_size( comm, size, ierr ) ! F90 style
 CALL MPI_Comm_size( comm, size ) ! F2008 style
 \end{lstlisting}
 \begin{itemize}
-\item Fortran2008: final parameter optional.
-\item Fortran90: final parameter always error parameter. Do not
-  forget!
-\item Fortran2008: \n{MPI_...} types are \n{Type}.
-\item Fortran90: \n{MPI_...} types are \n{INTEGER}.
+\item final parameter optional.
+\item \n{MPI_...} types are \n{Type}.
 \end{itemize}
-\end{frame}
+\end{numberedframe}
+\begin{numberedframe}{About routine prototypes: Fortran90}
+Prototype
+\lstset{language=Fortran}
+\begin{lstlisting}
+MPI_Comm_size(comm, size, ierror)
+Integer, Intent(in) :: comm
+Integer, Intent(out) :: ierror
+\end{lstlisting}
+Use:
+\begin{lstlisting}
+Integer :: comm = MPI_COMM_WORLD
+Integer :: size,ierr
+CALL MPI_Comm_size( comm, size, ierr ) ! F90 style
+\end{lstlisting}
+\begin{itemize}
+\item Final parameter always error parameter. Do not forget!
+\item \n{MPI_...} types are \n{INTEGER}.
+\end{itemize}
+\end{numberedframe}
 \end{mpithree}
 
-\begin{frame}[containsverbatim]{About routine prototypes: Python}
+\begin{numberedframe}{About routine prototypes: Python}
 Prototype:
 \lstset{language=Python}
 \begin{lstlisting}
@@ -363,14 +387,14 @@ MPI.Request.Waitall(requests)
 \end{lstlisting}
 Note: most functions are methods of the \lstinline{MPI.Comm} class.\\
 (Sometimes of \lstinline{MPI}, sometimes other.)
-\end{frame}
+\end{numberedframe}
 
 \protoslide{MPI_Comm_size}
 \protoslide{MPI_Comm_rank}
 
-\begin{frame}{Have you been paying attention?}
+\begin{numberedframe}{Have you been paying attention?}
   \input{ex:mpi01rank}
-\end{frame}
+\end{numberedframe}
 
 \begin{exerciseframe}[commrank]
   \input ex:hello3
@@ -386,30 +410,34 @@ Note: most functions are methods of the \lstinline{MPI.Comm} class.\\
 
 \protoslide{MPI_Get_processor_name}
 
-\begin{frame}{In a picture}
+\begin{numberedframe}{In a picture}
   Four processes on two nodes (\n{idev -N 2 -n 4})
   \includegraphics[scale=.3]{node-comm-rank}
-\end{frame}
+\end{numberedframe}
 
 \sectionframe{A practical example}
 
-\begin{frame}{Functional Parallelism}
+\begin{numberedframe}{Functional Parallelism}
   Parallelism by letting each process do a different thing.
 
   Example: divide up a search space.
 
   Each process knows its rank, so it can find its part of the search space.
-\end{frame}
+\end{numberedframe}
 
 \begin{exerciseframe}[prime]
   \input ex:primetest
 \end{exerciseframe}
 
+\begin{exerciseframe}
+  \input{ex:array-ints}
+\end{exerciseframe}
+
 \endinput
 
-\begin{frame}[containsverbatim]\frametitle{}
+\begin{numberedframe}\frametitle{}
 \begin{lstlisting}
   
 \end{lstlisting}
-\end{frame}
+\end{numberedframe}
 

@@ -3,7 +3,7 @@
    %%%%
    %%%% This program file is part of the book and course
    %%%% "Parallel Computing"
-   %%%% by Victor Eijkhout, copyright 2020
+   %%%% by Victor Eijkhout, copyright 2020-2021
    %%%%
    %%%% collectbuffer.cxx : collective routines on buffers in MPL
    %%%%
@@ -36,12 +36,12 @@ int main() {
 
   float
     xrank = static_cast<float>( comm_world.rank() );
-  vector<float> rank2p2p1{ 2*xrank,2*xrank+1 };
+  vector<float> rank2p2p1{ 2*xrank,2*xrank+1 },reduce2p2p1{0,0};
   mpl::contiguous_layout<float> two_floats(rank2p2p1.size());
-  comm_world.allreduce(mpl::plus<float>(), rank2p2p1.data(),two_floats);
+  comm_world.allreduce(mpl::plus<float>(), rank2p2p1.data(),reduce2p2p1,two_floats);
   if ( iprint )
-    cout << "Got: " << rank2p2p1.at(0) << ","
-	 << rank2p2p1.at(1) << endl;
+    cout << "Got: " << reduce2p2p1.at(0) << ","
+	 << reduce2p2p1.at(1) << endl;
 
   /*
    * Scatter one number to each proc

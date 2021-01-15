@@ -4,7 +4,7 @@
 %%%%
 %%%% This text file is part of the source of 
 %%%% `Parallel Programming in MPI and OpenMP'
-%%%% by Victor Eijkhout, copyright 2012-2020
+%%%% by Victor Eijkhout, copyright 2012-2021
 %%%%
 %%%% mpi-blocksend.tex : blocking sends
 %%%%
@@ -103,30 +103,8 @@ if ( /* I am process A */ ) {
 }
 \end{lstlisting}
 
-\Level 2 {Send call}
-
-The blocking send command is
-%
-\indexmpiref{MPI_Send}.
-%
-Examples:
-\cverbatimsnippet[examples/mpi/c/sendandrecv.c]{sendexample}
-
-The send call has the following elements.
-
-The \indextermbus{send}{buffer} is described by a trio of buffer/count/datatype.
-See section~\ref{sec:mpi-buffers} for discussion.
-
-The  \indextermbusdef{messsage}{target} is an
-explicit process rank to send to.  This rank is a number from zero up
-to the result of \indexmpishow{MPI_Comm_size}.
-It is allowed for a process to send to itself, but
-this may lead to a runtime \indexterm{deadlock};
-see section~\ref{sec:blocking} for discussion.
-
-
 \begin{remark}
-  The structure of the send call shows the symmetric nature of MPI: every
+  The structure of the send and receive calls shows the symmetric nature of MPI: every
   target process is reached with the same send call, no matter whether it's
   running on the same multicore chip as the sender, or on a
   computational node halfway across the machine room, taking
@@ -138,6 +116,30 @@ see section~\ref{sec:blocking} for discussion.
   receiver buffer, rather than a network transfer.
 \end{remark}
 
+\Level 2 {Send call}
+
+The blocking send command is
+%
+\indexmpiref{MPI_Send}.
+%
+Example:
+\cverbatimsnippet[examples/mpi/c/sendandrecv.c]{sendexample}
+
+The send call has the following elements.
+
+\heading{Buffer}
+The \indextermbus{send}{buffer} is described by a trio of buffer/count/datatype.
+See section~\ref{sec:mpi-buffers} for discussion.
+
+\heading{Target}
+The  \indextermbusdef{messsage}{target} is an
+explicit process rank to send to.  This rank is a number from zero up
+to the result of \indexmpishow{MPI_Comm_size}.
+It is allowed for a process to send to itself, but
+this may lead to a runtime \indexterm{deadlock};
+see section~\ref{sec:blocking} for discussion.
+
+\heading{Tag}
 Next, a message can have a
 \emph{tag}\index{tag|see{message, tag}}\index{message!tag}.
 Many applications have each sender send only one message at a time
@@ -155,6 +157,10 @@ use tag values, you can use the key \indexmpishow{MPI_TAG_UB} to query
 what the maximum value is that can be used; see
 section~\ref{sec:mpi_attr}.
 
+\heading{Communicator}
+Finally, in common with the vast majority of MPI calls,
+there is a communicator argument that provides a context for the send transaction.
+
 \begin{mplnote}{Blocking send and receive}
   \ac{MPL} uses a default value for the tag, and it can deduce the type
   of the buffer. Sending a scalar becomes:
@@ -164,12 +170,12 @@ section~\ref{sec:mpi_attr}.
 \end{mplnote}
 
 \begin{mplnote}{Sending arrays}
-  C++ has improved handling of \indextermsub{static}{array}s,
-  so \ac{MPL} can send those without further layout specification:
+  \ac{MPL} can send \indextermsub{static}{array}s
+  without further layout specification:
   %
   \cxxverbatimsnippet[examples/mpi/mpl/sendarray.cxx]{mplsendarray}
 
-  Sending vectors uses a general mechanism that will be discussed later:
+  Sending vectors uses a general mechanism:
   %
   \cxxverbatimsnippet[examples/mpi/mpl/sendbuffer.cxx]{mplsendbuffer}
   
@@ -187,6 +193,7 @@ An example:
 
 This is similar in structure to the send call, with some exceptions.
 
+\heading{Buffer}
 The \indextermsub{receive}{buffer} has the same buffer/count/data parameters as the send
 call.
 However, 
@@ -202,6 +209,7 @@ This sets an upper bound on the length of the incoming message.
 The length of the received message can be determined 
 from the status object; see section~\ref{sec:mpi-status} for more detail.
 
+\heading{Source}
 Mirroring the target argument of the \indexmpishow{MPI_Send} call,
 \indexmpishow{MPI_Recv} has a \indextermbusdef{message}{source}
 argument.
@@ -217,12 +225,17 @@ which makes the receive succeed immediately with no data received.
   equals \indexmpishow{MPI_ANY_SOURCE} (by \lstinline+constexpr+).
 \end{mplnote}
 
+\heading{Tag}
 Similar to the messsage source, the message tag of a receive call can
 be a specific value or a wildcard, in this case
 \indexmpidef{MPI_ANY_TAG}.
 Again, see below.
 
-In the syntax of the \indexmpishow{MPI_Recv} command you saw one parameter that
+\heading{Communicator}
+The communicator argument almost goes without remarking.
+
+\heading{Status}
+The \indexmpishow{MPI_Recv} command has one parameter that
 the send call lacks: the \indexmpishow{MPI_Status} object,
 describing the \indextermbus{message}{status}.
 This gives information about the message received,
@@ -245,6 +258,7 @@ for more about the status object.
     to use longer messages. How does the timing increase with message size?
   \end{itemize}
   For bonus points, can you do a regression to determine~$\alpha,\beta$?
+  \exercisesource{pingpong}
 \end{exercise}
 
 \begin{exercise}
@@ -343,7 +357,8 @@ hangs because of a deadlock.
 
 If you want a code to exhibit the same blocking behavior for  all message sizes,
 you force the send call to be blocking by using
-\indexmpidef{MPI_Ssend}, which has the same calling sequence as \indexmpishow{MPI_Send}.
+\indexmpishow{MPI_Ssend}, which has the same calling sequence as \indexmpishow{MPI_Send},
+but which does not allow eager sends.
 %
 \cverbatimsnippet[examples/mpi/c/ssendblock.c]{ssendblock}
 %
@@ -437,7 +452,8 @@ figure~\ref{fig:serialization}.
   Run the code, and use TAU to reproduce the trace output 
   of figure~\ref{fig:serialization}.
   If you don't have TAU, can you show this serialization
-  behaviour using timings?
+  behaviour using timings, for instance running it on an increasing number of processes?
+  \exercisesource{rightsend}
 \end{exercise}
 
 It is possible to orchestrate your processes to get an efficient and
@@ -478,6 +494,7 @@ successively passed down a sequence of processors.
     All quantities involved here are integers. Is it a good idea to
     use the integer datatype here?
   \end{remark}
+  \exercisesource{bucketblock}
 \end{exercise}
 
 \begin{remark}
@@ -536,7 +553,7 @@ value of \indexmpidef{MPI_PROC_NULL} for
 the last processor means a `send to the null processor': no actual
 send is done. 
 The null processor value is also of use with the
-\indexmpishow{MPI_Sendrecv} call; section~\ref{sec:send-recv}
+\indexmpishow{MPI_Sendrecv} call; section~\ref{sec:send-recv}.
 
 Likewise, receive from \indexmpishow{MPI_PROC_NULL} succeeds without
 altering the receive buffer.  The corresponding
@@ -564,6 +581,7 @@ count zero.
   from the serialized send/recv code? If you don't have TAU, run your
   code with different numbers of processes and show that the runtime
   is essentially constant.
+  \exercisesource{rightsend}
 \end{exercise}
 
 This call makes it easy to exchange data between two processors: both
@@ -592,8 +610,10 @@ see figure~\ref{fig:sendrecv-steps}.
   \label{ex:3ptsendrecv}
   Implement the above three-point combination scheme using \indexmpishow{MPI_Sendrecv};
   every processor only has a single number to send to its neighbour.
+  \exercisesource{sendrecv}
 \end{exercise}
 
+Hints for this exercise:
 \begin{itemize}
 \item Each process does one send and one receive; if a process needs
   to skip one or the other, you can specify
@@ -642,8 +662,7 @@ send-receive call\footnote {There is an \n{MPI\_Compare\_and\_swap}
 
 \begin{figure}[ht]
   \includegraphics[scale=.3]{swapsort2}
-  \caption{Odd-even transposition sort on 4 processes, holding 2
-    elements each.}
+  \caption{Odd-even transposition sort on 4 processes, holding 2 elements each.}
   \label{fig:swapsort2}
 \end{figure}
 

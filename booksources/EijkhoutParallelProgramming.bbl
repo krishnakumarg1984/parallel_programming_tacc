@@ -1,5 +1,17 @@
 \begin{thebibliography}{10}
 
+\bibitem{Balaji:PPL-mpi-on-1M}
+Pavan Balaji, Darius Buntinas, David Goodell, William Gropp, Sameer Kumar,
+  Ewing Lusk, Rajeev Thakur, and Jesper~Larsson Tr\"{a}ff.
+\newblock {MPI} on millions of cores.
+\newblock {\em Parallel Processing Letters}, 21(01):45--60, 2011.
+
+\bibitem{Kolikant:tickets}
+Y.~{Ben-David Kolikant}.
+\newblock Gardeners and cinema tickets: High schools' preconceptions of
+  concurrency.
+\newblock {\em Computer Science Education}, 11:221--245, 2001.
+
 \bibitem{Chan2007Collective}
 Ernie Chan, Marcel Heimlich, Avi Purkayastha, and Robert van~de Geijn.
 \newblock Collective communication: theory, practice, and experience.
@@ -17,16 +29,29 @@ Lisandro Dalcin.
 \newblock {MPI for Python}, homepage.
 \newblock \url{https://mpi4py.bitbucket.io/}.
 
+\bibitem{Dehnadi:meta-analysis}
+Saeed Dehnadi, Richard Bornat, and Ray Adams.
+\newblock Meta-analysis of the effect of consistency on success in early
+  learning of programming.
+\newblock In {\em Psychology of Programming Interest Group PPIG 2009}, pages
+  1--13. University of Limerick, Ireland, 2009.
+
+\bibitem{Denning:compthinking2017}
+Peter~J. Denning.
+\newblock Computational thinking in science.
+\newblock {\em American Scientist}, pages 13--17, 2017.
+
+\bibitem{Eijkhout:MPI}
+Victor Eijkhout.
+\newblock {\em Parallel Programming in {MPI} and {OpenMP}}.
+\newblock 2016.
+\newblock available for download:
+  \url{https://bitbucket.org/VictorEijkhout/parallel-computing-book/src}.
+
 \bibitem{Eijkhout:MPItype-arxiv}
 Victor {Eijkhout}.
 \newblock {Performance of {MPI} sends of non-contiguous data}.
 \newblock {\em arXiv e-prints}, page arXiv:1809.10778, Sep 2018.
-
-\bibitem{Eijkhout:IHPSClulu}
-{Eijkhout, Victor with Robert van de Geijn and Edmond Chow}.
-\newblock {\em Introduction to High Performance Scientific Computing}.
-\newblock lulu.com, 2011.
-\newblock \url{http://www.tacc.utexas.edu/~eijkhout/istc/istc.html}.
 
 \bibitem{goglin:hwloc}
 Brice Goglin.
@@ -39,6 +64,12 @@ Brice Goglin.
 W.~Gropp, E.~Lusk, and A.~Skjellum.
 \newblock {\em Using {MPI}}.
 \newblock {T}he {MIT} {P}ress, 1994.
+
+\bibitem{Hoare:CSP}
+C.A.R. Hoare.
+\newblock {\em Communicating Sequential Processes}.
+\newblock Prentice Hall, 1985.
+\newblock ISBN-10: 0131532715, ISBN-13: 978-0131532717.
 
 \bibitem{Hoefler:case-for-nbc}
 Torsten Hoefler, Prabhanjan Kambadur, Richard~L. Graham, Galen Shipman, and
@@ -76,10 +107,23 @@ Zhenying Liu, Barbara Chapman, Tien-Hsiung Weng, and Oscar Hernandez.
   International Conference on OpenMP Shared Memory Parallel Programming},
   WOMPAT'03, pages 244--259, Berlin, Heidelberg, 2003. Springer-Verlag.
 
+\bibitem{mpi-documents}
+{MPI} forum: {MPI} documents.
+\newblock \url{http://www.mpi-forum.org/docs/docs.html}.
+
 \bibitem{nas-website}
 {NASA Advaned Supercomputing Division}.
 \newblock {NAS} parallel benchmarks.
 \newblock \url{https://www.nas.nasa.gov/publications/npb.html}.
+
+\bibitem{OpenMP:spec}
+The {OpenMP} {API} specification for parallel programming.
+\newblock \url{http://openmp.org/wp/openmp-specifications/}.
+
+\bibitem{mpi-reference}
+Marc Snir, Steve Otto, Steven Huss-Lederman, David Walker, and Jack Dongarra.
+\newblock {\em MPI: The Complete Reference, Volume 1, The MPI-1 Core}.
+\newblock MIT Press, second edition edition, 1998.
 
 \bibitem{Squyres:evilrequest}
 Jeff Squyres.
@@ -93,5 +137,15 @@ R.~Thakur, W.~Gropp, and B.~Toonen.
   communication.
 \newblock {\em Int'l Journal of High Performance Computing Applications},
   19:119--128, 2005.
+
+\bibitem{Valiant:1990:BSP}
+Leslie~G. Valiant.
+\newblock A bridging model for parallel computation.
+\newblock {\em Commun. ACM}, 33:103--111, August 1990.
+
+\bibitem{WasonJL:thinking}
+P.C. Wason and P.N. Johnson-Laird.
+\newblock {\em Thinking and Reasoning}.
+\newblock Harmondsworth: Penguin, 1968.
 
 \end{thebibliography}

@@ -4,7 +4,7 @@
 %%%%
 %%%% This text file is part of the source of 
 %%%% `Parallel Programming in MPI and OpenMP'
-%%%% by Victor Eijkhout, copyright 2012-2020
+%%%% by Victor Eijkhout, copyright 2012-2021
 %%%%
 %%%% mpi-commsplit.tex : about splitting communicators
 %%%%
@@ -82,6 +82,8 @@ We will see this in action in section~\ref{mpi-comm-split-type}.
   \label{fig:procgrid-bcast}
 \end{figure}
 
+\Level 1 {Examples}
+
 One application of communicator splitting is setting up a processor
 grid, with the possibility of using MPI solely within one row or
 column; see figure~\ref{fig:procgrid-bcast}.
@@ -109,6 +111,7 @@ Global ranks:  Ranks in row:  Ranks in colum:
     This is one occasion where you could use \n{ibrun -np 9};
     normally you would \emph{never} put a processor count on \n{ibrun}.
 \end{tacc}
+  \exercisesource{procgrid}
 \end{exercise}
 
 As another example of communicator splitting, consider the recursive

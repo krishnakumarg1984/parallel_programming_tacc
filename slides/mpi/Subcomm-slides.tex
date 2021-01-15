@@ -11,7 +11,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{frame}[containsverbatim]{Overview}
+\begin{numberedframe}{Overview}
   In this section you will learn about various subcommunicators.
 
   Commands learned:
@@ -21,11 +21,11 @@
   \item discussion of groups
   \item discussion of inter/intra communicators.
   \end{itemize}
-\end{frame}
+\end{numberedframe}
 
 %\sectionframe{Motivation}
 
-\begin{frame}[containsverbatim]\frametitle{Sub-computations}
+\begin{numberedframe}{Sub-computations}
   Simultaneous groups of processes, doing different tasks, but
   loosely interacting:
   \begin{itemize}
@@ -35,9 +35,9 @@
   \item Process grid: do broadcast in each column.
   \end{itemize}
   New communicators are formed recursively from \indexmpishow{MPI_COMM_WORLD}.
-\end{frame}
+\end{numberedframe}
 
-\begin{frame}[containsverbatim]\frametitle{Communicator duplication}
+\begin{numberedframe}{Communicator duplication}
 Simplest new communicator: identical to a previous one.
 \lstset{language=C++}
 \begin{lstlisting}
@@ -54,24 +54,23 @@ MPI_Waitall(...);
 \item With a duplicate communicator there is no confusion:\\
   user and library both have their own `context' for their messages.
 \end{itemize}
+\end{numberedframe}
 
-\end{frame}
-
-\frame[containsverbatim]{\frametitle{Interleaved library and user code}
+\begin{numberedframe}{Interleaved library and user code}
   \cxxverbatimsnippet{catchmain}
-}
-\frame[containsverbatim]{\frametitle{Library internally has messages}
+\end{numberedframe}
+\begin{numberedframe}{Library internally has messages}
   \cxxverbatimsnippet{catchcalls}
-}
-\frame[containsverbatim]{\frametitle{Wrong way of setting up the library}
+\end{numberedframe}
+\begin{numberedframe}{Wrong way of setting up the library}
   \cxxverbatimsnippet{wrongcatchlib}
-}
+\end{numberedframe}
 
-\frame[containsverbatim]{\frametitle{Right way of setting up the library}
+\begin{numberedframe}{Right way of setting up the library}
   \cxxverbatimsnippet{rightcatchlib}
-}
+\end{numberedframe}
 
-\begin{frame}[containsverbatim]\frametitle{Disjoint splitting}
+\begin{numberedframe}{Disjoint splitting}
   Split a communicator in multiple disjoint others.
   
 Give each process a `colour', group processes by colour:
@@ -81,9 +80,9 @@ int MPI_Comm_split(MPI_Comm comm, int color, int key,
                    MPI_Comm *newcomm)  
 \end{lstlisting}
 (\n{key} determines ordering: use rank unless you want special effects)
-\end{frame}
+\end{numberedframe}
 
-\begin{frame}[containsverbatim]\frametitle{Row/column example}
+\begin{numberedframe}{Row/column example}
   Simulate a processor grid\\
   create subcommunicator per column (or row):
 \begin{lstlisting}
@@ -98,13 +97,13 @@ MPI_Bcast( data, ... column_comm );
 \end{lstlisting}
 Food for thought: there are many columns,
 but only one \n{column_comm} variable. Why?
-\end{frame}
+\end{numberedframe}
 
-\begin{frame}[label=exprocgrid]\frametitle{Row and column communicators}
+\begin{numberedframe}{Row and column communicators}
   \includegraphics[scale=.4]{procgrid-bcast}
 
   Row and column broadcasts in subcommunicators
-\end{frame}
+\end{numberedframe}
 
 \begin{exerciseframe}[procgrid]
   \footnotesize
@@ -115,7 +114,7 @@ but only one \n{column_comm} variable. Why?
   \input ex:recursivetranspose
 \end{exerciseframe}
 
-\begin{frame}[containsverbatim]\frametitle{Splitting by shared memory}
+\begin{numberedframe}{Splitting by shared memory}
   \begin{itemize}
   \item
     \indexmpishow{MPI_Comm_split_type} splits into communicators of same type.
@@ -124,31 +123,31 @@ but only one \n{column_comm} variable. Why?
   \end{itemize}
 
   \cverbatimsnippet{commsplittype}
-\end{frame}
+\end{numberedframe}
 
 \begin{mpithree}
-\begin{frame}{Inter-communicators}
+\begin{numberedframe}{Inter-communicators}
 \label{sl:comm-inter}
   \begin{itemize}
   \item Communicators so far are of \indextermsubh{intra}{communicator} type.
   \item Bridge between two communicators: \indextermsubh{inter}{communicator}.
   \item Example: communicator with newly spawned processes
   \end{itemize}  
-\end{frame}
+\end{numberedframe}
 \end{mpithree}
 
 \begin{mpithree}
-\begin{frame}{In a picture}
+\begin{numberedframe}{In a picture}
   \label{sl:intercomm-picture}
   \includegraphics[scale=.4]{intercomm}
 
   Illustration of ranks in an inter-communicator setup
   \tiny\cverbatimsnippet{intercommcreate}
-\end{frame}
+\end{numberedframe}
 \end{mpithree}
 
 \begin{mpithree}
-\begin{frame}{Concepts}
+\begin{numberedframe}{Concepts}
   \label{sl:intercomm-concepts}
   \begin{itemize}
   \item Two local communicators
@@ -156,11 +155,11 @@ but only one \n{column_comm} variable. Why?
   \item Leaders in each of them
   \item An inter-communicator over the leaders.
   \end{itemize}
-\end{frame}
+\end{numberedframe}
 \end{mpithree}
 
 \begin{mpithree}
-\begin{frame}[containsverbatim]{Routines}
+\begin{numberedframe}{Routines}
   \label{sl:intercomm-routines}
   \begin{itemize}
   \item
@@ -170,22 +169,22 @@ but only one \n{column_comm} variable. Why?
     query the other communicator
   \item \indexmpishow{MPI_Comm_test_inter}: is this an inter or intra?
   \end{itemize}
-\end{frame}
+\end{numberedframe}
 \end{mpithree}
 
-\begin{frame}[containsverbatim]\frametitle{More}
+\begin{numberedframe}{More}
   \begin{itemize}
   \item Non-disjoint subcommunicators through process groups.
   \item Process topologies: cartesian and graph.\\
     There will also be a section about this, later.
   \end{itemize}
-\end{frame}
+\end{numberedframe}
 
 \endinput
 
-\begin{frame}[containsverbatim]\frametitle{}
+\begin{numberedframe}{}
 \begin{lstlisting}
   
 \end{lstlisting}
-\end{frame}
+\end{numberedframe}
 

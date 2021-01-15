@@ -180,14 +180,47 @@ program : program.o
         ${CLINKER} -o $@ $^ ${PETSC_LIB}
 \end{verbatim}
 The two include lines provide the compilation rule and the library
-variable. If you want to write your own compiler rule, use
+variable.
+
+If you want to write your own compile rule,
+there is an example makefile \verb+$PETSC_DIR/share/petsc/Makefile.user+
+you can take for inspiration. Invoked without arguments it prints out
+the relevant variables:
 \begin{verbatim}
+[c:246] make -f ! $PETSC_DIR/share/petsc/Makefile.user
+CC=/Users/eijkhout/Installation/petsc/petsc-3.13/macx-clang-debug/bin/mpicc
+CXX=/Users/eijkhout/Installation/petsc/petsc-3.13/macx-clang-debug/bin/mpicxx
+FC=/Users/eijkhout/Installation/petsc/petsc-3.13/macx-clang-debug/bin/mpif90
+CFLAGS=-Wall -Wwrite-strings -Wno-strict-aliasing -Wno-unknown-pragmas -fstack-protector -Qunused-arguments -fvisibility=hidden -g3
+CXXFLAGS=-Wall -Wwrite-strings -Wno-strict-aliasing -Wno-unknown-pragmas -fstack-protector -fvisibility=hidden -g
+FFLAGS=-m64 -g
+CPPFLAGS=-I/Users/eijkhout/Installation/petsc/petsc-3.13/macx-clang-debug/include -I/Users/eijkhout/Installation/petsc/petsc-3.13/include
+LDFLAGS=-L/Users/eijkhout/Installation/petsc/petsc-3.13/macx-clang-debug/lib -Wl,-rpath,/Users/eijkhout/Installation/petsc/petsc-3.13/macx-clang-debug/lib
+LDLIBS=-lpetsc -lm
+\end{verbatim}
+
+You can use these rules:
+\begin{verbatim}
+% : %.F90
+        $(LINK.F) -o $@ $^ $(LDLIBS)
+%.o: %.F90
+        $(COMPILE.F) $(OUTPUT_OPTION) $<
+% : %.cxx
+        $(LINK.cc) -o $@ $^ $(LDLIBS)
+%.o: %.cxx
+        $(COMPILE.cc) $(OUTPUT_OPTION) $<
+
+## example link rule:
+# app : a.o b.o c.o
+#       $(LINK.F) -o $@ $^ $(LDLIBS)
+\end{verbatim}
+\begin{comment}
 include ${PETSC_DIR}/lib/petsc/conf/variables
 %.o : %.c
         ${CC} -c $^ ${PETSC_CC_INCLUDES}
 program : program.o
         ${CLINKER} -o $@ $^ ${PETSC_LIB}
-\end{verbatim}
+\end{comment}
 (The \indexpetscshow{PETSC_CC_INCLUDES} variable contains all paths for
 compilation of C~programs; correspondingly there is
 \indexpetscshow{PETSC_FC_INCLUDES} for Fortran source.)

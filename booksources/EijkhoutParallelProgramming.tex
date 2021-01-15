@@ -4,7 +4,7 @@
 %%%%
 %%%% This text file is part of the source of 
 %%%% `Parallel Computing'
-%%%% by Victor Eijkhout, copyright 2012-2020
+%%%% by Victor Eijkhout, copyright 2012-2021
 %%%%
 %%%% parcompbook.tex : master file for the book
 %%%%
@@ -184,7 +184,7 @@
 \usepackage[pdftex,colorlinks]{hyperref}
 \hypersetup{bookmarksopen=true}
 \usepackage{etoolbox}
-\externaldocument[HPSC-]{../hpc-book-private/scicompbook}
+\externaldocument[HPSC-]{../scientific-computing-private/scicompbook}
 \newcommand\HPSCref[1]{HPSC-\nobreak\ref{HPSC-#1}}
 \usepackage[all]{hypcap}
 
@@ -216,8 +216,6 @@
 \tableofcontents
 \setcounter{tocdepth}{2}
 }
-
-%\CHAPTER{Introduction to parallel programming}{conwaysection}
 
 \acresetall
 \part{MPI}
@@ -265,6 +263,7 @@
 \CHAPTER{Grid support}{petsc-dmda}
 \CHAPTER{Finite Elements support}{petsc-fem}
 \CHAPTER{PETSc solvers}{petsc-solver}
+\CHAPTER{PETSC nonlinear solvers}{petsc-nonlinear}
 \CHAPTER{PETSc tools}{petsc-tools}
 \CHAPTER{PETSc topics}{petsc}
 
@@ -316,6 +315,14 @@
 \PROJECT{Mandelbrot set}{mandelbrot}
 \PROJECT{Data parallel grids}{grid}
 \PROJECT{N-body problems}{nbody}
+
+\part{Didactics}
+
+\CHAPTER{Teaching guide}{mpi-course}
+\CHAPTER{Teaching from mental modesl}{mpi-mental}
+
+%\CHAPTER{Introduction to parallel programming}{conwaysection}
+
 
 \part {Bibliography, index, and list of acronyms}
 
@@ -380,6 +387,12 @@
 
 \begin{multicols*}{2}
 \printindex[petsc]
+\end{multicols*}
+
+\Level 0 {Index of SYCL commands}
+
+\begin{multicols*}{2}
+\printindex[sycl]
 \end{multicols*}
 
 \hbox{}\vfill

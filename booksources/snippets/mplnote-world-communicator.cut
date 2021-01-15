@@ -8,7 +8,3 @@
   it is better to make it \lstinline{const} and declare it to be a reference:
   %
   \cxxverbatimsnippet[examples/mpi/mpl/commrank.cxx]{mplcommref}
-
-  \begin{mplimpl}
-    The copy constructor performs an \indexmpishow{MPI_Comm_dup}.
-  \end{mplimpl}

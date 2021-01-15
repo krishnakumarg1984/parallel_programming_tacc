@@ -13,26 +13,25 @@ info ::
 
 COURSE = mpi
 MODE = mpi
-LANGUAGE = mpl
 
 info ::
 	@echo "make EXERCISE (where EXERCISE=${EXERCISES})"
 EXERCISES = hello \
-    commrank prime randommax onenorm sumsquares \
+    commrank prime randommax onenorm \
     pingpong pingpongbuffer sendrecv jordan \
     isendirecv isendirecvarray \
-    bucketblock bucketpipenonblock \
-    stridesend cubegather procgrid procgridnonblock \
-    randomput countdown onesidedbuild \
-    blockwrite blockadvance blockseek blockall viewwrite scatterwrite \
+    bucketblock \
+    stridesend cubegather procgrid procgridnonblock transposeblock \
     rightsend rightput rightgraph \
-    ibarrierupdate shareddata
+    ibarrierupdate
 info ::
 	@echo "    [ OPTS=... ] (for instance: OPTS=\"-DN 100\")"
 	@echo "    support options:"
 	@echo "      bucketblock : N"
 
 include ../course-support/Make.compile
+LANGUAGE = mpl
+CPPSTANDARD = 17
 EXTRA_OPTIONS = -I${TACC_MPL_INC}
 
 .SECONDEXPANSION:

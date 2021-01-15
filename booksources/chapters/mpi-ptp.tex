@@ -4,138 +4,12 @@
 %%%%
 %%%% This text file is part of the source of 
 %%%% `Parallel Programming in MPI and OpenMP'
-%%%% by Victor Eijkhout, copyright 2012-2020
+%%%% by Victor Eijkhout, copyright 2012-2021
 %%%%
 %%%% mpi-ptp.tex : about point-to-point communication
 %%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\Level 0 {Distributed computing and distributed data}
-
-One reason for using MPI is that sometimes you need to work on
-a single object,
-say a vector or a matrix,
-with a  data size larger than can fit in the memory of a single processor.
-With distributed memory, each processor then gets a part
-of the whole data structure and only works on that.
-
-So let's say we have a large array, and we want to
-distribute the data over the processors.
-That means that, with \n{p} processes and \n{n}~elements
-per processor, we have a total of $\mathtt{n}\cdot\mathtt{p}$
-elements.
-
-\begin{figure}[ht]
-  \includegraphics[scale=.1]{mpi-array}
-  \caption{Local parts of a distributed array}
-  \label{fig:mpi-array}
-\end{figure}
-
-We sometimes say that \n{data} is the local part
-of a \indexterm{distributed array} with a total size of
-$\mathtt{n}\cdot\mathtt{p}$
-elements.
-However, this array only exists
-conceptually: each processor has an array with lowest index zero,
-and you have to translate that yourself to an index in the global
-array.
-In other words, you have to write your code in such a way that
-it acts like you're working with a large array that is distributed
-over the processors, while
-actually manipulating only the local arrays on the processors.
-
-Your typical code then looks like
-
-\begin{lstlisting}
-int myfirst = .....;
-for (int ilocal=0; ilocal<nlocal; ilocal++) {
-   int iglobal = myfirst+ilocal;
-   array[ilocal] = f(iglobal);
-}
-\end{lstlisting}
-
-\begin{exercise}
-  \label{ex:fft-vector}
-  Implement a (very simple-minded) Fourier transform: if $f$ is a
-  function on the interval $[0,1]$, then the $n$-th Fourier
-  coefficient is
-  \[ f_n\hat = \int_0^1 f(t)e^{-t/\pi}\,dt \]
-  which we approximate by
-  \[ f_n\hat = \sum_{i=0}^{N-1} f(ih)e^{-in/\pi} \]
-  \begin{itemize}
-  \item Make one distributed array for the $e^{-inh}$ coefficients,
-  \item make one distributed array for the $f(ih)$ values
-  \item calculate a couple of coefficients
-  \end{itemize}
-\end{exercise}
-
-\begin{comment}
-  \begin{exercise}
-    \label{ex:sumsquares}
-    We want to compute $\sum_{n=1}^Nn^2$, and we do that as follows
-    by filling in an array and summing the elements. (Yes, you can do it
-    without an array, but for purposes of the exercise do it with.)
-
-    Set a variable \n{N} for the total length of the array, and compute
-    the local number of elements. Make sure you handle the case where
-    $N$ does not divide perfectly by the number of processes.
-
-    \begin{itemize}
-    \item Now allocate the local parts: each processor should allocate
-      only local elements, not the whole vector.\\
-      (Allocate your array as real numbers. Why are integers not a good idea?)
-    \item On each processor, initialize the local array
-      so that the $i$-th location of the distributed array
-      (for $i=0,\ldots,N-1$)
-      contains~$(i+\nobreak 1)^2$.
-    \item Now use a collective operation to compute the sum of the array values.
-      The right value is $(2N^3+3N^2+N)/6$. Is that what you get?
-    \end{itemize}
-    (Note that computer arithmetic is not exact: the computed sum will
-    only be accurate up to some relative accuracy.)
-  \end{exercise}
-\end{comment}
-
-\begin{exercise}
-  In the previous exercise you worked with a distributed array,
-  computing a local quantity and combining that into a global
-  quantity.
-  Why is it not a good idea to gather the whole distributed array on a
-  single processor, and do all the computation locally?
-\end{exercise}
-
-If the array size is not perfectly divisible by the number of processors,
-we have to come up with a division that is uneven, but not too much.
-You could for instance, write
-
-\begin{lstlisting}
-int Nglobal, // is something large
-    Nlocal = Nglobal/ntids,
-    excess = Nglobal%ntids;
-if (mytid==ntids-1) 
-  Nlocal += excess;
-\end{lstlisting}
-
-\begin{exercise}
-  Argue that this strategy is not optimal. Can you come up with a
-  better distribution?
-  Load balancing is further discussed in~\HPSCref{sec:load}.
-\end{exercise}
-
-\begin{comment}
-  \begin{exercise}
-    \label{ex:inproduct}
-    Implement an inner product routine: let $x$ be a
-    distributed vector of size~$N$ with elements $x[i]=i$,
-    and compute~$x^tx$.
-    As before, the right value is $(2N^3+3N^2+N)/6$.
-
-    Use the inner product value to scale to vector so that it has
-    norm~1.
-    Check that your computation is correct.
-  \end{exercise}
-\end{comment}
 
 %% \Level 0 {Blocking point-to-point operations}
 \input chapters/mpi-blocksend
@@ -220,10 +94,8 @@ does not have a status parameter, but \indexmpishow{MPI_Wait} does.
 \begin{mplnote}{Status object}
   The \lstinline+mpl::status+ object is created by the receive
   (or wait) call:
-
+  %
   \cxxverbatimsnippet{mplstatuscreate}
-
-  A constant \lstinline+mpl::+\indexmplshow{any_source} exists.
 \end{mplnote}
 
 The \indexmpishow{MPI_Status} object
@@ -268,7 +140,7 @@ In Fortran90 style, the source is an index in the \flstinline{Status} array.
 
 \fverbatimsnippet[examples/mpi/f/anysource.F90]{anysource-f}
 
-\begin{mplnote}{Status querying}
+\begin{mplnote}{Status source querying}
 The \indexmplshow{status} object can be queried:
 \begin{lstlisting}
 int source = recv_status.source();
@@ -349,7 +221,21 @@ Remarks.
 
 \Level 2 {Example: receiving from any source}
 
-Using the \indexmpishow{MPI_ANY_SOURCE} specifier. We retrieve the
+Consider an example where the last process receives from every other process.
+We could implement this as a loop
+\begin{lstlisting}
+for (int p=0; p<nprocs-1; p++)
+  MPI_Recv( /* from source= */ p );
+\end{lstlisting}
+but this may incur idle time if the messages arrive out of order.
+
+Instead, we use the  \indexmpishow{MPI_ANY_SOURCE} specifier to give a wildcard
+behavior to the receive call: using this value for the `source' value
+means that we accept mesages from any source within the communicator,
+and messages are only matched by tag value.
+(Note that size and type of the receive buffer is not used for message matching!)
+
+We then retrieve the
 actual source from the \indexmpishow{MPI_Status} object through the
 \indexmpishow{MPI_SOURCE} field.
 %

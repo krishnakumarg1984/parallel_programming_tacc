@@ -4,7 +4,7 @@
 %%%%
 %%%% This text file is part of the source of 
 %%%% `Parallel Programming in MPI and OpenMP'
-%%%% by Victor Eijkhout, copyright 2012-2020
+%%%% by Victor Eijkhout, copyright 2012-2021
 %%%%
 %%%% mpi-morecollective.tex : obscure stuff
 %%%%
@@ -25,7 +25,7 @@ library, but it is possible to define new operators.
 The following is the list of \emph{pre-defined operators}\index{operator!predefined}
 \indexmpidef{MPI_Op} values.
 
-\include mpi-opstable
+\input mpi-opstable
 
 \Level 2 {Minloc and maxloc}
 
@@ -56,7 +56,7 @@ being reduced. The available result types are then
 Likewise, the input needs to be arrays of such type. Consider this example:
 \lstset{language=Fortran}
 \begin{lstlisting}
-Real8,dimension(2,N) :: input,output
+Real*8,dimension(2,N) :: input,output
 call MPI_Reduce( input,output, N, MPI_2DOUBLE_PRECISION, &
                  MPI_MAXLOC, root, comm )
 \end{lstlisting}
@@ -75,8 +75,12 @@ an object of type \indexmpidef{MPI_Op}, which can then be
 used in any reduction:
 %
 \cverbatimsnippet[examples/mpi/c/reductpositive.c]{opcreatec}
-%
-\pverbatimsnippet[examples/mpi/p/reductpositive.py]{opcreatep}
+
+\begin{pythonnote}{Define reduction operator}
+  In python, \lstinline+Op.Create+ is a class method for the \lstinline+MPI+ class.
+  %
+  \pverbatimsnippet[examples/mpi/p/reductpositive.py]{opcreatep}
+\end{pythonnote}
 
 The user function needs to have the following prototype:
 
@@ -100,7 +104,7 @@ number in an array of nonnegative integers:
 %
 \cverbatimsnippet[examples/mpi/c/reductpositive.c]{mpirwz}
 
-\begin{pythonnote}{User-defined operators}
+\begin{pythonnote}{Reduction function}
   The python equivalent of such a function receives bare buffers as
   arguments. Therefore, it is best to turn them first into NumPy arrays
   using \indextermtt{np.frombuffer}:
@@ -134,6 +138,7 @@ There are some restrictions on the user function:
   Write the reduction function to implement the
   \emph{one-norm}\index{norm!one} of a vector:
   \[ \|x\|_1 \equiv \sum_i |x_i|. \]
+  \exercisesource{onenorm}
 \end{exercise}
 
 The operator can be destroyed with a corresponding
@@ -231,6 +236,7 @@ else
   simultaneous collectives. Implement this with non-blocking
   broadcasts, and time the difference between a blocking and a
   non-blocking solution.
+  \exercisesource{procgridnonblock}
 \end{exercise}
 
 \indexmpiref{MPI_Iallreduce}
@@ -255,6 +261,7 @@ else
   corresponding blocking variant, except that
   instead of a \lstinline+void+ result,
   they return an \indexmplshow{irequest}.
+  (See~\ref{mpl:irequest})
   %
   \cxxverbatimsnippet{mplireduce}
 \end{mplnote}
@@ -272,12 +279,12 @@ Since each row needs to be distributed to all processes,
 algorithmically this corresponds to a series of scatter calls,
 one originating from each process.
 %
-\cverbatimsnippet[examples/mpic/itransposeblock.c]{transposescatterref}
+\cverbatimsnippet[examples/mpi/c/itransposeblock.c]{transposescatterref}
 %
 Introducing the non-blocking \indexmpishow{MPI_Iscatter} call,
 this becomes:
 %
-\cverbatimsnippet[examples/mpic/itransposeblock.c]{itransposescatter}
+\cverbatimsnippet[examples/mpi/c/itransposeblock.c]{itransposescatter}
 
 \begin{exercise}
   Can you implement the same algorithm with \indexmpishow{MPI_Igather}?
@@ -350,6 +357,7 @@ detect such completion, perform some local work.
 \cverbatimsnippet[examples/mpi/c/findbarrier.c]{ibarrierwork}
 
 \Level 0 {Performance of collectives}
+\label{sec:collect-perform}
 
 It is easy to visualize a broadcast as in figure~\ref{fig:bcast-simple}:
 see figure~\ref{fig:bcast-simple}.
@@ -405,6 +413,7 @@ of the complexity of collectives is described in more detail in
 \HPSCref{sec:collective}; see also~\cite{Chan2007Collective}.
 
 \Level 0 {Collectives and synchronization}
+\label{sec:collect-sync}
 
 Collectives, other than a barrier, have a synchronizing effect between processors.
 For instance, in

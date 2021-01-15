@@ -1,13 +1,12 @@
   \label{mpl:irequest}
-  The request object, which is in the class \indexmpldef{irequest},
-  is a function result, not a parameter passed by reference,
-  as in the C~interface.
-  The single wait call is a method of the \indexmplshow{irequest}
+  Non-blocking routines have an \indexmpldef{irequest} as function result.
+  Note: not a parameter passed by reference, as in the C~interface.
+  The various wait calls are methods of the \indexmplshow{irequest}
   class.
   %
   \cxxverbatimsnippet[examples/mpi/mpl/isendandirecv.cxx]{irecvexamplempl}
   %
-  You can not define the request variable:
+  You can not default-construct the request variable:
 \begin{lstlisting}
 // DOES NOT COMPILE mpl::irequest recv_request;
 \end{lstlisting}

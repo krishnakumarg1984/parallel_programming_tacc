@@ -4,7 +4,7 @@
 %%%%
 %%%% This text file is part of the source of 
 %%%% `Parallel Programming in MPI and OpenMP'
-%%%% by Victor Eijkhout, copyright 2012-2020
+%%%% by Victor Eijkhout, copyright 2012-2021
 %%%%
 %%%% mpi-onesided.tex : about onesided communication
 %%%%
@@ -372,6 +372,7 @@ error #6285: There is no matching specific subroutine for this generic subroutin
   \label{ex:rightput}
   Revisit exercise~\ref{ex:serialsend} and solve it using
   \indexmpishow{MPI_Put}.
+  \exercisesource{rightput}
 \end{exercise}
 
 \begin{exercise}
@@ -383,7 +384,7 @@ error #6285: There is no matching specific subroutine for this generic subroutin
   \item if $r<.5$, zero writes in the window on~1;
   \item if $r\geq .5$, zero writes in the window on~2.
   \end{itemize}
-
+  \exercisesource{randomput}
 \end{exercise}
 
 \Level 1 {Get}
@@ -737,6 +738,7 @@ respectively \indexmpixref{MPI_Win_unlock_all}{MPI_Win_unlock}.
 
 \begin{exercise}
   \label{ex:lockandfetch}
+  \exercisesource{lockfetch}
   Investigate atomic updates using passive target synchronization.
   Use \indexmpishow{MPI_Win_lock} with an exclusive lock, which
   means that each process only acquires the lock when it absolutely has to.
@@ -755,6 +757,7 @@ MPI_Fetch_and_op(&one, &readout,
 
 \begin{exercise}
   \label{ex:lockfetchshared}
+  \exercisesource{lockfetchshared}
   As exercise~\ref{ex:lockandfetch}, but now use a shared lock:
   all processes acquire the lock simultaneously and keep it as long as is needed.
 
