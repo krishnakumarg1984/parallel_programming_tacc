@@ -1,0 +1,35 @@
+# -*- makefile -*-
+################################################################
+################################################################
+####
+#### This is the makefile for the book
+#### `Parallel Programming in MPI and OpenMP'
+#### by Victor Eijkhout, copyright 2012-2021
+####
+#### top level makefile
+####
+################################################################
+################################################################
+
+info ::
+	@echo \
+	&& echo "Top level makefile for the public repo of" \
+	&& echo "  `Parallel Programming for Science and Engineering' " \
+	&& echo "  Victor Eijkhout" \
+	&& echo \
+	&& echo "Available rules:"
+
+.PHONY: pdf
+info ::
+	@echo "make pdf : compile the book"
+pdf :
+	@cd booksources && make --no-print-directory pdf
+
+.PHONY: clean
+info ::
+	@echo "make clean"
+clean ::
+	@for d in booksources exercises slides ; do \
+	    ( cd "$$d" && make clean ) \
+	    ; fi
+

@@ -1,0 +1,100 @@
+# -*- makefile -*-
+################################################################
+####
+#### This makefile is part of `Parallel Programming in MPI and OpenMP'
+#### by Victor Eijkhout, copyright 2013-2020
+#### eijkhout@tacc.utexas.edu
+####
+#### include Makefile for course slides MPI/OpenMP/hybrid
+####
+#### also for lab sessions; maybe to be split?
+#### this is invoked from the slides-{mpi,omp,ddt,hybrid} directories
+####
+################################################################
+
+ENGINE = pdflatex -shell-escape
+
+info::
+	@echo "make course COURSE=... (in: ${COURSES})"
+	@echo "make courses"
+.PHONY: course courses
+courses :
+	@if [ -z "${COURSES}" ] ; then \
+	    echo "Error: no COURSES variable defined" && exit 1 ; fi
+	@for c in ${COURSES} ; do \
+	    make --no-print-directory course COURSE=$$c \
+	    ; done
+course ::
+	@if [ -z "${COURSE}" ] ; then \
+	    echo "Error: no COURSE variable defined" && exit 1 ; fi 
+	@make --no-print-directory pdf FILE=${COURSE}_course
+	@acro=`cat ${COURSE}_course.log | grep "Acronym.*not defined" | wc -l` \
+	 && echo $$acro \
+	 && if [ $$acro -gt 0 ] ; then \
+	      echo "Resolving $$acro undefined acronyms" \
+	      && make --no-print-directory pdf FILE=${COURSE}_course \
+	    ; fi
+
+.PHONY: onepass pdf
+TEXROOTDIR = ../..
+onepass :
+	TEXINPUTS=.:..:${TEXROOTDIR}:../taccstyle:../taccstyle/figures:${TEXROOTDIR}/chapters:${TEXROOTDIR}/exercises:${TEXROOTDIR}/graphics//:${TEXROOTDIR}/macros:${TEXROOTDIR}/hwloc:${TEXROOTDIR}/mpireference:${TEXROOTDIR}/snippets:../course-support:${TEXINPUTS}${EXTRATEXINPUTS} ${ENGINE} ${FILE}
+pdf :: 
+	@make --no-print-directory onepass FILE=${FILE} \
+	 && if [ -z "${BIB}" ] ; then \
+	        bib=0 ; else bib=1 ; fi \
+	 && if [ -z "${INDEX}" ] ; then \
+	        index=0 ; else index=1 ; fi \
+	 && if [ $${bib} -eq 1 ] ; then \
+	        ( bibtex          $${file} || echo true ) \
+	    ; fi \
+	 && if [ $${index} -eq 1 ] ; then \
+	        ( makeindex       $${file} || echo true ) \
+	    ; fi \
+	 && if [ $${index} -eq 1 -o $${bib} -eq 1 ] ; then \
+	        make onepass FILE=$${file} \
+	    ; fi
+
+.PHONY: listextra extrafiles
+listextra :
+	@echo ${EXTRAFILES}
+extrafiles :
+	@for f in `make --no-print-directory listextra` ; do \
+	    make --no-print-directory onepass FILE=$${f%%.pdf} \
+	    ; done
+
+info ::
+	@echo "make preview"
+.PHONY: preview
+preview:
+	xpdf -g 770x477 ${FILE}.pdf &
+
+##
+## cut files renaming
+## for the textbook
+##
+.PHONY: extract
+info ::
+	@echo "make extract : rename cut files to something more meaningful"
+extract :
+	@echo "Extracting cut files" \
+	&& for e in *.cut ; do \
+	  if [ `cat $$e | grep label | wc -l` -eq 1 ] ; then \
+	    export nam=`cat $$e | grep label | sed -e s/^.*label.// -e s/\}//` ; \
+	    cp $$e ../../snippets/$$nam.tex ; \
+	  fi ; \
+	done
+
+##
+## Cleaning
+##
+
+info ::
+	@echo "make clean"
+.PHONY: clean
+clean ::
+	@/bin/rm -f *~ *.{aux,blg,idx,ilg,ind,log,nav,out,snm,toc,vrb} *.cut
+	@/bin/rm -rf ${EXERCISES} ${OTHERPROGRAMS} acronyms.tex \
+	    *~ *.o *.pyc *.dSYM ddt.o* *.o[0-9]* *.dat *.log *.out *.out[0-9]* *.out_total \
+	    tautrace_* dcvserver.out
+
