@@ -32,11 +32,24 @@
 \usepackage{wrapfig}
 
 % fancy text stuff
-\usepackage{dirtree,multicol,multirow,times}
+\usepackage{fontspec}
+\setmainfont[
+  Extension=.otf,
+  UprightFont={*-Regular},
+  BoldFont={*-Bold},
+  ItalicFont={*-Italic},
+  BoldItalicFont={*-BoldItalic}
+]{LibertinusSerif}
+\usepackage{unicode-math}
+\setmathfont{LibertinusMath-Regular.otf}
+%%%%%%%%%%%%%%%%%%%
+\usepackage{dirtree} % ,times
+% table stuff
+\usepackage{booktabs,multicol,multirow}
 
 % AMS math
-\usepackage[fleqn]{amsmath}
-\usepackage{amssymb}
+%\usepackage[fleqn]{amsmath}
+%\usepackage{amssymb}
 
 % custom arrays and tables
 \usepackage{array} %,multirow,multicol}
@@ -181,7 +194,7 @@
 \input snippetmacs
 
 \usepackage{xr-hyper}
-\usepackage[pdftex,colorlinks]{hyperref}
+\usepackage[xetex,colorlinks]{hyperref}
 \hypersetup{bookmarksopen=true}
 \usepackage{etoolbox}
 \externaldocument[HPSC-]{../scientific-computing-private/scicompbook}

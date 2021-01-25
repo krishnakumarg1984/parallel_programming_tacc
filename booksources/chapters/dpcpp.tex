@@ -308,17 +308,19 @@ There are also three mechanisms:
 \begin{table}[ht]
   \caption{Memory types and treatments}
   \label{tab:sycl-mem}  
-  \begin{tabular}{|l|l|l|}
-    \hline
+  \begin{tabular}{lll}
+    \toprule
     Location&allocation&copy \\
-    \hline
+    \midrule
     Host&\n{malloc}&\n{queue::memcpy}\\
     &\n{malloc_host}&coherent host/device\\
     Device&\indexsyclshow{malloc_device}&\n{queue::memcpy}\\
     Shared&\n{malloc_shared}&coherent host/device\\
-    \hline
+    \bottomrule
   \end{tabular}
 \end{table}
+
+\Level 1 {Unified shared memory}
 
 Memory allocated with \indexsyclshow{malloc_host}
 is visible on the host:
@@ -344,7 +346,7 @@ Ordinary memory, for instance from \indexsyclshow{malloc},
 has to be copied in a kernel:
 \cxxverbatimsnippet[code/dpcpp/cxx/outdevice.cxx]{sycldevcmemcpy}
 
-\Level 1 {Buffers}
+\Level 1 {Buffers and accessors}
 
 Arrays need to be declared in a way such that they can be
 access from any device.
@@ -359,6 +361,30 @@ However, the \indexsyclshow{get_access} function results
 in a \lstinline+sycl::+\indexsyclshow{accessor}, not a pointer to a simple type.
 The precise type is templated and complicated, so this 
 is a good place to use \lstinline+auto+.
+
+Accessors can have a mode associated:
+\lstinline+sycl::access::mode::+\indexsyclshow{read}
+\lstinline+sycl::access::mode::+\indexsyclshow{write}
+
+Intel extension:
+\begin{lstlisting}
+    array<floattype,1> leftsum{0.};
+#ifdef __INTEL_CLANG_COMPILER
+    sycl::buffer leftbuf(leftsum);
+#else
+    sycl::range<1> scalar{1};
+    sycl::buffer<floattype,1> leftbuf(leftsum.data(),scalar);
+\end{lstlisting}
+
+Intel extension:
+there are modes
+\begin{lstlisting}
+// standard
+sycl::accessor acc = buffer.get_access<sycl::access::mode:write>(h);
+// dpcpp extension
+sycl::accessor acc( buffer,h,sycl::read_only );
+sycl::accessor acc( buffer,h,sycl::write_only );
+\end{lstlisting}
 
 \Level 0 {Parallel output}
 
@@ -380,3 +406,12 @@ Intel has made some extensions to SYCL:
 \item Unified Shared Memory,
 \item Ordered queues.
 \end{itemize}
+
+\Level 0 {Intel devcloud notes}
+
+\n{qsub -I} for interactive session.
+
+\n{gdb-oneapi} for debugging.
+
+\url{https://community.intel.com/t5/Intel-oneAPI-Toolkits/ct-p/oneapi}
+for support.

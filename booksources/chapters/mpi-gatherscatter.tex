@@ -105,6 +105,14 @@ Two things to note about these routines:
   \cxxverbatimsnippet[examples/mpi/mpl/collectbuffer.cxx]{mplscattergatherv}  
 \end{mplnote}
 
+\begin{mplnote}{Gather on non-root}
+  Logically speaking, on every non-root process,
+  the gather call only has a send buffer.
+  MPL supports this by having two variants that only specify the send data.
+  %
+  \cxxverbatimsnippet{mplgathernonroot}
+\end{mplnote}
+
 \Level 1 {Examples}
 
 In some applications, each process computes a row or column of a

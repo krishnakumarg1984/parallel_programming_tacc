@@ -12,25 +12,23 @@
 
 info ::
 	@echo "do:"
-	@echo "  make source"
-	@echo "    where source is one of ${SOURCES}"
+	@echo "  make exercise"
+	@echo "    where exercise is one of ${EXERCISES}"
 
-LANGUAGE = f
 ifdef PETSC_DIR
 include ${PETSC_DIR}/lib/petsc/conf/variables
 endif
 LOCDIR = fsolutions
 
-SOURCE = hello
-SOURCES = hello root vec matvec ksp oddeven grid
+EXERCISE = hello
+EXERCISES = hello root vec matvec ksp oddeven grid
 
 FFLAGS = ${PETSC_FC_INCLUDES} -D__SDIR__='"${LOCDIR}"'
 
-.SECONDEXPANSION:
-%.o : %.F90
-	${FC} -g -O2 -c ${PETSC_FC_INCLUDES} $^
-${SOURCES} : $$@.o
-	${FLINKER} -o $@ $@.o ${PETSC_LIB}
+LANGUAGE = f
+EXTRA_FLAGS = ${PETSC_FC_INCLUDES}
+include ../course-support/Make.compile
+EXTRA_LIBS = ${PETSC_LIB}
 shell : fivepoint.o
 
 include ../course-support/Make.petscrun
@@ -40,11 +38,11 @@ info ::
 	@echo "make regression"
 .PHONY: regression
 regression :
-	@for c in ${SOURCES} ; do \
+	@for c in ${EXERCISES} ; do \
 	  echo ".. compiling $$c" ; \
 	  make $$c >/dev/null 2>&1 ; \
 	done
-	@for c in ${SOURCES} ; do \
+	@for c in ${EXERCISES} ; do \
 	  echo ".. running $$c" ; \
 	  mpirun -np 4 $$c ; \
 	done

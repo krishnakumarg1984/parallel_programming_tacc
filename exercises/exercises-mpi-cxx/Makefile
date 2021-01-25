@@ -2,7 +2,7 @@
 ################################################################
 ####
 #### This makefile is part of `Parallel Programming in MPI and OpenMP'
-#### by Victor Eijkhout, copyright 2013-2020
+#### by Victor Eijkhout, copyright 2013-2021
 #### eijkhout@tacc.utexas.edu
 ####
 #### Makefile for MPI course exercises in C++
@@ -12,8 +12,6 @@
 info ::
 
 COURSE = mpi
-MODE = mpi
-LANGUAGE = cxx
 
 info ::
 	@echo "make EXERCISE (where EXERCISE=${EXERCISES})"
@@ -30,12 +28,10 @@ info ::
 	@echo "    support options:"
 	@echo "      bucketblock : N"
 
+MODE = mpi
+LANGUAGE = CXX
 include ../course-support/Make.compile
 
-.SECONDEXPANSION:
-OPTS =
-${EXERCISES} : $$@.o
-	${CXX_LINKER} -o $@ $^
 
 ####
 #### Regression tests

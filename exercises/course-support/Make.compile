@@ -163,7 +163,7 @@ endif
 
 .SECONDEXPANSION:
 ${APPS} ${EXERCISES} ${WRONGS} : $$@.o
-	${LINKER} -o $@ $^ ${LINK_FLAGS}
+	${LINKER} -o $@ $^ ${LINK_FLAGS} ${EXTRA_LIBS}
 
 info ::
 	@if [ ! -z "${APPS}" ] ; then \

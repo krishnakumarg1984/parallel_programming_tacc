@@ -29,10 +29,7 @@ OTHERPROGRAMS = write
 MODE = mpi
 LANGUAGE = F
 include ../course-support/Make.compile
-${EXERCISES} : $$@.o
-	${F_LINKER} ${FFLAGS} -o $@ $^
 
-.SECONDEXPANSION:
 shareddata : contents.o
 
 ####

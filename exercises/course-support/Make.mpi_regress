@@ -121,24 +121,28 @@ regress_success :
 	@if [ -z "${SUCCESS}" ] ; then \
 	   echo "Null SUCCESS value for program <<${PROGRAM}>>" ; exit 1 ; fi
 	@if [ ${SUCCESS} -eq 0 ] ; then \
-	  for f in ${PROGRAM}.out* ; do \
-	    echo "==== $$f:" ; cat $$f ; done ; \
-	fi && \
-	echo " .. success: ${SUCCESS}" \
-	&& if [ "${SUBMIT}" = "1" ] ; then \
-	    source=${PROGRAM}.${EXT} \
-	    && if [ ! -f "$${source}" ] ; then \
-	        echo "Could not find <<$${source}>> to submit" \
-	        echo "maybe specify EXT=.... for extension?" \
-	        exit 1 \
-	        ; fi \
-	    && if [ ! -d "${SUBMISSIONS}" ] ; then \
-	        echo "Submissions directory improperly set" \
-	        && exit 1 \
-	        ; fi \
-	    && cp "$$source" "${SUBMISSIONS}/`whoami`_$$source" \
-	    && echo && echo "Submitted" && echo \
-	    ; fi
+	  echo "run failed" \
+	  && for f in ${PROGRAM}.out* ; do \
+	        echo "==== $$f:" \
+	        && cat $$f \
+	        ; done \
+	; else \
+	    echo " .. success: ${SUCCESS}" \
+	    && if [ "${SUBMIT}" = "1" ] ; then \
+	        source=${PROGRAM}.${EXT} \
+	        && if [ ! -f "$${source}" ] ; then \
+	            echo "Could not find <<$${source}>> to submit" \
+	            echo "maybe specify EXT=.... for extension?" \
+	            exit 1 \
+	            ; fi \
+	        && if [ ! -d "${SUBMISSIONS}" ] ; then \
+	            echo "Submissions directory improperly set" \
+	            && exit 1 \
+	            ; fi \
+	        && cp "$$source" "${SUBMISSIONS}/`whoami`_$$source" \
+	        && echo && echo "Submitted" && echo \
+	       ; fi \
+	; fi
 
 REGRESSIONRUNS =
 .PHONY: run_start

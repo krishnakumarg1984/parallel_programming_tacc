@@ -3,7 +3,7 @@
 ####
 #### This makefile is part of the source of 
 #### "Parallel Computing for Science and Engineering"
-#### by Victor Eijkhout, copyright 2013-2020
+#### by Victor Eijkhout, copyright 2013-2021
 ####
 #### This is the makefile for the MPL examples
 ####     in examples/mpi/mpl
@@ -16,7 +16,8 @@ MAKEFLAGS += --no-builtin-rules
 info ::
 	@echo "Do: make app (where app=${APPS})"
 
-APPS = commrank sendscalar  recvstatus sendbuffer sendarray sendrange \
+APPS = commrank \
+    sendscalar  recvstatus sendbuffer sendarray sendrange sendlong sendtemplate \
     isendandirecv irecvsource ireducescalar bufring \
     collectscalar collectbuffer reduceuser \
     contiguous vector struct structscalar indexed indexedblock \

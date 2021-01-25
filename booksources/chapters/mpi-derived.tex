@@ -243,7 +243,8 @@ declared as \lstinline{Integer}:
 
 \begin{mplnote}{Vector type}
   \label{mpl:strided_vector}
-  MPL uses the \indexmpldef{strided_vector_layout} class:
+  MPL has the \indexmpldef{strided_vector_layout} class as equivalent
+  of the vector type:
   %
   \cxxverbatimsnippet[examples/mpi/mpl/vector.cxx]{vectormpl}
 
@@ -456,6 +457,15 @@ For Fortran we show the legacy syntax for once:
   of 2-tuples denoting block length~/ block location.
   %
   \cxxverbatimsnippet[examples/mpi/mpl/indexed.cxx]{indexedmpl}
+\end{mplnote}
+
+\begin{mplnote}{Layouts for gatherv}
+  The size/displacement arrays for \indexmpishow{MPI_Gatherv}~/
+  \indexmpishow{MPI_Alltoallv} are handled through a
+  \indexmpldef{layouts} object, which is basically a vector of
+  \indexmplshow{layout} objects.
+  %
+  \cxxverbatimsnippet{mpllayouts}
 \end{mplnote}
 
 \begin{mplnote}{Indexed block type}

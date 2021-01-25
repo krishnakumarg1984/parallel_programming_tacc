@@ -6,7 +6,7 @@
 #### `Parallel Programming in MPI and OpenMP'
 #### by Victor Eijkhout, copyright 2012-2021
 ####
-#### top level makefile
+#### public repo top level makefile
 ####
 ################################################################
 ################################################################
@@ -30,6 +30,6 @@ info ::
 	@echo "make clean"
 clean ::
 	@for d in booksources exercises slides ; do \
-	    ( cd "$$d" && make clean ) \
-	    ; fi
+	    ( echo "cleaning in <<$$d>>" && cd "$$d" && make clean ) \
+	    ; done
 

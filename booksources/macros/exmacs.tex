@@ -4,7 +4,7 @@
 %%%%
 %%%% This text file is part of the source of 
 %%%% `Introduction to High-Performance Scientific Computing'
-%%%% by Victor Eijkhout, copyright 2012-6
+%%%% by Victor Eijkhout, copyright 2012-2021
 %%%%
 %%%% This book is distributed under a Creative Commons Attribution 3.0
 %%%% Unported (CC BY 3.0) license and made possible by funding from
@@ -24,7 +24,8 @@
 \makeatother
 
 \newcommand\exercisenumber{\arabic{chapter}.\arabic{excounter}}
-\newcommand\exercisesource[1]{(There is a skeleton for this exercise under the name \texttt{#1}.)}
+\newcommand\exercisesource[1]{\par
+    (There is a skeleton for this exercise under the name \texttt{#1}.)}
 \generalcomment{exercise}
   {\refstepcounter{excounter}%
    \begingroup\def\ProcessCutFile{}\par

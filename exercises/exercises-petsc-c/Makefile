@@ -13,21 +13,17 @@
 
 info ::
 	@echo "do:"
-	@echo "  make SOURCE"
-	@echo "    where SOURCE is one of ${SOURCES}"
+	@echo "  make EXERCISE"
+	@echo "    where EXERCISE is one of ${EXERCISES}"
 
-LANGUAGE = c
+LANGUAGE = C
 include ${PETSC_DIR}/lib/petsc/conf/variables
 LOCDIR = csolutions
 
-SOURCE = hello
-SOURCES = hello root vec matvec ksp shell oddeven grid plex
+EXERCISE = hello
+EXERCISES = hello root vec matvec ksp shell oddeven grid plex
 #grid mat ksp shell ex46 ex46a
 # CFLAGS = ${PETSC_CC_INCLUDES} -std=gnu99
-
-.SECONDEXPANSION:
-${SOURCES} : $$@.o
-	${CLINKER} -o $@ $@.o ${PETSC_LIB}
 
 include ../course-support/Make.compile
 include ../course-support/Make.petscrun

@@ -12,18 +12,15 @@
 info ::
 
 COURSE = omp
-MODE = omp
-LANGUAGE = c
 
 info ::
 	@echo "make EXERCISE (where EXERCISE=${EXERCISES})"
 EXERCISES = parallel pi piadapt taskfactor
 
+MODE = omp
+LANGUAGE = C
 include ../course-support/Make.compile
-
-.SECONDEXPANSION:
-${EXERCISES} : $$@.c
-	${C_COMPILER} ${CFLAGS} -o $@ $^ -lm
+EXTRA_LIBS = -lm
 
 ####
 #### Regression tests

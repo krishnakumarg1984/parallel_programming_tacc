@@ -4,7 +4,7 @@
 #### `Introduction to the PETSc library'
 #### by Victor Eijkhout eijkhout@tacc.utexas.edu
 ####
-#### copyright Victor Eijkhout 2012-9
+#### copyright Victor Eijkhout 2012-2021
 ####
 #### Makefile for Python exercises
 ####
@@ -12,8 +12,8 @@
 
 info ::
 	@echo "do:"
-	@echo "  make SOURCE"
-	@echo "    where SOURCE is one of ${SOURCES}"
+	@echo "  make EXERCISE"
+	@echo "    where EXERCISE is one of ${EXERCISES}"
 
 LANGUAGE = python
 ifdef PETSC_DIR
@@ -22,13 +22,13 @@ include ${PETSC_DIR}/lib/petsc/conf/rules
 endif
 LOCDIR = csolutions
 
-SOURCE = hello
-SOURCES = hello vec matvec ksp grid
+EXERCISE = hello
+EXERCISES = hello vec matvec ksp grid
 #matvec grid
 #grid mat ksp shell ex46 ex46a
 
 # no need to make the examples, so:
-.PHONY: ${SOURCES}
+.PHONY: ${EXERCISES}
 
 PROGRAMEXT = .py
 include ../course-support/Make.petscrun
@@ -53,7 +53,7 @@ regression :
 	 else \
 	    export mypython=python3 ; \
 	 fi \
-	 && for p in ${SOURCES} ; do \
+	 && for p in ${EXERCISES} ; do \
 	      echo ".. running $${p}.py" ; \
 	      mpirun -np 4 $$mypython $${p}.py ${OPTIONS} ; \
 	    done
@@ -61,5 +61,5 @@ regression :
 
 include ../course-support/Make.clean
 clean ::
-	@/bin/rm -f ${SOURCES}
+	@/bin/rm -f ${EXERCISES}
 

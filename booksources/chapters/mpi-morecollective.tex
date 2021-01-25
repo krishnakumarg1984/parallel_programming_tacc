@@ -15,15 +15,20 @@
 \label{sec:mpi-ops}
 \index{operator|(}
 
-MPI \emph{operators} are used in reduction operators. Most common
+MPI \emph{operators},
+that is, objects of type \indexmpidef{MPI_Op},
+are used in reduction operators.
+Most common
 operators, such as sum or maximum, have been built into the MPI
-library, but it is possible to define new operators.
+library; see section~\ref{sec:operator-list}.
+It is also possible to define new operators; 
+see section~\ref{sec:mpi-op-create}.
 
 \Level 1 {Pre-defined operators}
 \label{sec:operator-list}
 
 The following is the list of \emph{pre-defined operators}\index{operator!predefined}
-\indexmpidef{MPI_Op} values.
+\indexmpishow{MPI_Op} values.
 
 \input mpi-opstable
 
@@ -71,7 +76,7 @@ to use in a reduction or scan operation.
 
 The routine for this is \indexmpiref{MPI_Op_create},
 which takes a user function and turns it into
-an object of type \indexmpidef{MPI_Op}, which can then be
+an object of type \indexmpishow{MPI_Op}, which can then be
 used in any reduction:
 %
 \cverbatimsnippet[examples/mpi/c/reductpositive.c]{opcreatec}

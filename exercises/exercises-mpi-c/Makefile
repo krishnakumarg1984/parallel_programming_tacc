@@ -12,8 +12,6 @@
 info ::
 
 COURSE = mpi
-MODE = mpi
-LANGUAGE = c
 
 info ::
 	@echo "make EXERCISE (where EXERCISE=${EXERCISES})"
@@ -32,12 +30,9 @@ info ::
 	@echo "    support options:"
 	@echo "      bucketblock : N"
 
+MODE = mpi
+LANGUAGE = C
 include ../course-support/Make.compile
-
-.SECONDEXPANSION:
-${EXERCISES} : $$@.o
-	${C_LINKER} -o $@ $^
-
 
 include ../course-support/Make.simgrid
 ifdef TACC_TAU_DIR

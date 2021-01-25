@@ -12,18 +12,14 @@
 info ::
 
 COURSE = omp
-MODE = omp
-LANGUAGE = f
 
 info ::
 	@echo "make EXERCISE (where EXERCISE=${EXERCISES})"
 EXERCISES = parallel pi piadapt taskfactor
 
+MODE = omp
+LANGUAGE = F
 include ../course-support/Make.compile
-
-.SECONDEXPANSION:
-${EXERCISES} : $$@.F90
-	${F_COMPILER} ${FFLAGS} -o $@ $^
 
 include ../course-support/Make.clean
 include ../course-support/Make.omp_regress

@@ -4,7 +4,7 @@
 %%%%
 %%%% This text file is part of the source of 
 %%%% `Parallel Computing'
-%%%% by Victor Eijkhout, copyright 2012-2020
+%%%% by Victor Eijkhout, copyright 2012-2021
 %%%%
 %%%% mpl_course.tex : course in MPL interface to MPI
 %%%%
@@ -124,7 +124,6 @@
   \input{mplnote-communicator-passing.cut}
 \end{numberedframe}
 
-
 \Level 0 {Collectives}
 
 \begin{frame}{Introduction}
@@ -149,12 +148,18 @@
 \begin{numberedframe}{Gather scatter}
   \input{mplnote-gather-scatter.cut}
 \end{numberedframe}
+\begin{numberedframe}{Gather on non-root}
+  \input{mplnote-gather-on-non-root.cut}
+\end{numberedframe}
 \begin{numberedframe}{Reduce in place}
   \footnotesize
   \input{mplnote-reduce-in-place.cut}
 \end{numberedframe}
 \begin{numberedframe}{Rooted reduce}
   \input{mplnote-rooted-reduce.cut}
+\end{numberedframe}
+\begin{numberedframe}{Scan operations}
+  \input{mplnote-scan-operations.cut}
 \end{numberedframe}
 
 \begin{numberedframe}{Reduction operator}
@@ -219,6 +224,9 @@
 \begin{numberedframe}{Datatypes}
   \input{mplnote-data-types.cut}
 \end{numberedframe}
+\begin{numberedframe}{Other types}
+  \input{mplnote-other-types.cut}
+\end{numberedframe}
 \begin{numberedframe}{Derived type handling}
   \input{mplnote-derived-type-handling.cut}
 \end{numberedframe}
@@ -245,6 +253,9 @@
 \end{numberedframe}
 \begin{numberedframe}{Indexed block type}
   \input{mplnote-indexed-block-type.cut}
+\end{numberedframe}
+\begin{numberedframe}{Layouts for gatherv}
+  \input{mplnote-layouts-for-gatherv.cut}
 \end{numberedframe}
 \begin{numberedframe}{Struct type scalar}
   \input{mplnote-struct-type-scalar.cut}

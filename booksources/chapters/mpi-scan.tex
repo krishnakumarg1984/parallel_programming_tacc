@@ -35,6 +35,11 @@ You can use any of the given reduction operators,
 or a user-defined one. In the latter case,
 the \indexmpishow{MPI_Op} operations do not return an error code.
 
+\begin{mplnote}{Scan operations}
+  As in the C/F interfaces, \ac{MPL} interfaces to the scan routines
+  have the same calling sequences as the `Allreduce' routine.
+\end{mplnote}
+
 \Level 1 {Exclusive scan}
 
 Often, the more useful variant is the \indextermsub{exclusive}{scan}
