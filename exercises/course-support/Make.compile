@@ -20,6 +20,14 @@ OPTLEVEL = 2
 info ::
 	@echo "    [ EXTRA_OPTIONS=... ]"
 
+EXT_c = c
+EXT_C = c
+EXT_F = F90
+EXT_f = F90
+EXT_cxx = cxx
+EXT_mpl = cxx
+EXT = ${EXT_${LANGUAGE}}
+
 CFLAGS =
 CXXFLAGS =
 FFLAGS =
