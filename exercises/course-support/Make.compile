@@ -88,23 +88,17 @@ else
 	  C_COMPILER   = icc
 	  CXX_COMPILER = icpc
 	  F_COMPILER   = ifort
-	else
-	ifeq "${TACC_FAMILY_COMPILER}" "gcc"
+	else ifeq "${TACC_FAMILY_COMPILER}" "gcc"
 	  C_COMPILER   = gcc
 	  CXX_COMPILER = g++
 	  F_COMPILER   = gfortran
-	else
-	ifeq "${TACC_FAMILY_COMPILER}" "clang"
+	else ifeq "${TACC_FAMILY_COMPILER}" "clang"
 	  C_COMPILER   = clang
 	  CXX_COMPILER = clang++
 	  F_COMPILER   = gfortran
-	else
-	ifeq "${TACC_FAMILY_COMPILER}" "devcloud"
+	else ifeq "${TACC_FAMILY_COMPILER}" "devcloud"
 	  CXX_COMPILER = dpcpp
-	endif
-	endif
-	endif
-	endif # end of intel/gcc/clang choices
+	endif # end of non-mpi compiler setting
 
     endif # end of mode choices
 
@@ -160,7 +154,7 @@ LINK_FLAGS += ${OMPFLAGS}
 endif
 
 .SECONDEXPANSION:
-${APPS} ${WRONGS} : $$@.o
+${APPS} ${EXERCISES} ${WRONGS} : $$@.o
 	${LINKER} -o $@ $^ ${LINK_FLAGS}
 
 info ::
