@@ -58,18 +58,18 @@ regression_compile : clean
 	  fi ; \
 	done
 regression :
-	@rm -f ../regress.out && touch ../regress.out \
+	@regressout=`pwd`/regress.out \
+	 && rm -f $$regressout && touch $$regressout \
 	 && for e in ${EXERCISES} ; do \
-	    if [ ` grep run_$${e} ../course-support/Make.mpi_regress | wc -l ` -gt 0 ] ; then \
-	        make --no-print-directory run_$${e} \
-	        ; \
-	    else \
-	        echo "no regression defined for $${e}" >>  ../regress.out \
-	        ; \
-	    fi \
-	    ; \
-	done \
-	 && echo && echo "See results in regress.out" && echo
+	        echo "================ $$e" \
+	        && echo "================ $$e" >> $$regressout \
+	        && if [ ` grep run_$${e} ../course-support/Make.mpi_regress | wc -l ` -gt 0 ] ; then \
+	                make --no-print-directory run_$${e}    >> $$regressout \
+	            ; else \
+	                echo "no regression defined for $${e}" >>  $$regressout \
+	            ; fi \
+	    ; done \
+	 && echo && echo "See results in $$regressout" && echo
 old_runs :
 	@if [ ! -z "${REGRESSIONRUNS}" ] ; then \
 	  for r in ${REGRESSIONRUNS} ; do \
@@ -190,33 +190,36 @@ run_hello : hello
 .PHONY: run_commrank
 REGRESSIONRUNS += run_commrank
 run_commrank :  commrank
-	@export atgram=$@ ; export program=$${atgram##run_} \
-	&& make --no-print-directory run_start PROGRAM=$${program} NP=${NP} \
-	&& export np=${NP} ; \
-	 export success=1 ; \
-	for rank in `seq 0 $$((np-1))` ; do \
-	  echo "testing output for rank $$rank" ; \
-	  export outfile=commrank.out$$rank ; \
-	  if [ ! -f $$outfile ] ; then \
-	    echo "Process $$rank did not produce output" ; \
-	    success=0 ; fi ; \
-	  if [ $$rank -eq 0 -a `cat $$outfile | wc -l` -ne 2 ] ; then \
-	    echo "Process 0 is supposed to print two lines" ; \
-	    success=0 ; fi ; \
-	  if [ $$rank -gt 0 -a `cat $$outfile | wc -l` -ne 1 ] ; then \
-	    echo "Process $$rank is supposed to print a single line" ; \
-	    success=0 ; fi ; \
-	  if [ -f $$outfile ] ; then \
-	    reportrank=`cat $$outfile | awk '/Hello/ { print $$4 }'` ; \
-	    echo "reportrank=$${reportrank}" ; \
-	    if [ $$reportrank -ne $$rank ] ; then \
-	      echo "Process $$rank incorrectly reported as $$reportrank" ; \
-	      success=0 ; \
-	    fi; \
-	  fi; \
-	done && \
-	make --no-print-directory regress_success SUCCESS=$$success PROGRAM=$${program} ; \
-	echo
+	@export atgram=$@ && export program=$${atgram##run_} \
+	 && make --no-print-directory run_start PROGRAM=$${program} NP=${NP} \
+	 && export np=${NP} && export success=1 \
+	 && for rank in `seq 0 $$((np-1))` ; do \
+	        echo "---------------- testing output for rank $$rank" \
+	         && export outfile=commrank.out$$rank \
+	         && if [ ! -f $$outfile ] ; then \
+	                echo "Process $$rank did not produce output" \
+	                 && success=0 \
+	            ; fi \
+	         && if [ $$rank -eq 0 -a `cat $$outfile | wc -l` -ne 2 ] ; then \
+	                echo "Process 0 is supposed to print two lines" \
+	                 && success=0 \
+	            ; fi \
+	         && if [ $$rank -gt 0 -a `cat $$outfile | wc -l` -ne 1 ] ; then \
+	                echo "Process $$rank is supposed to print a single line" \
+	                 && success=0 \
+	            ; fi \
+	         && if [ -f $$outfile ] ; then \
+	                reportrank=`cat $$outfile | awk '/Hello/ { print $$4 }'` \
+	                echo "reportrank=$${reportrank}" \
+	                 && if [ 0$$reportrank -ne $$rank ] ; then \
+	                        echo "Process $$rank incorrectly reported as $$reportrank" \
+	                         && success=0 \
+	                    ; fi \
+	            ; fi \
+	         && echo "----------------" \
+	    ; done \
+	 && make --no-print-directory regress_success SUCCESS=$$success PROGRAM=$${program} \
+	 && echo
 
 .PHONY: run_prime
 REGRESSIONRUNS += run_prime
@@ -361,37 +364,38 @@ clean ::
 REGRESSIONRUNS += run_randommax
 run_randommax : randommax
 	@export atgram=$@ && export program=$${atgram##run_} \
-	&& make --no-print-directory run_start PROGRAM=$${program} NP=${NP} \
-	&& export np=${NP} ; \
-	 export success=1 ; \
-	 for p in `seq 1 $$(( np-1 ))` ; do \
-	   if [ `cat $$program.out$$p | wc -l` -ne 1 ] ; then \
-	     echo "I was expecting exactly one line of output from proc $$p" ; \
-	   fi ; \
-	 done ; \
-	 vmax=-1 ; \
-	 echo "Evaluating part 1" ; \
-	 for p in `seq 0 $$(( np-1 ))` ; do \
-	   v=` cat $$program.out$$p \
-	       | awk '/Process/ { print $$6 }' \
-	       | sed -e s/^1./1/ -e s/^0./0/ ` && \
-	   if [ $$v -gt $$vmax ] ; then vmax=$$v ; fi ; \
-	 done && \
-	 if [ `cat $$program.out0 | grep "Part 2" | wc -l` -gt 0 ] ; then \
-	   echo "Evaluating part 2" ; \
-	   vzero=` cat $$program.out0 \
-	         | awk '/maximum/ {print $$7}' \
-	         | sed -e s/^1./1/ -e s/^0./0/ ` ; \
-	   if [ "$$vzero" != "$$vmax" ] ; then \
-	     echo "Reported max $$vzero is not actual max $$vmax" ; success=0 ; \
-	   else \
-	     echo "Maximum correctly reported as $$vzero" ; \
-	   fi ; \
-	  else \
-	    echo "Part 2 not evaluated" ; \
-	  fi ; \
-	make --no-print-directory regress_success SUCCESS=$$success PROGRAM=$${program} ; \
-	echo
+	 && make --no-print-directory run_start PROGRAM=$${program} NP=${NP} \
+	 && export np=${NP} \
+	 && export success=1 \
+	 && for p in `seq 1 $$(( np-1 ))` ; do \
+	        if [ `cat $$program.out$$p | wc -l` -ne 1 ] ; then \
+	            echo "I was expecting exactly one line of output from proc $$p" \
+	            && success=0 \
+	        ; fi \
+	    ; done \
+	 && vmax=-1 \
+	 && echo "Evaluating part 1" \
+	 && for p in `seq 0 $$(( np-1 ))` ; do \
+	        v=` cat $$program.out$$p \
+	            | awk '/Process/ { print $$6 }' \
+	            | sed -e s/^1./1/ -e s/^0./0/ ` \
+	        && if [ $$v -gt $$vmax ] ; then vmax=$$v ; fi \
+	    ; done \
+	 && if [ `cat $$program.out0 | grep "Part 2" | wc -l` -gt 0 ] ; then \
+	        echo "Evaluating part 2" \
+	        && vzero=` cat $$program.out0 \
+	              | awk '/maximum/ {print $$7}' \
+	              | sed -e s/^1./1/ -e s/^0./0/ ` \
+	        && if [ "$$vzero" != "$$vmax" ] ; then \
+	               echo "Reported max $$vzero is not actual max $$vmax" && success=0 \
+	           ; else \
+	               echo "Maximum correctly reported as $$vzero" \
+	           ; fi \
+	    ; else \
+	        echo "Part 2 not evaluated" \
+	    ; fi \
+	 && make --no-print-directory regress_success SUCCESS=$$success PROGRAM=$${program} \
+	 && echo
 
 .PHONY: run_jordan
 REGRESSIONRUNS += run_jordan
@@ -540,9 +544,9 @@ run_lockfetch run_lockfetchshared :
 	@export atgram=$@ && export program=$${atgram##run_} \
 	 && make --no-print-directory run_start PROGRAM=$${program} NP=${NP} \
 	 && export np=${NP} \
-	 && export success=1 \
+	 && export success=1 && export value=$$np \
 	 && for p in `seq 1 $$(( np-1 ))` ; do \
-	        tv=` cat $$program.out$$p | awk '/Supervisor readout/ {print $$3}' ` \
+	        tv=` cat $$program.out$$p | awk '/Supervisor final readout/ {print $$4}' ` \
 	        && if [ ! -z "$$tv" ] ; then value=$$tv ; fi \
 	        ; done \
 	 && if [ $$value -eq $$(( np-1 )) ] ; then \
