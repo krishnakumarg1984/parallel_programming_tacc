@@ -15,15 +15,14 @@
 #include <mpi.h>
 
 int main(int argc,char **argv) {
+  MPI_Comm comm = MPI_COMM_WORLD;
+  int nprocs, procno;
+  int bignum = 2000000111, maxfactor = 45200;
   
   MPI_Init(&argc,&argv);
-  MPI_Comm comm = MPI_COMM_WORLD;
-
-  int nprocs, procno;
   MPI_Comm_size(comm,&nprocs);
   MPI_Comm_rank(comm,&procno);
 
-  int bignum = 2000000111, maxfactor = 45200;
   // Exercise:
   // -- Parallelize the do loop so that each processor
   //    tries different candidate numbers.

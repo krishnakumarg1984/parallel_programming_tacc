@@ -71,7 +71,7 @@ else:
     print("[%d] adding 1 to %d" % (procno,readout) )
 
 if procno==supervisor:
-    print("Supervisor final readout %d" % readout)
+    print("Supervisor window readout=%d" % readout)
 
 ##
 ## Illustrating that the window and the window buffer

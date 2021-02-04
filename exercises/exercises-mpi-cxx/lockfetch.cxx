@@ -83,7 +83,7 @@ int main(int argc, char *argv[])
     cerr << proctext.str(); proctext.clear();
   }
   if (procno==supervisor) {
-    proctext << "Supervisor final readout " << readout << endl;
+    proctext << "Supervisor window readout=" << readout << endl;
     cerr << proctext.str(); proctext.clear();
   }
   if (procno==repo) {

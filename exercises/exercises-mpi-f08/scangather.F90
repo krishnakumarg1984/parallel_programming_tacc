@@ -97,14 +97,10 @@ Program ScanGather
      allocate(displ_buffer(0))
   end if
   call MPI_Gather &
-       ( &
-!!!! your code here !!!!
-       )
+       (my_number_of_elements,1,MPI_INTEGER,size_buffer,1,MPI_INT,0,comm)
   !! where are they going to go in the big buffer?
   call MPI_Gather &
-       ( &
-!!!! your code here !!!!
-       )
+       (my_first_index,1,MPI_INTEGER,displ_buffer,1,MPI_INT,0,comm)
   !! now create the big buffer
   if (procno==0) &
        allocate(gather_buffer(total_number_of_elements))
@@ -113,9 +109,8 @@ Program ScanGather
    !! Use Gatherv to collect the small buffers into a big one
    !!
   call MPI_Gatherv &
-       ( &
-!!!! your code here !!!!
-       )
+       (my_elements,my_number_of_elements,MPI_INT, &
+       gather_buffer,size_buffer,displ_buffer,MPI_INT,0,comm)
 
   !!
    !! Print the gathered material

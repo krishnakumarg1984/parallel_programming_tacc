@@ -4,7 +4,7 @@
  **** `Parallel programming with MPI and OpenMP'
  **** by Victor Eijkhout, eijkhout@tacc.utexas.edu
  ****
- **** copyright Victor Eijkhout 2012-2021
+ **** copyright Victor Eijkhout 2012-8
  ****
  **** MPI Exercise
  ****
@@ -16,18 +16,19 @@
 #include <mpi.h>
 
 int main(int argc,char **argv) {
+  MPI_Comm comm = MPI_COMM_WORLD;
+  int nprocs, procno;
   
   MPI_Init(&argc,&argv);
-  MPI_Comm comm = MPI_COMM_WORLD;
 
-  int nprocs, procno;
+  // compute communicator rank and size
   MPI_Comm_size(comm,&nprocs);
   MPI_Comm_rank(comm,&procno);
   
   // Initialize the random number generator
   srand(procno*(double)RAND_MAX/nprocs);
   // Compute a normalized random number
-  float myrandom = (rand() / (double)RAND_MAX);
+  float myrandom = (rand() / (double)RAND_MAX), globalrandom;
   printf("Process %3d has random value %7.5f\n",procno,myrandom);
 
   /*
@@ -67,7 +68,6 @@ int main(int argc,char **argv) {
 #if 0
   // Exercise part 2:
   // -- compute the maximum random value on process zero
-  float globalrandom;
   MPI_Reduce(
 /**** your code here ****/
 	     );

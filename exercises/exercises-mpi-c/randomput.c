@@ -17,10 +17,15 @@
 
 int main(int argc,char **argv) {
 
-  MPI_Init(&argc,&argv);
   MPI_Comm comm = MPI_COMM_WORLD;
-
   int nprocs, procno;
+  
+  // data specific for this program
+  MPI_Win the_window;
+  int my_number=1, my_sum = 0, window_data, other;
+
+  MPI_Init(&argc,&argv);
+
   MPI_Comm_size(comm,&nprocs);
   MPI_Comm_rank(comm,&procno);
 
@@ -28,10 +33,6 @@ int main(int argc,char **argv) {
     printf("Need at least 3 procs\n");
     MPI_Abort(comm,0);
   }
-
-  // data specific for this program
-  MPI_Win the_window;
-  int my_number=1, my_sum = 0, window_data, other;
 
   /*
    * Exercise 1:

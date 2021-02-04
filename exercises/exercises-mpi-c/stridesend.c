@@ -18,11 +18,9 @@
 
 int main(int argc,char **argv) {
 
-  MPI_Comm comm; 
+  MPI_Comm comm; int nprocs,procno;
   MPI_Init(&argc,&argv);
   comm = MPI_COMM_WORLD;
-
-  int nprocs,procno;
   MPI_Comm_rank(comm,&procno);
   MPI_Comm_size(comm,&nprocs);
 
