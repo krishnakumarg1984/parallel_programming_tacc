@@ -2,7 +2,7 @@
 ################################################################
 ####
 #### This makefile is part of `Parallel Programming in MPI and OpenMP'
-#### by Victor Eijkhout, copyright 2013-2020
+#### by Victor Eijkhout, copyright 2013-2021
 #### eijkhout@tacc.utexas.edu
 ####
 #### Make include file for course programs
@@ -239,6 +239,23 @@ run_prime :  prime
 	fi ; \
 	make --no-print-directory regress_success SUCCESS=$$success PROGRAM=$${program} ; \
 	echo
+
+REGRESSIONRUNS += run_scangather
+run_scangather : scangather
+	@export atgram=$@ && export program=$${atgram##run_} \
+	 && make --no-print-directory run_start PROGRAM=$${program} NP=${NP} \
+	 && export np=${NP} \
+	 && export success=1 \
+	 && s=`cat $$program.out[0-9]* \
+	    | awk '/Proc.*has/ { v=v+$$4 } END {print v}' ` \
+	 && t=`cat $$program.out0 \
+	    | awk '/Total/ { v=v+$$5 } END {print v}' ` \
+	 && echo "Check sum $$s again total $$t" \
+	 && if [ $$s != $$t ] ; then success=0 ; fi \
+	 && make --no-print-directory SUCCESS=$${success} PROGRAM=$${program} \
+	         regress_success \
+	 && echo
+
 
 .PHONY: run_rightsend run_rightput run_rightgraph
 REGRESSIONRUNS += run_rightsend run_rightput run_rightgraph
