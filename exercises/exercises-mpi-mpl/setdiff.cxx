@@ -13,8 +13,8 @@
 #include <algorithm>
 #include <iostream>
 #include <iomanip>
-#include <sstream>
 #include <random>
+#include <sstream>
 #include <vector>
 using namespace std;
 #include <mpl/mpl.hpp>
@@ -121,10 +121,12 @@ int main(int argc,char **argv) {
   comm_world.allreduce( mpl::min<int>(),error,errors );
   //MPI_Allreduce(&error,&errors,1,MPI_INT,MPI_MIN,comm);
   if (procno==0) {
+    stringstream proctext;
     if (errors==nprocs) 
-      printf("Finished; all results correct\n");
+      proctext << "Finished; all results correct";
     else
-      printf("First error occurred on proc %d\n",errors);
+      proctext << "First error occurred on proc " << errors;
+    cout << proctext.str() << endl;
   }
 
   return 0;

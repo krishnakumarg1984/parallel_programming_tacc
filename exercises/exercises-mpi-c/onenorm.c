@@ -37,9 +37,10 @@ void one_norm(void *in,void *inout,int *len,MPI_Datatype *type) {
 int main(int argc,char **argv) {
 
   MPI_Comm comm;
-  int procno=-1,nprocs,err;
   MPI_Init(&argc,&argv); 
   comm = MPI_COMM_WORLD;
+
+  int procno=-1,nprocs,err;
   MPI_Comm_rank(comm,&procno); 
   MPI_Comm_size(comm,&nprocs); 
 

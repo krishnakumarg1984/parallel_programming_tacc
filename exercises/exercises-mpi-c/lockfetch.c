@@ -3,7 +3,7 @@
    %%%%
    %%%% This program file is part of the book and course
    %%%% "Parallel Programming for Science and Engineering"
-   %%%% by Victor Eijkhout, copyright 2020
+   %%%% by Victor Eijkhout, copyright 2020-2021
    %%%%
    %%%% lockfetch.c : passive target synchronization & atomic update
    %%%%
@@ -84,7 +84,7 @@ int main(int argc, char *argv[])
     printf("[%d] adding 1 to %d\n",procno,readout);
   }
   if (procno==supervisor)
-    printf("Supervisor window readout=%d\n",readout);
+    printf("Supervisor final readout %d\n",readout);
   if (procno==repo)
     printf("Window buffer=%d\n",win_buffer[0]);
   MPI_Win_free(&the_window);
