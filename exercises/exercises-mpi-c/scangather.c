@@ -18,10 +18,10 @@
 
 int main(int argc,char **argv) {
 
-  MPI_Comm comm = MPI_COMM_WORLD;
-  int nprocs, procno;
-  
   MPI_Init(&argc,&argv);
+  MPI_Comm comm = MPI_COMM_WORLD;
+
+  int nprocs, procno;
   MPI_Comm_size(comm,&nprocs);
   MPI_Comm_rank(comm,&procno);
   
@@ -43,6 +43,7 @@ int main(int argc,char **argv) {
 /**** your code here ****/
     (&my_number_of_elements,&my_first_index,
      1,MPI_INT,MPI_SUM,comm);
+  //answersnippet end
   printf("Proc %3d has %3d elements, range [%4d,%4d)\n",
          procno,my_number_of_elements,my_first_index,my_first_index+my_number_of_elements);
 
@@ -50,6 +51,7 @@ int main(int argc,char **argv) {
    * Create a local array of size `my_number_of_elements'
    * Fill in this local array
    */
+  //answersnippet scangather2
   int total_number_of_elements;
   int *my_elements = (int*)malloc( max(my_number_of_elements,1)*sizeof(int) );
   for (int i_element=0; i_element<my_number_of_elements; i_element++)
@@ -57,6 +59,7 @@ int main(int argc,char **argv) {
 
   MPI_Reduce( &my_number_of_elements,&total_number_of_elements,
 	      1,MPI_INT,MPI_SUM,0,comm);
+  //answersnippet end
   if (procno==0) {
     printf("Total number of elements: %d\n",total_number_of_elements);
   }
@@ -68,14 +71,19 @@ int main(int argc,char **argv) {
   int *size_buffer=NULL;
   if (procno==0)
     size_buffer = (int*) malloc( nprocs*sizeof(int) );
+  //answersnippet scangather3
   MPI_Gather
-    (&my_number_of_elements,1,MPI_INT,size_buffer,1,MPI_INT,0,comm);
+    (
+/**** your code here ****/
+     );
   // where are they going to go in the big buffer?
   int *displ_buffer=NULL;
   if (procno==0)
     displ_buffer = (int*) malloc( nprocs*sizeof(int) );
   MPI_Gather
-    (&my_first_index,1,MPI_INT,displ_buffer,1,MPI_INT,0,comm);
+    (
+/**** your code here ****/
+     );
   // now create the big buffer
   int *gather_buffer = NULL;
   if (procno==0)
@@ -84,8 +92,10 @@ int main(int argc,char **argv) {
    * Use Gatherv to collect the small buffers into a big one
    */
   MPI_Gatherv
-    (my_elements,my_number_of_elements,MPI_INT,
-     gather_buffer,size_buffer,displ_buffer,MPI_INT,0,comm);
+    (
+/**** your code here ****/
+     );
+  //answersnippet end
 
   /*
    * Print the gathered material
