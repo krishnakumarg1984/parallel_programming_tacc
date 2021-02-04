@@ -17,7 +17,7 @@ info ::
 	@echo "make EXERCISE (where EXERCISE=${EXERCISES})"
 EXERCISES = hello \
     commrank prime randommax jordan sumsquares onenorm \
-    pingpong sendrecv stridesend transposeblock \
+    pingpong sendrecv stridesend transposeblock scangather \
     rightsend bucketblock bucketpipenonblock \
     isendirecv isendirecvarray procgrid procgridnonblock \
     rightput randomput onesidedbuild countdown lockfetch \
