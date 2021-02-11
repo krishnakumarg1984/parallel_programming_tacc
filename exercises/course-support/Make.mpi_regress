@@ -247,7 +247,9 @@ run_scangather : scangather
 	 && export np=${NP} \
 	 && export success=1 \
 	 && s=`cat $$program.out[0-9]* \
-	    | awk '/Proc.*has/ { v=v+$$4 } END {print v}' ` \
+	    | awk 'BEGIN {v=0} /Proc.*has/ { v=v+$$4 } END {print v}' ` \
+	 && if [ "$$s" = "0" ] ; then \
+	        echo "Everyone zero is suspicious" && success=0 ; fi \
 	 && t=`cat $$program.out0 \
 	    | awk '/Total/ { v=v+$$5 } END {print v}' ` \
 	 && echo "Check sum $$s again total $$t" \
