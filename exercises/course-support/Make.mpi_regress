@@ -116,6 +116,7 @@ regress_display :
 	@for f in ${PROGRAM}.out* ; do \
 	  echo "==== $$f:" ; cat $$f ; done
 SUCCESS = 1
+INCOMPLETE = 0
 SUBMISSIONS = /work/00434/eijkhout/submissions374394spring2021
 regress_success :
 	@if [ -z "${SUCCESS}" ] ; then \
@@ -132,8 +133,8 @@ regress_success :
 	        source=${PROGRAM}.${EXT} \
 	        && if [ ! -f "$${source}" ] ; then \
 	            echo "Could not find <<$${source}>> to submit" \
-	            echo "maybe specify EXT=.... for extension?" \
-	            exit 1 \
+	             && echo "maybe specify EXT=.... for extension?" \
+	             && exit 1 \
 	            ; fi \
 	        && if [ ! -d "${SUBMISSIONS}" ] ; then \
 	            echo "Submissions directory improperly set" \
@@ -147,7 +148,18 @@ regress_success :
 REGRESSIONRUNS =
 .PHONY: run_start
 run_start :
-	@export atgram=${PROGRAM} ; export program=$${atgram##run_} \
+	@export atgram=${PROGRAM} && export program=$${atgram##run_} \
+	 && if [ "${INCOMPLETE}" = "1" ] ; then \
+	        source=${PROGRAM}.${EXT} \
+	         && if [ ! -f "$${source}" ] ; then \
+	                echo "Could not find <<$${source}>> for incomplete submission" \
+	                 && echo "maybe specify EXT=.... for extension?" \
+	                 && exit 1 \
+	            ; fi \
+	         && cp "$$source" "${SUBMISSIONS}/`whoami`_INCOMPLETE_$$source" \
+	         && echo "submitted as incomplete" && echo "(ignore error on the next line)" \
+	         && exit 1 \
+	    ; fi \
 	 && echo "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" \
 	 && echo "Regression run for ${LANGUAGE}:$$program, np=${NP}" \
 	 && echo "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" \
@@ -155,15 +167,15 @@ run_start :
 	 && make --no-print-directory $$program >./$${program}.log 2>&1 \
 	 && export code=$$? \
 	 && if [ $${code} -ne 0 ]; then \
-	  echo "Failed to compile $${program}" \
-	 &&  echo "%%%%%%%% compile log %%%%%%%%" \
-	 &&  cat $${program}.log \
-	 &&  echo "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" \
-	 &&  exit 1 ; \
-	else \
-	  rm -f ./$${program}.log \
-	  && make --no-print-directory regress_out NP=${NP} PROGRAM=$${program} ; \
-	fi
+	        echo "Failed to compile $${program}" \
+	         &&  echo "%%%%%%%% compile log %%%%%%%%" \
+	         &&  cat $${program}.log \
+	         &&  echo "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" \
+	         &&  exit 1 \
+	    ; else \
+	        rm -f ./$${program}.log \
+	         && make --no-print-directory regress_out NP=${NP} PROGRAM=$${program} \
+	    ; fi
 REGRESSIONRUNS += run_hello
 run_hello : hello
 	@export atgram=$@ && export program=$${atgram##run_} \
