@@ -633,17 +633,20 @@ run_bucketpipe : bucketpipe
 run_bucketpipenonblock : bucketpipenonblock
 run_bucketblock run_bucketnonblock run_bucketpipe run_bucketpipenonblock :
 	@make --no-print-directory run_start PROGRAM=$@ NP=${NP}
-	@export atgram=$@ ; export program=$${atgram##run_} ; \
-	 export np=${NP} ; \
-	 export success=1 ; \
-	 for p in `seq 1 $$(( np-1 ))` ; do \
-	  if [ `cat $$program.out$$p | wc -l` -gt 0 ] ; then \
-	    echo "I was not expecting output from proc $$p" ; \
-	    success=0; \
-	  fi ; \
-	 done ; \
-	make --no-print-directory regress_success SUCCESS=$$success PROGRAM=$${program} ; \
-	echo
+	@export atgram=$@ ; export program=$${atgram##run_} \
+	 && export np=${NP} \
+	 && export success=` cat $${program}.out0 | grep "all results correct" | wc -l ` \
+	 && success=$$(( success+0 )) \
+	 && if [ $$success -ne 1 ] ; then \
+	        echo "Process 0 not reporting success: $$success" && success=0 ; fi \
+	 && for p in `seq 1 $$(( np-1 ))` ; do \
+	        if [ `cat $$program.out$$p | wc -l` -gt 0 ] ; then \
+	            echo "I was not expecting output from proc $$p" \
+	             && success=0 \
+	        ; fi \
+	    ; done \
+	 && make --no-print-directory regress_success SUCCESS=$$success PROGRAM=$${program} \
+	 && echo
 
 .PHONY: run_ibarrierupdate
 REGRESSIONRUNS += run_ibarrierupdate
