@@ -99,18 +99,19 @@ regress_out :
 	  echo "set MODE for regression test!" ; exit 1 ; fi
 	@if [ -z "${PROGRAM}" ] ; then \
 	  echo "no PROGRAM value specified in regress_out" ; exit 1 ; fi
-	@if [ ${MODE} = "mpi" ] ; then \
-	  if [ -z "${CATCHER}" ] ; then \
-	    echo "CATCHER variable not set" ; exit 1 ; fi \
-	 &&  /bin/rm -f ${PROGRAM}.out* \
-	  && cmd="${MPIRUN} -np ${NP} ${CATCHER} \
-	        ./${PROGRAM}`if [ "${LANGUAGE}" = "p" ] ; then echo ".py" ; fi ` \
-	        >/dev/null 2>&1" \
-	  && echo "Executing: $${cmd}" \
-	  && eval $${cmd} \
-	  && cat ${PROGRAM}.out[0-9]* > ${PROGRAM}.out_total ; \
+	@if [ ${MODE} = "mpi" -o ${MODE} = "mpl" ] ; then \
+	    if [ -z "${CATCHER}" ] ; then \
+	        echo "CATCHER variable not set" ; exit 1 \
+	    ; fi \
+	     &&  /bin/rm -f ${PROGRAM}.out* \
+	     && cmd="${MPIRUN} -np ${NP} ${CATCHER} \
+	          ./${PROGRAM}`if [ "${LANGUAGE}" = "p" ] ; then echo ".py" ; fi ` \
+	          >/dev/null 2>&1" \
+	     && echo "Executing: $${cmd}" \
+	     && eval $${cmd} \
+	     && cat ${PROGRAM}.out[0-9]* > ${PROGRAM}.out_total ; \
 	else \
-	  echo "unsupported regression mode: ${MODE}" && exit 1 ; \
+	    echo "unsupported regression mode: ${MODE}" && exit 1 ; \
 	fi
 regress_display :
 	@for f in ${PROGRAM}.out* ; do \

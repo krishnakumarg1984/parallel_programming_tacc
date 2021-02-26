@@ -43,7 +43,6 @@ int main(int argc,char **argv) {
 /**** your code here ****/
     (&my_number_of_elements,&my_first_index,
      1,MPI_INT,MPI_SUM,comm);
-  //answersnippet end
   printf("Proc %3d has %3d elements, range [%4d,%4d)\n",
          procno,my_number_of_elements,my_first_index,my_first_index+my_number_of_elements);
 
@@ -51,7 +50,6 @@ int main(int argc,char **argv) {
    * Create a local array of size `my_number_of_elements'
    * Fill in this local array
    */
-  //answersnippet scangather2
   int total_number_of_elements;
   int *my_elements = (int*)malloc( max(my_number_of_elements,1)*sizeof(int) );
   for (int i_element=0; i_element<my_number_of_elements; i_element++)
@@ -59,7 +57,6 @@ int main(int argc,char **argv) {
 
   MPI_Reduce( &my_number_of_elements,&total_number_of_elements,
 	      1,MPI_INT,MPI_SUM,0,comm);
-  //answersnippet end
   if (procno==0) {
     printf("Total number of elements: %d\n",total_number_of_elements);
   }
@@ -71,7 +68,6 @@ int main(int argc,char **argv) {
   int *size_buffer=NULL;
   if (procno==0)
     size_buffer = (int*) malloc( nprocs*sizeof(int) );
-  //answersnippet scangather3
   MPI_Gather
     (
 /**** your code here ****/
@@ -95,7 +91,6 @@ int main(int argc,char **argv) {
     (
 /**** your code here ****/
      );
-  //answersnippet end
 
   /*
    * Print the gathered material

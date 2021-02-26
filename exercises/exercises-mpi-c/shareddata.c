@@ -13,16 +13,18 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <math.h>
 #include <time.h>
 #include <unistd.h>
 #include <mpi.h>
 
 int main(int argc,char **argv) {
-  MPI_Comm comm;
-  int nprocs,procno;
 
   MPI_Init(&argc,&argv);
+  MPI_Comm comm;
   comm = MPI_COMM_WORLD;
+
+  int nprocs,procno;
   MPI_Comm_size(comm,&nprocs);
   MPI_Comm_rank(comm,&procno);
 
@@ -121,7 +123,7 @@ int main(int argc,char **argv) {
   //printf("[%d,%d] data at shared window: %e\n",nodeid,onnode_procno,*win0_addr);
   double check_val = *win0_addr;
   int
-    error = abs(check_val-REFVAL)/REFVAL > 1.e-14 ? procno : nprocs,
+    error = fabs(check_val-REFVAL)/REFVAL > 1.e-14 ? procno : nprocs,
     errors=-1;
   MPI_Allreduce(&error,&errors,1,MPI_INT,MPI_MIN,comm);
   if (procno==0) {

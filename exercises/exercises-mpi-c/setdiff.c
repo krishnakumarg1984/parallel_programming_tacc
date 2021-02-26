@@ -40,36 +40,37 @@ void setdiff( int *mydata,int *otherdata,int n ) {
  * Print the filter array by first gathering it
  * Note: this is not a scalable thing to do.
  */
-void print_filter( int *filter,int n,MPI_Comm comm ) {
+void print_distarray( int *data,int n,MPI_Comm comm ,char *txt,int sort) {
   int nprocs,procno;
   MPI_Comm_size(comm,&nprocs);
   MPI_Comm_rank(comm,&procno);
-  int *global_filter = (int*) malloc( nprocs*n*sizeof(int) );
-  MPI_Gather( filter,n,MPI_INT,global_filter,n,MPI_INT,0,comm);
+  int *global_data = procno==0 ? (int*) malloc( nprocs*n*sizeof(int) ) : NULL;
+  MPI_Gather( data,n,MPI_INT,global_data,n,MPI_INT,0,comm);
   if (procno==0) {
-    for (int top=nprocs*n-1; top>=0; top--) {
-      for (int s=0; s<top; s++) {
-	if (global_filter[s+1]<global_filter[s]) {
-	  int t = global_filter[s+1];
-	  global_filter[s+1] = global_filter[s];
-	  global_filter[s] = t;
+    if (sort) {
+      for (int top=nprocs*n-1; top>=0; top--) {
+	for (int s=0; s<top; s++) {
+	  if (global_data[s+1]<global_data[s]) {
+	    int t = global_data[s+1];
+	    global_data[s+1] = global_data[s];
+	    global_data[s] = t;
+	  }
 	}
       }
     }
-    printf("Global filter:");
-    for (int i=0; i<nprocs*n; i++) printf(" %d",global_filter[i]);
+    printf("%s",txt);
+    for (int i=0; i<nprocs*n; i++) printf(" %3d",global_data[i]);
     printf("\n");
+    free(global_data);
   }
-  free(global_filter);
 }
 
 int main(int argc,char **argv) {
 
-  MPI_Comm comm = MPI_COMM_WORLD;
-  int nprocs, procno;
-  
   MPI_Init(&argc,&argv);
+  MPI_Comm comm = MPI_COMM_WORLD;
 
+  int nprocs, procno;
   MPI_Comm_size(comm,&nprocs);
   MPI_Comm_rank(comm,&procno);
 
@@ -90,11 +91,8 @@ int main(int argc,char **argv) {
     filter[i] = rand() % (2*N*nprocs);
   }
 
-  printf("[%d] Starting out with:",procno);
-  for (int i=0; i<N; i++) printf(" %d",mydata[i]); printf("\n");
-  printf("[%d] Filtering:",procno);
-  for (int i=0; i<N; i++) printf(" %d",filter[i]); printf("\n");
-  print_filter(filter,N,comm);
+  print_distarray(mydata,N,comm,"Starting : ",0);
+  print_distarray(filter,N,comm,"Filtering: ",1);
 
   /*
    * Exercise:
@@ -106,11 +104,9 @@ int main(int argc,char **argv) {
     setdiff( result,filter,N );
 /**** your code here ****/
   }
+ 
+  print_distarray(result,N,comm,"Ending   : ",0);
 
-  printf("[%d] Ending with:      ",procno);
-  for (int i=0; i<N; i++)
-    printf(" %d",result[i]);
-  printf("\n");
   /*
    * Correctness check:
    * `error' will be:

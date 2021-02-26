@@ -81,7 +81,7 @@ Program LockFetch
      print *,"Proc",procno,"adding 1 to ",readout
   end if
   if (procno==supervisor) &
-    print *,"Supervisor window readout=",readout
+    print *,"Supervisor final readout ",readout
 
   call MPI_Barrier(comm,ierr)
   call MPI_Win_free(the_window,ierr)

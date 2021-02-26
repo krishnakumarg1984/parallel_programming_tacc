@@ -17,11 +17,10 @@
 
 int main(int argc,char **argv) {
 
-  MPI_Comm comm = MPI_COMM_WORLD;
-  int nprocs, procno;
-  
   MPI_Init(&argc,&argv);
+  MPI_Comm comm = MPI_COMM_WORLD;
 
+  int nprocs, procno;
   MPI_Comm_size(comm,&nprocs);
   MPI_Comm_rank(comm,&procno);
 
@@ -34,25 +33,19 @@ int main(int argc,char **argv) {
   int processA,processB;
 /**** your code here ****/
   double t, send[10000],recv[10000]; send[0] = 1.1;
-  //codesnippet pingpong
   if (procno==processA) {
     t = MPI_Wtime();
     for (int n=0; n<NEXPERIMENTS; n++) {
       MPI_Send(send,1,MPI_DOUBLE,
-	       //codesnippet end
 	       // fill in dest and tag
 /**** your code here ****/
 	       comm);
-      //codesnippet pingpong
       MPI_Recv(recv,1,MPI_DOUBLE,
-	       //codesnippet end
 	       // fill in source and tag
 /**** your code here ****/
 	       comm,MPI_STATUS_IGNORE);
-      //codesnippet pingpong
     }
     t = MPI_Wtime()-t; t /= NEXPERIMENTS;
-    //codesnippet end
     {
       int nanosec = t*1000000000;
       printf("Time for pingpong: %7.3f (microsec)\n",nanosec*1.e-3);

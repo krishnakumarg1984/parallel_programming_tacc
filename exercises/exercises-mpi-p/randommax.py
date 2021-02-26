@@ -56,7 +56,7 @@ errors = np.zeros(1,dtype=np.intc)
 error[0] = nprocs
 if abs(sum_scaled_random-1.)>1.e-5:
     print("Suspicious sum %7.5f on process %3d" % (sum_scaled_random,procno))
-    error = procno
+    error[0] = procno
 comm.Reduce(error,errors,MPI.MIN)
 if procno==0:
     if errors[0]==nprocs:

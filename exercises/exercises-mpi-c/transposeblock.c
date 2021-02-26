@@ -61,11 +61,9 @@ int main(int argc,char **argv) {
    * - stride between blocks : isize
    * - how many blocks       : blocksize_j
    */
-  //codesnippet transposesrctype
   MPI_Datatype sourceblock;
   MPI_Type_vector( blocksize_j,blocksize_i,isize,MPI_INT,&sourceblock);
   MPI_Type_commit( &sourceblock);
-  //codesnippet end
 
   /*
    * Each continguous source block becomes a strided column in the transpose:
@@ -73,11 +71,9 @@ int main(int argc,char **argv) {
    * - size of block         : 1
    * - stride between blocks : jsize ( = line length of the transpose )
    */
-  //codesnippet transposetarlinetype
   MPI_Datatype targetcolumn;
   MPI_Type_vector( blocksize_i,1,jsize, MPI_INT,&targetcolumn);
   MPI_Type_commit( &targetcolumn );
-  //codesnippet end
   MPI_Datatype skinnycolumn;
   /*
    * Exercise: 

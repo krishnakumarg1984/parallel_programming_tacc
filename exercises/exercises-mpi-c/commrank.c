@@ -16,10 +16,8 @@
 
 int main(int argc,char **argv) {
 
-  MPI_Comm comm = MPI_COMM_WORLD;
-  int nprocs, procno;
-  
   MPI_Init(&argc,&argv);
+  MPI_Comm comm = MPI_COMM_WORLD;
 
   // Exercise part 1:
   // -- Use the routine
@@ -27,6 +25,7 @@ int main(int argc,char **argv) {
   // -- Let each processor print out a message like
   //    "Hello from processor 7 out of 12"
   //    reporting its number and the total number.
+  int nprocs, procno;
 /**** your code here ****/
 
   // Exercise part 2:

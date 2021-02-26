@@ -17,12 +17,11 @@
 
 int main(int argc,char **argv) {
 
-  MPI_Comm comm = MPI_COMM_WORLD;
-  int nprocs, procno;
-  
   MPI_Init(&argc,&argv);
+  MPI_Comm comm = MPI_COMM_WORLD;
 
-  MPI_Comm_size(comm,&nprocs);
+  int nprocs, procno;
+    MPI_Comm_size(comm,&nprocs);
   MPI_Comm_rank(comm,&procno);
 
   double mydata=procno,leftdata=0.,rightdata=0.;

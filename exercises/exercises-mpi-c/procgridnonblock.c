@@ -16,19 +16,19 @@
 #include <mpi.h>
 
 int main(int argc,char **argv) {
-  MPI_Comm comm = MPI_COMM_WORLD;
-  int nprocs, procno;
   
+  MPI_Init(&argc,&argv);
+  MPI_Comm comm = MPI_COMM_WORLD;
+
+  int nprocs, procno;
+  MPI_Comm_size(comm,&nprocs);
+  MPI_Comm_rank(comm,&procno);
+
   // data specifically for this program
   int
     nrows,ncols,
     row_rank,col_rank;
   MPI_Comm row_comm,col_comm;
-
-  MPI_Init(&argc,&argv);
-
-  MPI_Comm_size(comm,&nprocs);
-  MPI_Comm_rank(comm,&procno);
 
   //
   // Try to arrange the processes in a grid

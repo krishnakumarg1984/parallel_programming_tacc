@@ -4,24 +4,27 @@
  **** `Parallel programming with MPI and OpenMP'
  **** by Victor Eijkhout, eijkhout@tacc.utexas.edu
  ****
- **** copyright Victor Eijkhout 2012-7
+ **** copyright Victor Eijkhout 2012-2020
  ****
- **** sumsquares.c
+ **** sumsquares.cxx
  ****
  ****************************************************************/
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <mpi.h>
+#include <iostream>
+#include <iomanip>
+#include <sstream>
+using namespace std;
+#include <mpl/mpl.hpp>
 
 int main(int argc,char **argv) {
-  
-  MPI_Init(&argc,&argv);
-  MPI_Comm comm = MPI_COMM_WORLD;
 
+  const mpl::communicator &comm_world = mpl::environment::comm_world();
   int nprocs, procno;
-  MPI_Comm_size(comm,&nprocs);
-  MPI_Comm_rank(comm,&procno);
+  stringstream proctext;
+  
+  // compute communicator rank and size
+  nprocs = comm_world.size();
+  procno = comm_world.rank();
 
   /*
    * You can call this program as "sumsquare 12345"
@@ -35,11 +38,11 @@ int main(int argc,char **argv) {
       nlocal = atoi(argv[1]);
     else nlocal = 1000;
   }
-  MPI_Bcast(&nlocal,1,MPI_INTEGER,0,comm);
+  comm_world.bcast(0,nlocal);
   nglobal = nprocs*nlocal;
 
   // Allocate local data. We use doubles rather than integers (why?)
-  double *local_squares = (double*)malloc(nlocal*sizeof(double));
+  vector<double> local_squares(nlocal);
 
   /*
    * Exercise part 1:
@@ -59,16 +62,18 @@ int main(int argc,char **argv) {
   for (int i=0; i<nlocal; i++) {
 /**** your code here ****/
   }
-  MPI_Reduce(&local_sum,&global_sum,1,MPI_DOUBLE,
-	     /* operator: */
+  comm_world.reduce
+    (
 /**** your code here ****/
-	     0,comm);
+     );
   if (procno==0) {
+    stringstream proctext;
     double fglobal = nglobal;
-    printf("Global sum: %e should be %e\n",
-	   global_sum,fglobal*fglobal*fglobal/3. + fglobal*fglobal/2. + fglobal/6.);
+    proctext << "Global sum: " << global_sum
+	     << " should be "
+	     << (1./3.)*fglobal*fglobal*fglobal + (1./2.)*fglobal*fglobal + fglobal/6.;
+    cerr << proctext.str() << "\n";
   }
 
-  MPI_Finalize();
   return 0;
 }

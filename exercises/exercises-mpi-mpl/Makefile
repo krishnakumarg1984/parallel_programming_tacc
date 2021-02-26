@@ -16,12 +16,12 @@ COURSE = mpi
 info ::
 	@echo "make EXERCISE (where EXERCISE=${EXERCISES})"
 EXERCISES = hello \
-    commrank prime randommax onenorm \
+    commrank prime randommax onenorm sumsquares \
     pingpong pingpongbuffer sendrecv jordan \
     isendirecv isendirecvarray setdiff \
     bucketblock scangather \
     stridesend cubegather procgrid procgridnonblock transposeblock \
-    rightsend rightput rightgraph \
+    rightsend rightgraph \
     ibarrierupdate
 info ::
 	@echo "    [ OPTS=... ] (for instance: OPTS=\"-DN 100\")"

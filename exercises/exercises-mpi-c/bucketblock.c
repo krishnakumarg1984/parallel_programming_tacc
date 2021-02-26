@@ -53,6 +53,11 @@ int main(int argc,char **argv) {
   double leftdata[N], myvalue[N];
   for (int i=0; i<N; i++) leftdata[i] = 0.;
 /**** your code here ****/
+if (procno<nprocs-1)
+	MPI_Send(myvalue,N, MPI_DOUBLE,sendto,0, comm);
+
+if (procno>0)
+	MPI_Recv(leftdata, N, MPI_DOUBLE,recvfrom,0, comm, MPI_STATUS_IGNORE);
 
 #ifdef SIMGRID
   /*

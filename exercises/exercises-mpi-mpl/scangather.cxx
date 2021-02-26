@@ -54,8 +54,8 @@ int main(int argc,char **argv) {
              << " has " << setw(3) << my_number_of_elements
              << " elements, range [" << setw(4) << my_first_index
              << "," << setw(4) << my_first_index+my_number_of_elements
-             << ")";
-    cout << proctext.str() << endl;
+             << ")\n";
+    cout << proctext.str();
   }
   
   /*
@@ -67,12 +67,15 @@ int main(int argc,char **argv) {
   for (int i_element=0; i_element<my_number_of_elements; i_element++)
     my_elements.at(i_element) = my_first_index+i_element;
 
-  comm_world.reduce( mpl::plus<int>(),0,
-		     my_number_of_elements,total_number_of_elements );
   if (procno==0) {
+    comm_world.reduce
+      ( mpl::plus<int>(),0,my_number_of_elements,total_number_of_elements );
     stringstream proctext;
     proctext << "Total number of elements: " << total_number_of_elements;
     cout << proctext.str() << endl;
+  } else {
+    comm_world.reduce
+      ( mpl::plus<int>(),0,my_number_of_elements );
   }
 
   /*
@@ -89,13 +92,6 @@ int main(int argc,char **argv) {
     comm_world.gather
       ( 0,my_number_of_elements );
   }
-
-  // // where are they going to go in the big buffer?
-  // vector<int> displ_buffer;
-  // if (procno==0)
-  //   displ_buffer = vector<int>(nprocs);
-  // comm_world.gather
-  //   ( 0,my_first_index,displ_buffer.data() );
 
   /*
    * Use Gatherv to collect the small buffers into a big one
@@ -142,6 +138,9 @@ int main(int argc,char **argv) {
     }
 
   } else {
+    /*
+     * If you are not the root, do versions with only send buffers
+     */
     comm_world.gather
       ( 0,my_number_of_elements );
 
