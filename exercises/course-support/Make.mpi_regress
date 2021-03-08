@@ -687,3 +687,10 @@ run_intercomm : intercomm
 	 done ; \
 	make --no-print-directory regress_success SUCCESS=$$success PROGRAM=$${program} ; \
 	echo
+
+.PHONY: run_recursivetranspose
+REGRESSIONRUNS += run_recursivetranspose
+run_recursivetranspose :
+	@export atgram=$@ && export program=$${atgram##run_} \
+	 && success=1 \
+	 && make --no-print-directory regress_success SUCCESS=$$success PROGRAM=$${program}
