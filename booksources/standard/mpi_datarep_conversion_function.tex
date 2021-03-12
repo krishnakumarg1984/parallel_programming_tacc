@@ -1,0 +1,18 @@
+\begingroup\tt\catcode`\_=12
+\begin{tabular}{lllll}
+\toprule
+\textrm{Name}&\textrm{Param name}&\textrm{C type}&\textrm{F type}&\textrm{inout}\\
+\midrule
+\hbox to 20pt{mpi_datarep_conversion_function (\hss} \\
+&userbuf&void*&TYPE(C_PTR), VALUE&inout\\
+&datatype&MPI_Datatype&TYPE(MPI_Datatype)&in\\
+&count&int&INTEGER&in\\
+&filebuf&void*&TYPE(C_PTR), VALUE&inout\\
+&position&MPI_Offset&INTEGER(KIND=MPI_OFFSET_KIND)&in\\
+&extra_state&void*&INTEGER(KIND=MPI_ADDRESS_KIND)&inout\\
+&ierror&&INTEGER&in\\
+)\\
+\bottomrule
+\end{tabular}
+\endgroup
+

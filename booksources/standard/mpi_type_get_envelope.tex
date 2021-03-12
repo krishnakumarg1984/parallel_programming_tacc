@@ -1,0 +1,22 @@
+\begingroup\tt\catcode`\_=12
+\begin{tabular}{lllll}
+\toprule
+\textrm{Name}&\textrm{Param name}&\textrm{C type}&\textrm{F type}&\textrm{inout}\\
+\midrule
+\hbox to 20pt{mpi_type_get_envelope (\hss} \\
+&datatype&MPI_Datatype&TYPE(MPI_Datatype)&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl datatype to access\hss}\\
+&num_integers&int*&INTEGER&out\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl number of input integers used in call constructing combiner\hss}\\
+&num_addresses&int*&INTEGER&out\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl number of input addresses used in call constructing combiner\hss}\\
+&num_datatypes&int*&INTEGER&out\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl number of input datatypes used in call constructing combiner\hss}\\
+&combiner&int*&INTEGER&out\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl combiner\hss}\\
+(opt)&ierror&&INTEGER&out\\
+)\\
+\bottomrule
+\end{tabular}
+\endgroup
+

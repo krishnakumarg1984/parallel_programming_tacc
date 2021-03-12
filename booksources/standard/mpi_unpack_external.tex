@@ -1,0 +1,26 @@
+\begingroup\tt\catcode`\_=12
+\begin{tabular}{lllll}
+\toprule
+\textrm{Name}&\textrm{Param name}&\textrm{C type}&\textrm{F type}&\textrm{inout}\\
+\midrule
+\hbox to 20pt{mpi_unpack_external (\hss} \\
+&datarep&const~char[]&CHARACTER&in\\&\hbox to 0pt{\footnotesize length: \tt\catcode`\_=12 *\hss}\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl data representation\hss}\\
+&inbuf&const~void*&TYPE(*), DIMENSION(..)&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl input buffer start\hss}\\
+&insize&MPI_Aint&INTEGER(KIND=MPI_ADDRESS_KIND)&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl input buffer size, in bytes\hss}\\
+&position&MPI_Aint*&INTEGER(KIND=MPI_ADDRESS_KIND)&inout\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl current position in buffer, in bytes\hss}\\
+&outbuf&void*&TYPE(*), DIMENSION(..)&out\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl output buffer start\hss}\\
+&outcount&int&INTEGER&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl number of output data items\hss}\\
+&datatype&MPI_Datatype&TYPE(MPI_Datatype)&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl datatype of output data item\hss}\\
+(opt)&ierror&&INTEGER&out\\
+)\\
+\bottomrule
+\end{tabular}
+\endgroup
+

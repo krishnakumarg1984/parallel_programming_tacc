@@ -1,0 +1,22 @@
+\begingroup\tt\catcode`\_=12
+\begin{tabular}{lllll}
+\toprule
+\textrm{Name}&\textrm{Param name}&\textrm{C type}&\textrm{F type}&\textrm{inout}\\
+\midrule
+\hbox to 20pt{mpi_file_iread_all (\hss} \\
+&fh&MPI_File&TYPE(MPI_File)&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl file handle\hss}\\
+&buf&void*&TYPE(*), DIMENSION(..)&out\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl initial address of buffer\hss}\\
+&count&int&INTEGER&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl number of elements in buffer\hss}\\
+&datatype&MPI_Datatype&TYPE(MPI_Datatype)&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl datatype of each buffer element\hss}\\
+&request&MPI_Request*&TYPE(MPI_Request)&out\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl request object\hss}\\
+(opt)&ierror&&INTEGER&out\\
+)\\
+\bottomrule
+\end{tabular}
+\endgroup
+

@@ -1,0 +1,30 @@
+\begingroup\tt\catcode`\_=12
+\begin{tabular}{lllll}
+\toprule
+\textrm{Name}&\textrm{Param name}&\textrm{C type}&\textrm{F type}&\textrm{inout}\\
+\midrule
+\hbox to 20pt{mpi_alltoallw (\hss} \\
+&sendbuf&const~void*&TYPE(*), DIMENSION(..)&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl starting address of send buffer\hss}\\
+&sendcounts&const~int[]&INTEGER&in\\&\hbox to 0pt{\footnotesize length: \tt\catcode`\_=12 *\hss}\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl non-negative integer array (of length group size) specifying the number of elements to send to each rank\hss}\\
+&sdispls&const~int[]&INTEGER&in\\&\hbox to 0pt{\footnotesize length: \tt\catcode`\_=12 *\hss}\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl integer array (of length group size). Entry j specifies the displacement in bytes (relative to sendbuf) from which to take the outgoing data destined for process j\hss}\\
+&sendtypes&const~MPI_Datatype[]&TYPE(MPI_Datatype)&in\\&\hbox to 0pt{\footnotesize length: \tt\catcode`\_=12 *\hss}\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl array of datatypes (of length group size). Entry j specifies the type of data to send to process j\hss}\\
+&recvbuf&void*&TYPE(*), DIMENSION(..)&out\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl address of receive buffer\hss}\\
+&recvcounts&const~int[]&INTEGER&in\\&\hbox to 0pt{\footnotesize length: \tt\catcode`\_=12 *\hss}\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl non-negative integer array (of length group size) specifying the number of elements that can be received from each rank\hss}\\
+&rdispls&const~int[]&INTEGER&in\\&\hbox to 0pt{\footnotesize length: \tt\catcode`\_=12 *\hss}\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl integer array (of length group size). Entry i specifies the displacement in bytes (relative to recvbuf) at which to place the incoming data from process i\hss}\\
+&recvtypes&const~MPI_Datatype[]&TYPE(MPI_Datatype)&in\\&\hbox to 0pt{\footnotesize length: \tt\catcode`\_=12 *\hss}\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl array of datatypes (of length group size). Entry i specifies the type of data received from process i\hss}\\
+&comm&MPI_Comm&TYPE(MPI_Comm)&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl communicator\hss}\\
+(opt)&ierror&&INTEGER&out\\
+)\\
+\bottomrule
+\end{tabular}
+\endgroup
+

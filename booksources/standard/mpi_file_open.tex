@@ -1,0 +1,22 @@
+\begingroup\tt\catcode`\_=12
+\begin{tabular}{lllll}
+\toprule
+\textrm{Name}&\textrm{Param name}&\textrm{C type}&\textrm{F type}&\textrm{inout}\\
+\midrule
+\hbox to 20pt{mpi_file_open (\hss} \\
+&comm&MPI_Comm&TYPE(MPI_Comm)&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl communicator\hss}\\
+&filename&const~char*&CHARACTER&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl name of file to open\hss}\\
+&amode&int&INTEGER&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl file access mode\hss}\\
+&info&MPI_Info&TYPE(MPI_Info)&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl info object\hss}\\
+&fh&MPI_File*&TYPE(MPI_File)&out\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl new file handle\hss}\\
+(opt)&ierror&&INTEGER&out\\
+)\\
+\bottomrule
+\end{tabular}
+\endgroup
+

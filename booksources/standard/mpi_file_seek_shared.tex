@@ -1,0 +1,18 @@
+\begingroup\tt\catcode`\_=12
+\begin{tabular}{lllll}
+\toprule
+\textrm{Name}&\textrm{Param name}&\textrm{C type}&\textrm{F type}&\textrm{inout}\\
+\midrule
+\hbox to 20pt{mpi_file_seek_shared (\hss} \\
+&fh&MPI_File&TYPE(MPI_File)&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl file handle\hss}\\
+&offset&MPI_Offset&INTEGER(KIND=MPI_OFFSET_KIND)&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl file offset\hss}\\
+&whence&int&INTEGER&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl update mode\hss}\\
+(opt)&ierror&&INTEGER&out\\
+)\\
+\bottomrule
+\end{tabular}
+\endgroup
+

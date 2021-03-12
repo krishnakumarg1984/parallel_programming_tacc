@@ -1,0 +1,28 @@
+\begingroup\tt\catcode`\_=12
+\begin{tabular}{lllll}
+\toprule
+\textrm{Name}&\textrm{Param name}&\textrm{C type}&\textrm{F type}&\textrm{inout}\\
+\midrule
+\hbox to 20pt{mpi_comm_spawn (\hss} \\
+&command&const~char*&CHARACTER&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl name of program to be spawned\hss}\\
+&argv&char[]*&CHARACTER&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl arguments to command\hss}\\
+&maxprocs&int&INTEGER&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl maximum number of processes to start\hss}\\
+&info&MPI_Info&TYPE(MPI_Info)&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl a set of key-value pairs telling the runtime system where and how to start the processes\hss}\\
+&root&int&INTEGER&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl rank of process in which previous arguments are examined\hss}\\
+&comm&MPI_Comm&TYPE(MPI_Comm)&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl intra-communicator containing group of spawning processes\hss}\\
+&intercomm&MPI_Comm*&TYPE(MPI_Comm)&out\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl inter-communicator between original group and the newly spawned group\hss}\\
+&array_of_errcodes&int[]&INTEGER&out\\&\hbox to 0pt{\footnotesize length: \tt\catcode`\_=12 \hss}\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl one code per process (array of integer)\hss}\\
+(opt)&ierror&&INTEGER&out\\
+)\\
+\bottomrule
+\end{tabular}
+\endgroup
+

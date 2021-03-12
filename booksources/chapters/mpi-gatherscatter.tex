@@ -84,7 +84,7 @@ Two things to note about these routines:
   in the scatter call, only the root process needs the long array in which to gather,
   or from which to scatter.
   However, because in \ac{SPMD} mode all processes need to use the same routine,
-  a~parameter for this long array is always present. Non-root processes can use
+  a~parameter for this long array is always present. Nonroot processes can use
   a \indextermsub{null}{pointer} here.
 \item More elegantly, the \indexmpishow{MPI_IN_PLACE} option can be
   used for buffers that are not applicable, such as the receive buffer on a sending process.
@@ -105,8 +105,8 @@ Two things to note about these routines:
   \cxxverbatimsnippet[examples/mpi/mpl/collectbuffer.cxx]{mplscattergatherv}  
 \end{mplnote}
 
-\begin{mplnote}{Gather on non-root}
-  Logically speaking, on every non-root process,
+\begin{mplnote}{Gather on nonroot}
+  Logically speaking, on every nonroot process,
   the gather call only has a send buffer.
   MPL supports this by having two variants that only specify the send data.
   %
@@ -157,7 +157,7 @@ originates from a different scatter operation.
   this requires \indexmpishow{MPI_Gatherv}.
 
   How do you construct the lengths and displacements arrays?
-  \exercisesource{scangather}
+  \skeleton{scangather}
 \end{exercise}
 
 \Level 1 {Allgather}

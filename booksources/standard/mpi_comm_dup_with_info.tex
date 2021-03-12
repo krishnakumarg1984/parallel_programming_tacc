@@ -1,0 +1,18 @@
+\begingroup\tt\catcode`\_=12
+\begin{tabular}{lllll}
+\toprule
+\textrm{Name}&\textrm{Param name}&\textrm{C type}&\textrm{F type}&\textrm{inout}\\
+\midrule
+\hbox to 20pt{mpi_comm_dup_with_info (\hss} \\
+&comm&MPI_Comm&TYPE(MPI_Comm)&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl communicator\hss}\\
+&info&MPI_Info&TYPE(MPI_Info)&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl info object\hss}\\
+&newcomm&MPI_Comm*&TYPE(MPI_Comm)&out\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl copy of comm\hss}\\
+(opt)&ierror&&INTEGER&out\\
+)\\
+\bottomrule
+\end{tabular}
+\endgroup
+

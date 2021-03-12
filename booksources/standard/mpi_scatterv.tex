@@ -1,0 +1,30 @@
+\begingroup\tt\catcode`\_=12
+\begin{tabular}{lllll}
+\toprule
+\textrm{Name}&\textrm{Param name}&\textrm{C type}&\textrm{F type}&\textrm{inout}\\
+\midrule
+\hbox to 20pt{mpi_scatterv (\hss} \\
+&sendbuf&const~void*&TYPE(*), DIMENSION(..)&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl address of send buffer\hss}\\
+&sendcounts&const~int[]&INTEGER&in\\&\hbox to 0pt{\footnotesize length: \tt\catcode`\_=12 *\hss}\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl non-negative integer array (of length group size) specifying the number of elements to send to each rank\hss}\\
+&displs&const~int[]&INTEGER&in\\&\hbox to 0pt{\footnotesize length: \tt\catcode`\_=12 *\hss}\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl integer array (of length group size). Entry i specifies the displacement (relative to sendbuf) from which to take the outgoing data to process i\hss}\\
+&sendtype&MPI_Datatype&TYPE(MPI_Datatype)&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl data type of send buffer elements\hss}\\
+&recvbuf&void*&TYPE(*), DIMENSION(..)&out\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl address of receive buffer\hss}\\
+&recvcount&int&INTEGER&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl number of elements in receive buffer\hss}\\
+&recvtype&MPI_Datatype&TYPE(MPI_Datatype)&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl data type of receive buffer elements\hss}\\
+&root&int&INTEGER&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl rank of sending process\hss}\\
+&comm&MPI_Comm&TYPE(MPI_Comm)&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl communicator\hss}\\
+(opt)&ierror&&INTEGER&out\\
+)\\
+\bottomrule
+\end{tabular}
+\endgroup
+

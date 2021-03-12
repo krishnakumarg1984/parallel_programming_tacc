@@ -1,0 +1,18 @@
+\begingroup\tt\catcode`\_=12
+\begin{tabular}{lllll}
+\toprule
+\textrm{Name}&\textrm{Param name}&\textrm{C type}&\textrm{F type}&\textrm{inout}\\
+\midrule
+\hbox to 20pt{mpi_dims_create (\hss} \\
+&nnodes&int&INTEGER&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl number of nodes in a grid\hss}\\
+&ndims&int&INTEGER&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl number of Cartesian dimensions\hss}\\
+&dims&int[]&INTEGER&inout\\&\hbox to 0pt{\footnotesize length: \tt\catcode`\_=12 ndims\hss}\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl integer array of size ndims specifying the number of nodes in each dimension\hss}\\
+(opt)&ierror&&INTEGER&out\\
+)\\
+\bottomrule
+\end{tabular}
+\endgroup
+

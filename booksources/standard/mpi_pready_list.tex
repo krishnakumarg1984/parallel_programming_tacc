@@ -1,0 +1,18 @@
+\begingroup\tt\catcode`\_=12
+\begin{tabular}{lllll}
+\toprule
+\textrm{Name}&\textrm{Param name}&\textrm{C type}&\textrm{F type}&\textrm{inout}\\
+\midrule
+\hbox to 20pt{mpi_pready_list (\hss} \\
+&length&int&INTEGER&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl list length\hss}\\
+&array_of_partitions&int[]&INTEGER&inout\\&\hbox to 0pt{\footnotesize length: \tt\catcode`\_=12 length\hss}\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl array of partitions\hss}\\
+&request&MPI_Request*&TYPE(MPI_Request)&inout\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl partitioned communication request\hss}\\
+(opt)&ierror&&INTEGER&out\\
+)\\
+\bottomrule
+\end{tabular}
+\endgroup
+

@@ -15,9 +15,6 @@
 %\documentclass{book}
 
 \usepackage{verbatim}
-\makeatletter
-\def\verbatim@startline{\verbatim@line{\leavevmode\kern\unitindent\relax}}
-\makeatother
 
 \usepackage{comment}
 \specialcomment{tacc}{\def\CommentCutFile{tacc.cut}}{}
@@ -82,6 +79,8 @@
 \addtolength{\textwidth}{.5in}
 \addtolength{\textheight}{.5in}
 \addtolength{\evensidemargin}{-.5in}
+\renewcommand\topfraction{.95}
+\renewcommand\floatpagefraction{.75}
 
 \usepackage{fancyhdr}
 \pagestyle{fancy}\fancyhead{}\fancyfoot{}
@@ -145,7 +144,7 @@
 \ifprojects \vfill\pagebreak \else \projectstrue \fi
 \Level 0 {#1}\label{prj:#2}
 \def\chapshortname{#2}
-{\SetBaseLevel 2 \input projects/#2
+{\SetBaseLevel 1 \input projects/#2
 \write\chapterlist{\chapshortname}
 \openout\nx=exercises/\chapshortname-nx.tex
 \write\nx{\arabic{excounter}}
@@ -182,8 +181,6 @@
     {comments on this #3?}\par
 }
 \renewcommand\maillink[3]{}
-
-\usepackage[original]{imakeidx}
 
 \input acromacs
 \input bookmacs
@@ -264,6 +261,7 @@
 \CHAPTER{OpenMP topic: Affinity}{omp-affinity}
 \CHAPTER{OpenMP topic: Memory model}{omp-memory}
 \CHAPTER{OpenMP topic: SIMD processing}{omp-simd}
+\CHAPTER{OpenMP topic: Offloading}{omp-gpu}
 
 \CHAPTER{OpenMP remaining topics}{openmp}
 %%\CHAPTER{OpenMP Reference}{ompref}
@@ -286,6 +284,7 @@
 \CHAPTER{Co-array Fortran}{caf}
 \lstset{language=C++}
 \CHAPTER{Sycl, OneAPI, DPC++}{dpcpp}
+\CHAPTER{Python multiprocessing}{multiprocessing}
 
 \part{The Rest}
 
@@ -377,18 +376,82 @@
 \printindex[mpi]
 \end{multicols*}
 
-\Level 0 {MPL commands and topics}
+\Level 1 {From the standard document}
+
+This is an automatically generated list of every
+function, type, and constant in the MPI standard document.
+Where these appear in this book, a page reference is given.
+
+\Level 2 {List of all functions}
+\input{standard/standard-functions}
+%% \Level 2 {List of all dtypes}
+%% \input{standard/standard-dtypes}
+\Level 2 {List of all ctypes}
+\input{standard/standard-ctypes}
+\Level 2 {List of all ftypes}
+\input{standard/standard-ftypes}
+\Level 2 {List of all constants}
+\input{standard/standard-consts}
+\Level 2 {List of all callbacks}
+\input{standard/standard-callbacks}
+
+\Level 1 {MPL commands and topics}
 \label{sec:idx:mpl}
 
 \begin{multicols*}{2}
   \printindex[mpl]
 \end{multicols*}
 
-\Level 0 {Python notes}
+\Level 1 {Python}
+
+\Level 2 {Notes}
 
 \begin{multicols*}{2}
   \printindex[python]
 \end{multicols*}
+
+\Level 2 {Buffer specifications}
+
+{\small
+%\begin{multicols}{2}
+  \verbatiminput{standardp/bufspec.tex}
+  \verbatiminput{standardp/bufspecb.tex}
+  \verbatiminput{standardp/bufspecv.tex}
+  \verbatiminput{standardp/bufspecw.tex}
+%\end{multicols}
+}
+
+\Level 2 {Listing of python routines}
+
+\begin{multicols}{3}
+\small
+\pylist{Comm}
+\pylist{Cartcomm}
+\pylist{Distgraphcomm}
+\pylist{Graphcomm}
+\pylist{Intercomm}
+\pylist{Intracomm}
+\pylist{Topocomm}
+\pylist{Group}
+
+\pylist{Request}
+\pylist{Grequest}
+\pylist{Prequest}
+\pylist{Status}
+
+\pylist{Win}
+
+\pylist{Datatype}
+\pylist{File}
+\pylist{Info}
+\pylist{Op}
+
+\pylist{Errhandler}
+\pylist{Message}
+%\pylist{_InPlace}
+%\pylist{Exception}
+%\pylist{_Pickle}
+\end{multicols}
 
 \Level 0 {Index of OpenMP commands}
 

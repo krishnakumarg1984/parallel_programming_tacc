@@ -1,0 +1,18 @@
+\begingroup\tt\catcode`\_=12
+\begin{tabular}{lllll}
+\toprule
+\textrm{Name}&\textrm{Param name}&\textrm{C type}&\textrm{F type}&\textrm{inout}\\
+\midrule
+\hbox to 20pt{mpi_waitall (\hss} \\
+&count&int&INTEGER&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl lists length\hss}\\
+&array_of_requests&MPI_Request[]&TYPE(MPI_Request)&inout\\&\hbox to 0pt{\footnotesize length: \tt\catcode`\_=12 count\hss}\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl array of requests\hss}\\
+&array_of_statuses&MPI_Status[]&TYPE(MPI_Status)&out\\&\hbox to 0pt{\footnotesize length: \tt\catcode`\_=12 *\hss}\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl array of status objects\hss}\\
+(opt)&ierror&&INTEGER&out\\
+)\\
+\bottomrule
+\end{tabular}
+\endgroup
+

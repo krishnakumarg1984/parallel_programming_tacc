@@ -1,0 +1,20 @@
+\begingroup\tt\catcode`\_=12
+\begin{tabular}{lllll}
+\toprule
+\textrm{Name}&\textrm{Param name}&\textrm{C type}&\textrm{F type}&\textrm{inout}\\
+\midrule
+\hbox to 20pt{mpi_comm_get_attr (\hss} \\
+&comm&MPI_Comm&TYPE(MPI_Comm)&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl communicator to which the attribute is attached\hss}\\
+&comm_keyval&int&INTEGER&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl key value\hss}\\
+&attribute_val&void*&INTEGER(KIND=MPI_ADDRESS_KIND)&out\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl attribute value, unless flag = false\hss}\\
+&flag&int*&LOGICAL&out\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl false if no attribute is associated with the key\hss}\\
+(opt)&ierror&&INTEGER&out\\
+)\\
+\bottomrule
+\end{tabular}
+\endgroup
+

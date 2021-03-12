@@ -1,0 +1,16 @@
+\begingroup\tt\catcode`\_=12
+\begin{tabular}{lllll}
+\toprule
+\textrm{Name}&\textrm{Param name}&\textrm{C type}&\textrm{F type}&\textrm{inout}\\
+\midrule
+\hbox to 20pt{mpi_file_get_info (\hss} \\
+&fh&MPI_File&TYPE(MPI_File)&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl file handle\hss}\\
+&info_used&MPI_Info*&TYPE(MPI_Info)&out\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl new info object\hss}\\
+(opt)&ierror&&INTEGER&out\\
+)\\
+\bottomrule
+\end{tabular}
+\endgroup
+

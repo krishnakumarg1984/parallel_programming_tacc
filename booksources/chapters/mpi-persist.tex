@@ -4,7 +4,7 @@
 %%%%
 %%%% This text file is part of the source of 
 %%%% `Parallel Programming in MPI and OpenMP'
-%%%% by Victor Eijkhout, copyright 2012-2020
+%%%% by Victor Eijkhout, copyright 2012-2021
 %%%%
 %%%% mpi-persist.tex : persistent communication and such
 %%%%
@@ -28,7 +28,7 @@ is repeated many times, this overhead may be avoided.
 
 \begin{enumerate}
 \item
-  For non-blocking communications \lstinline{MPI_Ixxx}
+  For nonblocking communications \lstinline{MPI_Ixxx}
   (both point-to-point and collective)
   there is a persistent variant \n{MPI_Xxx_init}
   with the same calling sequence.
@@ -105,10 +105,10 @@ As with ordinary send commands, there are persistent variants
 
 \begin{mpifour}
 % https://github.com/mpi-forum/mpi-issues/issues/25
-\index{persistent!collectives|textbf(}
+\index{persistent!collectives|(textbf}
 For each collective call, there is a persistent variant (\mpistandard{4}).
 As with persistent point-to-point calls (section~\ref{sec:persist-p2p}),
-these have the same calling sequence as the non-persistent variants,
+these have the same calling sequence as the nonpersistent variants,
 except for an added final \indexmpishow{MPI_Request} parameter.
 This request (or an array of requests) can then be used by
 \indexmpishow{MPI_Start} (or \indexmpishow{MPI_Startall})
@@ -119,7 +119,7 @@ Some points.
 \item
   Metadata arrays, such as of counts and datatypes,
   must not be altered until the \indexmpishow{MPI_Request_free} call.
-\item The initialization call is non-local, so it can block until all
+\item The initialization call is nonlocal, so it can block until all
   processes have performed it.
 \item Multiple persistent collective can be initialized, in which case
   they satisfy the same restrictions as ordinary collectives, in particular
@@ -176,8 +176,8 @@ and in different order among the processes.
 
 \end{mpifour}
 
-\begin{mpifour}
 \Level 0 {Partitioned communication}
+\begin{mpifour}
 \label{sec:psend}
 \index{partitioned communication|(}
 \index{communication!partitioned|see{partitioned,communication}}
@@ -207,7 +207,7 @@ is done by one of the following calls:
 \end{itemize}
 The \indexmpishow{MPI_Psend_init} call yields an \indexmpishow{MPI_Request} object
 that can be used to test for completion
-(see sections \ref{sec:waittest} and~ref{sec:mpitest})
+(see sections \ref{sec:waittest} and~\ref{sec:mpitest})
 of the full operation started with
 \indexmpishow{MPI_Start}.
 
@@ -249,9 +249,9 @@ The four possible cases are illustrated in figure~\ref{fig:block-sync}.
 
 MPI has a number of routines for synchronous communication,
 such as \indexmpidef{MPI_Ssend}.
-Driving home the point that non-blocking and asynchronous are
+Driving home the point that nonblocking and asynchronous are
 different concepts, there is a routine \indexmpidef{MPI_Issend},
-which is synchronous but non-blocking.
+which is synchronous but nonblocking.
 These routines have the same calling sequence as their not-explicitly
 synchronous variants, and only differ in their semantics.
 
@@ -260,20 +260,20 @@ synchronous variants, and only differ in their semantics.
 \index{communication!synchronous|)}
 \index{communication!asynchronous|)}
 
-\Level 0 {Local and non-local operations}
+\Level 0 {Local and nonlocal operations}
 \label{sec:mpi-local-non}
 \label{sec:local-non-send}
 \index{communication!local|(textbf}
-\index{communication!non-local|(textbf}
+\index{communication!nonlocal|(textbf}
 
 The MPI standard does not dictate whether communication is buffered.
 If a message is buffered, a send call can complete,
 even if no corresponding send has been posted yet.
 See section~\ref{sec:eager-limit}.
 Thus, in the standard communication, a send operation
-is \emph{non-local}: its completion may be depend on
+is \emph{nonlocal}: its completion may be depend on
 whether the corresponding receive has been posted.
-A \indextermbusdef{local}{operation} is one that is not non-local.
+A \indextermbusdef{local}{operation} is one that is not nonlocal.
 
 On the other hand, \indextermsub{buffered}{communication}
 (routines \indexmpishow{MPI_Bsend}, \indexmpishow{MPI_Ibsend},
@@ -285,16 +285,16 @@ can complete no matter whether the receive has been posted.
 The \indextermsub{synchronous}{send} 
 (routines \indexmpishow{MPI_Ssend}, \indexmpishow{MPI_Issend},
 \indexmpishow{MPI_Ssend_init}; section~\ref{sec:handshake})
-is again non-local (even in the non-blocking variant)
+is again nonlocal (even in the nonblocking variant)
 since it will only complete when the receive call has completed.
 
 Finally, the \indextermsub{ready mode}{send}
 (\indexmpishow{MPI_Rsend}, \indexmpishow{MPI_Irsend})
-is non-local in the sense that its only correct use
+is nonlocal in the sense that its only correct use
 is when the corresponding receive has been issued.
 
 \index{communication!local|)}
-\index{communication!non-local|)}
+\index{communication!nonlocal|)}
 
 \Level 1 {Asynchronous progress}
 \label{sec:progress}
@@ -386,7 +386,7 @@ way of managing buffer space.
 \item You detach the buffer when you're done with the buffered sends.
 \end{enumerate}
 
-One advantage of buffered sends is that they are non-blocking:
+One advantage of buffered sends is that they are nonblocking:
 since there is a guaranteed buffer long enough to contain the
 message, it is not necessary to wait for the receiving process.
 
@@ -406,7 +406,7 @@ see section~\ref{sec:pack}.
 Additionally, a term of \indexmpidef{MPI_BSEND_OVERHEAD} is needed.
 See the above code fragment.
 
-The buffer is detached with \indexmpishow{MPI_Buffer_detach}:
+The buffer is detached with \indexmpidef{MPI_Buffer_detach}:
 \begin{lstlisting}
 int MPI_Buffer_detach(
   void *buffer, int *size);
@@ -423,7 +423,7 @@ have a \lstinline+void*+ argument for the buffer, but
 \end{itemize}
 This is done so that the detach routine can zero the buffer pointer.
 
-While the buffered send is non-blocking like an \indexmpishow{MPI_Isend},
+While the buffered send is nonblocking like an \indexmpishow{MPI_Isend},
 there is no corresponding wait call.
 You can force delivery by
 \begin{lstlisting}

@@ -1,0 +1,16 @@
+\begingroup\tt\catcode`\_=12
+\begin{tabular}{lllll}
+\toprule
+\textrm{Name}&\textrm{Param name}&\textrm{C type}&\textrm{F type}&\textrm{inout}\\
+\midrule
+\hbox to 20pt{mpi_comm_join (\hss} \\
+&fd&int&INTEGER&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl socket file descriptor\hss}\\
+&intercomm&MPI_Comm*&TYPE(MPI_Comm)&out\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl new inter-communicator\hss}\\
+(opt)&ierror&&INTEGER&out\\
+)\\
+\bottomrule
+\end{tabular}
+\endgroup
+

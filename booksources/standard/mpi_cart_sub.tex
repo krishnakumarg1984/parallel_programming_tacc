@@ -1,0 +1,18 @@
+\begingroup\tt\catcode`\_=12
+\begin{tabular}{lllll}
+\toprule
+\textrm{Name}&\textrm{Param name}&\textrm{C type}&\textrm{F type}&\textrm{inout}\\
+\midrule
+\hbox to 20pt{mpi_cart_sub (\hss} \\
+&comm&MPI_Comm&TYPE(MPI_Comm)&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl communicator with Cartesian structure\hss}\\
+&remain_dims&const~int[]&LOGICAL&in\\&\hbox to 0pt{\footnotesize length: \tt\catcode`\_=12 *\hss}\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl the i-th entry of remain_dims specifies whether the i-th dimension is kept in the subgrid (true) or is dropped (false)\hss}\\
+&newcomm&MPI_Comm*&TYPE(MPI_Comm)&out\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl communicator containing the subgrid that includes the calling process\hss}\\
+(opt)&ierror&&INTEGER&out\\
+)\\
+\bottomrule
+\end{tabular}
+\endgroup
+

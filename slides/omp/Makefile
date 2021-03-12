@@ -16,5 +16,4 @@ COURSE = omp
 FILE = omp_course
 INEX = tacc-full
 
-include ../instructor-support/Make.course
 include ../../makefiles/Make.clean

@@ -36,8 +36,8 @@ int main(int argc,char **argv) {
     printf("[%d] Isend successfully concluded\n",procno);
   } else if (procno==receiver) {
     double recv_data;
-    auto recv_request = mpl::irequest
-      ( comm_world.irecv( recv_data,sender ) );
+    mpl::irequest recv_request =
+      comm_world.irecv( recv_data,sender );
     recv_request.wait();
     printf("[%d] Ireceive successfully concluded\n",procno);
   }

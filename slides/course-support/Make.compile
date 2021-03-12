@@ -25,6 +25,7 @@ EXT_C = c
 EXT_F = F90
 EXT_f = F90
 EXT_cxx = cxx
+EXT_CXX = cxx
 EXT_mpl = cxx
 EXT = ${EXT_${LANGUAGE}}
 

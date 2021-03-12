@@ -4,7 +4,7 @@
 %%%%
 %%%% This text file is part of the source of 
 %%%% `Parallel Programming in MPI and OpenMP'
-%%%% by Victor Eijkhout, copyright 2012-8
+%%%% by Victor Eijkhout, copyright 2012-2021
 %%%%
 %%%% omp-loop.tex : the OpenMP loop construct
 %%%%
@@ -99,16 +99,16 @@ pragmas for the parallel region and distribution of the loop iterations:
   Write a program for this, and parallelize it using OpenMP parallel
   for directives.
   \begin{enumerate}
-  \item Put a \n{parallel} directive around your loop. Does it still
+  \item Put a \indexompshow{parallel} directive around your loop. Does it still
     compute the right result? Does the time go down with the number of
     threads? (The answers should be no and no.)
   \item Change the \n{parallel} to \n{parallel for} (or \n{parallel
     do}). Now is the result correct? Does execution speed up? (The
     answers should now be no and yes.)
-  \item Put a \n{critical} directive in front of the update. (Yes and
+  \item Put a \indexompshow{critical} directive in front of the update. (Yes and
     very much no.)
-  \item Remove the \n{critical} and add a clause
-    \n{reduction(+:quarterpi)} to the \n{for} directive.
+  \item Remove the \indexompshow{critical} and add a clause
+    \indexompshow{reduction}\n{(+:quarterpi)} to the \indexompshow{for} directive.
     Now it should be correct and efficient.
   \end{enumerate}
   Use different numbers of cores and compute the
@@ -146,7 +146,7 @@ OpenMP lets you specify this with the \indexompshow{schedule} clause.
 
 The first distinction we now have to make is between static and dynamic schedules.
 With static schedules, the iterations are assigned purely based on the number
-of iterations and the number of threads (and the \n{chunk} parameter; see later).
+of iterations and the number of threads (and the \indexompshow{chunk} parameter; see later).
 In dynamic schedules, on the other hand, iterations are assigned to threads that
 are unoccupied. Dynamic schedules are a good idea if iterations take an unpredictable
 amount of time, so that \indexterm{load balancing} is needed.
@@ -249,18 +249,18 @@ for (i=0; i<nsteps; i++) {
 \begin{enumerate}
 \item Use the \n{omp parallel for} construct to parallelize the loop.
   As in the previous lab, you may at first see an incorrect result.
-  Use the \n{reduction} clause to fix this.
+  Use the \indexompshow{reduction} clause to fix this.
 \item Your code should now see a decent speedup, using up to 8~cores.
   However, it is possible to get completely linear speedup. For this
   you need to adjust the schedule.
 
-  Start by using \n{schedule(static,$n$)}. Experiment with values
+  Start by using \indexompshow{schedule}\n{(static,$n$)}. Experiment with values
   for~$n$.  When can you get a better speedup? Explain this.
-\item Since this code is somewhat dynamic, try \n{schedule(dynamic)}.
+\item Since this code is somewhat dynamic, try \indexompshow{schedule}\n{(dynamic)}.
   This will actually give a fairly bad result. Why?  Use
-  \n{schedule(dynamic,$n$)} instead, and experiment with values
+  \indexompshow{schedule}\n{(dynamic,$n$)} instead, and experiment with values
   for~$n$.
-\item Finally, use \n{schedule(guided)}, where OpenMP uses a
+\item Finally, use \indexompshow{schedule}\n{(guided)}, where OpenMP uses a
   heuristic.  What results does that give?
 \end{enumerate}
      
@@ -299,7 +299,7 @@ int omp_get_schedule(omp_sched_t * kind, int * modifier );
 Its mirror call is \indexompshow{omp_set_schedule}, which sets the
 value that is used when schedule value \n{runtime} is used. It is in
 effect equivalent to setting the environment variable
-\n{OMP_SCHEDULE}.
+\indexompshow{OMP_SCHEDULE}.
 \begin{lstlisting}
 void omp_set_schedule (omp_sched_t kind, int modifier);
 \end{lstlisting}
@@ -316,7 +316,7 @@ void omp_set_schedule (omp_sched_t kind, int modifier);
 \end{tabular}
 
 Here are the various schedules you can set with the
-\n{schedule}\index{schedule!clause} clause:
+\indexompshow{schedule} clause:
 \begin{description}
   \item[affinity] Set by using value  \indexompshow{omp_sched_affinity}
   \item[auto] The schedule is left up to the implementation. Set by
@@ -416,7 +416,7 @@ for ( ... i ... ) {
 }
 \end{lstlisting}
 There is a limitation:
-each iteration can encounter only one \n{ordered} directive.
+each iteration can encounter only one \indexompshow{ordered} directive.
 
 \Level 0 {\texttt{nowait}}
 \label{sec:omp-nowait}

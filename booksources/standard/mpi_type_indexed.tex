@@ -1,0 +1,22 @@
+\begingroup\tt\catcode`\_=12
+\begin{tabular}{lllll}
+\toprule
+\textrm{Name}&\textrm{Param name}&\textrm{C type}&\textrm{F type}&\textrm{inout}\\
+\midrule
+\hbox to 20pt{mpi_type_indexed (\hss} \\
+&count&int&INTEGER&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl number of blocks -- also number of entries in array_of_displacements and array_of_blocklengths\hss}\\
+&array_of_blocklengths&const~int[]&INTEGER&in\\&\hbox to 0pt{\footnotesize length: \tt\catcode`\_=12 count\hss}\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl number of elements per block\hss}\\
+&array_of_displacements&const~int[]&INTEGER&in\\&\hbox to 0pt{\footnotesize length: \tt\catcode`\_=12 count\hss}\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl displacement for each block, in multiples of oldtype\hss}\\
+&oldtype&MPI_Datatype&TYPE(MPI_Datatype)&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl old datatype\hss}\\
+&newtype&MPI_Datatype*&TYPE(MPI_Datatype)&out\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl new datatype\hss}\\
+(opt)&ierror&&INTEGER&out\\
+)\\
+\bottomrule
+\end{tabular}
+\endgroup
+

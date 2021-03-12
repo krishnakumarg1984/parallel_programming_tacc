@@ -1,0 +1,18 @@
+\begingroup\tt\catcode`\_=12
+\begin{tabular}{lllll}
+\toprule
+\textrm{Name}&\textrm{Param name}&\textrm{C type}&\textrm{F type}&\textrm{inout}\\
+\midrule
+\hbox to 20pt{mpi_t_pvar_readreset (\hss} \\
+&session&MPI_T_pvar_session&&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl identifier of performance experiment session\hss}\\
+&handle&MPI_T_pvar_handle&&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl handle of a performance variable\hss}\\
+&buf&void*&TYPE(*), DIMENSION(..)&out\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl initial address of storage location for variable value\hss}\\
+(opt)&ierror&&INTEGER&out\\
+)\\
+\bottomrule
+\end{tabular}
+\endgroup
+

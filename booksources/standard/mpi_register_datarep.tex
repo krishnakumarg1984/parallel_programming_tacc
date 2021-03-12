@@ -1,0 +1,22 @@
+\begingroup\tt\catcode`\_=12
+\begin{tabular}{lllll}
+\toprule
+\textrm{Name}&\textrm{Param name}&\textrm{C type}&\textrm{F type}&\textrm{inout}\\
+\midrule
+\hbox to 20pt{mpi_register_datarep (\hss} \\
+&datarep&const~char*&CHARACTER&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl data representation identifier\hss}\\
+&read_conversion_fn&&PROCEDURE&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl function invoked to convert from file representation to native representation\hss}\\
+&write_conversion_fn&&PROCEDURE&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl function invoked to convert from native representation to file representation\hss}\\
+&dtype_file_extent_fn&&PROCEDURE&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl function invoked to get the extent of a datatype as represented in the file\hss}\\
+&extra_state&void*&INTEGER(KIND=MPI_ADDRESS_KIND)&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl extra state\hss}\\
+(opt)&ierror&&INTEGER&out\\
+)\\
+\bottomrule
+\end{tabular}
+\endgroup
+

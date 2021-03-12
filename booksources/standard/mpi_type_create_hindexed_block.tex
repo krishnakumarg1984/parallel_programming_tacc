@@ -1,0 +1,22 @@
+\begingroup\tt\catcode`\_=12
+\begin{tabular}{lllll}
+\toprule
+\textrm{Name}&\textrm{Param name}&\textrm{C type}&\textrm{F type}&\textrm{inout}\\
+\midrule
+\hbox to 20pt{mpi_type_create_hindexed_block (\hss} \\
+&count&int&INTEGER&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl length of array of displacements\hss}\\
+&blocklength&int&INTEGER&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl size of block\hss}\\
+&array_of_displacements&const~MPI_Aint[]&INTEGER(KIND=MPI_ADDRESS_KIND)&in\\&\hbox to 0pt{\footnotesize length: \tt\catcode`\_=12 count\hss}\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl byte displacement of each block\hss}\\
+&oldtype&MPI_Datatype&TYPE(MPI_Datatype)&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl old datatype\hss}\\
+&newtype&MPI_Datatype*&TYPE(MPI_Datatype)&out\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl new datatype\hss}\\
+(opt)&ierror&&INTEGER&out\\
+)\\
+\bottomrule
+\end{tabular}
+\endgroup
+

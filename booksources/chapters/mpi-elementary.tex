@@ -4,7 +4,7 @@
 %%%%
 %%%% This text file is part of the source of 
 %%%% `Parallel Programming in MPI and OpenMP'
-%%%% by Victor Eijkhout, copyright 2012-9
+%%%% by Victor Eijkhout, copyright 2012-2021
 %%%%
 %%%% mpi-elementary.tex : elementary datatypes
 %%%%
@@ -50,23 +50,23 @@ MPI_Send(&i,1,MPI_LONG_INT,target,tag,comm);
   C type&MPI type\\
   \hline
 % char
-\lstinline+char+&\indexmpishow{MPI_CHAR}\\
-\lstinline+unsigned char+&\indexmpishow{MPI_UNSIGNED_CHAR}\\
-\lstinline+char+&\indexmpishow{MPI_SIGNED_CHAR}\\
+\lstinline+char+&\indexmpidef{MPI_CHAR}\\
+\lstinline+unsigned char+&\indexmpidef{MPI_UNSIGNED_CHAR}\\
+\lstinline+char+&\indexmpidef{MPI_SIGNED_CHAR}\\
 % int
-\lstinline+short+&\indexmpishow{MPI_SHORT}\\
-\lstinline+unsigned short+&\indexmpishow{MPI_UNSIGNED_SHORT}\\
-\lstinline+int+&\indexmpishow{MPI_INT}\\
-\lstinline+unsigned int+&\indexmpishow{MPI_UNSIGNED}\\
-\lstinline+long int+&\indexmpishow{MPI_LONG}\\
-\lstinline+unsigned long int+&\indexmpishow{MPI_UNSIGNED_LONG}\\
-\lstinline+long long int+&\indexmpishow{MPI_LONG_LONG_INT}\\
+\lstinline+short+&\indexmpidef{MPI_SHORT}\\
+\lstinline+unsigned short+&\indexmpidef{MPI_UNSIGNED_SHORT}\\
+\lstinline+int+&\indexmpidef{MPI_INT}\\
+\lstinline+unsigned int+&\indexmpidef{MPI_UNSIGNED}\\
+\lstinline+long int+&\indexmpidef{MPI_LONG}\\
+\lstinline+unsigned long int+&\indexmpidef{MPI_UNSIGNED_LONG}\\
+\lstinline+long long int+&\indexmpidef{MPI_LONG_LONG_INT}\\
 % real
-\lstinline+float+&\indexmpishow{MPI_FLOAT}\\
-\lstinline+double+&\indexmpishow{MPI_DOUBLE}\\
-\lstinline+long double+&\indexmpishow{MPI_LONG_DOUBLE}\\
+\lstinline+float+&\indexmpidef{MPI_FLOAT}\\
+\lstinline+double+&\indexmpidef{MPI_DOUBLE}\\
+\lstinline+long double+&\indexmpidef{MPI_LONG_DOUBLE}\\
 % other
-\lstinline+unsigned char+&\indexmpishow{MPI_BYTE}\\
+\lstinline+unsigned char+&\indexmpidef{MPI_BYTE}\\
 (does not correspond to a C type)&\indexmpishow{MPI_PACKED}\\
 \lstinline+MPI_Aint+&\indexmpishow{MPI_AINT}\\
   \hline
@@ -83,26 +83,26 @@ and more about byte counting.
 
 \begin{tabular}{|ll|}
   \hline
-\indexmpishow{MPI_CHARACTER}&Character(Len=1)\\
+\indexmpidef{MPI_CHARACTER}&Character(Len=1)\\
 % int
-\indexmpishow{MPI_INTEGER}&\\
-\indexmpishow{MPI_INTEGER1}&\\
-\indexmpishow{MPI_INTEGER2}&\\
-\indexmpishow{MPI_INTEGER4}&\\
-\indexmpishow{MPI_INTEGER8}&(common compiler extension; not standard)\\
-\indexmpishow{MPI_INTEGER16}&\\
+\indexmpidef{MPI_INTEGER}&\\
+\indexmpidef{MPI_INTEGER1}&\\
+\indexmpidef{MPI_INTEGER2}&\\
+\indexmpidef{MPI_INTEGER4}&\\
+\indexmpidef{MPI_INTEGER8}&(common compiler extension; not standard)\\
+\indexmpidef{MPI_INTEGER16}&\\
 % real
-\indexmpishow{MPI_REAL}&\\
-\indexmpishow{MPI_DOUBLE_PRECISION}&\\
-\indexmpishow{MPI_REAL2}&\\
-\indexmpishow{MPI_REAL4}&\\
-\indexmpishow{MPI_REAL8}&\\
+\indexmpidef{MPI_REAL}&\\
+\indexmpidef{MPI_DOUBLE_PRECISION}&\\
+\indexmpidef{MPI_REAL2}&\\
+\indexmpidef{MPI_REAL4}&\\
+\indexmpidef{MPI_REAL8}&\\
 % complex
-\indexmpishow{MPI_COMPLEX}&\\
-\indexmpishow{MPI_DOUBLE_COMPLEX}&Complex(Kind=Kind(0.d0))\\
+\indexmpidef{MPI_COMPLEX}&\\
+\indexmpidef{MPI_DOUBLE_COMPLEX}&Complex(Kind=Kind(0.d0))\\
 % other
-\indexmpishow{MPI_LOGICAL}&\\
-\indexmpishow{MPI_PACKED}&\\
+\indexmpidef{MPI_LOGICAL}&\\
+\indexmpidef{MPI_PACKED}&\\
   \hline
 \end{tabular}
 
@@ -290,7 +290,7 @@ where the \lstinline{typeclass} argument is one of
 \cverbatimsnippet[examples/mpi/c/typematch.c]{typematchc}
 
 In Fortran, the size of the datatype in the language can be obtained with
-\indexmpishow{MPI_Sizeof} (note the non-optional error parameter!).
+\indexmpishow{MPI_Sizeof} (note the nonoptional error parameter!).
 This routine is deprecated in \mpistandard{4}: use of
 \indextermtt{storage_size} and/or \indextermtt{c_sizeof} is recommended.
 

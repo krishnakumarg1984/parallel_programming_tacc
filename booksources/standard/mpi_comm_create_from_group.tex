@@ -1,0 +1,22 @@
+\begingroup\tt\catcode`\_=12
+\begin{tabular}{lllll}
+\toprule
+\textrm{Name}&\textrm{Param name}&\textrm{C type}&\textrm{F type}&\textrm{inout}\\
+\midrule
+\hbox to 20pt{mpi_comm_create_from_group (\hss} \\
+&group&MPI_Group&TYPE(MPI_Group)&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl group\hss}\\
+&stringtag&const~char*&CHARACTER&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl unique identifier for this operation\hss}\\
+&info&MPI_Info&TYPE(MPI_Info)&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl info object\hss}\\
+&errhandler&MPI_Errhandler&TYPE(MPI_Errhandler)&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl error handler to be attached to new intra-communicator\hss}\\
+&newcomm&MPI_Comm*&TYPE(MPI_Comm)&out\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl new communicator\hss}\\
+(opt)&ierror&&INTEGER&out\\
+)\\
+\bottomrule
+\end{tabular}
+\endgroup
+

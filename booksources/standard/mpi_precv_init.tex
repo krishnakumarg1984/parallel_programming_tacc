@@ -1,0 +1,30 @@
+\begingroup\tt\catcode`\_=12
+\begin{tabular}{lllll}
+\toprule
+\textrm{Name}&\textrm{Param name}&\textrm{C type}&\textrm{F type}&\textrm{inout}\\
+\midrule
+\hbox to 20pt{mpi_precv_init (\hss} \\
+&buf&void*&TYPE(*), DIMENSION(..)&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl initial address of recv buffer (choice)\hss}\\
+&partitions&int&INTEGER&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl number of partitions\hss}\\
+&count&MPI_Count&INTEGER(KIND=MPI_COUNT_KIND)&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl number of elements send per partition\hss}\\
+&datatype&MPI_Datatype&TYPE(MPI_Datatype)&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl type of each element\hss}\\
+&dest&int&INTEGER&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl rank of destination\hss}\\
+&tag&int&INTEGER&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl message tag\hss}\\
+&comm&MPI_Comm&TYPE(MPI_Comm)&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl communicator\hss}\\
+&info&MPI_Info&TYPE(MPI_Info)&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl info argument\hss}\\
+&request&MPI_Request*&TYPE(MPI_Request)&out\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl communication request\hss}\\
+(opt)&ierror&&INTEGER&out\\
+)\\
+\bottomrule
+\end{tabular}
+\endgroup
+

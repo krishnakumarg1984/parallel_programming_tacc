@@ -4,7 +4,7 @@
 %%%%
 %%%% This text file is part of the source of 
 %%%% `Parallel Programming in MPI and OpenMP'
-%%%% by Victor Eijkhout, copyright 2012-2020
+%%%% by Victor Eijkhout, copyright 2012-2021
 %%%%
 %%%% mpi-proc.tex : about point-to-point communication
 %%%%
@@ -56,6 +56,8 @@ First we query how much space we have for new processes:
 %
 \cverbatimsnippet[examples/mpi/c/spawnmanager.c]{spawnmanagerq}
 
+(See section~\ref{sec:mpi_attr} for that dereference behavior.)
+
 Then we actually spawn them:
 %
 \cverbatimsnippet[examples/mpi/c/spawnmanager.c]{spawnmanager}
@@ -92,10 +94,9 @@ its own initialization and finalize calls.
 Spawned processes wind up with a value of \indexmpishow{MPI_COMM_WORLD} of their
 own, but managers and workers can find each other regardless.
 The spawn routine returns the intercommunicator to the parent; the children
-can find it through \indexmpishow{MPI_Comm_get_parent}. The number of
-spawning processes can be found through
-\indexmpishow{MPI_Comm_remote_size} on the parent communicator
-(see section~\ref{sec:mpi-inter-query}).
+can find it through \indexmpishow{MPI_Comm_get_parent} (section~\ref{sec:mpi-inter-query}).
+The number of spawning processes can be found through
+\indexmpishow{MPI_Comm_remote_size} on the parent communicator.
 
 \Level 1 {MPMD}
 
@@ -122,36 +123,58 @@ buffer of length at most \indexmpidef{MPI_MAX_PORT_NAME}.
 
 The server then needs to call 
 \indexmpiref{MPI_Comm_accept} prior to the client doing a connect call.
-This is collective over the calling communicator. It returns an
-intercommunicator that allows communication with the client.
+This is collective over the calling communicator.
+It returns an intercommunicator (section~\ref{sec:mpi-intercomm})
+that allows communication with the client.
+
+\cxxverbatimsnippet[code/mpi/c/portapp.c]{mpiportmanage}
 
 The port can be closed with 
-\indexmpishow{MPI_Close_port}.
+\indexmpidef{MPI_Close_port}.
 
 \Level 1 {Client calls}
 
 After the server has generated a port name, the client 
 needs to connect to it with
 \indexmpiref{MPI_Comm_connect}, again specifying the port through a character buffer.
+The connect call is collective over its communicator.
+
+\cxxverbatimsnippet[code/mpi/c/portapp.c]{mpiportwork}
 
 If the named port does not exist (or has been closed),
 \indexmpishow{MPI_Comm_connect} raises an error of class \indexmpishow{MPI_ERR_PORT}.
 
 The client can sever the connection with
-\indexmpishow{MPI_Comm_disconnect}
+\indexmpidef{MPI_Comm_disconnect}
 
-The connect call is collective over its communicator.
+Running the above code on 5 processes gives:
+\begin{small}
+\begin{verbatim}
+# exchange port name:
+Host sent port <<tag#0$OFA#000010e1:0001cde9:0001cdee$rdma_port#1024$rdma_host#10:16:225:0:1:205:199:254:128:0:0:0:0:0:0$>>
+Worker received port <<tag#0$OFA#000010e1:0001cde9:0001cdee$rdma_port#1024$rdma_host#10:16:225:0:1:205:199:254:128:0:0:0:0:0:0$>>
+
+# Comm accept/connect
+host accepted connection
+4 workers connected to 1 managers
+
+# Send/recv over the intercommunicator
+Manager sent 4 items over intercomm
+Worker zero received data  
+\end{verbatim}
+\end{small}
 
 \Level 1 {Published service names}
+\label{sec:mpi-publish}
 
 \indexmpiref{MPI_Publish_name}
 
-\indexmpishow{MPI_Unpublish_name}
+\indexmpidef{MPI_Unpublish_name}
 
-Unpublishing a non-existing or already unpublished service gives an
+Unpublishing a nonexisting or already unpublished service gives an
 error code of \indexmpidef{MPI_ERR_SERVICE}.
 
-\indexmpishow{MPI_Comm_join}
+\indexmpidef{MPI_Comm_join}
 
 MPI provides no guarantee of fairness in servicing connection
 attempts. That is, connection attempts are not necessarily satisfied

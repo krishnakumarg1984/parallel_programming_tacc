@@ -4,7 +4,7 @@
 %%%%
 %%%% This text file is part of the source of 
 %%%% `Parallel Programming in MPI and OpenMP'
-%%%% by Victor Eijkhout, copyright 2012-2020
+%%%% by Victor Eijkhout, copyright 2012-2021
 %%%%
 %%%% mpi-alltoall.tex : remarks about all-to-all
 %%%%
@@ -52,12 +52,12 @@ algorithm, where it can take tens of percents of the running time on
 large clusters.
 
 We will consider
-another application of data transposition, namely \indexterm{radix sort},
+another application of data transposition, namely \indextermsub{radix}{sort},
 but we will do that in a couple of steps. First of all:
 
 \begin{exercise}
   \label{ex:radixsort1}
-  In the initial stage of \indextermsub{radix}{sorting}, each process
+  In the initial stage of a \indextermsub{radix}{sort}, each process
   considers how many elements to send to every other process.
   Use \indexmpishow{MPI_Alltoall} to derive from this how many
   elements they will receive from every other process.
@@ -73,8 +73,8 @@ of every process sending some of its elements to
 each of the other processes.
 The routine \indexmpiref{MPI_Alltoallv} is used for this pattern:
 \begin{itemize}
-\item Every rank scatters its data to all others,
-\item but the amount of data is different per rank.
+\item Every process scatters its data to all others,
+\item but the amount of data is different per process.
 \end{itemize}
 
 \begin{exercise}
@@ -203,6 +203,6 @@ call. Thus it achieves time synchronization of the processes.
 This call's simplicity is contrasted with its usefulness, which
 is very limited. It is almost never necessary to synchronize processes
 through a barrier: for most purposes it does not matter if processors
-are out of sync. Conversely, collectives (except the new non-blocking
+are out of sync. Conversely, collectives (except the new nonblocking
 ones; section~\ref{sec:mpi3collect}) introduce a barrier of sorts themselves.
 

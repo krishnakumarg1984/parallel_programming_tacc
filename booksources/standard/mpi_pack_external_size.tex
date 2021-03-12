@@ -1,0 +1,20 @@
+\begingroup\tt\catcode`\_=12
+\begin{tabular}{lllll}
+\toprule
+\textrm{Name}&\textrm{Param name}&\textrm{C type}&\textrm{F type}&\textrm{inout}\\
+\midrule
+\hbox to 20pt{mpi_pack_external_size (\hss} \\
+&datarep&const~char[]&CHARACTER&in\\&\hbox to 0pt{\footnotesize length: \tt\catcode`\_=12 *\hss}\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl data representation\hss}\\
+&incount&int&INTEGER&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl number of input data items\hss}\\
+&datatype&MPI_Datatype&TYPE(MPI_Datatype)&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl datatype of each input data item\hss}\\
+&size&MPI_Aint*&INTEGER(KIND=MPI_ADDRESS_KIND)&out\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl output buffer size, in bytes\hss}\\
+(opt)&ierror&&INTEGER&out\\
+)\\
+\bottomrule
+\end{tabular}
+\endgroup
+

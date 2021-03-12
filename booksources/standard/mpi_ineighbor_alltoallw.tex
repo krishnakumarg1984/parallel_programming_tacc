@@ -1,0 +1,32 @@
+\begingroup\tt\catcode`\_=12
+\begin{tabular}{lllll}
+\toprule
+\textrm{Name}&\textrm{Param name}&\textrm{C type}&\textrm{F type}&\textrm{inout}\\
+\midrule
+\hbox to 20pt{mpi_ineighbor_alltoallw (\hss} \\
+&sendbuf&const~void*&TYPE(*), DIMENSION(..)&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl starting address of send buffer\hss}\\
+&sendcounts&const~int[]&INTEGER&in\\&\hbox to 0pt{\footnotesize length: \tt\catcode`\_=12 *\hss}\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl non-negative integer array (of length outdegree) specifying the number of elements to send to each neighbor\hss}\\
+&sdispls&const~MPI_Aint[]&INTEGER(KIND=MPI_ADDRESS_KIND)&in\\&\hbox to 0pt{\footnotesize length: \tt\catcode`\_=12 *\hss}\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl integer array (of length outdegree). Entry j specifies the displacement in bytes (relative to sendbuf) from which to take the outgoing data destined for neighbor j\hss}\\
+&sendtypes&const~MPI_Datatype[]&TYPE(MPI_Datatype)&in\\&\hbox to 0pt{\footnotesize length: \tt\catcode`\_=12 *\hss}\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl array of datatypes (of length outdegree). Entry j specifies the type of data to send to neighbor j\hss}\\
+&recvbuf&void*&TYPE(*), DIMENSION(..)&out\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl starting address of receive buffer\hss}\\
+&recvcounts&const~int[]&INTEGER&in\\&\hbox to 0pt{\footnotesize length: \tt\catcode`\_=12 *\hss}\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl non-negative integer array (of length indegree) specifying the number of elements that are received from each neighbor\hss}\\
+&rdispls&const~MPI_Aint[]&INTEGER(KIND=MPI_ADDRESS_KIND)&in\\&\hbox to 0pt{\footnotesize length: \tt\catcode`\_=12 *\hss}\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl integer array (of length indegree). Entry i specifies the displacement in bytes (relative to recvbuf) at which to place the incoming data from neighbor i\hss}\\
+&recvtypes&const~MPI_Datatype[]&TYPE(MPI_Datatype)&in\\&\hbox to 0pt{\footnotesize length: \tt\catcode`\_=12 *\hss}\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl array of datatypes (of length indegree). Entry i specifies the type of data received from neighbor i\hss}\\
+&comm&MPI_Comm&TYPE(MPI_Comm)&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl communicator with topology structure\hss}\\
+&request&MPI_Request*&TYPE(MPI_Request)&out\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl communication request\hss}\\
+(opt)&ierror&&INTEGER&out\\
+)\\
+\bottomrule
+\end{tabular}
+\endgroup
+

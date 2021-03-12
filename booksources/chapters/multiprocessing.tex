@@ -1,0 +1,45 @@
+% -*- latex -*-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%
+%%%% This text file is part of the source of 
+%%%% `Parallel Programming in MPI and OpenMP'
+%%%% by Victor Eijkhout, copyright 2012-2021
+%%%%
+%%%% multiprocessing.tex : python multiprocessing module
+%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\lstset{language=Python}
+
+Python has a \indexterm{multiprocessing} toolbox.
+This is a threading library, with idioms common to such.
+
+A process is an object that will execute a python function:
+\verbatimsnippet[code/multprocessing/p/hello.py]{pyproccreate}
+
+These processes can be started and,
+using familiar terminology,
+`join'ed:
+\verbatimsnippet[code/multprocessing/p/hello.py]{pyprocstartjoin}
+
+By making the start and join calls less regular than
+in a loop like this,
+arbitrarily complicated code can be produced.
+
+Note the test on \n{__main__}:
+the processes started read the current file in order to execute
+the function specified.
+Without this clause, the import would first execute more process start calls,
+before getting to the function execution.
+
+\Level 0 {Process}
+
+Processes have a name that you can retrieve as
+\lstinline+current_process().name+.
+The default is \n{Process-5} and such,
+but you can specify custom names:
+\begin{lstlisting}
+Process(name="Your name here")
+\end{lstlisting}

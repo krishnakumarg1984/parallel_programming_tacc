@@ -1,0 +1,20 @@
+\begingroup\tt\catcode`\_=12
+\begin{tabular}{lllll}
+\toprule
+\textrm{Name}&\textrm{Param name}&\textrm{C type}&\textrm{F type}&\textrm{inout}\\
+\midrule
+\hbox to 20pt{mpi_group_range_excl (\hss} \\
+&group&MPI_Group&TYPE(MPI_Group)&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl group\hss}\\
+&n&int&INTEGER&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl number of triplets in array ranges\hss}\\
+&ranges&int[][3]&INTEGER&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl a one-dimensional array of integer triplets, of the form (first rank, last rank, stride) indicating ranks in group of processes to be excluded from the output group newgroup\hss}\\
+&newgroup&MPI_Group*&TYPE(MPI_Group)&out\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl new group derived from above, preserving the order in group\hss}\\
+(opt)&ierror&&INTEGER&out\\
+)\\
+\bottomrule
+\end{tabular}
+\endgroup
+

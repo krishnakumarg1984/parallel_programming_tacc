@@ -104,7 +104,7 @@ INTEGER LEN, TYPE
 \end{lstlisting}
 \lstset{language=C}
 
-For example, here is an operator for finding the smallest non-zero
+For example, here is an operator for finding the smallest nonzero
 number in an array of nonnegative integers:
 %
 \cverbatimsnippet[examples/mpi/c/reductpositive.c]{mpirwz}
@@ -121,8 +121,14 @@ number in an array of nonnegative integers:
 \end{pythonnote}
 
 \begin{mplnote}{User-defined operators}
-  A user-defined operator is a templated class with an \lstinline+operator()+.
+  A user-defined operator can be a templated class with an \lstinline+operator()+.
+  Example:
   \cxxverbatimsnippet{mpluserreduct}
+\end{mplnote}
+
+\begin{mplnote}{Lambda operator}
+  You can also do the reduction by lambda:
+  \cxxverbatimsnippet{mpllambdareduce}
 \end{mplnote}
 
 The function has an array length argument~\n{len}, to allow for
@@ -143,7 +149,7 @@ There are some restrictions on the user function:
   Write the reduction function to implement the
   \emph{one-norm}\index{norm!one} of a vector:
   \[ \|x\|_1 \equiv \sum_i |x_i|. \]
-  \exercisesource{onenorm}
+  \skeleton{onenorm}
 \end{exercise}
 
 The operator can be destroyed with a corresponding
@@ -168,13 +174,13 @@ that this routine does not take a communicator because it is purely local.
 
 \index{operator|)}
 
-\Level 0 {Non-blocking collectives}
+\Level 0 {Nonblocking collectives}
 \label{sec:mpi3collect}
 
 Above you have seen how the `Isend' and `Irecv' routines can overlap communication
 with computation. This is not possible with the collectives you have seen so far:
 they act like blocking sends or receives.
-However, there are also \indextermsub{non-blocking}{collectives},
+However, there are also \indextermsub{nonblocking}{collectives},
 introduced in \mpistandard{3}.
 
 Such operations can be used to increase efficiency.
@@ -191,7 +197,7 @@ MPI_Wait(request);
 \end{lstlisting}
 
 This can also be used for 3D FFT operations~\cite{Hoefler:case-for-nbc}.
-Occasionally, a non-blocking collective can be used for non-obvious purposes,
+Occasionally, a nonblocking collective can be used for nonobvious purposes,
 such as the \indexmpishow{MPI_Ibarrier} in~\cite{Hoefler:2010:SCP}.
 
 These have roughly the same calling sequence as their blocking counterparts,
@@ -199,7 +205,7 @@ except that they output an \indexmpishow{MPI_Request}. You
 can then use an \indexmpishow{MPI_Wait} call to make sure the collective
 has completed.
 
-Non-blocking collectives offer a number of performance advantages:
+Nonblocking collectives offer a number of performance advantages:
 \begin{itemize}
 \item Do two reductions (on the same communicator) with different
   operators simultaneously:
@@ -215,12 +221,23 @@ MPI_Allreduce( &local_xy,  &global_xy, 1,MPI_DOUBLE,MPI_SUM,comm);
 MPI_Allreduce( &local_xinf,&global_xin,1,MPI_DOUBLE,MPI_MAX,comm);
 \end{lstlisting}
 \item do collectives on overlapping communicators simultaneously;
-\item overlap a non-blocking collective with a blocking one.
+\item overlap a nonblocking collective with a blocking one.
 \end{itemize}
 
+\begin{exercise}
+  \label{ex:procgridnonblock}
+  Revisit exercise~\ref{ex:rowcolcomm}. Let only the first row and
+  first column have certain data, which they broadcast through columns
+  and rows respectively. Each process is now involved in two
+  simultaneous collectives. Implement this with nonblocking
+  broadcasts, and time the difference between a blocking and a
+  nonblocking solution.
+  \skeleton{procgridnonblock}
+\end{exercise}
+
 \begin{remark}
-  Blocking and non-blocking don't match: either all processes
-  call the non-blocking or all call the blocking one.
+  Blocking and nonblocking don't match: either all processes
+  call the nonblocking or all call the blocking one.
   Thus the following code is incorrect:
 \begin{lstlisting}
 if (rank==root)
@@ -228,41 +245,40 @@ if (rank==root)
 else
   MPI_Ireduce( &x /* ... */ );
 \end{lstlisting}
-  This is unlike the point-to-point behavior of non-blocking calls:
+  This is unlike the point-to-point behavior of nonblocking calls:
   you can catch a message with \indexmpishow{MPI_Irecv}
   that was sent with \indexmpishow{MPI_Send}.
 \end{remark}
 
-\begin{exercise}
-  \label{ex:procgridnonblock}
-  Revisit exercise~\ref{ex:rowcolcomm}. Let only the first row and
-  first column have certain data, which they broadcast through columns
-  and rows respectively. Each process is now involved in two
-  simultaneous collectives. Implement this with non-blocking
-  broadcasts, and time the difference between a blocking and a
-  non-blocking solution.
-  \exercisesource{procgridnonblock}
-\end{exercise}
+\begin{remark}
+  Unlike sends and received, collectives have no identifying tag.
+  With blocking collectives that does not lead to ambiguity problems.
+  With nonblocking collectives it means that all processes
+  need to issue them in identical order.
+\end{remark}
 
-\indexmpiref{MPI_Iallreduce}
+List of nonblocking collectives:
+\begin{itemize}
+\item 
+  \indexmpidef{MPI_Igather},\indexmpidef{MPI_Igatherv},
+  \indexmpiref{MPI_Iallgather},\indexmpidef{MPI_Iallgatherv},
+\item 
+  \indexmpidef{MPI_Iscatter}, \indexmpidef{MPI_Iscatterv},
+\item 
+  \indexmpidef{MPI_Ireduce},
+  \indexmpiref{MPI_Iallreduce},
+  \indexmpidef{MPI_Ireduce_scatter},
+  \indexmpidef{MPI_Ireduce_scatter_block}.
+\item 
+  \indexmpidef{MPI_Ialltoall},\indexmpidef{MPI_Ialltoallv}, \indexmpidef{MPI_Ialltoallw},
+\item 
+  \indexmpishow{MPI_Ibarrier}; section~\ref{sec:ibarrier},
+\item \indexmpidef{MPI_Ibcast},
+\item \indexmpidef{MPI_Iexscan}, \indexmpidef{MPI_Iscan},
+\end{itemize}
 
-\indexmpidef{MPI_Igather},\indexmpidef{MPI_Igatherv},
-\indexmpiref{MPI_Iallgather},\indexmpishow{MPI_Iallgatherv},
-
-\indexmpishow{MPI_Iscatter}, \indexmpishow{MPI_Iscatterv},
-
-\indexmpishow{MPI_Ireduce},
-\indexmpishow{MPI_Iallreduce},
-\indexmpishow{MPI_Ireduce_scatter},
-\indexmpishow{MPI_Ireduce_scatter_block}.
-
-\indexmpishow{MPI_Ialltoall},\indexmpishow{MPI_Ialltoallv}, \indexmpishow{MPI_Ialltoallw},
-
-\indexmpishow{MPI_Ibarrier}, \indexmpishow{MPI_Ibcast},
-\indexmpishow{MPI_Iexscan}, \indexmpishow{MPI_Iscan},
-
-\begin{mplnote}{Non-blocking collectives}
-  Non-blocking collectives have the same argument list as the
+\begin{mplnote}{Nonblocking collectives}
+  Nonblocking collectives have the same argument list as the
   corresponding blocking variant, except that
   instead of a \lstinline+void+ result,
   they return an \indexmplshow{irequest}.
@@ -276,7 +292,7 @@ else
 \Level 2 {Array transpose}
 \index{transpose|(}
 
-To illustrate the overlapping of multiple non-blocking collectives,
+To illustrate the overlapping of multiple nonblocking collectives,
 consider transposing a data matrix.
 Initially, each process has one row of the matrix;
 after transposition each process has a column.
@@ -286,7 +302,7 @@ one originating from each process.
 %
 \cverbatimsnippet[examples/mpi/c/itransposeblock.c]{transposescatterref}
 %
-Introducing the non-blocking \indexmpishow{MPI_Iscatter} call,
+Introducing the nonblocking \indexmpishow{MPI_Iscatter} call,
 this becomes:
 %
 \cverbatimsnippet[examples/mpi/c/itransposeblock.c]{itransposescatter}
@@ -307,28 +323,28 @@ this becomes:
 
 The ever-popular \indexterm{five-point stencil} evaluation
 does not look like a collective operation, and indeed,
-it is usually evaluated with (non-blocking) send/recv operations.
+it is usually evaluated with (nonblocking) send/recv operations.
 However, if we create a subcommunicator on each subdomain
 that contains precisely that domain and its neighbors,
 (see figure~\ref{fig:5ptcollective})
 we can formulate the communication pattern as a gather on each of these.
 With ordinary collectives this can not be formulated in a \indexterm{deadlock}-free
-manner, but non-blocking collectives make this feasible.
+manner, but nonblocking collectives make this feasible.
 
 We will see an even more elegant formulation of this operation
 in section~\ref{sec:mpi-dist-graph}.
 
-\Level 1 {Non-blocking barrier}
+\Level 1 {Nonblocking barrier}
 \label{sec:ibarrier}
 
-Probably the most surprising non-blocking collective is the
-\indextermsub{non-blocking}{barrier}
+Probably the most surprising nonblocking collective is the
+\indextermsub{nonblocking}{barrier}
 \indexmpiref{MPI_Ibarrier}. The way to understand this is to think of
 a barrier not in terms of temporal synchronization, but state
 agreement: reaching a barrier is a sign that a process has attained a
 certain state, and leaving a barrier means that all processes are in
 the same state. The ordinary barrier is then a blocking wait for
-agreement, while with a non-blocking barrier:
+agreement, while with a nonblocking barrier:
 \begin{itemize}
 \item Posting the barrier means that a process has reached a certain
   state; and
@@ -348,13 +364,13 @@ and every process posts a barrier.
 
 Now every process alternately probes for messages
 and tests for completion of the barrier.
-Probing is done through the non-blocking \indexmpishow{MPI_Iprobe} call,
+Probing is done through the nonblocking \indexmpishow{MPI_Iprobe} call,
 while testing completion of the barrier is done through
 \indexmpishow{MPI_Test}.
 
 \cverbatimsnippet[examples/mpi/c/ibarrierprobe.c]{ibarrierpoll}
 
-We can use a non-blocking barrier to good effect, utilizing the idle
+We can use a nonblocking barrier to good effect, utilizing the idle
 time that would result from a blocking barrier. In the following code
 fragment processes test for completion of the barrier, and failing to
 detect such completion, perform some local work.

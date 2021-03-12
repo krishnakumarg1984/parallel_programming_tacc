@@ -28,17 +28,17 @@ topology are defined:
 \begin{itemize}
 \item \indexmpishow{MPI_UNDEFINED}: this values holds for communicators where no
   topology has explicitly been specified.
-\item \indexmpishow{MPI_CART}: this value holds for Cartesian
+\item \indexmpidef{MPI_CART}: this value holds for Cartesian
   toppologies, where processes act as if they are ordered in a
   multi-dimensional `brick'; see
   section~\ref{sec:cartesian}.
-\item \indexmpishow{MPI_GRAPH}: this value describes the graph
+\item \indexmpidef{MPI_GRAPH}: this value describes the graph
   topology that was defined in \mpistandard{1};
   section~\ref{sec:mpi-1-graph}. It is unnecessarily burdensome, since
   each process needs to know the total graph, and should therefore be
   considered obsolete; the type \indexmpishow{MPI_DIST_GRAPH} should
   be used instead.
-\item \indexmpishow{MPI_DIST_GRAPH}: this value describes the distributed graph
+\item \indexmpidef{MPI_DIST_GRAPH}: this value describes the distributed graph
   topology where each process only describes the edges in the process
   graph that touch itself; see section~\ref{sec:mpi-dist-graph}.
 \end{itemize}
@@ -77,7 +77,7 @@ general graph topology interface.
 \Level 1 {Cartesian routines}
 
 The cartesian topology is specified by giving
-\indexmpishow{MPI_Cart_create} the sizes of the processor grid along
+\indexmpidef{MPI_Cart_create} the sizes of the processor grid along
 each axis, and whether the grid is periodic along that axis.
 
 \begin{lstlisting}
@@ -87,8 +87,8 @@ int MPI_Cart_create(
 \end{lstlisting}
 
 Each point in this new communicator has a coordinate and a rank.  They
-can be queried with \indexmpishow{MPI_Cart_coords} and
-\indexmpishow{MPI_Cart_rank} respectively.
+can be queried with \indexmpidef{MPI_Cart_coords} and
+\indexmpidef{MPI_Cart_rank} respectively.
 
 \begin{lstlisting}
 int MPI_Cart_coords(
@@ -99,7 +99,7 @@ int MPI_Cart_rank(
   int *rank);
 \end{lstlisting}
 
-Note that these routines can give the coordinates for any rank,
+Note that these routines can give the coordinates for any process,
 not just for the current process.
 %
 \cverbatimsnippet[examples/mpi/c/cart.c]{cart}
@@ -146,7 +146,7 @@ MPI's notion of \indextermbusdef{graph}{topology}, and the
 expressing such communication structures. There are various reasons
 for using graph topologies over the older, simpler methods.
 \begin{itemize}
-\item MPI is allowed to reorder the ranks, so that network proximity
+\item MPI is allowed to reorder the processes, so that network proximity
   in the cluster corresponds to proximity in the structure of the
   code.
 \item Ordinary collectives could not directly be used for graph
@@ -154,7 +154,7 @@ for using graph topologies over the older, simpler methods.
   neighbourhood. However, scheduling would then lead to deadlock or
   serialization.
 \item The normal way of dealing with graph problems is through
-  non-blocking communications. However, since the user indicates an
+  nonblocking communications. However, since the user indicates an
   explicit order in which they are posted, congestion at certain
   processes may occur.
 \item Collectives can pipeline data, while send/receive operations
@@ -208,6 +208,11 @@ be sending to.\footnote{I disagree with this design
 --~including communication~-- is needed to build the converse
 information, the ranks that will be sending to a process.
 
+\begin{mplnote}{Distributed graph creation}
+  The class \lstinline+mpl::+\indexmpldef{dist_graph_communicator}
+  only has a constructor corresponding to \indexmpishow{MPI_Dist_graph_create}.
+\end{mplnote}
+
 Figure~\ref{fig:graphcollective} describes the common five-point
 stencil structure. If we let each process only describe itself, we get
 the following:
@@ -228,16 +233,18 @@ the following:
   In the case the graph is weighted, but the degree of a source is zero, you can pass
   an empty array as \indexmpidef{MPI_WEIGHTS_EMPTY}.
 \item \n{reorder} (\n{int} in~C, \n{LOGICAL} in~Fortran) indicates
-  whether MPI is allowed to shuffle ranks to achieve greater locality.
+  whether MPI is allowed to shuffle processes to achieve greater locality.
 \end{itemize}
 
 The resulting communicator has all the processes of the original
 communicator, with the same ranks.
 In other words \indexmpishow{MPI_Comm_size} and \indexmpishow{MPI_Comm_rank}
 gives the same values on the graph communicator, as on the intra-communicator
-that it is constructed from. To get information about the grouping,
-use \indexmpidef{MPI_Dist_graph_neighbors}
-and \indexmpidef{MPI_Dist_graph_neighbors_count}.
+that it is constructed from.
+To get information about the grouping,
+use \indexmpishow{MPI_Dist_graph_neighbors}
+and \indexmpishow{MPI_Dist_graph_neighbors_count};
+section~\ref{sec:graph-neighbors}.
 
 \begin{pythonnote}{Graph communicators}
   Graph communicator creation is a method of the \plstinline{Comm} class,
@@ -247,6 +254,25 @@ graph_comm = oldcomm.Create_dist_graph(sources, degrees, destinations)
 \end{lstlisting}
   The weights, info, and reorder arguments have default values.
 \end{pythonnote}
+
+\begin{mplnote}{Graph communicators}
+  \label{mpl:graph-comm}
+  The constructor \indexmplshow{dist_graph_communicator}
+\begin{lstlisting}
+dist_graph_communicator
+   (const communicator &old_comm, const source_set &ss,
+    const dest_set &ds, bool reorder = true);    
+\end{lstlisting}
+is a wrapper around \indexmpishow{MPI_Dist_graph_create_adjacent}.
+\end{mplnote}
+\begin{mplnote}{Graph communicator querying}
+  \label{mpl:graph-query}
+  Methods \indexmplshow{indegree}, \indexmplshow{outdegree}
+  are wrappers around \indexmpishow{MPI_Dist_graph_neighbors_count}.
+  Sources and targets can be queried with
+  \indexmplshow{inneighbors} and \indexmplshow{outneighbors},
+  which are wrappers around \indexmpishow{MPI_Dist_graph_neighbors}.
+\end{mplnote}
 
 \Level 1 {Neighbour collectives}
 
@@ -272,7 +298,7 @@ collectives, but they apply to a graph communicator.
   Use figure~\ref{fig:rightgraph} for inspiration.
 
   Use a degree value of~1.
-  \exercisesource{rightgraph}
+  \skeleton{rightgraph}
 \end{exercise}
 
 The previous exercise can be done with a degree value of:
@@ -301,7 +327,7 @@ The list is: \indexmpishow{MPI_Neighbor_allgather},
 \indexmpishow{MPI_Neighbor_alltoallv},
 \indexmpishow{MPI_Neighbor_alltoallw}.
 
-Non-blocking:
+Nonblocking:
 \indexmpishow{MPI_Ineighbor_allgather},
 \indexmpishow{MPI_Ineighbor_allgatherv},
 \indexmpishow{MPI_Ineighbor_alltoall},
@@ -322,7 +348,7 @@ and
 While this information seems derivable from the graph construction,
 that is not entirely true for two reasons.
 \begin{enumerate}
-\item With the non-adjoint version \indexmpishow{MPI_Dist_graph_create},
+\item With the nonadjoint version \indexmpishow{MPI_Dist_graph_create},
   only outdegrees and destinations are specified; this call then supplies
   the indegrees and sources;
 \item As observed above, the order in which data is placed in the
@@ -344,3 +370,4 @@ Other legacy routines:
 \indexmpidef{MPI_Graph_neighbors_count},
 \indexmpidef{MPI_Graph_get},
 \indexmpidef{MPI_Graphdims_get}.
+

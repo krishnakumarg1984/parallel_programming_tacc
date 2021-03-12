@@ -54,13 +54,15 @@ Here are the OpenMP \emph{environment variables}:
 \item \indexompshow{OMP_DISPLAY_ENV} Show OpenMP version and environment variables
 \item \indexompdef{OMP_DEFAULT_DEVICE} Set the device used in target regions
 \item \indexompdef{OMP_DYNAMIC} Dynamic adjustment of threads
-\item \indexompdef{OMP_MAX_ACTIVE_LEVELS} Set the maximum number of nested parallel
-  regions
+\item \indexompshow{OMP_MAX_ACTIVE_LEVELS} Set the maximum number of nested parallel
+  regions; section~\ref{sec:omp-levels}.
 \item \indexompdef{OMP_MAX_TASK_PRIORITY} Set the maximum task priority value
 \item \indexompdef{OMP_NESTED} Nested parallel regions
 \item \indexompdef{OMP_NUM_THREADS} Specifies the number of threads to use
-\item \indexompdef{OMP_PROC_BIND} Whether theads may be moved between CPUs
-\item \indexompdef{OMP_PLACES} Specifies on which CPUs the theads should be placed
+\item \indexompshow{OMP_PROC_BIND} Whether theads may be moved between CPUs;
+  section~\ref{sec:omp-proc-bind}.
+\item \indexompshow{OMP_PLACES} Specifies on which CPUs the theads should be placed;
+  section~\ref{sec:omp-proc-bind}.
 \item \indexompdef{OMP_STACKSIZE} Set default thread stack size
 \item \indexompdef{OMP_SCHEDULE} How threads are scheduled
 \item \indexompdef{OMP_THREAD_LIMIT} Set the maximum number of threads
@@ -92,7 +94,7 @@ The default is implementation-defined unless otherwise noted.
     \indexompshow{omp_set_schedule}, \indexompshow{omp_get_schedule}.
 \end{itemize}
 
-Non-obvious syntax:
+Nonobvious syntax:
 \begin{verbatim}
 export OMP_SCHEDULE="static,100"
 \end{verbatim}
@@ -222,7 +224,7 @@ The performance of an OpenMP code can be influenced by the following.
   introduce overhead.
 \item[Load imbalance] Even if your program is parallel, you need to
   worry about load balance. In the case of a parallel loop you can set
-  the \indexclause{schedule} clause to \n{dynamic}, which evens out
+  the \indexclause{schedule} clause to \indexompshow{dynamic}, which evens out
   the work, but may cause increased communication.
 \item[Communication] Cache coherence causes communication. Threads
   should, as much as possible, refer to their own data.
@@ -261,7 +263,7 @@ The performance of an OpenMP code can be influenced by the following.
 \item[Synchronization] Barriers are a form of synchronization. They
   are expensive by themselves, and they expose load
   imbalance. Implicit barriers happen at the end of worksharing
-  constructs; they can be removed with \n{nowait}.
+  constructs; they can be removed with \indexompshow{nowait}.
 
   Critical sections imply a loss of parallelism, but they are also
   slow as they are realized through \indexterm{operating system}

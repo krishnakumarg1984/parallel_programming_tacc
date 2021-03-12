@@ -190,7 +190,7 @@ A special case of writing the variable is to reset it with
 \begin{lstlisting}
 int MPI_T_pvar_reset(MPI_T_pvar_session session, MPI_T_pvar_handle handle)  
 \end{lstlisting}
-The handle value of \indexmpidef{MPI_T_PVAR_ALL_HANDLES} is allowed.
+The handle value of \indexmpishow{MPI_T_PVAR_ALL_HANDLES} is allowed.
 
 A call to \indexmpishow{MPI_T_pvar_readreset}
 is an atomic combination of the read and reset calls:
@@ -236,9 +236,9 @@ int MPI_T_category_get_categories(int cat_index, int len, int indices[])
 
 \begin{raggedlist}
   These indices can subsequently be used in the calls
-  \indexmpidef{MPI_T_cvar_get_info},
-  \indexmpidef{MPI_T_pvar_get_info},
-  \indexmpidef{MPI_T_category_get_info}.
+  \indexmpishow{MPI_T_cvar_get_info},
+  \indexmpishow{MPI_T_pvar_get_info},
+  \indexmpishow{MPI_T_category_get_info}.
 \end{raggedlist}
 
 If categories change dynamically, this can be detected with

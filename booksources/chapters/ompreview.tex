@@ -4,7 +4,7 @@
 %%%%
 %%%% This text file is part of the lecture slides for
 %%%% `Parallel Programming in MPI and OpenMP'
-%%%% by Victor Eijkhout, copyright 2012-9
+%%%% by Victor Eijkhout, copyright 2012-2021
 %%%%
 %%%% ompreview.tex : OpenMP concepts review
 %%%%
@@ -561,8 +561,9 @@ End program
 Describe the behaviour of the program, with argumentation,
 \begin{itemize}
 \item as given;
-\item if you add a clause \n{private(icount)} to the \n{parallel} directive;
-\item if you add a clause \n{firstprivate(icount)}.
+\item if you add a clause \indexompshow{private}\n{(icount)}
+  to the \indexompshow{parallel} directive;
+\item if you add a clause \indexompshow{firstprivate}\n{(icount)}.
 \end{itemize}
 
 What do you think of this solution:

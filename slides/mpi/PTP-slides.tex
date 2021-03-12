@@ -520,8 +520,8 @@ int MPI_Waitall(int count, MPI_Request array_of_requests[],
   \begin{itemize}
   \item Obvious: blocking vs non-blocking behaviour.
   \item Buffer reuse: when a blocking call returns, the buffer
-    is safe for reuse;
-  \item A buffer in a non-blocking call can only be reused
+    is safe for reuse or free;
+  \item A buffer in a non-blocking call can only be reused/freed
     after the wait call.
   \end{itemize}
 \end{numberedframe}

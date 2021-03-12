@@ -1,0 +1,18 @@
+\begingroup\tt\catcode`\_=12
+\begin{tabular}{lllll}
+\toprule
+\textrm{Name}&\textrm{Param name}&\textrm{C type}&\textrm{F type}&\textrm{inout}\\
+\midrule
+\hbox to 20pt{mpi_t_pvar_get_index (\hss} \\
+&name&const~char*&CHARACTER&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl the name of the performance variable\hss}\\
+&var_class&int&&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl the class of the performance variable\hss}\\
+&pvar_index&int*&&out\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl the index of the performance variable\hss}\\
+(opt)&ierror&&INTEGER&out\\
+)\\
+\bottomrule
+\end{tabular}
+\endgroup
+

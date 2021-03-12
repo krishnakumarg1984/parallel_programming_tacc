@@ -1,0 +1,26 @@
+\begingroup\tt\catcode`\_=12
+\begin{tabular}{lllll}
+\toprule
+\textrm{Name}&\textrm{Param name}&\textrm{C type}&\textrm{F type}&\textrm{inout}\\
+\midrule
+\hbox to 20pt{mpi_type_get_contents (\hss} \\
+&datatype&MPI_Datatype&TYPE(MPI_Datatype)&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl datatype to access\hss}\\
+&max_integers&int&INTEGER&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl number of elements in array_of_integers\hss}\\
+&max_addresses&int&INTEGER&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl number of elements in array_of_addresses\hss}\\
+&max_datatypes&int&INTEGER&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl number of elements in array_of_datatypes\hss}\\
+&array_of_integers&int[]&INTEGER&out\\&\hbox to 0pt{\footnotesize length: \tt\catcode`\_=12 max_integers\hss}\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl contains integer arguments used in constructing datatype\hss}\\
+&array_of_addresses&MPI_Aint[]&INTEGER(KIND=MPI_ADDRESS_KIND)&out\\&\hbox to 0pt{\footnotesize length: \tt\catcode`\_=12 max_addresses\hss}\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl contains address arguments used in constructing datatype\hss}\\
+&array_of_datatypes&MPI_Datatype[]&TYPE(MPI_Datatype)&out\\&\hbox to 0pt{\footnotesize length: \tt\catcode`\_=12 max_datatypes\hss}\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl contains datatype arguments used in constructing datatype\hss}\\
+(opt)&ierror&&INTEGER&out\\
+)\\
+\bottomrule
+\end{tabular}
+\endgroup
+

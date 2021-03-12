@@ -41,7 +41,7 @@ With MPI data types you can solve these problems in several ways.
   component type.
 \item You can create a \indextermbus{vector}{data type} consisting of
   regularly spaced blocks of elements of a component type. This is a first
-  solution to the problem of sending non-contiguous data.
+  solution to the problem of sending noncontiguous data.
 \item For not regularly spaced data, there is the
   \indextermbus{indexed}{data type}, where you specify an array of
   index locations for blocks of elements of a component type.
@@ -97,18 +97,11 @@ call MPI_Type_free(newvectortype)
   In \ac{MPL} type creation routines are in the main namespace,
   templated over the datatypes.
   %
-  \cxxverbatimsnippet[examples/mpi/mpl/vector.cxx]{vectormpl}
+  \cxxverbatimsnippet[examples/mpi/mpl/vector.cxx]{mplstatuscreate}
   %
   The commit call is part of the type creation,
   and freeing is done in the destructor.
 \end{mplnote}
-
-\Level 2 {Datatype objects}
-\label{sec:mpi-datatype}
-
-MPI derived data types are stored in variables of type
-\indexmpidef{MPI_Datatype};
-section~\ref{sec:mpi-datatype}.
 
 \Level 2 {Create calls}
 
@@ -173,7 +166,7 @@ This is illustrated in figure~\ref{fig:data-contiguous}.
 \begin{mplnote}{Contiguous type}
   The \ac{MPL} interface makes extensive use of
   \indexmpldef{contiguous_layout},
-  as it is the main way to declare a non-scalar buffer;
+  as it is the main way to declare a nonscalar buffer;
   see note~\ref{mpl:vec-buf}.
 \end{mplnote}
 
@@ -185,13 +178,13 @@ This is illustrated in figure~\ref{fig:data-contiguous}.
   %
   \cxxverbatimsnippet{mplcontvector}
   %
-  (Contrast this with \indexmpldef{strided_vector_layout}; note~\ref{mpl:strided_vector}.)
+  (Contrast this with \indexmplshow{strided_vector_layout}; note~\ref{mpl:strided_vector}.)
 \end{mplnote}
 
 \Level 1 {Vector type}
 \label{sec:data:vector}
 
-The simplest non-contiguous datatype is the `vector' type, constructed with
+The simplest noncontiguous datatype is the `vector' type, constructed with
 \indexmpiref{MPI_Type_vector}.
 
 A~vector type describes a series of blocks, all 
@@ -203,7 +196,7 @@ of equal size, spaced with a constant stride.
 \end{figure}
 This is illustrated in figure~\ref{fig:data-vector}.
 
-The vector datatype gives the first non-trivial illustration that
+The vector datatype gives the first nontrivial illustration that
 datatypes can be \emph{different on the sender and
   receiver}\index{datatype!different on sender and receiver}. If the
 sender sends \n{b}~blocks of length~\n{l} each, the receiver can
@@ -248,7 +241,7 @@ declared as \lstinline{Integer}:
   %
   \cxxverbatimsnippet[examples/mpi/mpl/vector.cxx]{vectormpl}
 
-  (See note~\ref{mpl:cont_vector} for non-strided vectors.)
+  (See note~\ref{mpl:cont_vector} for nonstrided vectors.)
 \end{mplnote}
 
 \begin{mplnote}{Iterator buffers}
@@ -258,7 +251,7 @@ declared as \lstinline{Integer}:
 \end{mplnote}
 
 \begin{mplnote}{Iterator layout}
-  Non-contiguous iteratable objects can be send with a
+  Noncontiguous iteratable objects can be send with a
   \indexmpldef{iterator_layout}:
   %
 \begin{lstlisting}
@@ -346,7 +339,7 @@ by replacing the index expression by \n{mat+1}.
   solution if you want to include that case?
 
   For testing, define the array as $x[i]=i$.
-  \exercisesource{stridesend}
+  \skeleton{stridesend}
 \end{exercise}
 
 \begin{exercise}
@@ -381,7 +374,7 @@ mpl::subarray_layout<int>(
 
 \begin{exercise}
   \label{ex:cubegather}
-  \exercisesource{cubegather}
+  \skeleton{cubegather}
 
   Assume that your number of processors is $P=Q^3$, and that each
   process has an array of identical size. Use

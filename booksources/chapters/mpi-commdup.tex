@@ -12,12 +12,13 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 With \indexmpiref{MPI_Comm_dup} you can make an exact duplicate of a communicator.
-There is a non-blocking variant \indexmpiref{MPI_Comm_idup}.
+There is a nonblocking variant \indexmpiref{MPI_Comm_idup}.
 
 These calls do not propagate info hints
 (sections \ref{sec:mpi-info} and~\ref{sec:mpi-comm-info});
 to achieve this,
-use \indexmpidef{MPI_Comm_dup_with_info} and \indexmpidef{MPI_Comm_idup_with_info}.
+use \indexmpishow{MPI_Comm_dup_with_info} and \indexmpishow{MPI_Comm_idup_with_info};
+section~\ref{sec:mpi-comm-info}.
 
 \begin{mplnote}{Communicator duplication}
   Communicators can be duplicated but only during initialization.
@@ -87,7 +88,7 @@ receive in the library inadvertently
 catches the message that was sent in the outer environment.
 
 In section~\ref{sec:mpi-semantics} it was explained that MPI messages are 
-non-overtaking. This may lead to confusing situations, witness the following.
+nonovertaking. This may lead to confusing situations, witness the following.
 First of all, here is code where the library stores the communicator
 of the calling program:
 %

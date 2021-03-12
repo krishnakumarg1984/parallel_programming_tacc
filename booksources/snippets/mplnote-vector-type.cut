@@ -4,4 +4,4 @@
   %
   \cxxverbatimsnippet[examples/mpi/mpl/vector.cxx]{vectormpl}
 
-  (See note~\ref{mpl:cont_vector} for non-strided vectors.)
+  (See note~\ref{mpl:cont_vector} for nonstrided vectors.)

@@ -1,0 +1,30 @@
+\begingroup\tt\catcode`\_=12
+\begin{tabular}{lllll}
+\toprule
+\textrm{Name}&\textrm{Param name}&\textrm{C type}&\textrm{F type}&\textrm{inout}\\
+\midrule
+\hbox to 20pt{mpi_t_source_get_info (\hss} \\
+&source_index&int&&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl index of the source to be queried between $0$ and $num_sources-1$\hss}\\
+&name&char*&CHARACTER&out\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl buffer to return the string containing the name of the source\hss}\\
+&name_len&int*&INTEGER&inout\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl length of the string and/or buffer for name\hss}\\
+&desc&char*&CHARACTER&out\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl buffer to return the string containing the description of the source\hss}\\
+&desc_len&int*&INTEGER&inout\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl length of the string and/or buffer for desc\hss}\\
+&ordering&MPI_T_source_order*&&out\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl flag indicating chronological ordering guarantees given by the source\hss}\\
+&ticks_per_second&MPI_Count*&&out\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl the number of ticks per second for the timer of this source\hss}\\
+&max_ticks&MPI_Count*&&out\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl the maximum count of ticks reported by this source before overflow occurs\hss}\\
+&info&MPI_Info*&TYPE(MPI_Info)&out\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl optional info object\hss}\\
+(opt)&ierror&&INTEGER&out\\
+)\\
+\bottomrule
+\end{tabular}
+\endgroup
+

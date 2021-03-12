@@ -1,0 +1,18 @@
+\begingroup\tt\catcode`\_=12
+\begin{tabular}{lllll}
+\toprule
+\textrm{Name}&\textrm{Param name}&\textrm{C type}&\textrm{F type}&\textrm{inout}\\
+\midrule
+\hbox to 20pt{mpi_win_lock (\hss} \\
+&lock_type&int&INTEGER&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl either {\tt\catcode`\_=12 MPI_LOCK_EXCLUSIVE} or {\tt\catcode`\_=12 MPI_LOCK_SHARED}\hss}\\
+&rank&int&INTEGER&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl rank of locked window\hss}\\
+&assert&int&INTEGER&in\\
+&win&MPI_Win&TYPE(MPI_Win)&in\\
+(opt)&ierror&&INTEGER&out\\
+)\\
+\bottomrule
+\end{tabular}
+\endgroup
+

@@ -254,7 +254,7 @@ and require an understanding of one process' control being dependent
 on another's.
 %
 Gaining an mental model for this sort of unsynchronized execution is
-non-trivial to achieve. We target this explicitly in
+nontrivial to achieve. We target this explicitly in
 section~\ref{sec:seq-game}.
 
 \Level 1 {Teaching MPI, the usual way}
@@ -269,7 +269,7 @@ of processes and the rank of the current process.
 
 After that, the typical sequence is
 \begin{enumerate}
-\item two-sided communication, with first blocking and later non-blocking variants;
+\item two-sided communication, with first blocking and later nonblocking variants;
 \item collectives; and 
 \item any number of advanced topics such as derived data types,
   one-sided communication, subcommunicators,
@@ -296,15 +296,15 @@ reinforce the symmetric process view, certainly in the case of the
 \n{MPI_All...} routines.
 
 Our second point of criticism is regarding the blocking and
-non-blocking two-sided communication routines.
+nonblocking two-sided communication routines.
 %
 The blocking routines are typically taught
 first, with a discussion of how blocking behaviour can lead to load
-unbalance and therefore inefficiency. The non-blocking routines are
+unbalance and therefore inefficiency. The nonblocking routines are
 then motivated from a point of latency hiding and solving the problems
 inherent in blocking. In our view such performance considerations
 should be secondary.
-Non-blocking routines should instead be taught as the natural solution to a
+Nonblocking routines should instead be taught as the natural solution to a
 conceptual problem, as explained below.
 
 Thirdly, starting with point-to-point routines stems from a
@@ -356,7 +356,7 @@ equations, Lattice Boltzman methods, weather modeling with Fast
 Fourier Transform. Of these, the \ac{PDE} based applications can
 readily be explained to need a number of MPI mechanisms.
 
-Non-numeric applications exist:
+Nonnumeric applications exist:
 \begin{itemize}
 \item Graph algorithms such as shortest-path or PageRank are usually
   easily explained. However, the distributed memory algorithms need to
@@ -426,7 +426,7 @@ depending on how the hostfile was arranged.
 
 The \n{MPI_Comm_rank} function is introduced as a way of distinguishing
 between the MPI processes. Students are asked to write a program
-where only one rank prints the output of \n{MPI_Comm_size}.
+where only one process prints the output of \n{MPI_Comm_size}.
 
 \begin{wrapfigure}{r}{1.2in}
   \includegraphics[scale=.15]{picirc}
@@ -499,8 +499,8 @@ where $x,y$ are distributed vectors. The quantity $\|\bar x\|$ is then
 needed on all processes, making the \n{Allreduce} the natural choice.
 The rooted reduction is typically only used for
 final results. Therefore we advocate introducing both rooted and
-non-rooted collectives, but letting the students initially do
-exercises with the non-rooted variants.
+nonrooted collectives, but letting the students initially do
+exercises with the nonrooted variants.
 
 This has the added advantage of not bothering the students initially
 with the asymmetric treatment of the receive buffer between the root
@@ -536,7 +536,7 @@ for (int ilocal=0; ilocal<nlocal; ilocal++) {
 At this point, the students can code a second variant of the primality testing
 exercise above, but with an array allocated to store the integer range.
 Since collectives are now known, it becomes possible to have a single summary
-statement from one rank, rather than a partial result statement from each.
+statement from one process, rather than a partial result statement from each.
 
 The inner product of two distributed vectors is a second illustration
 of working with distributed data. In this case, the reduction for
@@ -581,7 +581,7 @@ time proportional the number of processes, will usually lead to
 at least one student suggesting splitting processes in odd and even
 subsets. The limits to this approach, code complexity and the reliance
 on regular process connectivity, are explained to the students as a
-preliminary to the motivation for non-blocking sends; section~\ref{sec:nonblock}.
+preliminary to the motivation for nonblocking sends; section~\ref{sec:mental-nonblock}.
 
 \Level 2 {Detour: ping-pong}
 
@@ -599,7 +599,7 @@ A~code and B~code are two branches of a conditional.
 We ask the students to implement this, and do timing with
 \n{MPI_Wtime}. The implementation of the ping-pong is itself a good
 exercises in SPMD thinking; finding the right sender/receiver values
-usually takes the students a non-trivial amount of time. Many of them
+usually takes the students a nontrivial amount of time. Many of them
 will initially write a code that deadlocks.
 
 The concepts of latency and bandwidth can be introduced, as the students
@@ -628,7 +628,7 @@ classroom exercise above with the sendrecv routine.  Ideally, they use
 timing or tracing to gather evidence that no serialization is
 happening.
 
-As a non-trivial example (in fact, this takes enough programming that
+As a nontrivial example (in fact, this takes enough programming that
 one might assign it as an exam question, rather than an exercise
 during a workshop) students can now implement an odd-even
 transposition sort
@@ -642,10 +642,10 @@ Note that students have at this point not done any serious exercises
 with the blocking communication calls, other than the ping-pong.
 No such exercises will in fact be done.
 
-\Level 2 {Non-blocking sends}
-\label{sec:nonblock}
+\Level 2 {Nonblocking sends}
+\label{sec:mental-nonblock}
 
-Non-blocking sends are now introduced as the solution to a specific problem:
+Nonblocking sends are now introduced as the solution to a specific problem:
 the above schemes required paired-up processes, or careful orchestration
 of send and receive sequences. In the case of irregular communications
 %
@@ -657,14 +657,14 @@ and then wait for these messages collectively.
 Given this motivation, it is immediately clear that multiple send or receive
 buffers are needed, and that requests need to be collected.
 
-Implementing the three-point averaging with non-blocking calls
+Implementing the three-point averaging with nonblocking calls
 is at this point an excellent exercise.
 
-Note that we have here motivated the non-blocking
+Note that we have here motivated the nonblocking
 routines to solve a symmetric problem. Doing this should 
-teach the students the essential point that each non-blocking
+teach the students the essential point that each nonblocking
 call needs its own buffer and generates its own request.
-Viewing non-blocking routines as a performance alternative to blocking
+Viewing nonblocking routines as a performance alternative to blocking
 routines is likely to lead to students re-using buffers or failing to
 save the request objects.
 Doing so is a correctness bug that is very hard to find, and
@@ -819,7 +819,7 @@ We cover the following topics, with division over two days in the
 workshop format:
 \begin{itemize}
 \item Day 1: familiarity with SPMD, collectives, blocking and
-  non-blocking two-sided communication.
+  nonblocking two-sided communication.
 \item Day 2: exposure to: sub-communicators, derived datatypes.
   Two of the following: MPI-I/O, one-sided communication, process
   management, the profiling and tools interfaces, neighbourhood collectives.
@@ -968,7 +968,7 @@ students do this, even though this model was never taught as such.
 \Level 1 {Summary}
 \label{sec:summary}
 
-In this paper we have introduced a non-standard sequence for presenting
+In this paper we have introduced a nonstandard sequence for presenting
 the basic mechanisms in MPI. Rather than starting with sends and receives and building
 up from there, we start with mechanisms that emphasize the inherent symmetry between
 processes in the \ac{SPMD} programming model. This symmetry requires a substantial
@@ -982,6 +982,6 @@ Comparing our presentation as outlined above to the standard presentation, we
 recognize the downplaying of the blocking send and receive calls. While students
 learn these, and in fact learn them before other send and receive mechanisms,
 they will recognize the dangers and difficulties in using them, and
-will have the combined sendrecv call as well as non-blocking routines
+will have the combined sendrecv call as well as nonblocking routines
 as standard tools in their arsenal.
 

@@ -39,7 +39,7 @@ The result should be approximately $1/2$ times the number of processes.
   Compute the sum of the scaled numbers
   \[ \xi' = \sum_i x_i' \]
   and check that it is~1.
-  \exercisesource{randommax}
+  \skeleton{randommax}
 \end{exercise}
 
 \begin{exercise}
@@ -73,7 +73,8 @@ The result should be approximately $1/2$ times the number of processes.
   Note the parentheses after the operator.
   Also note that the operator comes first, not last.
   \begin{mplimpl}
-    The reduction operator is a \lstinline+std::function<T(T,T)>+:  
+    The reduction operator has to be compatible with
+    \lstinline+T(T,T)>+
   \end{mplimpl}
 \end{mplnote}
 
@@ -163,6 +164,18 @@ MPI_Allreduce( (void*)xx,(void*)yy,2,MPI_FLOAT, ... );
 but that is not necessary. The compiler will not complain
 if you leave out the cast.
 
+\begin{cppnote}{Buffer treatment}
+  Treatment of scalars in C++ is the same as in~C.
+  However, for arrays you have the choice between C-style arrays,
+  and \lstinline+std::vector+ or \lstinline+std::array+.
+  For the latter there are two ways of dealing with buffers:
+\begin{lstlisting}
+vector<float> xx(25);
+MPI_Send( xx.data(),25,MPI_FLOAT, .... );
+MPI_Send( &xx[0],25,MPI_FLOAT, .... );
+\end{lstlisting}
+\end{cppnote}
+
 \begin{fortrannote}
   In~\emph{Fortran} parameters are always passed by reference,
   so the \emph{buffer}\index{buffer!MPI, in Fortran}
@@ -198,13 +211,13 @@ needed explicitly in \ac{OO} languages.
 
 \begin{mplnote}{Scalar buffers}
   \emph{Buffer}\index{buffer!MPI, in MPL} type handling
-  is done through polymorphism and templating.
+  is done through polymorphism and templating: no explicit indiation of types.
 
   Scalars are handled as such:
 \begin{lstlisting}
 float x,y;
 comm.bcast( 0,x ); // note: root first
-comm.allreduce( mpl::plus<float>,x,y );
+comm.allreduce( mpl::plus<float>(), x,y );
 \end{lstlisting}
 where the reduction function needs to be compatible with the type of the buffer.
 \end{mplnote}
@@ -226,10 +239,12 @@ part of a buffer specification.
 \end{mplnote}
 
 \begin{mplnote}{Iterator buffers}
-  Many MPL routines have a way of specifying the buffer(s)
+  MPL point-to-point routines have a way of specifying the buffer(s)
   through a \lstinline{begin} and \lstinline{end} iterator.
   %
   \cxxverbatimsnippet[examples/mpi/mpl/sendrange.cxx]{mplsendrange}
+  %
+  Not available for collectives.
 \end{mplnote}
 
 \Level 0 {Rooted collectives: broadcast, reduce}
@@ -280,7 +295,7 @@ MPI_Reduce( senddata, recvdata..., operator,
   You can also define your
   own operators; section~\ref{sec:mpi-op-create}.
 \item There is a root process that receives the result of the
-  reduction. Since the non-root processes do not receive the reduced
+  reduction. Since the nonroot processes do not receive the reduced
   data, they can actually leave the receive buffer undefined.
 \end{itemize}
 
@@ -370,10 +385,15 @@ but you can also solve this with pointers:
   %
   \cxxverbatimsnippet[examples/mpi/mpl/collectbuffer.cxx]{mplallreducebuffer}
 \end{mplnote}
-\begin{mplnote}{Rooted reduce}
-  Same story for the rooted reduce:
-  %
-  \cxxverbatimsnippet[examples/mpi/mpl/collectscalar.cxx]{mplrootreduce}
+
+%% \begin{mplnote}{Rooted reduce}
+%%   Same story for the rooted reduce:
+%%   %
+%%   \cxxverbatimsnippet[examples/mpi/mpl/collectscalar.cxx]{mplrootreduce}
+%% \end{mplnote}
+\begin{mplnote}{Reduce on non-root}
+  There is a separate variant for non-root usage of rooted collectives:
+  \cxxverbatimsnippet{mplreduceroot}
 \end{mplnote}
 
 \Level 1 {Broadcast}
@@ -446,6 +466,7 @@ void mpl::communicator::bcast
   Note that the root argument comes first.
 \end{mplnote}
 
+%pyskipbegin
 \begin{figure}[p]
   \tiny
   \begin{multicols}{3}
@@ -493,23 +514,23 @@ void mpl::communicator::bcast
   \caption{Gauss-Jordan elimination example}
   \label{fig:gauss-jordan-ex}
 \end{figure}
+%pyskipend
 
 For the following exercise, study figure~\ref{fig:gauss-jordan-ex}.
 
 \begin{exercise}
   \label{ex:gaussjordancoll}
-  \exercisesource{jordan}
   The \indexterm{Gauss-Jordan algorithm} for solving a linear system
   with a matrix~$A$ (or computing its inverse) runs as follows:
-  {\small
+  %{\small
   \begin{tabbing}
     for \=pivot $k=1,\ldots,n$\\
     \>let the vector of scalings $\ell^{(k)}_i=A_{ik}/A_{kk}$\\
     \>for \=row $r\not=k$\\
     \>\>for \=column $c=1,\ldots,n$\\
-    \>\>\> $A_{rc}\leftarrow A_{rc} - \ell^{(k)}_r A_{rc}$\\
+    \>\>\> $A_{rc}\leftarrow A_{rc} - \ell^{(k)}_r A_{kc}$\\
   \end{tabbing}
-  }
+  %}
   where we ignore the update of the righthand side, or the formation
   of the inverse.
 
@@ -518,6 +539,7 @@ For the following exercise, study figure~\ref{fig:gauss-jordan-ex}.
   broadcasts: in iteration $k$ process $k$ computes and broadcasts the
   scaling vector~$\{\ell^{(k)}_i\}_i$. Replicate the right-hand side on
   all processors.
+  \skeleton{jordan}
 \end{exercise}
 
 \begin{exercise}

@@ -11,12 +11,15 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\usepackage[original]{imakeidx}
+
 \makeindex
 \makeindex[name=mpi]
-% already elsewhere? \makeindex[name=mpl]
+\makeindex[name=mpl]
 \makeindex[name=sycl]
 \makeindex[name=omp]
 \makeindex[name=petsc]
+\makeindex[name=python]
 
 \newcommand{\indextermp}[1]{\emph{#1s}\index{#1}}
 \newcommand{\indextermsub}[2]{\emph{#1 #2}\index{#2!#1}}
@@ -149,30 +152,6 @@
 %%%%
 %%%% OpenMP to index
 %%%%
-%% \def\omptoindex{%\tracingmacros=2
-%%   \edef\tmp{%
-%%     \noexpand\lstinline+\indexedomp+%
-%%     \noexpand\index[omp]{\indexedomp@{\catcode95=12 \noexpand\texttt{\indexedomp}}}}%
-%%   \tmp
-%%   \egroup\nobreak
-%% }
-%% \def\omptoindexbf{%\tracingmacros=2
-%%   \edef\tmp{%
-%%     \noexpand\lstinline+\indexedomp+%
-%%     \noexpand\index[omp]{\indexedomp@{\catcode95=12 \noexpand\texttt{\indexedomp}}|textbf}%
-%%   }%
-%%   \tmp
-%%   \egroup\nobreak
-%% }
-%% \def\omptoindexit{%\tracingmacros=2
-%%   \edef\tmp{%
-%%     \noexpand\lstinline+\indexedomp+
-%%     %\noexpand\n{\indexedomp}%
-%%     \noexpand\index[omp]{\indexedomp@{\catcode95=12 \noexpand\texttt{\indexedomp}}|textsl}%
-%%   }%
-%%   \tmp
-%%   \egroup\nobreak
-%% }
 
 %%%%
 %%%% MPI Routine Ref
@@ -220,14 +199,6 @@
 %%%% routine ref
 %%%%
 
-%% \def\indexmpiref#{\bgroup \ShowRoutinetrue \RoutineIndexStyle
-%%   \afterassignment\mpiIndexAndRef
-%%   \edef\indexedroutine
-%% }
-%% \def\indexpetscref#{\bgroup \ShowRoutinetrue \RoutineIndexStyle
-%%   \afterassignment\petscIndexAndRef
-%%   \edef\indexedroutine
-%% }
 \def\indexpetscxref#1#2{\def\indexedroutine{#1}\def\displayedroutine{#2}%
   %\petscIndexBF -> \RoutineIndexBF{petsc}
   \edef\tmp{%
@@ -238,10 +209,6 @@
   }%
   \tmp
 }  
-%% \def\indexpetscrep#{\bgroup \ShowRoutinetrue \RoutineIndexStyle
-%%   \afterassignment\petscIndexRM
-%%   \edef\indexedroutine
-%% }
 
 %% mpi
 \newcommand\indexmpishow{\PackageIndex\mpiIndexRM}
@@ -283,22 +250,27 @@
   \def\routinefam{mpl}\RoutineRefDisplay\endgroup}
 
 % omp
-\newcommand\indexompshow{\PackageIndex\ompIndexRM}
-\newcommand\indexompdepr{\PackageIndex\ompIndexRd}
-\newcommand\indexompdef {\PackageIndex\ompIndexBF}
-\newcommand\indexompref {\PackageIndex\ompIndexAndRef}
-\newcommand\indexompex  {\PackageIndex\ompIndexIT}
+\newcommand\indexompterm  {\PackageIndex\ompIndexTe}
+\newcommand\indexompshow  {\PackageIndex\ompIndexRM}
+\newcommand\indexompdepr  {\PackageIndex\ompIndexRd}
+\newcommand\indexompdef   {\PackageIndex\ompIndexBF}
+\newcommand\indexompclause{\PackageIndex\ompIndexRM}
+\newcommand\indexompref   {\PackageIndex\ompIndexAndRef}
+\newcommand\indexompex    {\PackageIndex\ompIndexIT}
 \let\indexomprep\indexompshow % need to incorporate link to man page
 
 \def\indexpragma#1{\texttt{#1}\index[omp]{omp!#1|texttt}}
 \def\indexpragmadef#1{\texttt{#1}\index[omp]{omp!#1|textbf}}
 \index{pragma|see{for list see under `omp'}}
+%\def\indexompclause#1{\texttt{#1}\index[omp]{omp clause!#1}}
 \def\indexclause#1{\texttt{#1}\index[omp]{omp clause!#1}}
 \def\indexclausedef#1{\texttt{#1}\index[omp]{omp clause!#1|textbf}}
 \def\indexclauseoption#1#2{\texttt{#2}\index[omp]{omp clause!#1!#2}}
+\def\indexompclauseoption#1#2{\texttt{#2}\index[omp]{omp clause!#1!#2}}
 
-\newcommand\ompIndexBF{\RoutineIndexFont{omp}{textbf}\endgroup}
+\newcommand\ompIndexTe{\TermIndexFont{omp}{textrm}\endgroup}
 \newcommand\ompIndexRM{\RoutineIndexFont{omp}{textrm}\endgroup}
+\newcommand\ompIndexBF{\RoutineIndexFont{omp}{textbf}\endgroup}
 \newcommand\ompIndexRd{\RoutineDeprcFont{omp}{textrm}\endgroup}
 \newcommand\ompIndexIT{\RoutineIndexFont{omp}{textsl}\endgroup}
 \newcommand\ompIndexAndRef{%
@@ -357,10 +329,22 @@
 %% Write `indexedroutine' to index #1 with #2 font
 %%
 \def\RoutineIndexFont#1#2{% 
+  \def\ifont{#2}\def\bfont{textbf}%
   \edef\tmp{%
     \noexpand\lstinline+\indexedroutine+%
+    \ifx\ifont\bfont\noexpand\label{def:\indexedroutine}\fi%
     \noexpand\index[#1]{%
       \indexedroutine@{\catcode95=12 \noexpand\texttt{\indexedroutine}}|#2}%
+  }%
+  \tmp
+}
+\def\TermIndexFont#1#2{% 
+  \def\ifont{#2}\def\bfont{textbf}%
+  \edef\tmp{%
+    \noexpand\textsl{\indexedroutine}%
+    \ifx\ifont\bfont\noexpand\label{def:\indexedroutine}\fi%
+    \noexpand\index[#1]{\indexedroutine|#2}%
+    \noexpand\index{\indexedroutine (OpenMP)}%
   }%
   \tmp
 }
@@ -378,8 +362,10 @@
 %% also: generate manpage float
 %%
 \def\RoutineShowAndIndex#1#2{% write `indexedroutine' to index #1 with #2 font
+  \def\ifont{#2}\def\bfont{textbf}%
   \edef\tmp{%
     \noexpand\lstinline+\indexedroutine+%
+    \ifx\ifont\bfont\noexpand\label{def:\indexedroutine}\fi%
     \noexpand\index[#1]{%
       \indexedroutine@{\catcode95=12 \noexpand\texttt{\indexedroutine}}|#2}\ \relax
     (figure\noexpand~\noexpand\ref{ref:\referencedroutine})%
@@ -407,6 +393,7 @@
 
 %\newcounter{manpage}
 { %\catcode`\_=13
+  \makeatother
   \gdef\RoutineRefDisplay{%
     \begin{manpage}%
       % counter and reference to counter
@@ -424,6 +411,7 @@
 
       % routine display
       {\footnotesize
+       \def\verbatim@startline{\verbatim@line{\leavevmode\relax}}
         \def\mpifam{mpi}
         \ifx\mpifam\routinefam
             \edef\tmp{\lowercase{\def\noexpand\standardroutine{\referencedroutine}}}\tmp
@@ -434,10 +422,17 @@
                   \IfFileExists
                       {mpireference/\referencedroutine.tex}
                       {\verbatiminput{mpireference/\referencedroutine}}{}}
-            \IfFileExists{mplreference/\referencedroutine}
-                  {\edef\tmp{\noexpand\verbatiminput{mplreference/\referencedroutine}}\tmp}{}
-            \IfFileExists{pyreference/\referencedroutine}
-                  {\verbatiminput{pyreference/\referencedroutine}}{}
+            \IfFileExists
+                  {mplreference/\standardroutine.tex}
+                  {MPL:\\ \verbatiminput{mplreference/\standardroutine.tex}}{}
+            \IfFileExists
+                {standardp/\standardroutine.tex}
+                {Python:\\ \input{standardp/\standardroutine.tex}}
+                {% no python reference from cython definition
+                 \IfFileExists
+                     {pyreference/\referencedroutine}
+                     {Python:\\ \verbatiminput{pyreference/\referencedroutine.tex}}{}
+                }
         \else
             \edef\tmp{\noexpand\verbatiminput{\referencedroutine}}\tmp
         \fi
@@ -445,6 +440,8 @@
     \end{manpage}%
   }
 }
+
+\newcommand\pylist[1]{Class #1:\verbatiminput{standardp/class_#1.tex}}
 
 \def\boldtt#1{\textbf{\texttt{#1}}}
 

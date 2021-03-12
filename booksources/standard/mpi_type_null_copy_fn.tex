@@ -1,0 +1,18 @@
+\begingroup\tt\catcode`\_=12
+\begin{tabular}{lllll}
+\toprule
+\textrm{Name}&\textrm{Param name}&\textrm{C type}&\textrm{F type}&\textrm{inout}\\
+\midrule
+\hbox to 20pt{mpi_type_null_copy_fn (\hss} \\
+&oldtype&MPI_Datatype&TYPE(MPI_Datatype)&in\\
+&type_keyval&int&INTEGER&in\\
+&extra_state&void*&INTEGER(KIND=MPI_ADDRESS_KIND)&in\\
+&attribute_val_in&void*&INTEGER(KIND=MPI_ADDRESS_KIND)&in\\
+&attribute_val_out&void*&INTEGER(KIND=MPI_ADDRESS_KIND)&in\\
+&flag&int*&LOGICAL&out\\
+&ierror&&INTEGER&in\\
+)\\
+\bottomrule
+\end{tabular}
+\endgroup
+

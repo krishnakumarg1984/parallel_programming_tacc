@@ -537,7 +537,7 @@
   \renewcommand*\SSSectFont{#6}%
   \renewcommand*\ParaFont{#7}%
   \renewcommand*\SParaFont{#8}}
-\setlength\leftmargini  {\unitindent}
+\setlength\leftmargini  {.5\unitindent}
 \setlength\leftmarginii {\othermargin}
 \setlength\leftmarginiii{\othermargin}
 \setlength\leftmarginiv {\othermargin}

@@ -38,13 +38,13 @@ int main(int argc,char **argv) {
     source_buffer[i] = i;
 
   const int count = 5;
-  mpl::contiguous_layout<int>
-    fiveints(count);
-  mpl::indexed_block_layout<int>
-    indexed_where(  1, {2,3,5,7,11} );
   if (procno==sender) {
+    mpl::indexed_block_layout<int>
+      indexed_where(  1, {2,3,5,7,11} );
     comm_world.send( source_buffer.data(),indexed_where, receiver );
   } else if (procno==receiver) {
+    mpl::contiguous_layout<int>
+      fiveints(count);
     auto recv_status =
       comm_world.recv( target_buffer.data(),fiveints, sender );
     int recv_count =

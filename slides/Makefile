@@ -13,15 +13,18 @@
 
 info ::
 	@echo \
-	&& echo "Makefile for the exercises directory" \
+	&& echo "Makefile for the lecture slides directory" \
 	&& echo \
-	&& echo "Available rules:"
+	&& echo "Go into the subdirectories ${COURSES} to make slides" \
+	&& echo && echo "or:"
+
+COURSES =  ddt mpi omp petsc
 
 .PHONY: clean
 info ::
 	@echo "make clean"
 clean ::
-	@for d in ddt mpi omp petsc ; do \
+	@for d in ${COURSES} ; do \
 	    ( echo ".. cleaning in <<$$d>>" && cd "$$d" && make clean ) \
 	    ; done
 

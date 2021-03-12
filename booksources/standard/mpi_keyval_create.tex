@@ -1,0 +1,20 @@
+\begingroup\tt\catcode`\_=12
+\begin{tabular}{lllll}
+\toprule
+\textrm{Name}&\textrm{Param name}&\textrm{C type}&\textrm{F type}&\textrm{inout}\\
+\midrule
+\hbox to 20pt{mpi_keyval_create (\hss} \\
+&copy_fn&&PROCEDURE&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl Copy callback function for keyval\hss}\\
+&delete_fn&&PROCEDURE&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl Delete callback function for keyval\hss}\\
+&keyval&int*&INTEGER&out\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl key value for future access\hss}\\
+&extra_state&void*&INTEGER&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl Extra state for callback functions\hss}\\
+(opt)&ierror&&INTEGER&out\\
+)\\
+\bottomrule
+\end{tabular}
+\endgroup
+

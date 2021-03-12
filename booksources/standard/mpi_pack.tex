@@ -1,0 +1,26 @@
+\begingroup\tt\catcode`\_=12
+\begin{tabular}{lllll}
+\toprule
+\textrm{Name}&\textrm{Param name}&\textrm{C type}&\textrm{F type}&\textrm{inout}\\
+\midrule
+\hbox to 20pt{mpi_pack (\hss} \\
+&inbuf&const~void*&TYPE(*), DIMENSION(..)&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl input buffer start\hss}\\
+&incount&int&INTEGER&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl number of input data items\hss}\\
+&datatype&MPI_Datatype&TYPE(MPI_Datatype)&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl datatype of each input data item\hss}\\
+&outbuf&void*&TYPE(*), DIMENSION(..)&out\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl output buffer start\hss}\\
+&outsize&int&INTEGER&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl output buffer size, in bytes\hss}\\
+&position&int*&INTEGER&inout\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl current position in buffer, in bytes\hss}\\
+&comm&MPI_Comm&TYPE(MPI_Comm)&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl communicator for packed message\hss}\\
+(opt)&ierror&&INTEGER&out\\
+)\\
+\bottomrule
+\end{tabular}
+\endgroup
+

@@ -1,0 +1,20 @@
+\begingroup\tt\catcode`\_=12
+\begin{tabular}{lllll}
+\toprule
+\textrm{Name}&\textrm{Param name}&\textrm{C type}&\textrm{F type}&\textrm{inout}\\
+\midrule
+\hbox to 20pt{mpi_group_excl (\hss} \\
+&group&MPI_Group&TYPE(MPI_Group)&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl group\hss}\\
+&n&int&INTEGER&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl number of elements in array ranks\hss}\\
+&ranks&const~int[]&INTEGER&in\\&\hbox to 0pt{\footnotesize length: \tt\catcode`\_=12 n\hss}\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl array of integer ranks of processes in group not to appear in newgroup\hss}\\
+&newgroup&MPI_Group*&TYPE(MPI_Group)&out\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl new group derived from above, preserving the order defined by group\hss}\\
+(opt)&ierror&&INTEGER&out\\
+)\\
+\bottomrule
+\end{tabular}
+\endgroup
+

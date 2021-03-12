@@ -4,7 +4,7 @@
 %%%%
 %%%% This text file is part of the source of 
 %%%% `Parallel Programming in MPI and OpenMP'
-%%%% by Victor Eijkhout, copyright 2012-2020
+%%%% by Victor Eijkhout, copyright 2012-2021
 %%%%
 %%%% mpi-intercomm.tex : about splitting communicators
 %%%%
@@ -107,15 +107,21 @@ Some of the operations you have seen before for
 \item \indexmpishow{MPI_Comm_group} returns the local group.
 \end{itemize}
 
-\indexmpishow{MPI_Comm_get_parent}: the other leader (see chapter~\ref{ch:mpi-proc}).
+Spawned processes can find their parent communicator with
+\indexmpiref{MPI_Comm_get_parent}
+(see examples in section~\ref{sec:mpi-dynamic}).
+On other processes this returns \indexmpishow{MPI_COMM_NULL}.
 
 Test whether a communicator is intra or inter:
 \indexmpiref{MPI_Comm_test_inter}.
 
 \indexmpishow{MPI_Comm_compare} works for inter-communicators.
 
-\indexmpiref{MPI_Comm_remote_size}
-\indexmpiref{MPI_Comm_remote_group}
+Processes connected through an intercommunicator can query
+the size of the `other' communicator with
+\indexmpiref{MPI_Comm_remote_size}.
+The actual group can be obtained with
+\indexmpiref{MPI_Comm_remote_group}.
 
 Virtual topologies (chapter~\ref{ch:mpi-topo}) cannot be created with an intercommunicator.
 To set up virtual topologies, first transform the intercommunicator to an

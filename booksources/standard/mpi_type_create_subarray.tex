@@ -1,0 +1,26 @@
+\begingroup\tt\catcode`\_=12
+\begin{tabular}{lllll}
+\toprule
+\textrm{Name}&\textrm{Param name}&\textrm{C type}&\textrm{F type}&\textrm{inout}\\
+\midrule
+\hbox to 20pt{mpi_type_create_subarray (\hss} \\
+&ndims&int&INTEGER&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl number of array dimensions\hss}\\
+&array_of_sizes&const~int[]&INTEGER&in\\&\hbox to 0pt{\footnotesize length: \tt\catcode`\_=12 ndims\hss}\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl number of elements of type oldtype in each dimension of the full array\hss}\\
+&array_of_subsizes&const~int[]&INTEGER&in\\&\hbox to 0pt{\footnotesize length: \tt\catcode`\_=12 ndims\hss}\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl number of elements of type oldtype in each dimension of the subarray\hss}\\
+&array_of_starts&const~int[]&INTEGER&in\\&\hbox to 0pt{\footnotesize length: \tt\catcode`\_=12 ndims\hss}\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl starting coordinates of the subarray in each dimension\hss}\\
+&order&int&INTEGER&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl array storage order flag\hss}\\
+&oldtype&MPI_Datatype&TYPE(MPI_Datatype)&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl old datatype\hss}\\
+&newtype&MPI_Datatype*&TYPE(MPI_Datatype)&out\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl new datatype\hss}\\
+(opt)&ierror&&INTEGER&out\\
+)\\
+\bottomrule
+\end{tabular}
+\endgroup
+

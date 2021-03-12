@@ -1,0 +1,18 @@
+\begingroup\tt\catcode`\_=12
+\begin{tabular}{lllll}
+\toprule
+\textrm{Name}&\textrm{Param name}&\textrm{C type}&\textrm{F type}&\textrm{inout}\\
+\midrule
+\hbox to 20pt{mpi_group_compare (\hss} \\
+&group1&MPI_Group&TYPE(MPI_Group)&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl first group\hss}\\
+&group2&MPI_Group&TYPE(MPI_Group)&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl second group\hss}\\
+&result&int*&INTEGER&out\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl result\hss}\\
+(opt)&ierror&&INTEGER&out\\
+)\\
+\bottomrule
+\end{tabular}
+\endgroup
+

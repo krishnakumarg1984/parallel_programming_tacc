@@ -1,0 +1,22 @@
+\begingroup\tt\catcode`\_=12
+\begin{tabular}{lllll}
+\toprule
+\textrm{Name}&\textrm{Param name}&\textrm{C type}&\textrm{F type}&\textrm{inout}\\
+\midrule
+\hbox to 20pt{mpi_group_translate_ranks (\hss} \\
+&group1&MPI_Group&TYPE(MPI_Group)&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl group1\hss}\\
+&n&int&INTEGER&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl number of ranks in ranks1 and ranks2 arrays\hss}\\
+&ranks1&const~int[]&INTEGER&in\\&\hbox to 0pt{\footnotesize length: \tt\catcode`\_=12 n\hss}\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl array of zero or more valid ranks in group1\hss}\\
+&group2&MPI_Group&TYPE(MPI_Group)&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl group2\hss}\\
+&ranks2&int[]&INTEGER&out\\&\hbox to 0pt{\footnotesize length: \tt\catcode`\_=12 n\hss}\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl array of corresponding ranks in group2, {\tt\catcode`\_=12 MPI_UNDEFINED} when no correspondence exists.\hss}\\
+(opt)&ierror&&INTEGER&out\\
+)\\
+\bottomrule
+\end{tabular}
+\endgroup
+

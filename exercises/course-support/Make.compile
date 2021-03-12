@@ -166,8 +166,8 @@ LINK_FLAGS += ${OMPFLAGS}
 endif
 
 .SECONDEXPANSION:
-${APPS} ${EXERCISES} ${WRONGS} : $$@.o
-	${LINKER} -o $@ $^ ${LINK_FLAGS} ${EXTRA_LIBS}
+${APPS} ${EXERCISES} ${WRONGS} : $$@.o ${EXTRA_OBJS}
+	${LINKER} -o $@ $< ${EXTRA_OBJS} ${LINK_FLAGS} ${EXTRA_LIBS}
 
 info ::
 	@if [ ! -z "${APPS}" ] ; then \

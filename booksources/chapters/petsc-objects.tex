@@ -4,7 +4,7 @@
 %%%%
 %%%% This text file is part of the source of 
 %%%% `Parallel Programming in MPI and OpenMP'
-%%%% by Victor Eijkhout, copyright 2012-2020
+%%%% by Victor Eijkhout, copyright 2012-2021
 %%%%
 %%%% petsc-objects.tex : petsc tangible-ish objects
 %%%%
@@ -105,12 +105,12 @@ Furthermore, there is
 
 Integers in PETSc are likewise of a size determined at installation
 time: \indexpetscdef{PetscInt} can be 32 or 64 bits. Furthermore,
-there is a \indexpetscdef{PetscErrorCode} type for catching the return
-code of PETSc routines.
+there is a \indexpetscshow{PetscErrorCode} type for catching the return
+code of PETSc routines; see section~\ref{sec:petsc-error}.
 
 For compatibility with other packages there are two more integer types:
-\index{Petsc!interoperability with MPI}%
-\index{Petsc!interoperability with BLAS}%
+\index{PETSc!interoperability with MPI}%
+\index{PETSc!interoperability with BLAS}%
 \begin{itemize}
 \item \indexpetscdef{PetscBLASInt} is the integer type used by the
   \indexac{BLAS}~/ \indexac{LAPACK} library. This is 32-bits if the
@@ -355,7 +355,7 @@ and \indexpetscshow{VecAssemblyEnd}.
 \fverbatimsnippet[examples/petsc/f/vecset.F90]{vecsetfrom0}
 
 (If you know the MPI library, you'll recognize that the first call corresponds to
-posting non-blocking send and receive calls; the second then contains
+posting nonblocking send and receive calls; the second then contains
 the wait calls. Thus, the existence of these separate calls make
 \indextermbus{latency}{hiding} possible.)
 
@@ -504,7 +504,7 @@ the routine \indexpetscref{MatCreateVecs} can be used.
 \Level 1 {Nonzero structure}
 
 In case of a dense matrix, once you have specified the size and the
-number of MPI ranks, it is simple to determine how much space PETSc
+number of MPI processes, it is simple to determine how much space PETSc
 needs to allocate for the matrix. For a sparse matrix this is more
 complicated, since the matrix can be anywhere between completely empty
 and completely filled in. It would be possible to have a dynamic
@@ -613,7 +613,7 @@ MatSetOption(A, MAT_NEW_NONZERO_ALLOCATION_ERR, PETSC_FALSE)
 If you absolutely need access to the matrix elements, there are
 routines such as 
 \indexpetscref{MatGetRow}.
-With this, any rank can request, using global row numbering,
+With this, any process can request, using global row numbering,
 the contents of a row that it owns.
 (Requesting elements that are not local requires the
 different mechanism of taking submatrices; section~\ref{sec:petsc-submat}.)
@@ -630,10 +630,12 @@ PETSc insists that you properly release the row again with
 
 It is also possible to retrieve the full \ac{CRS} contents
 of the local matrix with
-\begin{lstlisting}
-MatGetArray
-MatRestoreArray
-\end{lstlisting}
+\indexpetscshow{MatDenseGetArray},
+\indexpetscshow{MatDenseRestoreArray},
+\indexpetscshow{MatSeqAIJGetArray},
+\indexpetscshow{MatSeqAIJRestoreArray}.
+(Routines \indexpetscdepr{MatGetArray}~/ \indexpetscdepr{MatRestoreArray}
+are deprecated.)
 
 \Level 1 {Matrix operations}
 
@@ -665,7 +667,7 @@ Given a parallel matrix, there are two routines for extracting submatrices:
 \item \indexpetscdef{MatCreateSubMatrix} creates a single parallel
   submatrix.
 \item \indexpetscdef{MatCreateSubMatrices} creates a sequential
-  submatrix on each rank.
+  submatrix on each process.
 \end{itemize}
 
 \Level 1 {Shell matrices}

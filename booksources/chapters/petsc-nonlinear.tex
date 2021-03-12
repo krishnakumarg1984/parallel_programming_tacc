@@ -36,7 +36,9 @@ the objective function itself, and its Hessian.
 The PETSc nonlinear solver object is of type \indexpetscdef{SNES}:
 `simple nonlinear equation solver'.
 As with linear solvers, we create this solver on a communicator,
-set its type, incorporate options, and call a solve routine:
+set its type, incorporate options,
+and call the solution routine \indexpetscref{SNESSolve}:
+
 \begin{lstlisting}
 Vec value_vector,solution_vector;
 /* vector creation code missing */
@@ -79,5 +81,46 @@ An analytic Hessian can be dispensed with if you instruct
 PETSc to approximate it by finite differences:
 \[ H(x)y \approx \frac{f(x+hy)-f(x)}{h} \]
 with $h$ some finite diference.
+The commandline option \indexpetscoption{snes_fd} forces
+the use of this finite difference approximation.
+However, it may lead to a large number of function evaluations.
+The option \indexpetscoption{snes_fd_color} applies a coloring
+to the variables, leading to a drastic reduction in the number
+of function evaluations.
+
+If you can form the analytic Jacobian~/ Hessian, you can specify it with
+\indexpetscref{SNESSetJacobian},
+where the Jacobian is a function of type
+\indexpetscref{SNESJacobianFunction}.
+
+Specifying the Jacobian:
+\begin{lstlisting}
+Mat J;
+ierr = MatCreate(comm,&J); CHKERRQ(ierr);
+ierr = MatSetType(J,MATSEQDENSE); CHKERRQ(ierr);
+ierr = MatSetSizes(J,n,n,N,N); CHKERRQ(ierr);
+ierr = MatSetUp(J); CHKERRQ(ierr);
+ierr = SNESSetJacobian(solver,J,J,&Jacobian,NULL); CHKERRQ(ierr);
+\end{lstlisting}
 
 \Level 0 {Time-stepping}
+
+For cases
+\[ u_t = G(t,u) \]
+call \indexpetscdef{TSSetRHSFunction}.
+\begin{lstlisting}
+#include "petscts.h"  
+PetscErrorCode TSSetRHSFunction
+   (TS ts,Vec r,
+    PetscErrorCode (*f)(TS,PetscReal,Vec,Vec,void*),
+    void *ctx);
+\end{lstlisting}
+
+For implicit cases
+\[ F( t,u,u_t ) = 0 \]
+call \indexpetscdef{TSSetIFunction}
+\begin{lstlisting}
+#include "petscts.h"  
+PetscErrorCode TSSetIFunction
+   (TS ts,Vec r,TSIFunction f,void *ctx)
+\end{lstlisting}

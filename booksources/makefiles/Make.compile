@@ -25,6 +25,7 @@ EXT_C = c
 EXT_F = F90
 EXT_f = F90
 EXT_cxx = cxx
+EXT_CXX = cxx
 EXT_mpl = cxx
 EXT = ${EXT_${LANGUAGE}}
 
@@ -56,29 +57,15 @@ ifdef TACC_TAU_DIR
   MPI_F_COMPILER = tau_f90.sh
 else
 
-ifdef PETSC_DIR
-  ##
-  ## annoyingly, there is only an mpicc/mpicxx/mpif90 script
-  ## in the petsc bin dir, if you have --download-mpich
-  ## this may have changed in 3.12.4
-  ##
-  C_COMPILER = mpicc
-  # ${PETSC_DIR}/${PETSC_ARCH}/bin/mpicc
-  CXX_COMPILER = mpicxx
-  #${PETSC_DIR}/${PETSC_ARCH}/bin/mpicxx
-  F_COMPILER = mpif90
-  #${PETSC_DIR}/${PETSC_ARCH}/bin/mpif90
-  MPI_C_COMPILER   = ${C_COMPILER}
-  MPI_CXX_COMPILER = ${CXX_COMPILER}
-  MPI_F_COMPILER   = ${F_COMPILER}
-
-else
-
-      MPI_C_COMPILER = mpicc
-      MPI_CXX_COMPILER = mpicxx
-      MPI_F_COMPILER = mpif90
+    MPI_C_COMPILER = mpicc
+    MPI_CXX_COMPILER = mpicxx
+    MPI_F_COMPILER = mpif90
 
     ifeq "${MODE}" "mpi"
+      C_COMPILER   = ${MPI_C_COMPILER}
+      CXX_COMPILER = ${MPI_CXX_COMPILER}
+      F_COMPILER   = ${MPI_F_COMPILER}
+    else ifeq "${MODE}" "mpl"
       C_COMPILER   = ${MPI_C_COMPILER}
       CXX_COMPILER = ${MPI_CXX_COMPILER}
       F_COMPILER   = ${MPI_F_COMPILER}
@@ -90,6 +77,21 @@ else
       else
         CXX_COMPILER = dpcpp
       endif
+    else ifeq "${MODE}" "petsc"
+      ##
+      ## annoyingly, there is only an mpicc/mpicxx/mpif90 script
+      ## in the petsc bin dir, if you have --download-mpich
+      ## this may have changed in 3.12.4
+      ##
+      C_COMPILER = mpicc
+      # ${PETSC_DIR}/${PETSC_ARCH}/bin/mpicc
+      CXX_COMPILER = mpicxx
+      #${PETSC_DIR}/${PETSC_ARCH}/bin/mpicxx
+      F_COMPILER = mpif90
+      #${PETSC_DIR}/${PETSC_ARCH}/bin/mpif90
+      MPI_C_COMPILER   = ${C_COMPILER}
+      MPI_CXX_COMPILER = ${CXX_COMPILER}
+      MPI_F_COMPILER   = ${F_COMPILER}
     else # other modes use the regular compilers
 
 	ifeq "${TACC_FAMILY_COMPILER}" "intel"
@@ -109,8 +111,6 @@ else
 	endif # end of non-mpi compiler setting
 
     endif # end of mode choices
-
-endif # end of petsc section
 
 OMPFLAGS_intel    = -qopenmp 
 OMPFLAGS_gcc      = -ggdb -fopenmp
@@ -147,6 +147,10 @@ ifeq "${MODE}" "mpi"
 C_LINKER   = ${MPI_C_COMPILER}
 CXX_LINKER = ${MPI_CXX_COMPILER}
 F_LINKER   = ${MPI_F_COMPILER}
+else ifeq "${MODE}" "mpl"
+C_LINKER   = ${MPI_C_COMPILER}
+CXX_LINKER = ${MPI_CXX_COMPILER}
+F_LINKER   = ${MPI_F_COMPILER}
 else
 C_LINKER   = ${C_COMPILER}
 CXX_LINKER = ${CXX_COMPILER}
@@ -162,8 +166,8 @@ LINK_FLAGS += ${OMPFLAGS}
 endif
 
 .SECONDEXPANSION:
-${APPS} ${EXERCISES} ${WRONGS} : $$@.o
-	${LINKER} -o $@ $^ ${LINK_FLAGS} ${EXTRA_LIBS}
+${APPS} ${EXERCISES} ${WRONGS} : $$@.o ${EXTRA_OBJS}
+	${LINKER} -o $@ $< ${EXTRA_OBJS} ${LINK_FLAGS} ${EXTRA_LIBS}
 
 info ::
 	@if [ ! -z "${APPS}" ] ; then \

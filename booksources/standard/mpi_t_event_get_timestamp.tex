@@ -1,0 +1,16 @@
+\begingroup\tt\catcode`\_=12
+\begin{tabular}{lllll}
+\toprule
+\textrm{Name}&\textrm{Param name}&\textrm{C type}&\textrm{F type}&\textrm{inout}\\
+\midrule
+\hbox to 20pt{mpi_t_event_get_timestamp (\hss} \\
+&event_instance&MPI_T_event_instance&&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl event instance provided to the callback function\hss}\\
+&event_timestamp&MPI_Count*&&out\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl timestamp the event was observed\hss}\\
+(opt)&ierror&&INTEGER&out\\
+)\\
+\bottomrule
+\end{tabular}
+\endgroup
+

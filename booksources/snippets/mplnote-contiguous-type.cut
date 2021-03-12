@@ -1,4 +1,4 @@
   The \ac{MPL} interface makes extensive use of
   \indexmpldef{contiguous_layout},
-  as it is the main way to declare a non-scalar buffer;
+  as it is the main way to declare a nonscalar buffer;
   see note~\ref{mpl:vec-buf}.

@@ -33,17 +33,12 @@ int main(int argc,char **argv) {
     return -1;
   }
   int sender = 0, receiver = 1, the_other = 1-procno;
-  char c;
-  vector<double> x(2); 
-  int i;
+  char c; vector<double> x(2); int i;
   if (procno==sender) {
-    c = 'x';
-    x[0] = 2.7; x[1] = 1.5;
-    i = 37;
-  }
+    c = 'x'; x[0] = 2.7; x[1] = 1.5; i = 37; }
   mpl::heterogeneous_layout object
     ( c,
-      mpl::make_absolute( x.data(),mpl::vector_layout<double>(2) ),
+      mpl::make_absolute(x.data(),mpl::vector_layout<double>(2)),
       i );
   if (procno==sender) {
     comm_world.send( mpl::absolute,object,receiver );

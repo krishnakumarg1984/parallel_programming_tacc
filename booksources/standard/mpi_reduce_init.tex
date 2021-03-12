@@ -1,0 +1,30 @@
+\begingroup\tt\catcode`\_=12
+\begin{tabular}{lllll}
+\toprule
+\textrm{Name}&\textrm{Param name}&\textrm{C type}&\textrm{F type}&\textrm{inout}\\
+\midrule
+\hbox to 20pt{mpi_reduce_init (\hss} \\
+&sendbuf&const~void*&TYPE(*), DIMENSION(..)&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl address of send buffer\hss}\\
+&recvbuf&void*&TYPE(*), DIMENSION(..)&out\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl address of receive buffer\hss}\\
+&count&int&INTEGER&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl number of elements in send buffer\hss}\\
+&datatype&MPI_Datatype&TYPE(MPI_Datatype)&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl data type of elements of send buffer\hss}\\
+&op&MPI_Op&TYPE(MPI_Op)&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl reduce operation\hss}\\
+&root&int&INTEGER&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl rank of root process\hss}\\
+&comm&MPI_Comm&TYPE(MPI_Comm)&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl communicator\hss}\\
+&info&MPI_Info&TYPE(MPI_Info)&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl info argument\hss}\\
+&request&MPI_Request*&TYPE(MPI_Request)&out\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl communication request\hss}\\
+(opt)&ierror&&INTEGER&out\\
+)\\
+\bottomrule
+\end{tabular}
+\endgroup
+

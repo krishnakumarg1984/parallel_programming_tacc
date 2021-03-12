@@ -21,7 +21,23 @@ then the scan operation leaves $x_0\oplus\cdots\oplus x_i$ on processor~$i$.
 This type of operation is often called a \indexterm{prefix operation};
 see \HPSCref{app:prefix}.
 
-The \indexmpiref{MPI_Scan} routine is an \indextermsub{inclusive}{scan} operation.
+The \indexmpiref{MPI_Scan} routine is an \indextermsub{inclusive}{scan} operation,
+meaning that it includes the data on the process itself;
+\indexmpishow{MPI_Exscan} (see section~\ref{sec:mpi-exscan})
+is exclusive, and does not include the data on the calling process.
+
+\[
+\begin{array}{rccccc}
+  \mathrm{process:}
+      &0&1&2&\cdots&p-1\\
+  \mathrm{data:}
+      &x_0&x_1&x_2&\cdots&x_{p-1}\\
+  \mathrm{inclusive:}\mathstrut
+      &x_0&x_0\oplus x_1&x_0\oplus x_1\oplus x_2&\cdots&\mathop\oplus_{i=0}^{p-1} x_i\\
+  \mathrm{exclusive:}\mathstrut
+      &\mathrm{unchanged}&x_0&x_0\oplus x_1&\cdots&\mathop\oplus_{i=0}^{p-2} x_i\\
+\end{array}
+\]
 
 \cverbatimsnippet[examples/mpi/c/scan.c]{iscan}
 
@@ -41,6 +57,7 @@ the \indexmpishow{MPI_Op} operations do not return an error code.
 \end{mplnote}
 
 \Level 1 {Exclusive scan}
+\label{sec:mpi-exscan}
 
 Often, the more useful variant is the \indextermsub{exclusive}{scan}
 %
@@ -86,7 +103,7 @@ number of the first local variable.
     laid end-to-end,
     contain the numbers~$0\cdots N-1$. (See figure~\ref{fig:scanints}.)
   \end{itemize}
-  \exercisesource{scangather}
+  \skeleton{scangather}
 \end{exercise}
 
 \begin{exercise}
@@ -96,11 +113,11 @@ number of the first local variable.
   same input?
 \end{exercise}
 
-Exclusive scan examples:
-%
-\cverbatimsnippet[examples/mpi/c/exscan.c]{myfirst}
-%
-\pverbatimsnippet[examples/mpi/p/exscan.py]{exscanp}
+%% Exclusive scan examples:
+%% %
+%% \cverbatimsnippet[examples/mpi/c/exscan.c]{myfirst}
+%% %
+%% \pverbatimsnippet[examples/mpi/p/exscan.py]{exscanp}
 
 It is possible to do a \indexterm{segmented scan}. Let $x_i$ be a series of numbers
 that we want to sum to $X_i$ as follows. Let $y_i$ be a series of booleans such that

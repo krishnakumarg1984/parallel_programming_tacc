@@ -1,0 +1,18 @@
+\begingroup\tt\catcode`\_=12
+\begin{tabular}{lllll}
+\toprule
+\textrm{Name}&\textrm{Param name}&\textrm{C type}&\textrm{F type}&\textrm{inout}\\
+\midrule
+\hbox to 20pt{mpi_group_from_session_pset (\hss} \\
+&session&MPI_Session&TYPE(MPI_Session)&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl session\hss}\\
+&pset_name&const~char*&CHARACTER&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl name of process set to use to create the new group\hss}\\
+&newgroup&MPI_Group*&TYPE(MPI_Group)&out\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl new group derived from supplied session and process set\hss}\\
+(opt)&ierror&&INTEGER&out\\
+)\\
+\bottomrule
+\end{tabular}
+\endgroup
+

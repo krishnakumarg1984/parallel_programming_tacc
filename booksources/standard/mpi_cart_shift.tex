@@ -1,0 +1,22 @@
+\begingroup\tt\catcode`\_=12
+\begin{tabular}{lllll}
+\toprule
+\textrm{Name}&\textrm{Param name}&\textrm{C type}&\textrm{F type}&\textrm{inout}\\
+\midrule
+\hbox to 20pt{mpi_cart_shift (\hss} \\
+&comm&MPI_Comm&TYPE(MPI_Comm)&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl communicator with Cartesian structure\hss}\\
+&direction&int&INTEGER&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl coordinate dimension of shift\hss}\\
+&disp&int&INTEGER&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl displacement ($> 0$: upwards shift, $< 0$: downwards shift)\hss}\\
+&rank_source&int*&INTEGER&out\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl rank of source process\hss}\\
+&rank_dest&int*&INTEGER&out\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl rank of destination process\hss}\\
+(opt)&ierror&&INTEGER&out\\
+)\\
+\bottomrule
+\end{tabular}
+\endgroup
+

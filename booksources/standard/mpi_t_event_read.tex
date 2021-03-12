@@ -1,0 +1,18 @@
+\begingroup\tt\catcode`\_=12
+\begin{tabular}{lllll}
+\toprule
+\textrm{Name}&\textrm{Param name}&\textrm{C type}&\textrm{F type}&\textrm{inout}\\
+\midrule
+\hbox to 20pt{mpi_t_event_read (\hss} \\
+&event_instance&MPI_T_event_instance&&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl event-instance handle provided to the callback function\hss}\\
+&element_index&int&INTEGER&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl index into the array of datatypes of the item to be queried\hss}\\
+&buffer&void*&TYPE(C_PTR)&out\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl pointer to a memory location to store the item data\hss}\\
+(opt)&ierror&&INTEGER&out\\
+)\\
+\bottomrule
+\end{tabular}
+\endgroup
+

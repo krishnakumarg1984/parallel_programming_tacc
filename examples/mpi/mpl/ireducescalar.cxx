@@ -23,8 +23,8 @@ int main() {
     mpl::environment::comm_world();
 
   float x{1.},sum;
-  auto reduce_request = comm_world.ireduce
-    (mpl::plus<float>(), 0, x, sum);
+  auto reduce_request =
+    comm_world.ireduce(mpl::plus<float>(), 0, x, sum);
   reduce_request.wait();
   if (comm_world.rank()==0) {
     std::cout << "sum = " << sum << '\n';

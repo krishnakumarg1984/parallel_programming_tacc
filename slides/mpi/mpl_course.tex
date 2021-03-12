@@ -44,6 +44,15 @@
 \excludecomment{condensed}
 \excludecomment{online}
 
+\newcommand\referenceframe{\begingroup\catcode`\_=12 \referenceframett}
+\begingroup\catcode`\_=12
+\gdef\referenceframett#1{
+  \begin{numberedframe}{Reference: \texttt{MPI_#1}}
+    \small
+    \verbatiminput{mplreference/MPI_#1.tex}
+  \end{numberedframe}\endgroup}
+\endgroup
+
 \specialcomment{tacc}{\stepcounter{tacc}\def\CommentCutFile{tacc\arabic{tacc}.cut}}{}
 \newcounter{tacc}
 %\excludecomment{tacc}
@@ -55,7 +64,7 @@
 \includecomment{foundations}
 
 \def\Location{}% redefine in the inex file
-\def\courseyear{2020}
+\def\courseyear{2021}
 \def\Location{TACC APP institute MPI training \courseyear}
 \begin{xsede}
   \def\Location{TACC/XSEDE MPI training \courseyear}
@@ -87,7 +96,7 @@
 \begin{frame}{Justification}
   While the C API to MPI is usable from C++, it feels very unidiomatic
   for that language.
-  MPL is a modern C++11 interface to MPI.
+  \acf{MPL} is a modern C++11 interface to MPI.
   It is both idiomatic and elegant, simplifying many calling sequences.
 \end{frame}
 
@@ -108,6 +117,9 @@
 \begin{numberedframe}{Rank and size}
   \input{mplnote-rank-and-size.cut}
 \end{numberedframe}
+\referenceframe{Comm_size}
+\referenceframe{Comm_rank}
+
 \begin{numberedframe}{Timing}
   \input{mplnote-timing.cut}
 \end{numberedframe}
@@ -127,7 +139,7 @@
 \Level 0 {Collectives}
 
 \begin{frame}{Introduction}
-  Collectives have many polymophic variants, for instance for `in place',
+  Collectives have many polymorphic variants, for instance for `in place',
   and buffer handling.
 
   Operators are handled through functors.
@@ -142,31 +154,53 @@
   \input{mplnote-iterator-buffers.cut}
 \end{numberedframe}
 
+\begin{numberedframe}{Reduction operator}
+  % this is really a reduce slide
+  \input{mplnote-reduction-operator.cut}
+\end{numberedframe}
+\referenceframe{Allreduce}
+\referenceframe{Reduce}
 \begin{numberedframe}{Broadcast}
   \input{mplnote-broadcast.cut}
 \end{numberedframe}
+\referenceframe{Bcast}
 \begin{numberedframe}{Gather scatter}
   \input{mplnote-gather-scatter.cut}
+\end{numberedframe}
+\begin{numberedframe}{Reduce on non-root processes}
+  \footnotesize
+  \input{mplnote-non-root-variants.cut}
 \end{numberedframe}
 \begin{numberedframe}{Gather on non-root}
   \input{mplnote-gather-on-non-root.cut}
 \end{numberedframe}
+\referenceframe{Gather}
 \begin{numberedframe}{Reduce in place}
   \footnotesize
   \input{mplnote-reduce-in-place.cut}
 \end{numberedframe}
-\begin{numberedframe}{Rooted reduce}
-  \input{mplnote-rooted-reduce.cut}
+%% \begin{numberedframe}{Rooted reduce}
+%%   \input{mplnote-rooted-reduce.cut}
+%% \end{numberedframe}
+\begin{numberedframe}{Layouts for gatherv}
+  \input{mplnote-layouts-for-gatherv.cut}
 \end{numberedframe}
 \begin{numberedframe}{Scan operations}
   \input{mplnote-scan-operations.cut}
 \end{numberedframe}
 
-\begin{numberedframe}{Reduction operator}
-  \input{mplnote-reduction-operator.cut}
-\end{numberedframe}
+\begin{exerciseframe}[scangather]
+  \input ex:scanprint
+\end{exerciseframe}
+\begin{exerciseframe}[scangather]
+  \input ex:scangather
+\end{exerciseframe}
+
 \begin{numberedframe}{User defined operators}
   \input{mplnote-user-defined-operators.cut}
+\end{numberedframe}
+\begin{numberedframe}{Lambda reduction operators}
+  \input{mplnote-lambda-operator.cut}
 \end{numberedframe}
 \begin{numberedframe}{Non-blocking collectives}
   \input{mplnote-non-blocking-collectives.cut}
@@ -180,6 +214,8 @@
 \begin{numberedframe}{Sending arrays}
   \input{mplnote-sending-arrays.cut}
 \end{numberedframe}
+\referenceframe{Send}
+\referenceframe{Recv}
 \begin{numberedframe}{Message tag}
   \input{mplnote-message-tag.cut}
 \end{numberedframe}
@@ -208,6 +244,9 @@
 \begin{numberedframe}{Wait any}
   \input{mplnote-wait-any.cut}
 \end{numberedframe}
+\begin{exerciseframe}[setdiff]
+  \input ex:setdiff
+\end{exerciseframe}
 
 \begin{numberedframe}{Buffered send}
   \input{mplnote-buffered-send.cut}
@@ -254,9 +293,6 @@
 \begin{numberedframe}{Indexed block type}
   \input{mplnote-indexed-block-type.cut}
 \end{numberedframe}
-\begin{numberedframe}{Layouts for gatherv}
-  \input{mplnote-layouts-for-gatherv.cut}
-\end{numberedframe}
 \begin{numberedframe}{Struct type scalar}
   \input{mplnote-struct-type-scalar.cut}
 \end{numberedframe}
@@ -280,6 +316,16 @@
 \end{numberedframe}
 
 \Level 0 {Process topologies}
+
+%% \begin{numberedframe}{Distributed graph creation}
+%%   \input{mplnote-distributed-graph-creation.cut}
+%% \end{numberedframe}
+\begin{numberedframe}{Graph communicators}
+  \input{mplnote-graph-communicators.cut}
+\end{numberedframe}
+\begin{numberedframe}{Graph communicator querying}
+  \input{mplnote-graph-communicator-querying.cut}
+\end{numberedframe}
 
 \Level 0 {Other}
 

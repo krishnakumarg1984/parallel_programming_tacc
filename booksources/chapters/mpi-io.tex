@@ -95,7 +95,7 @@ You open a file with
 %
 This routine is collective, even if only certain processes will access
 the file with a read or write call.
-Similarly, \indexmpishow{MPI_File_close} is collective.
+Similarly, \indexmpidef{MPI_File_close} is collective.
 
 \begin{pythonnote}{File open is class method}
   Note the slightly unusual syntax for opening a file:
@@ -110,28 +110,28 @@ mpifile = MPI.File.Open(comm,filename,mode)
 
 File access modes:
 \begin{itemize}
-\item  \indexmpishow{MPI_MODE_RDONLY}: read only,
-\item  \indexmpishow{MPI_MODE_RDWR}: reading and writing,
-\item  \indexmpishow{MPI_MODE_WRONLY}: write only,
-\item  \indexmpishow{MPI_MODE_CREATE}: create the file if it does not exist,
-\item  \indexmpishow{MPI_MODE_EXCL}: error if creating file that already exists,
-\item  \indexmpishow{MPI_MODE_DELETE_ON_CLOSE}: delete file on close,
-\item  \indexmpishow{MPI_MODE_UNIQUE_OPEN}: file will not be concurrently opened
+\item  \indexmpidef{MPI_MODE_RDONLY}: read only,
+\item  \indexmpidef{MPI_MODE_RDWR}: reading and writing,
+\item  \indexmpidef{MPI_MODE_WRONLY}: write only,
+\item  \indexmpidef{MPI_MODE_CREATE}: create the file if it does not exist,
+\item  \indexmpidef{MPI_MODE_EXCL}: error if creating file that already exists,
+\item  \indexmpidef{MPI_MODE_DELETE_ON_CLOSE}: delete file on close,
+\item  \indexmpidef{MPI_MODE_UNIQUE_OPEN}: file will not be concurrently opened
   elsewhere,
-\item  \indexmpishow{MPI_MODE_SEQUENTIAL}: file will only be accessed sequentially,
-\item  \indexmpishow{MPI_MODE_APPEND}: set initial position of all file pointers to end
+\item  \indexmpidef{MPI_MODE_SEQUENTIAL}: file will only be accessed sequentially,
+\item  \indexmpidef{MPI_MODE_APPEND}: set initial position of all file pointers to end
   of file.
 \end{itemize}
 These modes can be added or bitwise-or'ed.
 
-You can delete a file with \indexmpishow{MPI_File_delete}.
+You can delete a file with \indexmpidef{MPI_File_delete}.
 
-Buffers can be flushed with \indexmpishow{MPI_File_sync}, which is a collective call.
+Buffers can be flushed with \indexmpidef{MPI_File_sync}, which is a collective call.
 
 \Level 0 {File reading and writing}
 
 The basic file operations, in between the open and close calls, are
-the POSIX-like, non-collective, calls
+the POSIX-like, noncollective, calls
 \begin{itemize}
 \item \indexmpiref{MPI_File_seek}. The \lstinline{whence} parameter can be:
   \begin{itemize}
@@ -149,7 +149,7 @@ the POSIX-like, non-collective, calls
   was opened with \indexmpishow{MPI_MODE_SEQUENTIAL}.
 \item If all processes execute a write at the same logical time, it is
   better to use the collective call
-  \indexmpixref{MPI_File_write_all}{MPI_File_write}.
+  \indexmpidef{MPI_File_write_all}.
 \item \indexmpiref{MPI_File_read} This routine attempts to read the specified data
   from the locations specified in the current file view. 
   The number of items read is returned in the \indexmpishow{MPI_Status} argument;
@@ -158,15 +158,16 @@ the POSIX-like, non-collective, calls
   was opened with \indexmpishow{MPI_MODE_SEQUENTIAL}.
 \item If all processes execute a read at the same logical time, it is
   better to use the collective call
-  \indexmpixref{MPI_File_read_all}{MPI_File_read}.
+  \indexmpiref{MPI_File_read_all}.
 \end{itemize}
 
 For thread safety it is good to combine seek and read/write operations:
 \begin{itemize}
-\item \indexmpishow{MPI_File_read_at}: combine read and seek.
-  The collective variant is \indexmpishow{MPI_File_read_at_all}.
+\item \indexmpidef{MPI_File_read_at}: combine read and seek.
+  The collective variant is \indexmpidef{MPI_File_read_at_all}.
 \item \indexmpishow{MPI_File_write_at}: combine write and seekl
-  The collective variant is \indexmpishow{MPI_File_write_at_all}.
+  The collective variant is \indexmpidef{MPI_File_write_at_all};
+  section~\ref{sec:mpi-filepoint}.
 \end{itemize}
 
 Writing to and reading from a parallel file is rather similar to
@@ -181,10 +182,10 @@ sending a receiving:
   elements in the file will be involved.
 \end{itemize}
 
-\Level 1 {Non-blocking read/write}
+\Level 1 {Nonblocking read/write}
 
-Just like there are blocking and non-blocking sends, there are also
-non-blocking writes and reads:
+Just like there are blocking and nonblocking sends, there are also
+nonblocking writes and reads:
 \indexmpiref{MPI_File_iwrite},
 \indexmpidef{MPI_File_iread} 
 operations,
@@ -200,29 +201,29 @@ These routines output an \indexmpishow{MPI_Request} object,
 which can then be tested with
 \indexmpishow{MPI_Wait} or \indexmpishow{MPI_Test}.
 
-Non-blocking collective I/O functions
-much like other non-blocking collectives
+Nonblocking collective I/O functions
+much like other nonblocking collectives
 (section~{sec:mpi3collect}):
 the request is satisfied if all processes finish the collective.
 
 There are also \indextermsub{split}{collective} routines
-that function like non-blocking collective I/O, but with the request/wait mechanism:
-\indexmpishow{MPI_File_write_all_begin}~/
-\indexmpishow{MPI_File_write_all_end}
+that function like nonblocking collective I/O, but with the request/wait mechanism:
+\indexmpidef{MPI_File_write_all_begin}~/
+\indexmpidef{MPI_File_write_all_end}
 (and similarly
-\indexmpishow{MPI_File_read_all_begin}~/
-\indexmpishow{MPI_File_read_all_end})
+\indexmpidef{MPI_File_read_all_begin}~/
+\indexmpidef{MPI_File_read_all_end})
 where the second routine blocks until the collective write/read
 has been concluded.
 
-Also \indexmpidef{MPI_File_iread_shared}, \indexmpidef{MPI_File_iwrite_shared}.
+Also \indexmpishow{MPI_File_iread_shared}, \indexmpishow{MPI_File_iwrite_shared}.
 
 \Level 1 {Individual file pointers, contiguous writes}
 \label{sec:mpi-filepoint}
 
-After the collective open call, each rank holds an
+After the collective open call, each process holds an
 \emph{individual file pointer}\index{file!pointer!individual}
-each rank can individually position the pointer somewhere in the shared file.
+each process can individually position the pointer somewhere in the shared file.
 Let's explore this modality.
 
 The simplest way of writing a data to file is much like a send call:
@@ -242,7 +243,7 @@ which counts bytes.
   \label{ex:blockwrite}
   Create a buffer of length \n{nwords=3} on each process, and write
   these buffers as a sequence to one file with \indexmpishow{MPI_File_write_at}.
-  \exercisesource{blockwrite}
+  \skeleton{blockwrite}
 \end{exercise}
 
 Instead of giving the position in the file explicitly, you can also
@@ -278,7 +279,7 @@ need no seek calls with \indexmpishow{MPI_SEEK_CUR}.
 
 The previous mode of writing is enough for writing simple contiguous blocks in the file.
 However,
-you can also access non-contiguous areas in the file. For this you use
+you can also access noncontiguous areas in the file. For this you use
 %
 \indexmpiref{MPI_File_set_view}.
 %
@@ -304,6 +305,8 @@ This call is collective, even if not all processes access the file.
   \end{itemize}
 \item The \n{info} parameter is an \indexmpishow{MPI_Info} object,
   or \indexmpishow{MPI_INFO_NULL}. See section~\ref{sec:mpi-file-info} for more.
+  (See \indextermdef{T3PIO}~\cite{t3pio-git} for a tool that 
+  assists in setting this object.)
 \end{itemize}
 
 \begin{figure}[ht]
@@ -314,7 +317,7 @@ This call is collective, even if not all processes access the file.
 
 \begin{exercise}
   \label{ex:viewwrite}
-  \exercisesource{viewwrite}
+  \skeleton{viewwrite}
   Write a file in the same way as in exercise~\ref{ex:blockwrite},
   but now use \indexmpishow{MPI_File_write} and use \indexmpishow{MPI_File_set_view} to set
   a view that determines where the data is written.
@@ -337,10 +340,10 @@ datatype.
 \end{fortrannote}
 
 More:
-\indexmpishow{MPI_File_set_size}
-\indexmpishow{MPI_File_get_size}
-\indexmpishow{MPI_File_preallocate}
-\indexmpishow{MPI_File_get_view}
+\indexmpidef{MPI_File_set_size}
+\indexmpidef{MPI_File_get_size}
+\indexmpidef{MPI_File_preallocate}
+\indexmpidef{MPI_File_get_view}
 
 \Level 1 {Shared file pointers}
 
@@ -349,12 +352,12 @@ between all processes of the communicator that was used to open the file.
 This file pointer is set with \indexmpidef{MPI_File_seek_shared}.
 For reading and writing there are then two sets of routines:
 \begin{itemize}
-\item Individual accesses are done with \indexmpishow{MPI_File_read_shared}
-  and \indexmpishow{MPI_File_write_shared}.
-  Non-blocking variants are \indexmpishow{MPI_File_iread_shared}
-  and \indexmpishow{MPI_File_iwrite_shared}.
-\item Collective accesse are done with \indexmpishow{MPI_File_read_ordered}
-  and \indexmpishow{MPI_File_write_ordered}, which execute the operations
+\item Individual accesses are done with \indexmpidef{MPI_File_read_shared}
+  and \indexmpidef{MPI_File_write_shared}.
+  Nonblocking variants are \indexmpidef{MPI_File_iread_shared}
+  and \indexmpidef{MPI_File_iwrite_shared}.
+\item Collective accesse are done with \indexmpidef{MPI_File_read_ordered}
+  and \indexmpidef{MPI_File_write_ordered}, which execute the operations
   in order ascending by rank.
 \end{itemize}
 
@@ -371,7 +374,7 @@ or using a zero-byte send from the writing to the reading process.
 
 However, the file also needs to be declared
 \emph{atomic}\index{atomic operation!file}:
-\indexmpishow{MPI_File_set_atomicity}.
+\indexmpidef{MPI_File_set_atomicity}.
 
 \Level 0 {Constants}
 

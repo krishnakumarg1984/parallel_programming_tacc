@@ -1,0 +1,16 @@
+\begingroup\tt\catcode`\_=12
+\begin{tabular}{lllll}
+\toprule
+\textrm{Name}&\textrm{Param name}&\textrm{C type}&\textrm{F type}&\textrm{inout}\\
+\midrule
+\hbox to 20pt{mpi_info_create_env (\hss} \\
+&argc&int&&inout\\
+&argv&char[]&&inout\\&\hbox to 0pt{\footnotesize length: \tt\catcode`\_=12 argc\hss}\\
+&info&MPI_Info*&TYPE(MPI_Info)&out\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl info object\hss}\\
+(opt)&ierror&&INTEGER&out\\
+)\\
+\bottomrule
+\end{tabular}
+\endgroup
+

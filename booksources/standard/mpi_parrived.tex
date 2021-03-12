@@ -1,0 +1,18 @@
+\begingroup\tt\catcode`\_=12
+\begin{tabular}{lllll}
+\toprule
+\textrm{Name}&\textrm{Param name}&\textrm{C type}&\textrm{F type}&\textrm{inout}\\
+\midrule
+\hbox to 20pt{mpi_parrived (\hss} \\
+&request&MPI_Request*&TYPE(MPI_Request)&inout\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl partitioned communication request\hss}\\
+&partition&int&INTEGER&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl partition to be tested\hss}\\
+&flag&int*&LOGICAL&out\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl true if operation completed on the specified partition, false if not\hss}\\
+(opt)&ierror&&INTEGER&out\\
+)\\
+\bottomrule
+\end{tabular}
+\endgroup
+

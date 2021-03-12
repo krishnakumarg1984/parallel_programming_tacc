@@ -1,0 +1,16 @@
+\begingroup\tt\catcode`\_=12
+\begin{tabular}{lllll}
+\toprule
+\textrm{Name}&\textrm{Param name}&\textrm{C type}&\textrm{F type}&\textrm{inout}\\
+\midrule
+\hbox to 20pt{mpi_win_delete_attr (\hss} \\
+&win&MPI_Win&TYPE(MPI_Win)&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl window from which the attribute is deleted\hss}\\
+&win_keyval&int&INTEGER&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl key value\hss}\\
+(opt)&ierror&&INTEGER&out\\
+)\\
+\bottomrule
+\end{tabular}
+\endgroup
+

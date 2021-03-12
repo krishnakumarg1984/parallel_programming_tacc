@@ -165,8 +165,10 @@
 \newenvironment{fortrannote}
   {\begin{specialnote}{Fortran note}\lstset{language=Fortran}}
   {\end{specialnote}\lstset{language=C}}
+\newenvironment{cppnote}
+  {\begin{specialnote}{C++ note}\lstset{language=C++}}
+  {\end{specialnote}\lstset{language=C}}
 
-\makeindex[name=python]
 \argcomment
     {pythonnote}
     {\par\advance\leftskip by \unitindent
@@ -178,7 +180,6 @@
       \lstset{language=C}
       \relax}
 
-\makeindex[name=mpl]
 \newcounter{mplnote}
 \argcomment
     {mplnote}

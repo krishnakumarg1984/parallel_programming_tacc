@@ -1,0 +1,18 @@
+\begingroup\tt\catcode`\_=12
+\begin{tabular}{lllll}
+\toprule
+\textrm{Name}&\textrm{Param name}&\textrm{C type}&\textrm{F type}&\textrm{inout}\\
+\midrule
+\hbox to 20pt{mpi_get_elements (\hss} \\
+&status&const~MPI_Status*&TYPE(MPI_Status)&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl return status of receive operation\hss}\\
+&datatype&MPI_Datatype&TYPE(MPI_Datatype)&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl datatype used by receive operation\hss}\\
+&count&int*&INTEGER&out\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl number of received basic elements\hss}\\
+(opt)&ierror&&INTEGER&out\\
+)\\
+\bottomrule
+\end{tabular}
+\endgroup
+

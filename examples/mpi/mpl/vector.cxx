@@ -35,7 +35,8 @@ int main(int argc,char **argv) {
   int sender = 0, receiver = 1, the_other = 1-procno,
     count = 5,stride=2;
   vector<double>
-    source(stride*count),
+    source(stride*count);
+  vector<double>
     target(count);
 
   for (int i=0; i<stride*count; i++)
@@ -49,9 +50,9 @@ int main(int argc,char **argv) {
   }
   else if (procno==receiver) {
     int recv_count;
-    mpl::status recv_status = comm_world.recv
-      (target.data(),mpl::contiguous_layout<double>(count),
-       the_other);
+    mpl::contiguous_layout<double> target_layout(count);
+    mpl::status recv_status =
+      comm_world.recv(target.data(),target_layout, the_other);
     recv_count = recv_status.get_count<double>();
     assert(recv_count==count);
   }

@@ -1,0 +1,16 @@
+\begingroup\tt\catcode`\_=12
+\begin{tabular}{lllll}
+\toprule
+\textrm{Name}&\textrm{Param name}&\textrm{C type}&\textrm{F type}&\textrm{inout}\\
+\midrule
+\hbox to 20pt{mpi_status_f2f08 (\hss} \\
+&f_status&const~MPI_Fint*&INTEGER&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl status object declared as array\hss}\\
+&f08_status&MPI_F08_status*&TYPE(MPI_Status)&out\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl status object declared as named type\hss}\\
+(opt)&ierror&&INTEGER&out\\
+)\\
+\bottomrule
+\end{tabular}
+\endgroup
+

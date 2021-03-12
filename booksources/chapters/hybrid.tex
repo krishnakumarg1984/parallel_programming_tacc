@@ -156,6 +156,8 @@ In case more than one thread performs communication,
 can determine whether a thread is the main thread.
 
 \begin{mplnote}{Threading support}
+  \ac{MPL} always calls \indexmpishow{MPI_Init_thread}
+  requesting the highest level \indexmpishow{MPI_THREAD_MULTIPLE}.
 \begin{lstlisting}
 enum mpl::threading_modes {
   mpl::threading_modes::single = MPI_THREAD_SINGLE, 

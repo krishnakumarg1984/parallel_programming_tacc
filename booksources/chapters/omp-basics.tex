@@ -164,16 +164,9 @@ Doing so makes the outer variable inaccessible.
 
 Fortran has simpler rules, since it does not have blocks inside blocks.
 
-\begin{figure}[ht]
-\includegraphics[scale=.1]{fork-join-vars}
-\caption{Locality of variables in threads}
-\label{fig:threadvars}
-\end{figure}
-%
 In OpenMP the situation is a bit more tricky because of the threads.
 When a team of threads is created they can all see the data of the
 master thread. However, they can also create data of their own.
-This is illustrated in figure~\ref{fig:threadvars}.
 We will go into the details later.
 
 \Level 0 {Compiling and running an OpenMP program}
@@ -201,7 +194,7 @@ adding an option to your commandline:
 # gcc
 gcc -o foo foo.c -fopenmp
 # Intel compiler
-icc -o foo foo.c -openmp
+icc -o foo foo.c -qopenmp
 \end{verbatim}
 If you have separate compile and link stages, you need that option in both.
 
@@ -263,7 +256,7 @@ with
 \begin{itemize}
 \item the \verb+#pragma omp+ \indextermdef{sentinel} to indicate that
   an OpenMP directive is coming;
-\item a directive, such as \n{parallel};
+\item a directive, such as \indexompshow{parallel};
 \item and possibly clauses with values.
 \item After the directive comes either a single statement or a block
   in \indexterm{curly braces}.
@@ -299,8 +292,8 @@ The simplest way to create parallelism in OpenMP is to use
 the \indexpragma{parallel} pragma. A~block preceded by the \n{omp parallel} pragma
 is called a \emph{parallel region}; it
 is executed by a newly created team of threads. 
-This is an instance of the \indexac{SPMD} model: all threads execute the same
-segment of code.
+This is an instance of the \indexac{SPMD} model:
+all threads execute (redundantly) the same segment of code.
 \begin{lstlisting}
 #pragma omp parallel
 {
@@ -308,25 +301,38 @@ segment of code.
 }
 \end{lstlisting}
 
+\begin{exercise}
+  \label{ex:omp-helloworld}
+  Write a `hello world' program, where the
+  print statement is in a parallel region.
+  Compile and run.
+
+  Run your program with different values of the environment variable
+  \indexompshow{OMP_NUM_THREADS}.
+  If you know how many cores your machine has,
+  can you set the value higher?
+\end{exercise}
+
 We will go into much more detail in section~\ref{sec:parallelregion}.
 
 \Level 1 {An actual OpenMP program!}
 
+Let's start exploring how OpenMP handles parallelism,
+using the following functions:
+\begin{itemize}
+\item \indexompshow{omp_get_num_threads} reports how many threads are
+  currently active, and
+\item \indexompshow{omp_get_thread_num} reports the number of the
+  thread that makes the call.
+\item \indexompshow{omp_get_num_procs} reports the number of available
+  cores.
+\end{itemize}
+
 \begin{exercise}
   \label{ex:omp-procthread}
-  Write a program that contains the following lines:
-\begin{lstlisting}
-  printf("There are %d processors\n",omp_get_num_procs());
-#pragma omp parallel
-  printf("There are %d threads\n",
-        /* !!!! something missing here !!!! */ );
-\end{lstlisting}
-The first print statement tells you the number of available cores in
-the hardware. Your assignment is to
-supply the missing function that reports the number
-of threads used. Compile and run the program. Experiment with the
-\n{OMP_NUM_THREADS} environment variable. What do you notice about the
-number of lines printed?
+  Take the hello world program of exercise~\ref{ex:omp-helloworld}
+  and insert the above functions, before, in, and after the parallel region.
+  What are your observations?
 \end{exercise}
 
 \begin{exercise}
@@ -348,23 +354,25 @@ of an explanation?
 \label{sec:omp-code-structure}
 
 Here are a couple of important concepts:
-\begin{definition}
-\item[structured block] An OpenMP directive is followed by an
-  \indexterm{structured block}; in C~this is a single statement, a
+\begin{itemize}
+\item An OpenMP directive is followed by an
+  \indextermdef{structured block}; in C~this is a single statement, a
   compound statement, or a block in braces; In Fortran it is
   delimited by the directive and its matching `\n{end}' directive.
 
   A~structured block can not be jumped into, so it can not start with a
   labeled statement, or contain a jump statement leaving the block.
-\item[construct] An OpenMP \indexterm{construct} is the section of code
+\item 
+ An OpenMP \indextermdef{construct} is the section of code
   starting with a directive and spanning the following structured block,
   plus in Fortran the end-directive. This is a lexical concept: it contains
   the statements directly enclosed, and not any subroutines called from them.
-\item[region of code] A \indexterm{region of code} is defined as all statements
+\item
+  A \indextermdef{region of code} is defined as all statements
   that are dynamically encountered while executing the code of an OpenMP construct.
   This is a dynamic concept: unlike a `construct', it does include any subroutines
   that are called from the code in the structured block.
-\end{definition}
+\end{itemize}
 
 \Level 0 {Thread data}
 

@@ -1,0 +1,16 @@
+\begingroup\tt\catcode`\_=12
+\begin{tabular}{lllll}
+\toprule
+\textrm{Name}&\textrm{Param name}&\textrm{C type}&\textrm{F type}&\textrm{inout}\\
+\midrule
+\hbox to 20pt{mpi_status_set_cancelled (\hss} \\
+&status&MPI_Status*&TYPE(MPI_Status)&inout\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl status with which to associate cancel flag\hss}\\
+&flag&int&LOGICAL&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl if true, indicates request was cancelled\hss}\\
+(opt)&ierror&&INTEGER&out\\
+)\\
+\bottomrule
+\end{tabular}
+\endgroup
+

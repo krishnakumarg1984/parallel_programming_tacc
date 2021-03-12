@@ -1,0 +1,21 @@
+\begingroup\tt\catcode`\_=12
+\begin{tabular}{lllll}
+\toprule
+\textrm{Name}&\textrm{Param name}&\textrm{C type}&\textrm{F type}&\textrm{inout}\\
+\midrule
+\hbox to 20pt{mpi_testany (\hss} \\
+&count&int&INTEGER&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl list length\hss}\\
+&array_of_requests&MPI_Request[]&TYPE(MPI_Request)&inout\\&\hbox to 0pt{\footnotesize length: \tt\catcode`\_=12 count\hss}\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl array of requests\hss}\\
+&index&int*&INTEGER&out\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl index of operation that completed or {\tt\catcode`\_=12 MPI_UNDEFINED} if none completed\hss}\\
+&flag&int*&LOGICAL&out\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl true if one of the operations is complete\hss}\\
+&status&MPI_Status*&TYPE(MPI_Status)&out\\
+(opt)&ierror&&INTEGER&out\\
+)\\
+\bottomrule
+\end{tabular}
+\endgroup
+

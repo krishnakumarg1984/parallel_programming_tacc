@@ -3,7 +3,7 @@
    %%%%
    %%%% This program file is part of the book and course
    %%%% "Parallel Computing"
-   %%%% by Victor Eijkhout, copyright 2020
+   %%%% by Victor Eijkhout, copyright 2020-2021
    %%%%
    %%%% structscalar.cxx : illustrating type struct in MPL
    %%%%
@@ -33,18 +33,14 @@ int main(int argc,char **argv) {
     return -1;
   }
   int sender = 0, receiver = 1, the_other = 1-procno;
-  char c;
-  double x; 
-  int i;
+  char c; double x; int i;
   if (procno==sender) {
-    c = 'x'; x = 2.4; i = 37;
-  }
+    c = 'x'; x = 2.4; i = 37; }
   mpl::heterogeneous_layout object( c,x,i );
-  if (procno==sender) {
+  if (procno==sender)
     comm_world.send( mpl::absolute,object,receiver );
-  } else if (procno==receiver) {
+  else if (procno==receiver)
     comm_world.recv( mpl::absolute,object,sender );
-  }
 
   if (procno==receiver) {
     printf("Char '%c' double=%e int=%d\n",c,x,i);

@@ -1,0 +1,18 @@
+\begingroup\tt\catcode`\_=12
+\begin{tabular}{lllll}
+\toprule
+\textrm{Name}&\textrm{Param name}&\textrm{C type}&\textrm{F type}&\textrm{inout}\\
+\midrule
+\hbox to 20pt{mpi_t_event_handle_free (\hss} \\
+&event_registration&MPI_T_event_registration&&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl event registration\hss}\\
+&user_data&void*&INTEGER(KIND=MPI_ADDRESS_KIND)&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl pointer to a user-controlled buffer\hss}\\
+&free_cb_function&MPI_T_event_free_cb_function&&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl pointer to user-defined callback function\hss}\\
+(opt)&ierror&&INTEGER&out\\
+)\\
+\bottomrule
+\end{tabular}
+\endgroup
+

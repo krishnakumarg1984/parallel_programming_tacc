@@ -4,7 +4,7 @@
 %%%%
 %%%% This text file is part of the source of 
 %%%% `Parallel Programming in MPI and OpenMP'
-%%%% by Victor Eijkhout, copyright 2012-9
+%%%% by Victor Eijkhout, copyright 2012-2021
 %%%%
 %%%% mpi-bcastreduce.tex : about broadcast & reduce collectives
 %%%%
@@ -59,28 +59,14 @@ size of all incoming data. See the example below.
 There are various calls where processors can have
 buffers of differing sizes.
 \begin{itemize}
-\item In \indexmpishow{MPI_Scatterv} the root process has a different
+\item In \indexmpiref{MPI_Scatterv} the root process has a different
   amount of data for each recipient.
 \item In \indexmpishow{MPI_Gatherv}, conversely, each process
   contributes a different sized send buffer to the received result;
-  \indexmpishow{MPI_Allgatherv} does the same, but leaves its result
+  \indexmpiref{MPI_Allgatherv} does the same, but leaves its result
   on all processes; \indexmpishow{MPI_Alltoallv} does a different
   variable-sized gather on each process.
 \end{itemize}
-
-\begin{lstlisting}
-int MPI_Scatterv
-  (void* sendbuf, int *sendcounts, int *displs, MPI_Datatype sendtype, 
-   void* recvbuf, int recvcount, MPI_Datatype recvtype, 
-   int root, MPI_Comm comm)
-\end{lstlisting}
-
-\begin{lstlisting}
-int MPI_Allgatherv
-  (void *sendbuf, int sendcount, MPI_Datatype sendtype, 
-   void *recvbuf, int *recvcounts, int *displs, 
-   MPI_Datatype recvtype, MPI_Comm comm)
-\end{lstlisting}
 
 \Level 1 {Example of Gatherv}
 
@@ -90,6 +76,21 @@ We use \indexmpishow{MPI_Gatherv} to do an irregular gather onto a root. We firs
 \cverbatimsnippet[examples/mpi/c/gatherv.c]{gatherv}
 %
 \pverbatimsnippet[examples/mpi/p/gatherv.py]{gathervp}
+
+%% \begin{mplnote}{Displacement handling in gatherv}
+%%   No specification of displacement is neded.
+%%   Instead, a \indexmpldef{layouts} object,
+%%   essentially a \lstinline+std::vector+ of \indexmplshow{layout}s,
+%%   is used.
+%%   %
+%%   \cxxverbatimsnippet{mpllayouts}
+%%   %
+%% \begin{lstlisting}
+%% comm_world.gatherv
+%%    ( root, sendbuffer, gatherbuffer,
+%%      receive_layout );
+%% \end{lstlisting}
+%% \end{mplnote}
 
 \Level 1 {Example of Allgatherv}
 

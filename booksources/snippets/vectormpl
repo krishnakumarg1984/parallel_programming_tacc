@@ -1,7 +1,6 @@
 // vector.cxx
 vector<double>
-  source(stride*count),
-  target(count);
+  source(stride*count);
 if (procno==sender) {
   mpl::strided_vector_layout<double>
     newvectortype(count,1,stride);

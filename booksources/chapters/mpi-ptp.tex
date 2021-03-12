@@ -14,7 +14,7 @@
 %% \Level 0 {Blocking point-to-point operations}
 \input chapters/mpi-blocksend
 
-%% \Level 0 {Non-blocking point-to-point operations}
+%% \Level 0 {Nonblocking point-to-point operations}
 \input chapters/mpi-nonblock
 
 \Level 0 {More about point-to-point communication}
@@ -27,9 +27,10 @@ enough for any data sent. In case you really have no idea how much data
 is being sent, and you don't want to overallocate the receive buffer,
 you can use a `probe' call.
 
-The routine \indexmpiref{MPI_Probe} (and \indexmpishow{MPI_Iprobe},
-for which see section~\ref{sec:progress}), accepts a message,
-but does not copy the data. Instead, when probing tells you that there is a
+The routines \indexmpiref{MPI_Probe} and \indexmpiref{MPI_Iprobe}
+(for which see also section~\ref{sec:progress})
+accept a message but do not copy the data.
+Instead, when probing tells you that there is a
 message, you can use \indexmpishow{MPI_Get_count} to determine its size,
 allocate a large enough receive buffer, and do a regular receive to
 have the data copied.
@@ -95,7 +96,7 @@ does not have a status parameter, but \indexmpishow{MPI_Wait} does.
   The \lstinline+mpl::status+ object is created by the receive
   (or wait) call:
   %
-  \cxxverbatimsnippet{mplstatuscreate}
+  \cxxverbatimsnippet[examples/mpi/mpl/vector.cxx]{mplstatuscreate}
 \end{mplnote}
 
 The \indexmpishow{MPI_Status} object
@@ -171,7 +172,7 @@ for how to use this.
   (for the \indexmpishow{MPI_ANY_TAG} wildcard in receive calls)
   and
   \lstinline+mpl::+\indexmplshow{tag::up}\lstinline+()+
-  (for the \indexmpishow{MPI_TAG_UB} attribute).
+  (maximal tag, found from the \indexmpishow{MPI_TAG_UB} attribute).
 \end{mplnote}
 
 \Level 2 {Error}
@@ -443,7 +444,7 @@ int
     \cverbatimsnippet{ring4}
   \end{multicols}
 
-  Can we have one non-blocking and one blocking call?
+  Can we have one nonblocking and one blocking call?
   Do these scenarios block?
   \begin{multicols}{2}
     \cverbatimsnippet{ring1}

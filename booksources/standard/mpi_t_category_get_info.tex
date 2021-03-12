@@ -1,0 +1,28 @@
+\begingroup\tt\catcode`\_=12
+\begin{tabular}{lllll}
+\toprule
+\textrm{Name}&\textrm{Param name}&\textrm{C type}&\textrm{F type}&\textrm{inout}\\
+\midrule
+\hbox to 20pt{mpi_t_category_get_info (\hss} \\
+&cat_index&int&&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl index of the category to be queried\hss}\\
+&name&char*&CHARACTER&out\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl buffer to return the string containing the name of the category\hss}\\
+&name_len&int*&INTEGER&inout\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl length of the string and/or buffer for name\hss}\\
+&desc&char*&CHARACTER&out\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl buffer to return the string containing the description of the category\hss}\\
+&desc_len&int*&INTEGER&inout\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl length of the string and/or buffer for desc\hss}\\
+&num_cvars&int*&&out\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl number of control variables in the category\hss}\\
+&num_pvars&int*&&out\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl number of performance variables in the category\hss}\\
+&num_categories&int*&&out\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl number of  categories contained in the category\hss}\\
+(opt)&ierror&&INTEGER&out\\
+)\\
+\bottomrule
+\end{tabular}
+\endgroup
+

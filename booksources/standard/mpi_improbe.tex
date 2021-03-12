@@ -1,0 +1,22 @@
+\begingroup\tt\catcode`\_=12
+\begin{tabular}{lllll}
+\toprule
+\textrm{Name}&\textrm{Param name}&\textrm{C type}&\textrm{F type}&\textrm{inout}\\
+\midrule
+\hbox to 20pt{mpi_improbe (\hss} \\
+&source&int&INTEGER&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl rank of source or {\tt\catcode`\_=12 MPI_ANY_SOURCE}\hss}\\
+&tag&int&INTEGER&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl message tag or {\tt\catcode`\_=12 MPI_ANY_TAG}\hss}\\
+&comm&MPI_Comm&TYPE(MPI_Comm)&in\\
+&flag&int*&LOGICAL&out\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl flag\hss}\\
+&message&MPI_Message*&TYPE(MPI_Message)&out\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl returned message\hss}\\
+&status&MPI_Status*&TYPE(MPI_Status)&out\\
+(opt)&ierror&&INTEGER&out\\
+)\\
+\bottomrule
+\end{tabular}
+\endgroup
+

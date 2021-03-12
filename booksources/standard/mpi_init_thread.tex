@@ -1,0 +1,18 @@
+\begingroup\tt\catcode`\_=12
+\begin{tabular}{lllll}
+\toprule
+\textrm{Name}&\textrm{Param name}&\textrm{C type}&\textrm{F type}&\textrm{inout}\\
+\midrule
+\hbox to 20pt{mpi_init_thread (\hss} \\
+&argc&int*&&inout\\
+&argv&char***&&inout\\
+&required&int&INTEGER&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl desired level of thread support\hss}\\
+&provided&int*&INTEGER&out\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl provided level of thread support\hss}\\
+(opt)&ierror&&INTEGER&out\\
+)\\
+\bottomrule
+\end{tabular}
+\endgroup
+

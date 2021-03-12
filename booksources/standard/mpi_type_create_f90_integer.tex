@@ -1,0 +1,16 @@
+\begingroup\tt\catcode`\_=12
+\begin{tabular}{lllll}
+\toprule
+\textrm{Name}&\textrm{Param name}&\textrm{C type}&\textrm{F type}&\textrm{inout}\\
+\midrule
+\hbox to 20pt{mpi_type_create_f90_integer (\hss} \\
+&r&int&INTEGER&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl decimal exponent range, i.e., number of decimal digits\hss}\\
+&newtype&MPI_Datatype*&TYPE(MPI_Datatype)&out\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl the requested MPI datatype\hss}\\
+(opt)&ierror&&INTEGER&out\\
+)\\
+\bottomrule
+\end{tabular}
+\endgroup
+

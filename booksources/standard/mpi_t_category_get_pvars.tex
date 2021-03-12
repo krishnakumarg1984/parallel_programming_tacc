@@ -1,0 +1,18 @@
+\begingroup\tt\catcode`\_=12
+\begin{tabular}{lllll}
+\toprule
+\textrm{Name}&\textrm{Param name}&\textrm{C type}&\textrm{F type}&\textrm{inout}\\
+\midrule
+\hbox to 20pt{mpi_t_category_get_pvars (\hss} \\
+&cat_index&int&&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl index of the category to be queried, in the range $0$ and $num_cat-1$\hss}\\
+&len&int&INTEGER&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl the length of the indices array\hss}\\
+&indices&int[]&&out\\&\hbox to 0pt{\footnotesize length: \tt\catcode`\_=12 len\hss}\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl an integer array of size len, indicating performance variable indices\hss}\\
+(opt)&ierror&&INTEGER&out\\
+)\\
+\bottomrule
+\end{tabular}
+\endgroup
+

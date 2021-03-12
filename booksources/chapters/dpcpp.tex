@@ -22,6 +22,11 @@ started on running your first program.
   which contains the \ac{DPCPP} compiler.
 \end{itemize}
 
+\begin{dpcppnote}
+  The various Intel extensions are listed here:
+  \url{https://spec.oneapi.com/versions/latest/elements/dpcpp/source/index.html#extensions-table}
+\end{dpcppnote}
+
 \Level 0 {Logistics}
 
 Headers:
@@ -49,10 +54,11 @@ Using the wrong I/O will cause tons of inscrutable error messages.
 Additionally, SYCL has its own version of \lstinline{free},
 and of several math routines.
 
-Intel extension:
-\begin{lstlisting}
-using namespace sycl;
-\end{lstlisting}
+\begin{dpcppnote}
+  \begin{lstlisting}
+    using namespace sycl;
+  \end{lstlisting}
+\end{dpcppnote}
 
 \Level 0 {Platforms and devices}
 
@@ -64,6 +70,9 @@ First we list the platforms:
 
 Then for each platform we list the devices:
 \cxxverbatimsnippet[code/dpcpp/cxx/devices.cxx]{dpcppdevices}
+
+You can query what type of device you are dealing with by
+\indexsyclshow{is_host}, \indexsyclshow{is_cpu}, \indexsyclshow{is_gpu}.
 
 \Level 0 {Queues}
 
@@ -101,11 +110,12 @@ you are running on:
 If you try to select a device that is not available,
 a \lstinline+sycl::+\indexsyclshow{runtime_error} exception will be thrown.
 
-Intel extension:
-\begin{lstlisting}
-#include "CL/sycl/intel/fpga_extensions.hpp"
-fpga_selector
-\end{lstlisting}
+\begin{dpcppnote}
+  \begin{lstlisting}
+    #include "CL/sycl/intel/fpga_extensions.hpp"
+    fpga_selector
+  \end{lstlisting}
+\end{dpcppnote}
 
 \Level 1 {Queue execution}
 
@@ -139,6 +149,10 @@ myqueue.submit( [&] ( handler &commandgroup ) {
       )
     } );
 \end{lstlisting}
+
+Note that the lambda in the kernel captures by value.
+Capturing by reference makes no sense,
+since the kernel is executed on a device.
 
 \begin{lstlisting}
 cgh.single_task(
@@ -200,6 +214,22 @@ grp.parallel_for_work_item(
 });
 \end{lstlisting}
 
+\Level 2 {Loop bounds: ranges}
+
+SYCL adopts the modern C++ philosophy that one does not iterate
+over by explicitly enumerating indices, but by indicating their range.
+This is realized by the \indexsycldef{range} class,
+which is templated over the number of space dimensions.
+
+\begin{lstlisting}
+sycl::range<2> matrix{10,10};
+\end{lstlisting}
+
+Some compilers are sensitive to the type of the integer arguments:
+\begin{lstlisting}
+sycl::range<1> array{ static_cast<size_t>(size)} ;
+\end{lstlisting}
+
 \Level 2 {Loop indices}
 
 Kernels such as \indexsyclshow{parallel_for}
@@ -258,6 +288,38 @@ data[i[0]] = i[0];
 \end{lstlisting}
 \end{dpcppnote}
 
+\Level 2 {Multi-dimensional indexing}
+
+\cxxverbatimsnippet{syclrange2}
+
+\cxxverbatimsnippet{syclrange2nd}
+
+We first copy global data into an array local to the work group:
+%
+\cxxverbatimsnippet{syclnduse}
+
+Global coordinates in the input are computed from the
+ \indexsyclshow{nd_item}'s coordinate and group:
+\begin{lstlisting}
+[=] ( sycl::nd_item<2> it ) {
+for   (int ti ... ) {
+  for (int tj ... ) {
+    int gi = ti + B * it.get_group(0);
+    int gj = tj + B * it.get_group(1);
+    ... = input[gi][gj];
+\end{lstlisting}
+
+Local coordinates in the tile, including boundary,
+I DON'T QUITE GET THIS YET.
+\begin{lstlisting}
+[=] ( sycl::nd_item<2> it ) {
+sycl::id<2>    lid    = it.get_local_id();
+sycl::range<2> lrange = it.get_local_range();
+for   (int ti = lid[0]; ti < B + 2; ti += lrange[0]) {
+  for (int tj = lid[1]; tj < B + 2; tj += lrange[1]) {
+    tile[ti][tj] = ..
+\end{lstlisting}
+
 \Level 1 {Task dependencies}
 
 Each \indexmplshow{submit} call can be said to correspond to a `task'.
@@ -292,6 +354,20 @@ The 2020 proposed standard has improved atomics.
 
 \cxxverbatimsnippet{dpcppsumreduction}
 
+\Level 1 {Reductions}
+
+Reduction operations were added in the the SYCL 2020 Provisional Standard,
+meaning that they are not yet finalized.
+
+Here is one approach, which works in \indexterm{hipsycl}:
+%
+\cxxverbatimsnippet{syclsumreduct}
+%
+Here a \lstinline+sycl::+\indexsycldef{reduction} object is created
+from the target data and the reduction operator. 
+This is then passed to the \indexsyclshow{parallel_for}
+and its \indexsycldef{combine} method is called.
+
 \Level 0 {Memory access}
 
 Memory treatment in SYCL is a little complicated, because is (at the very least)
@@ -308,14 +384,14 @@ There are also three mechanisms:
 \begin{table}[ht]
   \caption{Memory types and treatments}
   \label{tab:sycl-mem}  
-  \begin{tabular}{lll}
+  \begin{tabular}{llll}
     \toprule
-    Location&allocation&copy \\
+    Location&allocation&coherence&copy to/from device \\
     \midrule
-    Host&\n{malloc}&\n{queue::memcpy}\\
-    &\n{malloc_host}&coherent host/device\\
-    Device&\indexsyclshow{malloc_device}&\n{queue::memcpy}\\
-    Shared&\n{malloc_shared}&coherent host/device\\
+    Host  &\n{malloc}                   &explicit transfer   &\indexsyclshow{queue::memcpy}\\
+          &\indexsyclshow{malloc_host}  &coherent host/device&\\
+    Device&\indexsyclshow{malloc_device}&explicit transfer   &\indexsyclshow{queue::memcpy}\\
+    Shared&\indexsyclshow{malloc_shared}&coherent host/device&\\
     \bottomrule
   \end{tabular}
 \end{table}
@@ -366,7 +442,7 @@ Accessors can have a mode associated:
 \lstinline+sycl::access::mode::+\indexsyclshow{read}
 \lstinline+sycl::access::mode::+\indexsyclshow{write}
 
-Intel extension:
+\begin{dpcppnote}
 \begin{lstlisting}
     array<floattype,1> leftsum{0.};
 #ifdef __INTEL_CLANG_COMPILER
@@ -375,8 +451,9 @@ Intel extension:
     sycl::range<1> scalar{1};
     sycl::buffer<floattype,1> leftbuf(leftsum.data(),scalar);
 \end{lstlisting}
+\end{dpcppnote}
 
-Intel extension:
+\begin{dpcppnote}
 there are modes
 \begin{lstlisting}
 // standard
@@ -385,6 +462,14 @@ sycl::accessor acc = buffer.get_access<sycl::access::mode:write>(h);
 sycl::accessor acc( buffer,h,sycl::read_only );
 sycl::accessor acc( buffer,h,sycl::write_only );
 \end{lstlisting}
+\end{dpcppnote}
+
+\Level 1 {Querying}
+
+The function \indexsyclshow{get_range} can query the size of either a buffer
+or an accessor:
+\cxxverbatimsnippet[code/dpcpp/cxx/range2.cxx]{syclbufrange}
+\cxxverbatimsnippet[code/dpcpp/cxx/range2.cxx]{syclaccrange}
 
 \Level 0 {Parallel output}
 
@@ -415,3 +500,26 @@ Intel has made some extensions to SYCL:
 
 \url{https://community.intel.com/t5/Intel-oneAPI-Toolkits/ct-p/oneapi}
 for support.
+
+\Level 0 {Examples}
+
+\Level 1 {Kernels in a loop}
+
+The following idiom works:
+%
+\cxxverbatimsnippet[code/dpcpp/cxx/jacobi1d.cxx]{syclkernelloop}
+
+\Level 1 {Stencil computations}
+
+The problem with stencil computations is that only interior points are updated.
+Translated to SYCL: we need to iterate over a subrange of the range over which
+the buffer is defined. First let us define these ranges:
+%
+\cxxverbatimsnippet[code/dpcpp/cxx/jacobi1d.cxx]{syclrangebc}
+%
+Note the boundary value~$1.$ on the right boundary.
+
+Restricting the iteration to the interior points is done through
+the \indexsyclshow{offset} parameter of the \indexsyclshow{parallel_for}:
+%
+\cxxverbatimsnippet[code/dpcpp/cxx/jacobi1d.cxx]{sycliteratebc}

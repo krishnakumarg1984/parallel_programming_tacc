@@ -1,0 +1,24 @@
+\begingroup\tt\catcode`\_=12
+\begin{tabular}{lllll}
+\toprule
+\textrm{Name}&\textrm{Param name}&\textrm{C type}&\textrm{F type}&\textrm{inout}\\
+\midrule
+\hbox to 20pt{mpi_recv_init (\hss} \\
+&buf&void*&TYPE(*), DIMENSION(..)&out\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl initial address of receive buffer\hss}\\
+&count&int&INTEGER&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl number of elements received\hss}\\
+&datatype&MPI_Datatype&TYPE(MPI_Datatype)&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl type of each element\hss}\\
+&source&int&INTEGER&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl rank of source or {\tt\catcode`\_=12 MPI_ANY_SOURCE}\hss}\\
+&tag&int&INTEGER&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl message tag or {\tt\catcode`\_=12 MPI_ANY_TAG}\hss}\\
+&comm&MPI_Comm&TYPE(MPI_Comm)&in\\
+&request&MPI_Request*&TYPE(MPI_Request)&out\\
+(opt)&ierror&&INTEGER&out\\
+)\\
+\bottomrule
+\end{tabular}
+\endgroup
+

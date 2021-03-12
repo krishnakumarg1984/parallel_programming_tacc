@@ -4,7 +4,7 @@
 %%%%
 %%%% This text file is part of the source of 
 %%%% `Parallel Programming in MPI and OpenMP'
-%%%% by Victor Eijkhout, copyright 2012-9
+%%%% by Victor Eijkhout, copyright 2012-2021
 %%%%
 %%%% omp-data.tex : about thread data
 %%%%
@@ -317,7 +317,7 @@ If one thread needs to set all thread private data to its value, the
 \Level 1 {Thread private example}
 
 The typical application for thread-private variables is in
-\indexterm{random number generation}.
+\indexterm{random number generator}s.
 A random number generator needs saved state, since it computes each next value
 from the current one. To have a parallel generator, each thread will create
 and initialize a private `current value' variable. This will persist

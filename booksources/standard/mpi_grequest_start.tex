@@ -1,0 +1,22 @@
+\begingroup\tt\catcode`\_=12
+\begin{tabular}{lllll}
+\toprule
+\textrm{Name}&\textrm{Param name}&\textrm{C type}&\textrm{F type}&\textrm{inout}\\
+\midrule
+\hbox to 20pt{mpi_grequest_start (\hss} \\
+&query_fn&&PROCEDURE&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl callback function invoked when request status is queried\hss}\\
+&free_fn&&PROCEDURE&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl callback function invoked when request is freed\hss}\\
+&cancel_fn&&PROCEDURE&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl callback function invoked when request is cancelled\hss}\\
+&extra_state&void*&INTEGER(KIND=MPI_ADDRESS_KIND)&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl extra state\hss}\\
+&request&MPI_Request*&TYPE(MPI_Request)&out\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl generalized request\hss}\\
+(opt)&ierror&&INTEGER&out\\
+)\\
+\bottomrule
+\end{tabular}
+\endgroup
+

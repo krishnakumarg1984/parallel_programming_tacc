@@ -1,0 +1,22 @@
+\begingroup\tt\catcode`\_=12
+\begin{tabular}{lllll}
+\toprule
+\textrm{Name}&\textrm{Param name}&\textrm{C type}&\textrm{F type}&\textrm{inout}\\
+\midrule
+\hbox to 20pt{mpi_cart_get (\hss} \\
+&comm&MPI_Comm&TYPE(MPI_Comm)&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl communicator with Cartesian structure\hss}\\
+&maxdims&int&INTEGER&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl length of vectors dims, periods, and coords in the calling program\hss}\\
+&dims&int[]&INTEGER&out\\&\hbox to 0pt{\footnotesize length: \tt\catcode`\_=12 maxdims\hss}\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl number of processes for each Cartesian dimension\hss}\\
+&periods&int[]&LOGICAL&out\\&\hbox to 0pt{\footnotesize length: \tt\catcode`\_=12 maxdims\hss}\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl periodicity (true/false) for each Cartesian dimension\hss}\\
+&coords&int[]&INTEGER&out\\&\hbox to 0pt{\footnotesize length: \tt\catcode`\_=12 maxdims\hss}\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl coordinates of calling process in Cartesian structure\hss}\\
+(opt)&ierror&&INTEGER&out\\
+)\\
+\bottomrule
+\end{tabular}
+\endgroup
+

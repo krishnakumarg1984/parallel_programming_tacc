@@ -1,0 +1,25 @@
+\begingroup\tt\catcode`\_=12
+\begin{tabular}{lllll}
+\toprule
+\textrm{Name}&\textrm{Param name}&\textrm{C type}&\textrm{F type}&\textrm{inout}\\
+\midrule
+\hbox to 20pt{mpi_compare_and_swap (\hss} \\
+&origin_addr&const~void*&TYPE(*), DIMENSION(..)&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl initial address of buffer\hss}\\
+&compare_addr&const~void*&TYPE(*), DIMENSION(..)&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl initial address of compare buffer\hss}\\
+&result_addr&void*&TYPE(*), DIMENSION(..)&out\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl initial address of result buffer\hss}\\
+&datatype&MPI_Datatype&TYPE(MPI_Datatype)&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl datatype of the element in all buffers\hss}\\
+&target_rank&int&INTEGER&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl rank of target\hss}\\
+&target_disp&MPI_Aint&INTEGER(KIND=MPI_ADDRESS_KIND)&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl displacement from start of window to beginning of target buffer\hss}\\
+&win&MPI_Win&TYPE(MPI_Win)&in\\
+(opt)&ierror&&INTEGER&out\\
+)\\
+\bottomrule
+\end{tabular}
+\endgroup
+

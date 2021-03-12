@@ -1,0 +1,22 @@
+\begingroup\tt\catcode`\_=12
+\begin{tabular}{lllll}
+\toprule
+\textrm{Name}&\textrm{Param name}&\textrm{C type}&\textrm{F type}&\textrm{inout}\\
+\midrule
+\hbox to 20pt{mpi_t_enum_get_item (\hss} \\
+&enumtype&MPI_T_enum&&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl enumeration to be queried\hss}\\
+&index&int&&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl number of the value to be queried in this enumeration\hss}\\
+&value&int*&&out\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl variable value\hss}\\
+&name&char*&CHARACTER&out\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl buffer to return the string containing the name of the enumeration item\hss}\\
+&name_len&int*&INTEGER&inout\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl length of the string and/or buffer for name\hss}\\
+(opt)&ierror&&INTEGER&out\\
+)\\
+\bottomrule
+\end{tabular}
+\endgroup
+

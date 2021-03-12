@@ -20,7 +20,7 @@
  
 // calculate least common multiple of two arguments 
 template<typename T>
-class lcm { //  : public std::function<T (T, T)> 
+class lcm {
 public:
   T operator()(T a, T b) {
     T zero=T();
@@ -68,6 +68,16 @@ int main() {
     // send data to rank 0 for display
     comm_world.send(v, 0);
   }
+  {
+    int data = comm_world.rank();
+    comm_world.reduce
+      ( [] (int i,int j) -> int 
+           { return i+j; },
+	0,data );
+    if (comm_world.rank()==0)
+      std::cout << " reduce: " << data << std::endl;
+  }
+  
   return EXIT_SUCCESS;
 }
 

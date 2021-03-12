@@ -1,0 +1,18 @@
+\begingroup\tt\catcode`\_=12
+\begin{tabular}{lllll}
+\toprule
+\textrm{Name}&\textrm{Param name}&\textrm{C type}&\textrm{F type}&\textrm{inout}\\
+\midrule
+\hbox to 20pt{mpi_graph_neighbors_count (\hss} \\
+&comm&MPI_Comm&TYPE(MPI_Comm)&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl communicator with graph topology\hss}\\
+&rank&int&INTEGER&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl rank of process in group of comm\hss}\\
+&nneighbors&int*&INTEGER&out\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl number of neighbors of specified process\hss}\\
+(opt)&ierror&&INTEGER&out\\
+)\\
+\bottomrule
+\end{tabular}
+\endgroup
+

@@ -66,23 +66,23 @@ and it will print out the usage information.
 
 The driver part of the Mandelbrot program is simple. There is a 
 circle object that can generate coordinates
-\verbatimsnippet{circledef}
+\cverbatimsnippet{circledef}
 and a global routine that tests whether a coordinate is in the set,
 at least up to an iteration bound. It returns zero if the 
 series from the given starting point has not diverged,
 or the iteration number in which it diverged if it did so.
-\verbatimsnippet{belongs}
+\cverbatimsnippet{belongs}
 In the former case,  the point could be in the Mandelbrot set, 
 and we colour it black, in the latter case we give it a colour
 depending on the iteration number.
-\verbatimsnippet{pickcolour}
+\cverbatimsnippet{pickcolour}
 We use a fairly simple code for the worker processes: they 
 execute a loop in which they wait 
 for input, process it, return the result.
-\verbatimsnippet{waitforwork}
+\cverbatimsnippet{waitforwork}
 
 A very simple solution using blocking sends on the manager is given:
-\verbatimsnippet{serialaddtask}
+\cverbatimsnippet{serialaddtask}
 
 \begin{exercise}
   Explain why this solution is very inefficient. Make a trace of its
@@ -112,7 +112,7 @@ to do this is with non-blocking sends.
 
   You can do this by writing a new class that inherits from \n{queue},
   and that provides its own \n{addtask} method:
-\verbatimsnippet{bulkq}
+  \cverbatimsnippet{bulkq}
   You will also have to override the \n{complete} method: when the circle 
   object indicates that all coordinates have been generated, not all
   workers will be busy, so you need to supply the proper \n{MPI_Waitall}

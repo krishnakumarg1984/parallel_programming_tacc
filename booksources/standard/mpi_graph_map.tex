@@ -1,0 +1,22 @@
+\begingroup\tt\catcode`\_=12
+\begin{tabular}{lllll}
+\toprule
+\textrm{Name}&\textrm{Param name}&\textrm{C type}&\textrm{F type}&\textrm{inout}\\
+\midrule
+\hbox to 20pt{mpi_graph_map (\hss} \\
+&comm&MPI_Comm&TYPE(MPI_Comm)&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl input communicator\hss}\\
+&nnodes&int&INTEGER&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl number of graph nodes\hss}\\
+&index&const~int[]&INTEGER&in\\&\hbox to 0pt{\footnotesize length: \tt\catcode`\_=12 nnodes\hss}\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl integer array specifying the graph structure, see {\tt\catcode`\_=12 MPI_GRAPH_CREATE}\hss}\\
+&edges&const~int[]&INTEGER&in\\&\hbox to 0pt{\footnotesize length: \tt\catcode`\_=12 *\hss}\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl integer array specifying the graph structure\hss}\\
+&newrank&int*&INTEGER&out\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl reordered rank of the calling process; {\tt\catcode`\_=12 MPI_UNDEFINED} if the calling process does not belong to graph\hss}\\
+(opt)&ierror&&INTEGER&out\\
+)\\
+\bottomrule
+\end{tabular}
+\endgroup
+

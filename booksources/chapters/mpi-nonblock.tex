@@ -11,7 +11,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\Level 0 {Non-blocking point-to-point operations}
+\Level 0 {Nonblocking point-to-point operations}
 \label{sec:nonblock}
 
 The structure of communication is often a reflection of the structure
@@ -59,9 +59,9 @@ Imposing any sequence on the sends and receives is likely to run into the serial
 behaviour observed above, or at least be inefficient since processors will be
 waiting for messages.
 
-\Level 1 {Non-blocking send and receive calls}
+\Level 1 {Nonblocking send and receive calls}
 \label{sec:nonblocking}
-\index{communication!non-blocking|(textbf}
+\index{communication!nonblocking|(textbf}
 
 In the previous section you saw that blocking communication makes
 programming tricky if you want to avoid \indexterm{deadlock} and performance
@@ -72,11 +72,11 @@ other purposes or de-allocated.
 
 \begin{figure}[ht]
   \includegraphics[scale=.1]{send-nonblocking}
-  \caption{Non-blocking send}
+  \caption{Nonblocking send}
   \label{fig:send-nonblocking}
 \end{figure}
 
-By contrast, the non-blocking calls
+By contrast, the nonblocking calls
 \indexmpiref{MPI_Isend} and \indexmpiref{MPI_Irecv}
 (where the `I' stands for
 `\emph{immediate}'\index{immediate operation}
@@ -99,7 +99,7 @@ a send/receive.
 \Level 1 {Request completion: wait calls}
 
 From the definition of \indexmpishow{MPI_Isend}~/
-\indexmpishow{MPI_Irecv}, you seen that non-blocking routine yields
+\indexmpishow{MPI_Irecv}, you seen that nonblocking routine yields
 an \indexmpidef{MPI_Request} object. This request can then be used to
 query whether the operation has concluded. You may also notice that
 the \indexmpishow{MPI_Irecv} routine does not yield an
@@ -117,9 +117,9 @@ status object, you can pass \indexmpishow{MPI_STATUS_IGNORE}.
 Note that the request is passed by reference, so that the wait routine
 can free it.
 
-\begin{mplnote}{Requests from non-blocking calls}
+\begin{mplnote}{Requests from nonblocking calls}
   \label{mpl:irequest}
-  Non-blocking routines have an \indexmpldef{irequest} as function result.
+  Nonblocking routines have an \indexmpldef{irequest} as function result.
   Note: not a parameter passed by reference, as in the C~interface.
   The various wait calls are methods of the \indexmplshow{irequest}
   class.
@@ -128,7 +128,9 @@ can free it.
   %
   You can not default-construct the request variable:
 \begin{lstlisting}
-// DOES NOT COMPILE mpl::irequest recv_request;
+// DOES NOT COMPILE:
+mpl::irequest recv_request;
+recv_request = comm.irecv( ... );
 \end{lstlisting}
 This means that the normal sequence of first declaring, and then filling in,
 the request variable is not possible.
@@ -143,7 +145,7 @@ the request variable is not possible.
 \label{sec:waittest}
 
 Here we discuss in some detail the various wait calls.
-These are blocking; for the non-blocking versions
+These are blocking; for the nonblocking versions
 see section~\ref{sec:mpitest}.
 
 \Level 3 {Wait for one request}
@@ -178,23 +180,26 @@ have been completed.
 Typically you use
 \indexmpishow{MPI_Waitall}
 to wait for all requests:
-\begin{lstlisting}
-// start non-blocking communication
-MPI_Isend( ... ); MPI_Irecv( ... );
-// wait for the Isend/Irecv calls to finish in any order
-MPI_Waitall( ... );
-\end{lstlisting}
+%
+\cverbatimsnippet{irecvloop}
+%% \begin{lstlisting}
+%% // start nonblocking communication
+%% MPI_Isend( ... ); MPI_Irecv( ... );
+%% // wait for the Isend/Irecv calls to finish in any order
+%% MPI_Waitall( ... );
+%% \end{lstlisting}
 
+The output argument is an array or \indexmpishow{MPI_Status} object.
 If you don't need the status objects, you can pass
 \indexmpishow{MPI_STATUSES_IGNORE}.
 
 \begin{exercise}
   \label{ex:bucket-nonblock}
   Revisit exercise~\ref{ex:bucket-block} and consider replacing the
-  blocking calls by non-blocking ones. How far apart can you put the
+  blocking calls by nonblocking ones. How far apart can you put the
   \lstinline{MPI_Isend}~/ \lstinline{MPI_Irecv} calls and the
   corresponding \lstinline{MPI_Wait}s?
-  \exercisesource{bucketpipenonblock}
+  \skeleton{bucketpipenonblock}
 \end{exercise}
 
 \begin{exercise}
@@ -207,7 +212,7 @@ If you don't need the status objects, you can pass
   How could you solve this with an \lstinline+MPI_Allgather+ call?
   Why is it not a good idea to do so?
   Solve this exercise instead with a circular bucket brigade algorithm.
-  \exercisesource{setdiff}
+  \skeleton{setdiff}
 \end{exercise}
 
 \begin{pythonnote}{Request arrays}
@@ -265,9 +270,13 @@ reference, and not an array of statuses!
   \indexmplshow{testany}, \indexmplshow{testall},
   \indexmplshow{waitsome}, \indexmplshow{testsome}.
 
-  The `any' methods return a \lstinline+std::pair<bool,size_t>+.
+  The `any' methods return a \lstinline+std::pair<bool,size_t>+,
+  with \lstinline{false} meaning \lstinline+index==MPI_UNDEFINED+
+  meaning no more requests to be satisfied.
   %
   \cxxverbatimsnippet[examples/mpi/mpl/irecvsource.cxx]{waitforanympl}
+
+  Same for \indexmpishow{testany}, then false means no requests test true.
 \end{mplnote}
 
 \Level 3 {Polling with MPI Wait any}
@@ -297,7 +306,7 @@ except that it returns multiple numbers, if multiple requests are
 satisfied. Now the status argument is an array of \indexmpishow{MPI_Status}
 objects.
 
-Figure~\ref{fig:jump-nonblock} shows the trace of a non-blocking execution
+Figure~\ref{fig:jump-nonblock} shows the trace of a nonblocking execution
 using \indexmpishow{MPI_Waitall}.
 \begin{figure}[ht]
 \includegraphics[scale=.4]{graphics/linear-nonblock}
@@ -318,7 +327,7 @@ and \indexmpishow{MPI_Waitsome}.
 
 \begin{exercise}
   \label{ex:3ptnonblock}
-  \exercisesource{isendirecv}
+  \skeleton{isendirecv}
   Now use nonblocking send/receive routines to implement
   the three-point averaging operation
   \[ y_i=\bigl( x_{i-1}+x_i+x_{i+1} \bigr)/3\colon i=1,\ldots,N-1 \]
@@ -330,7 +339,7 @@ if your hardware supports it, the communication can
 happen
 while your program can continue to do useful work:
 \begin{lstlisting}
-// start non-blocking communication
+// start nonblocking communication
 MPI_Isend( ... ); MPI_Irecv( ... );
 // do work that does not depend on incoming data
 ....
@@ -349,12 +358,12 @@ communication involves activity in user space, so the solution would
 have been to let it be handled by a separate thread. Until recently,
 processors were not efficient at doing such multi-threading, so true
 overlap stayed a promise for the future. Some network cards have
-support for this overlap, but it requires a non-trivial combination of
+support for this overlap, but it requires a nontrivial combination of
 hardware, firmware, and MPI implementation.
 
 \begin{exercise}
   \label{ex:3ptnonblock-hide}
-  \exercisesource{isendirecvarray}
+  \skeleton{isendirecvarray}
   Take your code of exercise~\ref{ex:3ptnonblock} and modify it to use
   latency hiding. Operations that can be performed without needing
   data from neighbours should be performed in between the
@@ -363,20 +372,20 @@ hardware, firmware, and MPI implementation.
 \end{exercise}
 
 \begin{remark}
-  You have now seen various send types: blocking, non-blocking, synchronous.
+  You have now seen various send types: blocking, nonblocking, synchronous.
   Can a receiver see what kind of message was sent? Are different receive
   routines needed?
   The answer is that, on the receiving end, there is nothing to distinguish
-  a non-blocking or
+  a nonblocking or
   synchronous message. The \indexmpishow{MPI_Recv} call can match any of the
   send routines you have seen so far (but not \indexmpishow{MPI_Sendrecv}), and
   conversely a message sent with \indexmpishow{MPI_Send}
   can be received by \indexmpishow{MPI_Irecv}.
 \end{remark}
 
-\Level 2 {Buffer issues in non-blocking communication}
+\Level 2 {Buffer issues in nonblocking communication}
 
-While the use of non-blocking routines prevents deadlock, it
+While the use of nonblocking routines prevents deadlock, it
 introduces problems of its own.
 
 \begin{itemize}
@@ -388,14 +397,14 @@ for ( ... p ... ) {
    buffer = // fill in the data
    MPI_Send( buffer, ... /* to: */ p );
 \end{lstlisting}
-\item On the other hand, when a non-blocking send call returns,
+\item On the other hand, when a nonblocking send call returns,
   the actual send may not have been executed,
   so the send buffer may not be safe to overwrite.
   Similarly, when the recv call returns, you do not know for sure that
   the expected data is in it. Only after the corresponding wait call
   are you use that the buffer has been sent, or has received its contents.
 \item 
-  To send multiple messages with non-blocking calls
+  To send multiple messages with nonblocking calls
   you therefore have to allocate multiple buffers.
 \begin{lstlisting}
 double **buffers;
@@ -412,19 +421,19 @@ MPI_Wait( /* the requests */ );
 The last example we explicitly noted the possibility of
 overlapping computation and communication.
 
-\Level 1 {More about non-blocking communication}
-
-\Level 2 {Wait and test calls}
+\Level 1 {Wait and test calls}
 \label{sec:mpitest}
 \label{sec:mpi-test}
 
 The \lstinline{MPI_Wait...} routines are blocking. Thus, they are a good solution if 
 the receiving process can not do anything until the data 
 (or at least \emph{some} data) is actually received.
-The \lstinline{MPI_Test...} calls are themselves non-blocking: they
+The \lstinline{MPI_Test...} calls are themselves nonblocking: they
 test for whether one or more requests have been
 fullfilled, but otherwise immediately return.
-This can be used in the
+It is also a \indexterm{local operation}: it does not force progress.
+
+The \indexmpishow{MPI_Test} call can be used in the
 \indexterm{manager-worker} model: the manager process creates tasks, and
 sends them to whichever worker process has finished its work.
 (This uses a receive from \indexmpishow{MPI_ANY_SOURCE}, and a
@@ -444,9 +453,16 @@ while ( not done ) {
 }
 \end{lstlisting}
 
-\indexmpiref{MPI_Test}
-\indexmpiref{MPI_Testany}
-\indexmpiref{MPI_Testall}
+If the test is true, the request is deallocated and set to \indexmpishow{MPI_REQUEST_NULL},
+or, in the case of an active persistent request, set to inactive.
+
+Analogous to \indexmpishow{MPI_Wait}, \indexmpishow{MPI_Waitany},
+\indexmpishow{MPI_Waitall}, \indexmpishow{MPI_Waitsome},
+there are
+\indexmpiref{MPI_Test},
+\indexmpidef{MPI_Testany},
+\indexmpidef{MPI_Testall},
+\indexmpidef{MPI_Testsome}.
 
 \begin{exercise}
   Read section~\HPSCref{sec:pspmvp} and give pseudo-code for the
@@ -457,10 +473,10 @@ while ( not done ) {
     preferable.
 \end{exercise}
 
-\Level 2 {More about requests}
+\Level 1 {More about requests}
 \label{ref:mpirequest}
 
-Every non-blocking call allocates an \indexmpishow{MPI_Request}
+Every nonblocking call allocates an \indexmpishow{MPI_Request}
 object.
 Unlike \indexmpishow{MPI_Status},
 an \indexmpishow{MPI_Request} variable is not actually an object,
@@ -482,7 +498,7 @@ requests. However, omitting the wait calls would lead to a
 Another way around this is to call \indexmpiref{MPI_Request_free},
 which sets the request variable to \indexmpishow{MPI_REQUEST_NULL},
 and marks the object for deallocation after completion of the
-operation. Conceivably, one could issue a non-blocking call,
+operation. Conceivably, one could issue a nonblocking call,
 and immediately call \indexmpishow{MPI_Request_free}, dispensing
 with any wait call. However, this makes it hard to know when the operation
 is concluded and when the buffer is safe to reuse~\cite{Squyres:evilrequest}.
@@ -490,6 +506,6 @@ is concluded and when the buffer is safe to reuse~\cite{Squyres:evilrequest}.
 You can inspect the status of a request without freeing the request object
 with \indexmpiref{MPI_Request_get_status}.
 
-\index{communication!non-blocking|)}
+\index{communication!nonblocking|)}
 
 

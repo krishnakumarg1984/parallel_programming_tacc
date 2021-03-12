@@ -1,0 +1,16 @@
+\begingroup\tt\catcode`\_=12
+\begin{tabular}{lllll}
+\toprule
+\textrm{Name}&\textrm{Param name}&\textrm{C type}&\textrm{F type}&\textrm{inout}\\
+\midrule
+\hbox to 20pt{mpi_session_get_info (\hss} \\
+&session&MPI_Session&TYPE(MPI_Session)&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl session\hss}\\
+&info_used&MPI_Info*&TYPE(MPI_Info)&out\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl see explanation below\hss}\\
+(opt)&ierror&&INTEGER&out\\
+)\\
+\bottomrule
+\end{tabular}
+\endgroup
+

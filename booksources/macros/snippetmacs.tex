@@ -45,6 +45,10 @@
   }\par
   \fi
 }
+%% \makeatletter
+%% \def\verbatim@startline{\verbatim@line{\leavevmode\kern\unitindent\relax}}
+%% \makeatother
+
 \newenvironment{clisting}
     {\lstset{style=reviewcode,language=C}\begin{lstlisting}}
     {\end{lstlisting}}
@@ -88,7 +92,7 @@
 \lstset{language=C}
 \lstdefinestyle{reviewcode}{
   belowcaptionskip=1\baselineskip, breaklines=true, frame=L,
-  xleftmargin=\unitindent, showstringspaces=false,
+  xleftmargin=.5\unitindent, showstringspaces=false,
   basicstyle=\footnotesize\ttfamily,
   keywordstyle=\bfseries\color{blue},
   commentstyle=\color{red!60!black},

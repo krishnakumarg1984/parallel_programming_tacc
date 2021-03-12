@@ -20,6 +20,7 @@ using namespace std;
  
 // BAD! this does a MPI_Comm_dup.
 void comm_val( const mpl::communicator comm );
+
 // correct!
 void comm_ref( const mpl::communicator &comm );
 

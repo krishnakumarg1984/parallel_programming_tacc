@@ -4,7 +4,7 @@
 %%%%
 %%%% This text file is part of the lecture slides for
 %%%% `Parallel Computing'
-%%%% by Victor Eijkhout, copyright 2012-2020
+%%%% by Victor Eijkhout, copyright 2012-2021
 %%%%
 %%%% Collective-slides.tex : slides about collective operations
 %%%%
@@ -195,6 +195,20 @@ A couple more.
   \end{itemize}
 \end{numberedframe}
 
+\begin{numberedframe}{Buffers in C++}
+ \lstset{language=C++}
+  \begin{itemize}
+  \item Scalars same as in C.
+  \item Use of \lstinline+std::vector+ or \lstinline+std::array+:
+\begin{lstlisting}
+vector<float> xx(25);
+MPI_Send( xx.data(),25,MPI_FLOAT, .... );
+MPI_Send( &xx[0],25,MPI_FLOAT, .... );
+\end{lstlisting}
+  \end{itemize}
+ \lstset{language=C}
+\end{numberedframe}
+
 \begin{numberedframe}{Buffers in Python}
   For many routines there are two variants:
   \begin{itemize}
@@ -325,6 +339,21 @@ Scan or `parallel prefix': reduction with partial results
 \item Two variants: \indexmpishow{MPI_Scan} inclusive, and
   \indexmpishow{MPI_Exscan} exclusive.
 \end{itemize}
+\end{numberedframe}
+
+\begin{numberedframe}{In vs Exclusive}
+\[
+\begin{array}{rccccc}
+  \mathrm{process:}
+      &0&1&2&\cdots&p-1\\
+  \mathrm{data:}
+      &x_0&x_1&x_2&\cdots&x_{p-1}\\
+  \mathrm{inclusive:}\mathstrut
+      &x_0&x_0\oplus x_1&x_0\oplus x_1\oplus x_2&\cdots&\mathop\oplus_{i=0}^{p-1} x_i\\
+  \mathrm{exclusive:}\mathstrut
+      &\mathrm{unchanged}&x_0&x_0\oplus x_1&\cdots&\mathop\oplus_{i=0}^{p-2} x_i\\
+\end{array}
+\]
 \end{numberedframe}
 
 \protoslide{MPI_Scan}

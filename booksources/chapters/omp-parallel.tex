@@ -4,7 +4,7 @@
 %%%%
 %%%% This text file is part of the source of 
 %%%% `Parallel Programming in MPI and OpenMP'
-%%%% by Victor Eijkhout, copyright 2012-2020
+%%%% by Victor Eijkhout, copyright 2012-2021
 %%%%
 %%%% omp-parallel.tex : about parallel regions, nesting and stuff.
 %%%%
@@ -94,7 +94,7 @@ This code corresponds to the model we just discussed:
   Run this example. How many times is each print statement executed?
 \end{exercise}
 
-You see that the \n{parallel} directive
+You see that the \indexompshow{parallel} directive
 \begin{itemize}
 \item Is preceded by a special marker: a \n{#pragma omp} for~C/C++,
   and the \n{!$OMP} \indexterm{sentinel} for Fortran;
@@ -120,7 +120,7 @@ are actually handled by the compiler, not the preprocessor.
 \end{exercise}
 
 \begin{exercise}
-  What happens if you call \n{omp_get_thread_num} and \n{omp_get_num_threads}
+  What happens if you call \indexompshow{omp_get_thread_num} and \indexompshow{omp_get_num_threads}
   outside a parallel region?
 \end{exercise}
 
@@ -128,9 +128,10 @@ are actually handled by the compiler, not the preprocessor.
   omp_get_thread_limit
 \end{lstlisting}
 
-\indexompdef{OMP_WAIT_POLICY} values: \n{ACTIVE,PASSIVE}
+See also \indexompshow{OMP_WAIT_POLICY} values: \n{ACTIVE,PASSIVE}
 
 \Level 0 {Nested parallelism}
+\label{sec:omp-levels}
 \index{nested parallelism|(}
 
 What happens if you call a function from inside a parallel region, and

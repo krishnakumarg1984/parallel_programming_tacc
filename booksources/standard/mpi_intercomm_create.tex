@@ -1,0 +1,24 @@
+\begingroup\tt\catcode`\_=12
+\begin{tabular}{lllll}
+\toprule
+\textrm{Name}&\textrm{Param name}&\textrm{C type}&\textrm{F type}&\textrm{inout}\\
+\midrule
+\hbox to 20pt{mpi_intercomm_create (\hss} \\
+&local_comm&MPI_Comm&TYPE(MPI_Comm)&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl local intra-communicator\hss}\\
+&local_leader&int&INTEGER&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl rank of local group leader in local_comm\hss}\\
+&peer_comm&MPI_Comm&TYPE(MPI_Comm)&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl ``peer'' communicator; significant only at the local_leader\hss}\\
+&remote_leader&int&INTEGER&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl rank of remote group leader in peer_comm; significant only at the local_leader\hss}\\
+&tag&int&INTEGER&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl tag\hss}\\
+&newintercomm&MPI_Comm*&TYPE(MPI_Comm)&out\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl new inter-communicator\hss}\\
+(opt)&ierror&&INTEGER&out\\
+)\\
+\bottomrule
+\end{tabular}
+\endgroup
+

@@ -1,0 +1,24 @@
+\begingroup\tt\catcode`\_=12
+\begin{tabular}{lllll}
+\toprule
+\textrm{Name}&\textrm{Param name}&\textrm{C type}&\textrm{F type}&\textrm{inout}\\
+\midrule
+\hbox to 20pt{mpi_file_set_view (\hss} \\
+&fh&MPI_File&TYPE(MPI_File)&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl file handle\hss}\\
+&disp&MPI_Offset&INTEGER(KIND=MPI_OFFSET_KIND)&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl displacement\hss}\\
+&etype&MPI_Datatype&TYPE(MPI_Datatype)&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl elementary datatype\hss}\\
+&filetype&MPI_Datatype&TYPE(MPI_Datatype)&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl filetype\hss}\\
+&datarep&const~char*&CHARACTER&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl data representation\hss}\\
+&info&MPI_Info&TYPE(MPI_Info)&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl info object\hss}\\
+(opt)&ierror&&INTEGER&out\\
+)\\
+\bottomrule
+\end{tabular}
+\endgroup
+

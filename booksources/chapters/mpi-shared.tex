@@ -107,15 +107,15 @@ would increase latency for some processes. To prevent this, the key
   info argument
   (section~\ref{sec:win-alloc})
   applies only to the memory on the first process;
-  in the non-contiguous case it applies to all.
+  in the noncontiguous case it applies to all.
 \end{mpifour}
 
 \cverbatimsnippet[examples/mpi/c/numa.c]{winnoncontig}
 
-Let's now consider a scenario where you spawn two MPI ranks per node,
+Let's now consider a scenario where you spawn two MPI processes per node,
 and the node has 100G of memory.
-Using the above option to allow for non-contiguous window allocation,
-you hope that the windows of the two ranks are placed 50G apart.
+Using the above option to allow for noncontiguous window allocation,
+you hope that the windows of the two processes are placed 50G apart.
 However, if you print out the addresses, you will find that that they
 are placed considerably closer together. For a small windows that distance
 may be as little as~4K, the size of a \indextermsub{small}{page}.
@@ -165,5 +165,5 @@ of this node communicator.
     node;
   \item broadcast the shared data to the processes zero on each node.
   \end{itemize}
-  \exercisesource{shareddata}
+  \skeleton{shareddata}
 \end{exercise}

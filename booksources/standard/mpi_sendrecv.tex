@@ -1,0 +1,34 @@
+\begingroup\tt\catcode`\_=12
+\begin{tabular}{lllll}
+\toprule
+\textrm{Name}&\textrm{Param name}&\textrm{C type}&\textrm{F type}&\textrm{inout}\\
+\midrule
+\hbox to 20pt{mpi_sendrecv (\hss} \\
+&sendbuf&const~void*&TYPE(*), DIMENSION(..)&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl initial address of send buffer\hss}\\
+&sendcount&int&INTEGER&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl number of elements in send buffer\hss}\\
+&sendtype&MPI_Datatype&TYPE(MPI_Datatype)&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl type of elements in send buffer\hss}\\
+&dest&int&INTEGER&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl rank of destination\hss}\\
+&sendtag&int&INTEGER&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl send tag\hss}\\
+&recvbuf&void*&TYPE(*), DIMENSION(..)&out\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl initial address of receive buffer\hss}\\
+&recvcount&int&INTEGER&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl number of elements in receive buffer\hss}\\
+&recvtype&MPI_Datatype&TYPE(MPI_Datatype)&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl type of elements receive buffer element\hss}\\
+&source&int&INTEGER&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl rank of source or {\tt\catcode`\_=12 MPI_ANY_SOURCE}\hss}\\
+&recvtag&int&INTEGER&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl receive tag or {\tt\catcode`\_=12 MPI_ANY_TAG}\hss}\\
+&comm&MPI_Comm&TYPE(MPI_Comm)&in\\
+&status&MPI_Status*&TYPE(MPI_Status)&out\\
+(opt)&ierror&&INTEGER&out\\
+)\\
+\bottomrule
+\end{tabular}
+\endgroup
+

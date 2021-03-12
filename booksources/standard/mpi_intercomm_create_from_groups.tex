@@ -1,0 +1,28 @@
+\begingroup\tt\catcode`\_=12
+\begin{tabular}{lllll}
+\toprule
+\textrm{Name}&\textrm{Param name}&\textrm{C type}&\textrm{F type}&\textrm{inout}\\
+\midrule
+\hbox to 20pt{mpi_intercomm_create_from_groups (\hss} \\
+&local_group&MPI_Group&TYPE(MPI_Group)&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl local group\hss}\\
+&local_leader&int&INTEGER&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl rank of local group leader in local\_group\hss}\\
+&remote_group&MPI_Group&TYPE(MPI_Group)&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl remote group, significant only at local\_leader\hss}\\
+&remote_leader&int&INTEGER&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl rank of remote group leader in remote\_group, significant only at local\_leader\hss}\\
+&stringtag&const~char*&CHARACTER&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl unique idenitifier for this operation\hss}\\
+&info&MPI_Info&TYPE(MPI_Info)&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl info object\hss}\\
+&errhandler&MPI_Errhandler&TYPE(MPI_Errhandler)&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl error handler to be attached to new inter-communicator\hss}\\
+&newintercomm&MPI_Comm*&TYPE(MPI_Comm)&out\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl new inter-communicator\hss}\\
+(opt)&ierror&&INTEGER&out\\
+)\\
+\bottomrule
+\end{tabular}
+\endgroup
+

@@ -14,7 +14,9 @@ info::
 
 COURSE = mpi
 COURSES  = mpi mpl mpithree
-EXTRATEXINPUTS = :${HOME}/Software/TeX/LaTeX//:${HOME}/Current/istc/scientific-computing-private/graphics//
+EXTRATEXINPUTS =
+#:${HOME}/Software/TeX/LaTeX//:${HOME}/Current/istc/scientific-computing-private/graphics//
+
 include ../course-support/Make.course
 
 jordan.pdf :
@@ -34,7 +36,6 @@ exercisecheck :
 	        done ; \
 	   done
 
-include ../instructor-support/Make.course
 include ../../makefiles/Make.clean
 
 total_clean ::

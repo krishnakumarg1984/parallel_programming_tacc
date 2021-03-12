@@ -8,4 +8,4 @@
   (for the \indexmpishow{MPI_ANY_TAG} wildcard in receive calls)
   and
   \lstinline+mpl::+\indexmplshow{tag::up}\lstinline+()+
-  (for the \indexmpishow{MPI_TAG_UB} attribute).
+  (maximal tag, found from the \indexmpishow{MPI_TAG_UB} attribute).

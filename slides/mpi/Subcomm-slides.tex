@@ -4,7 +4,7 @@
 %%%%
 %%%% This text file is part of the lecture slides for
 %%%% `Parallel Computing'
-%%%% by Victor Eijkhout, copyright 2012-2020
+%%%% by Victor Eijkhout, copyright 2012-2021
 %%%%
 %%%% Subcomm-slides.tex : slides about communicator manipulation
 %%%%
@@ -73,7 +73,7 @@ MPI_Waitall(...);
 \begin{numberedframe}{Disjoint splitting}
   Split a communicator in multiple disjoint others.
   
-Give each process a `colour', group processes by colour:
+Give each process a `color', group processes by color:
 \lstset{language=C}
 \begin{lstlisting}
 int MPI_Comm_split(MPI_Comm comm, int color, int key, 

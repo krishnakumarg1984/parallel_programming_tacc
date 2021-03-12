@@ -145,6 +145,8 @@ ways you can associate data with a window:
 \item You can pass a user buffer to
   \indexmpiref{MPI_Win_create}. This buffer can be an ordinary array,
   or it can be created with \indexmpishow{MPI_Alloc_mem}.
+  (In the former case, it may not be possible to lock the window;
+  section~\ref{sec:passive-sync}.)
 \item You can let MPI do the allocation, so that MPI can perform various
   optimizations regarding placement of the memory. The user code then
   receives the pointer to the data from MPI. This can again be done in two ways:
@@ -253,7 +255,7 @@ any data-related calls.
 In this section we look at the first mechanism,
 which is to use a \indexterm{fence} operation: \indexmpiref{MPI_Win_fence}.
 This operation is collective on the communicator of the window.
-It is comparable to \indexmpishow{MPI_Wait} calls for non-blocking communication.
+It is comparable to \indexmpishow{MPI_Wait} calls for nonblocking communication.
 
 The use of fences is somewhat complicated. The interval between two fences
 is known as an \indextermdef{epoch}.
@@ -354,7 +356,7 @@ of the communicator that was used in the create call.
 
 \begin{fortrannote}
   The \n{disp_unit} variable is declared as an integer of `kind'
-  \indexmpidef{MPI_ADDRESS_KIND}:
+  \indexmpishow{MPI_ADDRESS_KIND}:
 \fverbatimsnippet[examples/mpi/f08/putfence.F90]{fdisplacementtype}
 
 Prior to \indexterm{Fortran2008},
@@ -372,7 +374,7 @@ error #6285: There is no matching specific subroutine for this generic subroutin
   \label{ex:rightput}
   Revisit exercise~\ref{ex:serialsend} and solve it using
   \indexmpishow{MPI_Put}.
-  \exercisesource{rightput}
+  \skeleton{rightput}
 \end{exercise}
 
 \begin{exercise}
@@ -384,7 +386,7 @@ error #6285: There is no matching specific subroutine for this generic subroutin
   \item if $r<.5$, zero writes in the window on~1;
   \item if $r\geq .5$, zero writes in the window on~2.
   \end{itemize}
-  \exercisesource{randomput}
+  \skeleton{randomput}
 \end{exercise}
 
 \Level 1 {Get}
@@ -712,12 +714,18 @@ if (rank == 0) {
 }
 \end{lstlisting}
 
+\begin{remark}
+  The possibility to lock a window is not guaranteed for windows
+  that are not created (possibly internally) by \indexmpishow{MPI_Alloc_mem},
+  that is, all but \indexmpishow{MPI_Win_create}.
+\end{remark}
+
 \Level 1 {Lock types}
 
 A lock is needed for an origin to acquire the capability
 to access a target.
-You can either acquire a lock on a specific rank with \indexmpishow{MPI_Win_lock},
-or on all ranks (of a communicator) with \indexmpishow{MPI_Win_lock_all}.
+You can either acquire a lock on a specific process with \indexmpishow{MPI_Win_lock},
+or on all processes (in a communicator) with \indexmpishow{MPI_Win_lock_all}.
 Unlike \indexmpishow{MPI_Win_fence}, this is not a collective call.
 
 The two lock types are:
@@ -734,30 +742,30 @@ The two lock types are:
 
 To unlock a window, use
 \indexmpiref{MPI_Win_unlock}, % includes unlock_all
-respectively \indexmpixref{MPI_Win_unlock_all}{MPI_Win_unlock}.
+respectively \indexmpidef{MPI_Win_unlock_all}.
 
 \begin{exercise}
   \label{ex:lockandfetch}
-  \exercisesource{lockfetch}
+  \skeleton{lockfetch}
   Investigate atomic updates using passive target synchronization.
   Use \indexmpishow{MPI_Win_lock} with an exclusive lock, which
   means that each process only acquires the lock when it absolutely has to.
   \begin{itemize}
-  \item All ranks but one update a window:
+  \item All processs but one update a window:
 \begin{lstlisting}
 int one=1;
 MPI_Fetch_and_op(&one, &readout,
     MPI_INT, repo, zero_disp, MPI_SUM,
     the_win);
 \end{lstlisting}
-  \item while the remaining rank spins until the others have performed their update.
+  \item while the remaining process spins until the others have performed their update.
   \end{itemize}
-  Use an atomic operation for the latter rank to read out the shared value.
+  Use an atomic operation for the latter process to read out the shared value.
 \end{exercise}
 
 \begin{exercise}
   \label{ex:lockfetchshared}
-  \exercisesource{lockfetchshared}
+  \skeleton{lockfetchshared}
   As exercise~\ref{ex:lockandfetch}, but now use a shared lock:
   all processes acquire the lock simultaneously and keep it as long as is needed.
 
@@ -782,7 +790,7 @@ window on all processes.
 \end{itemize}
 
 The corresponding unlock is
-\indexmpixref{MPI_Win_unlock_all}{MPI_Win_unlock}.
+\indexmpishow{MPI_Win_unlock_all}.
 
 The expected use of a `lock/unlock all' is that they surround
 an extended epoch with get/put and flush calls.
@@ -804,7 +812,7 @@ their \emph{consistency}\index{window!consistency}.
   is a \indextermsub{remote}{completion}.
 \end{itemize}
 
-As observed, \ac{RMA} operations are non-blocking, so we need
+As observed, \ac{RMA} operations are nonblocking, so we need
 mechanisms to ensure that an operation is completed,
 and to ensure \emph{consistency}\index{window!consistency} of the
 user and window data.

@@ -1,0 +1,30 @@
+\begingroup\tt\catcode`\_=12
+\begin{tabular}{lllll}
+\toprule
+\textrm{Name}&\textrm{Param name}&\textrm{C type}&\textrm{F type}&\textrm{inout}\\
+\midrule
+\hbox to 20pt{mpi_dist_graph_create (\hss} \\
+&comm_old&MPI_Comm&TYPE(MPI_Comm)&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl input communicator\hss}\\
+&n&int&INTEGER&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl number of source nodes for which this process specifies edges\hss}\\
+&sources&const~int[]&INTEGER&in\\&\hbox to 0pt{\footnotesize length: \tt\catcode`\_=12 n\hss}\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl array containing the n source nodes for which this process specifies edges\hss}\\
+&degrees&const~int[]&INTEGER&in\\&\hbox to 0pt{\footnotesize length: \tt\catcode`\_=12 n\hss}\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl array specifying the number of destinations for each source node in the source node array\hss}\\
+&destinations&const~int[]&INTEGER&in\\&\hbox to 0pt{\footnotesize length: \tt\catcode`\_=12 *\hss}\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl destination nodes for the source nodes in the source node array\hss}\\
+&weights&const~int[]&INTEGER&in\\&\hbox to 0pt{\footnotesize length: \tt\catcode`\_=12 *\hss}\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl weights for source to destination edges\hss}\\
+&info&MPI_Info&TYPE(MPI_Info)&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl hints on optimization and interpretation of weights\hss}\\
+&reorder&int&LOGICAL&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl the ranks may be reordered (true) or not~(\mbox{false})\hss}\\
+&comm_dist_graph&MPI_Comm*&TYPE(MPI_Comm)&out\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl communicator with distributed graph topology added\hss}\\
+(opt)&ierror&&INTEGER&out\\
+)\\
+\bottomrule
+\end{tabular}
+\endgroup
+

@@ -213,7 +213,7 @@ from the status object; see section~\ref{sec:mpi-status} for more detail.
 Mirroring the target argument of the \indexmpishow{MPI_Send} call,
 \indexmpishow{MPI_Recv} has a \indextermbusdef{message}{source}
 argument.
-This can be either a specific process rank, or it can be the
+This can be either a specific rank, or it can be the
 \indexmpidef{MPI_ANY_SOURCE} wildcard. In the latter case, the actual
 source can be determined after the message has been received;
 see section~\ref{sec:mpi-status}.
@@ -258,7 +258,7 @@ for more about the status object.
     to use longer messages. How does the timing increase with message size?
   \end{itemize}
   For bonus points, can you do a regression to determine~$\alpha,\beta$?
-  \exercisesource{pingpong}
+  \skeleton{pingpong}
 \end{exercise}
 
 \begin{exercise}
@@ -453,7 +453,7 @@ figure~\ref{fig:serialization}.
   of figure~\ref{fig:serialization}.
   If you don't have TAU, can you show this serialization
   behaviour using timings, for instance running it on an increasing number of processes?
-  \exercisesource{rightsend}
+  \skeleton{rightsend}
 \end{exercise}
 
 It is possible to orchestrate your processes to get an efficient and
@@ -494,7 +494,7 @@ successively passed down a sequence of processors.
     All quantities involved here are integers. Is it a good idea to
     use the integer datatype here?
   \end{remark}
-  \exercisesource{bucketblock}
+  \skeleton{bucketblock}
 \end{exercise}
 
 \begin{remark}
@@ -549,7 +549,7 @@ sendrecv(from=predecessor,to=successor);
 where the sendrecv call is executed by all processors.
 
 All processors but the last one send to their neighbour; the target
-value of \indexmpidef{MPI_PROC_NULL} for
+value of \indexmpishow{MPI_PROC_NULL} for
 the last processor means a `send to the null processor': no actual
 send is done. 
 The null processor value is also of use with the
@@ -581,7 +581,7 @@ count zero.
   from the serialized send/recv code? If you don't have TAU, run your
   code with different numbers of processes and show that the runtime
   is essentially constant.
-  \exercisesource{rightsend}
+  \skeleton{rightsend}
 \end{exercise}
 
 This call makes it easy to exchange data between two processors: both
@@ -610,7 +610,7 @@ see figure~\ref{fig:sendrecv-steps}.
   \label{ex:3ptsendrecv}
   Implement the above three-point combination scheme using \indexmpishow{MPI_Sendrecv};
   every processor only has a single number to send to its neighbour.
-  \exercisesource{sendrecv}
+  \skeleton{sendrecv}
 \end{exercise}
 
 Hints for this exercise:

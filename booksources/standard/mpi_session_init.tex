@@ -1,0 +1,18 @@
+\begingroup\tt\catcode`\_=12
+\begin{tabular}{lllll}
+\toprule
+\textrm{Name}&\textrm{Param name}&\textrm{C type}&\textrm{F type}&\textrm{inout}\\
+\midrule
+\hbox to 20pt{mpi_session_init (\hss} \\
+&info&MPI_Info&TYPE(MPI_Info)&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl info object to specify thread support level and MPI implementation specific resources\hss}\\
+&errhandler&MPI_Errhandler&TYPE(MPI_Errhandler)&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl error handler to invoke in the event that an error is encountered during this function call\hss}\\
+&session&MPI_Session*&TYPE(MPI_Session)&out\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl new session\hss}\\
+(opt)&ierror&&INTEGER&out\\
+)\\
+\bottomrule
+\end{tabular}
+\endgroup
+

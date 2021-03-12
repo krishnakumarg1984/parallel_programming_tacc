@@ -62,14 +62,15 @@ collective.
 \begin{exercise}
   \label{ex:collective-cases}
   How would you realize the following scenarios with MPI collectives?
-  \begin{itemize}
+  \begin{enumerate}
   \item Let each process compute a random number. You want to print the
     maximum of these numbers to your screen.
   \item Each process computes a random number again. Now you want to
     scale these numbers by their maximum. 
   \item Let each process compute a random number. You want to print on what processor the
     maximum value is computed. 
-  \end{itemize}
+  \end{enumerate}
+  Think about time and space complexity of your suggestions.
 \end{exercise}
 
 \Level 1 {Practical use of collectives}
@@ -173,7 +174,7 @@ There are more collectives or variants on the above.
 Finally, there are some advanced topics in collectives.
 \begin{itemize}
 \item User-defined reduction operators; section~\ref{sec:mpi-op-create}.
-\item Non-blocking collectives; section~\ref{sec:mpi3collect}.
+\item Nonblocking collectives; section~\ref{sec:mpi3collect}.
 \item We briefly discuss performance aspects of collectives in section~\ref{sec:collect-perform}.
 \item We discuss synchronization aspects in section~\ref{sec:collect-sync}.
 \end{itemize}
@@ -186,7 +187,7 @@ Finally, there are some advanced topics in collectives.
 
 \input chapters/mpi-vcollective
 
-%% more stuff (operators, non-blocking)
+%% more stuff (operators, nonblocking)
 \input chapters/mpi-morecollective
 
 \input chapters/mpi-performcollective
@@ -213,7 +214,7 @@ give a one-line explanation.
   \begin{enumerate}
   \item rooted vs rootless
   \item using uniform buffer lengths vs variable length buffers
-  \item blocking vs non-blocking.
+  \item blocking vs nonblocking.
   \end{enumerate}
   Give examples of each type.  
 \end{review}

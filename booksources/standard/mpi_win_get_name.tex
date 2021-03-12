@@ -1,0 +1,18 @@
+\begingroup\tt\catcode`\_=12
+\begin{tabular}{lllll}
+\toprule
+\textrm{Name}&\textrm{Param name}&\textrm{C type}&\textrm{F type}&\textrm{inout}\\
+\midrule
+\hbox to 20pt{mpi_win_get_name (\hss} \\
+&win&MPI_Win&TYPE(MPI_Win)&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl window whose name is to be returned\hss}\\
+&win_name&char*&CHARACTER&out\\&\hbox to 0pt{\footnotesize length: \tt\catcode`\_=12 MPI_MAX_OBJECT_NAME\hss}\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl the name previously stored on the window, or an empty string if no such name exists\hss}\\
+&resultlen&int*&INTEGER&out\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl length of returned name\hss}\\
+(opt)&ierror&&INTEGER&out\\
+)\\
+\bottomrule
+\end{tabular}
+\endgroup
+

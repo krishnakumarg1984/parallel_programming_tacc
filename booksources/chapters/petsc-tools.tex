@@ -27,6 +27,7 @@ An installation with debug turned on:
 \end{itemize}
 
 \Level 1 {Error codes}
+\label{sec:petsc-error}
 
 PETSc performs a good amount of runtime error checking. Some of this
 is for internal consistency, but it can also detect certain
@@ -132,7 +133,7 @@ is supplied, so it carries no overhead for production runs.
 \Level 2 {Valgrind}
 
 Valgrind is rather verbose in its output.
-To limit the number of ranks that run under valgrind:
+To limit the number of processs that run under valgrind:
 \begin{verbatim}
 mpiexec -n 3 valgrind --track-origins=yes ./app -args : -n 5 ./app -args
 \end{verbatim}

@@ -1,0 +1,20 @@
+\begingroup\tt\catcode`\_=12
+\begin{tabular}{lllll}
+\toprule
+\textrm{Name}&\textrm{Param name}&\textrm{C type}&\textrm{F type}&\textrm{inout}\\
+\midrule
+\hbox to 20pt{mpi_type_create_keyval (\hss} \\
+&type_copy_attr_fn&&PROCEDURE&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl copy callback function for type_keyval\hss}\\
+&type_delete_attr_fn&&PROCEDURE&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl delete callback function for type_keyval\hss}\\
+&type_keyval&int*&INTEGER&out\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl key value for future access\hss}\\
+&extra_state&void*&INTEGER(KIND=MPI_ADDRESS_KIND)&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl extra state for callback function\hss}\\
+(opt)&ierror&&INTEGER&out\\
+)\\
+\bottomrule
+\end{tabular}
+\endgroup
+

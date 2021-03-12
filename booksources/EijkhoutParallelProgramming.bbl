@@ -107,6 +107,11 @@ Zhenying Liu, Barbara Chapman, Tien-Hsiung Weng, and Oscar Hernandez.
   International Conference on OpenMP Shared Memory Parallel Programming},
   WOMPAT'03, pages 244--259, Berlin, Heidelberg, 2003. Springer-Verlag.
 
+\bibitem{t3pio-git}
+Robert McLay.
+\newblock T3pio: {TACC}'s terrific too for parallel {I/O}.
+\newblock \url{https://github.com/TACC/t3pio}.
+
 \bibitem{mpi-documents}
 {MPI} forum: {MPI} documents.
 \newblock \url{http://www.mpi-forum.org/docs/docs.html}.

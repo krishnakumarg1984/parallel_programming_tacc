@@ -1,0 +1,20 @@
+\begingroup\tt\catcode`\_=12
+\begin{tabular}{lllll}
+\toprule
+\textrm{Name}&\textrm{Param name}&\textrm{C type}&\textrm{F type}&\textrm{inout}\\
+\midrule
+\hbox to 20pt{mpi_info_get_valuelen (\hss} \\
+&info&MPI_Info&TYPE(MPI_Info)&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl info object\hss}\\
+&key&const~char*&CHARACTER&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl key\hss}\\
+&valuelen&int*&INTEGER&out\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl length of value arg\hss}\\
+&flag&int*&LOGICAL&out\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl true if key defined, false if not\hss}\\
+(opt)&ierror&&INTEGER&out\\
+)\\
+\bottomrule
+\end{tabular}
+\endgroup
+

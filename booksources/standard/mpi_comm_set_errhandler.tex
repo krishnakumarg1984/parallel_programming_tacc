@@ -1,0 +1,15 @@
+\begingroup\tt\catcode`\_=12
+\begin{tabular}{lllll}
+\toprule
+\textrm{Name}&\textrm{Param name}&\textrm{C type}&\textrm{F type}&\textrm{inout}\\
+\midrule
+\hbox to 20pt{mpi_comm_set_errhandler (\hss} \\
+&comm&MPI_Comm&TYPE(MPI_Comm)&in\\
+&errhandler&MPI_Errhandler&TYPE(MPI_Errhandler)&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl new error handler for communicator\hss}\\
+(opt)&ierror&&INTEGER&out\\
+)\\
+\bottomrule
+\end{tabular}
+\endgroup
+

@@ -1,0 +1,18 @@
+\begingroup\tt\catcode`\_=12
+\begin{tabular}{lllll}
+\toprule
+\textrm{Name}&\textrm{Param name}&\textrm{C type}&\textrm{F type}&\textrm{inout}\\
+\midrule
+\hbox to 20pt{mpi_request_get_status (\hss} \\
+&request&MPI_Request&TYPE(MPI_Request)&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl request\hss}\\
+&flag&int*&LOGICAL&out\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl boolean flag, same as from {\tt\catcode`\_=12 MPI_TEST}\hss}\\
+&status&MPI_Status*&TYPE(MPI_Status)&out\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl status object if flag is true\hss}\\
+(opt)&ierror&&INTEGER&out\\
+)\\
+\bottomrule
+\end{tabular}
+\endgroup
+

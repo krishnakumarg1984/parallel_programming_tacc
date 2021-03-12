@@ -1,0 +1,22 @@
+\begingroup\tt\catcode`\_=12
+\begin{tabular}{lllll}
+\toprule
+\textrm{Name}&\textrm{Param name}&\textrm{C type}&\textrm{F type}&\textrm{inout}\\
+\midrule
+\hbox to 20pt{mpi_cart_map (\hss} \\
+&comm&MPI_Comm&TYPE(MPI_Comm)&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl input communicator\hss}\\
+&ndims&int&INTEGER&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl number of dimensions of Cartesian structure\hss}\\
+&dims&const~int[]&INTEGER&in\\&\hbox to 0pt{\footnotesize length: \tt\catcode`\_=12 ndims\hss}\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl integer array of size ndims specifying the number of processes in each coordinate direction\hss}\\
+&periods&const~int[]&LOGICAL&in\\&\hbox to 0pt{\footnotesize length: \tt\catcode`\_=12 ndims\hss}\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl logical array of size ndims specifying the periodicity specification in each coordinate direction\hss}\\
+&newrank&int*&INTEGER&out\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl reordered rank of the calling process; {\tt\catcode`\_=12 MPI_UNDEFINED} if calling process does not belong to grid\hss}\\
+(opt)&ierror&&INTEGER&out\\
+)\\
+\bottomrule
+\end{tabular}
+\endgroup
+

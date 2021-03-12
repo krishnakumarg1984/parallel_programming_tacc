@@ -1,12 +1,12 @@
-  \label{mpl:irequest}
-  Non-blocking routines have an \indexmpldef{irequest} as function result.
-  Note: not a parameter passed by reference, as in the C~interface.
-  The various wait calls are methods of the \indexmplshow{irequest}
-  class.
-  %
-  \cxxverbatimsnippet[examples/mpi/mpl/isendandirecv.cxx]{irecvexamplempl}
-  %
-  You can not default-construct the request variable:
+\label{mpl:irequest}
+Non-blocking routines have an \indexmpldef{irequest} as function result.
+Note: not a parameter passed by reference, as in the C~interface.
+The various wait calls are methods of the \indexmplshow{irequest}
+class.
+%
+\cxxverbatimsnippet[examples/mpi/mpl/isendandirecv.cxx]{irecvexamplempl}
+%
+You can not default-construct the request variable:
 \begin{lstlisting}
 // DOES NOT COMPILE mpl::irequest recv_request;
 \end{lstlisting}
@@ -14,6 +14,6 @@ This means that the normal sequence of first declaring, and then filling in,
 the request variable is not possible.
 
 \begin{mplimpl}
-  The wait call always returns a \indexmplshow{status} object;
-  not assigning it means that the destructor is called on it.
+The wait call always returns a \indexmplshow{status} object;
+not assigning it means that the destructor is called on it.
 \end{mplimpl}

@@ -1,0 +1,18 @@
+\begingroup\tt\catcode`\_=12
+\begin{tabular}{lllll}
+\toprule
+\textrm{Name}&\textrm{Param name}&\textrm{C type}&\textrm{F type}&\textrm{inout}\\
+\midrule
+\hbox to 20pt{mpi_graphdims_get (\hss} \\
+&comm&MPI_Comm&TYPE(MPI_Comm)&in\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl communicator for group with graph structure\hss}\\
+&nnodes&int*&INTEGER&out\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl number of nodes in graph (same as number of processes in the group)\hss}\\
+&nedges&int*&INTEGER&out\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl number of edges in graph\hss}\\
+(opt)&ierror&&INTEGER&out\\
+)\\
+\bottomrule
+\end{tabular}
+\endgroup
+
