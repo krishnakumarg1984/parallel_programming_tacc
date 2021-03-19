@@ -27,13 +27,6 @@
   \noindent\fbox{#1}
   \verbatiminput{#1}\endgroup}
 }
-\newcommand\inv{^{-1}}\newcommand\invt{^{-t}}
-\newcommand\setspan[1]{[\![#1]\!]}
-\newcommand\fp[2]{#1\cdot10^{#2}}
-\newcommand\fxp[2]{\langle #1,#2\rangle}
-\def\n#{\bgroup \catcode`\$=12 \catcode`\_=12 \catcode`\>=12 \catcode`\<=12 \catcode`\#=12
-  \catcode`\&=12 \catcode`\^=12 \catcode`\~=12 \def\\{\char`\\}\relax
-  \tt \let\next=}
 
 %%
 %% use beamer buttons for links to exercise slides
@@ -46,14 +39,6 @@
   \hyperlink{#1}{\noexpand\beamergotobutton{ex#1}}%
 }
 \newcommand\skeleton[1]{}
-
-\newcommand\diag{\mathop{\mathrm {diag}}}
-\newcommand\argmin{\mathop{\mathrm {argmin}}}
-\newcommand\defined{
-  \mathrel{\lower 5pt \hbox{${\equiv\atop\mathrm{\scriptstyle D}}$}}}
-
-\newcommand\bbP{\mathbb{P}}
-\newcommand\bbR{\mathbb{R}}
 
 \newtheorem{remark}{Remark}
 \expandafter\ifx\csname definition\endcsname\relax
@@ -137,10 +122,12 @@
 %%%% Environments
 %%%%
 \newcounter{slidecount}
+\setcounter{slidecount}{1}
 \newenvironment
     {numberedframe}[1]
-    {\refstepcounter{slidecount}
-      \begin{frame}[containsverbatim]{\arabic{slidecount}\ #1}}
+    {\begin{frame}[containsverbatim]{\arabic{slidecount}\ #1}
+        \refstepcounter{slidecount}
+    }
     {\end{frame}}
 \newenvironment{question}{\begin{quotation}\textbf{Question.\ }}{\end{quotation}}
 \newenvironment{fortrannote}
@@ -218,19 +205,14 @@
 %%%%
 
 \newif\ifShowRoutine
-\def\indexmpishow#{\bgroup
-  \catcode`\_=12 \catcode`\>=12 \catcode`\<=12
-  \catcode`\&=12 \catcode`\^=12 \catcode`\~=12
-  \def\\{\char`\\}\relax
+\def\indexmpishow#{\bgroup \InnocentChars
   \ShowRoutinetrue
-  %\tt
   \afterassignment\mpitoindex\edef\indexedmpi}
 \def\mpitoindex{%\tracingmacros=2
   \edef\tmp{%
     \noexpand\ifShowRoutine
         \noexpand\lstinline+\indexedmpi+\noexpand\nobreak
     \noexpand\fi
-    %\noexpand\index{\indexedmpi@{\catcode95=12 \noexpand\texttt{\indexedmpi}}}%
   }%
   \tmp
   \egroup\nobreak
@@ -240,6 +222,7 @@
 \let\indexmpldef\indexmpishow
 \let\indexmplref\indexmpishow
 \let\indexmplshow\indexmpishow
+\let\indexompshow\indexmpishow
 \let\indexpetscshow\indexmpishow
 
 \newenvironment

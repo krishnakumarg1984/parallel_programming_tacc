@@ -65,8 +65,8 @@ because the size argument has to be \lstinline{int}.
   \end{itemize}
   \cverbatimsnippet{bigvectorq}
 
-  (They could have used \lstinline{MPI_Count} parameters everywhere,
-  but that is not backwards-compatible.)
+  MPI-4 will use \lstinline{MPI_Count} parameters everywhere,\\
+  in Fortran through polymorphism, in~C through \n{_c} suffix.
 \end{numberedframe}
 
 \begin{numberedframe}{For your amusement}

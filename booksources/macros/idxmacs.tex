@@ -64,12 +64,6 @@
     @\acl{#1} (#1)|)}}\tmp}
 \makeatother
 
-\newcommand\InnocentChars{%
-  \catcode`\_=12 \catcode`\>=12 \catcode`\<=12\relax
-  \catcode`\&=12 \catcode`\^=12 \catcode`\~=12\relax
-  \def\\{\char`\\}\relax
-}
-
 \newif\ifShowRoutine
 { \catcode`\_=13
   %% MPI index routines

@@ -18,7 +18,7 @@ info ::
 EXERCISES = hello \
     commrank prime randommax jordan sumsquares onenorm \
     pingpong sendrecv stridesend transposeblock scangather \
-    rightsend bucketblock bucketpipenonblock \
+    rightsend bucketblock bucketpipenonblock setdiff \
     isendirecv isendirecvarray procgrid procgridnonblock \
     rightput randomput onesidedbuild countdown lockfetch \
     blockwrite viewwrite scatterwrite cubegather \

@@ -16,6 +16,8 @@
 #include <stdio.h>
 #include <unistd.h>
 
+#include "tools.h"
+
 int main(int argc,char **argv) {
 
   MPI_Init(&argc,&argv);
@@ -99,17 +101,10 @@ int main(int argc,char **argv) {
       }
     }
 
-    {
-      int final_min,final_max;
-      MPI_Allreduce(&final_value,&final_min,1,MPI_INT,MPI_MIN,comm);
-      MPI_Allreduce(&final_value,&final_max,1,MPI_INT,MPI_MAX,comm);
-      if (procno==0) {
-	if (final_min==final_max)
-	  printf("Success: everyone agrees on the final value\n");
-	else
-	  printf("Failure: someone exits with %d, someone with %d\n",final_min,final_max);
-      }
-    }
+    int error_test = ! test_all_the_same_int(final_value,comm);
+    if (error_test)
+      printf("Failure to agree on the final value: %d\n",final_value);
+    print_final_result(error_test,comm);
 
     MPI_Win_free(&the_window);
   }

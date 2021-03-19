@@ -29,7 +29,6 @@ course ::
 	    echo "Error: no COURSE variable defined" && exit 1 ; fi 
 	@make --no-print-directory pdf FILE=${COURSE}_course
 	@acro=`cat ${COURSE}_course.log | grep "Acronym.*not defined" | wc -l` \
-	 && echo $$acro \
 	 && if [ $$acro -gt 0 ] ; then \
 	      echo "Resolving $$acro undefined acronyms" \
 	      && make --no-print-directory pdf FILE=${COURSE}_course \

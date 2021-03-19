@@ -4,7 +4,7 @@
  **** `Parallel programming with MPI and OpenMP'
  **** by Victor Eijkhout, eijkhout@tacc.utexas.edu
  ****
- **** copyright Victor Eijkhout 2012-9
+ **** copyright Victor Eijkhout 2012-2021
  ****
  **** MPI Exercise to illustrate pipelining
  ****
@@ -15,6 +15,9 @@
 #include <string.h>
 #include <math.h>
 #include "mpi.h"
+
+double array_error(double a[],double b[],int array_size);
+void print_final_result( int cond,MPI_Comm comm );
 
 #ifndef N
 #define N 10
@@ -49,15 +52,12 @@ int main(int argc,char **argv) {
   //
   // Exercise:
   // -- do the MPI_Send and MPI_Recv calls
+  //    so that you add your square value to the data from the previous
+  //    and pass it on to the next.
   //
   double leftdata[N], myvalue[N];
   for (int i=0; i<N; i++) leftdata[i] = 0.;
 /**** your code here ****/
-if (procno<nprocs-1)
-	MPI_Send(myvalue,N, MPI_DOUBLE,sendto,0, comm);
-
-if (procno>0)
-	MPI_Recv(leftdata, N, MPI_DOUBLE,recvfrom,0, comm, MPI_STATUS_IGNORE);
 
 #ifdef SIMGRID
   /*
@@ -75,24 +75,16 @@ if (procno>0)
    * - the lowest process number where an error occured, or
    * - `nprocs' if no error.
    */
-  double p1 = procno+1.;
-  double my_sum_of_squares = p1*p1*p1/3 + p1*p1/2 + p1/6;
-  double max_of_errors = 0;
+  double answers[N];
   for (int i=0; i<N; i++) {
-    double e = fabs( (my_sum_of_squares - myvalue[i])/my_sum_of_squares );
-    if (e>max_of_errors) max_of_errors = e;
+    double p1 = procno+1.;
+    answers[i] = p1*p1*p1/3 + p1*p1/2 + p1/6;
   }
-  int
-    error = max_of_errors > 1.e-12 ? procno : nprocs,
-    errors=-1;
-  MPI_Allreduce(&error,&errors,1,MPI_INT,MPI_MIN,comm);
-  if (procno==0) {
-    if (errors==nprocs) 
-      printf("Finished; all results correct\n");
-    else
-      printf("First error occurred on proc %d\n",errors);
-  }
+  double relative_error = array_error(answers,myvalue,N);
+  printf("[%d] relative error=%e\n",procno,relative_error);
+  print_final_result( relative_error > 1.e-12, comm );
 
   MPI_Finalize();
   return 0;
 }
+

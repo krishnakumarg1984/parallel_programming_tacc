@@ -3,7 +3,7 @@
    %%%%
    %%%% This program file is part of the book and course
    %%%% "Parallel Computing"
-   %%%% by Victor Eijkhout, copyright 2013-8
+   %%%% by Victor Eijkhout, copyright 2013-2021
    %%%%
    %%%% jordancol.c : Gauss-Jordan with matrix distributed by columns
    %%%%
@@ -13,8 +13,12 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <math.h>
 #include <unistd.h>
 #include <mpi.h>
+
+double array_error(double ref[],double val[],int array_size);
+void print_final_result( int cond,MPI_Comm comm );
 
 int main(int argc,char **argv) {
 
@@ -117,7 +121,7 @@ int main(int argc,char **argv) {
   // check that we have swept
   for (int row=0; row<N; row++) {
     if (row==procno) continue;
-    if (abs(matrix[row])>1.e-14)
+    if (fabs(matrix[row])>1.e-14)
       printf("Wrong value at [%d,%d]: %e\n",row,procno,matrix[row]);
   }
   //printf("Diagonal element %d: %e\n",procno,matrix[procno]);
@@ -134,17 +138,11 @@ int main(int argc,char **argv) {
    * - the lowest process number where an error occured, or
    * - `nprocs' if no error.
    */
-  // check correct solution
-  if (procno==0) {
-    int success=1;
-    for (int row=0; row<N; row++)
-      if ( abs(solution[row]-1.)>1.e-13 ) {
-	printf("Wrong solution at [%d]: %e\n",row,solution[row]);
-	success = 0;
-      }
-    if (success>0)
-      printf("Success\n");
-  }
+  double answer[N];
+  for (int i=0; i<N; i++)
+    answer[i] = 1.;
+  int error_test = array_error(answer,solution,N);
+  print_final_result(error_test,comm);
 
   MPI_Finalize();
 

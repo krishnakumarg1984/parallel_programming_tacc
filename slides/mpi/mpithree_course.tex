@@ -4,7 +4,7 @@
 %%%%
 %%%% This text file is part of the source of 
 %%%% `Parallel Computing'
-%%%% by Victor Eijkhout, copyright 2012-2020
+%%%% by Victor Eijkhout, copyright 2012-2021
 %%%%
 %%%% mpi_course.tex : master file for an MPI course
 %%%%
@@ -28,6 +28,7 @@
 \newcolumntype{R}{>{\hbox to 1.2em\bgroup\hss}{r}<{\egroup}}
 \newcolumntype{T}{>{\hbox to 8em\bgroup}{c}<{\hss\egroup}}
 
+\input commonmacs
 \input slidemacs
 \input coursemacs
 \input listingmacs
@@ -39,20 +40,21 @@
 \specialcomment{tacc}{\stepcounter{tacc}\def\CommentCutFile{tacc\arabic{tacc}.cut}}{}
 \newcounter{tacc}
 %\excludecomment{tacc}
-\includecomment{xsede}
+\excludecomment{xsede}
 
 \includecomment{onesided}
 \includecomment{advanced}
 \includecomment{foundations}
 
 \def\Location{}% redefine in the inex file
-\def\courseyear{2020}
+\def\courseyear{2021}
 \def\Location{TACC APP institute MPI training \courseyear}
 \def\Location{TACC/XSEDE MPI training \courseyear}
 \def\Location{PEARC2020\\
   \url{http://tinyurl.com/tacc-pearc-2020}\\
   \texttt{\char126 train00/mpithree\_course\_2020.tgz}
 }
+\def\Location{ISS 2021}
 \def\TitleExtra{}
 
 %%%%
@@ -94,6 +96,39 @@
   \input xsede-conduct
 \end{xsede}
 
+\begin{frame}[containsverbatim]{Materials and labs}
+   Textbook and lecture slides: \url{https://tinyurl.com/vle335course}
+
+  Labs:
+  \begin{itemize}
+  \item Login
+\begin{verbatim}
+  ssh you@frontera.tacc.utexas.edu
+\end{verbatim}
+
+\item Get exercise material:\\
+\begin{verbatim}
+  tar fxz ~train00/mpithree_course_2021.tgz
+\end{verbatim}
+
+\item Pick your favorite language:\\
+\begin{verbatim}
+  cd mpithree_course/exercises-mpi-c} or \n{f08} or \n{p
+\end{verbatim}
+
+\item Get a compute node:
+\begin{verbatim}
+  idev -t 3:0:0
+\end{verbatim}
+
+\item Can you make an exercise?\\
+\begin{verbatim}
+  make hello && ibrun hello
+\end{verbatim}
+
+  \end{itemize}
+\end{frame}
+
 \begin{frame}{Justification}
   Version 3 of the MPI standard has added a number
   of features, some geared purely towards functionality,
@@ -103,7 +138,7 @@
 \Level 0 {Fortran bindings}
 
 \lstset{language=Fortran}
-\begin{frame}{Overview}
+\begin{numberedframe}{Overview}
   The Fortran interface to MPI had some defects.
   With Fortran2008 these have been largely repaired.
   \begin{itemize}
@@ -112,9 +147,9 @@
     rather than \lstinline{Integer}
   \item Strict type checking on arguments.
   \end{itemize}
-\end{frame}
+\end{numberedframe}
 
-\begin{frame}[containsverbatim]{MPI headers}
+\begin{numberedframe}{MPI headers}
 \label{sl:mpi-header}
 New module:
 \begin{verbatim}
@@ -123,15 +158,11 @@ use mpi       ! for Fortran90
 \end{verbatim}
 True Fortran bindings as of the 2008 standard.
 \begin{tacc}
-Provided in Intel compiler:
-\begin{verbatim}
-module load intel/18.0.2
-\end{verbatim}
-or newer. Not in gcc7.
+Provided in Intel compiler version 18 or newer. Not in gcc7.
 \end{tacc}
-\end{frame}
+\end{numberedframe}
 
-\begin{frame}[containsverbatim]{Optional error parameter}
+\begin{numberedframe}{Optional error parameter}
 \lstset{language=Fortran}
 \begin{lstlisting}
 call MPI_Init()     ! F08 style
@@ -140,9 +171,9 @@ call MPI_Init(ierr) ! F90 style
 call MPI_Finalize()     ! F08 style
 call MPI_Finalize(ierr) ! F90 style
 \end{lstlisting}
-\end{frame}
+\end{numberedframe}
 
-\begin{frame}[containsverbatim]{Communicators}
+\begin{numberedframe}{Communicators}
 \begin{lstlisting}
 !! Fortran 2008 interface
 use mpi_f08
@@ -154,13 +185,13 @@ Type(MPI_Comm) :: comm = MPI_COMM_WORLD
 ! or: use mpi
 Integer :: comm = MPI_COMM_WORLD
 \end{lstlisting}
-\end{frame}
+\end{numberedframe}
 
-\begin{frame}[containsverbatim]{Requests}
+\begin{numberedframe}{Requests}
 \fverbatimsnippet{waitany0f}
-\end{frame}
+\end{numberedframe}
 
-\begin{frame}[containsverbatim]{More}
+\begin{numberedframe}{More}
 \begin{lstlisting}
 Type(MPI_Datatype) :: newtype ! F2008
 Integer            :: newtype ! F90
@@ -171,7 +202,7 @@ Also:
   \lstinline{MPI_Errhandler}, \lstinline{MPI_Group},
   \lstinline{MPI_Info}, \lstinline{MPI_File}, \lstinline{MPI_Op},
   \lstinline{MPI_Request}, \lstinline{MPI_Status}, \lstinline{MPI_Win}
-\end{frame}
+\end{numberedframe}
 
 \lstset{language=C}
 
@@ -203,7 +234,7 @@ Also:
 \coursepart{Supplemental material}
 
 \begin{comment}
-  \begin{frame}{Protocol}
+  \begin{numberedframe}{Protocol}
     \label{sl:rendezvous}
     Communication is a `rendez-vous' or `hand-shake' protocol:
     \begin{itemize}
@@ -214,7 +245,7 @@ Also:
     \end{itemize}
     Small messages bypass this: `eager' send.\\
     Definition of `small message' controlled by environment variables.
-  \end{frame}
+  \end{numberedframe}
 \end{comment}
 
 \begin{exerciseframe}[serialsend]

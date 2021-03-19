@@ -4,7 +4,7 @@
 %%%%
 %%%% This text file is part of the lecture slides for
 %%%% `Parallel Computing'
-%%%% by Victor Eijkhout, copyright 2018-2020
+%%%% by Victor Eijkhout, copyright 2018-2021
 %%%%
 %%%% Highercollective-slides.tex : more slides about collective operations
 %%%%
@@ -145,8 +145,8 @@ else
 \begin{numberedframe}{Use case: adaptive refinement}
   \begin{itemize}
   \item Some processes decide locally to alter their structure
-  \item \ldots~need to communicate that to neighbours
-  \item Problem: neighbours don't know whether to expect update calls,
+  \item \ldots~need to communicate that to neighbors
+  \item Problem: neighbors don't know whether to expect update calls,
     if at all.
   \item Solution:
     \begin{itemize}
@@ -182,7 +182,7 @@ else
 \begin{exerciseframe}[ibarrierupdate]
   \begin{itemize}
   \item Let each process send to a random number of randomly chosen
-    neighbours. Use \indexmpishow{MPI_Isend}.
+    neighbors. Use \indexmpishow{MPI_Isend}.
   \item Write the main loop with the \indexmpishow{MPI_Test} call.
   \item Insert an \indexmpishow{MPI_Iprobe} call and process incoming messages.
   \item Can you make sure that all sends are indeed processed?

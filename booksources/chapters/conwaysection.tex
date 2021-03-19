@@ -54,13 +54,13 @@ a two-dimensional board of \emph{cells}. Each cell can be
 alive or dead, and it can switch its status from alive to dead
 or the other way around once per time interval, let's say a second.
 The rules for cells are as follows. In each time step, each cell
-counts how many live neighbours it has, where a neighbour is a cell
+counts how many live neighbors it has, where a neighbor is a cell
 that borders on it horizontallly, vertically, or diagonally. Then:
 \begin{itemize}
-\item If a cell is alive, and it has fewer than two live neighbours, it dies of loneliness.
-\item A live cell with more than three live neighbours dies from overcrowding.
-\item A live cell with two or three live neighbours lives on to the next generation.
-\item A dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.
+\item If a cell is alive, and it has fewer than two live neighbors, it dies of loneliness.
+\item A live cell with more than three live neighbors dies from overcrowding.
+\item A live cell with two or three live neighbors lives on to the next generation.
+\item A dead cell with exactly three live neighbors becomes a live cell, as if by reproduction.
 \end{itemize}
 The `game' is that you create an initial configuration of live cells, and then
 stand back and see what happens. 
@@ -664,13 +664,13 @@ As illustrated in figure~\ref{fig:mpiget}
   \caption{Processor $p$ receives a line of data from $p-1$ and $p+1$}
   \label{fig:mpiget}
 \end{figure}
-a process needs to get data from its neighbours. 
+a process needs to get data from its neighbors. 
 The first step is for each process to find out what its number is,
 so that it can name its neigbours.
 \begin{verbatim}
 p = my_processor_number()
 \end{verbatim}
-Then the process can actually receive data from those neighbours
+Then the process can actually receive data from those neighbors
 (we ignore complications from the first and last line of the board here).
 \begin{verbatim}
 high_line = MPI_Receive(from=p-1,cells=N)
@@ -686,11 +686,11 @@ cell values on a single line.)
 Unfortunately, there is more to MPI than that. The most common way
 of using the library is through \indextermsub{two-sided}{communication},
 where for each receive action there is a corresponding send action:
-a~process cannot just receive data from its neighbours, the neighbours
+a~process cannot just receive data from its neighbors, the neighbors
 have to send the data.
 
 But now we recall the \ac{SPMD} nature of the computation: 
-if your neighbours send to you, you are someone else's neighbour and
+if your neighbors send to you, you are someone else's neighbor and
 need to send to them. So the program code will contain both
 send and receive calls.
 
@@ -702,7 +702,7 @@ p = my_processor_number()
 my_line.MPI_Send(to=p-1,cells=N)
 my_line.MPI_Send(to=p+1,cells=N)
 
-# get data from neighbours
+# get data from neighbors
 high_line = MPI_Receive(from=p-1,cells=N)
 low_line = MPI_Receive(from=p+1,cells=N)
 tmp_line = my_line.copy()
@@ -769,8 +769,8 @@ You then need a second call to ensure that the operation is actually completed.
 
 In pseudo-code:
 \begin{verbatim}
-send( buffer1, to=neighbour1, result=request1 );
-send( buffer2, to=neighbour2, result=request2 );
+send( buffer1, to=neighbor1, result=request1 );
+send( buffer2, to=neighbor2, result=request2 );
 // maybe execute some other code
 wait( request1 ); wait( request2 ); // make sure the operations are done
 \end{verbatim}
@@ -840,8 +840,8 @@ otherwise you could never get started\ldots
 
 You can interpret the MPI examples in terms of tasks.
 The local computation of a task can start when data from the
-neighbouring tasks is available, and a task finds out about that
-by the messages from those neighbours coming in. However, 
+neighboring tasks is available, and a task finds out about that
+by the messages from those neighbors coming in. However, 
 this view does not add much information.
 
 On the other hand, if you have shared memory, and tasks that do not

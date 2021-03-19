@@ -4,7 +4,7 @@
  **** `Parallel programming with MPI and OpenMP'
  **** by Victor Eijkhout, eijkhout@tacc.utexas.edu
  ****
- **** copyright Victor Eijkhout 2012-9
+ **** copyright Victor Eijkhout 2012-2021
  ****
  **** MPI Exercise to illustrate pipelining
  ****
@@ -15,6 +15,8 @@
 #include <string.h>
 #include <math.h>
 #include "mpi.h"
+
+#include "tools.h"
 
 #ifndef N
 #define N 10
@@ -109,23 +111,16 @@ int main(int argc,char **argv) {
    * - the lowest process number where an error occured, or
    * - `nprocs' if no error.
    */
-  double p1 = procno+1.;
-  double my_sum_of_squares = p1*p1*p1/3 + p1*p1/2 + p1/6;
-  double max_of_errors = 0;
+  double answers[N];
   for (int i=0; i<N; i++) {
-    double e = fabs( (my_sum_of_squares - myvalue[i])/myvalue[i] );
-    if (e>max_of_errors) max_of_errors = e;
+    double p1 = procno+1.;
+    answers[i] = p1*p1*p1/3 + p1*p1/2 + p1/6;
   }
-  int
-    error = max_of_errors > 1.e-12 ? procno : nprocs,
-    errors=-1;
-  MPI_Allreduce(&error,&errors,1,MPI_INT,MPI_MIN,comm);
-  if (procno==0) {
-    if (errors==nprocs) 
-      printf("Finished; all results correct\n");
-    else
-      printf("First error occurred on proc %d\n",errors);
-  }
+  double relative_error = array_error(answers,myvalue,N);
+  int error_test = relative_error > 1.e-12;
+  if (error_test)
+    printf("[%d] relative error=%e\n",procno,relative_error);
+  print_final_result( error_test, comm );
 
   MPI_Finalize();
   return 0;

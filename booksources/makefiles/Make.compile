@@ -106,6 +106,10 @@ else
 	  C_COMPILER   = clang
 	  CXX_COMPILER = clang++
 	  F_COMPILER   = gfortran
+	else ifeq "${TACC_FAMILY_COMPILER}" "xl"
+	  C_COMPILER   = xlc
+	  CXX_COMPILER = xlc++
+	  F_COMPILER   = xlf
 	else ifeq "${TACC_FAMILY_COMPILER}" "devcloud"
 	  CXX_COMPILER = dpcpp
 	endif # end of non-mpi compiler setting
@@ -115,6 +119,7 @@ else
 OMPFLAGS_intel    = -qopenmp 
 OMPFLAGS_gcc      = -ggdb -fopenmp
 OMPFLAGS_clang    = -fopenmp
+OMPFLAGS_xl       = -qsmp=omp -qoffload
 OMPFLAGS = ${OMPFLAGS_${TACC_FAMILY_COMPILER}}
 
 ifeq "${MODE}" "omp"

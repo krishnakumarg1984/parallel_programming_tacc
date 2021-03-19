@@ -70,6 +70,12 @@ mpirun -np 1 spawnmanager
 \end{verbatim}
 but with a hostfile that has more than one host.
 
+A process can detect whether it was a spawning or a spawned process
+by using \indexmpishow{MPI_Comm_get_parent}:
+the resulting inter-communicator is \indexmpishow{MPI_COMM_NULL}
+on the parent processes.
+\cverbatimsnippet[examples/mpi/c/publishapp.c]{commparentdetect}
+
 \begin{taccnote}
 \indextermbus{Intel}{MPI} requires you to pass an option \n{-usize} to
 \n{mpiexec} indicating the size of the comm universe. With the TACC
@@ -184,7 +190,7 @@ being satisfied.
 
 \begin{mpifour}
 \Level 0 {Sessions}
-\label{sec:sessions}
+\label{sec:session}
 
 The most common way of initializing MPI,
 with \indexmpishow{MPI_Init} (or \indexmpishow{MPI_Init_thread}) and \indexmpishow{MPI_Finalize},
@@ -230,7 +236,8 @@ but the key \indexmpishow{mpi_thread_support_level} is pre-defined.
 You can not mix in a single call objects
 from different sessions,
 from a session and from the world model,
-or from a session and from \indexmpishow{MPI_Comm_get_parent} or \indexmpishow{MPI_Comm_join}.
+or from a session and from \indexmpishow{MPI_Comm_get_parent}
+or \indexmpishow{MPI_Comm_join}.
 
 \Level 1 {Process sets}
 

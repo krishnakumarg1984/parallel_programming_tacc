@@ -34,6 +34,20 @@ with \indexompdef{omp_is_initial_device}:
   if (omp_is_initial_device()) printf("Offloading failed\n");
 \end{lstlisting}
 
+\Level 1 {Targets and tasks}
+
+The \indexompclause{target} clause causes OpenMP to create a
+\indextermsub{target}{task}.
+This is a task running on the host, dedicated to managing the
+offloaded region.
+
+The \indexompclause{target} region is executed
+by a new \indextermsub{initial}{task}.
+This is distinct from the initial task that executes the main program.
+
+The task that created the target task is called the
+\indextermsub{generating}{task}.
+
 \Level 0 {Data on the device}
 
 \begin{itemize}
@@ -64,6 +78,25 @@ The following map options exist:
   If the compiler can deduce the array bounds and size,
   it is not necessary to specify them in the `map' clause.
 \end{fortrannote}
+
+Data transfer to a device is probably slow,
+so mapping the data at the start of an offloaded section of code
+is probably not the best idea.
+Additionally, in many cases data will stay resident on the device
+throughout several iterations of, for instance, a time-stepping \ac{PDE} solver.
+For such reasons, it is possible to move data onto, and off from,
+the device explicitly,
+using the \indexompclauseoption{target}{enter data} and
+\indexompclauseoption{target}{exit data} directives.
+
+\begin{lstlisting}
+#pragma omp target enter data map(to: x,y)
+#pragma omp target
+{
+  // do something
+}
+#pragma omp target enter data map(from: x,y)
+\end{lstlisting}
 
 \Level 0 {Execution on the device}
 

@@ -4,7 +4,7 @@
  **** `Parallel programming with MPI and OpenMP'
  **** by Victor Eijkhout, eijkhout@tacc.utexas.edu
  ****
- **** copyright Victor Eijkhout 2012-8
+ **** copyright Victor Eijkhout 2012-2021
  ****
  **** MPI Exercise for Isend/Irecv, sending an array
  ****
@@ -12,8 +12,11 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <math.h>
 #include <string.h>
 #include "mpi.h"
+
+#include "tools.h"
 
 int main(int argc,char **argv) {
 
@@ -79,19 +82,16 @@ int main(int argc,char **argv) {
    * Check correctness of the result:
    * value should be 2 at the end points, 3 everywhere else
    */
+  double answer[N];
   for (int i=0; i<N; i++) {
     if ( (procno==0 && i==0) || (procno==nprocs-1 && i==N-1) ) {
-      if (outdata[i]!=2)
-	printf("Data on proc %d, index %d should be 2, not %d\n",
-	       procno,i,outdata[i]);
+      answer[i] = 2.;
     } else {
-      if (outdata[i]!=3)
-	printf("Data on proc %d, index %d, should be 3, not %d\n",
-	       procno,i,outdata[i]);
+      answer[i] = 3.;
     }
   }
-  if (procno==0)
-    printf("Finished\n");
+  int error_test = array_error(answer,outdata,N);
+  print_final_result(error_test,comm);
 
   MPI_Finalize();
   return 0;

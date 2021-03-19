@@ -32,8 +32,8 @@ APPS = init thread env outerr abort \
     commsplit commsplittype intercomm \
     lockall sharedshared sharedbulk \
     cart graph rightgraphtwo persist \
-    spawnmanager spawnworker \
-    centraldiff blockwrite
+    spawnmanager spawnworker publishapp \
+    centraldiff blockwrite 
 # not ready for prime time: mvp2d
 
 MODE = mpi
@@ -97,6 +97,19 @@ run_progress : progress
 	@echo "Running without progress thread"
 	@export I_MPI_ASYNC_PROGRESS=on \
 	&& ${MPIRUN} -np ${NP} progress
+
+.PHONY: run_publishapp
+info ::
+	@echo "make run_publishapp [ USIZE=123, default: NP ]"
+USIZE = ${NP}
+run_publishapp : publishapp
+	@if [ ${TACC_SYSTEM} = "frontera" ] ; then \
+	    usize=${SLURM_NPROCS} && wsize=${NP} \
+	     && echo "Running publishapp with usize=$$usize, wsize=$$wsize" \
+	     && MY_MPIRUN_OPTIONS="-usize $$usize" ibrun -np $$wsize publishapp \
+	; else \
+	    ${MPIEXEC} -n ${NP} -usize ${USIZE} publishapp \
+	; fi
 
 MODE = mpi
 include  ../../../makefiles/Make.clean

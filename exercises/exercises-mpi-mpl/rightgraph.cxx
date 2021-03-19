@@ -33,33 +33,57 @@ int main(int argc,char **argv) {
    * -- also declare, with values set to identically one:
    *    int weights[]
    */
-/**** your code here ****/
-  mpl::dist_graph_communicator pair_communicator
-    ( comm_world, { {procno,1} }, { {procno+1,1} } );
+  mpl::dist_graph_communicator::source_set ss;
+  ss.insert( {procno,1} );
+  if (procno>0)
+    ss.insert( {procno-1,1} );
+  mpl::dist_graph_communicator::dest_set ds;
+  ds.insert( {procno,1} );
+  if (procno<nprocs-1)
+    ds.insert( {procno+1,1} );
+  mpl::dist_graph_communicator pair_communicator( comm_world, ss,ds );
+  {
+    mpl::dist_graph_communicator::source_set
+      ss = pair_communicator.inneighbors();
+    auto // this is a dest_set
+      ds = pair_communicator.outneighbors();
+    stringstream proctext;
+    proctext << "Proc " << procno << " has " << ss.size() << " sources: \n    ";
+    for ( auto s : ss ) {
+      proctext << s.first << ",";
+    }
+    proctext << "\n    and " << ds.size() << " destinations:\n    ";
+    for ( auto d : ds ) {
+      proctext << d.first << ",";
+    }
+    cout << proctext.str() << endl;
+  }
 
   double mydata=procno, leftandme[2], leftdata;
+#if 0
   MPI_Neighbor_allgather
     (&mydata,1,MPI_DOUBLE,
      leftandme,1,MPI_DOUBLE,
      pair_communicator);
   //printf("[%d] gathered: %5.3f %5.3f\n",procno,leftandme[0],leftandme[1]);
+#endif
+  cerr << "Call to all gather missing\n";
   leftdata = leftandme[0];
 
+  /*
+   * Check correctness
+   */
   int
     error = procno>0 && leftdata!=mydata-1 ? procno : nprocs,
-    errors=-1;
-
-  MPI_Allreduce(&error,&errors,1,MPI_INT,MPI_MIN,comm);
+    errors = nprocs;
+  comm_world.allreduce(mpl::min<int>(),error,errors);
   if (procno==0) {
-    stringstream proctext;
     if (errors==nprocs) 
-      proctext << "Finished; all results correct" << "\n";
+      proctext << "Finished; all results correct" << endl;
     else
-      proctext << "First error occurred on proc " << errors << "\n";
-    cerr << proctext.str();
+      proctext << "First error occurred on proc " << errors << endl;
+    cerr << proctext.str(); proctext.clear();
   }
-
-#endif
 
   return 0;
 }

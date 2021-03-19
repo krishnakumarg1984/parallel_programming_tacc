@@ -413,16 +413,16 @@ if ( /* I am not the first processor */ )
   in the right hand --~keep your left hand behind your back~--
   and we want to execute:
   \begin{enumerate}
-  \item Give the paper to your right neighbour;
-  \item Accept the paper from your left neighbour.
+  \item Give the paper to your right neighbor;
+  \item Accept the paper from your left neighbor.
   \end{enumerate}
   Including boundary conditions for first and last process, that becomes
   the following program:
   \begin{enumerate}
   \item If you are not the rightmost student, turn to the right
-    and give the paper to your right neighbour.
+    and give the paper to your right neighbor.
   \item If you are not the leftmost student, turn to your left and
-    accept the paper from your left neighbour.
+    accept the paper from your left neighbor.
   \end{enumerate}
 \end{exercise}
 
@@ -521,7 +521,7 @@ You would then write
 sendrecv( ....from... ...to... );
 \end{lstlisting}
 with the right choice of source and destination. For instance, to send
-data to your right neighbour:
+data to your right neighbor:
 \begin{lstlisting}
 MPI_Comm_rank(comm,&procno);
 MPI_Sendrecv( .... 
@@ -548,7 +548,7 @@ sendrecv(from=predecessor,to=successor);
 \end{lstlisting}
 where the sendrecv call is executed by all processors.
 
-All processors but the last one send to their neighbour; the target
+All processors but the last one send to their neighbor; the target
 value of \indexmpishow{MPI_PROC_NULL} for
 the last processor means a `send to the null processor': no actual
 send is done. 
@@ -609,7 +609,7 @@ see figure~\ref{fig:sendrecv-steps}.
 \begin{exercise}
   \label{ex:3ptsendrecv}
   Implement the above three-point combination scheme using \indexmpishow{MPI_Sendrecv};
-  every processor only has a single number to send to its neighbour.
+  every processor only has a single number to send to its neighbor.
   \skeleton{sendrecv}
 \end{exercise}
 

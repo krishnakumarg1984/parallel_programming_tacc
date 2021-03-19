@@ -15,6 +15,8 @@
 #include <string.h>
 #include "mpi.h"
 
+#include "tools.h"
+
 int main(int argc,char **argv) {
 
   MPI_Init(&argc,&argv);
@@ -65,21 +67,10 @@ int main(int argc,char **argv) {
     res = 3*procno;
   }
 
-#define ISAPPROX(x,y) \
-  ( ( x==0. && abs(y)<1.e-14 ) || ( y==0. && abs(x)<1.e-14 ) || \
-    abs(x-y)/abs(x)<1.e-14 )
-  int error=nprocs, errors;
-  if (!ISAPPROX(mydata,res)) {
-    printf("Data on proc %d should be %e, not %e\n",procno,res,mydata);
-    error = procno;
-  }
-  MPI_Allreduce(&error,&errors,1,MPI_INT,MPI_MIN,comm);
-  if (procno==0) {
-    if (errors==nprocs) 
-      printf("Finished; all results correct\n");
-    else
-      printf("First error occurred on proc %d\n",errors);
-  }
+  int error_test = !ISAPPROX(mydata,res);
+  if (error_test)
+    printf("Data on proc %d should be %e, found %e\n",procno,res,mydata);
+  print_final_result(error_test,comm);
 
   MPI_Finalize();
   return 0;

@@ -30,8 +30,8 @@ Doing this in parallel induces communication, as pictured in figure~\ref{fig:3pt
 We note:
 \begin{itemize}
 \item The data is one-dimensional, and we have a linear ordering of the processors.
-\item The operation involves neighbouring data points, and we communicate
-  with neighbouring processors.
+\item The operation involves neighboring data points, and we communicate
+  with neighboring processors.
 \end{itemize}
 
 Above you saw how you can use information exchange between pairs of processors
@@ -310,7 +310,7 @@ Figure~\ref{fig:jump-nonblock} shows the trace of a nonblocking execution
 using \indexmpishow{MPI_Waitall}.
 \begin{figure}[ht]
 \includegraphics[scale=.4]{graphics/linear-nonblock}
-\caption{A trace of a nonblocking send between neighbouring processors}
+\caption{A trace of a nonblocking send between neighboring processors}
 \label{fig:jump-nonblock}
 \end{figure}
 
@@ -366,7 +366,7 @@ hardware, firmware, and MPI implementation.
   \skeleton{isendirecvarray}
   Take your code of exercise~\ref{ex:3ptnonblock} and modify it to use
   latency hiding. Operations that can be performed without needing
-  data from neighbours should be performed in between the
+  data from neighbors should be performed in between the
   \lstinline{MPI_Isend}~/ \lstinline{MPI_Irecv} calls and the
   corresponding \lstinline{MPI_Wait} calls.
 \end{exercise}

@@ -25,6 +25,14 @@ pdf :
 	make --no-print-directory onepass
 	make --no-print-directory onepass
 	cp ${BOOKNAME}.pdf ../
+.PHONY: diagnostics
+info ::
+	@echo "make diagnostics : find LaTeX reference problems"
+diagnostics :
+	@echo "================ Diagnostics ================" \
+	 && grep multiply ${BOOKNAME}.log | grep -v header \
+	 && echo "----------------" \
+	 && grep undefined ${BOOKNAME}.log | grep -v def: | grep -v although
 exercises_extract : 
 	@echo "Extracting exercises"
 	@cd exercises ; \

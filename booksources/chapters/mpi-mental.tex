@@ -614,7 +614,7 @@ were necessary, but they introduced asymmetric behaviour in the processes.
 We return to the averaging operation given above, and with it to a code
 that treats all processes symmetrically.
 In particular, we argue that, except for the first and last,
-each process exchanges information with its left and right neighbour.
+each process exchanges information with its left and right neighbor.
 
 This could be implemented with blocking sends and receive calls, but
 students recognize how this could be somewhere between tedious and
@@ -745,7 +745,7 @@ data' instruction becomes `turn to your right and give your pen', and
 `receive data' becomes `turn to your left and receive a pen'.
 
 Executing this program, the students first all turn to the right, and
-they see that giving data to a neighbour is not possible because no
+they see that giving data to a neighbor is not possible because no
 one is executing the receive instruction. The last process is not
 sending, so moves on to the receive instruction, after which the
 penultimate process can receive, et cetera.
@@ -822,7 +822,7 @@ workshop format:
   nonblocking two-sided communication.
 \item Day 2: exposure to: sub-communicators, derived datatypes.
   Two of the following: MPI-I/O, one-sided communication, process
-  management, the profiling and tools interfaces, neighbourhood collectives.
+  management, the profiling and tools interfaces, neighborhood collectives.
 \end{itemize}
 
 \Level 2 {Exercises}

@@ -17,7 +17,7 @@ with every other process. For instance, in a computation that is
 mathematically defined on a
 Cartesian 2D grid, the
 processes themselves act as if they are two-dimensionally ordered and communicate
-with N/S/E/W neighbours. If MPI had this knowledge about your
+with N/S/E/W neighbors. If MPI had this knowledge about your
 application, it could conceivably optimize for it, for instance by
 renumbering the ranks so that communicating processes are closer
 together physically in your cluster.
@@ -49,17 +49,17 @@ These values can be discovered with the routine
 \label{sec:cartesian}
 
 A \indextermsub{Cartesian}{grid} is a structure, typically in 2~or~3 dimensions,
-of points that have two neighbours in each of the dimensions.
+of points that have two neighbors in each of the dimensions.
 Thus, if a Cartesian grid has sizes $K\times M\times N$, its
 points have coordinates $(k,m,n)$ with $0\leq k<K$ et cetera.
-Most points have six neighbours $(k\pm1,m,n)$, $(k,m\pm1,n)$, $(k,m,n\pm1)$;
+Most points have six neighbors $(k\pm1,m,n)$, $(k,m\pm1,n)$, $(k,m,n\pm1)$;
 the exception are the edge points. A~grid where edge processors
 are connected through \indexterm{wraparound connections} is called
 a \indextermsub{periodic}{grid}.
 
 The most common use of Cartesian coordinates
 is to find the rank of process by referring to it in grid terms.
-For instance, one could ask `what are my neighbours offset by $(1,0,0)$, 
+For instance, one could ask `what are my neighbors offset by $(1,0,0)$, 
 $(-1,0,0)$, $(0,1,0)$ et cetera'.
 
 While the Cartesian topology interface is fairly easy to use, as
@@ -125,7 +125,7 @@ the result is \indexmpishow{MPI_PROC_NULL}.
 \begin{figure}[ht]
   \includegraphics[scale=.5]{graphcollective}
   \caption{Illustration of a distributed graph topology where each
-    node has four neighbours}
+    node has four neighbors}
   \label{fig:graphcollective}
 \end{figure}
 
@@ -133,16 +133,16 @@ In many calculations on a grid (using the term in its mathematical,
 \ac{FEM}, sense), a grid point will collect information from grid
 points around it. Under a sensible distribution of the grid over
 processes, this means that each process will collect information from
-a number of neighbour processes. The number of 
-neighbours is dependent on that process. For instance, in a 2D
+a number of neighbor processes. The number of 
+neighbors is dependent on that process. For instance, in a 2D
 grid (and assuming a five-point stencil for the computation) most
-processes communicate with four neighbours; processes on the edge with
+processes communicate with four neighbors; processes on the edge with
 three, and processes in the corners with two.
 
 Such a topology is illustrated in figure~\ref{fig:graphcollective}.
 
 MPI's notion of \indextermbusdef{graph}{topology}, and the
-\indextermsubdef{neighbourhood}{collectives}, offer an elegant way of
+\indextermsubdef{neighborhood}{collectives}, offer an elegant way of
 expressing such communication structures. There are various reasons
 for using graph topologies over the older, simpler methods.
 \begin{itemize}
@@ -151,7 +151,7 @@ for using graph topologies over the older, simpler methods.
   code.
 \item Ordinary collectives could not directly be used for graph
   problems, unless one would adopt a subcommunicator for each graph
-  neighbourhood. However, scheduling would then lead to deadlock or
+  neighborhood. However, scheduling would then lead to deadlock or
   serialization.
 \item The normal way of dealing with graph problems is through
   nonblocking communications. However, since the user indicates an
@@ -165,7 +165,7 @@ for using graph topologies over the older, simpler methods.
 
 Thus the minimal description of a process graph contains for each process:
 \begin{itemize}
-\item Degree: the number of neighbour processes; and
+\item Degree: the number of neighbor processes; and
 \item the ranks of the processes to communicate with.
 \end{itemize}
 However, this ignores that communication is not always symmetric:
@@ -189,7 +189,7 @@ described. Therefore, there are two routines:
 There are two creation routines for process graphs. These routines are
 fairly general in that they allow any process to specify any part of
 the topology. In practice, of course, you will mostly let each process
-describe its own neighbour structure.
+describe its own neighbor structure.
 
 The routine \indexmpishow{MPI_Dist_graph_create_adjacent} assumes that a process
 knows both who it is sending it, and who will send to it. This means
@@ -200,7 +200,7 @@ no communication is needed to build the graph.
 The second creation routine, \indexmpiref{MPI_Dist_graph_create}, is
 probably easier to use, especially in cases where the communication
 structure of your program is symmetric, meaning that a process sends
-to the same neighbours that it receives from.  Now you specify on each
+to the same neighbors that it receives from.  Now you specify on each
 process only what it is the source for; that is, who this process will
 be sending to.\footnote{I disagree with this design
   decision. Specifying your sources is usually easier than specifying
@@ -225,7 +225,7 @@ the following:
   (probably:~4) of this process.
 \item \n{destinations} is an array of length the degree of this
   process, probably again~4. The elements of this array are the ranks
-  of the neighbour nodes; strictly speaking the ones that this process
+  of the neighbor nodes; strictly speaking the ones that this process
   will send to.
 \item \n{weights} is an array declaring the relative importance of the
   destinations. For an \indextermsub{unweighted}{graph} use
@@ -274,19 +274,19 @@ is a wrapper around \indexmpishow{MPI_Dist_graph_create_adjacent}.
   which are wrappers around \indexmpishow{MPI_Dist_graph_neighbors}.
 \end{mplnote}
 
-\Level 1 {Neighbour collectives}
+\Level 1 {Neighbor collectives}
 
 We can now use the graph topology to perform a gather or allgather
 \indexmpiref{MPI_Neighbor_allgather}
 that combines only the processes directly connected to the calling
 process.
 
-The neighbour collectives have the same argument list as the regular
+The neighbor collectives have the same argument list as the regular
 collectives, but they apply to a graph communicator.
 
 \begin{figure}[ht]
   \includegraphics[scale=.5]{rightgraph}
-  \caption{Solving the right-send exercise with neighbourhood
+  \caption{Solving the right-send exercise with neighborhood
     collectives}
   \label{fig:rightgraph}
 \end{figure}
@@ -341,9 +341,9 @@ For unclear reasons there is no \indexmpishow{MPI_Neighbor_allreduce}.
 
 There are two routines for querying the neighbors of a process:
 %
-\indexmpidef{MPI_Dist_graph_neighbors_count}
+\indexmpiref{MPI_Dist_graph_neighbors_count}
 and
-\indexmpidef{MPI_Dist_graph_neighbors}.
+\indexmpiref{MPI_Dist_graph_neighbors}.
 
 While this information seems derivable from the graph construction,
 that is not entirely true for two reasons.

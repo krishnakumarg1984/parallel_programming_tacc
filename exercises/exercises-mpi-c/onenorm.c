@@ -17,6 +17,8 @@
 #include <math.h>
 #include "mpi.h"
 
+void print_final_result( int cond,MPI_Comm comm );
+
 void one_norm(void *in,void *inout,int *len,MPI_Datatype *type) {
   // r is the already reduced value, n is the new value
   float n = *(float*)in, r = *(float*)inout;
@@ -74,12 +76,15 @@ int main(int argc,char **argv) {
    *  check that the distributed result is the same as sequential
    */
   float actual_norm = nprocs;
-  if (data_one_norm!=actual_norm) {
-    printf("[%d] Result %e should be %e\n",
-           procno,data_one_norm,actual_norm);
-  } else if (procno==0) {
-    printf("User-defined reduction successful: %e\n",data_one_norm);
-  }
+  int error_test = data_one_norm!=actual_norm;
+  print_final_result(error_test,comm);
+  
+  /* if () { */
+  /*   printf("[%d] Result %e should be %e\n", */
+  /*          procno,data_one_norm,actual_norm); */
+  /* } else if (procno==0) { */
+  /*   printf("User-defined reduction successful: %e\n",data_one_norm); */
+  /* } */
 
   MPI_Finalize();
   return 0;

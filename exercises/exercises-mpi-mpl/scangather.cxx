@@ -79,21 +79,6 @@ int main(int argc,char **argv) {
   }
 
   /*
-   * Gather all local arrays into one global
-   */
-  // how many elements from each process?
-  if (procno==0) {
-    vector<int> size_buffer(nprocs);
-    comm_world.gather
-      (
-/**** your code here ****/
-       );
-  } else {
-    comm_world.gather
-      ( 0,my_number_of_elements );
-  }
-
-  /*
    * Use Gatherv to collect the small buffers into a big one
    */
   if (procno==0) {

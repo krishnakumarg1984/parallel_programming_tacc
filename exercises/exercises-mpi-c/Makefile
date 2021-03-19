@@ -25,6 +25,7 @@ EXERCISES = hello \
     blockwrite blockadvance blockseek blockall viewwrite scatterwrite \
     jordan rightsend rightput rightgraph \
     ibarrierupdate shareddata
+SOURCES = $(patsubst %,%.c,${EXERCISES})
 info ::
 	@echo "    [ OPTS=... ] (for instance: OPTS=\"-DN 100\")"
 	@echo "    support options:"
@@ -32,6 +33,8 @@ info ::
 
 MODE = mpi
 LANGUAGE = C
+EXTRA_OBJS = tools.o
+${SOURCES} tools.o : tools.h
 include ../course-support/Make.compile
 
 include ../course-support/Make.simgrid

@@ -4,7 +4,7 @@
 %%%%
 %%%% This text file is part of the lecture slides for
 %%%% `Parallel Computing'
-%%%% by Victor Eijkhout, copyright 2012-2020
+%%%% by Victor Eijkhout, copyright 2012-2021
 %%%%
 %%%% Graph-slides.tex : slides about MPI graph topologies
 %%%%
@@ -25,7 +25,7 @@
 \begin{numberedframe}{Process topologies}
   \begin{itemize}
   \item Processes don't communicate at random
-  \item Example: Cartesian grid, each process 4 (or so) neighbours
+  \item Example: Cartesian grid, each process 4 (or so) neighbors
   \item Express operations in terms of topology
   \item Elegance of expression
   \end{itemize}
@@ -81,7 +81,7 @@
   one missed turn
 \end{numberedframe}
 
-\begin{numberedframe}{Neighbourhood collective}
+\begin{numberedframe}{Neighborhood collective}
   \label{fig:graphcollective}
   This is really a `local gather':\\
   each node does a gather from its neighbors in whatever order.\\
@@ -90,10 +90,10 @@
   \includegraphics[scale=.5]{graphcollective}
 
   Distributed graph topology where each
-  node has four neighbours
+  node has four neighbors
 \end{numberedframe}
 
-\begin{numberedframe}{Why neighbourhood collectives?}
+\begin{numberedframe}{Why neighborhood collectives?}
   \begin{itemize}
   \item Using \indexmpishow{MPI_Isend}~/ \indexmpishow{MPI_Irecv} is like spelling out a collective;
   \item Collectives can use pipelining as opposed to sending  a whole
@@ -123,7 +123,7 @@ int MPI_Dist_graph_create
 \end{itemize}
 \end{numberedframe}
 
-\begin{numberedframe}{Neighbourhood collectives}
+\begin{numberedframe}{Neighborhood collectives}
 \begin{lstlisting}
 int MPI_Neighbor_allgather
    (const void *sendbuf, int sendcount,MPI_Datatype sendtype,
@@ -132,6 +132,18 @@ int MPI_Neighbor_allgather
 \end{lstlisting}
 Like an ordinary \indexmpishow{MPI_Allgather}, but\\
 the receive buffer has a length \lstinline{degree}.
+\end{numberedframe}
+
+\begin{numberedframe}{Neighbor querying}
+  \label{sl:graph-neighbors}
+  After \indexmpishow{MPI_Neighbor_allgather} data in the buffer
+  is \emph{not} in normal rank order.
+  \begin{itemize}
+  \item \indexmpishow{MPI_Dist_graph_neighbors_count} gives actual number of neighbors.\\
+    (Why do you need this?)
+  \item 
+    \indexmpidef{MPI_Dist_graph_neighbors} lists neighbor numbers.
+  \end{itemize}
 \end{numberedframe}
 
 \begin{exerciseframe}[rightgraph]
@@ -145,8 +157,17 @@ the receive buffer has a length \lstinline{degree}.
 
   \includegraphics[scale=.5]{rightgraph}
 
-  Solving the right-send exercise with neighbourhood
+  Solving the right-send exercise with neighborhood
   collectives
+\end{numberedframe}
+
+\begin{numberedframe}{Hints for the previous exercise}
+  Two approaches:
+  \begin{enumerate}
+  \item Declare just one source: the previous process. Do this! Or:
+  \item Declare two sources: the previous and yourself.
+    In that case bear in mind slide~\ref{sl:graph-neighbors}.
+  \end{enumerate}
 \end{numberedframe}
 
 \endinput
