@@ -33,12 +33,17 @@
   \item One process has a counter, which models the shared memory;
   \item Each process, if available, reads the counter; and
   \item \ldots~decrements the counter.
-  \item (No actual work, therefore)
+  \item No actual work: random decision if process is available.
   \end{itemize}
 \end{numberedframe}
 
-\begin{numberedframe}{Race condition example}
+\begin{numberedframe}{Shared memory problems: what is a race condition?}
   \scriptsize
+  Race condition: outward behavior depends on
+  timing/synchronization of low-level events.\\
+  In shared memory associated with shared data.
+
+  Example:
   \begin{tabbing}
     process 1: \texttt{I=I+2}\\
     process 2: \texttt{I=I+3}
@@ -109,6 +114,8 @@ MPI_Win_fence(0,the_window);
   \indexmpishow{MPI_Fetch_and_op}~/ \indexmpishow{MPI_Get_accumulate}.\\
   Former is syntactic sugar around the latter.
 \end{numberedframe}
+
+\protoslide{MPI_Fetch_and_op}
 
 \begin{numberedframe}{Case study in shared memory: 3, good}
   \label{sl:fetchacc}

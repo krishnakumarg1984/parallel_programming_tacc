@@ -14,15 +14,16 @@
 \lstset{language=Python}
 
 Python has a \indexterm{multiprocessing} toolbox.
-This is a threading library, with idioms common to such.
+This is a parallel processing library that relies on subprocesses,
+rather than threads.
 
 A process is an object that will execute a python function:
-\verbatimsnippet[code/multprocessing/p/hello.py]{pyproccreate}
+\pverbatimsnippet[code/multiprocessing/p/hello.py]{pyproccreate}
 
 These processes can be started and,
 using familiar terminology,
 `join'ed:
-\verbatimsnippet[code/multprocessing/p/hello.py]{pyprocstartjoin}
+\pverbatimsnippet[code/multiprocessing/p/hello.py]{pyprocstartjoin}
 
 By making the start and join calls less regular than
 in a loop like this,
@@ -43,3 +44,11 @@ but you can specify custom names:
 \begin{lstlisting}
 Process(name="Your name here")
 \end{lstlisting}
+The target function of a process can get hold of that process
+with the  \lstinline+current_process+ function.
+
+Of course you can also query \lstinline+os.getpid()+
+but that does not offer any further possibilities.
+
+\pverbatimsnippet[code/multiprocessing/p/hello.py]{pyprocpid}
+

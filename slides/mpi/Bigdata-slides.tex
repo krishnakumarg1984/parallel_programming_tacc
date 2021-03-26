@@ -57,6 +57,8 @@ because the size argument has to be \lstinline{int}.
   \end{itemize}
 \end{numberedframe}
 
+\protoslide{MPI_Get_elements}
+
 \begin{numberedframe}{Large int counting}
   New to MPI-3: 
   \begin{itemize}
@@ -68,6 +70,8 @@ because the size argument has to be \lstinline{int}.
   MPI-4 will use \lstinline{MPI_Count} parameters everywhere,\\
   in Fortran through polymorphism, in~C through \n{_c} suffix.
 \end{numberedframe}
+
+\protoslide{MPI_Get_elements_x}
 
 \begin{numberedframe}{For your amusement}
 What do you get if you print the following:
@@ -85,9 +89,9 @@ What do you get if you print the following:
   These return \lstinline{MPI_Count} instead of \lstinline{int}.
 \end{numberedframe}
 
-\begin{numberedframe}{Big types in python}
+\begin{numberedframe}{Big data in python}
   The \n{mpi4py} interface uses native Python integers,\\
-  which are 8 bytes. So no \n{_x} routines.
+  which are 8 bytes. So the \n{_x} routines are not needed.
 \end{numberedframe}
 
 \endinput

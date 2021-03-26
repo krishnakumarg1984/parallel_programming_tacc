@@ -24,13 +24,6 @@ int main(int argc,char **argv) {
   MPI_Comm_size(comm,&nprocs);
   MPI_Comm_rank(comm,&procno);
 
-#ifdef SIMGRID
-  /*
-   * We can use SimGrid to do simulated timings on a single run.
-   */
-  MPI_Barrier(comm);
-  double starttime = MPI_Wtime();
-#endif
 
   double mydata=procno, leftdata=-2,
     window_data;
@@ -52,15 +45,6 @@ int main(int argc,char **argv) {
   MPI_Win_fence(0,the_window);
   leftdata = window_data;
 
-#ifdef SIMGRID
-  /*
-   * We can use SimGrid to do simulated timings on a single run.
-   */
-  MPI_Barrier(comm);
-  double duration = MPI_Wtime()-starttime;
-  if (procno==0)
-    print("Duration with %d procs: %e\n",nprocs,duration);
-#endif
 
   /*
    * Correctness check:

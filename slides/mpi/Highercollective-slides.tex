@@ -59,7 +59,6 @@ MPI_Isomething( <usual arguments>, MPI_Request *req);
     the usual story about buffer reuse
   \item Requires \lstinline{MPI_Wait}\texttt{...} for completion.
   \item Multiple collectives can complete in any order
-  \item No guaranteed progress.
   \end{itemize}
 \end{numberedframe}
 
@@ -89,8 +88,14 @@ MPI_Wait(request);
   \]
 which translates to:
 \begin{lstlisting}
-MPI_Allreduce( &local_xy,  &global_xy, 1,MPI_DOUBLE,MPI_SUM,comm);
-MPI_Allreduce( &local_xinf,&global_xin,1,MPI_DOUBLE,MPI_MAX,comm);
+MPI_Request reqs[2];
+MPI_Iallreduce
+   ( &local_xy,  &global_xy, 1,MPI_DOUBLE,MPI_SUM,comm,
+     &(reqs[0]) );
+MPI_Iallreduce
+   ( &local_xinf,&global_xin,1,MPI_DOUBLE,MPI_MAX,comm,
+     &(reqs[1]) );
+MPI_Waitall(2,reqs,MPI_STATUSES_IGNORE);
 \end{lstlisting}
 \end{numberedframe}
 

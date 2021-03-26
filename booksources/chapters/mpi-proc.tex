@@ -74,7 +74,7 @@ A process can detect whether it was a spawning or a spawned process
 by using \indexmpishow{MPI_Comm_get_parent}:
 the resulting inter-communicator is \indexmpishow{MPI_COMM_NULL}
 on the parent processes.
-\cverbatimsnippet[examples/mpi/c/publishapp.c]{commparentdetect}
+\cverbatimsnippet[examples/mpi/c/spawnapp.c]{commparentdetect}
 
 \begin{taccnote}
 \indextermbus{Intel}{MPI} requires you to pass an option \n{-usize} to
@@ -133,7 +133,7 @@ This is collective over the calling communicator.
 It returns an intercommunicator (section~\ref{sec:mpi-intercomm})
 that allows communication with the client.
 
-\cxxverbatimsnippet[code/mpi/c/portapp.c]{mpiportmanage}
+\cxxverbatimsnippet[examples/mpi/c/portapp.c]{mpiportmanage}
 
 The port can be closed with 
 \indexmpidef{MPI_Close_port}.
@@ -145,7 +145,7 @@ needs to connect to it with
 \indexmpiref{MPI_Comm_connect}, again specifying the port through a character buffer.
 The connect call is collective over its communicator.
 
-\cxxverbatimsnippet[code/mpi/c/portapp.c]{mpiportwork}
+\cxxverbatimsnippet[examples/mpi/c/portapp.c]{mpiportwork}
 
 If the named port does not exist (or has been closed),
 \indexmpishow{MPI_Comm_connect} raises an error of class \indexmpishow{MPI_ERR_PORT}.

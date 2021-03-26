@@ -82,15 +82,6 @@ int main(int argc,char **argv) {
   if (col_rank==0)
     MPI_Comm_size(col_comm,&col_length);
 
-#ifdef SIMGRID
-  /*
-   * Timings. With SIMGRID this can be done on a single run; otherwise we average
-   */
-  MPI_Barrier(comm);
-  double starttime = MPI_Wtime();
-#define NEXPERIMENTS 10
-  for (int nexperiment=0; nexperiment<NEXPERIMENTS; nexperiment++) {
-#endif
   
   //
   // Exercise:
@@ -104,20 +95,6 @@ int main(int argc,char **argv) {
 /**** your code here ****/
   //}
 
-#ifdef SIMGRID
-  }
-  /*
-   * Measure time, average, report.
-   */
-  MPI_Barrier(comm);
-  double duration = MPI_Wtime()-starttime;
-  duration /= NEXPERIMENTS;
-  if (procno==0) {
-    stringstream proctext;
-    proctext << "Duration with " << nprocs << " procs: " << duration << endl;
-    cout << proctext.str(); proctext.clear();
-  }
-#endif
 
   //
   // and now everyone computes how many processes there are

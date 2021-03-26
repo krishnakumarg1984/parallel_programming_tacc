@@ -1,9 +1,24 @@
+% -*- latex -*-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%
+%%%% This text file is part of the source of 
+%%%% `Parallel Computing'
+%%%% by Victor Eijkhout, copyright 2012-2021
+%%%%
+%%%% MPI API file
+%%%%
+%%%% THIS FILE IS AUTO-GENERATED
+%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \begingroup\tt\catcode`\_=12
 \begin{tabular}{lllll}
 \toprule
 \textrm{Name}&\textrm{Param name}&\textrm{C type}&\textrm{F type}&\textrm{inout}\\
 \midrule
-\hbox to 20pt{mpi_comm_get_name (\hss} \\
+\hbox to 20pt{MPI_Comm_get_name (\hss} \\
 &comm&MPI_Comm&TYPE(MPI_Comm)&in\\ [-3pt]
 &\hbox to 0pt{\footnotesize\sl communicator whose name is to be returned\hss}\\
 &comm_name&char*&CHARACTER&out\\&\hbox to 0pt{\footnotesize length: \tt\catcode`\_=12 MPI_MAX_OBJECT_NAME\hss}\\ [-3pt]

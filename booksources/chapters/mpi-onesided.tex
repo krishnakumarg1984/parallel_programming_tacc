@@ -587,8 +587,9 @@ The problem is that reading and updating the pointer is not an
 \emph{atomic operation}, so
 it is possible that multiple processes get hold of the same value;
 conversely, multiple updates of the pointer may lead to work
-descriptors being skipped. These inconsistent views of the data are
-called a \indexterm{race condition}.
+descriptors being skipped.
+These different overall behaviors, depending on precise timing of lower level events,
+are called a \indexterm{race condition}.
 
 In \mpistandard{3} some atomic routines have been added.
 Both \indexmpiref{MPI_Fetch_and_op} and \indexmpiref{MPI_Get_accumulate}
@@ -722,11 +723,13 @@ if (rank == 0) {
 
 \Level 1 {Lock types}
 
-A lock is needed for an origin to acquire the capability
-to access a target.
+A lock is needed to start an \indextermsub{access}{epoch}, that is,
+for an origin to acquire the capability to access a target.
 You can either acquire a lock on a specific process with \indexmpishow{MPI_Win_lock},
 or on all processes (in a communicator) with \indexmpishow{MPI_Win_lock_all}.
 Unlike \indexmpishow{MPI_Win_fence}, this is not a collective call.
+Also, it is possible to have multiple access epochs through \indexmpishow{MPI_Win_lock}
+active simultaenously.
 
 The two lock types are:
 \begin{itemize}
@@ -746,7 +749,6 @@ respectively \indexmpidef{MPI_Win_unlock_all}.
 
 \begin{exercise}
   \label{ex:lockandfetch}
-  \skeleton{lockfetch}
   Investigate atomic updates using passive target synchronization.
   Use \indexmpishow{MPI_Win_lock} with an exclusive lock, which
   means that each process only acquires the lock when it absolutely has to.
@@ -760,12 +762,13 @@ MPI_Fetch_and_op(&one, &readout,
 \end{lstlisting}
   \item while the remaining process spins until the others have performed their update.
   \end{itemize}
-  Use an atomic operation for the latter process to read out the shared value.
+  Use an atomic operation for the latter process to read out the shared value.\\
+  Can you replace the exclusive lock with a shared one?
+  \skeleton{lockfetch}
 \end{exercise}
 
 \begin{exercise}
   \label{ex:lockfetchshared}
-  \skeleton{lockfetchshared}
   As exercise~\ref{ex:lockandfetch}, but now use a shared lock:
   all processes acquire the lock simultaneously and keep it as long as is needed.
 
@@ -773,6 +776,7 @@ MPI_Fetch_and_op(&one, &readout,
   now not forced by a fence or releasing a lock. Use \lstinline{MPI_Win_flush_local} to
   force coherence of a window (on another process) and the local variable from
   \lstinline{MPI_Fetch_and_op}.
+  \skeleton{lockfetchshared}
 \end{exercise}
 
 \Level 1 {Lock all}

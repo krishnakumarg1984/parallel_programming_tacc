@@ -33,14 +33,6 @@ int main(int argc,char **argv) {
   MPI_Comm_size(comm,&nprocs);
   MPI_Comm_rank(comm,&procno);
 
-#ifdef SIMGRID
-  /*
-   * We can use SimGrid to do simulated timings on a single run.
-   */
-  MPI_Barrier(comm);
-  double starttime = MPI_Wtime();
-#endif
-
   // Set `sendto' and `recvfrom'
   int sendto =
     ( procno<nprocs-1 ? procno+1 : MPI_PROC_NULL )
@@ -59,15 +51,6 @@ int main(int argc,char **argv) {
   for (int i=0; i<N; i++) leftdata[i] = 0.;
 /**** your code here ****/
 
-#ifdef SIMGRID
-  /*
-   * We can use SimGrid to do simulated timings on a single run.
-   */
-  MPI_Barrier(comm);
-  double duration = MPI_Wtime()-starttime;
-  if (procno==0)
-    printf("Duration with %d procs: %e\n",nprocs,duration);
-#endif
 
   /*
    * Correctness check:
@@ -81,7 +64,7 @@ int main(int argc,char **argv) {
     answers[i] = p1*p1*p1/3 + p1*p1/2 + p1/6;
   }
   double relative_error = array_error(answers,myvalue,N);
-  printf("[%d] relative error=%e\n",procno,relative_error);
+  //  printf("[%d] relative error=%e\n",procno,relative_error);
   print_final_result( relative_error > 1.e-12, comm );
 
   MPI_Finalize();

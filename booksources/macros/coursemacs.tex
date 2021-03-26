@@ -15,7 +15,7 @@
 \usepackage{verbatim,wrapfig}
 
 \usepackage{amsmath}
-\usepackage{array,multirow,multicol}
+\usepackage{array,booktabs,multirow,multicol}
 \newcolumntype{R}{>{\hbox to 1.2em\bgroup\hss}{r}<{\egroup}}
 \newcolumntype{T}{>{\hbox to 8em\bgroup}{c}<{\hss\egroup}}
 
@@ -88,10 +88,19 @@
 \def\RoutineRefStyle{\scriptsize}
 \def\protoslide#{\bgroup \catcode`\_=12
   \afterassignment\protoslideinclude \def\protoname}
-\def\protoslideinclude{\begin{frame}[containsverbatim]\frametitle{\texttt\protoname}
-    \small
-    \expandafter\mpiRoutineRef\expandafter{\protoname}
-    \end{frame}\egroup
+\def\protoslideinclude{%
+  \begin{frame}[containsverbatim]\frametitle{\texttt\protoname}
+    \footnotesize
+    \edef\tmp{\lowercase{\def\noexpand\standardroutine{\protoname}}}\tmp
+    \IfFileExists
+        {standard/\standardroutine.tex}
+        {\input{standard/\standardroutine}}
+        {% if no standard file, then maybe handwritten file
+          \IfFileExists
+              {mpireference/\protoname.tex}
+              {\verbatiminput{mpireference/\protoname}}{}}
+        %\expandafter\mpiRoutineRef\expandafter{\protoname}
+  \end{frame}\egroup
 }
 
 \newcounter{excounter}

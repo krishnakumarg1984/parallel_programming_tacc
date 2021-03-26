@@ -42,6 +42,9 @@
 %\excludecomment{tacc}
 \excludecomment{xsede}
 
+\includecomment{download}
+\excludecomment{lab}
+
 \includecomment{onesided}
 \includecomment{advanced}
 \includecomment{foundations}
@@ -96,12 +99,23 @@
   \input xsede-conduct
 \end{xsede}
 
-\begin{frame}[containsverbatim]{Materials and labs}
-   Textbook and lecture slides: \url{https://tinyurl.com/vle335course}
+\begin{download}
+  \begin{frame}[containsverbatim]{Materials}
+    Textbook and lecture slides:\\
+    \url{https://tinyurl.com/vle335course}
+    
+    Source repository containing exercises: \\
+    \url{https://bitbucket.org/VictorEijkhout/parallel-programming-public/}
+  \end{frame}
+\end{download}
 
-  Labs:
-  \begin{itemize}
-  \item Login
+\begin{lab}
+  \begin{frame}[containsverbatim]{Materials and labs}
+    Textbook and lecture slides: \url{https://tinyurl.com/vle335course}
+
+    Labs:
+    \begin{itemize}
+    \item Login
 \begin{verbatim}
   ssh you@frontera.tacc.utexas.edu
 \end{verbatim}
@@ -113,9 +127,9 @@
 
 \item Pick your favorite language:\\
 \begin{verbatim}
-  cd mpithree_course/exercises-mpi-c} or \n{f08} or \n{p
+  cd mpithree_course/exercises-mpi-c
 \end{verbatim}
-
+  or \n{f08} or \n{p}
 \item Get a compute node:
 \begin{verbatim}
   idev -t 3:0:0
@@ -126,8 +140,9 @@
   make hello && ibrun hello
 \end{verbatim}
 
-  \end{itemize}
-\end{frame}
+    \end{itemize}
+  \end{frame}
+\end{lab}
 
 \begin{frame}{Justification}
   Version 3 of the MPI standard has added a number
@@ -188,7 +203,13 @@ Integer :: comm = MPI_COMM_WORLD
 \end{numberedframe}
 
 \begin{numberedframe}{Requests}
-\fverbatimsnippet{waitany0f}
+  Requests are also derived types\\
+  note that \n{...NULL} entities are now objects, not integers
+
+  \fverbatimsnippet{waitany0f}
+
+  (Q for the alert student: do you see anything halfway
+  remarkable about that index?)
 \end{numberedframe}
 
 \begin{numberedframe}{More}
@@ -202,6 +223,19 @@ Also:
   \lstinline{MPI_Errhandler}, \lstinline{MPI_Group},
   \lstinline{MPI_Info}, \lstinline{MPI_File}, \lstinline{MPI_Op},
   \lstinline{MPI_Request}, \lstinline{MPI_Status}, \lstinline{MPI_Win}
+\end{numberedframe}
+
+\begin{numberedframe}{Type checking}
+  Type checking catches potential problems:
+  \fverbatimsnippet{ftypecheck}
+\begin{verbatim}
+typecheck.F90(20): error #6285: 
+  There is no matching specific subroutine
+  for this generic subroutine call.   [MPI_SEND]
+  call MPI_Send(source,n,MPI_INTEGER,1,0,MPI_COMM_WORLD)
+-------^
+\end{verbatim}
+Unfortunately it doesn't say \emph{which} parameter is the offending one.
 \end{numberedframe}
 
 \lstset{language=C}

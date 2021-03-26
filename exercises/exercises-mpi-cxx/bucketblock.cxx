@@ -4,7 +4,7 @@
  **** `Parallel programming with MPI and OpenMP'
  **** by Victor Eijkhout, eijkhout@tacc.utexas.edu
  ****
- **** copyright Victor Eijkhout 2012-9
+ **** copyright Victor Eijkhout 2012-2021
  ****
  **** MPI Exercise to illustrate pipelining
  ****
@@ -38,13 +38,6 @@ int main(int argc,char **argv) {
   MPI_Comm_size(comm,&nprocs);
   MPI_Comm_rank(comm,&procno);
 
-#ifdef SIMGRID
-  /*
-   * We can use SimGrid to do simulated timings on a single run.
-   */
-  MPI_Barrier(comm);
-  double starttime = MPI_Wtime();
-#endif
 
   // Set `sendto' and `recvfrom'
   int sendto =
@@ -61,17 +54,6 @@ int main(int argc,char **argv) {
   vector<double> leftdata(N,0.), myvalue(N,0.);
 /**** your code here ****/
 
-#ifdef SIMGRID
-  /*
-   * We can use SimGrid to do simulated timings on a single run.
-   */
-  MPI_Barrier(comm);
-  double duration = MPI_Wtime()-starttime;
-  if (procno==0) {
-    proctext << "Duration with " << nprocs << " procs: " << duration << endl;
-    cout << proctext.str(); proctext.clear();
-  }
-#endif
 
   /*
    * Check correctness

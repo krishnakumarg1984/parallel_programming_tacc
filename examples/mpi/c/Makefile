@@ -32,7 +32,7 @@ APPS = init thread env outerr abort \
     commsplit commsplittype intercomm \
     lockall sharedshared sharedbulk \
     cart graph rightgraphtwo persist \
-    spawnmanager spawnworker publishapp \
+    spawnmanager spawnworker spawnapp portapp \
     centraldiff blockwrite 
 # not ready for prime time: mvp2d
 

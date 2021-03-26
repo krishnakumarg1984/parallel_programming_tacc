@@ -13,7 +13,9 @@
 info ::
 	@echo "Do: make app (where app=${APPS})"
 
-APPS = reduceinplace reduceinplaceptr section anysource putfence waitnull vector
+APPS = reduceinplace reduceinplaceptr section anysource putfence waitnull vector \
+    typecheck
+
 LANGUAGE = F
 MODE = mpi
 
