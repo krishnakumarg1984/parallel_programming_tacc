@@ -625,9 +625,6 @@ Hints for this exercise:
   the call, $p'$~needs to specify $p$ as the source of the recv part.
 \end{itemize}
 
-If the send and receive buffer have the same size, the routine
-\indexmpiref{MPI_Sendrecv_replace} will do an in-place replacement.
-
 The following exercise lets you implement a sorting algorithm with the
 send-receive call\footnote {There is an \n{MPI\_Compare\_and\_swap}
   call. Do not use that.}.
@@ -665,6 +662,13 @@ send-receive call\footnote {There is an \n{MPI\_Compare\_and\_swap}
   \caption{Odd-even transposition sort on 4 processes, holding 2 elements each.}
   \label{fig:swapsort2}
 \end{figure}
+
+\begin{remark}
+  It is not possible to use \indexmpishow{MPI_IN_PLACE} for the buffers.
+  Instead, the routine \indexmpiref{MPI_Sendrecv_replace} has only one buffer,
+  used as both send and receive buffer.
+  Of course, this requires the send and receive messages to be the same size.
+\end{remark}
 
 \begin{exercise}
   Extend this exercise to the case where each process hold an equal

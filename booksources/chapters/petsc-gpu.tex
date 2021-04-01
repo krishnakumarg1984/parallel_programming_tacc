@@ -13,9 +13,27 @@
 
 \Level 0 {Installation with GPUs}
 
+PETSc can be configured with options
+\begin{verbatim}
+--with-cuda   --with-cudac=nvcc?
+\end{verbatim}
+You can test the presence of CUDA with:
+
+\cverbatimsnippet{petsccudavar}
+
+Some GPUs can accomodate MPI by being directly connected to the network
+through \indexterm{GPUDirect} RDMA. If not:
+\begin{verbatim}
+-use_gpu_aware_mpi 0
+\end{verbatim}
+
+\Level 0 {Setup for GPU}
+
 GPUs need to be initialized.
 This can be done implicitly when a GPU object is created,
 or explicitly through \indexpetscdef{PetscCUDAInitialize}.
+
+\cverbatimsnippet{pcudainit}
 
 \Level 0 {Distributed objects}
 
@@ -24,11 +42,11 @@ Dense matrices:
 \indexpetscdef{MatCreateSeqDenseCUDA},
 giving types
 \indexpetscdef{MATMPIDENSECUDA},
-\indexpetscdef{MATDENSECUDA}.
-MATAIJCUSPARSEVecCreateSeqCUDA
+\indexpetscdef{MATDENSECUDA},
+\indexpetscdef{MATAIJCUSPARSE}
 
 Also
-VecCreateSeqCUDA
+\indexpetscdef{VecCreateSeqCUDA},
 \indexpetscdef{VecCreateMPICUDAWithArray},
 \indexpetscdef{VECCUDA},
 \indexpetscdef{VECSEQCUDA},

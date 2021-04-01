@@ -52,3 +52,25 @@ but that does not offer any further possibilities.
 
 \pverbatimsnippet[code/multiprocessing/p/hello.py]{pyprocpid}
 
+\Level 0 {Shared data}
+
+The best way to deal with shared data is to create
+a \lstinline{Value} or \lstinline{Array} object,
+which come equipped with a lock for safe updating.
+
+\pverbatimsnippet{pypivalue}
+
+For instance, one could stochastically calculate~$\pi$
+by 
+\begin{enumerate}
+\item generating random points in~$[0,1)^2$, and
+\item recording how many fall in the unit circle, after which
+\item $\pi$ is $4\times$ the ratio between points in the circle
+  and the total number of points.
+\end{enumerate}
+
+\pverbatimsnippet{pypicompute}
+
+\begin{exercise}
+  Do you see a way to improve the speed of this calculation?
+\end{exercise}

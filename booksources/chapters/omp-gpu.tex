@@ -48,6 +48,10 @@ This is distinct from the initial task that executes the main program.
 The task that created the target task is called the
 \indextermsub{generating}{task}.
 
+By default, the generating task is blocked while the task on the device is running,
+but adding the \indexompclause{target}{nowait} clause makes it asynchronous.
+This requires a \indexompshow{taskwait} directive to synchronize host and device.
+
 \Level 0 {Data on the device}
 
 \begin{itemize}

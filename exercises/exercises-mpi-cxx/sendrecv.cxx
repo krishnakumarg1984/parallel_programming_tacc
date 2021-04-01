@@ -15,6 +15,8 @@
 using namespace std;
 #include <mpi.h>
 
+#include "tools.h"
+
 int main() {
 
   MPI_Comm comm = MPI_COMM_WORLD;
@@ -26,7 +28,7 @@ int main() {
   MPI_Comm_size(comm,&nprocs);
   MPI_Comm_rank(comm,&procno);
 
-  int mydata=1,leftdata=0,rightdata=0;
+  double mydata=procno, leftdata=0, rightdata=0;
   int sendto,recvfrom;
 
   // Exercise:
@@ -38,42 +40,41 @@ int main() {
   //hint:  recvfrom =
 /**** your code here ****/
   MPI_Sendrecv
-    (&mydata,1,MPI_INT, sendto,0,
-     &leftdata,1,MPI_INT, recvfrom,0, comm,MPI_STATUS_IGNORE);
+    (&mydata,1,MPI_DOUBLE, sendto,0,
+     &leftdata,1,MPI_DOUBLE, recvfrom,0, comm,MPI_STATUS_IGNORE);
 
   // then the right neighbour data
   //hint:  recvfrom =
   //hint:  sendto = 
 /**** your code here ****/
   MPI_Sendrecv
-    (&mydata,1,MPI_INT, sendto,0,
-     &rightdata,1,MPI_INT, recvfrom,0, comm,MPI_STATUS_IGNORE);
+    (&mydata,1,MPI_DOUBLE, sendto,0,
+     &rightdata,1,MPI_DOUBLE, recvfrom,0, comm,MPI_STATUS_IGNORE);
 
-  // check correctness
+  /*
+   * Correctness check:
+   * `error' will be:
+   * - the lowest process number where an error occured, or
+   * - `nprocs' if no error.
+   */
   mydata = mydata+leftdata+rightdata;
 
-  int error=nprocs,errors;
-  if (procno==0 || procno==nprocs-1) {
-    if (mydata!=2) {
-      proctext << "Data on proc " << procno << " should be 2, not " << mydata << endl;
-      error = procno;
-    }
-    cerr << proctext.str(); proctext.clear();
+  double res;
+  if (procno==0) {
+    res = 2*procno+1;
+  } else if (procno==nprocs-1) {
+    res = 2*procno-1;
   } else {
-    if (mydata!=3) {
-      proctext << "Data on proc " << procno << " should be 3, not " << mydata << endl;
-      error = procno;
-    }
+    res = 3*procno;
   }
 
-  MPI_Allreduce(&error,&errors,1,MPI_INT,MPI_MIN,comm);
-  if (procno==0) {
-    if (errors==nprocs) 
-      proctext << "Finished; all results correct" << endl;
-    else
-      proctext << "First error occurred on proc " << errors << endl;
-    cerr << proctext.str(); proctext.clear();
+  int error_test = !ISAPPROX(mydata,res);
+  if (error_test) {
+    stringstream proctext;
+    proctext << "Data on proc " << procno << " should be " << res << ", found " << mydata;
+    cout << proctext.str() << "\n";
   }
+  print_final_result(error_test,comm);
 
   MPI_Finalize();
   return 0;

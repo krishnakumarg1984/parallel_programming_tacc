@@ -16,6 +16,8 @@
 using namespace std;
 #include <mpi.h>
 
+#include "tools.h"
+
 int main(int argc,char **argv) {
 
   MPI_Comm comm = MPI_COMM_WORLD;
@@ -69,28 +71,25 @@ int main(int argc,char **argv) {
       outdata[i] = indata[i-1] + indata[i] + indata[i+1];
   
   /*
+   * Correctness check:
+   * `error' will be:
+   * - the lowest process number where an error occured, or
+   * - `nprocs' if no error.
+   */
+  /*
    * Check correctness of the result:
    * value should be 2 at the end points, 3 everywhere else
    */
+  vector<double> answer(N);
   for (int i=0; i<N; i++) {
     if ( (procno==0 && i==0) || (procno==nprocs-1 && i==N-1) ) {
-      if (outdata[i]!=2) {
-	proctext << "Data on proc " << procno << ", index " << i
-		 << " should be 2, not " << outdata[i] << endl;
-	cerr << proctext.str(); proctext.clear();
-      }
+      answer[i] = 2.;
     } else {
-      if (outdata[i]!=3) {
-	proctext << "Data on proc " << procno << ", index " << i
-		 << " should be 3, not " << outdata[i] << endl;
-	cerr << proctext.str(); proctext.clear();
-      }
+      answer[i] = 3.;
     }
   }
-  if (procno==0) {
-    proctext << "Finished" << endl;
-    cerr << proctext.str(); proctext.clear();
-  }
+  int error_test = array_error(answer,outdata);
+  print_final_result(error_test,comm);
 
   MPI_Finalize();
   return 0;

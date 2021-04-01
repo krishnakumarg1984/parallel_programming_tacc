@@ -30,6 +30,8 @@ info ::
 
 MODE = mpi
 LANGUAGE = CXX
+EXTRA_OBJS = tools.o
+${SOURCES} tools.o : tools.h
 include ../course-support/Make.compile
 
 

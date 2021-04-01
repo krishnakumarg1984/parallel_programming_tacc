@@ -4,7 +4,7 @@
 %%%%
 %%%% This text file is part of the lecture slides for
 %%%% `Parallel Computing'
-%%%% by Victor Eijkhout, copyright 2012-9
+%%%% by Victor Eijkhout, copyright 2012-2021
 %%%%
 %%%% Spawn-slides.tex : slides about MPI process management
 %%%%
@@ -55,17 +55,21 @@ MPI_Attr_get(MPI_COMM_WORLD, MPI_UNIVERSE_SIZE,
 \end{numberedframe}
 
 \begin{numberedframe}{Manager program}
-\footnotesize
-\cverbatimsnippet{spawnmanagerq}
+  \footnotesize
+  \cverbatimsnippet{spawnmanagerq}
 \end{numberedframe}
 
 \begin{numberedframe}{Manager program (cont'd)}
-\footnotesize
-\cverbatimsnippet{spawnmanager}
+  \footnotesize
+  \cverbatimsnippet{spawnmanager}
 \end{numberedframe}
 
 \begin{numberedframe}{Worker program}
-\cverbatimsnippet{spawnworker}
+  \cverbatimsnippet{spawnworker}
+\end{numberedframe}
+
+\begin{numberedframe}{Were you spawned?}
+  \cverbatimsnippet{commparentdetect}
 \end{numberedframe}
 
 \endinput

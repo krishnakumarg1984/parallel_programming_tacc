@@ -312,13 +312,15 @@
     PetscOptionsBegin,PetscOptionsEnd,PetscOptionsInt,PetscOptionsGetInt,PetscOptionsSetValue,
     KSPSetOptionsPrefix,MatSetOptionsPrefix,PCSetOptionsPrefix,PetscObjectSetOptionsPrefix,PetscViewerSetOptionsPrefix,SNESSetOptionsPrefix,TSSetOptionsPrefix,VecSetOptionsPrefix,
     % GPU / CUDA stuff
-    PetscCUDAInitialize,MatCreateDenseCUDA,MatCreateSeqDenseCUDA,MatDenseCUDAGetArray,
+    PetscCUDAInitialize,MatCreateDenseCUDA,MatCreateSeqDenseCUDA,
+    MatDenseCUDAGetArray,VecCreateSeqCUDA,VecCreateMPICUDAWithArray,VecCUDAGetArray,
+    PetscMallocSetCUDAHost,PetscMallocResetCUDAHost,
   },emphstyle={[4]\color{red!70!black}\bfseries},
   emph={[5] %% PETSc keywords and macros
     ADD_VALUES,INSERT_VALUES,MPIU_REAL,MPIU_SCALAR,MPIU_COMPLEX,
     DM_BOUNDARY_NONE,DM_BOUNDARY_GHOSTED,DM_BOUNDARY_PERIODIC,DM_STENCIL_STAR,DM_STENCIL_BOX,
     KSPCG,KSPPIPECG,KSPGMRES,KSPBCGS,KSPPREONLY,
-    MATMPIDENSE,MATMPIAIJ,MATSEQDENSE,MATSEQAIJ,MATMPIDENSECUDA,MATDENSECUDA,
+    MATMPIDENSE,MATMPIAIJ,MATSEQDENSE,MATSEQAIJ,MATMPIDENSECUDA,MATDENSECUDA,MATAIJCUSPARSE,
     MAT_FINAL_ASSEMBLY,MAT_FLUSH_ASSEMBLY,
     MAT_NEW_NONZERO_LOCATIONS,MAT_NEW_NONZERO_LOCATION_ERR,
     NORM_1,NORM_2,NORM_INF,

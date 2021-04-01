@@ -55,7 +55,6 @@ int main(int argc,char **argv) {
    * - the lowest process number where an error occured, or
    * - `nprocs' if no error.
    */
-  // check correctness
   mydata = mydata+leftdata+rightdata;
 
   double res;
