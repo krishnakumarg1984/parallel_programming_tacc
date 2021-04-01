@@ -1,0 +1,2 @@
+// cuda.c
+ierr = PetscCUDAInitialize(comm,PETSC_DECIDE); CHKERRQ(ierr);

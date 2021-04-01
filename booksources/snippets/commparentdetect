@@ -1,0 +1,8 @@
+// spawnapp.c
+MPI_Comm comm_parent;
+MPI_Comm_get_parent(&comm_parent);
+int is_child = (comm_parent!=MPI_COMM_NULL);
+if (is_child) {
+  char procname[MPI_MAX_PROCESSOR_NAME]; int len = MPI_MAX_PROCESSOR_NAME;
+  MPI_Get_processor_name(procname,&len);
+  printf("I detect I am a child running on %s\n",procname);

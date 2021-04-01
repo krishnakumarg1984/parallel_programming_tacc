@@ -1,0 +1,10 @@
+// hello.py
+import multiprocessing as mp
+import os
+
+def say_hello(iproc):
+    print(f"Process has input value: {iproc}")
+
+if __name__ == '__main__':
+    processes = [ mp.Process(target=say_hello,args=[iproc])
+                  for iproc in range(6) ]

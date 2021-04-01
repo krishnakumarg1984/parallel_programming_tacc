@@ -1,0 +1,26 @@
+// proccount.c
+void nested_report() {
+#pragma omp parallel
+#pragma omp master
+  printf("Parallel  : count %2d cores and %2d threads out of max %2d\n",
+	 omp_get_num_procs(),omp_get_num_threads(),omp_get_max_threads());
+}
+
+int main(int argc,char **argv) {
+
+  printf("---------------- Parallelism report ----------------\n");
+
+  printf("Sequential: count %2d cores and %2d threads out of max %2d\n",
+	 omp_get_num_procs(),omp_get_num_threads(),omp_get_max_threads());
+#pragma omp parallel
+#pragma omp master
+  printf("Parallel  : count %2d cores and %2d threads out of max %2d\n",
+	 omp_get_num_procs(),omp_get_num_threads(),omp_get_max_threads());
+
+#pragma omp parallel
+#pragma omp master
+  nested_report();
+//codesnippet ompproccount
+
+  return 0;
+}

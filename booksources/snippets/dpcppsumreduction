@@ -1,0 +1,12 @@
+// reduct1d.cxx
+auto array_accessor =
+  array_buffer.get_access<sycl::access::mode::read>(h);
+auto scalar_accessor = sycl::reducer
+  (scalar_buffer.get_access<sycl::access::mode::read_write>(h), std::plus<float>());
+h.parallel_for<class uniqueID>
+  ( array_range,
+    [=](sycl::id<1> index) 
+    {
+      scalar_accessor += array_accessor[index];
+    }
+    ); // end of parallel for

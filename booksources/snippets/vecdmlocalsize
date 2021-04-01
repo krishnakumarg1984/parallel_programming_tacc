@@ -1,0 +1,6 @@
+// dmrhs.c
+Vec xy;
+ierr = VecCreate(comm,&xy); CHKERRQ(ierr);
+ierr = VecSetType(xy,VECMPI); CHKERRQ(ierr);
+PetscInt nlocal = info.xm*info.ym, nglobal = info.mx*info.my;
+ierr = VecSetSizes(xy,nlocal,nglobal); CHKERRQ(ierr);

@@ -1,0 +1,24 @@
+// pi.py
+def calc_pi1(pi,n):
+    for i in range(n):
+        x = random.random()
+        y = random.random()
+        with pi.get_lock():
+            if x*x+y*y<1:
+                pi.value += 1.
+   /* code omitted */ 
+
+## codesnippet pypicompute2
+def calc_pi2(pi,n):
+    count = 0
+    for i in range(n):
+        x = random.random()
+        y = random.random()
+        if x*x+y*y<1:
+            count += 1
+    with pi.get_lock():
+        pi.value += count
+   /* code omitted */ 
+
+if __name__ == '__main__':
+##codesnippet pypivalue
