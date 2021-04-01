@@ -1,0 +1,44 @@
+% -*- latex -*-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%
+%%%% This text file is part of the source of 
+%%%% `Parallel Programming in MPI and OpenMP'
+%%%% by Victor Eijkhout, copyright 2012-2021
+%%%%
+%%%% petsc-objects.tex : petsc tangible-ish objects
+%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\Level 0 {Installation with GPUs}
+
+GPUs need to be initialized.
+This can be done implicitly when a GPU object is created,
+or explicitly through \indexpetscdef{PetscCUDAInitialize}.
+
+\Level 0 {Distributed objects}
+
+Dense matrices:
+\indexpetscdef{MatCreateDenseCUDA},
+\indexpetscdef{MatCreateSeqDenseCUDA},
+giving types
+\indexpetscdef{MATMPIDENSECUDA},
+\indexpetscdef{MATDENSECUDA}.
+MATAIJCUSPARSEVecCreateSeqCUDA
+
+Also
+VecCreateSeqCUDA
+\indexpetscdef{VecCreateMPICUDAWithArray},
+\indexpetscdef{VECCUDA},
+\indexpetscdef{VECSEQCUDA},
+\indexpetscdef{VECMPICUDA}.
+
+All sorts of `array' operations such as
+\indexpetscdef{MatDenseCUDAGetArray},
+\indexpetscdef{VecCUDAGetArray},
+
+Set \indexpetscshow{PetscMalloc} to use the GPU:
+\indexpetscdef{PetscMallocSetCUDAHost},
+and switch back with
+\indexpetscdef{PetscMallocResetCUDAHost}.
