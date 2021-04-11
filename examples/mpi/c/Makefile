@@ -98,17 +98,17 @@ run_progress : progress
 	@export I_MPI_ASYNC_PROGRESS=on \
 	&& ${MPIRUN} -np ${NP} progress
 
-.PHONY: run_publishapp
+.PHONY: run_spawnapp
 info ::
-	@echo "make run_publishapp [ USIZE=123, default: NP ]"
+	@echo "make run_spawnapp [ USIZE=123, default: NP ]"
 USIZE = ${NP}
-run_publishapp : publishapp
+run_spawnapp : spawnapp
 	@if [ ${TACC_SYSTEM} = "frontera" ] ; then \
 	    usize=${SLURM_NPROCS} && wsize=${NP} \
-	     && echo "Running publishapp with usize=$$usize, wsize=$$wsize" \
-	     && MY_MPIRUN_OPTIONS="-usize $$usize" ibrun -np $$wsize publishapp \
+	     && echo "Running spawnapp with usize=$$usize, wsize=$$wsize" \
+	     && MY_MPIRUN_OPTIONS="-usize $$usize" ibrun -np $$wsize spawnapp \
 	; else \
-	    ${MPIEXEC} -n ${NP} -usize ${USIZE} publishapp \
+	    ${MPIEXEC} -n ${NP} -usize ${USIZE} spawnapp \
 	; fi
 
 MODE = mpi
