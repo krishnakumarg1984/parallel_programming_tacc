@@ -278,6 +278,17 @@ ierr = VecScale(y,1./lambda); CHKERRQ(ierr);
 \end{lstlisting}
 
 \begin{exercise}
+  Create a vector where the values are a single sine wave.
+  using \indexpetscshow{VecGetSize}, \indexpetscshow{VecGetLocalSize},
+  \indexpetscshow{VecGetOwnershipRange}.
+  Quick visual inspection:
+\begin{verbatim}
+ibrun vec -n 12 -vec_view
+\end{verbatim}
+  \skeleton{vec}
+\end{exercise}
+
+\begin{exercise}
 Use the routines \indexpetscref{VecDot}, \indexpetscref{VecScale}
 and \indexpetscref{VecNorm} to compute the inner product of vectors
 \n{x,y}, scale the vector~\n{x}, and check its norm:

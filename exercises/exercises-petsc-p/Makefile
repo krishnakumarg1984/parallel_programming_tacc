@@ -1,3 +1,4 @@
+# -*- makefile
 ################################################################
 ####
 #### This makefile is part of the tutorial
@@ -15,17 +16,16 @@ info ::
 	@echo "  make EXERCISE"
 	@echo "    where EXERCISE is one of ${EXERCISES}"
 
-LANGUAGE = python
-ifdef PETSC_DIR
 include ${PETSC_DIR}/lib/petsc/conf/variables
-include ${PETSC_DIR}/lib/petsc/conf/rules
-endif
 LOCDIR = csolutions
 
 EXERCISE = hello
 EXERCISES = hello vec matvec ksp grid
 #matvec grid
 #grid mat ksp shell ex46 ex46a
+LANGUAGE = python
+MODE = petsc
+include ../course-support/Make.compile
 
 # no need to make the examples, so:
 .PHONY: ${EXERCISES}

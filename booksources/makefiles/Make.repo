@@ -1,0 +1,46 @@
+# -*- makefile -*-
+################################################################
+################################################################
+####
+#### This makefile is part of the source of 
+#### "Parallel Computing for Science and Engineering"
+#### by Victor Eijkhout, copyright 2013-2021
+####
+#### Make include file for upload locations
+####
+################################################################
+################################################################
+
+BOOKNAME = EijkhoutParallelProgramming
+
+DROPBOX = ${HOME}/Dropbox/Scicomp/PCSE
+
+PUBLICDIR = ${HOME}/Current/istc/pdf/pcse
+
+PUBLICREPO = 
+
+##
+## base directory, not the lectures directory
+## DO NoT escape any spaces!
+##
+STUDENTREPO = ${HOME}/Current/SSC/PCSE/PCSE2021/sds374394spring2021
+
+.PHONY: taccrepo dropbox studentrepo
+taccrepo:
+	@if [ -d "${PUBLICDIR}" ] ; then \
+	    dir=${PUBLICDIR}/${TARGETDIR} \
+	     && echo "copying <<${FILE}.pdf>> to public pdfs dir <<$$dir>>" \
+	    && cp ${FILE}.pdf "$$dir"/ \
+	    ; fi
+dropbox:
+	@if [ -d "${DROPBOX}" ] ; then \
+	    dir=${DROPBOX}/${TARGETDIR} \
+	     && echo "copying <<${FILE}.pdf>> to dropbox <<$$dir>>" \
+	    && cp ${FILE}.pdf "$$dir"/ \
+	    ; fi
+studentrepo :
+	@if [ -d "${STUDENTREPO}" ] ; then \
+	    dir="${STUDENTREPO}/${TARGETDIR}" \
+	     && echo "copying <<${FILE}.pdf>> to student repo <<$$dir>>" \
+	     && cp ${FILE}.pdf "$$dir"/ \
+	    ; fi

@@ -53,7 +53,11 @@ int main(int argc,char **argv)
   ierr = VecSet(x,one);CHKERRQ(ierr);
   {
     /*
-     * Set y to a sine wave
+     * Exercise 1:
+     * -- Set y to a sine wave
+     *    Find the correct bounds on the loop
+     *    so that each process sets only local elements
+     *    Set the correct index
      */
     PetscInt myfirst,mylast,localsize,globalsize;
     ierr = VecGetSize(y,&globalsize); CHKERRQ(ierr);
@@ -74,7 +78,7 @@ int main(int argc,char **argv)
 
 #if 0
   /*
-   * Exercise 1:
+   * Exercise 2:
    * - compute inner product of x and y
    */
   PetscScalar inprod;
@@ -83,7 +87,7 @@ int main(int argc,char **argv)
     (comm,"Computed inner product as %f, should be about zero\n",inprod); CHKERRQ(ierr);
 
   /* 
-   * Exercise 2:
+   * Exercise 3:
    * - scale x by that inner product,
    * - take the 2-norm of the result.
    */
