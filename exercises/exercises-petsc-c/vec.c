@@ -47,20 +47,40 @@ int main(int argc,char **argv)
   ierr = VecDuplicate(x,&y);CHKERRQ(ierr);
 
   /*
-   * Set x,y to constant values
+   * Set x,y values
   */
   PetscScalar    one = 1.0,two = 2.0;
   ierr = VecSet(x,one);CHKERRQ(ierr);
-  ierr = VecSet(y,two);CHKERRQ(ierr);
+  {
+    /*
+     * Set y to a sine wave
+     */
+    PetscInt myfirst,mylast,localsize,globalsize;
+    ierr = VecGetSize(y,&globalsize); CHKERRQ(ierr);
+    ierr = VecGetLocalSize(y,&localsize); CHKERRQ(ierr);
+    ierr = VecGetOwnershipRange(y,&myfirst,&mylast); CHKERRQ(ierr);
+    for (PetscInt index=
+/**** your code here ****/
+	 index++) {
+      PetscScalar value = sin( index * 2. * 3.14159 / globalsize );
+      ierr = VecSetValue(y,
+/**** your code here ****/
+			 value,INSERT_VALUES); CHKERRQ(ierr);
+    }
+    ierr = VecAssemblyBegin(y); CHKERRQ(ierr);
+    ierr = VecAssemblyEnd(y); CHKERRQ(ierr);
+    //ierr = VecSet(y,two);CHKERRQ(ierr);
+  }
 
+#if 0
   /*
    * Exercise 1:
    * - compute inner product of x and y
    */
   PetscScalar inprod;
 /**** your code here ****/
-  ierr = PetscPrintf(comm,"Computed inner product as %f, should be %f\n",
-		     inprod,2.*n); CHKERRQ(ierr);
+  ierr = PetscPrintf
+    (comm,"Computed inner product as %f, should be about zero\n",inprod); CHKERRQ(ierr);
 
   /* 
    * Exercise 2:
@@ -72,6 +92,7 @@ int main(int argc,char **argv)
 /**** your code here ****/
   PetscPrintf(comm,"Norm of scaled vector is %f, should be %f\n",
 	      norm,sqrt(n/(inprod*inprod)));
+#endif
 
   /*
      Free work space.  All PETSc objects should be destroyed when they

@@ -35,7 +35,6 @@ int main(int Argc,char **Args)
 /**** your code here ****/
      ); CHKERRQ(ierr);
 
-
   /*
    * Exercise 2:
    * -- use PetscSynchronizedPrintf to let each processor print in sequence

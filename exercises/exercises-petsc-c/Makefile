@@ -12,7 +12,7 @@
 ################################################################
 
 info ::
-	@echo && echo "================================" && echo "Makefile for PETSc exercises" && echo "================================" && echo
+	@echo && echo "================================" && echo "Makefile for PETSc exercises in ${LANGUAGE}" && echo "================================" && echo
 	@echo "Available rules:"
 	@echo "  make EXERCISE"
 	@echo "    where EXERCISE is one of ${EXERCISES}"

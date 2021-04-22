@@ -31,13 +31,11 @@ int main(int argc,char **args)
   /*
    * Read the domain size, and square it to get the matrix size
   */
-  //codesnippet optionint
   PetscBool flag;
   int domain_size = 100; 
   ierr = PetscOptionsGetInt
     (NULL,PETSC_NULL,"-n",&domain_size,&flag); CHKERRQ(ierr);
   PetscPrintf(comm,"Using domain size %d\n",domain_size);
-  //codesnippet end
 
   /*
    * Read the amount of umsymmetry to be added to the matrix

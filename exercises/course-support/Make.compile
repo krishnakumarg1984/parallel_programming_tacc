@@ -194,4 +194,4 @@ apps :
 	    ; \
 	done
 listapps :
-	@echo ${APPS}
+	@echo ${APPS} ${EXERCISES}
