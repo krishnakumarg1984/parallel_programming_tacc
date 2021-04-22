@@ -1,3 +1,4 @@
+# -*- makefile
 ################################################################
 ####
 #### This makefile is part of the tutorial
@@ -11,27 +12,24 @@
 ################################################################
 
 info ::
-	@echo "do:"
-	@echo "  make exercise"
-	@echo "    where exercise is one of ${EXERCISES}"
+	@echo && echo "================================" && echo "Makefile for PETSc exercises in ${LANGUAGE}" && echo "================================" && echo
+	@echo "Available rules:"
+	@echo "  make EXERCISE"
+	@echo "    where EXERCISE is one of ${EXERCISES}"
 
-ifdef PETSC_DIR
 include ${PETSC_DIR}/lib/petsc/conf/variables
-endif
 LOCDIR = fsolutions
 
 EXERCISE = hello
 EXERCISES = hello root vec matvec ksp oddeven grid
-
-FFLAGS = ${PETSC_FC_INCLUDES} -D__SDIR__='"${LOCDIR}"'
-
 LANGUAGE = F
-EXTRA_FLAGS = ${PETSC_FC_INCLUDES}
+MODE = petsc
 include ../course-support/Make.compile
-EXTRA_LIBS = ${PETSC_LIB}
-shell : fivepoint.o
-
+#EXTRA_LIBS = ${PETSC_LIB}
+#EXTRA_FLAGS = ${PETSC_FC_INCLUDES}
 include ../course-support/Make.petscrun
+
+shell : fivepoint.o
 
 ##skip
 info ::

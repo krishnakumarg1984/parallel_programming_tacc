@@ -174,11 +174,8 @@ endif
 
 .SECONDEXPANSION:
 ${APPS} ${EXERCISES} ${WRONGS} : $$@.o 
-	@echo && echo "linking: $@" && echo
-	${LINKER} -o $@ $^ ${EXTRA_OBJS} -DLF ${LINK_FLAGS} -DEL ${EXTRA_LIBS}
+	${LINKER} -o $@ $^ ${EXTRA_OBJS} ${LINK_FLAGS} ${EXTRA_LIBS}
 .PHONY: compile
-info ::
-	@echo "FIX: make compile PROGRAM=...."
 compile :
 	@make --no-print-directory ${PROGRAM}.o
 	${LINKER} -o ${PROGRAM} ${PROGRAM}.o ${EXTRA_OBJS} ${LINK_FLAGS} ${EXTRA_LIBS}

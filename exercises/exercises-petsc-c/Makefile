@@ -1,4 +1,4 @@
-
+# -*- makefile
 ################################################################
 ####
 #### This makefile is part of the tutorial
@@ -18,15 +18,14 @@ info ::
 	@echo "    where EXERCISE is one of ${EXERCISES}"
 
 include ${PETSC_DIR}/lib/petsc/conf/variables
-LANGUAGE = C
-MODE = petsc
-include ../course-support/Make.compile
 LOCDIR = csolutions
 
 EXERCISE = hello
 EXERCISES = hello root vec matvec ksp shell oddeven grid plex
 #grid mat ksp shell ex46 ex46a
-
+LANGUAGE = C
+MODE = petsc
+include ../course-support/Make.compile
 include ../course-support/Make.petscrun
 
 ##skip
