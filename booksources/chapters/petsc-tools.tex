@@ -347,6 +347,8 @@ will
 Omitting the \n{-n} option will leave the default value of \lstinline{domain_size}
 unaltered.
 
+For flags, use \indexpetscdef{PetscOptionsHasName}.
+
 \begin{pythonnote}{Petsc options}
   In Python, do not specify the initial hyphen of an option name.
   Also, the functions such as \lstinline{getInt} do not return the boolean flag;
@@ -479,3 +481,16 @@ The state of memory allocation can be written to file or standard out
 with \indexpetscdef{PetscMallocDump}. The commandline option
 \indexpetscshow{-malloc_dump} outputs all not-freed memory during
 \indexpetscshow{PetscFinalize}.
+
+\Level 1 {GPU allocation}
+\label{sec:petsc-malloc-gpu}
+
+The memories of a CPU and GPU are not coherent.
+This means that routines such as \indexpetscshow{PetscMalloc1}
+can not immediately be used for GPU allocation.
+
+Use the routines \indexpetscshow{PetscMallocSetCUDAHost}
+and \indexpetscshow{PetscMallocResetCUDAHost}
+to switch the allocator to GPU memory and back.
+
+\cverbatimsnippet{pccudaalloc}

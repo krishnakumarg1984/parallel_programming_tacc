@@ -158,8 +158,8 @@ Segmentation fault
 \end{verbatim}
 The \indexterm{segmentation fault} (other messages are possible too) 
 indicates that we are accessing
-memory that we are not allowed to, making the program
-abort. A~debugger will quickly tell us where this happens:
+memory that we are not allowed to, making the program stop.
+A~debugger will quickly tell us where this happens:
 \begin{verbatim}
 %% gdb square
 (gdb) run
@@ -216,7 +216,7 @@ Program exited normally.
 
 Compile and run the following program:
 \codelisting{tutorials/gdb/f/square.F}
-It should abort with a message such as `Illegal instruction'.
+It should end prematurely with a message such as `Illegal instruction'.
 Running the program in gdb quickly tells you where the problem lies:
 \begin{verbatim}
 (gdb) run
@@ -492,7 +492,7 @@ to monitor its execution.
 \end{itemize}
 
 \heading{Problem2} Compile \n{problem1.c} and run it in DDT. You'll
-get a dialog warning about an abort.
+get a dialog warning about an error condition.
 \begin{itemize}
 \item Pause the program in the dialog. Notice that only the root process is
   paused. If you want to inspect other processes, press the general

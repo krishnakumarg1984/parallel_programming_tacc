@@ -173,14 +173,38 @@ Worker zero received data
 \Level 1 {Published service names}
 \label{sec:mpi-publish}
 
-\indexmpiref{MPI_Publish_name}
+More elegantly than the port mechanism above,
+it is possible to publish a named service, 
+with \indexmpiref{MPI_Publish_name},
+which can then be discovered by other processes.
 
-\indexmpidef{MPI_Unpublish_name}
+\cverbatimsnippet[examples/mpi/c/publishapp.c]{publishmanager}
 
+Worker processes connect to the inter-communicator by
+
+\cverbatimsnippet[examples/mpi/c/publishapp.c]{publishworker}
+
+For this it is necessary to have a \indexterm{name server} running.
+
+\begin{intelnote}
+Start the \indexterm{hydra} name server and use the corresponding mpi starter:
+\begin{verbatim}
+hydra_nameserver &
+MPIEXEC=mpiexec.hydra
+\end{verbatim}
+There is an environment variable, but that doesn't seem to be needed.
+\begin{verbatim}
+export I_MPI_HYDRA_NAMESERVER=`hostname`:8008
+\end{verbatim}
+It is also possible to specify the name server as an argument to the job starter.
+\end{intelnote}
+
+At the end of a run, the service should be unpublished with
+\indexmpiref{MPI_Unpublish_name}.
 Unpublishing a nonexisting or already unpublished service gives an
 error code of \indexmpidef{MPI_ERR_SERVICE}.
 
-\indexmpidef{MPI_Comm_join}
+\indexmpiref{MPI_Comm_join}
 
 MPI provides no guarantee of fairness in servicing connection
 attempts. That is, connection attempts are not necessarily satisfied
@@ -188,9 +212,10 @@ in the order in which they were initiated, and competition from other
 connection attempts may prevent a particular connection attempt from
 being satisfied.
 
-\begin{mpifour}
 \Level 0 {Sessions}
 \label{sec:session}
+
+\begin{mpifour}
 
 The most common way of initializing MPI,
 with \indexmpishow{MPI_Init} (or \indexmpishow{MPI_Init_thread}) and \indexmpishow{MPI_Finalize},

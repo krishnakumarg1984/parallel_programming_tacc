@@ -195,8 +195,9 @@ Specification of the buffer/count/datatype triplet is not
 needed explicitly in \ac{OO} languages.
 
 \begin{pythonnote}{Buffers from numpy}
-  Most MPI routines in Python have both a native and a numpy variant.
-  The native variant looks the most `pythonic', and is very flexible,
+  Most MPI routines in Python have both a variant that can send arbitrary Python data,
+  and one that is based on \indexterm{numpy} arrays.
+  The former looks the most `pythonic', and is very flexible,
   but is usually demonstrably inefficient.
   %
   \pverbatimsnippet[examples/mpi/p/allreduce.py]{allreducep}
@@ -446,9 +447,9 @@ commandline arguments, so we broadcast them from process~0.
   section~\ref{sec:python-bind}) to different routine names; the
   buffers have to be created as \n{numpy} objects.
 
-  We illustrate both the native and numpy variants. In the native
-  variant the result is given as a function return; in the numpy variant
-  the send buffer is reused.
+  We illustrate both the general Python and numpy variants. 
+  In the former variant the result is given as a function return;
+  in the numpy variant the send buffer is reused.
 
 \pverbatimsnippet[examples/mpi/p/bcast.py]{bcastp}
 \end{pythonnote}

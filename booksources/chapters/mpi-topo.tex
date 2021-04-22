@@ -170,8 +170,9 @@ Thus the minimal description of a process graph contains for each process:
 \end{itemize}
 However, this ignores that communication is not always symmetric:
 maybe the processes you receive from are not the ones you send
-to. Worse, maybe only one side of this duality is easily
-described. Therefore, there are two routines:
+to.
+Worse, maybe only one side of this duality is easily described.
+Therefore, there are two routines:
 \begin{itemize}
 \item \indexmpishow{MPI_Dist_graph_create_adjacent} assumes that a
   process knows both who it is sending it, and who will send to

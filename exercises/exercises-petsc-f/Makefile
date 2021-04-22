@@ -4,7 +4,7 @@
 #### `Introduction to the PETSc library'
 #### by Victor Eijkhout eijkhout@tacc.utexas.edu
 ####
-#### copyright Victor Eijkhout 2012-2020
+#### copyright Victor Eijkhout 2012-2021
 ####
 #### Makefile for Fortran90 exercises
 ####
@@ -25,7 +25,7 @@ EXERCISES = hello root vec matvec ksp oddeven grid
 
 FFLAGS = ${PETSC_FC_INCLUDES} -D__SDIR__='"${LOCDIR}"'
 
-LANGUAGE = f
+LANGUAGE = F
 EXTRA_FLAGS = ${PETSC_FC_INCLUDES}
 include ../course-support/Make.compile
 EXTRA_LIBS = ${PETSC_LIB}
@@ -49,3 +49,5 @@ regression :
 ##endskip
 
 include ../course-support/Make.clean
+clean ::
+	@rm -f mat.data*

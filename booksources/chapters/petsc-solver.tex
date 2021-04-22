@@ -107,10 +107,13 @@ KSPSolve(solver,rhs,sol);
 KSPDestroy(&solver);
 \end{lstlisting}
 using various default settings. The vectors and the matrix have to be
-conformly partitioned. The \indexpetscshow{KSPSetOperators} call
+conformly partitioned.
+The \indexpetscdef{KSPSetOperators} call
 takes two operators: one is the actual coefficient matrix, and the second
-the one that the preconditioner is derived from. In some cases it makes sense
+the one that the preconditioner is derived from.
+In some cases it makes sense
 to specify a different matrix here.
+(You can retrieve the operators with \indexpetscdef{KSPGetOperators}.)
 The call \indexpetscshow{KSPSetFromOptions} can cover almost all of the 
 settings discussed next.
 
@@ -335,7 +338,7 @@ can take storage space~$7N$, while the $LU$ factorization takes~$O(N^{5/3})$.
 
 For this reason, often incompletely $LU$ factorizations are popular.
 \begin{itemize}
-\item PETSc has natively a \lstinline{PCILU} type, but this can only be used sequentially.
+\item PETSc has of itself a \lstinline{PCILU} type, but this can only be used sequentially.
   This may sound like a limitation, but in parallel it can still be used as the
   subdomain solver in a block methods; section~\ref{sec:petsc-bjac}.
 \item As part of \emph{Hypre}, \emph{pilut}\index{Hypre!pilut} is a parallel ILU.
@@ -402,7 +405,7 @@ matrix and subdomain terms.
 \Level 3 {Multigrid preconditioners}
 
 \begin{itemize}
-\item There is a native \ac{AMG} type: \indexpetscdef{PCGAMG};
+\item There is a \ac{AMG} type built into PETSc: \indexpetscdef{PCGAMG};
 \item the external packages \indexterm{Hypre} and \indexterm{ML} have
   \ac{AMG} methods.
 \item There is a general \ac{MG} type: \indexpetscdef{PCMG}.

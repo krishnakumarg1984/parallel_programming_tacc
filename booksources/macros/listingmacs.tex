@@ -121,7 +121,7 @@
     MPI_Ineighbor_alltoall,MPI_Ineighbor_alltoallv,MPI_Ineighbor_alltoallw,
     % process
     MPI_Comm_spawn,MPI_Comm_spawn_multiple,
-    MPI_Open_port,MPI_Close_port,MPI_Publish_name,MPI_Unpublish_name,
+    MPI_Open_port,MPI_Close_port,MPI_Publish_name,MPI_Unpublish_name,MPI_Lookup_name,
     % errors
     MPI_Add_error_class,MPI_Add_error_code,MPI_Add_error_string,MPI_Error_class,
     MPI_Comm_create_errhandler,MPI_Comm_set_errhandler,MPI_Comm_get_errhandler,MPI_Comm_call_errhandler,
@@ -286,7 +286,7 @@
     MatAXPY,MatMultAdd,MatRealPart,MatImaginaryPart,
     MatPartitioningCreate,MatPartitioningDestroy,MatPartitioningSetType,MatPartitioningApply,
     KSPCreate,KSPSetTolerances,KSPSetType,KSPSetFromOptions,
-    KSPSetOperators,KSPSetTolerances,KSPGMRESSetRestart,
+    KSPSetOperators,KSPGetOperators,KSPSetTolerances,KSPGMRESSetRestart,
     KSPSolve,KSPGetIterationNumber,
     KSPGetConvergedReason,KSPConvergenceReasonView,KSPReasonView,
     KSPGetPC,PCSetType,PCHYPRESetType,
@@ -310,6 +310,7 @@
     VecScatterCreate,VecScatterDestroy,VecScatterBegin,VecScatterEnd,
     KSPView,MatView,VecView,VecViewFromOptions,
     PetscOptionsBegin,PetscOptionsEnd,PetscOptionsInt,PetscOptionsGetInt,PetscOptionsSetValue,
+    PetscOptionsHasName,
     KSPSetOptionsPrefix,MatSetOptionsPrefix,PCSetOptionsPrefix,PetscObjectSetOptionsPrefix,PetscViewerSetOptionsPrefix,SNESSetOptionsPrefix,TSSetOptionsPrefix,VecSetOptionsPrefix,
     % GPU / CUDA stuff
     PetscCUDAInitialize,MatCreateDenseCUDA,MatCreateSeqDenseCUDA,

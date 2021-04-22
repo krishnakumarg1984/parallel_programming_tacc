@@ -11,6 +11,7 @@ compileexercises :
 	done
 
 info ::
+	@echo
 	@echo "make run [PROGRAM=prog (default=${PROGRAM})]"
 	@echo "         [NP=nn (default=${NP})]"
 	@echo "         [OPTIONS=programoptions]"
@@ -24,7 +25,6 @@ else
   RUNNER = ibrun -np
 endif
 NP = 4
-PROGRAM = hello
 OPTIONS =
 # PROGRAMEXT is .py or nothing
 run : ${PROGRAM}${PROGRAMEXT}

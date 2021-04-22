@@ -73,13 +73,35 @@ Note that the \n{parallel do} and \n{parallel for}
 pragmas do not create a team of threads: they
 take the team of threads that is active,
 and divide the loop iterations over them.
-
 This means that the \n{omp for} or \n{omp do} directive needs to be
-inside a parallel region. It is also possible to have a combined
-\n{omp parallel for} or \n{omp parallel do} directive.
+inside a parallel region.
 
-If your parallel region only contains a loop, you can combine the
-pragmas for the parallel region and distribution of the loop iterations:
+As an illustration:\\
+\begin{minipage}{\hsize}
+  \begin{multicols}{2}
+    \cverbatimsnippet{ompparforthread}
+    \columnbreak
+    \footnotesize
+\begin{verbatim}
+Thread 4 entering parallel region
+thread 0 executing iteration 0
+Thread 4 entering parallel region
+thread 1 executing iteration 1
+Thread 4 entering parallel region
+thread 2 executing iteration 2
+Thread 4 entering parallel region
+thread 3 executing iteration 3
+\end{verbatim}
+  \end{multicols}
+\end{minipage}
+
+\begin{exercise}
+  What would happen in the above example if you increase the number of threads
+  to be larger than the number of cores?
+\end{exercise}
+
+It is also possible to have a combined
+\n{omp parallel for} or \n{omp parallel do} directive.
 \begin{lstlisting}
 #pragma omp parallel for
   for (i=0; .....

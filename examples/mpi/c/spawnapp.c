@@ -27,14 +27,15 @@ int main(int argc,char **argv) {
   MPI_Comm_size(comm_world,&world_n);
   MPI_Comm_rank(comm_world,&world_p);
 
-  printf("Spawnapp started...\n");
+  //printf("Spawnapp started...\n");
+
   MPI_Comm comm_parent;
   MPI_Comm_get_parent(&comm_parent);
   int is_child = (comm_parent!=MPI_COMM_NULL);
   if (is_child) {
     char procname[MPI_MAX_PROCESSOR_NAME]; int len = MPI_MAX_PROCESSOR_NAME;
     MPI_Get_processor_name(procname,&len);
-    printf("I detect I am a child running on %s\n",procname);
+    printf("I detect I am child %d running on %s\n",world_p,procname);
   } else {
     int universe_size, *universe_size_attr,uflag;
     MPI_Comm_get_attr(comm_world,MPI_UNIVERSE_SIZE,&universe_size_attr,&uflag);
@@ -44,7 +45,7 @@ int main(int argc,char **argv) {
     printf("A universe of size %d leaves room for %d workers\n",universe_size,work_n);
     if (work_n<=0) 
       MPI_Abort(comm_world,1);
-    const char *workerprogram = "./publishapp";
+    const char *workerprogram = "./spawnapp";
     MPI_Comm_spawn(workerprogram,MPI_ARGV_NULL,
                    work_n,MPI_INFO_NULL,
     		   0,comm_world,&comm_inter,NULL);

@@ -41,7 +41,7 @@ is exclusive, and does not include the data on the calling process.
 
 \cverbatimsnippet[examples/mpi/c/scan.c]{iscan}
 
-In python native mode the result is a function return value,
+In python mode the result is a function return value,
 with numpy the result is passed as the second parameter.
 %
 \pverbatimsnippet[examples/mpi/p/scan.py]{scanp}
@@ -73,7 +73,7 @@ processors.
 
 \begin{exercise}
   The exclusive definition, which computes $x_0\oplus x_{i-1}$ on
-  processor~$i$, can easily be derived from the inclusive operation
+  processor~$i$, can be derived from the inclusive operation
   for operations such as \indexmpishow{MPI_SUM} or
   \indexmpishow{MPI_PROD}.  Are there operators where that is not the
   case?

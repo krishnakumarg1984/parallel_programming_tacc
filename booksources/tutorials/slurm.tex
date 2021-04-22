@@ -364,7 +364,9 @@ However, there are use cases where you want to run a sequential (or very modestl
 executable for a large number of inputs.
 This is called variously a \indextermdef{parameter sweep} or an \indexterm{ensemble}.
 
-Slurm can support this natively with \indextermsubp{array}{job}.
+Slurm can support this itself with \indextermsubp{array}{job},
+though there are more sophisticated \indexterm{launcher} tools
+for such purposes.
 
 \begin{taccnote}
   TACC clusters do not support array jobs.

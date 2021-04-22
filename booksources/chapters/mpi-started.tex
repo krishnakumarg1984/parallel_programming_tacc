@@ -303,7 +303,7 @@ techniques such as methods on objects, and many default arguments.
 Notable about the Python bindings is that many communication routines
 exist in two variants:
 \begin{itemize}
-\item a version that can send native Python objects. These routines
+\item a version that can send arbitrary Python objects. These routines
   have lowercase names such as \n{bcast}; and
 \item a version that sends \indexterm{numpy} objects; these routines
   have names such as \n{Bcast}. Their syntax can be slightly different.
@@ -313,7 +313,7 @@ and can do things like sending python objects,
 but it is also decidedly less efficient since data is packed
 and unpacked with \n{pickle}. As a common sense guideline,
 use the \n{numpy} interface in the performance-critical parts
-of your code, and the native interface only for complicated
+of your code, and the pythonic interface only for complicated
 actions in a setup phase.
 
 Codes with \texttt{mpi4py} can be interfaced to other languages

@@ -1,7 +1,0 @@
-In \ac{MPL}, operators are classes with an \lstinline+operator()+ method.
-For example:
-%
-\cxxverbatimsnippet[examples/mpi/mpl/collectscalar.cxx]{mplallreduce}
-%
-(Note the parentheses after the operator; without that, \lstinline+mpl::min<int>+
-is a type, and you get an error message about `type name is not allowed'.)

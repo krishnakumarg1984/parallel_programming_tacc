@@ -176,7 +176,8 @@ In python, all buffer data comes from \indexterm{Numpy}.
   \hline
 \end{tabular}
 
-Note that numpy native integers are C longs, and therefore 8 bytes.
+Note that numpy integers correspond to \n{long int}s in~C,
+and are therefore 8~bytes long.
 This is no problem if you send and receive contiguous buffers of integers,
 but it may trip you up in cases where the actual size of the integer matters,
 such as in derived types, or window definitions.

@@ -342,3 +342,49 @@ $!OMP threadprivate( /blockname/ )
 Threadprivate variables require \indexompshow{OMP_DYNAMIC} to be
 switched off.
 
+\Level 0 {Allocators}
+
+The OpenMP was initially designed for shared memory.
+With accelerators (see chapter~\ref{ch:omp-gpu}, non-coherent memory was added to this.
+In the \ompstandard{5} standard, the story is further complicated, to account
+for new memory types such as \indextermsub{high-bandwidth}{memory}
+and \indextermsub{non-volatile}{memory}.
+
+There are several ways of using the OpenMP memory allocators.
+\begin{itemize}
+\item
+  First, in a directory on a static array:
+\begin{lstlisting}
+float A[N], B[N];
+#pragma omp allocate(A) \
+    allocator(omp_large_cap_mem_alloc)
+\end{lstlisting}
+\item As a clause on private variables:
+\begin{lstlisting}
+#pragma omp task private(B) allocate(omp_const_mem_alloc: B)
+\end{lstlisting}
+\item
+  With \indexompshow{omp_alloc}, using a (possibly user-defined) allocator.
+\end{itemize}
+
+Next, there are memory spaces. The binding between OpenMP identifiers and hardware
+is implementation defined.
+
+\Level 1 {Pre-defined types}
+
+Allocators:
+\indexompshow{omp_default_mem_alloc},
+\indexompshow{omp_large_cap_mem_alloc},
+\indexompshow{omp_const_mem_alloc},
+\indexompshow{omp_high_bw_mem_alloc},
+\indexompshow{omp_low_lat_mem_alloc},
+\indexompshow{omp_cgroup_mem_alloc},
+\indexompshow{omp_pteam_mem_alloc},
+\indexompshow{omp_thread_mem_alloc}.
+
+Memory spaces:
+\indexompshow{omp_default_mem_space},
+\indexompshow{omp_large_cap_mem_space},
+\indexompshow{omp_const_mem_space},
+\indexompshow{omp_high_bw_mem_space},
+\indexompshow{omp_low_lat_mem_space}.

@@ -11,11 +11,14 @@
 ################################################################
 ################################################################
 
+info ::
+	@echo "make RUN (where RUN in: ${RUNS})"
+	@echo "    [ NPSPEC=.... (alternative proc count specification) ]"
 ifdef TACC_SYSTEM
   MPIEXEC = ibrun
-  NPSEC =
+  NPSPEC =
 else
   MPIEXEC = mpiexec
   NP = 4
-  NPSEC = -n ${NP}
+  NPSPEC = -n ${NP}
 endif

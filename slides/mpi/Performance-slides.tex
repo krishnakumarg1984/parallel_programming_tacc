@@ -19,13 +19,13 @@
 
 \begin{numberedframe}{Built-in handlers}
   \label{sl:errhandler}
-Default: global abort
+Default: global termination.
 \begin{lstlisting}
 MPI_Comm_set_errhandler(MPI_COMM_WORLD,MPI_ERRORS_ARE_FATAL);
 \end{lstlisting}
 
 \begin{mpifour}
-  Abort on communicator: \indexmpidef{MPI_ERRORS_ABORT}.
+  Only terminate on communicator: \indexmpidef{MPI_ERRORS_ABORT}.
 \end{mpifour}
   
 Local handling: \indexmpishow{MPI_ERRORS_RETURN}:

@@ -17,7 +17,7 @@ info ::
 	@echo
 	@echo "make app (where app=${APPS})"
 APPS = hello hello3 proccount pi \
-    critfun \
+    parfor critfun \
     alloc1 alloc2 sharing race \
     threadprivate ireduct ireductinit ureduct reductpositive \
     taskgroup0 taskgroup1 taskgroup2 taskgroup3

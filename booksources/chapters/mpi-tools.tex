@@ -4,7 +4,7 @@
 %%%%
 %%%% This text file is part of the source of 
 %%%% `Parallel Programming in MPI and OpenMP'
-%%%% by Victor Eijkhout, copyright 2012-2020
+%%%% by Victor Eijkhout, copyright 2012-2021
 %%%%
 %%%% mpi.tex : leftover MPI topics
 %%%%
@@ -12,6 +12,9 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{mpifour}
+
+\Level 0 {Initializing the tools interface}
+\label{sec:mpitools-init}
 
 The tools interface requires a different initialization routine
 \indexmpidef{MPI_T_init_thread}
@@ -33,11 +36,18 @@ MPI_T_VERBOSITY_{USER,TUNER,MPIDEV}_{BASIC,DETAIL,ALL}
 
 \Level 0 {Control variables}
 \label{sec:mpit-cvar}
+\index[mpi]{control variable|(}
+\index[mpi]{cvar|see{control variable}}
 
-We query how many control variables are available
-with \indexmpidef{MPI_Cvar_get_num}:
+\emph{Control variables} are implementation-dependent variables
+that can be used to inspect and/or control the internal workings of MPI.
+Accessing control variables requires initializing the tools interface;
+section~\ref{sec:mpitools-init}.
+
+We query how many \emph{control variables} are available
+with \indexmpidef{MPI_T_cvar_get_num}:
 \begin{lstlisting}
-int MPI_Cvar_get_num( int *number_of_cvars );
+int MPI_T_cvar_get_num( int *number_of_cvars );
 \end{lstlisting}
 A description of the control variable can be obtained
 from \indexmpidef{MPI_T_cvar_get_info}
@@ -48,15 +58,18 @@ int MPI_T_cvar_get_info( int cvar_num,
   char *description,int *description_length,
   int *bind,int *scope);
 \end{lstlisting}
-An invalid index leads to a function result of \indexmpidef{MPI_T_ERR_INVALID_INDEX}.
-%
-Any output parameter can be specified as \indextermtt{NULL}
-and MPI will not set this.
-%
-The \lstinline{bind} variable is an object type or \indexmpidef{MPI_T_BIND_NO_OBJECT}.
-%
-The \lstinline{enumtype} variable is \indexmpishow{MPI_T_ENUM_NULL} if the variable
-is not an enum type.
+\begin{itemize}
+\item
+  An invalid index leads to a function result of \indexmpidef{MPI_T_ERR_INVALID_INDEX}.
+\item
+  Any output parameter can be specified as \indextermtt{NULL}
+  and MPI will not set this.
+\item
+  The \lstinline{bind} variable is an object type or \indexmpidef{MPI_T_BIND_NO_OBJECT}.
+\item
+  The \lstinline{enumtype} variable is \indexmpishow{MPI_T_ENUM_NULL} if the variable
+  is not an enum type.
+\end{itemize}
 
 Conversely, given a variable name, its index can be retrieved with
 \indexmpidef{MPI_T_cvar_get_index}:
@@ -84,7 +97,11 @@ int MPI_T_cvar_read(MPI_T_cvar_handle handle, void* buf);
 int MPI_T_cvar_write(MPI_T_cvar_handle handle, const void* buf);
 \end{lstlisting}
 
+\index[mpi]{control variable|)}
+
 \Level 0 {Performance variables}
+\index[mpi]{performance variable|(}
+\index[mpi]{pvar|see{performance variable}}
 
 \begin{raggedlist}
   Performance variables come in classes:
@@ -199,6 +216,8 @@ int MPI_T_pvar_readreset
    (MPI_T_pvar_session session,MPI_T_pvar_handle handle, 
     void* buf)
 \end{lstlisting}
+
+\index[mpi]{performance variable|)}
 
 \Level 0 {Categories of variables}
 

@@ -296,69 +296,6 @@ is when the corresponding receive has been issued.
 \index{communication!local|)}
 \index{communication!nonlocal|)}
 
-\Level 1 {Asynchronous progress}
-\label{sec:progress}
-
-The concept \indextermsub{asynchronous}{progress} describes
-that MPI messages continue on their way through the network,
-while the application is otherwise busy.
-
-The problem here is that, unlike straight \indexmpishow{MPI_Send} and
-\indexmpishow{MPI_Recv} calls,
-communication of this sort can 
-typically not be off-loaded to the network card, so different
-mechanisms are needed.
-
-This can happen in a number of ways:
-\begin{itemize}
-\item Compute nodes may have a dedicated communications processor. The
-  \indextermbus{Intel}{Paragon} was of this design; modern
-  multicore processors are a more efficient realization of this idea.
-\item The MPI library may reserve a core or thread for communications
-  processing. This is implementation dependent; for instance,
-  \indextermbus{Intel}{MPI} has a number of
-  \indextermtt{I_MPI_ASYNC_PROGRESS_...} variables.
-\item Absent such dedicated resources, the application can force MPI
-  to make progress by occasional calls to a \indexterm{polling}
-  routine such as \indexmpishow{MPI_Iprobe}.
-\end{itemize}
-
-\begin{remark}
-  The \indexmpishow{MPI_Probe} call is somewhat similar,
-  in spirit if not quite in functionality,
-  as \indexmpishow{MPI_Test}. However, they behave differently with respect to progress.
-  Quoting the standard:
-  \begin{quote}
-    The MPI implementation of \indexmpishow{MPI_Probe} and
-    \indexmpishow{MPI_Iprobe} needs to guarantee progress: if a call
-    to \indexmpishow{MPI_Probe} has been issued by a process, and a send that matches
-    the probe has been initiated by some process, then the call to
-    \indexmpishow{MPI_Probe} will return.
-  \end{quote}
-  In other words: probing causes MPI to make progress.
-  On the other hand,
-  \begin{quote}
-    A call to \indexmpishow{MPI_Test} returns \n{flag = true}
-    if the operation identified by request is complete.
-  \end{quote}
-  In other words, if progress has been made, then testing will report completion,
-  but by itself it does not cause completion.
-\end{remark}
-
-A similar problem arises with passive target synchronization:
-it is possible that the origin process may hang until 
-the target process makes an MPI call.
-
-\begin{intelnote}
-  Only available with the \indextermtt{release_mt}
-  and \indextermtt{debug_mt} versions of the Intel MPI library.
-  Set \indextermtt{I_MPI_ASYNC_PROGRESS} to~1 to enable asynchronous progress threads,
-  and \indextermtt{I_MPI_ASYNC_PROGRESS_THREADS} to set the number of progress threads.
-
-  See \url{https://software.intel.com/en-us/mpi-developer-guide-linux-asynchronous-progress-control},
-  \url{https://software.intel.com/en-us/mpi-developer-reference-linux-environment-variables-for-asynchronous-progress-control}
-\end{intelnote}
-
 \Level 0 {Buffered communication}
 \label{sec:buffered}
 

@@ -72,7 +72,7 @@ This is one of those cases where the parallel execution can have a slightly diff
 value from the one that is computed sequentially, because floating point operations
 are not associative. See~\HPSCref{sec:roundoff-parallel} for more explanation.
 
-If your code can not be easily structure as a reduction, you can 
+If your code can not be easily structured as a reduction, you can 
 realize the above scheme by hand by
 `duplicating' the global variable and gather the contributions later.
 This example presumes three threads, and gives each a location of their
