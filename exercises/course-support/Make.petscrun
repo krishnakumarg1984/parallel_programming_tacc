@@ -1,4 +1,13 @@
 # -*- makefile -*-
+################################################################
+####
+#### This makefile is part of `Parallel Programming in MPI and OpenMP'
+#### by Victor Eijkhout, copyright 2013-2021
+#### eijkhout@tacc.utexas.edu
+####
+#### Make include file for petsc course
+####
+################################################################
 
 info ::
 	@echo "make listexercises, compileexercises"

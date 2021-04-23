@@ -80,7 +80,8 @@ and apply the \lstinline{map} method to it:
 
 Note that this is also the easiest way to get return values from a process,
 which is not directly possible with a \lstinline{Process} object.
-Other approaches are using a shared object, or an object in a \lstinline{Queue} object.
+Other approaches are using a shared object,
+or an object in a \lstinline{Queue} or \lstinline{Pipe} object; see below.
 
 \Level 0 {Shared data}
 
@@ -104,3 +105,27 @@ by
 \begin{exercise}
   Do you see a way to improve the speed of this calculation?
 \end{exercise}
+
+\Level 1 {Pipes}
+
+A \indexterm{pipe}, object type \lstinline{Pipe},
+corresponds to what used to be called a \indexterm{channel}
+in older parallel programming systems:
+a~\ac{FIFO} object into which one process can place items,
+and from which another process can take them.
+However, a pipe is not associated with any particular pair:
+creating the pipe gives the entrace and exit from the pipe
+
+\pverbatimsnippet{pypipecreate}
+
+And they can be passed to any process
+
+\pverbatimsnippet{pypipepass}
+
+which can then can put and get items,
+using the \lstinline{send} and \lstinline{recv} commands.
+
+\pverbatimsnippet{pypipesend}
+\pverbatimsnippet{pypiperecv}
+
+\Level 1 {Queues}

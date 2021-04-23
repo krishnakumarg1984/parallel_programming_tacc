@@ -59,6 +59,10 @@ else
       C_COMPILER   = ${MPI_C_COMPILER}
       CXX_COMPILER = ${MPI_CXX_COMPILER}
       F_COMPILER   = ${MPI_F_COMPILER}
+    else ifeq "${MODE}" "hybrid"
+      C_COMPILER   = ${MPI_C_COMPILER}
+      CXX_COMPILER = ${MPI_CXX_COMPILER}
+      F_COMPILER   = ${MPI_F_COMPILER}
     else ifeq "${MODE}" "mpl"
       C_COMPILER   = ${MPI_C_COMPILER}
       CXX_COMPILER = ${MPI_CXX_COMPILER}
@@ -125,6 +129,10 @@ ifeq "${MODE}" "omp"
   CFLAGS   += ${OMPFLAGS}
   CXXFLAGS += ${OMPFLAGS}
   FFLAGS   += ${OMPFLAGS}
+else ifeq "${MODE}" "hybrid"
+  CFLAGS   += ${OMPFLAGS}
+  CXXFLAGS += ${OMPFLAGS}
+  FFLAGS   += ${OMPFLAGS}
 endif
 
 CFLAGS   += ${OPTFLAGS}
@@ -151,6 +159,10 @@ ifeq "${MODE}" "mpi"
 C_LINKER   = ${MPI_C_COMPILER}
 CXX_LINKER = ${MPI_CXX_COMPILER}
 F_LINKER   = ${MPI_F_COMPILER}
+else ifeq "${MODE}" "hybrid"
+C_LINKER   = ${MPI_C_COMPILER}
+CXX_LINKER = ${MPI_CXX_COMPILER}
+F_LINKER   = ${MPI_F_COMPILER}
 else ifeq "${MODE}" "mpl"
 C_LINKER   = ${MPI_C_COMPILER}
 CXX_LINKER = ${MPI_CXX_COMPILER}
@@ -168,6 +180,8 @@ LINKER = ${${LANGUAGE}_LINKER}
 
 ifeq "${MODE}" "petsc"
 LINK_FLAGS += ${PETSC_LIB}
+else ifeq "${MODE}" "hybrid"
+LINK_FLAGS += ${OMPFLAGS}
 else ifeq "${MODE}" "omp"
 LINK_FLAGS += ${OMPFLAGS}
 endif

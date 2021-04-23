@@ -76,7 +76,6 @@ int main(int argc,char **argv)
     //ierr = VecSet(y,two);CHKERRQ(ierr);
   }
 
-#if 0
   /*
    * Exercise 2:
    * - compute inner product of x and y
@@ -88,15 +87,12 @@ int main(int argc,char **argv)
 
   /* 
    * Exercise 3:
-   * - scale x by that inner product,
-   * - take the 2-norm of the result.
+   * -- compute the norm of x
+   * -- scale x down by that norm
+   * -- check that the norm of the result is 1
    */
-  PetscScalar scaling = 1./inprod;
-  PetscReal norm;
 /**** your code here ****/
-  PetscPrintf(comm,"Norm of scaled vector is %f, should be %f\n",
-	      norm,sqrt(n/(inprod*inprod)));
-#endif
+  PetscPrintf(comm,"Norm of scaled vector is %f, should be 1\n",norm);
 
   /*
      Free work space.  All PETSc objects should be destroyed when they
