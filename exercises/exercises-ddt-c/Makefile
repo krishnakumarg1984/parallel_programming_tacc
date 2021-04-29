@@ -30,6 +30,7 @@ sources :
 MODE = mpi
 LANGUAGE = C
 include ../course-support/Make.compile
+OPTLEVEL = 1
 .SECONDEXPANSION:
 ${SEQUENTIAL} ::
 	@echo "making sequential example $@"

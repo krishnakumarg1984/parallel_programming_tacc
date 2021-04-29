@@ -26,23 +26,25 @@ void loop_for_awhile(MPI_Comm comm,double *return_random) {
    */
   for (int it=0; ; it++) {
     double randomnumber = ntids * ( rand() / (double)RAND_MAX );
+
     /*
-     * Bonus exercise:
-     * -- uncomment the next line. 
-     *    Can you figure out a way to not get a mess on your screen?
+     * Print some global statistics
      */
-    //printf("[%d] iteration %d, random %e\n",mytid,it,randomnumber);
+    {
+      double maxrandom;
+      MPI_Allreduce( &randomnumber,&maxrandom,1,MPI_DOUBLE,MPI_MAX,comm);
+      if (mytid==0) printf("Max random number: %e\n",maxrandom);
+    }
+    /*
+     * Exit if you have found a suitable number.
+     *
+     * Exercise:
+     * -- what is wrong with this part of the code?
+     */
     if (randomnumber>mytid && randomnumber<mytid+1./(ntids+1)) {
       *return_random = randomnumber;
       return;
     }
-    /*
-     * Exercise:
-     * -- the problem will show if you uncomment the next line
-     *    do so, then run and observe that it hangs
-     * -- analyze the deadlock in DDT
-     */
-    //MPI_Barrier(comm);
   }
 }
 
