@@ -19,7 +19,8 @@ codes, so OpenMP has an easy mechanism for it.
 OpenMP parallel loops are a first example of OpenMP `worksharing'
 constructs (see section~\ref{sec:work-sharing} for the full list):
 constructs that take an amount of work and distribute it over the
-available threads in a parallel region.
+available threads in a parallel region,
+created with the \indexpragma{parallel} pragma.
 
 The parallel execution of a loop can be handled a number of different ways.
 For instance, you can create a parallel region around the loop, and
@@ -35,9 +36,13 @@ adjust the loop bounds:
     // do something with i
 }
 \end{lstlisting}
+In effect, this is how you would parallelize a loop in MPI.
+\begin{exercise}
+  What is an important difference between the resulting OpenMP and MPI code?
+\end{exercise}
 
 A more natural option is to use the
-\indexpragma{parallel for} pragma:
+\indexpragma{for} pragma:
 \begin{lstlisting}
 #pragma omp parallel
 #pragma omp for
@@ -48,6 +53,20 @@ for (i=0; i<N; i++) {
 This has several advantages. For one, you don't have to calculate the loop bounds
 for the threads yourself, but you can also tell OpenMP to assign the loop
 iterations according to different schedules (section~\ref{sec:schedule}).
+
+\begin{fortrannote}
+  The \indexpragma{for} pragma only exists in~C;
+  there is a correspondingly named \indexpragma{do} pragma in Fortran.
+\begin{lstlisting}
+$!omp parallel
+$!omp do
+  do i=1,N
+    ! something with i
+  end do
+$!omp end do
+$!omp end parallel
+\end{lstlisting}
+\end{fortrannote}
 
 Figure~\ref{fig:omp-par-do} shows the execution on four threads of
 \begin{lstlisting}
@@ -69,7 +88,7 @@ in each thread; the loop iterations are spread over the four threads.
   \label{fig:omp-par-do}
 \end{figure}
 
-Note that the \n{parallel do} and \n{parallel for}
+Note that the \n{do} and \n{for}
 pragmas do not create a team of threads: they
 take the team of threads that is active,
 and divide the loop iterations over them.
@@ -156,6 +175,113 @@ able to determine in advance how many iterations there will be.
   inside the loop are allowed.
 \end{itemize}
 
+\Level 0 {An example}
+
+To illustrate the speedup of perfectly parallel calculations,
+we consider a simple code that applies the same calculation
+to each element of an array.
+
+All tests are done on the \indextermbus{TACC}{Frontera} cluster,
+which has dual-socket \indextermbus{Intel}{Cascade Lake} nodes,
+with a total of 56 cores.
+We control affinity by setting
+\n{OMP_PROC_BIND=true}.
+
+Here is the essential code fragment:
+\cverbatimsnippet{ompsineloop}
+
+\begin{exercise}
+  Verify that the outer loop is parallel, but the inner one is not.
+\end{exercise}
+
+Now we investigate the influence of two parameters:
+\begin{enumerate}
+\item the OpenMP thread count: while we have 56 cores, values larger than that are allowed; and
+\item the size of the problem: the smaller the problem, the larger the relative overhead
+  of creating and synchronizing the team of threads.
+\end{enumerate}
+We execute the above computation several times to even out effects of cache loading.
+
+\begin{figure}[t]
+  \begin{tikzpicture}  
+    \begin{axis}
+      [  
+        %ybar=3pt, bar width=7pt,
+        enlargelimits=0.15,
+        %legend style={at={(0.4,-0.1)},anchor=north,legend columns=-1},     
+        xlabel={\#Threads},
+        ylabel={Speedup},
+        symbolic x coords={1,14,28,42,56,70,84,98,112},
+        xtick=data,  ytick={1,5,10,20,60},
+        nodes near coords,  
+        nodes near coords align={vertical},  
+      ]  
+      \addplot coordinates {(1, 1.01) (14, 12.27) (28, 19.56) (42, 24.21) (56, 24.33) (70, 3.30) (84, 2.90) (98, 2.55) (112, 2.30) };
+      \addplot coordinates {(1, 1.00) (14, 13.88) (28, 27.35) (42, 40.4) (56, 33.2) (70, 22.2) (84, 28.2) (98, 27.1) (112, 29.2) };
+      \addplot coordinates {(1, 1.00) (14, 13.95) (28, 27.85) (42, 41.75) (56, 55.42) (70, 34.81) (84, 41.61) (98, 48.50) (112, 41.55) };
+      %% \addplot [black,sharp plot,update limits=false]
+      %% coordinates {(1, 1) (18, 18) (37, 37) (56, 56)}
+      %% node[above] at (axis cs:18,18) {Ideal};
+      \legend{$N=200$, $N=2000$, $N=20000$}
+    \end{axis}
+  \end{tikzpicture}  
+  \caption{Speedup as function of problem size}
+  \label{fig:omp-speedup}
+\end{figure}
+
+The results are in figure~\ref{fig:omp-speedup}:
+\begin{itemize}
+\item While the problem size is always larger than the number of threads,
+  only for the largest problem,
+  which has at least 400 points per thread,
+  is the speedup essentially linear.
+\item OpenMP allows for the number of threads to be larger than the core count,
+  but there is no performance improvement in doing so.
+\end{itemize}
+
+\begin{figure}
+  \begin{tikzpicture}  
+    \begin{axis}
+      [  
+        %ybar=3pt, bar width=7pt,
+        enlargelimits=0.15,
+        %legend style={at={(0.4,-0.1)},anchor=north,legend columns=-1},     
+        xlabel={\#Threads},
+        ylabel={Speedup},
+        symbolic x coords={1,34,68,102,136,170,204,238,272},
+        xtick=data,  ytick={1,5,10,20,60},
+        nodes near coords,  
+        nodes near coords align={vertical},  
+      ]  
+      \addplot coordinates {(1, 0.32) (34, 10.4) (68, 20.6) (102, 29.7)
+        (136, 36.8) (170, 33.7) (204, 39.7) (238, 38.1) (272, 43.2) };
+      %% \addplot [black,sharp plot,update limits=false]
+      %% coordinates {(1, 1) (18, 18) (37, 37) (56, 56)}
+      %% node[above] at (axis cs:18,18) {Ideal};
+      \legend{$N=200$, $N=2000$, $N=20000$}
+    \end{axis}
+  \end{tikzpicture}  
+  \caption{Speedup on a hyper-threaded architecture}
+  \label{fig:omp-speed-hyper}
+\end{figure}
+
+The above tests did not use \indexterm{hyperthread}s,
+since that is disabled on Frontera.
+However, the \indextermbus{Intel}{Knights Landing} nodes
+of the \indextermbus{TACC}{Stampede2} cluster
+have four \indexterm{hyperthread}s per core.
+Table~\ref{fig:omp-speed-hyper} shows that this will indeed give a modest speedup.
+
+For reference, the commandlines executed were:
+\begin{verbatim}
+# frontera
+  make localclean run_speedup EXTRA_OPTIONS=-DN=200 NDIV=8 NP=112
+  make localclean run_speedup EXTRA_OPTIONS=-DN=2000 NDIV=8 NP=112
+  make localclean run_speedup EXTRA_OPTIONS=-DN=20000 NDIV=8 NP=112
+# stampede2
+  make localclean run_speedup NDIV=8 EXTRA_OPTIONS="-DN=200000 -DM=1000" NP=272
+\end{verbatim}
+
 \Level 0 {Loop schedules}
 \label{sec:schedule}
 
@@ -197,13 +323,17 @@ is a perfect load balancing.
 
 The default static schedule is to assign one consecutive block of
 iterations to each thread. If you want different sized blocks you can
-defined a \indexclauseoption{schedule}{chunk} size:
+define a \indexclauseoption{schedule}{chunk} size:
 \begin{lstlisting}
 #pragma omp for schedule(static[,chunk])
 \end{lstlisting}
 (where the square brackets indicate an optional argument).
-With static scheduling, the compiler will split up the loop iterations at compile time,
-so, provided the iterations take roughly the same amount of time, this is the most efficient at runtime.
+With static scheduling,
+the compiler will determine the assignment of loop iterations to the threads
+at compile time,
+so,
+provided the iterations take roughly the same amount of time,
+this is the most efficient at runtime.
 
 The choice of a chunk size is often a balance between the low overhead of having 
 only a few chunks, versus the load balancing effect of having smaller chunks.
@@ -272,9 +402,8 @@ for (i=0; i<nsteps; i++) {
 \item Use the \n{omp parallel for} construct to parallelize the loop.
   As in the previous lab, you may at first see an incorrect result.
   Use the \indexompshow{reduction} clause to fix this.
-\item Your code should now see a decent speedup, using up to 8~cores.
-  However, it is possible to get completely linear speedup. For this
-  you need to adjust the schedule.
+\item Your code should now see a decent speedup, but possible not for all cores.
+  It is possible to get completely linear speedup by adjusting the schedule.
 
   Start by using \indexompshow{schedule}\n{(static,$n$)}. Experiment with values
   for~$n$.  When can you get a better speedup? Explain this.
@@ -396,16 +525,18 @@ for (i=0; i<N; i++) {
 \end{lstlisting}
 can not be collapsed.
 
-\begin{exercise}
-  Can you rewrite the preceding code example so that it can be
-  collapsed?
-  Do timing tests to see if you can notice the improvement from collapsing.
-\end{exercise}
+\begin{comment}
+  \begin{exercise}
+    Can you rewrite the preceding code example so that it can be
+    collapsed?
+    Do timing tests to see if you can notice the improvement from collapsing.
+  \end{exercise}
+\end{comment}
 
 \Level 0 {Ordered iterations}
 \label{sec:omp-ordered}
 
-Iterations in a parallel loop that are execution in parallel do not
+Iterations in a parallel loop that are executed in parallel do not
 execute in lockstep. That means that in
 \begin{lstlisting}
 #pragma omp parallel for

@@ -26,7 +26,7 @@ int main(int argc, char *argv[])
   comm = MPI_COMM_WORLD;
   MPI_Comm_rank(comm,&procno); 
   MPI_Comm_size(comm,&nprocs); 
-  MPI_Comm_set_errhandler(comm,MPI_ERRORS_RETURN); 
+  //  MPI_Comm_set_errhandler(comm,MPI_ERRORS_RETURN); 
 
   /*
    * To investigate process placement, get host name
@@ -42,12 +42,11 @@ int main(int argc, char *argv[])
 
   MPI_Comm_size(MPI_COMM_WORLD, &world_size);
   MPI_Comm_rank(MPI_COMM_WORLD, &manager_rank);
-
-  err = MPI_Comm_get_attr(MPI_COMM_WORLD, MPI_UNIVERSE_SIZE,
-	       (void*)&universe_sizep, &flag);
-  if (err==MPI_ERR_KEYVAL) {
-    printf("MPI_ERR_KEYVAL on proc %d\n",procno);
-    MPI_Abort(comm,0); }
+  MPI_Comm_get_attr(MPI_COMM_WORLD, MPI_UNIVERSE_SIZE,
+               (void*)&universe_sizep, &flag);
+  /* if (err==MPI_ERR_KEYVAL) { */
+  /*   printf("MPI_ERR_KEYVAL on proc %d\n",procno); */
+  /*   MPI_Abort(comm,0); } */
 
   if (!flag) {
     if (manager_rank==0) {

@@ -11,8 +11,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{mpifour}
-
 \Level 0 {Initializing the tools interface}
 \label{sec:mpitools-init}
 
@@ -45,19 +43,20 @@ Accessing control variables requires initializing the tools interface;
 section~\ref{sec:mpitools-init}.
 
 We query how many \emph{control variables} are available
-with \indexmpidef{MPI_T_cvar_get_num}:
-\begin{lstlisting}
-int MPI_T_cvar_get_num( int *number_of_cvars );
-\end{lstlisting}
+with \indexmpiref{MPI_T_cvar_get_num}.
+%% \begin{lstlisting}
+%% int MPI_T_cvar_get_num( int *number_of_cvars );
+%% \end{lstlisting}
+%
 A description of the control variable can be obtained
-from \indexmpidef{MPI_T_cvar_get_info}
-\begin{lstlisting}
-int MPI_T_cvar_get_info( int cvar_num,
-  char *name, int *name_length,
-  int *verbosity, MPI_Datatype *type,MPI_T_enum *enumtype,
-  char *description,int *description_length,
-  int *bind,int *scope);
-\end{lstlisting}
+from \indexmpiref{MPI_T_cvar_get_info}.
+%% \begin{lstlisting}
+%% int MPI_T_cvar_get_info( int cvar_num,
+%%   char *name, int *name_length,
+%%   int *verbosity, MPI_Datatype *type,MPI_T_enum *enumtype,
+%%   char *description,int *description_length,
+%%   int *bind,int *scope);
+%% \end{lstlisting}
 \begin{itemize}
 \item
   An invalid index leads to a function result of \indexmpidef{MPI_T_ERR_INVALID_INDEX}.
@@ -70,6 +69,18 @@ int MPI_T_cvar_get_info( int cvar_num,
   The \lstinline{enumtype} variable is \indexmpishow{MPI_T_ENUM_NULL} if the variable
   is not an enum type.
 \end{itemize}
+\cverbatimsnippet{mpicvarlist}
+\begin{remark}
+  There is no constant indicating a maximum buffer length for these variables.
+  However, you can do the following:
+  \begin{enumerate}
+  \item Call the info routine with \n{NULL} values for the buffers,
+    reading out the buffer lengths;
+  \item allocate the buffers with sufficient length, that is,
+    including an extra position for the null terminator; and
+  \item calling the info routine a second time, filling in the string buffers.
+  \end{enumerate}
+\end{remark}
 
 Conversely, given a variable name, its index can be retrieved with
 \indexmpidef{MPI_T_cvar_get_index}:
@@ -266,4 +277,3 @@ If categories change dynamically, this can be detected with
 int MPI_T_category_changed(int *stamp)
 \end{lstlisting}
 
-\end{mpifour}

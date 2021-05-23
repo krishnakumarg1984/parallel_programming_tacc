@@ -33,6 +33,14 @@
 \input coursemacs
 \input listingmacs
 
+%%%%
+%%%% Where is this course?
+%%%%
+
+\def\Location{}% redefine in the inex file
+\def\courseyear{2021}
+\def\Location{TACC HPC Training \courseyear}
+
 \includecomment{full}
 \excludecomment{condensed}
 \excludecomment{online}
@@ -47,9 +55,6 @@
 \includecomment{advanced}
 \includecomment{foundations}
 
-\def\Location{}% redefine in the inex file
-\def\courseyear{2021}
-\def\Location{TACC HPC Training \courseyear}
 \begin{xsede}
   \def\Location{TACC/XSEDE MPI training \courseyear}
 \end{xsede}

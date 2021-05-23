@@ -78,8 +78,8 @@ see figure~\ref{fig:mpi-interactive}.
   \caption{Interactive MPI setup}
   \label{fig:mpi-interactive}
 \end{figure}
-The user types the command \n{mpiexec}\index{mpiexec}\footnote
-{A command variant is \texttt{mpirun}\index{mpirun}; your local cluster
+The user types the command \indextermtt{mpiexec}\footnote
+{A command variant is \indexterm{mpirun}; your local cluster
   may have a different mechanism.}
 and supplies
 \begin{itemize}
@@ -89,10 +89,10 @@ and supplies
   host; followed by
 \item the name of the program and its parameters.
 \end{itemize}
-The \n{mpirun} program then makes an \n{ssh}\index{ssh} connection
+The \n{mpiexec} program then makes an \n{ssh}\index{ssh} connection
 to each of the hosts, giving them sufficient information that they 
 can find each other. All the output of the processors is piped through the 
-\n{mpirun} program, and appears on the interactive console.
+\n{mpiexec} program, and appears on the interactive console.
 
 In the second scenario (figure~\ref{fig:mpi-batch}) the user prepares
 a \indextermbus{batch}{job} script with commands, and these will be
@@ -103,7 +103,7 @@ to the job.
   \caption{Batch MPI setup}
   \label{fig:mpi-batch}
 \end{figure}
-Now the batch script contains the \n{mpirun} command%
+Now the batch script contains the \n{mpiexec} command%
 \begin{istc}
 , or some variant such as \n{ibrun}\index{ibrun}%
 \end{istc}
@@ -112,7 +112,7 @@ Since the job now runs at a time when the user may not be logged in,
 any screen output goes into an output file.
 
 You see that in both scenarios the parallel program is started
-by the \n{mpirun} command using
+by the \n{mpiexec} command using
 an \ac{SPMD} mode of execution: all hosts execute the same program.
 It is possible for different hosts to execute different programs,
 but we will not consider that in this book.
@@ -153,10 +153,10 @@ just your laptop. An MPI program can be run in all these
 circumstances~--~within the limits of your available memory of course.
 
 The way this works is that you do not start your executable directly,
-but you use a program, typically called \n{mpirun}\index{mpirun} or
+but you use a program, typically called \indextermtt{mpiexec} or
 something similar, which makes a connection to all available
 processors and starts a run of your executable there. So if you have a
-thousand nodes in your cluster, \n{mpirun} can start your program once
+thousand nodes in your cluster, \n{mpiexec} can start your program once
 on each, and if you only have your laptop it can start a few instances
 there. In the latter case you will of course not get great
 performance, but at least you can test your code for correctness.

@@ -66,11 +66,13 @@ After the parallel region the outer variable~\n{x} will still have the
 value~\n{5}: there is no \indexterm{storage association} between the
 private variable and global one.
 
-The Fortran language does not have this concept of scope, so you have to use a
-\indexclause{private} clause:
+\begin{fortrannote}
+  The Fortran language does not have this concept of scope, so you have to use a
+  \indexclause{private} clause:
 \begin{lstlisting}
 !$OMP parallel private(x)
 \end{lstlisting}
+\end{fortrannote}
 
 The \indexpragma{private} directive declares data to have a separate copy 
 in the memory of each thread. 

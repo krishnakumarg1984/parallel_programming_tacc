@@ -71,21 +71,13 @@ y = y1+y2;
 \end{lstlisting}
 Instead of using two temporaries, you could also use a critical
 section; see section~\ref{sec:critical}.  However, the best solution
-is have a \n{reduction} clause on the \n{sections} directive:
+is have a \n{reduction} clause on the \n{parallel sections} directive.
+For the sum
 \begin{lstlisting}
   y = f(x) + g(x)
 \end{lstlisting}
 You could then write
-\begin{lstlisting}
-y = 0;
-#pragma omp sections reduction(+:y)
-{
-#pragma omp section
-  y += f(x)
-#pragma omp section
-  y += g(x)
-}
-\end{lstlisting}
+\cverbatimsnippet{ompsectreduct}
 
 \Level 0 {Single/master}
 \label{sec:omp-single}

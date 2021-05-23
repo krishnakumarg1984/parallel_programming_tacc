@@ -502,9 +502,8 @@ This can happen in a number of ways:
   \indextermbus{Intel}{Paragon} was of this design; modern
   multicore processors are a more efficient realization of this idea.
 \item The MPI library may reserve a core or thread for communications
-  processing. This is implementation dependent; for instance,
-  \indextermbus{Intel}{MPI} has a number of
-  \indextermtt{I_MPI_ASYNC_PROGRESS_...} variables.
+  processing. This is implementation dependent;
+  see \indextermbus{Intel}{MPI} information below.
 \item Absent such dedicated resources, the application can force MPI
   to make progress by occasional calls to a \indexterm{polling}
   routine such as \indexmpishow{MPI_Iprobe}.
@@ -914,7 +913,7 @@ For instance,
 \indextermsub{shell}{input redirection}
 as in
 \begin{verbatim}
-mpirun -np 2 mpiprogram < someinput
+mpiexec -n 2 mpiprogram < someinput
 \end{verbatim}
 may not work.
 
@@ -925,26 +924,27 @@ mpirunprogram < $1
 \end{verbatim}
 and run this in parallel:
 \begin{verbatim}
-mpirun -np 2 programscript someinput
+mpiexec -n 2 programscript someinput
 \end{verbatim}
 
 \Level 1 {Standard out and error}
 
 The \indexterm{stdout} and \indexterm{stderr} streams of an MPI
 process are returned through the ssh tunnel. Thus they can be caught
-as the \indexterm{stdout/err of}{mpirun}.
+as the \emph{stdout/err}\index{mpiexec!stdout/err of} of
+\indextermtt{mpiexec}.
 
 \cverbatimsnippet[examples/mpi/c/outerr.c]{mpiouterr}
 
 \Level 1 {Process status}
 
 The return code of \indexmpishow{MPI_Abort} is returned as the
-\indexterm{processes status of}{mpirun}.
+\indexterm{processes status of}{mpiexec}.
 Running
 \cverbatimsnippet[examples/mpi/c/abort.c]{mpiabort37}
 as
 \begin{verbatim}
-mpirun -np 4 ./abort ; \
+mpiexec -n 4 ./abort ; \
 echo "Return code from ${MPIRUN} is <<$$?>>"
 \end{verbatim}
 gives
@@ -975,7 +975,7 @@ fi
 \end{verbatim}
 which is then run in parallel:
 \begin{verbatim}
-mpirun -np 25 mpmdscript
+mpiexec -n 25 mpmdscript
 \end{verbatim}
 
 \Level 0 {The origin of one-sided communication in ShMem}

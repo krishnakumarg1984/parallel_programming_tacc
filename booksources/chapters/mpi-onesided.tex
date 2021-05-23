@@ -34,8 +34,10 @@ routines where a process
 can do a `put' or `get' operation, writing data to or reading it from
 another processor, without that other processor's involvement.
 
-In one-sided MPI operations, also known as \acf{RDMA} or 
-\acf{RMA} operations, there
+In one-sided MPI operations, 
+known as \acf{RMA} operations in the standard,
+or as \acf{RDMA} in other literature,
+there
 are still two processes involved: the \indexterm{origin}, which is the
 process that originates the transfer, whether this is a `put' or a `get',
 and the \indexterm{target} whose
@@ -50,6 +52,9 @@ user-space memory that is accessible to other processes. This is known
 as a \indexterm{window}. Windows limit how origin processes can access
 the target's memory: you can only `get' data from a window or `put' it
 into a window; all the other memory is not reachable from other processes.
+On the origin there is no such limitation;
+any data can function as the source of a `put'
+or the recipient of a `get operation.
 
 The alternative to having windows is to use \indexterm{distributed shared memory}
 or \indexterm{virtual shared memory}: memory is distributed but acts as if
@@ -256,6 +261,8 @@ In this section we look at the first mechanism,
 which is to use a \indexterm{fence} operation: \indexmpiref{MPI_Win_fence}.
 This operation is collective on the communicator of the window.
 It is comparable to \indexmpishow{MPI_Wait} calls for nonblocking communication.
+(Another, more sophisticated mechanism for active target synchronization
+is discussed in section~\ref{sec:ref:post-wait}.)
 
 The use of fences is somewhat complicated. The interval between two fences
 is known as an \indextermdef{epoch}.
@@ -1025,27 +1032,17 @@ with possible values:
 \end{itemize}
 
 Get the group of processes associated with a window:
-\begin{verbatim}
+\begin{lstlisting}
 int MPI_Win_get_group(MPI_Win win, MPI_Group *group) 
-MPI_Win_get_group(win, group, ierror) 
-TYPE(MPI_Win), INTENT(IN) :: win 
-TYPE(MPI_Group), INTENT(OUT) :: group 
-INTEGER, OPTIONAL, INTENT(OUT) :: ierror
-\end{verbatim}
+\end{lstlisting}
 
-\begin{verbatim}
+Window information objects:
+\begin{lstlisting}
 int MPI_Win_set_info(MPI_Win win, MPI_Info info)
-MPI_Win_set_info(win, info, ierror)
-TYPE(MPI_Win), INTENT(IN) :: win
-TYPE(MPI_Info), INTENT(IN) :: info
-INTEGER, OPTIONAL, INTENT(OUT) :: ierror
-
+\end{lstlisting}
+\begin{lstlisting}
 int MPI_Win_get_info(MPI_Win win, MPI_Info *info_used)
-MPI_Win_get_info(win, info_used, ierror)
-TYPE(MPI_Win), INTENT(IN) :: win
-TYPE(MPI_Info), INTENT(OUT) :: info_used
-INTEGER, OPTIONAL, INTENT(OUT) :: ierror
-\end{verbatim}
+\end{lstlisting}
 
 \Level 0 {Assertions}
 \label{sec:mpi-assert}

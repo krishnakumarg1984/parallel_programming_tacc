@@ -16,9 +16,9 @@
 
 Above we saw several scenarios where it makes sense to divide
 \lstinline{MPI_COMM_WORLD} into disjoint subcommunicators.
-The command \indexmpiref{MPI_Comm_split} uses a `colour' to define
+The command \indexmpiref{MPI_Comm_split} uses a `color' to define
 these subcommunicators:
-all processes in the old communicator with the same colour
+all processes in the old communicator with the same color
 wind up in a new communicator together. The old communicator still exists,
 so processes now have two different contexts in which to communicate.
 
@@ -46,11 +46,6 @@ MPI_Bcast( data, /* tag: */ 0, column_comm );
 Because of the SPMD nature of the program, you are now doing in parallel
 a broadcast in every processor column. Such operations often appear
 in \indexterm{dense linear algebra}.
-
-The \indexmpishow{MPI_Comm_split} routine has a `\n{key}' parameter,
-which controls how the processes in the new communicator are
-ordered. By supplying the rank from the original communicator you let
-them be arranged in the same order.
 
 \begin{pythonnote}{Comm split key is optional}
   In Python, the `key' argument is optional:

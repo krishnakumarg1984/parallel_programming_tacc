@@ -58,7 +58,10 @@ First we query how much space we have for new processes:
 
 (See section~\ref{sec:mpi_attr} for that dereference behavior.)
 
-Then we actually spawn them:
+Use the flag to see if this option is supported:
+\cverbatimsnippet[examples/mpi/c/spawnmanager.c]{uverse}
+
+Then we actually spawn the processes:
 %
 \cverbatimsnippet[examples/mpi/c/spawnmanager.c]{spawnmanager}
 %
@@ -66,7 +69,7 @@ Then we actually spawn them:
 %
 You could start up a single copy of this program with 
 \begin{verbatim}
-mpirun -np 1 spawnmanager
+mpiexec -n 1 spawnmanager
 \end{verbatim}
 but with a hostfile that has more than one host.
 
@@ -204,13 +207,19 @@ At the end of a run, the service should be unpublished with
 Unpublishing a nonexisting or already unpublished service gives an
 error code of \indexmpidef{MPI_ERR_SERVICE}.
 
-\indexmpiref{MPI_Comm_join}
-
 MPI provides no guarantee of fairness in servicing connection
 attempts. That is, connection attempts are not necessarily satisfied
 in the order in which they were initiated, and competition from other
 connection attempts may prevent a particular connection attempt from
 being satisfied.
+
+\Level 1 {Unix sockets}
+
+It is also possible to create an
+\emph{inter-communicator} from a Unix
+\indexterm{socket}\index{communicator!inter!from socket}
+with
+\indexmpiref{MPI_Comm_join}.
 
 \Level 0 {Sessions}
 \label{sec:session}

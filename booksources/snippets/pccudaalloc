@@ -1,0 +1,10 @@
+Mat cuda_matrix;
+PetscScalar *matdata;
+ierr = PetscMallocSetCUDAHost(); CHKERRQ(ierr);
+ierr = PetscMalloc1(global_size*global_size,&matdata); CHKERRQ(ierr);
+ierr = PetscMallocResetCUDAHost(); CHKERRQ(ierr);
+ierr = MatCreateDenseCUDA
+  (comm,
+   global_size,global_size,global_size,global_size,
+   matdata,
+   &cuda_matrix); CHKERRQ(ierr);

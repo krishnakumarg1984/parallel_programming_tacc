@@ -483,14 +483,8 @@ with \indexpetscdef{PetscMallocDump}. The commandline option
 \indexpetscshow{PetscFinalize}.
 
 \Level 1 {GPU allocation}
-\label{sec:petsc-malloc-gpu}
 
 The memories of a CPU and GPU are not coherent.
 This means that routines such as \indexpetscshow{PetscMalloc1}
 can not immediately be used for GPU allocation.
-
-Use the routines \indexpetscshow{PetscMallocSetCUDAHost}
-and \indexpetscshow{PetscMallocResetCUDAHost}
-to switch the allocator to GPU memory and back.
-
-\cverbatimsnippet{pccudaalloc}
+See section~\ref{sec:petsc-malloc-gpu} for details.

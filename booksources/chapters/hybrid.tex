@@ -4,7 +4,7 @@
 %%%%
 %%%% This text file is part of the source of 
 %%%% `Parallel Programming in MPI and OpenMP'
-%%%% by Victor Eijkhout, copyright 2012-9
+%%%% by Victor Eijkhout, copyright 2012-2021
 %%%%
 %%%% hybrid.tex : about hybrid computing
 %%%%
@@ -189,9 +189,9 @@ release_mt : multi-threaded with per-object lock for thread-split
 \end{verbatim}
 \end{tacc}
 
-The \emph{mpirun}\index{mpirun!and environment variables}
+The \emph{mpiexec}\index{mpiexec!and environment variables}
 program usually propagates \indexterm{environment variables},
-so the value of \indextermtt{OMP_NUM_THREADS} when you call \n{mpirun}
+so the value of \indextermtt{OMP_NUM_THREADS} when you call \n{mpiexec}
 will be seen by each MPI process.
 
 \begin{itemize}

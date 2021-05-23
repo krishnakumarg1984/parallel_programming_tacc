@@ -3,7 +3,7 @@
 ####
 #### This makefile is part of the source of 
 #### "Parallel Computing in MPI and OpenMP"
-#### by Victor Eijkhout, copyright 2013-2020
+#### by Victor Eijkhout, copyright 2013-2021
 ####
 #### Makefile for OpenMP C example programs
 ####
@@ -17,7 +17,7 @@ info ::
 	@echo
 	@echo "make app (where app=${APPS})"
 APPS = hello hello3 proccount pi \
-    parfor critfun \
+    parfor critfun reductpar \
     alloc1 alloc2 sharing race \
     threadprivate ireduct ireductinit ureduct reductpositive \
     taskgroup0 taskgroup1 taskgroup2 taskgroup3

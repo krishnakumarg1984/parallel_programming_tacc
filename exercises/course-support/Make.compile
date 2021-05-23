@@ -14,11 +14,12 @@
 MAKEFLAGS += --no-builtin-rules
 
 info ::
+	@echo
+	@echo "================ Compilation"
+	@echo "make APP (in ${APPS})"
 	@echo "    [ OPTLEVEL=0/1/2, default:${OPTLEVEL} ]"
-OPTLEVEL = 2
-
-info ::
 	@echo "    [ EXTRA_OPTIONS=... ]"
+OPTLEVEL = 2
 
 EXT_c = c
 EXT_C = c
@@ -162,15 +163,26 @@ ifeq "${MODE}" "seq"
 C_LINKER   := ${C_COMPILER}
 CXX_LINKER := ${CXX_COMPILER}
 F_LINKER   := ${F_COMPILER}
+else ifeq "${MODE}" "omp"
+C_LINKER   := ${C_COMPILER}
+CXX_LINKER := ${CXX_COMPILER}
+F_LINKER   := ${F_COMPILER}
+else ifeq "${MODE}" "1api"
+C_LINKER   := ${C_COMPILER}
+CXX_LINKER := ${CXX_COMPILER}
+F_LINKER   := ${F_COMPILER}
 endif
 LINKER     := ${${LANGUAGE}_LINKER}
 
 ifeq "${MODE}" "petsc"
-LINK_FLAGS += ${PETSC_LIB}
+  LINK_FLAGS += ${PETSC_LIB}
 else ifeq "${MODE}" "hybrid"
-LINK_FLAGS += ${OMPFLAGS}
+  LINK_FLAGS += ${OMPFLAGS}
 else ifeq "${MODE}" "omp"
-LINK_FLAGS += ${OMPFLAGS}
+  LINK_FLAGS += ${OMPFLAGS}
+endif
+ifeq "${TACC_FAMILY_COMPILER}" "gcc"
+  LINK_FLAGS += -lm
 endif
 
 .SECONDEXPANSION:

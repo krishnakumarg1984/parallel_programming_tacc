@@ -33,7 +33,7 @@ we start talking about MPI I/O.
 
 \begin{itemize}
 \item One process can collect all data with \indexmpishow{MPI_Gather}
-  and write it out. There are at least three things wrong wit this:
+  and write it out. There are at least three things wrong with this:
   it uses network bandwidth for the gather, it may require a large
   amount of memory on the root process, and centralized writing
   is a bottlenectk.
@@ -44,7 +44,7 @@ we start talking about MPI I/O.
   but it can put a lot of strain
   on the file system, and the post-processing can be a significant task.
 \item Using a shared file system,
-  there is nothing against every process opening an existing file
+  there is nothing against every process opening the same existing file
   for reading, and using an individual file pointer to get its unique
   data.
 \item \ldots~but having every process open the same file for output is
@@ -65,7 +65,7 @@ and place it in locations that are not contiguous on disc.
 
 There are dedicated libraries for file I/O, such as \indexterm{hdf5},
 \indexterm{netcdf}, or \indexterm{silo}. However, these often add
-header inforation to a file that may not be understandable to
+header information to a file that may not be understandable to
 post-processing applications. With MPI I/O you are in complete control
 of what goes to the file. (A~useful tool for viewing your file is the
 unix utility~\indextermtt{od}.)

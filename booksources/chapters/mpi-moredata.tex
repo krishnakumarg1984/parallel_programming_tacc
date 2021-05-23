@@ -23,8 +23,8 @@ The types in the send and receive buffers also need to match
 the datatypes of the underlying architecture, with two exceptions.
 The \indexmpishow{MPI_PACKED} and \indexmpishow{MPI_BYTE} types
 can match any underlying type.
-However, this still does not mean that these types can be used
-on only sender or receiver, and a specific type on the other.
+However, this still does not mean that it is a good idea to use
+these types on only sender or receiver, and a specific type on the other.
 
 \Level 0 {Type extent}
 \label{sec:mpi-type-size}
@@ -342,6 +342,13 @@ and
   Internally, \lstinline+MPI.Status.Get_count+ is implemented
   in terms of \indexmpishow{MPI_Get_count_x}.
 \end{pythonnote}
+
+\begin{mpifour}
+  For every routine \lstinline{MPI_Something}
+  with an \lstinline{int} count parameter,
+  there is a corresponding routine \lstinline{MPI_Something_c}
+  with an \lstinline{MPI_Count} parameter.
+\end{mpifour}
 
 \index{datatype!big|)}
 

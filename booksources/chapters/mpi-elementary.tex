@@ -113,6 +113,8 @@ equivalent to \indexmpishow{MPI_DATATYPE_NULL}.
 The default integer type \indexmpishow{MPI_INTEGER} is equivalent to
 \lstinline{INTEGER(KIND=MPI_INTEGER_KIND)}.
 
+\Level 2 {Big data types}
+
 The C type \indexmpishow{MPI_Count} corresponds to an integer of type
 \indexmpidef{MPI_COUNT_KIND}, used most prominently in `big data'
 routines such as \indexmpishow{MPI_Type_size_x} 
@@ -121,6 +123,15 @@ routines such as \indexmpishow{MPI_Type_size_x}
 Integer(kind=MPI_COUNT_KIND) :: count
 call MPI_Type_size_x(my_type, count)
 \end{lstlisting}
+
+\begin{mpifour}
+  For every routine \lstinline{MPI_Something}
+  with an \lstinline{int} count parameter,
+  there is a corresponding routine \lstinline{MPI_Something_c}
+  with an \lstinline{MPI_Count} parameter.
+\end{mpifour}
+
+\Level 2 {Byte counting types}
 
 Kind \indexmpishow{MPI_ADDRESS_KIND} is used for \indexmpishow{MPI_Aint}
 quantities, used in \ac{RMA} windows; see section~\ref{sec:mpi-put}.
@@ -251,7 +262,8 @@ Here is a good way for finding the size of \indexterm{numpy} datatypes
 in bytes:
 \pverbatimsnippet{windispp}% source is in one-sided chapter
 
-\Level 1 {Translating language type to MPI type}
+\Level 1 {Matching language type to MPI type}
+\label{sec:mpi-type-match}
 
 In some circumstances you may want to find the MPI type
 that corresponds to a type in your programming language.
@@ -272,14 +284,16 @@ because MPI calls are templated there.)
 \item Petsc installations use a generic identifier \indexpetscshow{PetscScalar}
   (or \indexpetscshow{PetscReal})
   with a configuration-dependent realization.
+\item The size of a datatype is not always statically known, for instance if
+the Fortran \indextermtt{KIND} keyword is used.
 \end{itemize}
 
-\Level 1 {Matching MPI and language type sizes}
-\label{sec:mpi-type-match}
+Here are some MPI mechanisms that address this problem.
 
-The size of a datatype is not always statically known, for instance if
-the Fortran \indextermtt{KIND} keyword is used. The translation of
-datatypes in the source language can be translated to MPI types with
+\Level 2 {Type matching in C}
+\label{sec:mpi-type-match-c}
+
+Datatypes in~C can be translated to MPI types with
 %
 \indexmpiref{MPI_Type_match_size}
 %
@@ -289,13 +303,6 @@ where the \lstinline{typeclass} argument is one of
 \indexmpishow{MPI_TYPECLASS_COMPLEX}.
 
 \cverbatimsnippet[examples/mpi/c/typematch.c]{typematchc}
-
-In Fortran, the size of the datatype in the language can be obtained with
-\indexmpishow{MPI_Sizeof} (note the nonoptional error parameter!).
-This routine is deprecated in \mpistandard{4}: use of
-\indextermtt{storage_size} and/or \indextermtt{c_sizeof} is recommended.
-
-\fverbatimsnippet[examples/mpi/c/typematch.c]{typematchf}
 
 The space that MPI takes for a structure type can be queried in a
 variety of ways. First of all \indexmpiref{MPI_Type_size} counts the
@@ -311,6 +318,16 @@ In C, the \indexmpidef{MPI_Datatype} type is defined through the pre-processor,
 allowing you to write:
 \cverbatimsnippet{datatypevar}
 \end{comment}
+
+\Level 2 {Type matching in Fortran}
+\label{sec:mpi-type-match-f}
+
+In Fortran, the size of the datatype in the language can be obtained with
+\indexmpishow{MPI_Sizeof} (note the nonoptional error parameter!).
+This routine is deprecated in \mpistandard{4}: use of
+\indextermtt{storage_size} and/or \indextermtt{c_sizeof} is recommended.
+
+\fverbatimsnippet[examples/mpi/c/typematch.c]{typematchf}
 
 Petsc has its own translation mechanism; see section~\ref{sec:petsc-scalar}.
 

@@ -4,7 +4,7 @@
 %%%%
 %%%% This text file is part of the source of 
 %%%% `Parallel Programming in MPI and OpenMP'
-%%%% by Victor Eijkhout, copyright 2012-2020
+%%%% by Victor Eijkhout, copyright 2012-2021
 %%%%
 %%%% petsc-design.tex : a tutorial section
 %%%%
@@ -272,7 +272,7 @@ integers.
 PETSc programs use MPI for parallelism, so they are started like any other
 MPI program:
 \begin{verbatim}
-mpirun -np 5 -machinefile mf \
+mpiexec -n 5 -machinefile mf \
     your_petsc_program option1 option2 option3
 \end{verbatim}
 \begin{taccnote}

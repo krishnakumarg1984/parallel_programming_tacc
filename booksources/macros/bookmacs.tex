@@ -4,7 +4,7 @@
 %%%%
 %%%% This text file is part of the source of 
 %%%% `Introduction to High-Performance Scientific Computing'
-%%%% by Victor Eijkhout, copyright 2012-2020
+%%%% by Victor Eijkhout, copyright 2012-2021
 %%%%
 %%%% This book is distributed under a Creative Commons Attribution 3.0
 %%%% Unported (CC BY 3.0) license and made possible by funding from
@@ -144,9 +144,13 @@
 \newenvironment{example}{\begin{quotation}\textbf{Example.\ }}{\end{quotation}}
 \newenvironment{specialnote}[1]
                {\par\begin{raggedright}
-                 \leftskip=.5\unitindent
-                 \noindent\textsl{#1.}\kern1em\ignorespaces}
+                 \advance\leftskip by \unitindent
+                 %\leftskip=.5\unitindent
+                 \noindent \hbox{\kern-\unitindent \textsl{#1.}}\kern1em\ignorespaces
+                 %\noindent\textsl{#1.}\kern1em\ignorespaces
+               }
                {\par\end{raggedright}}
+\newcounter{fortrannote}
 \newenvironment{fortrannote}
   {\begin{specialnote}{Fortran note}\lstset{language=Fortran}}
   {\end{specialnote}\lstset{language=C}}

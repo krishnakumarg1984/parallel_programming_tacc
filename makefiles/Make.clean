@@ -11,8 +11,10 @@
 ################################################################
 ################################################################
 
-.PHONY: clean codeclean texclean local_clean total_clean recursive_clean
+.PHONY: clean codeclean texclean local_clean localclean total_clean recursive_clean
 info ::
+	@echo
+	@echo "================ Cleaning:"
 	@echo "make clean, total_clean"
 clean :: local_clean
 codeclean :
@@ -23,9 +25,9 @@ codeclean :
 texclean :
 	@/bin/rm -rf \
 	    *.{a,aux,blg,cut,idx,ilg,ind,log,mod,o,out,svn,toc} texput.*
-local_clean :: codeclean texclean
+localclean local_clean :: codeclean texclean
 	@/bin/rm -rf \
-	    ]* ddt.o[0-9]* jobtest.o* tautrace_* __pycache__ \
+	    ddt.o[0-9]* jobtest.o* tautrace_* __pycache__ \
 	    dcvserver.out \
 	    ${APPS}
 INDENT =

@@ -4,7 +4,7 @@
 %%%%
 %%%% This text file is part of the source of 
 %%%% `Parallel Programming in MPI and OpenMP'
-%%%% by Victor Eijkhout, copyright 2012-2020
+%%%% by Victor Eijkhout, copyright 2012-2021
 %%%%
 %%%% mpi-started.tex : introductory chapter about MPI
 %%%%
@@ -697,7 +697,7 @@ Running a program in a parallel graphical environment (such as the DDT
 debugger or the Eclipse PTP IDE) would solve this, but they introduce
 much learning overhead. Ironically, the low tech solution of
 \begin{verbatim}
-mpirun -np 4 xterm -e gdb program
+mpiexec -n 4 xterm -e gdb program
 \end{verbatim}
 is fairly insightful, but having to learn gdb is again a big hurdle.
 

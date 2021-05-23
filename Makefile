@@ -14,7 +14,7 @@
 info ::
 	@echo \
 	&& echo "Top level makefile for the public repo of" \
-	&& echo "  `Parallel Programming for Science and Engineering' " \
+	&& echo "  Parallel Programming for Science and Engineering " \
 	&& echo "  Victor Eijkhout" \
 	&& echo \
 	&& echo "Available rules:"
