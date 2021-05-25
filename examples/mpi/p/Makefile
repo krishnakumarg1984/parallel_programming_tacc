@@ -54,7 +54,7 @@ run_spawn :
 TESTSWRONG = buffertoosmall.py 
 TESTSNOT = exscan.py
 TESTS_IN_PROGRESS =  interleave.py
-include ../../../makefiles/Make.mpi_run
+#include ../../../makefiles/Make.mpi_run
 PYTHON = python3
 regression :
 	@for p in ${APPS} ; do \
