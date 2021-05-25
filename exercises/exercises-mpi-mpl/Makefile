@@ -23,6 +23,9 @@ EXERCISES = hello \
     stridesend cubegather procgrid procgridnonblock transposeblock \
     rightsend rightgraph \
     ibarrierupdate
+SOURCES = $(patsubst %,%.c,${EXERCISES})
+OBJS = $(patsubst %,%.o,${EXERCISES})
+
 info ::
 	@echo "    [ OPTS=... ] (for instance: OPTS=\"-DN 100\")"
 	@echo "    support options:"
@@ -30,11 +33,12 @@ info ::
 
 MODE = mpl
 LANGUAGE = CXX
+EXTRA_OBJS = tools.o
 include ../course-support/Make.compile
 CPPSTANDARD = 17
 EXTRA_OPTIONS = -I${TACC_MPL_INC}
 EXTRA_LIBS = -lstdc++
-
+${OBJS} tools.o : tools.h
 
 include ../course-support/Make.simgrid
 ifdef TACC_TAU_DIR

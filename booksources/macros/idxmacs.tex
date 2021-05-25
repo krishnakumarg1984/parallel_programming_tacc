@@ -11,7 +11,10 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\usepackage[original]{imakeidx}
+% the 
+% \usepackage{imakeidx}
+% line is in the master file
+%
 
 \makeindex
 \makeindex[name=mpi]
@@ -20,6 +23,7 @@
 \makeindex[name=omp]
 \makeindex[name=petsc]
 \makeindex[name=python]
+
 
 \newcommand{\indextermp}[1]{\emph{#1s}\index{#1}}
 \newcommand{\indextermsub}[2]{\emph{#1 #2}\index{#2!#1}}
@@ -66,13 +70,6 @@
 
 \newif\ifShowRoutine
 { \catcode`\_=13
-  %% MPI index routines
-  %% \gdef\indexmpishow#{\bgroup
-  %%   \InnocentChars \ShowRoutinetrue
-  %%   \afterassignment\mpitoindex\edef\indexedmpi}
-  %% \gdef\indexmplshow#{\bgroup %% MPL variant
-  %%   \InnocentChars \ShowRoutinetrue
-  %%   \afterassignment\mpltoindex\edef\indexedmpi}
   \gdef\indexmpishowf#{\bgroup
     \InnocentChars \def\\{\char`\\}\relax
     \ShowRoutinetrue

@@ -16,6 +16,8 @@
 #include <math.h>
 #include "mpi.h"
 
+#include "tools.h"
+
 double array_error(double ref_array[],double value_array[],int array_size) {
   double error = 0.,max_value=-1,min_value=-1;
   for (int i=0; i<array_size; i++) {
@@ -41,14 +43,21 @@ void print_final_result( int cond,MPI_Comm comm ) {
   int nprocs,procno;
   MPI_Comm_size(comm,&nprocs);
   MPI_Comm_rank(comm,&procno);
-  int error=nprocs, errors=-1;
+  int error=nprocs, error_proc=-1;
   if (cond) 
     error = procno;
-  MPI_Allreduce(&error,&errors,1,MPI_INT,MPI_MIN,comm);
+  MPI_Allreduce(&error,&error_proc,1,MPI_INT,MPI_MIN,comm);
+  error_process_print(error_proc,comm);
+};
+
+void error_process_print(int error_proc, MPI_Comm comm) {
+  int nprocs,procno;
+  MPI_Comm_size(comm,&nprocs);
+  MPI_Comm_rank(comm,&procno);
   if (procno==0) {
-    if (errors==nprocs) 
+    if (error_proc==nprocs) 
       printf("Finished; all results correct\n");
     else
-      printf("First error occurred on proc %d\n",errors);
+      printf("First error occurred on proc %d\n",error_proc);
   }
-};
+}

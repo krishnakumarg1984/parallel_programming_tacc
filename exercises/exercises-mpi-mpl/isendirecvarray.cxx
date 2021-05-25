@@ -4,7 +4,7 @@
  **** `Parallel programming with MPI and OpenMP'
  **** by Victor Eijkhout, eijkhout@tacc.utexas.edu
  ****
- **** copyright Victor Eijkhout 2020
+ **** copyright Victor Eijkhout 2021
  ****
  **** MPI Exercise for Isend/Irecv using MPL
  ****
@@ -14,6 +14,8 @@
 #include <sstream>
 using namespace std;
 #include <mpl/mpl.hpp>
+
+#include "tools.h"
 
 int main() {
 
@@ -27,8 +29,8 @@ int main() {
   stringstream proctext;
 
 #define N 100
-  vector<int> indata(N,1.), outdata(N);
-  int leftdata=0.,rightdata=0.;
+  vector<double> indata(N,1.), outdata(N);
+  double leftdata=0.,rightdata=0.;
   int sendto,recvfrom;
   mpl::irequest_pool requests;
 
@@ -87,35 +89,16 @@ int main() {
    * Check correctness of the result:
    * value should be 2 at the end points, 3 everywhere else
    */
-  int 
-    error = nprocs;
+  vector<double> answer(N);
   for (int i=0; i<N; i++) {
     if ( (procno==0 && i==0) || (procno==nprocs-1 && i==N-1) ) {
-      if (outdata[i]!=2) {
-	proctext << "Data on proc " << procno << ", index " << i
-		 << " should be 2, not " << outdata[i] << endl;
-	cerr << proctext.str(); proctext.clear();
-	error = procno;
-      }
+      answer[i] = 2.;
     } else {
-      if (outdata[i]!=3) {
-	proctext << "Data on proc " << procno << ", index " << i
-		 << " should be 3, not " << outdata[i] << endl;
-	cerr << proctext.str(); proctext.clear();
-	error = procno;
-      }
+      answer[i] = 3.;
     }
   }
-  int
-    errors=-1;
-  comm_world.allreduce(mpl::min<int>(),error,errors);
-  if (procno==0) {
-    if (errors==nprocs) 
-      proctext << "Finished; all results correct" << endl;
-    else
-      proctext << "First error occurred on proc " << errors << endl;
-    cout << proctext.str(); proctext.clear();
-  }
+  double error_test = array_error(answer,outdata);
+  print_final_result(error_test>1.e-5,comm_world);
 
   return 0;
 }

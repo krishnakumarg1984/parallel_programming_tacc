@@ -118,33 +118,29 @@
     {\end{lstlisting}
 }
 
-%%%%
-%%%% Environments
-%%%%
-\newcounter{slidecount}
-\setcounter{slidecount}{1}
-\newenvironment
-    {numberedframe}[1]
-    {\begin{frame}[containsverbatim]{\arabic{slidecount}\ #1}
-        \refstepcounter{slidecount}
-    }
-    {\end{frame}}
-\newenvironment{question}{\begin{quotation}\textbf{Question.\ }}{\end{quotation}}
-\newenvironment{fortrannote}
-  {\begin{quotation}\noindent\textsl{Fortran note.\kern1em}\ignorespaces}
-  {\end{quotation}}
-\newenvironment{pythonnote}
-  {\begin{quotation}\noindent\textsl{Python note.\kern1em}\ignorespaces}
-  {\end{quotation}}
-\newenvironment{taccnote}
-  {\begin{quotation}\noindent\textsl{TACC note.\kern1em}\ignorespaces}
-  {\end{quotation}}
-\newenvironment{mpifour}
-  {\begin{quotation}\textbf{MPI-4:\ }\ignorespaces}{\end{quotation}}
-
-%% \newenvironment{highermath}
-%%     {\bigskip\begin{quotation}\noindent\emph{MMM}}
-%%     {\end{quotation}\bigskip\noindent\ignorespaces}
+%% %%%%
+%% %%%% Environments
+%% %%%%
+%% \newcounter{slidecount}
+%% \setcounter{slidecount}{1}
+%% \newenvironment
+%%     {numberedframe}[1]
+%%     {\begin{frame}[containsverbatim]{\arabic{slidecount}\ #1}
+%%         \refstepcounter{slidecount}
+%%     }
+%%     {\end{frame}}
+%% \newenvironment{question}{\begin{quotation}\textbf{Question.\ }}{\end{quotation}}
+%% \newenvironment{fortrannote}
+%%   {\begin{quotation}\noindent\textsl{Fortran note.\kern1em}\ignorespaces}
+%%   {\end{quotation}}
+%% \newenvironment{pythonnote}
+%%   {\begin{quotation}\noindent\textsl{Python note.\kern1em}\ignorespaces}
+%%   {\end{quotation}}
+%% \newenvironment{taccnote}
+%%   {\begin{quotation}\noindent\textsl{TACC note.\kern1em}\ignorespaces}
+%%   {\end{quotation}}
+%% \newenvironment{mpifour}
+%%   {\begin{quotation}\textbf{MPI-4:\ }\ignorespaces}{\end{quotation}}
 
 \usepackage{acronym}
 \newwrite\acrowrite

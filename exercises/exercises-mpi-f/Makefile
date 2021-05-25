@@ -23,9 +23,14 @@ EXERCISES = hello \
     rightput randomput countdown onesidedbuild \
     blockwrite shareddata ibarrierupdate
 OTHERPROGRAMS = write
+SOURCES = $(patsubst %,%.F90,${EXERCISES})
+OBJS    = $(patsubst %,%.o,${EXERCISES})
 
 MODE = mpi
 LANGUAGE = F
+EXTRA_OBJS = tools.o
+${OBJS} : tools.mod
+tools.mod : tools.o
 include ../course-support/Make.compile
 
 ####

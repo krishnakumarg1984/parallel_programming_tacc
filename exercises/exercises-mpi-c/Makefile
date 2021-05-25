@@ -21,20 +21,17 @@ EXERCISES = hello \
     isendirecv isendirecvarray setdiff \
     bucketblock bucketpipenonblock \
     stridesend cubegather procgrid procgridnonblock \
-    randomput countdown onesidedbuild lockall lockfetch lockfetchshared \
+    randomput countdown update onesidedbuild lockall lockfetch lockfetchshared \
     blockwrite blockadvance blockseek blockall viewwrite scatterwrite \
     jordan rightsend rightput rightgraph \
     ibarrierupdate shareddata
 SOURCES = $(patsubst %,%.c,${EXERCISES})
-info ::
-	@echo "    [ OPTS=... ] (for instance: OPTS=\"-DN 100\")"
-	@echo "    support options:"
-	@echo "      bucketblock : N"
+OBJS = $(patsubst %,%.o,${EXERCISES})
 
 MODE = mpi
 LANGUAGE = C
+${OBJS} tools.o : tools.h
 EXTRA_OBJS = tools.o
-${SOURCES} tools.o : tools.h
 include ../course-support/Make.compile
 
 include ../course-support/Make.simgrid

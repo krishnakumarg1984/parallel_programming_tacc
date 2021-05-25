@@ -5,20 +5,21 @@
 !**** `Parallel programming with MPI and OpenMP'
 !**** by Victor Eijkhout, eijkhout@tacc.utexas.edu
 !****
-!**** copyright Victor Eijkhout 2012-7
+!**** copyright Victor Eijkhout 2012-2021
 !****
 !**** MPI Exercise for Isend/Irecv
 !****
 !****************************************************************/
 
 Program Isendirecv
+  use tools
+  use mpi
   implicit none
-
-#include <mpif.h>
 
   integer :: comm = MPI_COMM_WORLD
   integer :: nprocs, procno,ierr
   integer :: source,target, error,errors
+  logical :: error_condition
 
   !! data for this exercise:
   real*8 :: mydata, leftdata=0, rightdata=0, check
@@ -84,18 +85,20 @@ Program Isendirecv
   end if
 
   error = nprocs;
-  if ( .not. ISAPPROX(mydata,check) ) then
-     print *,"Data on process",procno,"should be",check," not",mydata
-     error = procno
-  end if
-  call MPI_Allreduce(error,errors,1,MPI_INTEGER,MPI_MIN,comm,ierr)
-  if (procno==0) then
-     if (errors==nprocs) then
-        print *,"Finished; all results correct"
-     else
-        print *,"First error occurred on proc",errors
-     end if
-  end if
+  error_condition = .not. ISAPPROX(mydata,check)
+  call print_final_result(error_condition,comm)
+  ! if ( .not. ISAPPROX(mydata,check) ) then
+  !    print *,"Data on process",procno,"should be",check," not",mydata
+  !    error = procno
+  ! end if
+  ! call MPI_Allreduce(error,errors,1,MPI_INTEGER,MPI_MIN,comm,ierr)
+  ! if (procno==0) then
+  !    if (errors==nprocs) then
+  !       print *,"Finished; all results correct"
+  !    else
+  !       print *,"First error occurred on proc",errors
+  !    end if
+  ! end if
 
   call MPI_Finalize(ierr)
   

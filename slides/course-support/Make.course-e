@@ -12,7 +12,8 @@
 ####
 ################################################################
 
-ENGINE = pdflatex -shell-escape
+ENGINE =  xelatex -shell-escape
+# pdflatex
 
 info::
 	@echo "make course COURSE=... (in: ${COURSES})"

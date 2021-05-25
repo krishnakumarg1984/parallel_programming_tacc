@@ -11,7 +11,10 @@
 ################################################################
 
 info ::
-	@echo "Do: make app (where app=${APPS})"
+	@echo "================================================================"
+	@echo " make examples for system=${MODE}, language=${LANGUAGE}"
+	@echo "================================================================"
+	@echo "available rules:"
 
 APPS = reduceinplace reduceinplaceptr section anysource putfence waitnull vector \
     typecheck

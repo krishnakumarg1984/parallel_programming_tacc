@@ -11,7 +11,10 @@
 ################################################################
 
 info ::
-	@echo ; echo "OpenMP example programs" ; echo ; echo "available commands:"
+	@echo "================================================================"
+	@echo " make examples for system=${MODE}, language=${LANGUAGE}"
+	@echo "================================================================"
+	@echo "available rules:"
 
 include Make.inc
 

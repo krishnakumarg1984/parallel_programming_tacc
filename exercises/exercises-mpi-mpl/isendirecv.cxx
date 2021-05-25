@@ -15,6 +15,8 @@
 using namespace std;
 #include <mpl/mpl.hpp>
 
+#include "tools.h"
+
 int main() {
 
   const mpl::communicator &comm_world = mpl::environment::comm_world();
@@ -70,21 +72,23 @@ int main() {
   
   // check correctness
   mydata = mydata+leftdata+rightdata;
-  if (procno==0 || procno==nprocs-1) {
-    if (mydata!=2) {
-      proctext << "Data on proc " << procno << " should be 2, not " << mydata << endl;
-      cerr << proctext.str(); proctext.clear();
-    }
-  } else {
-    if (mydata!=3) {
-      proctext << "Data on proc " << procno << " should be 3, not " << mydata << endl;
-      cerr << proctext.str(); proctext.clear();
-    }
-  }
+
+  int res;
   if (procno==0) {
-    proctext << "Finished" << endl;
-    cerr << proctext.str(); proctext.clear();
+    res = 2*procno+1;
+  } else if (procno==nprocs-1) {
+    res = 2*procno-1;
+  } else {
+    res = 3*procno;
   }
+
+  int error_test = !isapprox(mydata,res);
+  if (error_test) {
+    stringstream proctext;
+    proctext << "Data on proc " << procno << " should be " << res << ", found " << mydata;
+    cout << proctext.str() << "\n";
+  }
+  print_final_result(error_test,comm_world);
 
   return 0;
 }

@@ -187,7 +187,8 @@ endif
 
 .SECONDEXPANSION:
 ${APPS} ${EXERCISES} ${WRONGS} :: $$@.o ${EXTRA_OBJS}
-	${LINKER} -o $@ $^ ${EXTRA_OBJS} ${LINK_FLAGS} ${EXTRA_LIBS}
+	${LINKER} -o $@ $^ ${LINK_FLAGS} ${EXTRA_LIBS}
+# ${EXTRA_OBJS} 
 .PHONY: compile
 compile :
 	@make --no-print-directory ${PROGRAM}.o
@@ -208,3 +209,8 @@ apps :
 	done
 listapps :
 	@echo ${APPS} ${EXERCISES}
+	@for a in ${APPS} ${EXERCISES} ; do \
+	    if [ `ls $$a.{c,cxx,F,F90,f,f90,py} 2>/dev/null | wc -l` -eq 0 ] ; then \
+	        echo "Missing source for <<$$a>>" \
+	    ; fi \
+	; done

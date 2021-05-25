@@ -118,10 +118,26 @@ mpirun -np 4 hostfile ... yourprogram arguments
   \item Compute nodes: where your job is run. They are often exclusive
     to you: no other users getting in the way of your program.
   \end{itemize}
-  \includegraphics[scale=.08]{graphics/mpi-interactive}
-
   Hostfile: the description of where your job runs. Usually generated
   by a \indexterm{job scheduler}.
+\end{numberedframe}
+
+\begin{numberedframe}{Interactive run}
+  \begin{itemize}
+  \item Do not run your programs on a login node.
+  \item Acquire compute nodes with \indextermtt{idev} or \indextermtt{qsub}\n{ -I}.
+  \item Caveat: only small short jobs; nodes may not be available.
+  \end{itemize}
+  \includegraphics[scale=.15]{job_idev}
+\end{numberedframe}
+
+\begin{numberedframe}{Batch run}
+  \begin{itemize}
+  \item Submit batch job with \indextermtt{sbatch} or \indextermtt{qsub}
+  \item Your job will be executed~\ldots Real Soon Now.
+  \item See userguide for details about queues, sizes, runtimes,~\ldots
+  \end{itemize}
+  \includegraphics[scale=.15]{job_sbatch}
 \end{numberedframe}
 
 \begin{tacc}

@@ -22,6 +22,8 @@
 
 using namespace std;
 
+#include "tools.h"
+
 #ifndef N
 #define N 10
 #endif
@@ -101,26 +103,15 @@ int main(int argc,char **argv) {
    */
   double p1 = procno+1.;
   double my_sum_of_squares = p1*p1*p1/3 + p1*p1/2 + p1/6;
-  double relative_error =
-    *max_element(myvalue.begin(),myvalue.end(),
-		 [my_sum_of_squares] (double x,double y) -> bool {
-		   return fabs( (my_sum_of_squares-x)/x ) < fabs( (my_sum_of_squares-y)/y ); }
-		 );
-  int error_test = relative_error > 1.e-12;
-  if (error_test)
-    printf("[%d] relative error=%e\n",procno,relative_error);
+  vector<double> correct(N,my_sum_of_squares);
+  double relative_error = array_error(myvalue,correct); //relative_error > 1.e-12;
+  int error_test = relative_error>1.e-12;
+  if (error_test) {
+    stringstream proctext;
+    proctext << "Relative error on proc " << procno << " : " << relative_error;
+    cout << proctext.str() << "\n";
+  }
   print_final_result( error_test, comm );
-  // int
-  //   error = relative_error > 1.e-12 ? procno : nprocs,
-  //   errors=-1;
-  // MPI_Allreduce(&error,&errors,1,MPI_INT,MPI_MIN,comm);
-  // if (procno==0) {
-  //   if (errors==nprocs) 
-  //     proctext << "Finished; all results correct" << endl;
-  //   else
-  //     proctext << "First error occurred on proc " << errors << endl;
-  //   cerr << proctext.str(); proctext.clear();
-  // }
 
   MPI_Finalize();
   return 0;

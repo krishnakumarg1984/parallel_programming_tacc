@@ -11,7 +11,10 @@
 ################################################################
 
 info ::
-	@echo "Do: make app (where app=${APPS})"
+	@echo "================================================================"
+	@echo " make examples for system=${MODE}, language=${LANGUAGE}"
+	@echo "================================================================"
+	@echo "available rules:"
 
 APPS = init local sendblock ssendblock sendrecv anysource \
     putfence getfence exscan \

@@ -22,16 +22,25 @@
   \hbox to 0in {\hss \includegraphics[scale=.1]{tacclogonew}}%
   \hbox to 0in {\hss \arabic{page}\hskip 1in}}
 
-\usepackage{multicol,multirow}
-% custom arrays and tables
-\usepackage{array} %,multirow,multicol}
+\usepackage{morewrites}
+\usepackage{array} %,multicol,multirow}
 \newcolumntype{R}{>{\hbox to 1.2em\bgroup\hss}{r}<{\egroup}}
 \newcolumntype{T}{>{\hbox to 8em\bgroup}{c}<{\hss\egroup}}
 
 \input commonmacs
-\input slidemacs
+\input acromacs
+
+\newenvironment{theindex}{}{}% imakeidx redefines the index
+\usepackage[makeindex]{imakeidx}
+\input idxmacs
+
 \input coursemacs
+%\input slidemacs
+\input tutmacs
 \input listingmacs
+\input snippetmacs
+
+%% \input slidemacs
 
 %%%%
 %%%% Where is this course?
@@ -104,9 +113,9 @@
   through lecturing and exercises.
 \end{frame}
 
-\begin{frame}{Table of Contents}
-  \tableofcontents
-\end{frame}
+%% \begin{frame}{Table of Contents}
+%%   \tableofcontents
+%% \end{frame}
 
 \coursepart{Basics}
 

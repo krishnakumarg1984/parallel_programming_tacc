@@ -54,7 +54,6 @@ int main(int argc,char **argv) {
      * - Get first open location on the target and increment this
      * - Write the random number
      */
-    //    MPI_Win_lock(MPI_LOCK_EXCLUSIVE,other_process,0,the_window);
     MPI_Win_fence(0,the_window);
     printf("[%d] accessing %d\n",procno,other_process);
     int increment_by_1=1,stack_pointer;

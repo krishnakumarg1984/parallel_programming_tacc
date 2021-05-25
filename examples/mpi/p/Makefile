@@ -12,6 +12,10 @@
 ################################################################
 
 info ::
+	@echo "================================================================"
+	@echo " make examples for system=${MODE}, language=${LANGUAGE}"
+	@echo "================================================================"
+	@echo "available rules:"
 
 info ::
 	@echo "make regression"
@@ -23,10 +27,10 @@ TESTS = \
     commdup.py commsplit.py
 APPS = \
     allreduce anysource bcast buffertoolarge inttype \
-    gatherv getfence irecvnonblock irecv_source \
+    gatherv getfence irecvnonblock \
     hello irecvloop persist putfence \
     pingpong scan scipingpong \
-    commdup commsplit spawn_manager spawn_worker
+    commdup commsplit 
 
 info ::
 	@echo "make listapps : list all application targets"
@@ -50,7 +54,7 @@ run_spawn :
 TESTSWRONG = buffertoosmall.py 
 TESTSNOT = exscan.py
 TESTS_IN_PROGRESS =  interleave.py
-include ../../../teaching/course-support/Make.mpi_run
+include ../../../makefiles/Make.mpi_run
 PYTHON = python3
 regression :
 	@for p in ${APPS} ; do \

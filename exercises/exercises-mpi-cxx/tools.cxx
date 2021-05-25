@@ -15,6 +15,7 @@
 #include <cmath>
 using namespace std;
 
+#include "tools.h"
 #include "mpi.h"
 
 double array_error( vector<double> ref_array,vector<double> value_array) {

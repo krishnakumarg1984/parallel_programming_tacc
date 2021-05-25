@@ -151,16 +151,18 @@
 %%%% Indexing, mostly disabled
 %%%%
 
-\newenvironment{theindex}{}{}% slides don't normally have an index
-%\usepackage[makeindex]{imakeidx}
-\usepackage{imakeidx}
-\makeindex
-\makeindex[name=programming,title=Programming exercises]
+% the 
+% \usepackage{imakeidx}
+% line is in the master file
+%
+%% \makeindex
+%% \makeindex[name=programming,title=Programming exercises]
 
 \let\indexterm\emph
 \let\indextermtt\n
 \let\indextermfunction\indextermtt
 
+\iffalse
 \newcommand{\indextermp}[1]{\emph{#1s}}
 \newcommand{\indextermsub}[2]{\emph{#1 #2}}
 \newcommand{\indextermsubh}[2]{\emph{#1-#2}}
@@ -178,7 +180,6 @@
 \newcommand\indexacend[1]{}
 \makeatother
 
-\iffalse
 \let\indexmpishow\n
 \let\indexmpidef\n
 \let\indexmpiex\n
@@ -201,4 +202,48 @@
 \let\indexclause\n
 \let\indexclauselet\n
 \let\indexclauseoption\n
+
+\let\indexmpiref\indexmpishow
+\let\indexmpidef\indexmpishow
+\let\indexmpldef\indexmpishow
+\let\indexmplref\indexmpishow
+\let\indexmplshow\indexmpishow
+\let\indexompshow\indexmpishow
+\let\indexpetscshow\indexmpishow
 \fi
+
+
+\newcommand\skeleton[1]{}
+
+%%%%
+%%%% Environments
+%%%%
+\newcounter{slidecount}
+\setcounter{slidecount}{1}
+\newenvironment
+    {numberedframe}[1]
+    {\begin{frame}[containsverbatim]{\arabic{slidecount}\ #1}
+        \refstepcounter{slidecount}
+    }
+    {\end{frame}}
+\newenvironment{question}{\begin{quotation}\textbf{Question.\ }}{\end{quotation}}
+\newenvironment{fortrannote}
+  {\begin{quotation}\noindent\textsl{Fortran note.\kern1em}\ignorespaces}
+  {\end{quotation}}
+\newenvironment{pythonnote}
+  {\begin{quotation}\noindent\textsl{Python note.\kern1em}\ignorespaces}
+  {\end{quotation}}
+\newenvironment{taccnote}
+  {\begin{quotation}\noindent\textsl{TACC note.\kern1em}\ignorespaces}
+  {\end{quotation}}
+\newenvironment{mpifour}
+  {\begin{quotation}\textbf{MPI-4:\ }\ignorespaces}{\end{quotation}}
+\newtheorem{remark}{Remark}
+
+%%%%
+%%%% verbatim sources
+%%%%
+\newtoks\chaptersourcelist
+\newcommand\addchaptersource[1]{
+  \edef\temp{\global\chaptersourcelist={\the\chaptersourcelist #1}}\temp
+}

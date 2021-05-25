@@ -23,7 +23,8 @@ PUBLICREPO =
 ## base directory, not the lectures directory
 ## DO NoT escape any spaces!
 ##
-STUDENTREPO = ${HOME}/Current/SSC/PCSE/PCSE2021/sds374394spring2021
+STUDENTREPO =
+#${HOME}/Current/SSC/PCSE/PCSE2021/sds374394spring2021
 
 .PHONY: taccrepo dropbox studentrepo
 taccrepo:

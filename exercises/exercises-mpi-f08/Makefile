@@ -28,9 +28,12 @@ OTHERPROGRAMS = write
 
 MODE = mpi
 LANGUAGE = F
+EXTRA_OBJS = tools.o
+${OBJS} : tools.mod
+tools.mod : tools.o
 include ../course-support/Make.compile
 
-shareddata : contents.o
+shareddata :: contents.o
 
 ####
 #### Regression tests

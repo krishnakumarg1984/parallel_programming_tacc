@@ -46,9 +46,9 @@ RUNS =
 info ::
 	@echo "make run_XXX (in ${RUNS})"
 
-include  ../../../makefiles/Make.clean
-include ../../../teaching/course-support/Make.mpi_run
-include ../../../teaching/course-support/Make.mpi_regress
+include ../../../makefiles/Make.clean
+include ../../../makefiles/Make.mpi_run
+#include ../../../teaching/course-support/Make.mpi_regress
 CATCHER = ../../../teaching/course-support/catchout
 
 clean ::

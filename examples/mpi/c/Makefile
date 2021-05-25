@@ -14,9 +14,12 @@
 MAKEFLAGS += --no-builtin-rules
 
 info ::
-	@echo "Do: make app (where app=${APPS})"
+	@echo "================================================================"
+	@echo " make examples for system=${MODE}, language=${LANGUAGE}"
+	@echo "================================================================"
+	@echo "available rules:"
 
-APPS = init thread env outerr abort \
+APPS = init thread env outerr abort procname \
     sendandrecv isendandirecv recvblock bufring sendblock ssendblock \
     irecvsource irecvnonblock \
     probe testhang findbarrier ibarriertest ibarrierprobe backintime reductpositive \
@@ -27,7 +30,7 @@ APPS = init thread env outerr abort \
     reducescatter trueextent typesize typematch countx tags \
     contiguous vector vectorx getx stridestretch interleave indexed struct pack subarray \
     typefloat \
-    itransposeblock transposealltoall \
+    itransposeblock \
     commdupwrong commdupright commdupall commcompare \
     commsplit commsplittype intercomm \
     lockall sharedshared sharedbulk \
@@ -112,9 +115,9 @@ run_spawnapp : spawnapp
 	; fi
 
 MODE = mpi
-include  ../../../makefiles/Make.clean
-include ../../../teaching/course-support/Make.mpi_run
-include ../../../teaching/course-support/Make.mpi_regress
+include ../../../makefiles/Make.clean
+include ../../../makefiles/Make.mpi_run
+#include ../../../teaching/course-support/Make.mpi_regress
 CATCHER = ../../../teaching/course-support/catchout
 
 clean ::
