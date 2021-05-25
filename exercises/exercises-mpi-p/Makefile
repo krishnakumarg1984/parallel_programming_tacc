@@ -16,7 +16,11 @@ MODE = mpi
 LANGUAGE = p
 
 info ::
-	@echo "nothing to make here...."
+	@echo "================================================================"
+	@echo " make exercises for system=${MODE}, language=${LANGUAGE}"
+	@echo "================================================================"
+	@echo "available rules:"
+
 EXERCISES = \
     hello commrank prime randommax pingpong setdiff \
     rightsend isendirecv ibarrierupdate \

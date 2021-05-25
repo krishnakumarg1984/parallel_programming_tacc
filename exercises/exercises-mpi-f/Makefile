@@ -13,7 +13,11 @@ info ::
 
 COURSE = mpi
 info ::
-	@echo "make EXERCISE (where EXERCISE=${EXERCISES}"
+	@echo "================================================================"
+	@echo " make exercises for system=${MODE}, language=${LANGUAGE}"
+	@echo "================================================================"
+	@echo "available rules:"
+
 EXERCISES = hello \
     commrank prime randommax jordan \
     pingpong sendrecv sumsquares scangather \
