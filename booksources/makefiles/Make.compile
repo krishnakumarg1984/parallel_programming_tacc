@@ -16,7 +16,7 @@ MAKEFLAGS += --no-builtin-rules
 info ::
 	@echo
 	@echo "================ Compilation"
-	@echo "make APP (in ${APPS})"
+	@echo "make APP (in ${APPS} ${EXERCISES} )"
 	@echo "    [ OPTLEVEL=0/1/2, default:${OPTLEVEL} ]"
 	@echo "    [ EXTRA_OPTIONS=... ]"
 OPTLEVEL = 2

@@ -38,6 +38,7 @@ APPS = init thread env outerr abort procname \
     spawnmanager spawnworker spawnapp portapp publishapp \
     centraldiff blockwrite 
 # not ready for prime time: mvp2d
+WRONGS = sendblock ssendblock recvblock
 
 MODE = mpi
 LANGUAGE = C

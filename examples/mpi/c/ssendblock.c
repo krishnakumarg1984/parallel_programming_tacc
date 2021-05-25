@@ -7,6 +7,8 @@
    %%%%
    %%%% ssendblock.c : with synchronous sends not eager limit applies
    %%%%
+   %%%% WRONG: guaranteed deadlock
+   %%%%
    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 */
