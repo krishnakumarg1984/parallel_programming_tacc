@@ -1,4 +1,0 @@
-  \ac{MPL} does not allow for access to the wrapped communicators.
-  However, for \indexmpishow{MPI_COMM_WORLD}, the routine
-  \indexmpishow{MPI_Comm_set_errhandler}
-  can be called directly.

@@ -234,7 +234,7 @@ Instead, we use the  \indexmpishow{MPI_ANY_SOURCE} specifier to give a wildcard
 behavior to the receive call: using this value for the `source' value
 means that we accept mesages from any source within the communicator,
 and messages are only matched by tag value.
-(Note that size and type of the receive buffer is not used for message matching!)
+(Note that size and type of the receive buffer are not used for message matching!)
 
 We then retrieve the
 actual source from the \indexmpishow{MPI_Status} object through the
@@ -244,8 +244,10 @@ actual source from the \indexmpishow{MPI_Status} object through the
 %
 \pverbatimsnippet[examples/mpi/p/anysource.py]{anysourcep}
 
-In sections \ref{prj:mandelbrot} and~\ref{sec:mpi-test} we explained
-the \indexterm{manager-worker} model, and how it offers an opportunity for inspecting the
+In sections and~\ref{sec:mpi-test} we explained
+the \indexterm{manager-worker} model
+(and in chapter~\ref{prj:mandelbrot} you can do programming project with it).
+This design patterns offers an opportunity for inspecting the
 \indexmpishow{MPI_SOURCE} field of the \indexmpishow{MPI_Status}
 object describing the data that was received.
 
@@ -256,37 +258,51 @@ object describing the data that was received.
 For all true/false questions, if you answer that a statement is false,
 give a one-line explanation.
 
-\begin{enumerate}
-\item Describe a deadlock scenario involving three processors.
+\begin{review}
+  Describe a deadlock scenario involving three processors.
+\end{review}
 
-\item True or false: a message sent with \lstinline{MPI_Isend} from one processor can be
+\begin{review}
+  True or false: a message sent with \lstinline{MPI_Isend} from one processor can be
   received with an \lstinline{MPI_Recv} call on another processor.
+\end{review}
 
-\item True or false: a message sent with \lstinline{MPI_Send} from one processor can be
+\begin{review}
+  True or false: a message sent with \lstinline{MPI_Send} from one processor can be
   received with an \lstinline{MPI_Irecv} on another processor.
+\end{review}
 
-\item Why does the \lstinline{MPI_Irecv} call not have an \lstinline{MPI_Status} argument?
+\begin{review}
+  Why does the \lstinline{MPI_Irecv} call not have an \lstinline{MPI_Status} argument?
+\end{review}
 
-\item
+\begin{review}
   Suppose you are testing ping-pong timings.
   Why is it generally not a good idea to use processes 0 and~1 for the
   source and target processor?  Can you come up with a better guess?
+\end{review}
 
 %% one-sided
-\item What is the relation between the concepts of `origin', `target', `fence',
+\begin{review}
+  What is the relation between the concepts of `origin', `target', `fence',
   and `window' in one-sided communication.
+\end{review}
 
-\item What are the three routines for one-sided data transfer?
+\begin{review}
+  What are the three routines for one-sided data transfer?
+\end{review}
 
 \lstset{
   style=reviewcode,
   language=C,
 }
 
-\item In the following fragments % in figures~\ref{fig:qblockc},\ref{fig:qblockf},
+\begin{review}
+  In the following fragments % in figures~\ref{fig:qblockc},\ref{fig:qblockf},
   assume that all buffers have been
   allocated with sufficient size. For each fragment note whether it
   deadlocks or not. Discuss performance issues.
+\end{review}
 
     \lstset{language=C,basicstyle=\footnotesize\ttfamily}
     %% \lstinputlisting{qblock1}
@@ -296,16 +312,16 @@ for (int p=0; p<nprocs; p++)
     MPI_Send(sbuffer,buflen,MPI_INT,p,0,comm);
 for (int p=0; p<nprocs; p++)
   if (p!=procid)
-  MPI_Recv(rbuffer,buflen,MPI_INT,p,0,comm,MPI_STATUS_IGNORE);
+    MPI_Recv(rbuffer,buflen,MPI_INT,p,0,comm,MPI_STATUS_IGNORE);
 \end{lstlisting}
-    %% \lstinputlisting{qblock2}
+˜    %% \lstinputlisting{qblock2}
 \begin{lstlisting}
 for (int p=0; p<nprocs; p++)
   if (p!=procid)
     MPI_Recv(rbuffer,buflen,MPI_INT,p,0,comm,MPI_STATUS_IGNORE);
 for (int p=0; p<nprocs; p++)
   if (p!=procid)
-  MPI_Send(sbuffer,buflen,MPI_INT,p,0,comm);
+    MPI_Send(sbuffer,buflen,MPI_INT,p,0,comm);
 \end{lstlisting}
     %% \lstinputlisting{qblock3}
 \begin{lstlisting}
@@ -426,19 +442,22 @@ do p=0,nprocs-1
 end do
 \end{lstlisting}
 
-\item Consider a ring-wise communication where
-\begin{lstlisting}
-int
-  next = (mytid+1) % ntids,
-  prev = (mytid+ntids-1) % ntids;
-\end{lstlisting}
+\begin{review}
+  Consider a ring-wise communication where
+  \begin{lstlisting}
+    int
+    next = (mytid+1) % ntids,
+    prev = (mytid+ntids-1) % ntids;
+  \end{lstlisting}
   and each process sends to \lstinline{next}, and receives from \lstinline{prev}.
 
   The normal solution for preventing deadlock is to use both
   \indexmpishow{MPI_Isend} and \indexmpishow{MPI_Irecv}. The send and
   receive complete at the wait call. But does it matter in what
   sequence you do the wait calls?
-  \begin{multicols}{2}
+\end{review}
+
+\begin{multicols}{2}
     \cverbatimsnippet{ring3}
     \columnbreak
     \cverbatimsnippet{ring4}
@@ -451,6 +470,6 @@ int
     \columnbreak
     \cverbatimsnippet{ring2}
   \end{multicols}
-\end{enumerate}
+
 
 \index{communication!two-sided|)}

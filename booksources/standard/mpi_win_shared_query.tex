@@ -13,16 +13,22 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begingroup\tt\catcode`\_=12
+\begingroup
+\ttfamily\bfseries
+\catcode`\_=12
 \begin{tabular}{lllll}
 \toprule
-\textrm{Name}&\textrm{Param name}&\textrm{C type}&\textrm{F type}&\textrm{inout}\\
+\mdseries\textrm{Name}&
+\mdseries\textrm{Param name}&
+\mdseries\textrm{C type}&
+\mdseries\textrm{F type}&
+\mdseries\textrm{inout}\\
 \midrule
 \hbox to 20pt{MPI_Win_shared_query (\hss} \\
 &win&MPI_Win&TYPE(MPI_Win)&in\\ [-3pt]
 &\hbox to 0pt{\footnotesize\sl shared memory window object\hss}\\
 &rank&int&INTEGER&in\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl rank in the group of window win or {\tt\catcode`\_=12 MPI_PROC_NULL}\hss}\\
+&\hbox to 0pt{\footnotesize\sl rank in the group of window win or {\ttfamily\bfseries\catcode`\_=12 MPI_PROC_NULL}\hss}\\
 &size&MPI_Aint*&INTEGER(KIND=MPI_ADDRESS_KIND)&out\\ [-3pt]
 &\hbox to 0pt{\footnotesize\sl size of the window segment\hss}\\
 &disp_unit&int*&INTEGER&out\\ [-3pt]

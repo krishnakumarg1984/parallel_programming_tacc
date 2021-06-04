@@ -13,17 +13,23 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begingroup\tt\catcode`\_=12
+\begingroup
+\ttfamily\bfseries
+\catcode`\_=12
 \begin{tabular}{lllll}
 \toprule
-\textrm{Name}&\textrm{Param name}&\textrm{C type}&\textrm{F type}&\textrm{inout}\\
+\mdseries\textrm{Name}&
+\mdseries\textrm{Param name}&
+\mdseries\textrm{C type}&
+\mdseries\textrm{F type}&
+\mdseries\textrm{inout}\\
 \midrule
 \hbox to 20pt{MPI_Group_incl (\hss} \\
 &group&MPI_Group&TYPE(MPI_Group)&in\\ [-3pt]
 &\hbox to 0pt{\footnotesize\sl group\hss}\\
 &n&int&INTEGER&in\\ [-3pt]
 &\hbox to 0pt{\footnotesize\sl number of elements in array ranks (and size of newgroup)\hss}\\
-&ranks&const~int[]&INTEGER&in\\&\hbox to 0pt{\footnotesize length: \tt\catcode`\_=12 n\hss}\\ [-3pt]
+&ranks&const~int[]&INTEGER&in\\&\hbox to 0pt{mfamily length: \ttfamily\mdseries\catcode`\_=12 n\hss}\\ [-3pt]
 &\hbox to 0pt{\footnotesize\sl ranks of processes in group to appear in newgroup\hss}\\
 &newgroup&MPI_Group*&TYPE(MPI_Group)&out\\ [-3pt]
 &\hbox to 0pt{\footnotesize\sl new group derived from above, in the order defined by ranks\hss}\\

@@ -405,6 +405,34 @@ Note: most functions are methods of the \lstinline{MPI.Comm} class.\\
 (Sometimes of \lstinline{MPI}, sometimes other.)
 \end{numberedframe}
 
+\begin{numberedframe}{Processor name}
+  Processes (can) run on physically distinct locations.
+
+  \cverbatimsnippet{procname}
+\end{numberedframe}
+
+\protoslide{MPI_Get_processor_name}
+
+\begin{exerciseframe}
+  \input ex:procname
+\end{exerciseframe}
+
+\begin{numberedframe}{In a picture}
+  Four processes on two nodes (\n{idev -N 2 -n 4})
+  \includegraphics[scale=.3]{node-comm-rank}
+\end{numberedframe}
+
+\begin{numberedframe}{Processor identification}
+  \begin{itemize}
+  \item Processors are organized in `communicators'.
+  \item For now only:
+\begin{lstlisting}
+MPI_Comm comm = MPI_COMM_WORLD;
+\end{lstlisting}
+  \item Each process has a `rank' wrt the communicator.
+  \end{itemize}
+\end{numberedframe}
+
 \protoslide{MPI_Comm_size}
 \protoslide{MPI_Comm_rank}
 
@@ -419,17 +447,6 @@ Note: most functions are methods of the \lstinline{MPI.Comm} class.\\
 \begin{exerciseframe}[commrank]
   \input ex:hello4
 \end{exerciseframe}
-
-\begin{optexerciseframe}
-  \input ex:procname
-\end{optexerciseframe}
-
-\protoslide{MPI_Get_processor_name}
-
-\begin{numberedframe}{In a picture}
-  Four processes on two nodes (\n{idev -N 2 -n 4})
-  \includegraphics[scale=.3]{node-comm-rank}
-\end{numberedframe}
 
 \sectionframe{A practical example}
 

@@ -13,13 +13,19 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begingroup\tt\catcode`\_=12
+\begingroup
+\ttfamily\bfseries
+\catcode`\_=12
 \begin{tabular}{lllll}
 \toprule
-\textrm{Name}&\textrm{Param name}&\textrm{C type}&\textrm{F type}&\textrm{inout}\\
+\mdseries\textrm{Name}&
+\mdseries\textrm{Param name}&
+\mdseries\textrm{C type}&
+\mdseries\textrm{F type}&
+\mdseries\textrm{inout}\\
 \midrule
 \hbox to 20pt{MPI_Pack_external_size (\hss} \\
-&datarep&const~char[]&CHARACTER&in\\&\hbox to 0pt{\footnotesize length: \tt\catcode`\_=12 *\hss}\\ [-3pt]
+&datarep&const~char[]&CHARACTER&in\\&\hbox to 0pt{mfamily length: \ttfamily\mdseries\catcode`\_=12 *\hss}\\ [-3pt]
 &\hbox to 0pt{\footnotesize\sl data representation\hss}\\
 &incount&int&INTEGER&in\\ [-3pt]
 &\hbox to 0pt{\footnotesize\sl number of input data items\hss}\\

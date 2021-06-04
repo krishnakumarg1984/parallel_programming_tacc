@@ -13,15 +13,21 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begingroup\tt\catcode`\_=12
+\begingroup
+\ttfamily\bfseries
+\catcode`\_=12
 \begin{tabular}{lllll}
 \toprule
-\textrm{Name}&\textrm{Param name}&\textrm{C type}&\textrm{F type}&\textrm{inout}\\
+\mdseries\textrm{Name}&
+\mdseries\textrm{Param name}&
+\mdseries\textrm{C type}&
+\mdseries\textrm{F type}&
+\mdseries\textrm{inout}\\
 \midrule
 \hbox to 20pt{MPI_Type_get_name (\hss} \\
 &datatype&MPI_Datatype&TYPE(MPI_Datatype)&in\\ [-3pt]
 &\hbox to 0pt{\footnotesize\sl datatype whose name is to be returned\hss}\\
-&type_name&char*&CHARACTER&out\\&\hbox to 0pt{\footnotesize length: \tt\catcode`\_=12 MPI_MAX_OBJECT_NAME\hss}\\ [-3pt]
+&type_name&char*&CHARACTER&out\\&\hbox to 0pt{mfamily length: \ttfamily\mdseries\catcode`\_=12 MPI_MAX_OBJECT_NAME\hss}\\ [-3pt]
 &\hbox to 0pt{\footnotesize\sl the name previously stored on the datatype, or an empty string if no such name exists\hss}\\
 &resultlen&int*&INTEGER&out\\ [-3pt]
 &\hbox to 0pt{\footnotesize\sl length of returned name\hss}\\

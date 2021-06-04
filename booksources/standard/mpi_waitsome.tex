@@ -13,21 +13,27 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begingroup\tt\catcode`\_=12
+\begingroup
+\ttfamily\bfseries
+\catcode`\_=12
 \begin{tabular}{lllll}
 \toprule
-\textrm{Name}&\textrm{Param name}&\textrm{C type}&\textrm{F type}&\textrm{inout}\\
+\mdseries\textrm{Name}&
+\mdseries\textrm{Param name}&
+\mdseries\textrm{C type}&
+\mdseries\textrm{F type}&
+\mdseries\textrm{inout}\\
 \midrule
 \hbox to 20pt{MPI_Waitsome (\hss} \\
 &incount&int&INTEGER&in\\ [-3pt]
 &\hbox to 0pt{\footnotesize\sl length of array_of_requests\hss}\\
-&array_of_requests&MPI_Request[]&TYPE(MPI_Request)&inout\\&\hbox to 0pt{\footnotesize length: \tt\catcode`\_=12 incount\hss}\\ [-3pt]
+&array_of_requests&MPI_Request[]&TYPE(MPI_Request)&inout\\&\hbox to 0pt{mfamily length: \ttfamily\mdseries\catcode`\_=12 incount\hss}\\ [-3pt]
 &\hbox to 0pt{\footnotesize\sl array of requests\hss}\\
 &outcount&int*&INTEGER&out\\ [-3pt]
 &\hbox to 0pt{\footnotesize\sl number of completed requests\hss}\\
-&array_of_indices&int[]&INTEGER&out\\&\hbox to 0pt{\footnotesize length: \tt\catcode`\_=12 *\hss}\\ [-3pt]
+&array_of_indices&int[]&INTEGER&out\\&\hbox to 0pt{mfamily length: \ttfamily\mdseries\catcode`\_=12 *\hss}\\ [-3pt]
 &\hbox to 0pt{\footnotesize\sl array of indices of operations that completed\hss}\\
-&array_of_statuses&MPI_Status[]&TYPE(MPI_Status)&out\\&\hbox to 0pt{\footnotesize length: \tt\catcode`\_=12 *\hss}\\ [-3pt]
+&array_of_statuses&MPI_Status[]&TYPE(MPI_Status)&out\\&\hbox to 0pt{mfamily length: \ttfamily\mdseries\catcode`\_=12 *\hss}\\ [-3pt]
 &\hbox to 0pt{\footnotesize\sl array of status objects for operations that completed\hss}\\
 (opt)&ierror&&INTEGER&out\\
 )\\

@@ -13,16 +13,22 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begingroup\tt\catcode`\_=12
+\begingroup
+\ttfamily\bfseries
+\catcode`\_=12
 \begin{tabular}{lllll}
 \toprule
-\textrm{Name}&\textrm{Param name}&\textrm{C type}&\textrm{F type}&\textrm{inout}\\
+\mdseries\textrm{Name}&
+\mdseries\textrm{Param name}&
+\mdseries\textrm{C type}&
+\mdseries\textrm{F type}&
+\mdseries\textrm{inout}\\
 \midrule
 \hbox to 20pt{MPI_Attr_put (\hss} \\
 &comm&MPI_Comm&TYPE(MPI_Comm)&in\\ [-3pt]
 &\hbox to 0pt{\footnotesize\sl communicator to which attribute will be attached\hss}\\
 &keyval&int&INTEGER&in\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl key value, as returned by {\tt\catcode`\_=12 MPI_KEYVAL_CREATE}\hss}\\
+&\hbox to 0pt{\footnotesize\sl key value, as returned by {\ttfamily\bfseries\catcode`\_=12 MPI_KEYVAL_CREATE}\hss}\\
 &attribute_val&void*&INTEGER&in\\ [-3pt]
 &\hbox to 0pt{\footnotesize\sl attribute value\hss}\\
 (opt)&ierror&&INTEGER&out\\

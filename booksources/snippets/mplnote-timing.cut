@@ -1,8 +1,0 @@
-  The timing routines \indexmpishow{wtime} and \indexmplshow{wtick}
-  and \indexmplshow{wtime_is_global}
-  are environment methods:
-\begin{lstlisting}
-double  mpl::environment::wtime ();
-double  mpl::environment::wtick ();
-bool mpl::environment::wtime_is_global ();
-\end{lstlisting}

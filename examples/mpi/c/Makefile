@@ -106,14 +106,24 @@ run_progress : progress
 info ::
 	@echo "make run_spawnapp [ USIZE=123, default: NP ]"
 USIZE = ${NP}
+MPIEXEC = mpiexec
 run_spawnapp : spawnapp
-	@if [ ${TACC_SYSTEM} = "frontera" ] ; then \
-	    usize=${SLURM_NPROCS} && wsize=${NP} \
-	     && echo "Running spawnapp with usize=$$usize, wsize=$$wsize" \
-	     && MY_MPIRUN_OPTIONS="-usize $$usize" ibrun -np $$wsize spawnapp \
-	; else \
-	    ${MPIEXEC} -n ${NP} -usize ${USIZE} spawnapp \
-	; fi
+	@\
+	if [ ! -z "${USIZE}" ] ; then \
+	        usize=${USIZE} \
+	    ; elif [ -z "${SLURM_NPROCS}" ] ; then \
+	        echo "Can not figure out universe size: use USIZE or SLRUM_NPROCS" \
+	         && exit 1 \
+	    ; else \
+	        usize=${SLRUM_NPROCS} \
+	    ; fi \
+	 && if [ "${TACC_SYSTEM}" = "frontera" ] ; then \
+	        wsize=${NP} \
+	         && echo "Running spawnapp with usize=$$usize, wsize=$$wsize" \
+	         && MY_MPIRUN_OPTIONS="-usize $$usize" ibrun -np $$wsize spawnapp \
+	    ; else \
+	        ${MPIEXEC} -n ${NP} -usize ${USIZE} spawnapp \
+	    ; fi
 
 MODE = mpi
 include ../../../makefiles/Make.clean

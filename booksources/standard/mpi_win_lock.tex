@@ -13,14 +13,20 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begingroup\tt\catcode`\_=12
+\begingroup
+\ttfamily\bfseries
+\catcode`\_=12
 \begin{tabular}{lllll}
 \toprule
-\textrm{Name}&\textrm{Param name}&\textrm{C type}&\textrm{F type}&\textrm{inout}\\
+\mdseries\textrm{Name}&
+\mdseries\textrm{Param name}&
+\mdseries\textrm{C type}&
+\mdseries\textrm{F type}&
+\mdseries\textrm{inout}\\
 \midrule
 \hbox to 20pt{MPI_Win_lock (\hss} \\
 &lock_type&int&INTEGER&in\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl either {\tt\catcode`\_=12 MPI_LOCK_EXCLUSIVE} or {\tt\catcode`\_=12 MPI_LOCK_SHARED}\hss}\\
+&\hbox to 0pt{\footnotesize\sl either {\ttfamily\bfseries\catcode`\_=12 MPI_LOCK_EXCLUSIVE} or {\ttfamily\bfseries\catcode`\_=12 MPI_LOCK_SHARED}\hss}\\
 &rank&int&INTEGER&in\\ [-3pt]
 &\hbox to 0pt{\footnotesize\sl rank of locked window\hss}\\
 &assert&int&INTEGER&in\\

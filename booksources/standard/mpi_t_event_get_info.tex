@@ -13,10 +13,16 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begingroup\tt\catcode`\_=12
+\begingroup
+\ttfamily\bfseries
+\catcode`\_=12
 \begin{tabular}{lllll}
 \toprule
-\textrm{Name}&\textrm{Param name}&\textrm{C type}&\textrm{F type}&\textrm{inout}\\
+\mdseries\textrm{Name}&
+\mdseries\textrm{Param name}&
+\mdseries\textrm{C type}&
+\mdseries\textrm{F type}&
+\mdseries\textrm{inout}\\
 \midrule
 \hbox to 20pt{MPI_T_event_get_info (\hss} \\
 &event_index&int&&in\\ [-3pt]
@@ -27,9 +33,9 @@
 &\hbox to 0pt{\footnotesize\sl length of the string and/or buffer for name\hss}\\
 &verbosity&int*&&out\\ [-3pt]
 &\hbox to 0pt{\footnotesize\sl verbosity level of this event type\hss}\\
-&array_of_datatypes&MPI_Datatype[]&TYPE(MPI_Datatype)&out\\&\hbox to 0pt{\footnotesize length: \tt\catcode`\_=12 num_elements\hss}\\ [-3pt]
+&array_of_datatypes&MPI_Datatype[]&TYPE(MPI_Datatype)&out\\&\hbox to 0pt{mfamily length: \ttfamily\mdseries\catcode`\_=12 num_elements\hss}\\ [-3pt]
 &\hbox to 0pt{\footnotesize\sl array of MPI basic datatypes used to encode the event data\hss}\\
-&array_of_displacements&MPI_Aint[]&INTEGER(KIND=MPI_ADDRESS_KIND)&out\\&\hbox to 0pt{\footnotesize length: \tt\catcode`\_=12 num_elements\hss}\\ [-3pt]
+&array_of_displacements&MPI_Aint[]&INTEGER(KIND=MPI_ADDRESS_KIND)&out\\&\hbox to 0pt{mfamily length: \ttfamily\mdseries\catcode`\_=12 num_elements\hss}\\ [-3pt]
 &\hbox to 0pt{\footnotesize\sl array of byte displacements of the elements in the event buffer\hss}\\
 &num_elements&int*&INTEGER&inout\\ [-3pt]
 &\hbox to 0pt{\footnotesize\sl length of array\_of\_datatypes and array\_of\_displacements arrays\hss}\\

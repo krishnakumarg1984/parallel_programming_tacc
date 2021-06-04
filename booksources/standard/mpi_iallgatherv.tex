@@ -13,10 +13,16 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begingroup\tt\catcode`\_=12
+\begingroup
+\ttfamily\bfseries
+\catcode`\_=12
 \begin{tabular}{lllll}
 \toprule
-\textrm{Name}&\textrm{Param name}&\textrm{C type}&\textrm{F type}&\textrm{inout}\\
+\mdseries\textrm{Name}&
+\mdseries\textrm{Param name}&
+\mdseries\textrm{C type}&
+\mdseries\textrm{F type}&
+\mdseries\textrm{inout}\\
 \midrule
 \hbox to 20pt{MPI_Iallgatherv (\hss} \\
 &sendbuf&const~void*&TYPE(*), DIMENSION(..)&in\\ [-3pt]
@@ -27,9 +33,9 @@
 &\hbox to 0pt{\footnotesize\sl data type of send buffer elements\hss}\\
 &recvbuf&void*&TYPE(*), DIMENSION(..)&out\\ [-3pt]
 &\hbox to 0pt{\footnotesize\sl address of receive buffer\hss}\\
-&recvcounts&const~int[]&INTEGER&in\\&\hbox to 0pt{\footnotesize length: \tt\catcode`\_=12 *\hss}\\ [-3pt]
+&recvcounts&const~int[]&INTEGER&in\\&\hbox to 0pt{mfamily length: \ttfamily\mdseries\catcode`\_=12 *\hss}\\ [-3pt]
 &\hbox to 0pt{\footnotesize\sl non-negative integer array (of length group size) containing the number of elements that are received from each process\hss}\\
-&displs&const~int[]&INTEGER&in\\&\hbox to 0pt{\footnotesize length: \tt\catcode`\_=12 *\hss}\\ [-3pt]
+&displs&const~int[]&INTEGER&in\\&\hbox to 0pt{mfamily length: \ttfamily\mdseries\catcode`\_=12 *\hss}\\ [-3pt]
 &\hbox to 0pt{\footnotesize\sl integer array (of length group size). Entry i specifies the displacement (relative to recvbuf) at which to place the incoming data from process i\hss}\\
 &recvtype&MPI_Datatype&TYPE(MPI_Datatype)&in\\ [-3pt]
 &\hbox to 0pt{\footnotesize\sl data type of receive buffer elements\hss}\\

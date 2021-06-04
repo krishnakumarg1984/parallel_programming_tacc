@@ -13,17 +13,23 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begingroup\tt\catcode`\_=12
+\begingroup
+\ttfamily\bfseries
+\catcode`\_=12
 \begin{tabular}{lllll}
 \toprule
-\textrm{Name}&\textrm{Param name}&\textrm{C type}&\textrm{F type}&\textrm{inout}\\
+\mdseries\textrm{Name}&
+\mdseries\textrm{Param name}&
+\mdseries\textrm{C type}&
+\mdseries\textrm{F type}&
+\mdseries\textrm{inout}\\
 \midrule
 \hbox to 20pt{MPI_Reduce_scatter (\hss} \\
 &sendbuf&const~void*&TYPE(*), DIMENSION(..)&in\\ [-3pt]
 &\hbox to 0pt{\footnotesize\sl starting address of send buffer\hss}\\
 &recvbuf&void*&TYPE(*), DIMENSION(..)&out\\ [-3pt]
 &\hbox to 0pt{\footnotesize\sl starting address of receive buffer\hss}\\
-&recvcounts&const~int[]&INTEGER&in\\&\hbox to 0pt{\footnotesize length: \tt\catcode`\_=12 *\hss}\\ [-3pt]
+&recvcounts&const~int[]&INTEGER&in\\&\hbox to 0pt{mfamily length: \ttfamily\mdseries\catcode`\_=12 *\hss}\\ [-3pt]
 &\hbox to 0pt{\footnotesize\sl non-negative integer array (of length group size) specifying the number of elements of the result distributed to each process.\hss}\\
 &datatype&MPI_Datatype&TYPE(MPI_Datatype)&in\\ [-3pt]
 &\hbox to 0pt{\footnotesize\sl data type of elements of send and receive buffers\hss}\\

@@ -13,17 +13,23 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begingroup\tt\catcode`\_=12
+\begingroup
+\ttfamily\bfseries
+\catcode`\_=12
 \begin{tabular}{lllll}
 \toprule
-\textrm{Name}&\textrm{Param name}&\textrm{C type}&\textrm{F type}&\textrm{inout}\\
+\mdseries\textrm{Name}&
+\mdseries\textrm{Param name}&
+\mdseries\textrm{C type}&
+\mdseries\textrm{F type}&
+\mdseries\textrm{inout}\\
 \midrule
 \hbox to 20pt{MPI_T_category_get_pvars (\hss} \\
 &cat_index&int&&in\\ [-3pt]
 &\hbox to 0pt{\footnotesize\sl index of the category to be queried, in the range $0$ and $num_cat-1$\hss}\\
 &len&int&INTEGER&in\\ [-3pt]
 &\hbox to 0pt{\footnotesize\sl the length of the indices array\hss}\\
-&indices&int[]&&out\\&\hbox to 0pt{\footnotesize length: \tt\catcode`\_=12 len\hss}\\ [-3pt]
+&indices&int[]&&out\\&\hbox to 0pt{mfamily length: \ttfamily\mdseries\catcode`\_=12 len\hss}\\ [-3pt]
 &\hbox to 0pt{\footnotesize\sl an integer array of size len, indicating performance variable indices\hss}\\
 (opt)&ierror&&INTEGER&out\\
 )\\

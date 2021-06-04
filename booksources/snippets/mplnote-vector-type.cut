@@ -1,7 +1,0 @@
-  \label{mpl:strided_vector}
-  MPL has the \indexmpldef{strided_vector_layout} class as equivalent
-  of the vector type:
-  %
-  \cxxverbatimsnippet[examples/mpi/mpl/vector.cxx]{vectormpl}
-
-  (See note~\ref{mpl:cont_vector} for nonstrided vectors.)

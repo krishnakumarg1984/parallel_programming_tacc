@@ -30,17 +30,20 @@ with
 \indexmpiref{MPI_Get_processor_name}
 %
 as a first way of distinguishing between processes.
+This routine has a character buffer argument, which
+needs to be allocated by you.
+The length of the buffer is also passed,
+and on return that parameter has the actually used length.
+The maximum needed length is \indexmpishow{MPI_MAX_PROCESSOR_NAME}.
+%
+\cverbatimsnippet{procname}
+%
+(Underallocating the buffer will not lead to a runtime error.)
 
 \begin{exercise}
   \label{ex:procname}
-  Now use the command \indexmpishow{MPI_Get_processor_name}
-  in between the
-  init and finalize statement, and print out on what processor your process runs.
+  Use the command \indexmpishow{MPI_Get_processor_name}.
   Confirm that you are able to run a program that uses two different nodes.
-
-  The character buffer needs to be allocated by you, it is not
-  created by MPI, with size at
-  least \indexmpishow{MPI_MAX_PROCESSOR_NAME}.
 
 \begin{tacc}
     TACC nodes have a hostname \n{cRRR-CNN}, where RRR is the rack number, C is the chassis
@@ -48,10 +51,6 @@ as a first way of distinguishing between processes.
     is faster inside a rack than between racks!
 \end{tacc}
 \end{exercise}
-
-The character storage is provided by the user:
-the character array must be at least \indexmpidef{MPI_MAX_PROCESSOR_NAME} characters long.
-The actual length of the name is returned in the \n{resultlen} parameter.
 
 \begin{mplnote}{Processor name}
   The \indexmplshow{processor_name} call is an environment method

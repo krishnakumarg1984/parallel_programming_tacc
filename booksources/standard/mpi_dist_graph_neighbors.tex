@@ -13,25 +13,31 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begingroup\tt\catcode`\_=12
+\begingroup
+\ttfamily\bfseries
+\catcode`\_=12
 \begin{tabular}{lllll}
 \toprule
-\textrm{Name}&\textrm{Param name}&\textrm{C type}&\textrm{F type}&\textrm{inout}\\
+\mdseries\textrm{Name}&
+\mdseries\textrm{Param name}&
+\mdseries\textrm{C type}&
+\mdseries\textrm{F type}&
+\mdseries\textrm{inout}\\
 \midrule
 \hbox to 20pt{MPI_Dist_graph_neighbors (\hss} \\
 &comm&MPI_Comm&TYPE(MPI_Comm)&in\\ [-3pt]
 &\hbox to 0pt{\footnotesize\sl communicator with distributed graph topology\hss}\\
 &maxindegree&int&INTEGER&in\\ [-3pt]
 &\hbox to 0pt{\footnotesize\sl size of sources and sourceweights arrays\hss}\\
-&sources&int[]&INTEGER&out\\&\hbox to 0pt{\footnotesize length: \tt\catcode`\_=12 maxindegree\hss}\\ [-3pt]
+&sources&int[]&INTEGER&out\\&\hbox to 0pt{mfamily length: \ttfamily\mdseries\catcode`\_=12 maxindegree\hss}\\ [-3pt]
 &\hbox to 0pt{\footnotesize\sl processes for which the calling process is a destination\hss}\\
-&sourceweights&int[]&INTEGER&out\\&\hbox to 0pt{\footnotesize length: \tt\catcode`\_=12 *\hss}\\ [-3pt]
+&sourceweights&int[]&INTEGER&out\\&\hbox to 0pt{mfamily length: \ttfamily\mdseries\catcode`\_=12 *\hss}\\ [-3pt]
 &\hbox to 0pt{\footnotesize\sl weights of the edges into the calling process\hss}\\
 &maxoutdegree&int&INTEGER&in\\ [-3pt]
 &\hbox to 0pt{\footnotesize\sl size of destinations and destweights arrays\hss}\\
-&destinations&int[]&INTEGER&out\\&\hbox to 0pt{\footnotesize length: \tt\catcode`\_=12 maxoutdegree\hss}\\ [-3pt]
+&destinations&int[]&INTEGER&out\\&\hbox to 0pt{mfamily length: \ttfamily\mdseries\catcode`\_=12 maxoutdegree\hss}\\ [-3pt]
 &\hbox to 0pt{\footnotesize\sl processes for which the calling process is a source\hss}\\
-&destweights&int[]&INTEGER&out\\&\hbox to 0pt{\footnotesize length: \tt\catcode`\_=12 *\hss}\\ [-3pt]
+&destweights&int[]&INTEGER&out\\&\hbox to 0pt{mfamily length: \ttfamily\mdseries\catcode`\_=12 *\hss}\\ [-3pt]
 &\hbox to 0pt{\footnotesize\sl weights of the edges out of the calling process\hss}\\
 (opt)&ierror&&INTEGER&out\\
 )\\

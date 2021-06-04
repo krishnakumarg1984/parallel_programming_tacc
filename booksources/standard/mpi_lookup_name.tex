@@ -13,17 +13,23 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begingroup\tt\catcode`\_=12
+\begingroup
+\ttfamily\bfseries
+\catcode`\_=12
 \begin{tabular}{lllll}
 \toprule
-\textrm{Name}&\textrm{Param name}&\textrm{C type}&\textrm{F type}&\textrm{inout}\\
+\mdseries\textrm{Name}&
+\mdseries\textrm{Param name}&
+\mdseries\textrm{C type}&
+\mdseries\textrm{F type}&
+\mdseries\textrm{inout}\\
 \midrule
 \hbox to 20pt{MPI_Lookup_name (\hss} \\
 &service_name&const~char*&CHARACTER&in\\ [-3pt]
 &\hbox to 0pt{\footnotesize\sl a service name\hss}\\
 &info&MPI_Info&TYPE(MPI_Info)&in\\ [-3pt]
 &\hbox to 0pt{\footnotesize\sl implementation-specific information\hss}\\
-&port_name&char*&CHARACTER&out\\&\hbox to 0pt{\footnotesize length: \tt\catcode`\_=12 MPI_MAX_PORT_NAME\hss}\\ [-3pt]
+&port_name&char*&CHARACTER&out\\&\hbox to 0pt{mfamily length: \ttfamily\mdseries\catcode`\_=12 MPI_MAX_PORT_NAME\hss}\\ [-3pt]
 &\hbox to 0pt{\footnotesize\sl a port name\hss}\\
 (opt)&ierror&&INTEGER&out\\
 )\\

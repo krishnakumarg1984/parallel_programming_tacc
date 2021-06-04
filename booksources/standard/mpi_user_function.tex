@@ -13,14 +13,20 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begingroup\tt\catcode`\_=12
+\begingroup
+\ttfamily\bfseries
+\catcode`\_=12
 \begin{tabular}{lllll}
 \toprule
-\textrm{Name}&\textrm{Param name}&\textrm{C type}&\textrm{F type}&\textrm{inout}\\
+\mdseries\textrm{Name}&
+\mdseries\textrm{Param name}&
+\mdseries\textrm{C type}&
+\mdseries\textrm{F type}&
+\mdseries\textrm{inout}\\
 \midrule
 \hbox to 20pt{MPI_User_function (\hss} \\
-&invec&void*&TYPE(C_PTR), VALUE&in\\&\hbox to 0pt{\footnotesize length: \tt\catcode`\_=12 len\hss}\\
-&inoutvec&void*&TYPE(C_PTR), VALUE&in\\&\hbox to 0pt{\footnotesize length: \tt\catcode`\_=12 len\hss}\\
+&invec&void*&TYPE(C_PTR), VALUE&in\\&\hbox to 0pt{mfamily length: \ttfamily\mdseries\catcode`\_=12 len\hss}\\
+&inoutvec&void*&TYPE(C_PTR), VALUE&in\\&\hbox to 0pt{mfamily length: \ttfamily\mdseries\catcode`\_=12 len\hss}\\
 &len&int*&INTEGER&in\\
 &datatype&MPI_Datatype*&TYPE(MPI_Datatype)&in\\
 )\\

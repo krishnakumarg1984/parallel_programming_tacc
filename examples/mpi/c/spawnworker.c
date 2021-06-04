@@ -48,12 +48,6 @@ int main(int argc, char *argv[])
     printf("[%d] worker process runs on <<%s>>\n",workerno,procname);
   }
 
-  MPI_Comm_remote_size(parent, &remotesize);
-  if (workerno==0) {
-    printf("Worker deduces %d workers and %d parents\n",nworkers,remotesize);
-  }
-  //  ASSERTm(nworkers==size-1,"nworkers mismatch. probably misunderstanding");
-
   /* 
    * Parallel code here.  
    * The manager is represented as the process with rank 0 in (the remote 

@@ -13,14 +13,20 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begingroup\tt\catcode`\_=12
+\begingroup
+\ttfamily\bfseries
+\catcode`\_=12
 \begin{tabular}{lllll}
 \toprule
-\textrm{Name}&\textrm{Param name}&\textrm{C type}&\textrm{F type}&\textrm{inout}\\
+\mdseries\textrm{Name}&
+\mdseries\textrm{Param name}&
+\mdseries\textrm{C type}&
+\mdseries\textrm{F type}&
+\mdseries\textrm{inout}\\
 \midrule
 \hbox to 20pt{MPI_Info_create_env (\hss} \\
 &argc&int&&inout\\
-&argv&char[]&&inout\\&\hbox to 0pt{\footnotesize length: \tt\catcode`\_=12 argc\hss}\\
+&argv&char[]&&inout\\&\hbox to 0pt{mfamily length: \ttfamily\mdseries\catcode`\_=12 argc\hss}\\
 &info&MPI_Info*&TYPE(MPI_Info)&out\\ [-3pt]
 &\hbox to 0pt{\footnotesize\sl info object\hss}\\
 (opt)&ierror&&INTEGER&out\\

@@ -29,6 +29,9 @@
 \usepackage{graphicx,outliner}
 \usepackage{wrapfig}
 \usepackage{pgfplots}  
+\usepgfplotslibrary{external}
+\tikzexternalize
+\tikzsetexternalprefix{plots/}
 \pgfplotsset{width=5in,compat=1.7}  
 
 % fancy text stuff
@@ -249,7 +252,7 @@
 \CHAPTER{MPI topic: Shared memory}{mpi-shared}
 \CHAPTER{MPI topic: Tools interface}{mpi-tools}
 \CHAPTER{MPI leftover topics}{mpi}
-%\CHAPTER{MPI Examples}{mpiexamples}
+\CHAPTER{MPI Examples}{mpi-examples}
 %\CHAPTER{MPI Review}{mpireview}
 
 \acresetall
@@ -271,6 +274,7 @@
 \CHAPTER{OpenMP remaining topics}{openmp}
 %%\CHAPTER{OpenMP Reference}{ompref}
 \CHAPTER{OpenMP Review}{ompreview}
+\CHAPTER{OpenMP Examples}{omp-examples}
 
 \part{PETSc}
 

@@ -125,7 +125,8 @@ How do we compute this?
 \begin{itemize}
 \item All processes have send and recv buffer
 \item (No root argument)
-\item \lstinline{count} is number of items in the buffer: 1~for scalar.
+\item \lstinline{count} is number of items in the buffer: 1~for scalar.\\
+  $>1$: pointwise application of the operator
 \item \indexmpishow{MPI_Datatype} is \indexmpishow{MPI_INT}, \indexmpishow{MPI_REAL8} et cetera.
 \item \indexmpishow{MPI_Op} is \indexmpishow{MPI_SUM}, \indexmpishow{MPI_MAX} et cetera.
 \end{itemize}
@@ -269,6 +270,40 @@ random_value = random.random()
 \end{lstlisting}
 \end{numberedframe}
 
+\begin{numberedframe}{Inner product calculation}
+  Given vectors $x,y$:
+  \[ x^ty = \sum_{i=0}^{N-1} x_iy_i \]
+  Start out with distributed vectors~$x,y$,\\
+  assume same distribution.
+
+  Proposed solution:\\
+  \indexmpishow{MPI_Gather} or \indexmpishow{MPI_Allgather}
+  and calculate locally.
+
+  Comments?
+\end{numberedframe}
+
+\begin{numberedframe}{Inner product calculation another way}
+  What are (at least two) problems with:
+\begin{lstlisting}
+MPI_Allreduce( &local_inprod, &global_inprod, 
+               localsize,MPI_DOUBLE,MPI_SUM,comm )
+\end{lstlisting}
+\end{numberedframe}
+
+\begin{numberedframe}{Inner product calculation: the right way}
+  Compute local part, then collect local sums.
+
+\lstset{language=C}
+\begin{lstlisting}
+local_inprod = 0;
+for (i=0; i<localsize; i++)
+  local_inprod += x[i]*y[i];
+MPI_Allreduce( &local_inprod, &global_inprod, 
+               1,MPI_DOUBLE,MPI_SUM,comm )
+\end{lstlisting}
+\end{numberedframe}
+
 \begin{optexerciseframe}
   \input ex:randomcoord
 \end{optexerciseframe}
@@ -342,15 +377,16 @@ Scan or `parallel prefix': reduction with partial results
 \end{numberedframe}
 
 \begin{numberedframe}{In vs Exclusive}
+  \def\strut{\vrule height 25pt width 0pt\relax}
 \[
 \begin{array}{rccccc}
-  \mathrm{process:}
+  \mathrm{process:}\strut
       &0&1&2&\cdots&p-1\\
-  \mathrm{data:}
+  \mathrm{data:}\strut
       &x_0&x_1&x_2&\cdots&x_{p-1}\\
-  \mathrm{inclusive:}\mathstrut
+  \mathrm{inclusive:}\strut
       &x_0&x_0\oplus x_1&x_0\oplus x_1\oplus x_2&\cdots&\mathop\oplus_{i=0}^{p-1} x_i\\
-  \mathrm{exclusive:}\mathstrut
+  \mathrm{exclusive:}\strut
       &\mathrm{unchanged}&x_0&x_0\oplus x_1&\cdots&\mathop\oplus_{i=0}^{p-2} x_i\\
 \end{array}
 \]
@@ -359,6 +395,7 @@ Scan or `parallel prefix': reduction with partial results
 \protoslide{MPI_Scan}
 
 \begin{numberedframe}{For the next exercise}
+  \label{fig:scanints}
   \includegraphics[scale=.5]{scanints}
 \end{numberedframe}
 
@@ -383,10 +420,6 @@ buffer; instead, it is the amount of data to/from each process.
 \begin{numberedframe}{Gather pictured}
   \includegraphics[scale=.4]{gather}
 \end{numberedframe}
-
-\begin{exerciseframe}
-  \input ex:randomwhere
-\end{exerciseframe}
 
 \begin{numberedframe}{Popular application of gather}
   Matrix is constructed distributed, but needs to be brough to one
@@ -417,6 +450,12 @@ buffer; instead, it is the amount of data to/from each process.
 \begin{exerciseframe}[scangather]
   \input ex:scangather
 \end{exerciseframe}
+
+\begin{reviewframe}
+  An \indexmpishow{MPI_Scatter} call puts the same data on each process
+  
+  \slackpollTF+A scatter call puts the same data on each process+
+\end{reviewframe}
 
 \begin{numberedframe}{All-to-all}
   \begin{itemize}
@@ -540,6 +579,12 @@ int MPI_Op_free(MPI_Op *op)
   \cverbatimsnippet{mpirwz}
 \end{numberedframe}
 
+\begin{reviewframe}
+  The $\|\cdot\|_2$ norm (sum of squares) needs a custom operator.
+  
+  \slackpollTF+The sum of squares norm needs a custom operators+
+\end{reviewframe}
+
 \sectionframe{Performance of collectives}
 
 \begin{numberedframe}{Naive realization of collectives}
@@ -571,6 +616,12 @@ int MPI_Op_free(MPI_Op *op)
   \end{itemize}
 
 \end{numberedframe}
+
+\begin{reviewframe}
+  True of false: there are collectives that do not communicate data
+
+  \slackpollTF+there are collectives that do not communicate data+
+\end{reviewframe}
 
 \endinput
 

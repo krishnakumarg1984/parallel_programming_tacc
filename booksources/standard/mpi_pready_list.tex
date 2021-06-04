@@ -13,15 +13,21 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begingroup\tt\catcode`\_=12
+\begingroup
+\ttfamily\bfseries
+\catcode`\_=12
 \begin{tabular}{lllll}
 \toprule
-\textrm{Name}&\textrm{Param name}&\textrm{C type}&\textrm{F type}&\textrm{inout}\\
+\mdseries\textrm{Name}&
+\mdseries\textrm{Param name}&
+\mdseries\textrm{C type}&
+\mdseries\textrm{F type}&
+\mdseries\textrm{inout}\\
 \midrule
 \hbox to 20pt{MPI_Pready_list (\hss} \\
 &length&int&INTEGER&in\\ [-3pt]
 &\hbox to 0pt{\footnotesize\sl list length\hss}\\
-&array_of_partitions&int[]&INTEGER&inout\\&\hbox to 0pt{\footnotesize length: \tt\catcode`\_=12 length\hss}\\ [-3pt]
+&array_of_partitions&int[]&INTEGER&inout\\&\hbox to 0pt{mfamily length: \ttfamily\mdseries\catcode`\_=12 length\hss}\\ [-3pt]
 &\hbox to 0pt{\footnotesize\sl array of partitions\hss}\\
 &request&MPI_Request*&TYPE(MPI_Request)&inout\\ [-3pt]
 &\hbox to 0pt{\footnotesize\sl partitioned communication request\hss}\\

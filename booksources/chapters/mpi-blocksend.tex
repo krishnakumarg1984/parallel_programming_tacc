@@ -490,10 +490,10 @@ successively passed down a sequence of processors.
   \]
   Use \indexmpishow{MPI_Send} and \indexmpishow{MPI_Recv}; make sure to get the order right.
 
-  \begin{remark}
-    All quantities involved here are integers. Is it a good idea to
-    use the integer datatype here?
-  \end{remark}
+  Food for thought: all quantities involved here are integers. Is it a good idea to
+  use the integer datatype here?
+
+  Question: could you have done this with a collective call?
   \skeleton{bucketblock}
 \end{exercise}
 

@@ -1,4 +1,0 @@
-  The \lstinline+get_count+ function is a method of the status object.
-  The argument type is handled through templating:
-  %
-  \cxxverbatimsnippet[examples/mpi/mpl/recvstatus.cxx]{mplrecvcount}

@@ -13,10 +13,16 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begingroup\tt\catcode`\_=12
+\begingroup
+\ttfamily\bfseries
+\catcode`\_=12
 \begin{tabular}{lllll}
 \toprule
-\textrm{Name}&\textrm{Param name}&\textrm{C type}&\textrm{F type}&\textrm{inout}\\
+\mdseries\textrm{Name}&
+\mdseries\textrm{Param name}&
+\mdseries\textrm{C type}&
+\mdseries\textrm{F type}&
+\mdseries\textrm{inout}\\
 \midrule
 \hbox to 20pt{MPI_Type_create_darray (\hss} \\
 &size&int&INTEGER&in\\ [-3pt]
@@ -25,13 +31,13 @@
 &\hbox to 0pt{\footnotesize\sl rank in process group\hss}\\
 &ndims&int&INTEGER&in\\ [-3pt]
 &\hbox to 0pt{\footnotesize\sl number of array dimensions as well as process grid dimensions\hss}\\
-&array_of_gsizes&const~int[]&INTEGER&in\\&\hbox to 0pt{\footnotesize length: \tt\catcode`\_=12 ndims\hss}\\ [-3pt]
+&array_of_gsizes&const~int[]&INTEGER&in\\&\hbox to 0pt{mfamily length: \ttfamily\mdseries\catcode`\_=12 ndims\hss}\\ [-3pt]
 &\hbox to 0pt{\footnotesize\sl number of elements of type oldtype in each dimension of global array\hss}\\
-&array_of_distribs&const~int[]&INTEGER&in\\&\hbox to 0pt{\footnotesize length: \tt\catcode`\_=12 ndims\hss}\\ [-3pt]
+&array_of_distribs&const~int[]&INTEGER&in\\&\hbox to 0pt{mfamily length: \ttfamily\mdseries\catcode`\_=12 ndims\hss}\\ [-3pt]
 &\hbox to 0pt{\footnotesize\sl distribution of array in each dimension\hss}\\
-&array_of_dargs&const~int[]&INTEGER&in\\&\hbox to 0pt{\footnotesize length: \tt\catcode`\_=12 ndims\hss}\\ [-3pt]
+&array_of_dargs&const~int[]&INTEGER&in\\&\hbox to 0pt{mfamily length: \ttfamily\mdseries\catcode`\_=12 ndims\hss}\\ [-3pt]
 &\hbox to 0pt{\footnotesize\sl distribution argument in each dimension\hss}\\
-&array_of_psizes&const~int[]&INTEGER&in\\&\hbox to 0pt{\footnotesize length: \tt\catcode`\_=12 ndims\hss}\\ [-3pt]
+&array_of_psizes&const~int[]&INTEGER&in\\&\hbox to 0pt{mfamily length: \ttfamily\mdseries\catcode`\_=12 ndims\hss}\\ [-3pt]
 &\hbox to 0pt{\footnotesize\sl size of process grid in each dimension\hss}\\
 &order&int&INTEGER&in\\ [-3pt]
 &\hbox to 0pt{\footnotesize\sl array storage order flag\hss}\\

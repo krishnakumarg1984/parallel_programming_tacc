@@ -60,6 +60,7 @@
 %\OutlineLevelStart 1{\section{#1}}
 \OutlineLevelStart 1{\frame{\section{#1}\Large\bf#1}}
 \def\sectionframe#{\Level 1 }
+\setcounter{tocdepth}{2}
 \usepackage{framed}
 \colorlet{shadecolor}{blue!15}
 \OutlineLevelStart 2{\subsection{#1}
@@ -90,7 +91,7 @@
   \afterassignment\protoslideinclude \def\protoname}
 \def\protoslideinclude{%
   \begin{frame}[containsverbatim]\frametitle{\texttt\protoname}
-    \footnotesize
+    \scriptsize
     \edef\tmp{\lowercase{\def\noexpand\standardroutine{\protoname}}}\tmp
     \IfFileExists
         {standard/\standardroutine.tex}
@@ -103,8 +104,28 @@
   \end{frame}\egroup
 }
 
-\newcounter{excounter}
+\def\innocentcharacters{% move this to commen and unify
+  \catcode`\_=12 \catcode`\#=12
+  \catcode`\>=12 \catcode`\<=12
+  \catcode`\&=12 \catcode`\^=12 \catcode`\~=12
+}
+\newcommand\slackpoll[1]{\begingroup \par \tiny\texttt{/poll #1} \par \endgroup}
+\def\slackpollTF#1{\begingroup \def\terminator{#1}
+  \innocentcharacters \catcode`\{=12 \catcode`\}=12
+  \edef\tmp{\def\noexpand\slackpollTFp####1\terminator
+    {\noexpand\par
+      \noexpand\tiny \noexpand\texttt{/poll "####1" "T" "F"}
+      \noexpand\par \endgroup}}\tmp
+  \slackpollTFp}
 
+\newcounter{excounter}
+\newcounter{revcounter}
+\newenvironment
+    {reviewframe}
+    {\begin{frame}[containsverbatim]
+        \frametitle{Review \arabic{revcounter}}
+        \refstepcounter{revcounter}}
+    {\end{frame}}
 \newenvironment
     {exerciseframe}[1][]
     {\def\optfile{#1}

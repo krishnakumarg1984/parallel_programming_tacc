@@ -1,6 +1,0 @@
-  There is no initialization or finalize call.
-  \begin{mplimpl}
-    Initialization is done at the first \lstinline+mpl::environment+ method call,
-    such as \lstinline+comm_world+.
-  \end{mplimpl}
-

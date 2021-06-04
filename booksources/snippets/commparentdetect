@@ -3,6 +3,8 @@ MPI_Comm comm_parent;
 MPI_Comm_get_parent(&comm_parent);
 int is_child = (comm_parent!=MPI_COMM_NULL);
 if (is_child) {
-  char procname[MPI_MAX_PROCESSOR_NAME]; int len = MPI_MAX_PROCESSOR_NAME;
-  MPI_Get_processor_name(procname,&len);
-  printf("I detect I am child %d running on %s\n",world_p,procname);
+  int nworkers,workerno;
+  MPI_Comm_size(MPI_COMM_WORLD,&nworkers);
+  MPI_Comm_rank(MPI_COMM_WORLD,&workerno);
+  printf("I detect I am worker %d/%d running on %s\n",
+         workerno,nworkers,procname);

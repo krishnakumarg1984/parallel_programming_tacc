@@ -13,15 +13,21 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begingroup\tt\catcode`\_=12
+\begingroup
+\ttfamily\bfseries
+\catcode`\_=12
 \begin{tabular}{lllll}
 \toprule
-\textrm{Name}&\textrm{Param name}&\textrm{C type}&\textrm{F type}&\textrm{inout}\\
+\mdseries\textrm{Name}&
+\mdseries\textrm{Param name}&
+\mdseries\textrm{C type}&
+\mdseries\textrm{F type}&
+\mdseries\textrm{inout}\\
 \midrule
 \hbox to 20pt{MPI_Error_string (\hss} \\
 &errorcode&int&INTEGER&in\\ [-3pt]
 &\hbox to 0pt{\footnotesize\sl Error code returned by an MPI routine\hss}\\
-&string&char*&CHARACTER&out\\&\hbox to 0pt{\footnotesize length: \tt\catcode`\_=12 MPI_MAX_ERROR_STRING\hss}\\ [-3pt]
+&string&char*&CHARACTER&out\\&\hbox to 0pt{mfamily length: \ttfamily\mdseries\catcode`\_=12 MPI_MAX_ERROR_STRING\hss}\\ [-3pt]
 &\hbox to 0pt{\footnotesize\sl Text that corresponds to the errorcode\hss}\\
 &resultlen&int*&INTEGER&out\\ [-3pt]
 &\hbox to 0pt{\footnotesize\sl Length (in printable characters) of the result returned in string\hss}\\

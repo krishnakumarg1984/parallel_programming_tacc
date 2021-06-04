@@ -13,27 +13,33 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begingroup\tt\catcode`\_=12
+\begingroup
+\ttfamily\bfseries
+\catcode`\_=12
 \begin{tabular}{lllll}
 \toprule
-\textrm{Name}&\textrm{Param name}&\textrm{C type}&\textrm{F type}&\textrm{inout}\\
+\mdseries\textrm{Name}&
+\mdseries\textrm{Param name}&
+\mdseries\textrm{C type}&
+\mdseries\textrm{F type}&
+\mdseries\textrm{inout}\\
 \midrule
 \hbox to 20pt{MPI_Alltoallw_init (\hss} \\
 &sendbuf&const~void*&TYPE(*), DIMENSION(..)&in\\ [-3pt]
 &\hbox to 0pt{\footnotesize\sl starting address of send buffer\hss}\\
-&sendcounts&const~int[]&INTEGER&in\\&\hbox to 0pt{\footnotesize length: \tt\catcode`\_=12 *\hss}\\ [-3pt]
+&sendcounts&const~int[]&INTEGER&in\\&\hbox to 0pt{mfamily length: \ttfamily\mdseries\catcode`\_=12 *\hss}\\ [-3pt]
 &\hbox to 0pt{\footnotesize\sl integer array (of length group size) specifying the number of elements to send to each rank\hss}\\
-&sdispls&const~int[]&INTEGER&in\\&\hbox to 0pt{\footnotesize length: \tt\catcode`\_=12 *\hss}\\ [-3pt]
+&sdispls&const~int[]&INTEGER&in\\&\hbox to 0pt{mfamily length: \ttfamily\mdseries\catcode`\_=12 *\hss}\\ [-3pt]
 &\hbox to 0pt{\footnotesize\sl integer array (of length group size). Entry j specifies the displacement in bytes (relative to sendbuf) from which to take the outgoing data destined for process j\hss}\\
-&sendtypes&const~MPI_Datatype[]&TYPE(MPI_Datatype)&in\\&\hbox to 0pt{\footnotesize length: \tt\catcode`\_=12 *\hss}\\ [-3pt]
+&sendtypes&const~MPI_Datatype[]&TYPE(MPI_Datatype)&in\\&\hbox to 0pt{mfamily length: \ttfamily\mdseries\catcode`\_=12 *\hss}\\ [-3pt]
 &\hbox to 0pt{\footnotesize\sl Array of datatypes (of length group size). Entry j specifies the type of data to send to process j\hss}\\
 &recvbuf&void*&TYPE(*), DIMENSION(..)&out\\ [-3pt]
 &\hbox to 0pt{\footnotesize\sl address of receive buffer\hss}\\
-&recvcounts&const~int[]&INTEGER&in\\&\hbox to 0pt{\footnotesize length: \tt\catcode`\_=12 *\hss}\\ [-3pt]
+&recvcounts&const~int[]&INTEGER&in\\&\hbox to 0pt{mfamily length: \ttfamily\mdseries\catcode`\_=12 *\hss}\\ [-3pt]
 &\hbox to 0pt{\footnotesize\sl integer array (of length group size) specifying the number of elements that can be received from each rank\hss}\\
-&rdispls&const~int[]&INTEGER&in\\&\hbox to 0pt{\footnotesize length: \tt\catcode`\_=12 *\hss}\\ [-3pt]
+&rdispls&const~int[]&INTEGER&in\\&\hbox to 0pt{mfamily length: \ttfamily\mdseries\catcode`\_=12 *\hss}\\ [-3pt]
 &\hbox to 0pt{\footnotesize\sl integer array (of length group size). Entry i specifies the displacement in bytes (relative to recvbuf) at which to place the incoming data from process i\hss}\\
-&recvtypes&const~MPI_Datatype[]&TYPE(MPI_Datatype)&in\\&\hbox to 0pt{\footnotesize length: \tt\catcode`\_=12 *\hss}\\ [-3pt]
+&recvtypes&const~MPI_Datatype[]&TYPE(MPI_Datatype)&in\\&\hbox to 0pt{mfamily length: \ttfamily\mdseries\catcode`\_=12 *\hss}\\ [-3pt]
 &\hbox to 0pt{\footnotesize\sl array of datatypes (of length group size). Entry i specifies the type of data received from process i\hss}\\
 &comm&MPI_Comm&TYPE(MPI_Comm)&in\\ [-3pt]
 &\hbox to 0pt{\footnotesize\sl communicator\hss}\\

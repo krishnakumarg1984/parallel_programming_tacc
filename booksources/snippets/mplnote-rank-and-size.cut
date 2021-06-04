@@ -1,9 +1,0 @@
-  The rank of a process (by \lstinline+mpl::communicator::+\indexmpldef{rank}) and
-  the size of a communicator (by \lstinline+mpl::communicator::+\indexmpldef{size})
-  are both methods of the \indexmplshow{communicator} class:
-\begin{lstlisting}
-const mpl::communicator &comm_world =
-    mpl::environment::comm_world();
-int procid = comm_world.rank();
-int nprocs = comm_world.size();
-\end{lstlisting}

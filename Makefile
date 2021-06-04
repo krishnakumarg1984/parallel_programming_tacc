@@ -29,7 +29,7 @@ pdf :
 info ::
 	@echo "make clean"
 clean ::
-	@for d in booksources exercises slides ; do \
+	@for d in booksources examples exercises slides ; do \
 	    ( echo "cleaning in <<$$d>>" && cd "$$d" && make clean ) \
 	    ; done
 

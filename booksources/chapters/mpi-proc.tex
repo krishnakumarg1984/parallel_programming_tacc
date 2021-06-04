@@ -107,6 +107,27 @@ can find it through \indexmpishow{MPI_Comm_get_parent} (section~\ref{sec:mpi-int
 The number of spawning processes can be found through
 \indexmpishow{MPI_Comm_remote_size} on the parent communicator.
 
+\begin{verbatim}
+Running spawnapp with usize=12, wsize=4
+%%
+%% manager output
+%%
+A universe of size 12 leaves room for 8 workers
+.. spawning from c209-026.frontera.tacc.utexas.edu
+%%
+%% worker output
+%%
+Worker deduces 8 workers and 4 parents
+I detect I am worker 0/8 running on c209-027.frontera.tacc.utexas.edu
+I detect I am worker 1/8 running on c209-027.frontera.tacc.utexas.edu
+I detect I am worker 2/8 running on c209-027.frontera.tacc.utexas.edu
+I detect I am worker 3/8 running on c209-027.frontera.tacc.utexas.edu
+I detect I am worker 4/8 running on c209-028.frontera.tacc.utexas.edu
+I detect I am worker 5/8 running on c209-028.frontera.tacc.utexas.edu
+I detect I am worker 6/8 running on c209-028.frontera.tacc.utexas.edu
+I detect I am worker 7/8 running on c209-028.frontera.tacc.utexas.edu
+\end{verbatim}
+
 \Level 1 {MPMD}
 
 Instead of spawning a single executable, you can spawn multiple with

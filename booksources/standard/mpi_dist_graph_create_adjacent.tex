@@ -13,25 +13,31 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begingroup\tt\catcode`\_=12
+\begingroup
+\ttfamily\bfseries
+\catcode`\_=12
 \begin{tabular}{lllll}
 \toprule
-\textrm{Name}&\textrm{Param name}&\textrm{C type}&\textrm{F type}&\textrm{inout}\\
+\mdseries\textrm{Name}&
+\mdseries\textrm{Param name}&
+\mdseries\textrm{C type}&
+\mdseries\textrm{F type}&
+\mdseries\textrm{inout}\\
 \midrule
 \hbox to 20pt{MPI_Dist_graph_create_adjacent (\hss} \\
 &comm_old&MPI_Comm&TYPE(MPI_Comm)&in\\ [-3pt]
 &\hbox to 0pt{\footnotesize\sl input communicator\hss}\\
 &indegree&int&INTEGER&in\\ [-3pt]
 &\hbox to 0pt{\footnotesize\sl size of sources and sourceweights arrays\hss}\\
-&sources&const~int[]&INTEGER&in\\&\hbox to 0pt{\footnotesize length: \tt\catcode`\_=12 indegree\hss}\\ [-3pt]
+&sources&const~int[]&INTEGER&in\\&\hbox to 0pt{mfamily length: \ttfamily\mdseries\catcode`\_=12 indegree\hss}\\ [-3pt]
 &\hbox to 0pt{\footnotesize\sl ranks of processes for which the calling process is a destination\hss}\\
-&sourceweights&const~int[]&INTEGER&in\\&\hbox to 0pt{\footnotesize length: \tt\catcode`\_=12 *\hss}\\ [-3pt]
+&sourceweights&const~int[]&INTEGER&in\\&\hbox to 0pt{mfamily length: \ttfamily\mdseries\catcode`\_=12 *\hss}\\ [-3pt]
 &\hbox to 0pt{\footnotesize\sl weights of the edges into the calling process\hss}\\
 &outdegree&int&INTEGER&in\\ [-3pt]
 &\hbox to 0pt{\footnotesize\sl size of destinations and destweights arrays\hss}\\
-&destinations&const~int[]&INTEGER&in\\&\hbox to 0pt{\footnotesize length: \tt\catcode`\_=12 outdegree\hss}\\ [-3pt]
+&destinations&const~int[]&INTEGER&in\\&\hbox to 0pt{mfamily length: \ttfamily\mdseries\catcode`\_=12 outdegree\hss}\\ [-3pt]
 &\hbox to 0pt{\footnotesize\sl ranks of processes for which the calling process is a source\hss}\\
-&destweights&const~int[]&INTEGER&in\\&\hbox to 0pt{\footnotesize length: \tt\catcode`\_=12 *\hss}\\ [-3pt]
+&destweights&const~int[]&INTEGER&in\\&\hbox to 0pt{mfamily length: \ttfamily\mdseries\catcode`\_=12 *\hss}\\ [-3pt]
 &\hbox to 0pt{\footnotesize\sl weights of the edges out of the calling process\hss}\\
 &info&MPI_Info&TYPE(MPI_Info)&in\\ [-3pt]
 &\hbox to 0pt{\footnotesize\sl hints on optimization and interpretation of weights\hss}\\

@@ -220,8 +220,8 @@ give a one-line explanation.
 \end{review}
 
 \begin{review}
-  True or false: there are collective routines that do not
-  communicate user data. If true, give an example.
+  True or false: collective routines are all about 
+  communicating user data between the processes.
 \end{review}
 
 \begin{review}
@@ -248,7 +248,6 @@ double x[N]; // N can vary per processor
   in the array, and leaves the result on every processor.
 \end{review}
 
-
 \begin{review}
 \begin{lstlisting}
 double data[Nglobal];
@@ -264,6 +263,7 @@ void process_point( double *data,int i,int N ) {
 }
 \end{lstlisting}
 Is this scalable in time? Is this scalable in space?
+What is the missing MPI call?
 \end{review}
 
 \begin{review}
@@ -281,6 +281,7 @@ void process_point( double *data,int i0,int n ) {
 }
 \end{lstlisting}
 Is this scalable in time? Is this scalable in space?
+What is the missing MPI call?
 \end{review}
 
 \begin{review}
@@ -304,6 +305,6 @@ Is this scalable in time? Is this scalable in space?
 \end{review}
 
 \begin{review}
-  Think of at least two algorithms for doing a broadcast?
+  Think of at least two algorithms for doing a broadcast.
   Compare them with regards to asymptotic behavior.
 \end{review}

@@ -1,8 +1,0 @@
-  \label{mpl:derived}
-  In \ac{MPL} type creation routines are in the main namespace,
-  templated over the datatypes.
-  %
-  \cxxverbatimsnippet[examples/mpi/mpl/vector.cxx]{mplstatuscreate}
-  %
-  The commit call is part of the type creation,
-  and freeing is done in the destructor.

@@ -13,21 +13,27 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begingroup\tt\catcode`\_=12
+\begingroup
+\ttfamily\bfseries
+\catcode`\_=12
 \begin{tabular}{lllll}
 \toprule
-\textrm{Name}&\textrm{Param name}&\textrm{C type}&\textrm{F type}&\textrm{inout}\\
+\mdseries\textrm{Name}&
+\mdseries\textrm{Param name}&
+\mdseries\textrm{C type}&
+\mdseries\textrm{F type}&
+\mdseries\textrm{inout}\\
 \midrule
 \hbox to 20pt{MPI_Comm_spawn_multiple (\hss} \\
 &count&int&INTEGER&in\\ [-3pt]
 &\hbox to 0pt{\footnotesize\sl number of commands\hss}\\
 &array_of_commands&char[]*&CHARACTER&in\\ [-3pt]
 &\hbox to 0pt{\footnotesize\sl programs to be executed\hss}\\
-&array_of_argv&char[]**&CHARACTER&in\\&\hbox to 0pt{\footnotesize length: \tt\catcode`\_=12 count\hss}\\ [-3pt]
+&array_of_argv&char[]**&CHARACTER&in\\&\hbox to 0pt{mfamily length: \ttfamily\mdseries\catcode`\_=12 count\hss}\\ [-3pt]
 &\hbox to 0pt{\footnotesize\sl arguments for commands\hss}\\
-&array_of_maxprocs&const~int[]&INTEGER&in\\&\hbox to 0pt{\footnotesize length: \tt\catcode`\_=12 count\hss}\\ [-3pt]
+&array_of_maxprocs&const~int[]&INTEGER&in\\&\hbox to 0pt{mfamily length: \ttfamily\mdseries\catcode`\_=12 count\hss}\\ [-3pt]
 &\hbox to 0pt{\footnotesize\sl maximum number of processes to start for each command\hss}\\
-&array_of_info&const~MPI_Info[]&TYPE(MPI_Info)&in\\&\hbox to 0pt{\footnotesize length: \tt\catcode`\_=12 count\hss}\\ [-3pt]
+&array_of_info&const~MPI_Info[]&TYPE(MPI_Info)&in\\&\hbox to 0pt{mfamily length: \ttfamily\mdseries\catcode`\_=12 count\hss}\\ [-3pt]
 &\hbox to 0pt{\footnotesize\sl info objects telling the runtime system where and how to start processes\hss}\\
 &root&int&INTEGER&in\\ [-3pt]
 &\hbox to 0pt{\footnotesize\sl rank of process in which previous arguments are examined\hss}\\
@@ -35,7 +41,7 @@
 &\hbox to 0pt{\footnotesize\sl intra-communicator containing group of spawning processes\hss}\\
 &intercomm&MPI_Comm*&TYPE(MPI_Comm)&out\\ [-3pt]
 &\hbox to 0pt{\footnotesize\sl inter-communicator between original group and the newly spawned group\hss}\\
-&array_of_errcodes&int[]&INTEGER&out\\&\hbox to 0pt{\footnotesize length: \tt\catcode`\_=12 \hss}\\ [-3pt]
+&array_of_errcodes&int[]&INTEGER&out\\&\hbox to 0pt{mfamily length: \ttfamily\mdseries\catcode`\_=12 \hss}\\ [-3pt]
 &\hbox to 0pt{\footnotesize\sl one error code per process\hss}\\
 (opt)&ierror&&INTEGER&out\\
 )\\

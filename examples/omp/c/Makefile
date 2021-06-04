@@ -23,7 +23,7 @@ APPS = hello hello3 proccount pi \
     parfor critfun reductpar \
     alloc1 alloc2 sharing race \
     threadprivate ireduct ireductinit ureduct reductpositive \
-    taskgroup0 taskgroup1 taskgroup2 taskgroup3
+    taskgroup0 taskgroup1 taskgroup2 taskgroup3 taskgroup4 taskgroup5
 
 listsources :
 	@for a in ${APPS} ; do \

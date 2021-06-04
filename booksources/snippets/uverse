@@ -1,3 +1,4 @@
+// spawnmanager.c
 if (!flag) {
   if (manager_rank==0) {
     printf("This MPI does not support UNIVERSE_SIZE.\nHow many processes total?");

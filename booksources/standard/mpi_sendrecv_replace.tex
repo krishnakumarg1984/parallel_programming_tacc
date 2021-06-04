@@ -13,10 +13,16 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begingroup\tt\catcode`\_=12
+\begingroup
+\ttfamily\bfseries
+\catcode`\_=12
 \begin{tabular}{lllll}
 \toprule
-\textrm{Name}&\textrm{Param name}&\textrm{C type}&\textrm{F type}&\textrm{inout}\\
+\mdseries\textrm{Name}&
+\mdseries\textrm{Param name}&
+\mdseries\textrm{C type}&
+\mdseries\textrm{F type}&
+\mdseries\textrm{inout}\\
 \midrule
 \hbox to 20pt{MPI_Sendrecv_replace (\hss} \\
 &buf&void*&TYPE(*), DIMENSION(..)&inout\\ [-3pt]
@@ -30,9 +36,9 @@
 &sendtag&int&INTEGER&in\\ [-3pt]
 &\hbox to 0pt{\footnotesize\sl send message tag\hss}\\
 &source&int&INTEGER&in\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl rank of source or {\tt\catcode`\_=12 MPI_ANY_SOURCE}\hss}\\
+&\hbox to 0pt{\footnotesize\sl rank of source or {\ttfamily\bfseries\catcode`\_=12 MPI_ANY_SOURCE}\hss}\\
 &recvtag&int&INTEGER&in\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl receive message tag or {\tt\catcode`\_=12 MPI_ANY_TAG}\hss}\\
+&\hbox to 0pt{\footnotesize\sl receive message tag or {\ttfamily\bfseries\catcode`\_=12 MPI_ANY_TAG}\hss}\\
 &comm&MPI_Comm&TYPE(MPI_Comm)&in\\
 &status&MPI_Status*&TYPE(MPI_Status)&out\\
 (opt)&ierror&&INTEGER&out\\

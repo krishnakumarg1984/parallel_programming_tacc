@@ -1,4 +1,0 @@
-  In \ac{MPL}, the \indexmpldef{indexed_layout} is based on a vector
-  of 2-tuples denoting block length~/ block location.
-  %
-  \cxxverbatimsnippet[examples/mpi/mpl/indexed.cxx]{indexedmpl}

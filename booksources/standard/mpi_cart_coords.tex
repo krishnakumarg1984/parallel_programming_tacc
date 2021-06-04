@@ -13,10 +13,16 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begingroup\tt\catcode`\_=12
+\begingroup
+\ttfamily\bfseries
+\catcode`\_=12
 \begin{tabular}{lllll}
 \toprule
-\textrm{Name}&\textrm{Param name}&\textrm{C type}&\textrm{F type}&\textrm{inout}\\
+\mdseries\textrm{Name}&
+\mdseries\textrm{Param name}&
+\mdseries\textrm{C type}&
+\mdseries\textrm{F type}&
+\mdseries\textrm{inout}\\
 \midrule
 \hbox to 20pt{MPI_Cart_coords (\hss} \\
 &comm&MPI_Comm&TYPE(MPI_Comm)&in\\ [-3pt]
@@ -25,7 +31,7 @@
 &\hbox to 0pt{\footnotesize\sl rank of a process within group of comm\hss}\\
 &maxdims&int&INTEGER&in\\ [-3pt]
 &\hbox to 0pt{\footnotesize\sl length of vector  coords in the calling program\hss}\\
-&coords&int[]&INTEGER&out\\&\hbox to 0pt{\footnotesize length: \tt\catcode`\_=12 maxdims\hss}\\ [-3pt]
+&coords&int[]&INTEGER&out\\&\hbox to 0pt{mfamily length: \ttfamily\mdseries\catcode`\_=12 maxdims\hss}\\ [-3pt]
 &\hbox to 0pt{\footnotesize\sl integer array (of size maxdims) containing the Cartesian coordinates of specified process\hss}\\
 (opt)&ierror&&INTEGER&out\\
 )\\

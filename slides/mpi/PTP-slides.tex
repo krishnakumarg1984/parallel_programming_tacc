@@ -77,13 +77,19 @@ if ( /* I am process A */ ) {
 \protoslide{MPI_Recv}
 
 \begin{numberedframe}{Status object}
+ Use \indexmpishow{MPI_STATUS_IGNORE} unless~\ldots
+
   \begin{itemize}
   \item Receive call can have various wildcards:\\
     \indexmpishow{MPI_ANY_SOURCE}, \indexmpishow{MPI_ANY_TAG}
-  \item Receive buffer size is actually upper bound, not exact:
+  \item Receive buffer size is actually upper bound, not exact
   \item Use status object to retrieve actual description of the message
-  \item Use \indexmpishow{MPI_STATUS_IGNORE} if the above does not apply
   \end{itemize}
+\begin{lstlisting}
+int s = status.MPI_SOURCE;
+int t = status.MPI_TAG;
+MPI_Get_count(status,MPI_FLOAT,&c);
+\end{lstlisting}
 \end{numberedframe}
 
 \begin{exerciseframe}[pingpong]
@@ -116,6 +122,10 @@ for (int ilocal=0; ilocal<nlocal; ilocal++) {
 \end{lstlisting}
 \end{numberedframe}
 
+\begin{optexerciseframe}
+  \input ex:fft-vector
+\end{optexerciseframe}
+
 \begin{numberedframe}{Load balancing}
 If the distributed array is not perfectly divisible:
 \lstset{language=C}
@@ -136,34 +146,6 @@ and give process $i$ the points $f(i)$ up to $f(i+1)$. \\
 Result:
 \[ \lfloor N/p\rfloor \leq f(i+1)-f(i)\leq \lceil N/p\rceil \]
 \end{numberedframe}
-
-\begin{numberedframe}{Inner product calculation}
-  Given vectors $x,y$:
-  \[ x^ty = \sum_{i=0}^{N-1} x_iy_i \]
-  Start out with a distributed vector.
-  \begin{itemize}
-  \item Wrong way: collect the vector on one process and evaluate.
-  \item Right way: compute local part, then collect local sums.
-  \end{itemize}
-\lstset{language=C}
-\begin{lstlisting}
-local_inprod = 0;
-for (i=0; i<localsize; i++)
-  local_inprod += x[i]*y[i];
-MPI_Allreduce( &local_inprod, &global_inprod, 
-               1,MPI_DOUBLE,MPI_SUM,comm )
-\end{lstlisting}
-\end{numberedframe}
-
-\begin{comment}
-  \begin{optexerciseframe}[inprod]
-    \input ex:inproduct
-  \end{optexerciseframe}
-\end{comment}
-
-\begin{optexerciseframe}
-  \input ex:fft-vector
-\end{optexerciseframe}
 
 \sectionframe{Local information exchange}
 
@@ -222,6 +204,10 @@ MPI_Allreduce( &local_inprod, &global_inprod,
   \end{itemize}  
 \end{numberedframe}
 
+\begin{numberedframe}{In a picture}
+  \includegraphics[scale=.4]{mvpdist}
+\end{numberedframe}
+
 \begin{numberedframe}{Operating on distributed data}
 Array of numbers $x_i\colon i=0,\ldots,N$\\
 compute \[ y_i= -x_{i-1}+2x_i-x_{i+1} \colon i=1,\ldots,N-1 \]
@@ -267,7 +253,6 @@ Small messages get sent even if there is no corresponding receive.\\
 (Often a system parameter)
 \end{numberedframe}
 
-
 \begin{numberedframe}{Protocol}
   \label{sl:rendezvous}
 Communication is a `rendez-vous' or `hand-shake' protocol:
@@ -278,7 +263,8 @@ Communication is a `rendez-vous' or `hand-shake' protocol:
 \item Receiver: `Got it.'
 \end{itemize}
 Small messages bypass this: `eager' send.\\
-Definition of `small message' controlled by environment variables.
+Definition of `small message' controlled by environment variables:\\
+\indextermtt{I_MPI_EAGER_THRESHOLD} \indextermtt{MV2_IBA_EAGER_THRESHOLD}
 \end{numberedframe}
 
 \begin{exerciseframe}
@@ -296,6 +282,8 @@ Definition of `small message' controlled by environment variables.
 
   Beware! Blocking sends/receives can be trouble. \\
   (How would you solve this particular case?)
+
+  Food for thought: what happens if you flip the send and receive call?
 \end{numberedframe}
 
 \begin{optexerciseframe}
@@ -317,7 +305,7 @@ Take another look: \[ y_i=x_{i-1}+x_i+x_{i+1}\colon i=1,\ldots,N-1 \]
 \end{numberedframe}
 
 \begin{numberedframe}{Two steps}
-  \includegraphics[scale=.2]{sendrecv-steps}
+  \includegraphics[scale=.25]{sendrecv-steps}
 
   First do all the data movement to the right, later to the left.
   \begin{itemize}
@@ -394,17 +382,6 @@ chance of deadlock by missing a case
   \input ex:3ptsendrecv
 \end{exerciseframe}
 
-\begin{numberedframe}{Bucket brigade}
-  Sometimes you really want to pass information from one process to
-  the next: `bucket brigade'
-
-  \includegraphics[scale=.4]{bucketbrigade}
-\end{numberedframe}
-
-\begin{exerciseframe}[bucketblock]
-  \input{ex:bucket-block}
-\end{exerciseframe}
-
 \begin{numberedframe}{Odd-even transposition sort}
   \label{fig:swapsort1}
 
@@ -417,6 +394,17 @@ chance of deadlock by missing a case
   \footnotesize
   \input ex:exchangesort
 \end{optexerciseframe}
+
+\begin{numberedframe}{Bucket brigade}
+  Sometimes you really want to pass information from one process to
+  the next: `bucket brigade'
+
+  \includegraphics[scale=.4]{bucketbrigade}
+\end{numberedframe}
+
+\begin{exerciseframe}[bucketblock]
+  \input{ex:bucket-block}
+\end{exerciseframe}
 
 \sectionframe {Irregular exchanges: non-blocking communication}
 
@@ -434,12 +422,6 @@ chance of deadlock by missing a case
     is indicated $\Rightarrow$ complicated to express pairwise
 
     \includegraphics[scale=.1]{laplaceparallel}
-\end{numberedframe}
-
-\begin{numberedframe}{Halo region}
-  The halo region of a process, induced by a stencil
-
-  \includegraphics[scale=.1]{laplaceghost}
 \end{numberedframe}
 
 \begin{numberedframe}{PDE matrix}
@@ -462,6 +444,12 @@ chance of deadlock by missing a case
     \]
 \end{numberedframe}
 
+\begin{numberedframe}{Halo region}
+  The halo region of a process, induced by a stencil
+
+  \includegraphics[scale=.1]{laplaceghost}
+\end{numberedframe}
+
 \begin{numberedframe}{How do you approach this?}
   \begin{itemize}
   \item It is very hard to figure out a send/receive sequence that
@@ -476,6 +464,15 @@ chance of deadlock by missing a case
 \end{numberedframe}
 
 \begin{numberedframe}{Non-blocking send/recv}
+  \begin{itemize}
+  \item \indexmpishow{MPI_Isend}~/ \indexmpishow{MPI_Irecv} does not send/receive:
+  \item They declare a buffer.
+  \item The buffer contents are there after a wait call.
+  \item In between the \indexmpishow{MPI_Isend} and \indexmpishow{MPI_Wait}
+    the data may not have been sent.
+  \item In between the \indexmpishow{MPI_Irecv} and \indexmpishow{MPI_Wait}
+    the data may not have arrived.
+  \end{itemize}
 \lstset{language=C}
 \begin{lstlisting}
 // start non-blocking communication
@@ -497,7 +494,8 @@ int MPI_Irecv(void *buf,
   int count, MPI_Datatype datatype, int source, int tag,
   MPI_Comm comm, MPI_Request *request)  
 \end{lstlisting}
-The \indexmpishow{MPI_Request}s can be tested:
+
+Most common way of waiting for completion:
 \begin{lstlisting}
 int MPI_Waitall(int count, MPI_Request array_of_requests[], 
   MPI_Status array_of_statuses[])
@@ -531,6 +529,7 @@ Blocking:
 \lstset{language=C}
 \begin{lstlisting}
 double *buffer;
+// allocate the buffer
 for ( ... p ... ) {
    buffer = // fill in the data
    MPI_Send( buffer, ... /* to: */ p );
@@ -538,9 +537,11 @@ for ( ... p ... ) {
 Non-blocking:
 \begin{lstlisting}
 double **buffers;
+// allocate the buffers
 for ( ... p ... ) {
    buffers[p] = // fill in the data
    MPI_Isend( buffers[p], ... /* to: */ p );
+MPI_Waitsomething(.....)
 \end{lstlisting}
 \end{numberedframe}
 
@@ -624,19 +625,85 @@ while (1) {
   Solve this exercise instead with a circular bucket brigade algorithm.
 \end{exerciseframe}
 
+\begin{numberedframe}{The wheel of reinvention}
+  The circular bucket brigade is the idea behind the `Horovod'
+  library, which is the key to efficient parallel Deep Learning.
+\end{numberedframe}
+
 \begin{numberedframe}{More sends and receive}
   \begin{itemize}
   \item \indexmpishow{MPI_Bsend}, \indexmpishow{MPI_Ibsend}: buffered send
   \item \indexmpishow{MPI_Ssend}, \indexmpishow{MPI_Issend}: synchronous send
   \item \indexmpishow{MPI_Rsend}, \indexmpishow{MPI_Irsend}: ready send
   \item Persistent communication: repeated instance of same proc/data description.
-  \item 
-    \begin{mpifour}
-      Partitioned sends.
-    \end{mpifour}
   \end{itemize}
+    \begin{mpifour}
+      \begin{itemize}
+      \item
+        Partitioned sends.
+      \end{itemize}
+    \end{mpifour}
   too obscure to go into.
 \end{numberedframe}
+
+\begin{reviewframe}
+  Does this code deadlock?
+\begin{lstlisting}
+for (int p=0; p<nprocs; p++)
+  if (p!=procid)
+    MPI_Send(sbuffer,buflen,MPI_INT,p,0,comm);
+for (int p=0; p<nprocs; p++)
+  if (p!=procid)
+    MPI_Recv(rbuffer,buflen,MPI_INT,p,0,comm,MPI_STATUS_IGNORE);
+\end{lstlisting}
+\slackpoll{"This code deadlocks" "Yes" "No" "Maybe"}
+\end{reviewframe}
+
+\begin{reviewframe}
+  Does this code deadlock?
+\begin{lstlisting}
+int ireq = 0;
+for (int p=0; p<nprocs; p++)
+  if (p!=procid)
+    MPI_Isend(sbuffers[p],buflen,MPI_INT,p,0,comm,&(requests[ireq++]));
+for (int p=0; p<nprocs; p++)
+  if (p!=procid)
+    MPI_Recv(rbuffer,buflen,MPI_INT,p,0,comm,MPI_STATUS_IGNORE);
+MPI_Waitall(nprocs-1,requests,MPI_STATUSES_IGNORE);
+\end{lstlisting}
+\slackpoll{"This code deadlocks" "Yes" "No" "Maybe"}
+\end{reviewframe}
+
+\begin{reviewframe}
+  Does this code deadlock?
+\begin{lstlisting}
+int ireq = 0;
+for (int p=0; p<nprocs; p++)
+  if (p!=procid)
+    MPI_Irecv(rbuffers[p],buflen,MPI_INT,p,0,comm,&(requests[ireq++]));
+MPI_Waitall(nprocs-1,requests,MPI_STATUSES_IGNORE);
+for (int p=0; p<nprocs; p++)
+  if (p!=procid)
+    MPI_Send(sbuffer,buflen,MPI_INT,p,0,comm);
+\end{lstlisting}
+\slackpoll{"This code deadlocks" "Yes" "No" "Maybe"}
+\end{reviewframe}
+
+\begin{reviewframe}
+  Does this code deadlock?
+\begin{lstlisting}
+int ireq = 0;
+for (int p=0; p<nprocs; p++)
+  if (p!=procid)
+    MPI_Irecv(rbuffers[p],buflen,MPI_INT,p,0,comm,&(requests[ireq++]));
+for (int p=0; p<nprocs; p++)
+  if (p!=procid)
+    MPI_Send(sbuffer,buflen,MPI_INT,p,0,comm);
+MPI_Waitall(nprocs-1,requests,MPI_STATUSES_IGNORE);
+\end{lstlisting}
+\slackpoll{"This code deadlocks" "Yes" "No" "Maybe"}
+\end{reviewframe}
+
 
 \endinput
 

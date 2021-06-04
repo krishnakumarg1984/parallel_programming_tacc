@@ -13,10 +13,16 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begingroup\tt\catcode`\_=12
+\begingroup
+\ttfamily\bfseries
+\catcode`\_=12
 \begin{tabular}{lllll}
 \toprule
-\textrm{Name}&\textrm{Param name}&\textrm{C type}&\textrm{F type}&\textrm{inout}\\
+\mdseries\textrm{Name}&
+\mdseries\textrm{Param name}&
+\mdseries\textrm{C type}&
+\mdseries\textrm{F type}&
+\mdseries\textrm{inout}\\
 \midrule
 \hbox to 20pt{MPI_Graph_get (\hss} \\
 &comm&MPI_Comm&TYPE(MPI_Comm)&in\\ [-3pt]
@@ -25,9 +31,9 @@
 &\hbox to 0pt{\footnotesize\sl length of vector index in the calling program\hss}\\
 &maxedges&int&INTEGER&in\\ [-3pt]
 &\hbox to 0pt{\footnotesize\sl length of vector edges in the calling program\hss}\\
-&index&int[]&INTEGER&out\\&\hbox to 0pt{\footnotesize length: \tt\catcode`\_=12 maxindex\hss}\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl array of integers containing the graph structure (for details see the definition of {\tt\catcode`\_=12 MPI_GRAPH_CREATE})\hss}\\
-&edges&int[]&INTEGER&out\\&\hbox to 0pt{\footnotesize length: \tt\catcode`\_=12 maxedges\hss}\\ [-3pt]
+&index&int[]&INTEGER&out\\&\hbox to 0pt{mfamily length: \ttfamily\mdseries\catcode`\_=12 maxindex\hss}\\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl array of integers containing the graph structure (for details see the definition of {\ttfamily\bfseries\catcode`\_=12 MPI_GRAPH_CREATE})\hss}\\
+&edges&int[]&INTEGER&out\\&\hbox to 0pt{mfamily length: \ttfamily\mdseries\catcode`\_=12 maxedges\hss}\\ [-3pt]
 &\hbox to 0pt{\footnotesize\sl array of integers containing the graph structure\hss}\\
 (opt)&ierror&&INTEGER&out\\
 )\\

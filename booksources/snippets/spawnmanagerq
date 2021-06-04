@@ -1,6 +1,9 @@
-// spawnmanager.c
-MPI_Comm_size(MPI_COMM_WORLD, &world_size);
-MPI_Comm_rank(MPI_COMM_WORLD, &manager_rank);
-MPI_Comm_get_attr(MPI_COMM_WORLD, MPI_UNIVERSE_SIZE,
-             (void*)&universe_sizep, &flag);
-  universe_size = *universe_sizep;
+int universe_size, *universe_size_attr,uflag;
+MPI_Comm_get_attr(comm_world,MPI_UNIVERSE_SIZE,&universe_size_attr,&uflag);
+universe_size = *universe_size_attr;
+if (!uflag) universe_size = world_n;
+int work_n = universe_size - world_n;
+if (world_p==0) {
+  printf("A universe of size %d leaves room for %d workers\n",universe_size,work_n);
+  printf(".. spawning from %s\n",procname);
+}

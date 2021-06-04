@@ -13,10 +13,16 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begingroup\tt\catcode`\_=12
+\begingroup
+\ttfamily\bfseries
+\catcode`\_=12
 \begin{tabular}{lllll}
 \toprule
-\textrm{Name}&\textrm{Param name}&\textrm{C type}&\textrm{F type}&\textrm{inout}\\
+\mdseries\textrm{Name}&
+\mdseries\textrm{Param name}&
+\mdseries\textrm{C type}&
+\mdseries\textrm{F type}&
+\mdseries\textrm{inout}\\
 \midrule
 \hbox to 20pt{MPI_Dist_graph_neighbors_count (\hss} \\
 &comm&MPI_Comm&TYPE(MPI_Comm)&in\\ [-3pt]
@@ -26,7 +32,7 @@
 &outdegree&int*&INTEGER&out\\ [-3pt]
 &\hbox to 0pt{\footnotesize\sl number of edges out of this process\hss}\\
 &weighted&int*&LOGICAL&out\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl false if {\tt\catcode`\_=12 MPI_UNWEIGHTED} was supplied during creation, true otherwise\hss}\\
+&\hbox to 0pt{\footnotesize\sl false if {\ttfamily\bfseries\catcode`\_=12 MPI_UNWEIGHTED} was supplied during creation, true otherwise\hss}\\
 (opt)&ierror&&INTEGER&out\\
 )\\
 \bottomrule
