@@ -87,6 +87,13 @@ determined. In order to translate the local numbering $0\ldots n_p-1$ to a globa
 one does a scan with the number of local elements as input. The output is then the global 
 number of the first local variable.
 
+As an example, setting \indexac{FFT} coefficients requires this translation.
+If the local sizes are all equal, determining the global index of the
+first element is an easy calculation.
+For the irregular case, we first do a scan:
+%
+\cverbatimsnippet{fftsetcoeff}
+
 \begin{figure}[ht]
   \includegraphics[scale=.5]{scanints}
   \caption{Local arrays that together form a consecutive range}

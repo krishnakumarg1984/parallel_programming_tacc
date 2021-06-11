@@ -13,7 +13,7 @@ info ::
 	@echo "Do: make pdf"
 	@echo "to format the book"
 
-LATEXENGINE = xelatex
+LATEXENGINE = xelatex -shell-escape
 BOOKNAME = EijkhoutParallelProgramming
 
 onepass :

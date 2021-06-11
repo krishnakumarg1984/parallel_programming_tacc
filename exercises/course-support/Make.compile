@@ -202,11 +202,16 @@ info ::
 	fi
 .PHONY: apps listapps
 apps :
-	@for a in ${APPS} ; do \
+	@( \
+	for a in ${APPS} ; do \
 	    echo "%%%%%%%%%%%%%%%%" && echo "Compile $${a}" \
-	    && make $${a} \
+	    && make $${a} || echo "failure..." \
 	    ; \
-	done
+	done \
+	) 2>&1 | tee compile.log
+	@echo && echo "See compile.log for all output" && echo 
+clean ::
+	@rm -f compile.log
 listapps :
 	@echo ${APPS} ${EXERCISES}
 	@for a in ${APPS} ${EXERCISES} ; do \

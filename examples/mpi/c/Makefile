@@ -24,7 +24,7 @@ APPS = init thread env outerr abort procname \
     irecvsource irecvnonblock \
     probe testhang findbarrier ibarriertest ibarrierprobe backintime reductpositive \
     putfence putfencealloc getfence windynamic anysource \
-    cancel scan exscan itranspose progress interleavegather \
+    cancel scan exscan fft itranspose progress interleavegather \
     postwaitwin passive numa \
     reduce reduceinplace allreduce allreduceinplace gather gatherv allgatherv \
     reducescatter trueextent typesize typematch countx tags \
