@@ -1,0 +1,5 @@
+// procname.c
+int name_length = MPI_MAX_PROCESSOR_NAME;
+char proc_name[name_length];
+MPI_Get_processor_name(proc_name,&name_length);
+printf("This process is running on node <<%s>>\n",proc_name);
