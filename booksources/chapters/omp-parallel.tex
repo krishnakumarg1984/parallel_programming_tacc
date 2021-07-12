@@ -241,7 +241,10 @@ omp_get_team_size(level)
 \index{parallel region|)}
 
 \Level 0 {Cancel parallel construct}
+\label{sec:omp-cancel}
 
+It is possible to terminate a parallel construct early
+with the \indexompdef{cancel} directive:
 \begin{lstlisting}
 !$omp cancel construct [if (expr)]
 \end{lstlisting}
@@ -250,5 +253,27 @@ where construct is
 \lstinline{sections},
 \lstinline{do}
 or
-\lstinline{taskgroup}
+\lstinline{taskgroup}.
 
+See section~\ref{sec:omp-dfs-example} for an example.
+
+Cancelling is disabled by default for performance reasons.
+To activate it, set the \indexompdef{OMP_CANCELLATION} variable to true.
+
+\Level 0 {Review questions}
+
+\begin{exercise}
+  T/F?
+  The function \lstinline+omp_get_num_threads()+
+  returns a number that is equal to the number of cores.
+\end{exercise}
+
+\begin{exercise}
+  T/F?
+  The function \lstinline+omp_set_num_threads()+
+  can not be set to a higher number than the number of cores.
+\end{exercise}
+
+\begin{exercise}
+  What function can be used to detect the number of cores? 
+\end{exercise}

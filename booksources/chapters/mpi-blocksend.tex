@@ -333,7 +333,7 @@ since the send calls will be waiting for the receive operation to be posted.
 In practice, however, this code will often work. The reason is that
 MPI implementations sometimes send small messages regardless of whether
 the receive has been posted. This relies on the availability of
-some amount of available buffer space. The size under which this behaviour
+some amount of available buffer space. The size under which this behavior
 is used is sometimes referred to as the \emph{eager limit}.
 
 The following code is guaranteed to block, since a \indexmpishow{MPI_Recv}
@@ -452,7 +452,7 @@ figure~\ref{fig:serialization}.
   Run the code, and use TAU to reproduce the trace output 
   of figure~\ref{fig:serialization}.
   If you don't have TAU, can you show this serialization
-  behaviour using timings, for instance running it on an increasing number of processes?
+  behavior using timings, for instance running it on an increasing number of processes?
   \skeleton{rightsend}
 \end{exercise}
 
@@ -462,7 +462,7 @@ deadlock-free execution, but doing so is a bit cumbersome.
 \begin{exercise}
   The above solution treated every processor equally. Can you come up
   with a solution that uses blocking sends and receives, but does not
-  suffer from the serialization behaviour?
+  suffer from the serialization behavior?
 \end{exercise}
 
 There are better solutions which we will

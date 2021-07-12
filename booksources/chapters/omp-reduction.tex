@@ -137,7 +137,7 @@ double result = 0;
 
 \Level 0 {Built-in reduction operators}
 
-Arithmetic reductions: $+,*,-,\max,\min$
+Arithmetic reductions: \lstinline{+,*,-,max,min}.
 
 Logical operator reductions in C: \n{& && | || ^}
 
@@ -146,8 +146,10 @@ Logical operator reductions in Fortran:
 
 \begin{exercise}
   The maximum and minimum reductions were not added to OpenMP until
-  \ompstandard{3.1}. Write a parallel loop that computes the maximum and
-  minimum values in an array. Discuss the various options. Do timings
+  \ompstandard{3.1}.
+  Write a parallel loop that computes the maximum and
+  minimum values in an array without using the \indexompshow{reduction} directive.
+  Discuss the various options. Do timings
   to evaluate the speedup that is attained and to find the best option.
 \end{exercise}
 
@@ -232,12 +234,14 @@ For instance, recreating the maximum reduction would look like this:
   zero, or entirely consists of zeros, return~\n{-1}.
 \end{exercise}
 
-Support for
-\emph{C++ iterators}\index{C++ iterators!in OMP reduction}
+\begin{cppnote}
+  Support for
+  \emph{C++ iterators}\index{C++ iterators!in OMP reduction}
 \begin{lstlisting}
 #pragma omp declare reduction (merge : std::vector<int>
-  : omp_out.insert(omp_out.end(), omp_in.begin(), omp_in.end())) 
+    : omp_out.insert(omp_out.end(), omp_in.begin(), omp_in.end())) 
 \end{lstlisting}
+\end{cppnote}
 
 \index{omp!reduction!user-defined|)}
 
@@ -246,7 +250,7 @@ Support for
 The mechanisms that OpenMP uses to make a reduction parallel go
 against the strict rules for floating point expression evaluation in~C;
 see~\HPSCref{sec:round-compile}. OpenMP ignores this issue: it is the
-programmer's job to ensure proper rounding behaviour.
+programmer's job to ensure proper rounding behavior.
 
 \index{omp!reduction|)}
 

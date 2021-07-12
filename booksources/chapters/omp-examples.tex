@@ -266,13 +266,49 @@ Everything in one plot in figure~\ref{fig:omp-nbody4}.
   \label{fig:omp-nbody4}
 \end{figure}
 
+\Level 0 {Tree traversal}
+
+OpenMP tasks are a great way of handling trees.
+
+In \emph{post-order tree traversal}\index{tree!traversal!post-order}
+you visit the subtrees before visiting the root. This is the traversal
+that you use to find summary information about a tree, for instance
+the sum of all nodes, and the sums of nodes of all subtrees:
+
+\begin{displayalgorithm}
+  \For{all children $c$}
+      {compute the sum $s_c$}\;
+      $ s \leftarrow \sum_c s_c$
+\end{displayalgorithm}
+
+Another example is matrix factorization:
+\[ S = A_{33} - A_{31}A_{11}\inv A_{13} - A_{32}A_{22}\inv A_{23} \]
+where the two inverses $A_{11}\inv,A_{22}\inv$ can be computed
+indepedently and recursively.
+
+%\Level 2 {Pre-order traversal}
+
+\begin{comment}
+  https://en.wikipedia.org/wiki/Huffman_coding
+\end{comment}
+
 \Level 0 {Depth-first search}
+\label{sec:omp-dfs-example}
 \lstset{language=C++}
 
-In this section we look at the `eight queens' problem, as an example of depth-first search:
+\begin{wrapfigure}{r}{3in}
+  \includegraphics[scale=.7]{DFS}
+\end{wrapfigure}
+%
+In this section we look at the `eight queens' problem, as an example of \indexac{DFS}:
 is it possible to put eight queens on a chess board so that none of them threaten each other?
+With \ac{DFS}, the search space of possibilities is organized as a tree
+--~each partial solution leads to several possibilities for the next steps~--
+which is traversed in a particular manner:
+a~chain of possibilities is extended as far as feasible,
+after which the search backtracks to the next chain.
 
-The sequential solution is easy enough.
+The sequential implementation is easy enough.
 The main program fires off:
 \begin{lstlisting}
 placement initial; initial.fill(empty);

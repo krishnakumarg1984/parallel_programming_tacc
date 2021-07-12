@@ -19,7 +19,7 @@ info ::
 info ::
 	@echo
 	@echo "make app (where app=${APPS})"
-APPS = hello hello3 proccount pi \
+APPS = hello hello3 proccount pi speedup \
     parfor critfun reductpar \
     alloc1 alloc2 sharing race \
     threadprivate ireduct ireductinit ureduct reductpositive \
@@ -50,7 +50,13 @@ include ../Make.omp
 info ::
 	@echo "make run_xyz (in: ${RUNS})"
 	@echo "    [NP=nnn (default: ${NP})]"
+include  ../../../makefiles/Make.omp_run
 RUNS =
+RUNS += run_speedup
+.PHONY: run_speedup
+run_speedup : speedup
+	@make --no-print-directory omp_scaling PROGRAM=speedup
+
 .PHONY: run_race
 RUNS += run_race
 run_race : race

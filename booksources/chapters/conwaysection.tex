@@ -4,7 +4,7 @@
 %%%%
 %%%% This text file is part of the source of 
 %%%% `Parallel Programming in MPI and OpenMP'
-%%%% by Victor Eijkhout, copyright 2012-2020
+%%%% by Victor Eijkhout, copyright 2012-2021
 %%%%
 %%%% conwaysection.tex : intro to parallelism through Conway's Game Of Life
 %%%%
@@ -726,14 +726,14 @@ get the data from the network, and do something with it.
   \caption{Illustration of `ideal' and `blocking' send}
   \label{fig:cw-send-blocking}
 \end{figure}
-This idealized behaviour is illustrated in the left half of
+This idealized behavior is illustrated in the left half of
 figure~\ref{fig:cw-send-blocking}. Practice is different.
 
 Suppose a process sends a large message, something that takes
 a great deal of memory. Since the only memory in the system
 is on the processors, the message has to stay in the memory 
 of one processor, until it is copied to the other.
-We call this behaviour \indextermsub{blocking}{communication}:
+We call this behavior \indextermsub{blocking}{communication}:
 a~send call will wait until the receiving processor is
 indeed doing a receive call. That is, the sending code is blocked
 until its message is received.

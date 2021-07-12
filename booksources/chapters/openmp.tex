@@ -50,7 +50,8 @@ The runtime functions are:
 
 Here are the OpenMP \emph{environment variables}:
 \begin{itemize}
-\item \indexompdef{OMP_CANCELLATION} Set whether cancellation is activated
+\item \indexompshow{OMP_CANCELLATION} Set whether cancellation is activated;
+  see section~\ref{sec:omp-cancel}.
 \item \indexompshow{OMP_DISPLAY_ENV} Show OpenMP version and environment variables
 \item \indexompdef{OMP_DEFAULT_DEVICE} Set the device used in target regions
 \item \indexompdef{OMP_DYNAMIC} Dynamic adjustment of threads
@@ -116,7 +117,7 @@ Other environment variables:
 \item \indexompshow{OMP_STACKSIZE} controls the amount of space that is
   allocated as per-thread \indexterm{stack}; the space for private
   variables.
-\item \indexompshow{OMP_WAIT_POLICY} determines the behaviour of
+\item \indexompshow{OMP_WAIT_POLICY} determines the behavior of
   threads that wait, for instance for \indexterm{critical section}:
   \begin{itemize}
   \item \n{ACTIVE} puts the thread in a \indexterm{spin-lock}, where

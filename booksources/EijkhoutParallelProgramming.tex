@@ -136,15 +136,16 @@
 
 \includecomment{tutorials}
 \newcommand\TUTORIAL[2]{
-\vfill\pagebreak \Level 1 {#1}\label{tut:#2}
-\def\chapshortname{#2}\setcounter{excounter}0\relax
-{\SetBaseLevel 2 \input tutorials/#2
-\write\chapterlist{\chapshortname}
-\openout\nx=exercises/\chapshortname-nx.tex
-\write\nx{\arabic{excounter}}
-\closeout\nx
-\SetBaseLevel 0
-}}
+  \Level 0 {#1}\label{tut:#2}
+  \def\chapshortname{#2}
+  \setcounter{excounter}0\relax
+  \SetBaseLevel 1 \input tutorials/#2
+  \write\chapterlist{\chapshortname}
+  \openout\nx=exercises/\chapshortname-nx.tex
+  \write\nx{\arabic{excounter}}
+  \closeout\nx
+  \SetBaseLevel 0
+}
 \newif\ifprojects\projectsfalse
 \newcommand\PROJECT[2]{
 \ifprojects \vfill\pagebreak \else \projectstrue \fi
@@ -198,10 +199,13 @@
 \input listingmacs
 \input snippetmacs
 
-\usepackage{xr-hyper}
 \usepackage[xetex,colorlinks]{hyperref}
 \hypersetup{bookmarksopen=true}
 \usepackage{etoolbox}
+%%
+%% refer to sections in the HPC book
+%%
+\usepackage{xr-hyper}
 \externaldocument[HPSC-]{../scientific-computing-private/scicompbook}
 \newcommand\HPSCref[1]{HPSC-\nobreak\ref{HPSC-#1}}
 \usepackage[all]{hypcap}
@@ -238,6 +242,7 @@
 \acresetall
 \part{MPI}
 
+\input chapters/mpi-competency
 \CHAPTER{Getting started with MPI}{mpi-started}
 \CHAPTER{MPI topic: Functional parallelism}{mpi-functional}
 \CHAPTER{MPI topic: Collectives}{mpi-collective}
@@ -258,12 +263,13 @@
 \acresetall
 \part{OpenMP}
 
+\input chapters/omp-competency
 \CHAPTER{Getting started with OpenMP}{omp-basics}
 \CHAPTER{OpenMP topic: Parallel regions}{omp-parallel}
 \CHAPTER{OpenMP topic: Loop parallelism}{omp-loop}
+\CHAPTER{OpenMP topic: Reductions}{omp-reduction}
 \CHAPTER{OpenMP topic: Work sharing}{omp-share}
 \CHAPTER{OpenMP topic: Controlling thread data}{omp-data}
-\CHAPTER{OpenMP topic: Reductions}{omp-reduction}
 \CHAPTER{OpenMP topic: Synchronization}{omp-sync}
 \CHAPTER{OpenMP topic: Tasks}{omp-task}
 \CHAPTER{OpenMP topic: Affinity}{omp-affinity}
@@ -329,6 +335,7 @@
 \TUTORIAL{Tracing and profiling with TAU}{tau}
 \TUTORIAL{SimGrid}{simgrid}
 \TUTORIAL{Batch systems}{slurm}
+\TUTORIAL{Parallel I/O}{io}
 
 \part{Class projects}
 

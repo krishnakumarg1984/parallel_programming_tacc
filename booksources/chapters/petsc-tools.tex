@@ -412,6 +412,7 @@ and some more obscure ones.
 
 
 \Level 1 {Where to specify options}
+\label{sec:petscrc}
 
 Commandline options can obviously go on the commandline. However, there are more
 places where they can be specified.
@@ -423,7 +424,7 @@ PetscOptionsSetValue( NULL, // for global options
   "-some_option","value_as_string");
 \end{lstlisting}
 
-Options can be specified in a file \n{.petscrc} in the user's home directory
+Options can be specified in a file \indextermtt{.petscrc} in the user's home directory
 or the current directory.
 
 Finally, an environment variable \indextermtt{PETSC_OPTIONS} can be set.

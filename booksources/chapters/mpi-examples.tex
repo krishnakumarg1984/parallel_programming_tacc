@@ -66,7 +66,7 @@ Pairs that are $P/2$ apart:
 
 \begin{figure}[ht]
   \pgfplotsset{width=3.5in,compat=1.7}
-  \hbox\bgroup
+  \hbox\bgroup %pyskip
   \tikzsetnextfilename{hbw-intra}
   \begin{tikzpicture}  
     \begin{axis}
@@ -99,7 +99,7 @@ Pairs that are $P/2$ apart:
       %\legend{milliseconds per pingpong}
     \end{axis}
   \end{tikzpicture}  
-  \egroup
+  \egroup %pyskip
   \caption{Time as a function of core count. Left: on node. Right: between nodes.}
   \label{fig:hbw-interintra}
 \end{figure}
@@ -191,7 +191,7 @@ Strategy 2 ran in     99462 usec for 2800 pingpongs evaluating to halfbandwidth 
 
 \begin{figure}
   \pgfplotsset{width=3.5in,compat=1.7}
-  \hbox\bgroup
+  \hbox\bgroup %pyskip
   \tikzsetnextfilename{hbw-intra-bw}
   \begin{tikzpicture}  
     \begin{axis}
@@ -224,7 +224,7 @@ Strategy 2 ran in     99462 usec for 2800 pingpongs evaluating to halfbandwidth 
       %\legend{milliseconds per pingpong}
     \end{axis}
   \end{tikzpicture}  
-  \egroup
+  \egroup %pyskip
   \caption{Bandwidth as a function of buffer size. Left: on node. Right: between nodes.}
   \label{fig:hbw-interintra-b}
 \end{figure}

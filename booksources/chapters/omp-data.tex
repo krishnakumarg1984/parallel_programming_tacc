@@ -162,7 +162,7 @@ values are not otherwise used.
 \item Loop variables in an \n{omp for} are private;
 \item Local variables in the parallel region are private.
 \end{itemize}
-You can alter this default behaviour with the \indexclause{default} clause:
+You can alter this default behavior with the \indexclause{default} clause:
 \begin{lstlisting}
 #pragma omp parallel default(shared) private(x)
 { ... }
@@ -178,7 +178,7 @@ and if you want to play it safe:
 \begin{itemize}
 \item The \indexclauseoption{default}{shared} clause means that all
   variables from the outer scope are shared in the parallel region; any private variables
-  need to be declared explicitly. This is the default behaviour.
+  need to be declared explicitly. This is the default behavior.
 \item The \indexclauseoption{default}{private} clause means that all
   outer variables become private in the parallel region. They are not
   initialized; see the next option. Any shared variables in the

@@ -112,6 +112,14 @@ Robert McLay.
 \newblock T3pio: {TACC}'s terrific too for parallel {I/O}.
 \newblock \url{https://github.com/TACC/t3pio}.
 
+\bibitem{Mendez:ParallelIOpage}
+Sandra Mendez, Sebastian L?hrs, Volker Weinberg, Dominic Sloan-Murphy, and
+  Andrew Turner.
+\newblock Best practice guide - parallel i/o.
+\newblock
+  \url{https://prace-ri.eu/training-support/best-practice-guides/best-practice-guide-parallel-io/},
+  02 2019.
+
 \bibitem{mpi-documents}
 {MPI} forum: {MPI} documents.
 \newblock \url{http://www.mpi-forum.org/docs/docs.html}.

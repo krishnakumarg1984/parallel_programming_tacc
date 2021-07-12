@@ -22,10 +22,13 @@ You can test the presence of CUDA with:
 \cverbatimsnippet{petsccudavar}
 
 Some GPUs can accomodate MPI by being directly connected to the network
-through \indexterm{GPUDirect} \ac{RMA}. If not:
+through \indexterm{GPUDirect} \ac{RMA}.
+If not, use this runtime option:
 \begin{verbatim}
 -use_gpu_aware_mpi 0
 \end{verbatim}
+More conveniently, add this to your \n{.petscrc} file;
+section~\ref{sec:petscrc}.
 
 \Level 0 {Setup for GPU}
 

@@ -42,8 +42,8 @@ There are two points to emphasize here:
   The PETSc library has hundreds of routines. In this chapter and the
   next few we will only touch on a basic subset of these. The full
   list of man pages can be found at
-  \url{https://www.mcs.anl.gov/petsc/petsc-current/docs/manualpages/singleindex.html}. Each
-  man page comes with links to related routines, as well as (usually)
+  \url{https://petsc.org/release/docs/manualpages/singleindex.html}.
+  Each man page comes with links to related routines, as well as (usually)
   example codes for that routine.
 \end{remark}
 
@@ -143,20 +143,21 @@ Fortran has type-specific nulls, such as
 \indexpetsctt{PETSC_NULL_INTEGER}, \indexpetsctt{PETSC_NULL_OBJECT}.
 
 \Level 2 {Python}
+\label{sec:py-interface}
 
 A \emph{python}\index{Python!PETSc interface} interface was written by
-Lisandro Dalcin, and requires separate installation, based on already
-defined \indexpetscshow{PETSC_DIR} and \indexpetscshow{PETSC_ARCH}
-variables.  This can be downloaded at
-\url{https://bitbucket.org/petsc/petsc4py/src/master/}, with
-documentation at
-\url{https://www.mcs.anl.gov/petsc/petsc4py-current/docs/}.
+Lisandro Dalcin.
+It can be added to to PETSc at installation time;
+section~\ref{sec:petsc-install}.
+
+This book discusses the Python interface
+in short remarks in the appropriate sections.
 
 \Level 1 {Documentation}
 
 PETSc comes with a manual in pdf form and web pages with the
 documentation for every routine. The starting point is the web page
-\url{https://www.mcs.anl.gov/petsc/documentation/index.html}.
+\url{https://petsc.org/release/documentation/}.
 
 There is also a mailing list with excellent support for questions and
 bug reports.
@@ -417,6 +418,12 @@ specified in two ways:
 --with-parmetis=1 --download-parmetis=1
 \end{verbatim}
 \end{enumerate}
+
+The Python interface (section~\ref{sec:py-interface})
+can be installed with the option
+\begin{verbatim}
+--download-petsc4py=<no,yes
+\end{verbatim}
 
 \begin{remark}
   There are two packages that PETSc is capable of downloading and install,

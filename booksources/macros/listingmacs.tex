@@ -68,7 +68,8 @@
     MPI_Send_init,MPI_Ssend_init,MPI_Rsend_init,MPI_Recv_init,MPI_Start,MPI_Startall,
     MPI_Psend_init,MPI_Precv_init,MPI_Pready,MPI_Pready_range,MPI_Pready_list,MPI_Parrived,
     MPI_Wait,MPI_Wait...,MPI_Waitall,MPI_Waitany,MPI_Waitsome,
-    MPI_Probe,MPI_Test,MPI_Test...,MPI_Testall,MPI_Testany,MPI_Iprobe,MPI_Mprobe,
+    MPI_Test,MPI_Test...,MPI_Testall,MPI_Testany,MPI_Testsome,
+    MPI_Probe,MPI_Iprobe,MPI_Mprobe,
     MPI_Request_free,MPI_Request_get_status,
     MPI_Get_count,MPI_Get_count_x,MPI_Get_elements,MPI_Get_elements_x,MPI_Get_address,
     MPI_Get_hw_resource_types,
@@ -235,7 +236,7 @@
     MPI_User_function,MPI_Win,
     MPI_T_enum,MPI_T_cvar_handle,MPI_T_pvar_session,MPI_T_pvar_handle,
     %% OMP directives
-    for,sections,single,task,workshare,
+    for,parallel,sections,section,single,task,taskgroup,workshare
     %% MPL methods
     environment,processor_name,communicator,comm_world,comm_self,split,split_shared,
     rank,size,tag,any,up,get_count,any_source,source,

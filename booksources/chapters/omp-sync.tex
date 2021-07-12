@@ -4,7 +4,7 @@
 %%%%
 %%%% This text file is part of the source of 
 %%%% `Parallel Programming in MPI and OpenMP'
-%%%% by Victor Eijkhout, copyright 2012-2020
+%%%% by Victor Eijkhout, copyright 2012-2021
 %%%%
 %%%% omp-sync.tex : synchronization
 %%%%
@@ -84,12 +84,12 @@ only the master thread continues. Therefore, there is an
 \emph{implicit barrier at the end of a parallel region}%
 \index{parallel region!barrier at the end of}.
 
-There is some \emph{barrier behaviour}\index{omp!for!barrier
-  behaviour} associated with \n{omp for} loops and other
+There is some \emph{barrier behavior}\index{omp!for!barrier
+  behavior} associated with \n{omp for} loops and other
 \emph{worksharing constructs}\index{worksharing constructs!implied
   barriers at} (see section~\ref{sec:fortran-workshare}).  For instance, there
 is an \indexterm{implicit barrier} at the end of the loop. This
-barrier behaviour can be cancelled with the \indexclause{nowait}
+barrier behavior can be cancelled with the \indexclause{nowait}
 clause.
 
 You will often see the idiom
@@ -317,7 +317,7 @@ int fib(int n) {
   return value[n];
 }
 \end{lstlisting}
-Howver, this is inefficienty, since most intermediate values will be computed
+However, this is inefficient, since most intermediate values will be computed
 more than once. We solve this by keeping track of which results are known:
 \begin{lstlisting}
   ...
@@ -407,5 +407,34 @@ but we will forego this.
 
 \index{Fibonacci sequence|)}
 
+\Level 0 {Review}
+
+\begin{exercise}
+  C++ only.\\
+  Write a class for a scalar that can be atommically updated:
+  %
+  \cxxverbatimsnippet{ompatomicinc}
+\end{exercise}
+
+
 \index{synchronization!in OpenMP|)}
 
+\Level 0 {Review questions}
+
+\begin{exercise}
+  C++ only: write a class with an atomic update method,
+  so as to make the following code work:
+\begin{lstlisting}
+  object my_object;
+#pragma omp parallel
+#pragma omp single
+#pragma omp taskgroup
+  for (int ithread=0; ithread<NTHREADS; ithread++) {
+#pragma omp task shared(my_object)
+    for (int iop=0; iop<NOPS; iop++)
+      my_object.inc(iop);
+  }
+  cout << "Did " << NTHREADS * NOPS << " updates, over " << NTHREADS
+       << " threads, resulting in " << my_object.value() << endl;
+\end{lstlisting}
+\end{exercise}

@@ -19,7 +19,7 @@ info ::
 clean :: local_clean
 codeclean :
 	@/bin/rm -rf \
-	    *.o *~ *.gch *.inst.c *.mod events.* *.mod a.out *.pyc __pycache__ \
+	    *.o *~ *.gch *.inst.c *.mod *.optrpt events.* *.mod a.out *.pyc __pycache__ \
 	    *.dSYM MULTI__*  \
 	    core.[0-9]* idev[0-9]*.o[0-9]* ddt.o[0-9]* *.out[0-9]* jobtest.o* tautrace_*
 texclean :

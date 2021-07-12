@@ -50,7 +50,8 @@ with the loop and section constructs. For instance, a \indexterm{while
     \n{#pragma omp task}& a task is created,\\
     \n{\ process( p );}& one for each element\\
     \n{\ p = next_element(p);}& the generating thread goes on without waiting\\
-    \n{\}}&the tasks are executed while more are being generated.
+    \n{\}}&the tasks are executed while \\
+          &more are being generated.
   \end{tabular}
 \end{quotation}
 
@@ -405,13 +406,10 @@ It is possible (in \indextermbus{OpenMP}{version 4}) to cancel
 tasks. This is useful when tasks are used to perform a search: the
 task that finds the result first can cancel any outstanding search
 tasks.
-
-The directive \indexpragmadef{cancel} takes an argument of the
-surrounding construct (\n{parallel, for, sections, taskgroup}) in
-which the tasks are cancelled.
+See section~\ref{sec:omp-cancel} for details.
 
 \begin{exercise}
-  Modify the prime finding example.
+  Modify the prime finding example to use \indexompshow{cancel}.
 \end{exercise}
 
 \Level 0 {Examples}
@@ -438,72 +436,5 @@ To solve this, we put dependencies on the tasks:
   Putting a single task group around the double loop, and use
   \n{depend} clauses to make the execution satisfy the proper dependencies.
 \end{exercise}
-
-\Level 1 {Tree traversal}
-
-OpenMP tasks are a great way of handling trees.
-
-\Level 2 {Post-order traversal}
-
-In \emph{post-order tree traversal}\index{tree!traversal!post-order}
-you visit the subtrees before visiting the root. This is the traversal
-that you use to find summary information about a tree, for instance
-the sum of all nodes, and the sums of nodes of all subtrees:
-
-\begin{displayalgorithm}
-  \For{all children $c$}
-      {compute the sum $s_c$}\;
-      $ s \leftarrow \sum_c s_c$
-\end{displayalgorithm}
-
-Another example is matrix factorization:
-\[ S = A_{33} - A_{31}A_{11}\inv A_{13} - A_{32}A_{22}\inv A_{23} \]
-where the two inverses $A_{11}\inv,A_{22}\inv$ can be computed
-indepedently and recursively.
-
-\Level 2 {Pre-order traversal}
-
-If a property needs to propagate from the root to all subtrees and
-nodes, you can use \emph{pre-order tree
-  traversal}\index{tree!traversal!pre-order}:
-
-\begin{displayalgorithm}
-  Update node value $s$\;
-  \For{all children $c$}
-      {update $c$ with the new value $s$}\;
-\end{displayalgorithm}
-
-\begin{comment}
-  https://en.wikipedia.org/wiki/Huffman_coding
-\end{comment}
-
-\begin{comment}
-Pre-order traversal while duplicating nodes and edges can make a
-complete duplicate of a binary tree. It can also be used to make a
-prefix expression (Polish notation) from expression trees: traverse
-the expression tree pre-orderly.
-
-In-order traversal is very commonly used on binary search trees
-because it returns values from the underlying set in order, according
-to the comparator that set up the binary search tree (hence the name).
-
-Post-order traversal while deleting or freeing nodes and values can
-delete or free an entire binary tree. It can also generate a postfix
-representation of a binary tree.
-
-If you know you need to explore the roots before inspecting any
-leaves, you pick pre-order because you will encounter all the roots
-before all of the leaves.
-
-If you know you need to explore all the leaves before any nodes, you
-select post-order because you don't waste any time inspecting roots in
-search for leaves.
-
-If you know that the tree has an inherent sequence in the nodes, and
-you want to flatten the tree back into its original sequence, than an
-in-order traversal should be used. The tree would be flattened in the
-same way it was created. A pre-order or post-order traversal might not
-unwind the tree back into the sequence which was used to create it.
-\end{comment}
 
 \index{OpenMP!tasks|)}

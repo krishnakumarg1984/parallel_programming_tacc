@@ -42,7 +42,7 @@ int main(int argc,char **argv) {
   for (int cnt=0,s=1; cnt<NSIZES && s<maxsize; s*=10,cnt++) {
     if (procno==src) {
       printf("Size %d\n",s);
-      t[cnt] = MPI_Wtime();
+      t[cnt] = MPI_Wtime();//snipthis
       for (int n=0; n<NEXPERIMENTS; n++) {
 	MPI_Isend(send,s,MPI_DOUBLE,tgt,0,comm,requests+0);
 	MPI_Irecv(recv,s,MPI_DOUBLE,tgt,0,comm,requests+1);
@@ -69,7 +69,7 @@ int main(int argc,char **argv) {
       MPI_Send_init(send,s,MPI_DOUBLE,tgt,0,comm,requests+0);
       MPI_Recv_init(recv,s,MPI_DOUBLE,tgt,0,comm,requests+1);
       printf("Size %d\n",s);
-      t[cnt] = MPI_Wtime();
+      t[cnt] = MPI_Wtime();//snipthis
       for (int n=0; n<NEXPERIMENTS; n++) {
 	fill_buffer(send,s,n);
 	MPI_Startall(2,requests);
@@ -77,7 +77,7 @@ int main(int argc,char **argv) {
 	int r = chck_buffer(send,s,n);
 	if (!r) printf("buffer problem %d\n",s);
       }
-      t[cnt] = MPI_Wtime()-t[cnt];
+      t[cnt] = MPI_Wtime()-t[cnt];//snipthis
       MPI_Request_free(requests+0); MPI_Request_free(requests+1);
     } else if (procno==tgt) {
       for (int n=0; n<NEXPERIMENTS; n++) {

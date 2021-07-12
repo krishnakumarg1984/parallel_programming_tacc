@@ -276,7 +276,7 @@ After that, the typical sequence is
   MPI I/O et cetera, in no particular order.
 \end{enumerate}
 This sequence is defensible from a point of the underlying implementation:
-the two-sided communication calls are a close map to hardware behaviour,
+the two-sided communication calls are a close map to hardware behavior,
 and collectives are both conceptually equivalent to, and
 can be implemented as, a sequence of point-to-point communication calls.
 However, this is not a sufficient justification for
@@ -299,7 +299,7 @@ Our second point of criticism is regarding the blocking and
 nonblocking two-sided communication routines.
 %
 The blocking routines are typically taught
-first, with a discussion of how blocking behaviour can lead to load
+first, with a discussion of how blocking behavior can lead to load
 unbalance and therefore inefficiency. The nonblocking routines are
 then motivated from a point of latency hiding and solving the problems
 inherent in blocking. In our view such performance considerations
@@ -309,12 +309,12 @@ conceptual problem, as explained below.
 
 Thirdly, starting with point-to-point routines stems from a
 \ac{CSP}\cite{Hoare:CSP} view of a program:
-each process stands on its own, and any global behaviour is an emergent
+each process stands on its own, and any global behavior is an emergent
 property of the run. This may make sense for the teacher who know
 how concepts are realized `under the hood', but it does not lead
 to additional insight with the students.
 We believe that a more fruitful approach to MPI
-programming starts from the global behaviour, and then derives the MPI
+programming starts from the global behavior, and then derives the MPI
 process in a top-down manner.
 
 \Level 2 {Teaching MPI and OpenMP}
@@ -568,8 +568,8 @@ send/receive pairs.
 \label{sec:p-serial}
 
 The concept of `blocking' is now introduced, and we discuss how this
-can lead to deadlock. A~more subtle behaviour is `unexpected
-serialization': processes interacting to give serial behaviour on a
+can lead to deadlock. A~more subtle behavior is `unexpected
+serialization': processes interacting to give serial behavior on a
 code that conceptually should be parallel.
 (The classroom protocol is discussed in detail in section~\ref{sec:seq-game}.)
 For completeness, the `eager limit' can be discussed.
@@ -610,8 +610,8 @@ execute a ping-pong with a partner process in the other half.
 
 \Level 2 {Back to data exchange}
 
-The foregoing detours into the behaviour of two-sided send and receive calls
-were necessary, but they introduced asymmetric behaviour in the processes.
+The foregoing detours into the behavior of two-sided send and receive calls
+were necessary, but they introduced asymmetric behavior in the processes.
 We return to the averaging operation given above, and with it to a code
 that treats all processes symmetrically.
 In particular, we argue that, except for the first and last,
@@ -709,7 +709,7 @@ is hard to achieve any other way.
 \Level 2 {Sequentialization}
 \label{sec:seq-game}
 
-Our prime example is to illustrate the blocking behaviour of
+Our prime example is to illustrate the blocking behavior of
 \n{MPI_Send} and \n{MPI_Recv}\footnote{Blocking is defined as the
   process executing a send or receive call halting until the
   corresponding operation is executing.}. Deadlock is easy enough to
@@ -795,7 +795,7 @@ for (p=0; p<nprocs; p++)
     // do some function of p
 \end{verbatim}
 This code computes the correct result, and with the correct
-performance behaviour, but it still shows a conceptual
+performance behavior, but it still shows a conceptual
 misunderstanding. As one of the `parallel computer games'
 (section~\ref{sec:games}) we have put a student stand in front of the
 class with a sign `I~am process~5', and go through the above loop
