@@ -1,17 +1,17 @@
 % -*- latex -*-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%
-%%%% This text file is part of the source of 
-%%%% `Parallel Computing'
-%%%% by Victor Eijkhout, copyright 2012-2021
-%%%%
-%%%% MPI API file
-%%%%
-%%%% THIS FILE IS AUTO-GENERATED
-%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% This text file is part of the source of 
+%% `Parallel Computing'
+%% by Victor Eijkhout, copyright 2012-2021
+%%
+%% MPI API file for MPI_Session_create_errhandler
+%%
+%% THIS FILE IS AUTO-GENERATED
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begingroup
 \ttfamily\bfseries
@@ -25,11 +25,9 @@
 \mdseries\textrm{inout}\\
 \midrule
 \hbox to 20pt{MPI_Session_create_errhandler (\hss} \\
-&session_errhandler_fn&&PROCEDURE&in\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl user defined error handling procedure\hss}\\
-&errhandler&MPI_Errhandler*&TYPE(MPI_Errhandler)&out\\
-(opt)&ierror&&INTEGER&out\\
-)\\
+ & session_errhandler_fn & MPI_Session_errhandler_function* & PROCEDURE(MPI_Session_errhandler_function)  \\&\hbox to 0pt{\footnotesize\sl user defined error handling procedure\hss} \\ 
+ & errhandler & MPI_Errhandler* & TYPE(MPI_Errhandler)  \\&\hbox to 0pt{\footnotesize\sl \MPI/ error handler\hss} \\ 
+
 \bottomrule
 \end{tabular}
 \endgroup

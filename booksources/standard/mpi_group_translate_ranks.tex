@@ -1,17 +1,17 @@
 % -*- latex -*-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%
-%%%% This text file is part of the source of 
-%%%% `Parallel Computing'
-%%%% by Victor Eijkhout, copyright 2012-2021
-%%%%
-%%%% MPI API file
-%%%%
-%%%% THIS FILE IS AUTO-GENERATED
-%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% This text file is part of the source of 
+%% `Parallel Computing'
+%% by Victor Eijkhout, copyright 2012-2021
+%%
+%% MPI API file for MPI_Group_translate_ranks
+%%
+%% THIS FILE IS AUTO-GENERATED
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begingroup
 \ttfamily\bfseries
@@ -25,18 +25,12 @@
 \mdseries\textrm{inout}\\
 \midrule
 \hbox to 20pt{MPI_Group_translate_ranks (\hss} \\
-&group1&MPI_Group&TYPE(MPI_Group)&in\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl group1\hss}\\
-&n&int&INTEGER&in\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl number of ranks in ranks1 and ranks2 arrays\hss}\\
-&ranks1&const~int[]&INTEGER&in\\&\hbox to 0pt{mfamily length: \ttfamily\mdseries\catcode`\_=12 n\hss}\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl array of zero or more valid ranks in group1\hss}\\
-&group2&MPI_Group&TYPE(MPI_Group)&in\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl group2\hss}\\
-&ranks2&int[]&INTEGER&out\\&\hbox to 0pt{mfamily length: \ttfamily\mdseries\catcode`\_=12 n\hss}\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl array of corresponding ranks in group2, {\ttfamily\bfseries\catcode`\_=12 MPI_UNDEFINED} when no correspondence exists.\hss}\\
-(opt)&ierror&&INTEGER&out\\
-)\\
+ & group1 & MPI_Group & TYPE(MPI_Group)  \\&\hbox to 0pt{\footnotesize\sl group1\hss} \\ 
+ & n & int & INTEGER  \\&\hbox to 0pt{\footnotesize\sl number of ranks in \mpiarg{ranks1} and \mpiarg{ranks2} arrays\hss} \\ 
+ & ranks1 & int & INTEGER  \\&\hbox to 0pt{\footnotesize\sl array of zero or more valid ranks in group1\hss} \\ 
+ & group2 & MPI_Group & TYPE(MPI_Group)  \\&\hbox to 0pt{\footnotesize\sl group2\hss} \\ 
+ & ranks2 & int & INTEGER  \\&\hbox to 0pt{\footnotesize\sl array of corresponding ranks in group2, \const{MPI_UNDEFINED} when no correspondence exists.\hss} \\ 
+
 \bottomrule
 \end{tabular}
 \endgroup

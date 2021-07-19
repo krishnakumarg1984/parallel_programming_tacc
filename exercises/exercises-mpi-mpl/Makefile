@@ -23,7 +23,7 @@ EXERCISES = hello \
     commrank prime randommax onenorm sumsquares \
     pingpong pingpongbuffer sendrecv jordan \
     isendirecv isendirecvarray setdiff \
-    bucketblock scangather \
+    bucketblock bucketpipenonblock scangather \
     stridesend cubegather procgrid procgridnonblock transposeblock \
     rightsend rightgraph \
     ibarrierupdate

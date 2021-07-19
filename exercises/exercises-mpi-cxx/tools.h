@@ -12,6 +12,7 @@
 
 #include <vector>
 #include <math.h>
+#include "mpi.h"
 
 #define ISAPPROX(x,y) \
   ( ( x==0. && fabs(y)<1.e-14 ) || ( y==0. && fabs(x)<1.e-14 ) || \

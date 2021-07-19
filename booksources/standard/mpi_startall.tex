@@ -1,17 +1,17 @@
 % -*- latex -*-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%
-%%%% This text file is part of the source of 
-%%%% `Parallel Computing'
-%%%% by Victor Eijkhout, copyright 2012-2021
-%%%%
-%%%% MPI API file
-%%%%
-%%%% THIS FILE IS AUTO-GENERATED
-%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% This text file is part of the source of 
+%% `Parallel Computing'
+%% by Victor Eijkhout, copyright 2012-2021
+%%
+%% MPI API file for MPI_Startall
+%%
+%% THIS FILE IS AUTO-GENERATED
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begingroup
 \ttfamily\bfseries
@@ -25,12 +25,9 @@
 \mdseries\textrm{inout}\\
 \midrule
 \hbox to 20pt{MPI_Startall (\hss} \\
-&count&int&INTEGER&in\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl list length\hss}\\
-&array_of_requests&MPI_Request[]&TYPE(MPI_Request)&inout\\&\hbox to 0pt{mfamily length: \ttfamily\mdseries\catcode`\_=12 count\hss}\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl array of requests\hss}\\
-(opt)&ierror&&INTEGER&out\\
-)\\
+ & count & int & INTEGER  \\&\hbox to 0pt{\footnotesize\sl list length\hss} \\ 
+ & array_of_requests & MPI_Request & TYPE(MPI_Request)  \\&\hbox to 0pt{\footnotesize\sl array of requests\hss} \\ 
+
 \bottomrule
 \end{tabular}
 \endgroup

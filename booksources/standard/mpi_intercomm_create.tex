@@ -1,17 +1,17 @@
 % -*- latex -*-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%
-%%%% This text file is part of the source of 
-%%%% `Parallel Computing'
-%%%% by Victor Eijkhout, copyright 2012-2021
-%%%%
-%%%% MPI API file
-%%%%
-%%%% THIS FILE IS AUTO-GENERATED
-%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% This text file is part of the source of 
+%% `Parallel Computing'
+%% by Victor Eijkhout, copyright 2012-2021
+%%
+%% MPI API file for MPI_Intercomm_create
+%%
+%% THIS FILE IS AUTO-GENERATED
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begingroup
 \ttfamily\bfseries
@@ -25,20 +25,13 @@
 \mdseries\textrm{inout}\\
 \midrule
 \hbox to 20pt{MPI_Intercomm_create (\hss} \\
-&local_comm&MPI_Comm&TYPE(MPI_Comm)&in\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl local intra-communicator\hss}\\
-&local_leader&int&INTEGER&in\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl rank of local group leader in local_comm\hss}\\
-&peer_comm&MPI_Comm&TYPE(MPI_Comm)&in\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl ``peer'' communicator; significant only at the local_leader\hss}\\
-&remote_leader&int&INTEGER&in\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl rank of remote group leader in peer_comm; significant only at the local_leader\hss}\\
-&tag&int&INTEGER&in\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl tag\hss}\\
-&newintercomm&MPI_Comm*&TYPE(MPI_Comm)&out\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl new inter-communicator\hss}\\
-(opt)&ierror&&INTEGER&out\\
-)\\
+ & local_comm & MPI_Comm & TYPE(MPI_Comm)  \\&\hbox to 0pt{\footnotesize\sl local intra-communicator\hss} \\ 
+ & local_leader & int & INTEGER  \\&\hbox to 0pt{\footnotesize\sl rank of local group leader in \mpiarg{local_comm}\hss} \\ 
+ & peer_comm & MPI_Comm & TYPE(MPI_Comm)  \\&\hbox to 0pt{\footnotesize\sl ``peer'' communicator; significant only at the \mpiarg{local_leader}\hss} \\ 
+ & remote_leader & int & INTEGER  \\&\hbox to 0pt{\footnotesize\sl rank of remote group leader in \mpiarg{peer_comm}; significant only at the \mpiarg{local_leader}\hss} \\ 
+ & tag & int & INTEGER  \\&\hbox to 0pt{\footnotesize\sl tag\hss} \\ 
+ & newintercomm & MPI_Comm* & TYPE(MPI_Comm)  \\&\hbox to 0pt{\footnotesize\sl new inter-communicator\hss} \\ 
+
 \bottomrule
 \end{tabular}
 \endgroup

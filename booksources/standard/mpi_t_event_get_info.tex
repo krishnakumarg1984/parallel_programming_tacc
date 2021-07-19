@@ -1,17 +1,17 @@
 % -*- latex -*-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%
-%%%% This text file is part of the source of 
-%%%% `Parallel Computing'
-%%%% by Victor Eijkhout, copyright 2012-2021
-%%%%
-%%%% MPI API file
-%%%%
-%%%% THIS FILE IS AUTO-GENERATED
-%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% This text file is part of the source of 
+%% `Parallel Computing'
+%% by Victor Eijkhout, copyright 2012-2021
+%%
+%% MPI API file for MPI_T_event_get_info
+%%
+%% THIS FILE IS AUTO-GENERATED
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begingroup
 \ttfamily\bfseries
@@ -25,32 +25,7 @@
 \mdseries\textrm{inout}\\
 \midrule
 \hbox to 20pt{MPI_T_event_get_info (\hss} \\
-&event_index&int&&in\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl index of the event type to be queried between $0$ and $num_events-1$\hss}\\
-&name&char*&CHARACTER&out\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl buffer to return the string containing the name of the event type\hss}\\
-&name_len&int*&INTEGER&inout\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl length of the string and/or buffer for name\hss}\\
-&verbosity&int*&&out\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl verbosity level of this event type\hss}\\
-&array_of_datatypes&MPI_Datatype[]&TYPE(MPI_Datatype)&out\\&\hbox to 0pt{mfamily length: \ttfamily\mdseries\catcode`\_=12 num_elements\hss}\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl array of MPI basic datatypes used to encode the event data\hss}\\
-&array_of_displacements&MPI_Aint[]&INTEGER(KIND=MPI_ADDRESS_KIND)&out\\&\hbox to 0pt{mfamily length: \ttfamily\mdseries\catcode`\_=12 num_elements\hss}\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl array of byte displacements of the elements in the event buffer\hss}\\
-&num_elements&int*&INTEGER&inout\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl length of array\_of\_datatypes and array\_of\_displacements arrays\hss}\\
-&enumtype&MPI_T_enum*&&out\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl optional descriptor for enumeration information\hss}\\
-&info&MPI_Info*&TYPE(MPI_Info)&out\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl optional info object\hss}\\
-&desc&char*&CHARACTER&out\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl buffer to return the string containing a description of the event type\hss}\\
-&desc_len&int*&INTEGER&inout\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl length of the string and/or buffer for desc\hss}\\
-&bind&int*&&out\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl type of MPI object to which an event of this type must be bound\hss}\\
-(opt)&ierror&&INTEGER&out\\
-)\\
+
 \bottomrule
 \end{tabular}
 \endgroup

@@ -5,7 +5,7 @@
 !**** `Parallel programming with MPI and OpenMP'
 !**** by Victor Eijkhout, eijkhout@tacc.utexas.edu
 !****
-!**** copyright Victor Eijkhout 2012-9
+!**** copyright Victor Eijkhout 2012-2021
 !****
 !**** MPI Exercise for Isend/Irecv
 !**** fortran 2008 version
@@ -13,17 +13,18 @@
 !****************************************************************/
 
 Program IsendIrecvArray
-
+  use tools
   use mpi_f08
   implicit none
 
   type(MPI_Comm) :: comm = MPI_COMM_WORLD
   integer :: nprocs, procno,ierr
   integer :: source,target
+  logical :: error_condition
 
   !! data for this exercise:
 #define N 100
-  real(8) :: indata(N),outdata(N)
+  real(8) :: indata(N),outdata(N),answer(N)
   real(8) :: leftdata=0.d0, rightdata=0.d0
   integer :: sendto,recvfrom,i
   type(MPI_Request) :: requests(4)
@@ -89,20 +90,18 @@ Program IsendIrecvArray
   end do
   
   !!
-  !! Check correctness
+  !! Check correctness of the result:
+  !! value should be 2 at the end points, 3 everywhere else
   !!
   do i=1,N
      if ( (procno==0 .and. i==1) .or. ( procno==nprocs-1 .and. i==N) ) then
-        if (outdata(i)/=2) &
-             print *,"Data on process",procno,", index",i," should be 2, not",outdata(i)
+        answer(i) = 2.
      else
-        if (outdata(i)/=3) &
-             print *,"Data on process",procno,", index",i," should be 3, not",outdata(i)
+        answer(i) = 3.
      end if
   end do
-  if (procno==0) then
-     print *,"Finished"
-  end if
+  error_condition = array_error(answer,outdata)
+  call print_final_result(error_condition,comm)
   
   call MPI_Finalize()
   

@@ -25,10 +25,13 @@ courses :
 	@for c in ${COURSES} ; do \
 	    make --no-print-directory course COURSE=$$c \
 	    ; done
+include ../../makefiles/Make.tex
 course ::
 	@if [ -z "${COURSE}" ] ; then \
 	    echo "Error: no COURSE variable defined" && exit 1 ; fi 
 	@make --no-print-directory pdf FILE=${COURSE}_course
+	@make --no-print-directory diagnostics FILE=${COURSE}_course
+no_acro_rule :
 	@acro=`cat ${COURSE}_course.log | grep "Acronym.*not defined" | wc -l` \
 	 && if [ $$acro -gt 0 ] ; then \
 	      echo "Resolving $$acro undefined acronyms" \
@@ -84,17 +87,4 @@ extract :
 	    cp $$e ../../snippets/$$nam.tex ; \
 	  fi ; \
 	done
-
-##
-## Cleaning
-##
-
-info ::
-	@echo "make clean"
-.PHONY: clean
-clean ::
-	@/bin/rm -f *~ *.{aux,blg,idx,ilg,ind,log,nav,out,snm,toc,vrb} *.cut
-	@/bin/rm -rf ${EXERCISES} ${OTHERPROGRAMS} acronyms.tex \
-	    *~ *.o *.pyc *.dSYM ddt.o* *.o[0-9]* *.dat *.log *.out *.out[0-9]* *.out_total \
-	    tautrace_* dcvserver.out
 

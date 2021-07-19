@@ -1,17 +1,17 @@
 % -*- latex -*-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%
-%%%% This text file is part of the source of 
-%%%% `Parallel Computing'
-%%%% by Victor Eijkhout, copyright 2012-2021
-%%%%
-%%%% MPI API file
-%%%%
-%%%% THIS FILE IS AUTO-GENERATED
-%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% This text file is part of the source of 
+%% `Parallel Computing'
+%% by Victor Eijkhout, copyright 2012-2021
+%%
+%% MPI API file for MPI_Group_range_incl
+%%
+%% THIS FILE IS AUTO-GENERATED
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begingroup
 \ttfamily\bfseries
@@ -25,16 +25,11 @@
 \mdseries\textrm{inout}\\
 \midrule
 \hbox to 20pt{MPI_Group_range_incl (\hss} \\
-&group&MPI_Group&TYPE(MPI_Group)&in\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl group\hss}\\
-&n&int&INTEGER&in\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl number of triplets in array ranges\hss}\\
-&ranges&int[][3]&INTEGER&in\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl a one-dimensional array of integer triplets, of the form (first rank, last rank, stride) indicating ranks in group of processes to be included in newgroup\hss}\\
-&newgroup&MPI_Group*&TYPE(MPI_Group)&out\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl new group derived from above, in the order defined by ranges\hss}\\
-(opt)&ierror&&INTEGER&out\\
-)\\
+ & group & MPI_Group & TYPE(MPI_Group)  \\&\hbox to 0pt{\footnotesize\sl group\hss} \\ 
+ & n & int & INTEGER  \\&\hbox to 0pt{\footnotesize\sl number of triplets in array \mpiarg{ranges}\hss} \\ 
+ & ranges & int & INTEGER  \\&\hbox to 0pt{\footnotesize\sl a one-dimensional array of integer triplets, of the form (first rank, last rank, stride) indicating ranks in \mpiarg{group} of processes to be included in \mpiarg{newgroup}\hss} \\ 
+ & newgroup & MPI_Group* & TYPE(MPI_Group)  \\&\hbox to 0pt{\footnotesize\sl new group derived from above, in the order defined by \mpiarg{ranges}\hss} \\ 
+
 \bottomrule
 \end{tabular}
 \endgroup

@@ -1,17 +1,17 @@
 % -*- latex -*-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%
-%%%% This text file is part of the source of 
-%%%% `Parallel Computing'
-%%%% by Victor Eijkhout, copyright 2012-2021
-%%%%
-%%%% MPI API file
-%%%%
-%%%% THIS FILE IS AUTO-GENERATED
-%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% This text file is part of the source of 
+%% `Parallel Computing'
+%% by Victor Eijkhout, copyright 2012-2021
+%%
+%% MPI API file for MPI_Group_from_session_pset
+%%
+%% THIS FILE IS AUTO-GENERATED
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begingroup
 \ttfamily\bfseries
@@ -25,14 +25,10 @@
 \mdseries\textrm{inout}\\
 \midrule
 \hbox to 20pt{MPI_Group_from_session_pset (\hss} \\
-&session&MPI_Session&TYPE(MPI_Session)&in\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl session\hss}\\
-&pset_name&const~char*&CHARACTER&in\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl name of process set to use to create the new group\hss}\\
-&newgroup&MPI_Group*&TYPE(MPI_Group)&out\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl new group derived from supplied session and process set\hss}\\
-(opt)&ierror&&INTEGER&out\\
-)\\
+ & session & MPI_Session & TYPE(MPI_Session)  \\&\hbox to 0pt{\footnotesize\sl session\hss} \\ 
+ & pset_name & char* & CHARACTER  \\&\hbox to 0pt{\footnotesize\sl name of process set to use to create the new group\hss} \\ 
+ & newgroup & MPI_Group* & TYPE(MPI_Group)  \\&\hbox to 0pt{\footnotesize\sl new group derived from supplied session and process set\hss} \\ 
+
 \bottomrule
 \end{tabular}
 \endgroup

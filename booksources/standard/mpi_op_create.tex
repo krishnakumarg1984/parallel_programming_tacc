@@ -1,17 +1,17 @@
 % -*- latex -*-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%
-%%%% This text file is part of the source of 
-%%%% `Parallel Computing'
-%%%% by Victor Eijkhout, copyright 2012-2021
-%%%%
-%%%% MPI API file
-%%%%
-%%%% THIS FILE IS AUTO-GENERATED
-%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% This text file is part of the source of 
+%% `Parallel Computing'
+%% by Victor Eijkhout, copyright 2012-2021
+%%
+%% MPI API file for MPI_Op_create
+%%
+%% THIS FILE IS AUTO-GENERATED
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begingroup
 \ttfamily\bfseries
@@ -25,14 +25,13 @@
 \mdseries\textrm{inout}\\
 \midrule
 \hbox to 20pt{MPI_Op_create (\hss} \\
-&user_fn&&PROCEDURE&in\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl user defined function\hss}\\
-&commute&int&LOGICAL&in\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl true if commutative; false otherwise.\hss}\\
-&op&MPI_Op*&TYPE(MPI_Op)&out\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl operation\hss}\\
-(opt)&ierror&&INTEGER&out\\
-)\\
+\hbox to 20pt{MPI_Op_create_c (\hss} \\
+ & user_fn & MPI_User_function* & PROCEDURE(MPI_User_function)  & IN \\ [-3pt]
+(big) & & MPI_User_function_c & \hbox to 0pt {PROCEDURE(MPI_User_function_c) \hss} \\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl user defined function\hss} \\ 
+ & commute & int & LOGICAL  & IN \\&\hbox to 0pt{\footnotesize\sl \mpicode{true} if commutative; \mpicode{false} otherwise.\hss} \\ 
+ & op & MPI_Op* & TYPE(MPI_Op)  & OUT \\&\hbox to 0pt{\footnotesize\sl operation\hss} \\ 
+
 \bottomrule
 \end{tabular}
 \endgroup

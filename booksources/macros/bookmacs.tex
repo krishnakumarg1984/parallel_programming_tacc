@@ -66,6 +66,9 @@
     \newtheorem{lemma}{Lemma}
 \fi
 
+\newcommand\skeleton[1]{\par
+    (There is a skeleton for this exercise under the name \texttt{#1}.)}
+
 %%%%
 %%%% Verbatim source handling
 %%%%
@@ -207,7 +210,7 @@
 \specialcomment{mpifour}
     {\begingroup\def\ProcessCutFile{}\par}
     {\par \smallskip \hrule
-      \hbox{\textsl{The following material is for the (unreleased) MPI-4 standard only}}
+      \hbox{\textsl{The following material is for the recently released MPI-4 standard and may not be supported yet.}}
       \nobreak
       \input{\CommentCutFile}
       \par

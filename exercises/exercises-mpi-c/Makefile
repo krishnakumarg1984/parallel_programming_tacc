@@ -25,7 +25,7 @@ EXERCISES = hello \
     isendirecv isendirecvarray setdiff \
     bucketblock bucketpipenonblock \
     stridesend cubegather procgrid procgridnonblock \
-    randomput countdown update onesidedbuild lockall lockfetch lockfetchshared \
+    randomput countdown randomupdatefence onesidedbuild lockall lockfetch lockfetchshared \
     blockwrite blockadvance blockseek blockall viewwrite scatterwrite \
     jordan rightsend rightput rightgraph \
     ibarrierupdate shareddata

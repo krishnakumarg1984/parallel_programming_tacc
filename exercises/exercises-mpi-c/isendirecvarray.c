@@ -73,12 +73,6 @@ int main(int argc,char **argv) {
       outdata[i] = indata[i-1] + indata[i] + indata[i+1];
   
   /*
-   * Correctness check:
-   * `error' will be:
-   * - the lowest process number where an error occured, or
-   * - `nprocs' if no error.
-   */
-  /*
    * Check correctness of the result:
    * value should be 2 at the end points, 3 everywhere else
    */

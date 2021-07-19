@@ -1,17 +1,17 @@
 % -*- latex -*-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%
-%%%% This text file is part of the source of 
-%%%% `Parallel Computing'
-%%%% by Victor Eijkhout, copyright 2012-2021
-%%%%
-%%%% MPI API file
-%%%%
-%%%% THIS FILE IS AUTO-GENERATED
-%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% This text file is part of the source of 
+%% `Parallel Computing'
+%% by Victor Eijkhout, copyright 2012-2021
+%%
+%% MPI API file for MPI_Graph_create
+%%
+%% THIS FILE IS AUTO-GENERATED
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begingroup
 \ttfamily\bfseries
@@ -25,20 +25,13 @@
 \mdseries\textrm{inout}\\
 \midrule
 \hbox to 20pt{MPI_Graph_create (\hss} \\
-&comm_old&MPI_Comm&TYPE(MPI_Comm)&in\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl input communicator\hss}\\
-&nnodes&int&INTEGER&in\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl number of nodes in graph\hss}\\
-&index&const~int[]&INTEGER&in\\&\hbox to 0pt{mfamily length: \ttfamily\mdseries\catcode`\_=12 nnodes\hss}\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl array of integers describing node degrees (see below)\hss}\\
-&edges&const~int[]&INTEGER&in\\&\hbox to 0pt{mfamily length: \ttfamily\mdseries\catcode`\_=12 *\hss}\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl array of integers describing graph edges (see below)\hss}\\
-&reorder&int&LOGICAL&in\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl ranking may be reordered (true) or not (false)\hss}\\
-&comm_graph&MPI_Comm*&TYPE(MPI_Comm)&out\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl communicator with graph topology added\hss}\\
-(opt)&ierror&&INTEGER&out\\
-)\\
+ & comm_old & MPI_Comm & TYPE(MPI_Comm)  \\&\hbox to 0pt{\footnotesize\sl input communicator\hss} \\ 
+ & nnodes & int & INTEGER  \\&\hbox to 0pt{\footnotesize\sl number of nodes in graph\hss} \\ 
+ & index & int & INTEGER  \\&\hbox to 0pt{\footnotesize\sl array of integers describing node degrees (see below)\hss} \\ 
+ & edges & int & INTEGER  \\&\hbox to 0pt{\footnotesize\sl array of integers describing graph edges (see below)\hss} \\ 
+ & reorder & int & LOGICAL  \\&\hbox to 0pt{\footnotesize\sl ranking may be reordered (\mpicode{true}) or not (\mpicode{false})\hss} \\ 
+ & comm_graph & MPI_Comm* & TYPE(MPI_Comm)  \\&\hbox to 0pt{\footnotesize\sl communicator with graph topology added\hss} \\ 
+
 \bottomrule
 \end{tabular}
 \endgroup

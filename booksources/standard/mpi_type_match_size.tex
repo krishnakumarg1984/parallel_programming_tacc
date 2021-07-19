@@ -1,17 +1,17 @@
 % -*- latex -*-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%
-%%%% This text file is part of the source of 
-%%%% `Parallel Computing'
-%%%% by Victor Eijkhout, copyright 2012-2021
-%%%%
-%%%% MPI API file
-%%%%
-%%%% THIS FILE IS AUTO-GENERATED
-%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% This text file is part of the source of 
+%% `Parallel Computing'
+%% by Victor Eijkhout, copyright 2012-2021
+%%
+%% MPI API file for MPI_Type_match_size
+%%
+%% THIS FILE IS AUTO-GENERATED
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begingroup
 \ttfamily\bfseries
@@ -25,14 +25,10 @@
 \mdseries\textrm{inout}\\
 \midrule
 \hbox to 20pt{MPI_Type_match_size (\hss} \\
-&typeclass&int&INTEGER&in\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl generic type specifier\hss}\\
-&size&int&INTEGER&in\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl size, in bytes, of representation\hss}\\
-&datatype&MPI_Datatype*&TYPE(MPI_Datatype)&out\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl datatype with correct type, size\hss}\\
-(opt)&ierror&&INTEGER&out\\
-)\\
+ & typeclass & int & INTEGER  \\&\hbox to 0pt{\footnotesize\sl generic type specifier\hss} \\ 
+ & size & int & INTEGER  \\&\hbox to 0pt{\footnotesize\sl size, in bytes, of representation\hss} \\ 
+ & datatype & MPI_Datatype* & TYPE(MPI_Datatype)  \\&\hbox to 0pt{\footnotesize\sl datatype with correct type, size\hss} \\ 
+
 \bottomrule
 \end{tabular}
 \endgroup

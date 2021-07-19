@@ -1,17 +1,17 @@
 % -*- latex -*-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%
-%%%% This text file is part of the source of 
-%%%% `Parallel Computing'
-%%%% by Victor Eijkhout, copyright 2012-2021
-%%%%
-%%%% MPI API file
-%%%%
-%%%% THIS FILE IS AUTO-GENERATED
-%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% This text file is part of the source of 
+%% `Parallel Computing'
+%% by Victor Eijkhout, copyright 2012-2021
+%%
+%% MPI API file for MPI_Cart_shift
+%%
+%% THIS FILE IS AUTO-GENERATED
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begingroup
 \ttfamily\bfseries
@@ -25,18 +25,12 @@
 \mdseries\textrm{inout}\\
 \midrule
 \hbox to 20pt{MPI_Cart_shift (\hss} \\
-&comm&MPI_Comm&TYPE(MPI_Comm)&in\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl communicator with Cartesian structure\hss}\\
-&direction&int&INTEGER&in\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl coordinate dimension of shift\hss}\\
-&disp&int&INTEGER&in\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl displacement ($> 0$: upwards shift, $< 0$: downwards shift)\hss}\\
-&rank_source&int*&INTEGER&out\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl rank of source process\hss}\\
-&rank_dest&int*&INTEGER&out\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl rank of destination process\hss}\\
-(opt)&ierror&&INTEGER&out\\
-)\\
+ & comm & MPI_Comm & TYPE(MPI_Comm)  \\&\hbox to 0pt{\footnotesize\sl communicator with Cartesian structure\hss} \\ 
+ & direction & int & INTEGER  \\&\hbox to 0pt{\footnotesize\sl coordinate dimension of shift\hss} \\ 
+ & disp & int & INTEGER  \\&\hbox to 0pt{\footnotesize\sl displacement ($> 0$: upwards shift, $< 0$: downwards shift)\hss} \\ 
+ & rank_source & int* & INTEGER  \\&\hbox to 0pt{\footnotesize\sl rank of source process\hss} \\ 
+ & rank_dest & int* & INTEGER  \\&\hbox to 0pt{\footnotesize\sl rank of destination process\hss} \\ 
+
 \bottomrule
 \end{tabular}
 \endgroup

@@ -1,17 +1,17 @@
 % -*- latex -*-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%
-%%%% This text file is part of the source of 
-%%%% `Parallel Computing'
-%%%% by Victor Eijkhout, copyright 2012-2021
-%%%%
-%%%% MPI API file
-%%%%
-%%%% THIS FILE IS AUTO-GENERATED
-%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% This text file is part of the source of 
+%% `Parallel Computing'
+%% by Victor Eijkhout, copyright 2012-2021
+%%
+%% MPI API file for MPI_Type_size_x
+%%
+%% THIS FILE IS AUTO-GENERATED
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begingroup
 \ttfamily\bfseries
@@ -25,12 +25,9 @@
 \mdseries\textrm{inout}\\
 \midrule
 \hbox to 20pt{MPI_Type_size_x (\hss} \\
-&datatype&MPI_Datatype&TYPE(MPI_Datatype)&in\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl datatype\hss}\\
-&size&MPI_Count*&INTEGER(KIND=MPI_COUNT_KIND)&out\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl datatype size\hss}\\
-(opt)&ierror&&INTEGER&out\\
-)\\
+ & datatype & MPI_Datatype & TYPE(MPI_Datatype)  \\&\hbox to 0pt{\footnotesize\sl datatype to get information on\hss} \\ 
+ & size & MPI_Count* & INTEGER(KIND=MPI_COUNT_KIND)  \\&\hbox to 0pt{\footnotesize\sl datatype size\hss} \\ 
+
 \bottomrule
 \end{tabular}
 \endgroup

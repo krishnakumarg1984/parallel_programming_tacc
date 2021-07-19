@@ -1,17 +1,17 @@
 % -*- latex -*-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%
-%%%% This text file is part of the source of 
-%%%% `Parallel Computing'
-%%%% by Victor Eijkhout, copyright 2012-2021
-%%%%
-%%%% MPI API file
-%%%%
-%%%% THIS FILE IS AUTO-GENERATED
-%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% This text file is part of the source of 
+%% `Parallel Computing'
+%% by Victor Eijkhout, copyright 2012-2021
+%%
+%% MPI API file for MPI_Probe
+%%
+%% THIS FILE IS AUTO-GENERATED
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begingroup
 \ttfamily\bfseries
@@ -25,14 +25,11 @@
 \mdseries\textrm{inout}\\
 \midrule
 \hbox to 20pt{MPI_Probe (\hss} \\
-&source&int&INTEGER&in\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl rank of source or {\ttfamily\bfseries\catcode`\_=12 MPI_ANY_SOURCE}\hss}\\
-&tag&int&INTEGER&in\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl message tag or {\ttfamily\bfseries\catcode`\_=12 MPI_ANY_TAG}\hss}\\
-&comm&MPI_Comm&TYPE(MPI_Comm)&in\\
-&status&MPI_Status*&TYPE(MPI_Status)&out\\
-(opt)&ierror&&INTEGER&out\\
-)\\
+ & source & int & INTEGER  \\&\hbox to 0pt{\footnotesize\sl rank of source or \const{MPI_ANY_SOURCE}\hss} \\ 
+ & tag & int & INTEGER  \\&\hbox to 0pt{\footnotesize\sl message tag or \const{MPI_ANY_TAG}\hss} \\ 
+ & comm & MPI_Comm & TYPE(MPI_Comm)  \\&\hbox to 0pt{\footnotesize\sl communicator\hss} \\ 
+ & status & MPI_Status* & TYPE(MPI_Status)  \\&\hbox to 0pt{\footnotesize\sl status object\hss} \\ 
+
 \bottomrule
 \end{tabular}
 \endgroup

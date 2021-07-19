@@ -1,17 +1,17 @@
 % -*- latex -*-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%
-%%%% This text file is part of the source of 
-%%%% `Parallel Computing'
-%%%% by Victor Eijkhout, copyright 2012-2021
-%%%%
-%%%% MPI API file
-%%%%
-%%%% THIS FILE IS AUTO-GENERATED
-%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% This text file is part of the source of 
+%% `Parallel Computing'
+%% by Victor Eijkhout, copyright 2012-2021
+%%
+%% MPI API file for MPI_Win_create
+%%
+%% THIS FILE IS AUTO-GENERATED
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begingroup
 \ttfamily\bfseries
@@ -25,18 +25,16 @@
 \mdseries\textrm{inout}\\
 \midrule
 \hbox to 20pt{MPI_Win_create (\hss} \\
-&base&void*&TYPE(*), DIMENSION(..)&in\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl initial address of window\hss}\\
-&size&MPI_Aint&INTEGER(KIND=MPI_ADDRESS_KIND)&in\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl size of window in bytes\hss}\\
-&disp_unit&int&INTEGER&in\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl local unit size for displacements, in bytes\hss}\\
-&info&MPI_Info&TYPE(MPI_Info)&in\\
-&comm&MPI_Comm&TYPE(MPI_Comm)&in\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl intra-communicator\hss}\\
-&win&MPI_Win*&TYPE(MPI_Win)&out\\
-(opt)&ierror&&INTEGER&out\\
-)\\
+\hbox to 20pt{MPI_Win_create_c (\hss} \\
+ & base & void* & TYPE(*), DIMENSION(..)  & IN \\&\hbox to 0pt{\footnotesize\sl initial address of window\hss} \\ 
+ & size & MPI_Aint & INTEGER(KIND=MPI_ADDRESS_KIND)  & IN \\&\hbox to 0pt{\footnotesize\sl size of window in bytes\hss} \\ 
+ & disp_unit & int & INTEGER  & IN \\ [-3pt]
+(big) & & MPI_Aint & \hbox to 0pt {INTEGER(KIND=MPI_ADDRESS_KIND) \hss} \\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl local unit size for displacements, in bytes\hss} \\ 
+ & info & MPI_Info & TYPE(MPI_Info)  & IN \\&\hbox to 0pt{\footnotesize\sl info argument\hss} \\ 
+ & comm & MPI_Comm & TYPE(MPI_Comm)  & IN \\&\hbox to 0pt{\footnotesize\sl intra-communicator\hss} \\ 
+ & win & MPI_Win* & TYPE(MPI_Win)  & OUT \\&\hbox to 0pt{\footnotesize\sl window object\hss} \\ 
+
 \bottomrule
 \end{tabular}
 \endgroup

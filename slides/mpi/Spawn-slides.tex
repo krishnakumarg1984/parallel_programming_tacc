@@ -72,6 +72,23 @@ MPI_Attr_get(MPI_COMM_WORLD, MPI_UNIVERSE_SIZE,
   \cverbatimsnippet{commparentdetect}
 \end{numberedframe}
 
+\sectionframe{Session model}
+
+\begin{numberedframe}{World and session model}
+  Process management so far: `world model'\\
+  New: `session model'; world is just one session.
+\begin{lstlisting}
+MPI_Session_init(info,errhandler,&session);
+
+const char pset_name[] = "mpi://WORLD";
+MPI_Group_from_session_pset
+   (lib_shandle,pset_name,&wgroup);
+MPI_Comm_create_from_group
+   (wgroup,"parcompbook-example",
+    MPI_INFO_NULL,MPI_ERRORS_RETURN,&world_comm);
+\end{lstlisting}
+\end{numberedframe}
+
 \endinput
 
 \begin{numberedframe}{}

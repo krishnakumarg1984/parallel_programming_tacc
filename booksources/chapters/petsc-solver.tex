@@ -163,12 +163,12 @@ what state the solver stopped in:
   iterations while still making progress; \lstinline{reason}$=0$.
 \end{itemize}
 For more detail,
-\indexpetscshow{KSPConvergenceReasonView}
+\indexpetscshow{KSPConvergedReasonView}
 (before version 3.14: \indexpetscdepr{KSPReasonView})
 can print out the
 reason in readable form; for instance
 \begin{lstlisting}
-KSPConvergenceReasonView(solver,PETSC_VIEWER_STDOUT_WORLD);
+KSPConvergedReasonView(solver,PETSC_VIEWER_STDOUT_WORLD);
 // before 3.14:
 KSPReasonView(solver,PETSC_VIEWER_STDOUT_WORLD);
 \end{lstlisting}

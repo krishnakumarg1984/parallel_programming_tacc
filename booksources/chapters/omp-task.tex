@@ -400,6 +400,26 @@ while (!omp_test_lock(lock))
   ;
 \end{lstlisting}
 
+\Level 1 {Avoiding small tasks}
+
+If a task involves only a small amount of work,
+the scheduling overhead may negate any performance gain.
+There are two ways of executing the task code directly:
+\begin{itemize}
+\item The \indexompshow{if} clause will only create a task
+  if the test is true:
+\begin{lstlisting}
+#pragma omp task if (n>100)
+  f(n)
+\end{lstlisting}
+\item The \indexompshow{if} clause may still lead to recursively
+  generated tasks. On the other hand, \indexompshow{final}
+  will execute the code, and will also skip any recursively created tasks:
+\begin{lstlisting}
+#pragma omp task final(level<3)
+\end{lstlisting}
+\end{itemize}
+
 \Level 1 {Task cancelling}
 
 It is possible (in \indextermbus{OpenMP}{version 4}) to cancel

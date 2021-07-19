@@ -1,17 +1,17 @@
 % -*- latex -*-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%
-%%%% This text file is part of the source of 
-%%%% `Parallel Computing'
-%%%% by Victor Eijkhout, copyright 2012-2021
-%%%%
-%%%% MPI API file
-%%%%
-%%%% THIS FILE IS AUTO-GENERATED
-%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% This text file is part of the source of 
+%% `Parallel Computing'
+%% by Victor Eijkhout, copyright 2012-2021
+%%
+%% MPI API file for MPI_Win_shared_query
+%%
+%% THIS FILE IS AUTO-GENERATED
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begingroup
 \ttfamily\bfseries
@@ -25,18 +25,15 @@
 \mdseries\textrm{inout}\\
 \midrule
 \hbox to 20pt{MPI_Win_shared_query (\hss} \\
-&win&MPI_Win&TYPE(MPI_Win)&in\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl shared memory window object\hss}\\
-&rank&int&INTEGER&in\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl rank in the group of window win or {\ttfamily\bfseries\catcode`\_=12 MPI_PROC_NULL}\hss}\\
-&size&MPI_Aint*&INTEGER(KIND=MPI_ADDRESS_KIND)&out\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl size of the window segment\hss}\\
-&disp_unit&int*&INTEGER&out\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl local unit size for displacements, in bytes\hss}\\
-&baseptr&void*&TYPE(C_PTR)&out\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl address for load/store access to window segment\hss}\\
-(opt)&ierror&&INTEGER&out\\
-)\\
+\hbox to 20pt{MPI_Win_shared_query_c (\hss} \\
+ & win & MPI_Win & TYPE(MPI_Win)  & IN \\&\hbox to 0pt{\footnotesize\sl shared memory window object\hss} \\ 
+ & rank & int & INTEGER  & IN \\&\hbox to 0pt{\footnotesize\sl rank in the group of window win or \const{MPI_PROC_NULL}\hss} \\ 
+ & size & MPI_Aint* & INTEGER(KIND=MPI_ADDRESS_KIND)  & OUT \\&\hbox to 0pt{\footnotesize\sl size of the window segment\hss} \\ 
+ & disp_unit & int* & INTEGER  & OUT \\ [-3pt]
+(big) & & MPI_Aint & \hbox to 0pt {INTEGER(KIND=MPI_ADDRESS_KIND) \hss} \\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl local unit size for displacements, in bytes\hss} \\ 
+ & baseptr & void* & TYPE(C_PTR)  & OUT \\&\hbox to 0pt{\footnotesize\sl address for load/store access to window segment\hss} \\ 
+
 \bottomrule
 \end{tabular}
 \endgroup

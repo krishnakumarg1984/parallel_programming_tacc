@@ -1,17 +1,17 @@
 % -*- latex -*-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%
-%%%% This text file is part of the source of 
-%%%% `Parallel Computing'
-%%%% by Victor Eijkhout, copyright 2012-2021
-%%%%
-%%%% MPI API file
-%%%%
-%%%% THIS FILE IS AUTO-GENERATED
-%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% This text file is part of the source of 
+%% `Parallel Computing'
+%% by Victor Eijkhout, copyright 2012-2021
+%%
+%% MPI API file for MPI_Gatherv
+%%
+%% THIS FILE IS AUTO-GENERATED
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begingroup
 \ttfamily\bfseries
@@ -25,26 +25,23 @@
 \mdseries\textrm{inout}\\
 \midrule
 \hbox to 20pt{MPI_Gatherv (\hss} \\
-&sendbuf&const~void*&TYPE(*), DIMENSION(..)&in\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl starting address of send buffer\hss}\\
-&sendcount&int&INTEGER&in\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl number of elements in send buffer\hss}\\
-&sendtype&MPI_Datatype&TYPE(MPI_Datatype)&in\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl data type of send buffer elements\hss}\\
-&recvbuf&void*&TYPE(*), DIMENSION(..)&out\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl address of receive buffer\hss}\\
-&recvcounts&const~int[]&INTEGER&in\\&\hbox to 0pt{mfamily length: \ttfamily\mdseries\catcode`\_=12 *\hss}\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl non-negative integer array (of length group size) containing the number of elements that are received from each process\hss}\\
-&displs&const~int[]&INTEGER&in\\&\hbox to 0pt{mfamily length: \ttfamily\mdseries\catcode`\_=12 *\hss}\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl integer array (of length group size). Entry i specifies the displacement relative to recvbuf at which to place the incoming data from process i\hss}\\
-&recvtype&MPI_Datatype&TYPE(MPI_Datatype)&in\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl data type of recv buffer elements\hss}\\
-&root&int&INTEGER&in\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl rank of receiving process\hss}\\
-&comm&MPI_Comm&TYPE(MPI_Comm)&in\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl communicator\hss}\\
-(opt)&ierror&&INTEGER&out\\
-)\\
+\hbox to 20pt{MPI_Gatherv_c (\hss} \\
+ & sendbuf & void* & TYPE(*), DIMENSION(..)  & IN \\&\hbox to 0pt{\footnotesize\sl starting address of send buffer\hss} \\ 
+ & sendcount & int & INTEGER  & IN \\ [-3pt]
+(big) & & MPI_Count & \hbox to 0pt {INTEGER(KIND=MPI_COUNT_KIND) \hss} \\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl number of elements in send buffer\hss} \\ 
+ & sendtype & MPI_Datatype & TYPE(MPI_Datatype)  & IN \\&\hbox to 0pt{\footnotesize\sl datatype of send buffer elements\hss} \\ 
+ & recvbuf & void* & TYPE(*), DIMENSION(..)  & OUT \\&\hbox to 0pt{\footnotesize\sl address of receive buffer\hss} \\ 
+ & recvcounts & int & INTEGER  & IN \\ [-3pt]
+(big) & & MPI_Count & \hbox to 0pt {INTEGER(KIND=MPI_COUNT_KIND) \hss} \\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl non-negative integer array (of length group size) containing the number of elements that are received from each process\hss} \\ 
+ & displs & int & INTEGER  & IN \\ [-3pt]
+(big) & & MPI_Aint & \hbox to 0pt {INTEGER(KIND=MPI_ADDRESS_KIND) \hss} \\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl integer array (of length group size). Entry \mpicode{i} specifies the displacement relative to \mpiarg{recvbuf} at which to place the incoming data from process \mpicode{i}\hss} \\ 
+ & recvtype & MPI_Datatype & TYPE(MPI_Datatype)  & IN \\&\hbox to 0pt{\footnotesize\sl datatype of recv buffer elements\hss} \\ 
+ & root & int & INTEGER  & IN \\&\hbox to 0pt{\footnotesize\sl rank of receiving process\hss} \\ 
+ & comm & MPI_Comm & TYPE(MPI_Comm)  & IN \\&\hbox to 0pt{\footnotesize\sl communicator\hss} \\ 
+
 \bottomrule
 \end{tabular}
 \endgroup

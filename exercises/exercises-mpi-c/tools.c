@@ -32,6 +32,16 @@ double array_error(double ref_array[],double value_array[],int array_size) {
   return error;
 };
 
+int int_array_error(int ref_array[],int value_array[],int array_size) {
+  int error = 0.,max_error=0;
+  for (int i=0; i<array_size; i++) {
+    int ref = ref_array[i], val = value_array[i],
+      e = abs(val-ref);
+    if (e>max_error) max_error = e;
+  }
+  return max_error;
+};
+
 int test_all_the_same_int( int value,MPI_Comm comm ) {
   int final_min,final_max;
   MPI_Allreduce(&value,&final_min,1,MPI_INT,MPI_MIN,comm);

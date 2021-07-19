@@ -1,4 +1,4 @@
-// queens2.cxx
+// queenfinal.cxx
 if (feasible(next)) {
   if (iqueen==N-1) {
 	result = next;

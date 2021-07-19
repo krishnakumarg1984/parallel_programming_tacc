@@ -1,17 +1,17 @@
 % -*- latex -*-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%
-%%%% This text file is part of the source of 
-%%%% `Parallel Computing'
-%%%% by Victor Eijkhout, copyright 2012-2021
-%%%%
-%%%% MPI API file
-%%%%
-%%%% THIS FILE IS AUTO-GENERATED
-%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% This text file is part of the source of 
+%% `Parallel Computing'
+%% by Victor Eijkhout, copyright 2012-2021
+%%
+%% MPI API file for MPI_Win_get_name
+%%
+%% THIS FILE IS AUTO-GENERATED
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begingroup
 \ttfamily\bfseries
@@ -25,14 +25,10 @@
 \mdseries\textrm{inout}\\
 \midrule
 \hbox to 20pt{MPI_Win_get_name (\hss} \\
-&win&MPI_Win&TYPE(MPI_Win)&in\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl window whose name is to be returned\hss}\\
-&win_name&char*&CHARACTER&out\\&\hbox to 0pt{mfamily length: \ttfamily\mdseries\catcode`\_=12 MPI_MAX_OBJECT_NAME\hss}\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl the name previously stored on the window, or an empty string if no such name exists\hss}\\
-&resultlen&int*&INTEGER&out\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl length of returned name\hss}\\
-(opt)&ierror&&INTEGER&out\\
-)\\
+ & win & MPI_Win & TYPE(MPI_Win)  \\&\hbox to 0pt{\footnotesize\sl window whose name is to be returned\hss} \\ 
+ & win_name & char* & CHARACTER  \\&\hbox to 0pt{\footnotesize\sl the name previously stored on the window, or an empty string if no such name exists\hss} \\ 
+ & resultlen & int* & INTEGER  \\&\hbox to 0pt{\footnotesize\sl length of returned name\hss} \\ 
+
 \bottomrule
 \end{tabular}
 \endgroup

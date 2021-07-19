@@ -1,3 +1,16 @@
+% -*- latex -*-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%
+%%%% This text file is part of the source of 
+%%%% `Parallel Programming in MPI and OpenMP'
+%%%% by Victor Eijkhout, copyright 2012-2021
+%%%%
+%%%% mpi-bigdata.tex : discussion of MPI big datatypes
+%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \Level 0 {Big data types}
 \label{sec:mpi-bigdata}
 \index{datatype!big|(}
@@ -9,11 +22,15 @@ As of the MPI~\mpistandard{4} standard, this has been solved by allowing a
 larger count parameter.
 The implementation of this depends somewhat on the language.
 
+\begin{mpifour}
+
 \Level 1 {C}
 
 For every routine, such as \indexmpishow{MPI_Send} with an integer count,
 there is a corresponding \indexmpishow{MPI_Send_c} with a count
 of type \indexmpishow{MPI_Count}.
+
+\cverbatimsnippet{reducecount}
 
 \Level 1 {Fortran}
 
@@ -22,6 +39,8 @@ The count parameter can be declared  to be
 Integer(kind=MPI_COUNT_KIND) :: count
 \end{lstlisting}
 Since Fortran has polymorphism, the same routine names can be used.
+
+\end{mpifour}
 
 \Level 1 {Count datatype}
 
@@ -34,15 +53,9 @@ to accomodate values of
 \item the \indexmpishow{MPI_Offset} type, section~\ref{sec:mpi-filepoint}.
 \end{itemize}
 
-\Level 1 {Embiggened routines}
-
-\begin{mpifour}
-  For every routine \lstinline{MPI_Something}
-  with an \lstinline{int} count parameter,
-  there is a corresponding routine \lstinline{MPI_Something_c}
-  with an \lstinline{MPI_Count} parameter.
-
-\cverbatimsnippet{reducecount}
+The \lstinline+size_t+ type in~C/C++ is defined as big enough to
+contain the output of \lstinline+sizeof+, that is,
+being big enough to measure any object.
 
 \Level 1 {MPI 3 temporary solution}
 
@@ -114,8 +127,6 @@ and
   Internally, \lstinline+MPI.Status.Get_elements+ is implemented
   in terms of \indexmpishow{MPI_Get_elements_x}.
 \end{pythonnote}
-
-\end{mpifour}
 
 \index{datatype!big|)}
 

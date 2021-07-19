@@ -1,17 +1,17 @@
 % -*- latex -*-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%
-%%%% This text file is part of the source of 
-%%%% `Parallel Computing'
-%%%% by Victor Eijkhout, copyright 2012-2021
-%%%%
-%%%% MPI API file
-%%%%
-%%%% THIS FILE IS AUTO-GENERATED
-%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% This text file is part of the source of 
+%% `Parallel Computing'
+%% by Victor Eijkhout, copyright 2012-2021
+%%
+%% MPI API file for MPI_Type_get_contents
+%%
+%% THIS FILE IS AUTO-GENERATED
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begingroup
 \ttfamily\bfseries
@@ -25,22 +25,27 @@
 \mdseries\textrm{inout}\\
 \midrule
 \hbox to 20pt{MPI_Type_get_contents (\hss} \\
-&datatype&MPI_Datatype&TYPE(MPI_Datatype)&in\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl datatype to access\hss}\\
-&max_integers&int&INTEGER&in\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl number of elements in array_of_integers\hss}\\
-&max_addresses&int&INTEGER&in\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl number of elements in array_of_addresses\hss}\\
-&max_datatypes&int&INTEGER&in\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl number of elements in array_of_datatypes\hss}\\
-&array_of_integers&int[]&INTEGER&out\\&\hbox to 0pt{mfamily length: \ttfamily\mdseries\catcode`\_=12 max_integers\hss}\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl contains integer arguments used in constructing datatype\hss}\\
-&array_of_addresses&MPI_Aint[]&INTEGER(KIND=MPI_ADDRESS_KIND)&out\\&\hbox to 0pt{mfamily length: \ttfamily\mdseries\catcode`\_=12 max_addresses\hss}\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl contains address arguments used in constructing datatype\hss}\\
-&array_of_datatypes&MPI_Datatype[]&TYPE(MPI_Datatype)&out\\&\hbox to 0pt{mfamily length: \ttfamily\mdseries\catcode`\_=12 max_datatypes\hss}\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl contains datatype arguments used in constructing datatype\hss}\\
-(opt)&ierror&&INTEGER&out\\
-)\\
+\hbox to 20pt{MPI_Type_get_contents_c (\hss} \\
+ & datatype & MPI_Datatype & TYPE(MPI_Datatype)  & IN \\&\hbox to 0pt{\footnotesize\sl datatype to decode\hss} \\ 
+ & max_integers & int & INTEGER  & IN \\ [-3pt]
+(big) & & MPI_Count & \hbox to 0pt {INTEGER(KIND=MPI_COUNT_KIND) \hss} \\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl number of elements in \mpiarg{array_of_integers}\hss} \\ 
+ & max_addresses & int & INTEGER  & IN \\ [-3pt]
+(big) & & MPI_Count & \hbox to 0pt {INTEGER(KIND=MPI_COUNT_KIND) \hss} \\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl number of elements in \mpiarg{array_of_addresses}\hss} \\ 
+ & max_datatypes & int & INTEGER  & IN \\ [-3pt]
+(big) & & MPI_Count & \hbox to 0pt {INTEGER(KIND=MPI_COUNT_KIND) \hss} \\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl number of elements in \mpiarg{array_of_large_counts}\hss} \\ 
+ & array_of_integers & int & INTEGER  & IN \\ [-3pt]
+(big) & & MPI_Count & \hbox to 0pt {INTEGER(KIND=MPI_COUNT_KIND) \hss} \\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl number of elements in \mpiarg{array_of_datatypes}\hss} \\ 
+ & array_of_addresses & MPI_Aint & INTEGER(KIND=MPI_ADDRESS_KIND)  & OUT \\ [-3pt]
+(big) & & int & \hbox to 0pt {INTEGER \hss} \\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl contains integer arguments used in constructing \mpiarg{datatype}\hss} \\ 
+ & array_of_datatypes & MPI_Datatype & TYPE(MPI_Datatype)  & OUT \\ [-3pt]
+(big) & & MPI_Aint & \hbox to 0pt {INTEGER(KIND=MPI_ADDRESS_KIND) \hss} \\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl contains address arguments used in constructing \mpiarg{datatype}\hss} \\ 
+
 \bottomrule
 \end{tabular}
 \endgroup

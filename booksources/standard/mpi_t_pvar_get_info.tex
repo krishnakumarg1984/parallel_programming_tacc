@@ -1,17 +1,17 @@
 % -*- latex -*-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%
-%%%% This text file is part of the source of 
-%%%% `Parallel Computing'
-%%%% by Victor Eijkhout, copyright 2012-2021
-%%%%
-%%%% MPI API file
-%%%%
-%%%% THIS FILE IS AUTO-GENERATED
-%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% This text file is part of the source of 
+%% `Parallel Computing'
+%% by Victor Eijkhout, copyright 2012-2021
+%%
+%% MPI API file for MPI_T_pvar_get_info
+%%
+%% THIS FILE IS AUTO-GENERATED
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begingroup
 \ttfamily\bfseries
@@ -25,34 +25,7 @@
 \mdseries\textrm{inout}\\
 \midrule
 \hbox to 20pt{MPI_T_pvar_get_info (\hss} \\
-&pvar_index&int&&in\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl index of the performance variable to be queried between $0$ and $num_pvar-1$\hss}\\
-&name&char*&CHARACTER&out\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl buffer to return the string containing the name of the performance variable\hss}\\
-&name_len&int*&INTEGER&inout\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl length of the string and/or buffer for name\hss}\\
-&verbosity&int*&&out\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl verbosity level of this variable\hss}\\
-&var_class&int*&&out\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl class of performance variable\hss}\\
-&datatype&MPI_Datatype*&TYPE(MPI_Datatype)&out\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl MPI datatype of the information stored in the performance variable\hss}\\
-&enumtype&MPI_T_enum*&&out\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl optional descriptor for enumeration information\hss}\\
-&desc&char*&CHARACTER&out\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl buffer to return the string containing a description of the performance variable\hss}\\
-&desc_len&int*&INTEGER&inout\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl length of the string and/or buffer for desc\hss}\\
-&bind&int*&&out\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl type of MPI object to which this variable must be bound\hss}\\
-&readonly&int*&&out\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl flag indicating whether the variable can be written/reset\hss}\\
-&continuous&int*&&out\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl flag indicating whether the variable can be started and stopped or is continuously active\hss}\\
-&atomic&int*&&out\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl flag indicating whether the variable can be atomically read and reset\hss}\\
-(opt)&ierror&&INTEGER&out\\
-)\\
+
 \bottomrule
 \end{tabular}
 \endgroup

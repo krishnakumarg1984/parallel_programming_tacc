@@ -53,11 +53,12 @@
 \def\courseyear{2021}
 \def\Location{TACC APP institute MPI training \courseyear}
 \def\Location{TACC/XSEDE MPI training \courseyear}
-\def\Location{PEARC2020\\
-  \url{http://tinyurl.com/tacc-pearc-2020}\\
-  \texttt{\char126 train00/mpithree\_course\_2020.tgz}
-}
 \def\Location{ISS 2021}
+\def\Location{PEARC2021\\
+  \small
+  \url{http://tinyurl.com/pearc21-tacc-advmpi}\\
+  \texttt{\char126 train00/mpithree\_course\_2021.tgz}
+}
 \def\TitleExtra{}
 
 %%%%
@@ -87,7 +88,7 @@
 \begin{document}
 \parskip=10pt plus 5pt minus 3pt
 
-\title{Advanced MPI and MPI-3}
+\title{Advanced Features of MPI-3 and MPI-4}
 \author{Victor Eijkhout {\tt eijkhout@tacc.utexas.edu}}
 \date{\Location}
 
@@ -148,106 +149,25 @@
   Version 3 of the MPI standard has added a number
   of features, some geared purely towards functionality,
   others with an eye towards efficiency at exascale.
+
+  Version 4 adds yet more features for exascale,
+  and more flexible process management.
+
+  Note: MPI-3 as of 2012, 3.1 as of~2015. Fully supported everywhere.\\
+  MPI-4 as of June 2021. Partial support in mpich alpha version.
 \end{frame}
 
 \Level 0 {Fortran bindings}
+\input F08_slides
 
-\lstset{language=Fortran}
-\begin{numberedframe}{Overview}
-  The Fortran interface to MPI had some defects.
-  With Fortran2008 these have been largely repaired.
-  \begin{itemize}
-  \item The trailing error parameter is now optional;
-  \item MPI data types are now actual \lstinline{Type} objects,
-    rather than \lstinline{Integer}
-  \item Strict type checking on arguments.
-  \end{itemize}
-\end{numberedframe}
-
-\begin{numberedframe}{MPI headers}
-\label{sl:mpi-header}
-New module:
-\begin{verbatim}
-use mpi_f08   ! for Fortran2008
-use mpi       ! for Fortran90
-\end{verbatim}
-True Fortran bindings as of the 2008 standard.
-\begin{tacc}
-Provided in Intel compiler version 18 or newer. Not in gcc7.
-\end{tacc}
-\end{numberedframe}
-
-\begin{numberedframe}{Optional error parameter}
-\lstset{language=Fortran}
-\begin{lstlisting}
-call MPI_Init()     ! F08 style
-call MPI_Init(ierr) ! F90 style
-! your code
-call MPI_Finalize()     ! F08 style
-call MPI_Finalize(ierr) ! F90 style
-\end{lstlisting}
-\end{numberedframe}
-
-\begin{numberedframe}{Communicators}
-\begin{lstlisting}
-!! Fortran 2008 interface
-use mpi_f08
-Type(MPI_Comm) :: comm = MPI_COMM_WORLD
-\end{lstlisting}
-\begin{lstlisting}
-!! Fortran legacy interface
-#include <mpif.h>
-! or: use mpi
-Integer :: comm = MPI_COMM_WORLD
-\end{lstlisting}
-\end{numberedframe}
-
-\begin{numberedframe}{Requests}
-  Requests are also derived types\\
-  note that \n{...NULL} entities are now objects, not integers
-
-  \fverbatimsnippet{waitany0f}
-
-  (Q for the alert student: do you see anything halfway
-  remarkable about that index?)
-\end{numberedframe}
-
-\begin{numberedframe}{More}
-\begin{lstlisting}
-Type(MPI_Datatype) :: newtype ! F2008
-Integer            :: newtype ! F90
-\end{lstlisting}
-
-Also:
-  \lstinline{MPI_Comm}, \lstinline{MPI_Datatype},
-  \lstinline{MPI_Errhandler}, \lstinline{MPI_Group},
-  \lstinline{MPI_Info}, \lstinline{MPI_File}, \lstinline{MPI_Op},
-  \lstinline{MPI_Request}, \lstinline{MPI_Status}, \lstinline{MPI_Win}
-\end{numberedframe}
-
-\begin{numberedframe}{Type checking}
-  Type checking catches potential problems:
-  \fverbatimsnippet{ftypecheck}
-\begin{verbatim}
-typecheck.F90(20): error #6285: 
-  There is no matching specific subroutine
-  for this generic subroutine call.   [MPI_SEND]
-  call MPI_Send(source,n,MPI_INTEGER,1,0,MPI_COMM_WORLD)
--------^
-\end{verbatim}
-Unfortunately it doesn't say \emph{which} parameter is the offending one.
-\end{numberedframe}
-
-\lstset{language=C}
-
-\Level 0 {Big data sends}
+\Level 0 {Big data communication}
 \input Bigdata-slides
 
 \Level 0 {Atomic operations}
 \input Atomic-slides
 %\input{sl:fetchop}
  
-\Level 0 {Non-blocking collectives}
+\Level 0 {Advanced collectives}
 \input Highercollective-slides
 
 \Level 0 {Shared memory}
@@ -256,14 +176,19 @@ Unfortunately it doesn't say \emph{which} parameter is the offending one.
 \Level 0 {Process topologies}
 \input Graph-slides
 
-\Level 0 {Intercommunicator recap}
+\Level 0 {Partitioned communication}
+\input Partitioned-slides
+
+\Level 0 {Process management}
+\input Spawn-slides
+
+\Level 0 {Appendix: Intercommunicator recap}
 \input{sl:comm-inter}
 \input{sl:intercomm-picture}
 \input{sl:intercomm-concepts}
 \input{sl:intercomm-routines}
 
-\Level 0 {Process management}
-\input Spawn-slides
+\end{document}
 
 \coursepart{Supplemental material}
 
@@ -288,7 +213,6 @@ Unfortunately it doesn't say \emph{which} parameter is the offending one.
 \end{exerciseframe}
 
 \begin{exerciseframe}[procgrid]
-  \label{ex:rowcolcomm}
   \input{ex:rowcolcomm}
 \end{exerciseframe}
 

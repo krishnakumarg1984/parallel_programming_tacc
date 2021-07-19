@@ -1,17 +1,17 @@
 % -*- latex -*-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%
-%%%% This text file is part of the source of 
-%%%% `Parallel Computing'
-%%%% by Victor Eijkhout, copyright 2012-2021
-%%%%
-%%%% MPI API file
-%%%%
-%%%% THIS FILE IS AUTO-GENERATED
-%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% This text file is part of the source of 
+%% `Parallel Computing'
+%% by Victor Eijkhout, copyright 2012-2021
+%%
+%% MPI API file for MPI_Group_excl
+%%
+%% THIS FILE IS AUTO-GENERATED
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begingroup
 \ttfamily\bfseries
@@ -25,16 +25,11 @@
 \mdseries\textrm{inout}\\
 \midrule
 \hbox to 20pt{MPI_Group_excl (\hss} \\
-&group&MPI_Group&TYPE(MPI_Group)&in\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl group\hss}\\
-&n&int&INTEGER&in\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl number of elements in array ranks\hss}\\
-&ranks&const~int[]&INTEGER&in\\&\hbox to 0pt{mfamily length: \ttfamily\mdseries\catcode`\_=12 n\hss}\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl array of integer ranks of processes in group not to appear in newgroup\hss}\\
-&newgroup&MPI_Group*&TYPE(MPI_Group)&out\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl new group derived from above, preserving the order defined by group\hss}\\
-(opt)&ierror&&INTEGER&out\\
-)\\
+ & group & MPI_Group & TYPE(MPI_Group)  \\&\hbox to 0pt{\footnotesize\sl group\hss} \\ 
+ & n & int & INTEGER  \\&\hbox to 0pt{\footnotesize\sl number of elements in array \mpiarg{ranks}\hss} \\ 
+ & ranks & int & INTEGER  \\&\hbox to 0pt{\footnotesize\sl array of integer ranks of processes in \mpiarg{group} not to appear in \mpiarg{newgroup}\hss} \\ 
+ & newgroup & MPI_Group* & TYPE(MPI_Group)  \\&\hbox to 0pt{\footnotesize\sl new group derived from above, preserving the order defined by \mpiarg{group}\hss} \\ 
+
 \bottomrule
 \end{tabular}
 \endgroup

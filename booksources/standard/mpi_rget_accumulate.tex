@@ -1,17 +1,17 @@
 % -*- latex -*-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%
-%%%% This text file is part of the source of 
-%%%% `Parallel Computing'
-%%%% by Victor Eijkhout, copyright 2012-2021
-%%%%
-%%%% MPI API file
-%%%%
-%%%% THIS FILE IS AUTO-GENERATED
-%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% This text file is part of the source of 
+%% `Parallel Computing'
+%% by Victor Eijkhout, copyright 2012-2021
+%%
+%% MPI API file for MPI_Rget_accumulate
+%%
+%% THIS FILE IS AUTO-GENERATED
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begingroup
 \ttfamily\bfseries
@@ -25,33 +25,27 @@
 \mdseries\textrm{inout}\\
 \midrule
 \hbox to 20pt{MPI_Rget_accumulate (\hss} \\
-&origin_addr&const~void*&TYPE(*), DIMENSION(..)&in\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl initial address of buffer\hss}\\
-&origin_count&int&INTEGER&in\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl number of entries in origin buffer\hss}\\
-&origin_datatype&MPI_Datatype&TYPE(MPI_Datatype)&in\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl datatype of each entry in origin buffer\hss}\\
-&result_addr&void*&TYPE(*), DIMENSION(..)&out\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl initial address of result buffer\hss}\\
-&result_count&int&INTEGER&in\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl number of entries in result buffer\hss}\\
-&result_datatype&MPI_Datatype&TYPE(MPI_Datatype)&in\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl datatype of entries in result buffer\hss}\\
-&target_rank&int&INTEGER&in\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl rank of target\hss}\\
-&target_disp&MPI_Aint&INTEGER(KIND=MPI_ADDRESS_KIND)&in\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl displacement from start of window to beginning of target buffer\hss}\\
-&target_count&int&INTEGER&in\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl number of entries in target buffer\hss}\\
-&target_datatype&MPI_Datatype&TYPE(MPI_Datatype)&in\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl datatype of each entry in target buffer\hss}\\
-&op&MPI_Op&TYPE(MPI_Op)&in\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl reduce operation\hss}\\
-&win&MPI_Win&TYPE(MPI_Win)&in\\
-&request&MPI_Request*&TYPE(MPI_Request)&out\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl RMA request\hss}\\
-(opt)&ierror&&INTEGER&out\\
-)\\
+\hbox to 20pt{MPI_Rget_accumulate_c (\hss} \\
+ & origin_addr & void* & TYPE(*), DIMENSION(..)  & IN \\&\hbox to 0pt{\footnotesize\sl initial address of buffer\hss} \\ 
+ & origin_count & int & INTEGER  & IN \\ [-3pt]
+(big) & & MPI_Count & \hbox to 0pt {INTEGER(KIND=MPI_COUNT_KIND) \hss} \\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl number of entries in origin buffer\hss} \\ 
+ & origin_datatype & MPI_Datatype & TYPE(MPI_Datatype)  & IN \\&\hbox to 0pt{\footnotesize\sl datatype of each entry in origin buffer\hss} \\ 
+ & result_addr & void* & TYPE(*), DIMENSION(..)  & OUT \\&\hbox to 0pt{\footnotesize\sl initial address of result buffer\hss} \\ 
+ & result_count & int & INTEGER  & IN \\ [-3pt]
+(big) & & MPI_Count & \hbox to 0pt {INTEGER(KIND=MPI_COUNT_KIND) \hss} \\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl number of entries in result buffer\hss} \\ 
+ & result_datatype & MPI_Datatype & TYPE(MPI_Datatype)  & IN \\&\hbox to 0pt{\footnotesize\sl datatype of entries in result buffer\hss} \\ 
+ & target_rank & int & INTEGER  & IN \\&\hbox to 0pt{\footnotesize\sl rank of target\hss} \\ 
+ & target_disp & MPI_Aint & INTEGER(KIND=MPI_ADDRESS_KIND)  & IN \\&\hbox to 0pt{\footnotesize\sl displacement from start of window to beginning of target buffer\hss} \\ 
+ & target_count & int & INTEGER  & IN \\ [-3pt]
+(big) & & MPI_Count & \hbox to 0pt {INTEGER(KIND=MPI_COUNT_KIND) \hss} \\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl number of entries in target buffer\hss} \\ 
+ & target_datatype & MPI_Datatype & TYPE(MPI_Datatype)  & IN \\&\hbox to 0pt{\footnotesize\sl datatype of each entry in target buffer\hss} \\ 
+ & op & MPI_Op & TYPE(MPI_Op)  & IN \\&\hbox to 0pt{\footnotesize\sl reduce operation\hss} \\ 
+ & win & MPI_Win & TYPE(MPI_Win)  & IN \\&\hbox to 0pt{\footnotesize\sl window object\hss} \\ 
+ & request & MPI_Request* & TYPE(MPI_Request)  & OUT \\&\hbox to 0pt{\footnotesize\sl \RMA/ request\hss} \\ 
+
 \bottomrule
 \end{tabular}
 \endgroup

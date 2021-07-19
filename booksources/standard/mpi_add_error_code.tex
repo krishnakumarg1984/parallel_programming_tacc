@@ -1,17 +1,17 @@
 % -*- latex -*-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%
-%%%% This text file is part of the source of 
-%%%% `Parallel Computing'
-%%%% by Victor Eijkhout, copyright 2012-2021
-%%%%
-%%%% MPI API file
-%%%%
-%%%% THIS FILE IS AUTO-GENERATED
-%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% This text file is part of the source of 
+%% `Parallel Computing'
+%% by Victor Eijkhout, copyright 2012-2021
+%%
+%% MPI API file for MPI_Add_error_code
+%%
+%% THIS FILE IS AUTO-GENERATED
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begingroup
 \ttfamily\bfseries
@@ -25,11 +25,9 @@
 \mdseries\textrm{inout}\\
 \midrule
 \hbox to 20pt{MPI_Add_error_code (\hss} \\
-&errorclass&int&INTEGER&in\\
-&errorcode&int*&INTEGER&out\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl new error code to be associated with errorclass\hss}\\
-(opt)&ierror&&INTEGER&out\\
-)\\
+ & errorclass & int & INTEGER  \\&\hbox to 0pt{\footnotesize\sl error class\hss} \\ 
+ & errorcode & int* & INTEGER  \\&\hbox to 0pt{\footnotesize\sl new error code to be associated with \mpiarg{errorclass}\hss} \\ 
+
 \bottomrule
 \end{tabular}
 \endgroup

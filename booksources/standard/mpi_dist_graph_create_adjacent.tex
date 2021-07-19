@@ -1,17 +1,17 @@
 % -*- latex -*-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%
-%%%% This text file is part of the source of 
-%%%% `Parallel Computing'
-%%%% by Victor Eijkhout, copyright 2012-2021
-%%%%
-%%%% MPI API file
-%%%%
-%%%% THIS FILE IS AUTO-GENERATED
-%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% This text file is part of the source of 
+%% `Parallel Computing'
+%% by Victor Eijkhout, copyright 2012-2021
+%%
+%% MPI API file for MPI_Dist_graph_create_adjacent
+%%
+%% THIS FILE IS AUTO-GENERATED
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begingroup
 \ttfamily\bfseries
@@ -25,28 +25,17 @@
 \mdseries\textrm{inout}\\
 \midrule
 \hbox to 20pt{MPI_Dist_graph_create_adjacent (\hss} \\
-&comm_old&MPI_Comm&TYPE(MPI_Comm)&in\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl input communicator\hss}\\
-&indegree&int&INTEGER&in\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl size of sources and sourceweights arrays\hss}\\
-&sources&const~int[]&INTEGER&in\\&\hbox to 0pt{mfamily length: \ttfamily\mdseries\catcode`\_=12 indegree\hss}\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl ranks of processes for which the calling process is a destination\hss}\\
-&sourceweights&const~int[]&INTEGER&in\\&\hbox to 0pt{mfamily length: \ttfamily\mdseries\catcode`\_=12 *\hss}\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl weights of the edges into the calling process\hss}\\
-&outdegree&int&INTEGER&in\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl size of destinations and destweights arrays\hss}\\
-&destinations&const~int[]&INTEGER&in\\&\hbox to 0pt{mfamily length: \ttfamily\mdseries\catcode`\_=12 outdegree\hss}\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl ranks of processes for which the calling process is a source\hss}\\
-&destweights&const~int[]&INTEGER&in\\&\hbox to 0pt{mfamily length: \ttfamily\mdseries\catcode`\_=12 *\hss}\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl weights of the edges out of the calling process\hss}\\
-&info&MPI_Info&TYPE(MPI_Info)&in\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl hints on optimization and interpretation of weights\hss}\\
-&reorder&int&LOGICAL&in\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl the ranks may be reordered (true) or not~(\mbox{false})\hss}\\
-&comm_dist_graph&MPI_Comm*&TYPE(MPI_Comm)&out\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl communicator with distributed graph topology\hss}\\
-(opt)&ierror&&INTEGER&out\\
-)\\
+ & comm_old & MPI_Comm & TYPE(MPI_Comm)  \\&\hbox to 0pt{\footnotesize\sl input communicator\hss} \\ 
+ & indegree & int & INTEGER  \\&\hbox to 0pt{\footnotesize\sl size of \mpiarg{sources} and \mpiarg{sourceweights} arrays\hss} \\ 
+ & sources & int & INTEGER  \\&\hbox to 0pt{\footnotesize\sl ranks of processes for which the calling process is a destination\hss} \\ 
+ & sourceweights & int & INTEGER  \\&\hbox to 0pt{\footnotesize\sl weights of the edges into the calling process\hss} \\ 
+ & outdegree & int & INTEGER  \\&\hbox to 0pt{\footnotesize\sl size of \mpiarg{destinations} and \mpiarg{destweights} arrays\hss} \\ 
+ & destinations & int & INTEGER  \\&\hbox to 0pt{\footnotesize\sl ranks of processes for which the calling process is a source\hss} \\ 
+ & destweights & int & INTEGER  \\&\hbox to 0pt{\footnotesize\sl weights of the edges out of the calling process\hss} \\ 
+ & info & MPI_Info & TYPE(MPI_Info)  \\&\hbox to 0pt{\footnotesize\sl hints on optimization and interpretation of weights\hss} \\ 
+ & reorder & int & LOGICAL  \\&\hbox to 0pt{\footnotesize\sl the ranks may be reordered (\mpicode{true}) or not~(\mbox{\mpicode{false}})\hss} \\ 
+ & comm_dist_graph & MPI_Comm* & TYPE(MPI_Comm)  \\&\hbox to 0pt{\footnotesize\sl communicator with distributed graph topology\hss} \\ 
+
 \bottomrule
 \end{tabular}
 \endgroup

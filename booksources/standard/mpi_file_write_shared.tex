@@ -1,17 +1,17 @@
 % -*- latex -*-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%
-%%%% This text file is part of the source of 
-%%%% `Parallel Computing'
-%%%% by Victor Eijkhout, copyright 2012-2021
-%%%%
-%%%% MPI API file
-%%%%
-%%%% THIS FILE IS AUTO-GENERATED
-%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% This text file is part of the source of 
+%% `Parallel Computing'
+%% by Victor Eijkhout, copyright 2012-2021
+%%
+%% MPI API file for MPI_File_write_shared
+%%
+%% THIS FILE IS AUTO-GENERATED
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begingroup
 \ttfamily\bfseries
@@ -25,18 +25,15 @@
 \mdseries\textrm{inout}\\
 \midrule
 \hbox to 20pt{MPI_File_write_shared (\hss} \\
-&fh&MPI_File&TYPE(MPI_File)&in\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl file handle\hss}\\
-&buf&const~void*&TYPE(*), DIMENSION(..)&in\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl initial address of buffer\hss}\\
-&count&int&INTEGER&in\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl number of elements in buffer\hss}\\
-&datatype&MPI_Datatype&TYPE(MPI_Datatype)&in\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl datatype of each buffer element\hss}\\
-&status&MPI_Status*&TYPE(MPI_Status)&out\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl status object\hss}\\
-(opt)&ierror&&INTEGER&out\\
-)\\
+\hbox to 20pt{MPI_File_write_shared_c (\hss} \\
+ & fh & MPI_File & TYPE(MPI_File)  & INOUT \\&\hbox to 0pt{\footnotesize\sl file handle\hss} \\ 
+ & buf & void* & TYPE(*), DIMENSION(..)  & IN \\&\hbox to 0pt{\footnotesize\sl initial address of buffer\hss} \\ 
+ & count & int & INTEGER  & IN \\ [-3pt]
+(big) & & MPI_Count & \hbox to 0pt {INTEGER(KIND=MPI_COUNT_KIND) \hss} \\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl number of elements in buffer\hss} \\ 
+ & datatype & MPI_Datatype & TYPE(MPI_Datatype)  & IN \\&\hbox to 0pt{\footnotesize\sl datatype of each buffer element\hss} \\ 
+ & status & MPI_Status* & TYPE(MPI_Status)  & OUT \\&\hbox to 0pt{\footnotesize\sl status object\hss} \\ 
+
 \bottomrule
 \end{tabular}
 \endgroup

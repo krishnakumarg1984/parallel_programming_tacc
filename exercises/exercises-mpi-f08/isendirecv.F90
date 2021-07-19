@@ -5,7 +5,7 @@
 !**** `Parallel programming with MPI and OpenMP'
 !**** by Victor Eijkhout, eijkhout@tacc.utexas.edu
 !****
-!**** copyright Victor Eijkhout 2012-9
+!**** copyright Victor Eijkhout 2012-2021
 !****
 !**** MPI Exercise for Isend/Irecv
 !**** fortran 2008 version
@@ -13,7 +13,7 @@
 !****************************************************************/
 
 Program Isendirecv
-
+  use tools
   use mpi_f08
   implicit none
 
@@ -25,6 +25,7 @@ Program Isendirecv
   real*8 :: mydata, leftdata=0, rightdata=0, check
   integer :: sendto,recvfrom
   type(MPI_Request) :: requests(4)
+  logical :: error_condition
  
   call MPI_Init()
 
@@ -84,19 +85,9 @@ Program Isendirecv
      check = 3*procno
   end if
 
-  error = nprocs;
-  if ( .not. ISAPPROX(mydata,check) ) then
-     print *,"Data on process",procno,"should be",check," not",mydata
-     error = procno
-  end if
-  call MPI_Allreduce(error,errors,1,MPI_INTEGER,MPI_MIN,comm)
-  if (procno==0) then
-     if (errors==nprocs) then
-        print *,"Finished; all results correct"
-     else
-        print *,"First error occurred on proc",errors
-     end if
-  end if
+  error = nprocs
+  error_condition = .not. ISAPPROX(mydata,check)
+  call print_final_result(error_condition,comm)
 
   call MPI_Finalize()
   
@@ -109,4 +100,3 @@ contains
   end function ISAPPROX
   
 end Program Isendirecv
-

@@ -400,6 +400,12 @@
         Figure \ref{\labeltext}\ \textbf{\texttt{\indexedroutine}}
       }
 
+      % mpi standard macros
+      \def\MPI/{MPI}\def\mpi/{MPI}\def\RMA/{RMA}
+      \def\mpifunc##1{\texttt{##1}}
+      \let\mpiarg\mpifunc \let\mpicode\mpifunc
+      \let\const\mpifunc  \let\constskip\mpifunc
+
       % routine display
       {\footnotesize
        \def\verbatim@startline{\verbatim@line{\leavevmode\relax}}

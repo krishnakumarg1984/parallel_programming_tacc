@@ -87,18 +87,6 @@ Program Isendirecv
   error = nprocs;
   error_condition = .not. ISAPPROX(mydata,check)
   call print_final_result(error_condition,comm)
-  ! if ( .not. ISAPPROX(mydata,check) ) then
-  !    print *,"Data on process",procno,"should be",check," not",mydata
-  !    error = procno
-  ! end if
-  ! call MPI_Allreduce(error,errors,1,MPI_INTEGER,MPI_MIN,comm,ierr)
-  ! if (procno==0) then
-  !    if (errors==nprocs) then
-  !       print *,"Finished; all results correct"
-  !    else
-  !       print *,"First error occurred on proc",errors
-  !    end if
-  ! end if
 
   call MPI_Finalize(ierr)
   

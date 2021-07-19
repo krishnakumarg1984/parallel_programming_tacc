@@ -118,6 +118,35 @@
     {\end{lstlisting}
 }
 
+%%%%
+%%%% Prototypes
+%%%%
+\def\underscore{_}
+\def\mpiRoutineRef#1{\RoutineRefStyle\verbatiminput{#1}}
+\def\RoutineRefStyle{\scriptsize}
+\def\protoslide#{\bgroup \catcode`\_=12
+  \afterassignment\protoslideinclude \def\protoname}
+\def\protoslideinclude{%
+  \begin{frame}[containsverbatim]\frametitle{\texttt\protoname}
+      % mpi standard macros
+      \def\MPI/{MPI}\def\mpi/{MPI}\def\RMA/{RMA}
+      \def\mpifunc##1{\texttt{##1}}
+      \let\mpiarg\mpifunc \let\mpicode\mpifunc
+      \let\const\mpifunc  \let\constskip\mpifunc
+    \scriptsize
+    \edef\tmp{\lowercase{\def\noexpand\standardroutine{\protoname}}}\tmp
+    \IfFileExists
+        {standard/\standardroutine.tex}
+        {\input{standard/\standardroutine}}
+        {% if no standard file, then maybe handwritten file
+          \IfFileExists
+              {mpireference/\protoname.tex}
+              {\verbatiminput{mpireference/\protoname}}{}}
+        %\expandafter\mpiRoutineRef\expandafter{\protoname}
+  \end{frame}\egroup
+}
+    
+    
 %% %%%%
 %% %%%% Environments
 %% %%%%

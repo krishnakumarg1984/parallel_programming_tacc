@@ -4,9 +4,10 @@
 %%%%
 %%%% This text file is part of the lecture slides for
 %%%% `Parallel Programming in MPI and OpenMP'
-%%%% by Victor Eijkhout, copyright 2012-2020
+%%%% by Victor Eijkhout, copyright 2012-2021
 %%%%
 %%%% coursemacs.tex : macros for the lecture slides
+%%%% THIS NEEDS TO BE MERGED INTO slidemacs AS MUCH AS POSSIBLE
 %%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -84,25 +85,6 @@
   \end{frame}
 }
 
-\def\underscore{_}
-\def\mpiRoutineRef#1{\RoutineRefStyle\verbatiminput{#1}}
-\def\RoutineRefStyle{\scriptsize}
-\def\protoslide#{\bgroup \catcode`\_=12
-  \afterassignment\protoslideinclude \def\protoname}
-\def\protoslideinclude{%
-  \begin{frame}[containsverbatim]\frametitle{\texttt\protoname}
-    \scriptsize
-    \edef\tmp{\lowercase{\def\noexpand\standardroutine{\protoname}}}\tmp
-    \IfFileExists
-        {standard/\standardroutine.tex}
-        {\input{standard/\standardroutine}}
-        {% if no standard file, then maybe handwritten file
-          \IfFileExists
-              {mpireference/\protoname.tex}
-              {\verbatiminput{mpireference/\protoname}}{}}
-        %\expandafter\mpiRoutineRef\expandafter{\protoname}
-  \end{frame}\egroup
-}
 
 \def\innocentcharacters{% move this to commen and unify
   \catcode`\_=12 \catcode`\#=12
@@ -129,7 +111,8 @@
 \newenvironment
     {exerciseframe}[1][]
     {\def\optfile{#1}
-      \ifx\optfile\empty\else\message{VLE EXERCISE #1}\index[programming]{#1}\fi
+      \ifx\optfile\empty\else\message{VLE EXERCISE #1}%\index[programming]{#1}
+      \fi
       \begin{frame}[containsverbatim]
         \ifx\optfile\empty
         \frametitle{Exercise \arabic{excounter}}
@@ -182,11 +165,11 @@
 \let\indexterm\emph
 \let\indextermtt\n
 \let\indextermfunction\indextermtt
+\newcommand{\indextermsubh}[2]{\emph{#1-#2}}
 
 \iffalse
 \newcommand{\indextermp}[1]{\emph{#1s}}
 \newcommand{\indextermsub}[2]{\emph{#1 #2}}
-\newcommand{\indextermsubh}[2]{\emph{#1-#2}}
 \newcommand{\indextermsubp}[2]{\emph{#1 #2s}}
 \newcommand{\indextermbus}[2]{\emph{#1 #2}}
 \newcommand{\indextermstart}[1]{\emph{#1}}
@@ -234,8 +217,6 @@
 \fi
 
 
-\newcommand\skeleton[1]{}
-
 %%%%
 %%%% Environments
 %%%%
@@ -243,7 +224,7 @@
 \setcounter{slidecount}{1}
 \newenvironment
     {numberedframe}[1]
-    {\begin{frame}[containsverbatim]{\arabic{slidecount}\ #1}
+    {\begin{frame}[containsverbatim]{\arabic{slidecount}.\ #1}
         \refstepcounter{slidecount}
     }
     {\end{frame}}
@@ -259,12 +240,4 @@
   {\end{quotation}}
 \newenvironment{mpifour}
   {\begin{quotation}\textbf{MPI-4:\ }\ignorespaces}{\end{quotation}}
-\newtheorem{remark}{Remark}
 
-%%%%
-%%%% verbatim sources
-%%%%
-\newtoks\chaptersourcelist
-\newcommand\addchaptersource[1]{
-  \edef\temp{\global\chaptersourcelist={\the\chaptersourcelist #1}}\temp
-}

@@ -1,3 +1,16 @@
+!****************************************************************
+!****
+!**** This program file is part of the book 
+!**** `Parallel programming with MPI and OpenMP'
+!**** by Victor Eijkhout, eijkhout@tacc.utexas.edu
+!****
+!**** copyright Victor Eijkhout 2012-2021
+!****
+!**** tools for MPI exercises
+!**** fortran 2008 version
+!****
+!****************************************************************/
+
 Module Tools
 contains
 
@@ -25,20 +38,20 @@ contains
   !! print overall error result
   !!
   subroutine print_final_result( cond,comm )
-    use mpi
+    use mpi_f08
     implicit none
     logical,intent(in) :: cond
-    integer,intent(in) :: comm
+    Type(MPI_Comm),intent(in) :: comm
     integer :: nprocs,procno, error,errors, ierr
 
-    call MPI_Comm_size(comm,nprocs,ierr)
-    call MPI_Comm_rank(comm,procno,ierr)
+    call MPI_Comm_size(comm,nprocs)
+    call MPI_Comm_rank(comm,procno)
     if (cond) then
        error = procno
     else
        error = nprocs
     end if
-    call MPI_Allreduce( error,errors,1,MPI_INTEGER,MPI_MIN,comm,ierr)
+    call MPI_Allreduce( error,errors,1,MPI_INTEGER,MPI_MIN,comm)
     if (procno==0) then
        if (errors==nprocs) then
           print *,"Finished; all results correct"

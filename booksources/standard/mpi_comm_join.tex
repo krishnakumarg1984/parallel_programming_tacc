@@ -1,17 +1,17 @@
 % -*- latex -*-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%
-%%%% This text file is part of the source of 
-%%%% `Parallel Computing'
-%%%% by Victor Eijkhout, copyright 2012-2021
-%%%%
-%%%% MPI API file
-%%%%
-%%%% THIS FILE IS AUTO-GENERATED
-%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% This text file is part of the source of 
+%% `Parallel Computing'
+%% by Victor Eijkhout, copyright 2012-2021
+%%
+%% MPI API file for MPI_Comm_join
+%%
+%% THIS FILE IS AUTO-GENERATED
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begingroup
 \ttfamily\bfseries
@@ -25,12 +25,9 @@
 \mdseries\textrm{inout}\\
 \midrule
 \hbox to 20pt{MPI_Comm_join (\hss} \\
-&fd&int&INTEGER&in\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl socket file descriptor\hss}\\
-&intercomm&MPI_Comm*&TYPE(MPI_Comm)&out\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl new inter-communicator\hss}\\
-(opt)&ierror&&INTEGER&out\\
-)\\
+ & fd & int & INTEGER  \\&\hbox to 0pt{\footnotesize\sl socket file descriptor\hss} \\ 
+ & intercomm & MPI_Comm* & TYPE(MPI_Comm)  \\&\hbox to 0pt{\footnotesize\sl new inter-communicator\hss} \\ 
+
 \bottomrule
 \end{tabular}
 \endgroup

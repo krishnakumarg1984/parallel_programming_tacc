@@ -39,15 +39,11 @@ NP = 4
 # PYTHON_gcc  = /opt/local/bin/python2.7
 # PYTHON_intel = python3
 # PYTHON = ${PYTHON_${TACC_FAMILY_COMPILER}}
+
 PYTHON = python3
 PROGRAM = hello
 OPTIONS =
-
-##
-## compilation is phony
-##
-.PHONY: ${EXERCISES}
-${EXERCISES} :
+include ../course-support/Make.compile
 
 PROGRAM_EXTENSION = .py
 

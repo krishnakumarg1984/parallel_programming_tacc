@@ -1,17 +1,17 @@
 % -*- latex -*-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%
-%%%% This text file is part of the source of 
-%%%% `Parallel Computing'
-%%%% by Victor Eijkhout, copyright 2012-2021
-%%%%
-%%%% MPI API file
-%%%%
-%%%% THIS FILE IS AUTO-GENERATED
-%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% This text file is part of the source of 
+%% `Parallel Computing'
+%% by Victor Eijkhout, copyright 2012-2021
+%%
+%% MPI API file for MPI_Waitsome
+%%
+%% THIS FILE IS AUTO-GENERATED
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begingroup
 \ttfamily\bfseries
@@ -25,18 +25,12 @@
 \mdseries\textrm{inout}\\
 \midrule
 \hbox to 20pt{MPI_Waitsome (\hss} \\
-&incount&int&INTEGER&in\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl length of array_of_requests\hss}\\
-&array_of_requests&MPI_Request[]&TYPE(MPI_Request)&inout\\&\hbox to 0pt{mfamily length: \ttfamily\mdseries\catcode`\_=12 incount\hss}\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl array of requests\hss}\\
-&outcount&int*&INTEGER&out\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl number of completed requests\hss}\\
-&array_of_indices&int[]&INTEGER&out\\&\hbox to 0pt{mfamily length: \ttfamily\mdseries\catcode`\_=12 *\hss}\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl array of indices of operations that completed\hss}\\
-&array_of_statuses&MPI_Status[]&TYPE(MPI_Status)&out\\&\hbox to 0pt{mfamily length: \ttfamily\mdseries\catcode`\_=12 *\hss}\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl array of status objects for operations that completed\hss}\\
-(opt)&ierror&&INTEGER&out\\
-)\\
+ & incount & int & INTEGER  \\&\hbox to 0pt{\footnotesize\sl length of array_of_requests\hss} \\ 
+ & array_of_requests & MPI_Request & TYPE(MPI_Request)  \\&\hbox to 0pt{\footnotesize\sl array of requests\hss} \\ 
+ & outcount & int* & INTEGER  \\&\hbox to 0pt{\footnotesize\sl number of completed requests\hss} \\ 
+ & array_of_indices & int & INTEGER  \\&\hbox to 0pt{\footnotesize\sl array of indices of operations that completed\hss} \\ 
+ & array_of_statuses & MPI_Status & TYPE(MPI_Status)  \\&\hbox to 0pt{\footnotesize\sl array of status objects for operations that completed\hss} \\ 
+
 \bottomrule
 \end{tabular}
 \endgroup

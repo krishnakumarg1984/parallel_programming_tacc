@@ -1,17 +1,17 @@
 % -*- latex -*-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%
-%%%% This text file is part of the source of 
-%%%% `Parallel Computing'
-%%%% by Victor Eijkhout, copyright 2012-2021
-%%%%
-%%%% MPI API file
-%%%%
-%%%% THIS FILE IS AUTO-GENERATED
-%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% This text file is part of the source of 
+%% `Parallel Computing'
+%% by Victor Eijkhout, copyright 2012-2021
+%%
+%% MPI API file for MPI_Comm_spawn
+%%
+%% THIS FILE IS AUTO-GENERATED
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begingroup
 \ttfamily\bfseries
@@ -25,24 +25,15 @@
 \mdseries\textrm{inout}\\
 \midrule
 \hbox to 20pt{MPI_Comm_spawn (\hss} \\
-&command&const~char*&CHARACTER&in\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl name of program to be spawned\hss}\\
-&argv&char[]*&CHARACTER&in\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl arguments to command\hss}\\
-&maxprocs&int&INTEGER&in\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl maximum number of processes to start\hss}\\
-&info&MPI_Info&TYPE(MPI_Info)&in\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl a set of key-value pairs telling the runtime system where and how to start the processes\hss}\\
-&root&int&INTEGER&in\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl rank of process in which previous arguments are examined\hss}\\
-&comm&MPI_Comm&TYPE(MPI_Comm)&in\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl intra-communicator containing group of spawning processes\hss}\\
-&intercomm&MPI_Comm*&TYPE(MPI_Comm)&out\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl inter-communicator between original group and the newly spawned group\hss}\\
-&array_of_errcodes&int[]&INTEGER&out\\&\hbox to 0pt{mfamily length: \ttfamily\mdseries\catcode`\_=12 \hss}\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl one code per process (array of integer)\hss}\\
-(opt)&ierror&&INTEGER&out\\
-)\\
+ & command & char* & CHARACTER  \\&\hbox to 0pt{\footnotesize\sl name of program to be spawned\hss} \\ 
+ & argv & char* & CHARACTER  \\&\hbox to 0pt{\footnotesize\sl arguments to \mpiarg{command}\hss} \\ 
+ & maxprocs & int & INTEGER  \\&\hbox to 0pt{\footnotesize\sl maximum number of processes to start\hss} \\ 
+ & info & MPI_Info & TYPE(MPI_Info)  \\&\hbox to 0pt{\footnotesize\sl a set of key-value pairs telling the runtime system where and how to start the processes\hss} \\ 
+ & root & int & INTEGER  \\&\hbox to 0pt{\footnotesize\sl rank of process in which previous arguments are examined\hss} \\ 
+ & comm & MPI_Comm & TYPE(MPI_Comm)  \\&\hbox to 0pt{\footnotesize\sl intra-communicator containing group of spawning processes\hss} \\ 
+ & intercomm & MPI_Comm* & TYPE(MPI_Comm)  \\&\hbox to 0pt{\footnotesize\sl inter-communicator between original group and the newly spawned group\hss} \\ 
+ & array_of_errcodes & int & INTEGER  \\&\hbox to 0pt{\footnotesize\sl one code per process\hss} \\ 
+
 \bottomrule
 \end{tabular}
 \endgroup

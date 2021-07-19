@@ -1,17 +1,17 @@
 % -*- latex -*-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%
-%%%% This text file is part of the source of 
-%%%% `Parallel Computing'
-%%%% by Victor Eijkhout, copyright 2012-2021
-%%%%
-%%%% MPI API file
-%%%%
-%%%% THIS FILE IS AUTO-GENERATED
-%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% This text file is part of the source of 
+%% `Parallel Computing'
+%% by Victor Eijkhout, copyright 2012-2021
+%%
+%% MPI API file for MPI_Psend_init
+%%
+%% THIS FILE IS AUTO-GENERATED
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begingroup
 \ttfamily\bfseries
@@ -25,26 +25,16 @@
 \mdseries\textrm{inout}\\
 \midrule
 \hbox to 20pt{MPI_Psend_init (\hss} \\
-&buf&void*&TYPE(*), DIMENSION(..)&in\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl initial address of send buffer (choice)\hss}\\
-&partitions&int&INTEGER&in\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl number of partitions\hss}\\
-&count&MPI_Count&INTEGER(KIND=MPI_COUNT_KIND)&in\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl number of elements send per partition\hss}\\
-&datatype&MPI_Datatype&TYPE(MPI_Datatype)&in\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl type of each element\hss}\\
-&dest&int&INTEGER&in\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl rank of destination\hss}\\
-&tag&int&INTEGER&in\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl message tag\hss}\\
-&comm&MPI_Comm&TYPE(MPI_Comm)&in\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl communicator\hss}\\
-&info&MPI_Info&TYPE(MPI_Info)&in\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl info argument\hss}\\
-&request&MPI_Request*&TYPE(MPI_Request)&out\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl communication request\hss}\\
-(opt)&ierror&&INTEGER&out\\
-)\\
+ & buf & void* & TYPE(*), DIMENSION(..)  \\&\hbox to 0pt{\footnotesize\sl initial address of send buffer\hss} \\ 
+ & partitions & int & INTEGER  \\&\hbox to 0pt{\footnotesize\sl number of partitions\hss} \\ 
+ & count & MPI_Count & INTEGER(KIND=MPI_COUNT_KIND)  \\&\hbox to 0pt{\footnotesize\sl number of elements sent per partition\hss} \\ 
+ & datatype & MPI_Datatype & TYPE(MPI_Datatype)  \\&\hbox to 0pt{\footnotesize\sl type of each element\hss} \\ 
+ & dest & int & INTEGER  \\&\hbox to 0pt{\footnotesize\sl rank of destination\hss} \\ 
+ & tag & int & INTEGER  \\&\hbox to 0pt{\footnotesize\sl message tag\hss} \\ 
+ & comm & MPI_Comm & TYPE(MPI_Comm)  \\&\hbox to 0pt{\footnotesize\sl communicator\hss} \\ 
+ & info & MPI_Info & TYPE(MPI_Info)  \\&\hbox to 0pt{\footnotesize\sl info argument\hss} \\ 
+ & request & MPI_Request* & TYPE(MPI_Request)  \\&\hbox to 0pt{\footnotesize\sl communication request\hss} \\ 
+
 \bottomrule
 \end{tabular}
 \endgroup

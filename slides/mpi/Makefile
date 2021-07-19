@@ -11,11 +11,14 @@
 ################################################################
 
 info::
+	@echo "================================================================"
+	@echo "makefile for MPI course slides"
+	@echo "================================================================"
+	@echo
 
 COURSE = mpi
 COURSES  = mpi mpl mpithree
 EXTRATEXINPUTS =
-#:${HOME}/Software/TeX/LaTeX//:${HOME}/Current/istc/scientific-computing-private/graphics//
 
 include ../course-support/Make.course
 

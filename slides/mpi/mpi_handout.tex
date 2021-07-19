@@ -18,7 +18,7 @@
 
 \begin{document}
 %\title{Guide to the MPI labs\\ 2020 Summer Institute}
-\title{Introduction to Advaned MPI features\\ PEARC 2020}
+\title{Introduction to Advanced features of MPI\\ PEARC 2021}
 \author{}\date{}
 \maketitle
 
@@ -37,7 +37,9 @@ ssh -X -l yourname frontera.tacc.utexas.edu
 you can leave out the \texttt{-l yourname} option.)
 \item When prompted, use reservation
   %%%% SPECIFICS
-  \texttt{PEARC20\_MPI}.
+  {\catcode`\_=12
+    \texttt{PEARC_2021_Advanced_MPI}
+  }
 \item If you already have an account on this machine,
   you may be prompted for which project to use.
   Your own or the class project
@@ -52,29 +54,25 @@ you can leave out the \texttt{-l yourname} option.)
 Course materials consist of pdf files and
 and exercise files.
 You probably want to open the pdf files
-on your local machine, so get them from:
+on your local machine, so get them from:\\
 %%%% SPECIFICS
-\begin{verbatim}
-https://tinyurl.com/tacc-2020-pearc
-\end{verbatim}
+\url{http://tinyurl.com/pearc21-tacc-advmpi}
 
-For doing the exercises you can find the same
-material on the cluster:
+For doing the exercises it's easiest to clone a repository:
 \begin{itemize}
-\item Unpack the course materials in your directory:
+\item Do
 %%%% SPECIFICS
 \begin{verbatim}
-tar fxz ~train00/mpithree_course_2020.tgz
+git clone https://VictorEijkhout@bitbucket.org/VictorEijkhout/parallel-programming-public.git
 \end{verbatim}
-\item Go into the course directory:
+\item Go into the exercises directory and pick your favorite language:
 %%%% SPECIFICS
 \begin{verbatim}
-cd mpithree_course
+cd exercises
+ls
+cd exercises-mpi-c
+## or cxx / f / f08 / p
 \end{verbatim}
-\item You will find pdf files of the course and of a full textbook.
-  It's a good idea to keep these open for reference.
-\item You will also find exercise directories for the languages~C, C++,
-  Fortran, Fortran2008, and Python. Pick your favourite.
 \item Fortran: it is advisable to use the \texttt{f08} directory.
 \item For C++ there is also the MPL package. To use this:
 \begin{verbatim}
@@ -84,7 +82,7 @@ export TACC_MPL_INC=/work/00434/eijkhout/mpl/mpl
 
 \section{Doing exercises}
 
-Review your slides about good citizenship at TACC:
+Please observe good citizenship at TACC:\\
 do not run parallel programs on the login nodes. Instead,
 follow these instructions:
 
@@ -92,9 +90,9 @@ follow these instructions:
 \item Start an interactive session, ideally on 2 nodes, for the
   duration of this course:
 \begin{verbatim}
-idev -N 2 -n 20 -t 6:0:0
+idev -N 2 -n 20 -t 1:0:0
 \end{verbatim}
-That is: two nodes with 20 processes total, for 6 hours.
+That is: two nodes with 20 processes total, for 1~hour.
 
 (Given 2 nodes, you can request up to 96 processes on Stampede2
 and 116 on Frontera, but that will make a mess of your screen output.

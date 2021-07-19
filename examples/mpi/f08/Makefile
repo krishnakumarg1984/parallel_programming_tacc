@@ -16,7 +16,7 @@ info ::
 	@echo "================================================================"
 	@echo "available rules:"
 
-APPS = reduceinplace reduceinplaceptr section anysource putfence waitnull vector \
+APPS = reduceinplace reduceinplaceptr section anysource putfence waitnull vector vectorx \
     typecheck
 
 LANGUAGE = F

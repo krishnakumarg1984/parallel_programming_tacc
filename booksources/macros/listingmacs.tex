@@ -49,7 +49,7 @@
     MPI_Group_size,MPI_Group_rank,MPI_Group_free,MPI_Group_incl,MPI_Group_excl,
     MPI_Group_union,MPI_Group_intersection,MPI_Group_difference,
     % collectives
-    MPI_Allreduce,MPI_Reduce,MPI_Reduce_local,MPI_Bcast,
+    MPI_Allreduce,MPI_Allreduce_c,MPI_Reduce,MPI_Reduce_c,MPI_Reduce_local,MPI_Bcast,
     MPI_Gather,MPI_Scatter,MPI_Scatterv,MPI_Gatherv,MPI_All...,MPI_...v,
     MPI_Allgather,MPI_Allgatherv,MPI_Alltoall,MPI_Alltoallv,
     MPI_Reduce_scatter,MPI_Reduce_scatter_block,
@@ -61,7 +61,7 @@
     MPI_Ialltoall,MPI_Ialltoallv,MPI_Ialltoallw,
     MPI_Ibcast,MPI_Ibarrier,MPI_Iexscan,MPI_Iscan,MPI_Isomething,
     % p2p
-    MPI_Send,MPI_Isend,MPI_Rsend,MPI_Irsend,MPI_Ssend,MPI_Issend,
+    MPI_Send,MPI_Send_c,MPI_Isend,MPI_Rsend,MPI_Irsend,MPI_Ssend,MPI_Issend,
     MPI_Bsend,MPI_Ibsend,MPI_Bsend_init,MPI_Cancel,
     MPI_Recv,MPI_Irecv,MPI_Mrecv,MPI_Sendrecv,MPI_Sendrecv_replace,
     MPI_Isendrecv,MPI_Isendrecv_replace,MPI_Sendrecv_init,MPI_Sendrecv_replace_init,
@@ -71,7 +71,8 @@
     MPI_Test,MPI_Test...,MPI_Testall,MPI_Testany,MPI_Testsome,
     MPI_Probe,MPI_Iprobe,MPI_Mprobe,
     MPI_Request_free,MPI_Request_get_status,
-    MPI_Get_count,MPI_Get_count_x,MPI_Get_elements,MPI_Get_elements_x,MPI_Get_address,
+    MPI_Get_count,MPI_Get_count_c,MPI_Get_count_x,
+    MPI_Get_elements,MPI_Get_elements_c,MPI_Get_elements_x,MPI_Get_address,
     MPI_Get_hw_resource_types,
     MPI_Buffer_attach,MPI_Buffer_detach,
     % operator
@@ -109,7 +110,7 @@
     MPI_Win_lock,MPI_Win_unlock,MPI_Win_lock_all,MPI_Win_unlock_all,
     MPI_Win_flush,MPI_Win_flush_all,MPI_Win_flush_local,MPI_Win_flush_local_all,MPI_Win_sync,
     MPI_Win_post,MPI_Win_start,MPI_Win_wait,MPI_Win_complete,
-    MPI_Put,MPI_Rput,MPI_Get,MPI_Rget,MPI_Accumulate,MPI_Raccumulate,MPI_Rget_accumulate,
+    MPI_Put,MPI_Rput,MPI_Get,MPI_Get_c,MPI_Rget,MPI_Accumulate,MPI_Raccumulate,MPI_Rget_accumulate,
     MPI_Get_accumulate,MPI_Fetch_and_op,MPI_Compare_and_swap,
     % topology
     MPI_Topo_test,MPI_Cart_create,MPI_Cart_coords,MPI_Cart_rank,MPI_Cart_shift,
@@ -124,6 +125,9 @@
     % process
     MPI_Comm_spawn,MPI_Comm_spawn_multiple,
     MPI_Open_port,MPI_Close_port,MPI_Publish_name,MPI_Unpublish_name,MPI_Lookup_name,
+    % keyval
+    MPI_Keyval_create,MPI_Keyval_free,
+    MPI_Comm_create_keyval,MPI_Comm_free_keyval,MPI_Type_create_keyval,MPI_Type_free_keyval,MPI_Win_create_keyval,MPI_Win_free_keyval,
     % errors
     MPI_Add_error_class,MPI_Add_error_code,MPI_Add_error_string,MPI_Error_class,
     MPI_Comm_create_errhandler,MPI_Comm_set_errhandler,MPI_Comm_get_errhandler,MPI_Comm_call_errhandler,

@@ -1,17 +1,17 @@
 % -*- latex -*-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%
-%%%% This text file is part of the source of 
-%%%% `Parallel Computing'
-%%%% by Victor Eijkhout, copyright 2012-2021
-%%%%
-%%%% MPI API file
-%%%%
-%%%% THIS FILE IS AUTO-GENERATED
-%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% This text file is part of the source of 
+%% `Parallel Computing'
+%% by Victor Eijkhout, copyright 2012-2021
+%%
+%% MPI API file for MPI_Session_get_pset_info
+%%
+%% THIS FILE IS AUTO-GENERATED
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begingroup
 \ttfamily\bfseries
@@ -25,14 +25,10 @@
 \mdseries\textrm{inout}\\
 \midrule
 \hbox to 20pt{MPI_Session_get_pset_info (\hss} \\
-&session&MPI_Session&TYPE(MPI_Session)&in\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl session\hss}\\
-&pset_name&const~char*&CHARACTER&in\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl name of process set\hss}\\
-&info&MPI_Info*&TYPE(MPI_Info)&out\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl info object containing information about the given process set\hss}\\
-(opt)&ierror&&INTEGER&out\\
-)\\
+ & session & MPI_Session & TYPE(MPI_Session)  \\&\hbox to 0pt{\footnotesize\sl session\hss} \\ 
+ & pset_name & char* & CHARACTER  \\&\hbox to 0pt{\footnotesize\sl name of process set\hss} \\ 
+ & info & MPI_Info* & TYPE(MPI_Info)  \\&\hbox to 0pt{\footnotesize\sl info object containing information about the given process set\hss} \\ 
+
 \bottomrule
 \end{tabular}
 \endgroup

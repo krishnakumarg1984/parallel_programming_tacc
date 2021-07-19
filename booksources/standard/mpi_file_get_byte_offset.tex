@@ -1,17 +1,17 @@
 % -*- latex -*-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%
-%%%% This text file is part of the source of 
-%%%% `Parallel Computing'
-%%%% by Victor Eijkhout, copyright 2012-2021
-%%%%
-%%%% MPI API file
-%%%%
-%%%% THIS FILE IS AUTO-GENERATED
-%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% This text file is part of the source of 
+%% `Parallel Computing'
+%% by Victor Eijkhout, copyright 2012-2021
+%%
+%% MPI API file for MPI_File_get_byte_offset
+%%
+%% THIS FILE IS AUTO-GENERATED
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begingroup
 \ttfamily\bfseries
@@ -25,14 +25,10 @@
 \mdseries\textrm{inout}\\
 \midrule
 \hbox to 20pt{MPI_File_get_byte_offset (\hss} \\
-&fh&MPI_File&TYPE(MPI_File)&in\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl file handle\hss}\\
-&offset&MPI_Offset&INTEGER(KIND=MPI_OFFSET_KIND)&in\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl offset\hss}\\
-&disp&MPI_Offset*&INTEGER(KIND=MPI_OFFSET_KIND)&out\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl absolute byte position of offset\hss}\\
-(opt)&ierror&&INTEGER&out\\
-)\\
+ & fh & MPI_File & TYPE(MPI_File)  \\&\hbox to 0pt{\footnotesize\sl file handle\hss} \\ 
+ & offset & MPI_Offset & INTEGER(KIND=MPI_OFFSET_KIND)  \\&\hbox to 0pt{\footnotesize\sl offset\hss} \\ 
+ & disp & MPI_Offset* & INTEGER(KIND=MPI_OFFSET_KIND)  \\&\hbox to 0pt{\footnotesize\sl absolute byte position of offset\hss} \\ 
+
 \bottomrule
 \end{tabular}
 \endgroup

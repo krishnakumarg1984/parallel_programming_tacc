@@ -1,17 +1,17 @@
 % -*- latex -*-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%
-%%%% This text file is part of the source of 
-%%%% `Parallel Computing'
-%%%% by Victor Eijkhout, copyright 2012-2021
-%%%%
-%%%% MPI API file
-%%%%
-%%%% THIS FILE IS AUTO-GENERATED
-%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% This text file is part of the source of 
+%% `Parallel Computing'
+%% by Victor Eijkhout, copyright 2012-2021
+%%
+%% MPI API file for MPI_Ineighbor_alltoallw
+%%
+%% THIS FILE IS AUTO-GENERATED
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begingroup
 \ttfamily\bfseries
@@ -25,28 +25,22 @@
 \mdseries\textrm{inout}\\
 \midrule
 \hbox to 20pt{MPI_Ineighbor_alltoallw (\hss} \\
-&sendbuf&const~void*&TYPE(*), DIMENSION(..)&in\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl starting address of send buffer\hss}\\
-&sendcounts&const~int[]&INTEGER&in\\&\hbox to 0pt{mfamily length: \ttfamily\mdseries\catcode`\_=12 *\hss}\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl non-negative integer array (of length outdegree) specifying the number of elements to send to each neighbor\hss}\\
-&sdispls&const~MPI_Aint[]&INTEGER(KIND=MPI_ADDRESS_KIND)&in\\&\hbox to 0pt{mfamily length: \ttfamily\mdseries\catcode`\_=12 *\hss}\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl integer array (of length outdegree). Entry j specifies the displacement in bytes (relative to sendbuf) from which to take the outgoing data destined for neighbor j\hss}\\
-&sendtypes&const~MPI_Datatype[]&TYPE(MPI_Datatype)&in\\&\hbox to 0pt{mfamily length: \ttfamily\mdseries\catcode`\_=12 *\hss}\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl array of datatypes (of length outdegree). Entry j specifies the type of data to send to neighbor j\hss}\\
-&recvbuf&void*&TYPE(*), DIMENSION(..)&out\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl starting address of receive buffer\hss}\\
-&recvcounts&const~int[]&INTEGER&in\\&\hbox to 0pt{mfamily length: \ttfamily\mdseries\catcode`\_=12 *\hss}\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl non-negative integer array (of length indegree) specifying the number of elements that are received from each neighbor\hss}\\
-&rdispls&const~MPI_Aint[]&INTEGER(KIND=MPI_ADDRESS_KIND)&in\\&\hbox to 0pt{mfamily length: \ttfamily\mdseries\catcode`\_=12 *\hss}\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl integer array (of length indegree). Entry i specifies the displacement in bytes (relative to recvbuf) at which to place the incoming data from neighbor i\hss}\\
-&recvtypes&const~MPI_Datatype[]&TYPE(MPI_Datatype)&in\\&\hbox to 0pt{mfamily length: \ttfamily\mdseries\catcode`\_=12 *\hss}\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl array of datatypes (of length indegree). Entry i specifies the type of data received from neighbor i\hss}\\
-&comm&MPI_Comm&TYPE(MPI_Comm)&in\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl communicator with topology structure\hss}\\
-&request&MPI_Request*&TYPE(MPI_Request)&out\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl communication request\hss}\\
-(opt)&ierror&&INTEGER&out\\
-)\\
+\hbox to 20pt{MPI_Ineighbor_alltoallw_c (\hss} \\
+ & sendbuf & void* & TYPE(*), DIMENSION(..)  & IN \\&\hbox to 0pt{\footnotesize\sl starting address of send buffer\hss} \\ 
+ & sendcounts & int & INTEGER  & IN \\ [-3pt]
+(big) & & MPI_Count & \hbox to 0pt {INTEGER(KIND=MPI_COUNT_KIND) \hss} \\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl non-negative integer array (of length outdegree) specifying the number of elements to send to each neighbor\hss} \\ 
+ & sdispls & MPI_Aint & INTEGER(KIND=MPI_ADDRESS_KIND)  & IN \\&\hbox to 0pt{\footnotesize\sl integer array (of length outdegree). Entry \mpicode{j} specifies the displacement in bytes (relative to \mpiarg{sendbuf}) from which to take the outgoing data destined for neighbor \mpicode{j}\hss} \\ 
+ & sendtypes & MPI_Datatype & TYPE(MPI_Datatype)  & IN \\&\hbox to 0pt{\footnotesize\sl array of datatypes (of length outdegree). Entry \mpicode{j} specifies the type of data to send to neighbor \mpicode{j}\hss} \\ 
+ & recvbuf & void* & TYPE(*), DIMENSION(..)  & OUT \\&\hbox to 0pt{\footnotesize\sl starting address of receive buffer\hss} \\ 
+ & recvcounts & int & INTEGER  & IN \\ [-3pt]
+(big) & & MPI_Count & \hbox to 0pt {INTEGER(KIND=MPI_COUNT_KIND) \hss} \\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl non-negative integer array (of length indegree) specifying the number of elements that are received from each neighbor\hss} \\ 
+ & rdispls & MPI_Aint & INTEGER(KIND=MPI_ADDRESS_KIND)  & IN \\&\hbox to 0pt{\footnotesize\sl integer array (of length indegree). Entry \mpicode{i} specifies the displacement in bytes (relative to \mpiarg{recvbuf}) at which to place the incoming data from neighbor \mpicode{i}\hss} \\ 
+ & recvtypes & MPI_Datatype & TYPE(MPI_Datatype)  & IN \\&\hbox to 0pt{\footnotesize\sl array of datatypes (of length indegree). Entry \mpicode{i} specifies the type of data received from neighbor \mpicode{i}\hss} \\ 
+ & comm & MPI_Comm & TYPE(MPI_Comm)  & IN \\&\hbox to 0pt{\footnotesize\sl communicator with topology structure\hss} \\ 
+ & request & MPI_Request* & TYPE(MPI_Request)  & OUT \\&\hbox to 0pt{\footnotesize\sl communication request\hss} \\ 
+
 \bottomrule
 \end{tabular}
 \endgroup

@@ -1,17 +1,17 @@
 % -*- latex -*-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%
-%%%% This text file is part of the source of 
-%%%% `Parallel Computing'
-%%%% by Victor Eijkhout, copyright 2012-2021
-%%%%
-%%%% MPI API file
-%%%%
-%%%% THIS FILE IS AUTO-GENERATED
-%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% This text file is part of the source of 
+%% `Parallel Computing'
+%% by Victor Eijkhout, copyright 2012-2021
+%%
+%% MPI API file for MPI_Unpublish_name
+%%
+%% THIS FILE IS AUTO-GENERATED
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begingroup
 \ttfamily\bfseries
@@ -25,14 +25,10 @@
 \mdseries\textrm{inout}\\
 \midrule
 \hbox to 20pt{MPI_Unpublish_name (\hss} \\
-&service_name&const~char*&CHARACTER&in\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl a service name\hss}\\
-&info&MPI_Info&TYPE(MPI_Info)&in\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl implementation-specific information\hss}\\
-&port_name&const~char*&CHARACTER&in\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl a port name\hss}\\
-(opt)&ierror&&INTEGER&out\\
-)\\
+ & service_name & char* & CHARACTER  \\&\hbox to 0pt{\footnotesize\sl a service name\hss} \\ 
+ & info & MPI_Info & TYPE(MPI_Info)  \\&\hbox to 0pt{\footnotesize\sl implementation-specific information\hss} \\ 
+ & port_name & char* & CHARACTER  \\&\hbox to 0pt{\footnotesize\sl a port name\hss} \\ 
+
 \bottomrule
 \end{tabular}
 \endgroup

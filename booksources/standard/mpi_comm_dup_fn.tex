@@ -1,17 +1,17 @@
 % -*- latex -*-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%
-%%%% This text file is part of the source of 
-%%%% `Parallel Computing'
-%%%% by Victor Eijkhout, copyright 2012-2021
-%%%%
-%%%% MPI API file
-%%%%
-%%%% THIS FILE IS AUTO-GENERATED
-%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% This text file is part of the source of 
+%% `Parallel Computing'
+%% by Victor Eijkhout, copyright 2012-2021
+%%
+%% MPI API file for MPI_Comm_dup_fn
+%%
+%% THIS FILE IS AUTO-GENERATED
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begingroup
 \ttfamily\bfseries
@@ -25,12 +25,12 @@
 \mdseries\textrm{inout}\\
 \midrule
 \hbox to 20pt{MPI_Comm_dup_fn (\hss} \\
-&oldcomm&MPI_Comm&TYPE(MPI_Comm)&in\\
-&comm_keyval&int&INTEGER&in\\
-&extra_state&void*&INTEGER(KIND=MPI_ADDRESS_KIND)&in\\
-&attribute_val_in&void*&INTEGER(KIND=MPI_ADDRESS_KIND)&in\\
-&attribute_val_out&void*&INTEGER(KIND=MPI_ADDRESS_KIND)&in\\
-&flag&int*&LOGICAL&out\\
+&oldcomm&handle&TYPE(MPI_Comm)&in\\
+&comm_keyval&integer&INTEGER&in\\
+&extra_state&&INTEGER(KIND=MPI_ADDRESS_KIND)&in\\
+&attribute_val_in&&INTEGER(KIND=MPI_ADDRESS_KIND)&in\\
+&attribute_val_out&&INTEGER(KIND=MPI_ADDRESS_KIND)&in\\
+&flag&logical*&LOGICAL&out\\
 &ierror&&INTEGER&in\\
 )\\
 \bottomrule

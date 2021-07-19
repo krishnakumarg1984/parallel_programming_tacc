@@ -1,17 +1,17 @@
 % -*- latex -*-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%
-%%%% This text file is part of the source of 
-%%%% `Parallel Computing'
-%%%% by Victor Eijkhout, copyright 2012-2021
-%%%%
-%%%% MPI API file
-%%%%
-%%%% THIS FILE IS AUTO-GENERATED
-%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% This text file is part of the source of 
+%% `Parallel Computing'
+%% by Victor Eijkhout, copyright 2012-2021
+%%
+%% MPI API file for MPI_Cart_map
+%%
+%% THIS FILE IS AUTO-GENERATED
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begingroup
 \ttfamily\bfseries
@@ -25,18 +25,12 @@
 \mdseries\textrm{inout}\\
 \midrule
 \hbox to 20pt{MPI_Cart_map (\hss} \\
-&comm&MPI_Comm&TYPE(MPI_Comm)&in\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl input communicator\hss}\\
-&ndims&int&INTEGER&in\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl number of dimensions of Cartesian structure\hss}\\
-&dims&const~int[]&INTEGER&in\\&\hbox to 0pt{mfamily length: \ttfamily\mdseries\catcode`\_=12 ndims\hss}\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl integer array of size ndims specifying the number of processes in each coordinate direction\hss}\\
-&periods&const~int[]&LOGICAL&in\\&\hbox to 0pt{mfamily length: \ttfamily\mdseries\catcode`\_=12 ndims\hss}\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl logical array of size ndims specifying the periodicity specification in each coordinate direction\hss}\\
-&newrank&int*&INTEGER&out\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl reordered rank of the calling process; {\ttfamily\bfseries\catcode`\_=12 MPI_UNDEFINED} if calling process does not belong to grid\hss}\\
-(opt)&ierror&&INTEGER&out\\
-)\\
+ & comm & MPI_Comm & TYPE(MPI_Comm)  \\&\hbox to 0pt{\footnotesize\sl input communicator\hss} \\ 
+ & ndims & int & INTEGER  \\&\hbox to 0pt{\footnotesize\sl number of dimensions of Cartesian structure\hss} \\ 
+ & dims & int & INTEGER  \\&\hbox to 0pt{\footnotesize\sl integer array of size \mpiarg{ndims} specifying the number of processes in each coordinate direction\hss} \\ 
+ & periods & int & LOGICAL  \\&\hbox to 0pt{\footnotesize\sl logical array of size \mpiarg{ndims} specifying the periodicity specification in each coordinate direction\hss} \\ 
+ & newrank & int* & INTEGER  \\&\hbox to 0pt{\footnotesize\sl reordered rank of the calling process; \const{MPI_UNDEFINED} if calling process does not belong to grid\hss} \\ 
+
 \bottomrule
 \end{tabular}
 \endgroup

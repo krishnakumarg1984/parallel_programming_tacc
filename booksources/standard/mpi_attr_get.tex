@@ -1,17 +1,17 @@
 % -*- latex -*-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%
-%%%% This text file is part of the source of 
-%%%% `Parallel Computing'
-%%%% by Victor Eijkhout, copyright 2012-2021
-%%%%
-%%%% MPI API file
-%%%%
-%%%% THIS FILE IS AUTO-GENERATED
-%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% This text file is part of the source of 
+%% `Parallel Computing'
+%% by Victor Eijkhout, copyright 2012-2021
+%%
+%% MPI API file for MPI_Attr_get
+%%
+%% THIS FILE IS AUTO-GENERATED
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begingroup
 \ttfamily\bfseries
@@ -25,16 +25,7 @@
 \mdseries\textrm{inout}\\
 \midrule
 \hbox to 20pt{MPI_Attr_get (\hss} \\
-&comm&MPI_Comm&TYPE(MPI_Comm)&in\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl communicator to which attribute is attached\hss}\\
-&keyval&int&INTEGER&in\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl key value\hss}\\
-&attribute_val&void*&INTEGER&out\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl attribute value, unless flag = false\hss}\\
-&flag&int*&LOGICAL&out\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl true if an attribute value was extracted; false if no attribute is associated with the key\hss}\\
-(opt)&ierror&&INTEGER&out\\
-)\\
+
 \bottomrule
 \end{tabular}
 \endgroup

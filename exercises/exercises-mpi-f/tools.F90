@@ -1,3 +1,16 @@
+!****************************************************************
+!****
+!**** This program file is part of the book 
+!**** `Parallel programming with MPI and OpenMP'
+!**** by Victor Eijkhout, eijkhout@tacc.utexas.edu
+!****
+!**** copyright Victor Eijkhout 2012-2021
+!****
+!**** tools for MPI exercises
+!**** fortran90 version
+!****
+!****************************************************************/
+
 Module Tools
 contains
 

@@ -136,6 +136,44 @@ else
   \cverbatimsnippet{itransposescatter}
 \end{numberedframe}
 
+\begin{numberedframe}{Persistent collectives (MPI-4)}
+  Similar to persistent send/recv:
+\begin{lstlisting}
+MPI_Allreduce_init( ...., &request );
+for ( ... ) {
+  MPI_Start( request );
+  MPI_Wait( request );
+}
+MPI_Request_free( &request );
+\end{lstlisting}
+Available for all collectives and neighborhood collectives.
+\end{numberedframe}
+
+\begin{numberedframe}{Example}
+  \cverbatimsnippet{powerreducepersist}
+
+  Note also the \indexmpishow{MPI_Info} parameter.
+\end{numberedframe}
+
+\begin{numberedframe}{Persistent vs non-blocking}
+  Both request-based.
+  \begin{itemize}
+  \item Non-blocking is `ad hoc': buffer info not known before the collective call.
+  \item Persistent allows `planning ahead': management of internal buffers and such.
+  \end{itemize}
+\end{numberedframe}
+
+\begin{comment}
+  \begin{numberedframe}{Problem with `progress'}
+    \begin{itemize}
+    \item Problem: \indexmpishow{MPI_Test} is local
+    \item Something needs to force the barrier information to propagate
+    \item Solution: force progress with \indexmpishow{MPI_Iprobe}
+    \item Frowny face: barrier completion takes much longer than you'd expect.
+    \end{itemize}
+  \end{numberedframe}
+\end{comment}
+
 \sectionframe{Non-blocking barrier}
 
 \begin{numberedframe}{Just what is a barrier?}
@@ -174,12 +212,12 @@ else
 
 \protoslide{MPI_Ibarrier}
 
-\begin{numberedframe}{Step1}
+\begin{numberedframe}{Step 1}
   Do sends, post barrier.
 \cverbatimsnippet{ibarrierpost}
 \end{numberedframe}
 
-\begin{numberedframe}{Step2}
+\begin{numberedframe}{Step 2}
   Poll for barrier and messages
 \cverbatimsnippet{ibarrierpoll}
 \end{numberedframe}
@@ -193,17 +231,6 @@ else
   \item Can you make sure that all sends are indeed processed?
   \end{itemize}
 \end{exerciseframe}
-
-\begin{comment}
-  \begin{numberedframe}{Problem with `progress'}
-    \begin{itemize}
-    \item Problem: \indexmpishow{MPI_Test} is local
-    \item Something needs to force the barrier information to propagate
-    \item Solution: force progress with \indexmpishow{MPI_Iprobe}
-    \item Frowny face: barrier completion takes much longer than you'd expect.
-    \end{itemize}
-  \end{numberedframe}
-\end{comment}
 
 \endinput
 

@@ -29,6 +29,8 @@ EXERCISES = hello \
     randomput onesidedbuild countdown lockfetch lockfetchshared \
     blockwrite shareddata ibarrierupdate
 OTHERPROGRAMS = write
+SOURCES = $(patsubst %,%.F90,${EXERCISES})
+OBJS    = $(patsubst %,%.o,${EXERCISES})
 
 MODE = mpi
 LANGUAGE = F

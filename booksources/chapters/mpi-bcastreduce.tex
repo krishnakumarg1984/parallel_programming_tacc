@@ -26,6 +26,35 @@ The result should be approximately $1/2$ times the number of processes.
 
 \cverbatimsnippet[examples/mpi/c/allreduce.c]{allreducec}
 
+Or:
+
+\cverbatimsnippet{reducecount}
+
+\Level 2 {Buffer description}
+
+This is the first example in this course that involves MPI data buffers:
+the \indexmpishow{MPI_Allreduce} call contains two buffer arguments.
+In most MPI calls (with the one-sided ones as big exception)
+a buffer is described by three parameters:
+\begin{enumerate}
+\item a pointer to the data,
+\item the number of items in the buffer, and
+\item the datatype of the items in the buffer.
+\end{enumerate}
+Each of these needs some elucidation.
+\begin{enumerate}
+\item The buffer specification depends on the programming languages.
+  Defailts are in section~\ref{sec:mpi-buffers}.
+\item The count was a 4-byte integer in MPI standard
+  up to and including~\mpistandard{3}.
+  In the MPI \mpistandard{4} standard the \indexmpishow{MPI_Count} data type
+  become allowed. See section~\ref{sec:mpi-bigdata} for details.
+\item Datatypes can be elementary, as in the above example, or user-defined.
+  See chapter~\ref{ch:mpi-data} for details.
+\end{enumerate}
+
+\Level 2 {Examples and exercises}
+
 \begin{exercise}
   \label{ex:randommaxscale}
   Let each process compute a random number,

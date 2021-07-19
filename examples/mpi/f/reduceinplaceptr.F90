@@ -12,9 +12,9 @@ Program ReduceInPlace
 
   use mpi
 
+  integer :: target_proc
   real,target :: mynumber,result,in_place_val
   real,pointer :: mynumber_ptr,result_ptr
-  integer :: target_proc
 
 #include "globalinit.F90"
 
@@ -32,6 +32,7 @@ Program ReduceInPlace
   end if
   call MPI_Reduce(mynumber_ptr,result_ptr,1,MPI_REAL,MPI_SUM,&
        target_proc,comm,err)
+
   ! the result should be ntids*(ntids-1)/2:
   if (mytid.eq.target_proc) then
     write(*,'("Result ",f5.2," compared to n(n-1)/2=",f5.2)') &

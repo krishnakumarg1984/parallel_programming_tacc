@@ -1,17 +1,17 @@
 % -*- latex -*-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%
-%%%% This text file is part of the source of 
-%%%% `Parallel Computing'
-%%%% by Victor Eijkhout, copyright 2012-2021
-%%%%
-%%%% MPI API file
-%%%%
-%%%% THIS FILE IS AUTO-GENERATED
-%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% This text file is part of the source of 
+%% `Parallel Computing'
+%% by Victor Eijkhout, copyright 2012-2021
+%%
+%% MPI API file for MPI_Irsend
+%%
+%% THIS FILE IS AUTO-GENERATED
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begingroup
 \ttfamily\bfseries
@@ -25,20 +25,17 @@
 \mdseries\textrm{inout}\\
 \midrule
 \hbox to 20pt{MPI_Irsend (\hss} \\
-&buf&const~void*&TYPE(*), DIMENSION(..)&in\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl initial address of send buffer\hss}\\
-&count&int&INTEGER&in\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl number of elements in send buffer\hss}\\
-&datatype&MPI_Datatype&TYPE(MPI_Datatype)&in\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl datatype of each send buffer element\hss}\\
-&dest&int&INTEGER&in\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl rank of destination\hss}\\
-&tag&int&INTEGER&in\\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl message tag\hss}\\
-&comm&MPI_Comm&TYPE(MPI_Comm)&in\\
-&request&MPI_Request*&TYPE(MPI_Request)&out\\
-(opt)&ierror&&INTEGER&out\\
-)\\
+\hbox to 20pt{MPI_Irsend_c (\hss} \\
+ & buf & void* & TYPE(*), DIMENSION(..)  & IN \\&\hbox to 0pt{\footnotesize\sl initial address of send buffer\hss} \\ 
+ & count & int & INTEGER  & IN \\ [-3pt]
+(big) & & MPI_Count & \hbox to 0pt {INTEGER(KIND=MPI_COUNT_KIND) \hss} \\ [-3pt]
+&\hbox to 0pt{\footnotesize\sl number of elements in send buffer\hss} \\ 
+ & datatype & MPI_Datatype & TYPE(MPI_Datatype)  & IN \\&\hbox to 0pt{\footnotesize\sl datatype of each send buffer element\hss} \\ 
+ & dest & int & INTEGER  & IN \\&\hbox to 0pt{\footnotesize\sl rank of destination\hss} \\ 
+ & tag & int & INTEGER  & IN \\&\hbox to 0pt{\footnotesize\sl message tag\hss} \\ 
+ & comm & MPI_Comm & TYPE(MPI_Comm)  & IN \\&\hbox to 0pt{\footnotesize\sl communicator\hss} \\ 
+ & request & MPI_Request* & TYPE(MPI_Request)  & OUT \\&\hbox to 0pt{\footnotesize\sl communication request\hss} \\ 
+
 \bottomrule
 \end{tabular}
 \endgroup

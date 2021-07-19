@@ -4,7 +4,7 @@
  **** `Parallel programming with MPI and OpenMP'
  **** by Victor Eijkhout, eijkhout@tacc.utexas.edu
  ****
- **** copyright Victor Eijkhout 2012-2020
+ **** copyright Victor Eijkhout 2012-2021
  ****
  **** MPI Exercise for sendrecv : three-point combination in MPL
  ****
@@ -14,6 +14,8 @@
 #include <sstream>
 using namespace std;
 #include <mpl/mpl.hpp>
+
+#include "tools.h"
 
 int main(int argc,char **argv) {
 
@@ -25,7 +27,7 @@ int main(int argc,char **argv) {
 
   stringstream proctext;
   
-  int mydata=1,leftdata=0,rightdata=0;
+  double mydata=1,leftdata=0,rightdata=0;
   int sendto,recvfrom;
 
   // Exercise:
@@ -50,28 +52,22 @@ int main(int argc,char **argv) {
   // check correctness
   mydata = mydata+leftdata+rightdata;
 
-  int error=nprocs,errors;
-  if (procno==0 || procno==nprocs-1) {
-    if (mydata!=2) {
-      proctext << "Data on proc " << procno << " should be 2, not " << mydata << endl;
-      error = procno;
-    }
-    cerr << proctext.str(); proctext.clear();
+  double res;
+  if (procno==0) {
+    res = 2*procno+1;
+  } else if (procno==nprocs-1) {
+    res = 2*procno-1;
   } else {
-    if (mydata!=3) {
-      proctext << "Data on proc " << procno << " should be 3, not " << mydata << endl;
-      error = procno;
-    }
+    res = 3*procno;
   }
 
-  comm_world.allreduce(mpl::min<int>(),error,errors);
-  if (procno==0) {
-    if (errors==nprocs) 
-      proctext << "Finished; all results correct" << endl;
-    else
-      proctext << "First error occurred on proc " << errors << endl;
-    cerr << proctext.str(); proctext.clear();
+  int error_test = !isapprox(mydata,res);
+  if (error_test) {
+    stringstream proctext;
+    proctext << "Data on proc " << procno << " should be " << res << ", found " << mydata;
+    cout << proctext.str() << "\n";
   }
+  print_final_result(error_test,comm_world);
 
   return 0;
 }

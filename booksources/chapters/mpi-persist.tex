@@ -106,13 +106,22 @@ As with ordinary send commands, there are persistent variants
 \begin{mpifour}
 % https://github.com/mpi-forum/mpi-issues/issues/25
 \index{persistent!collectives|(textbf}
-For each collective call, there is a persistent variant (\mpistandard{4}).
+For each collective call, there is a persistent variant.
 As with persistent point-to-point calls (section~\ref{sec:persist-p2p}),
-these have the same calling sequence as the nonpersistent variants,
-except for an added final \indexmpishow{MPI_Request} parameter.
+these have largely the same calling sequence as the nonpersistent variants,
+except for:
+\begin{itemize}
+\item an \indexmpishow{MPI_Info} parameter that can be used to pass
+  system-dependent hints; and
+\item
+  an added final \indexmpishow{MPI_Request} parameter.
+\end{itemize}
+(See for instance~\indexmpiref{MPI_Allreduce_init}.)
 This request (or an array of requests) can then be used by
 \indexmpishow{MPI_Start} (or \indexmpishow{MPI_Startall})
 to initiate the actual communication.
+
+\cverbatimsnippet{powerreducepersist}
 
 Some points.
 \begin{itemize}
@@ -143,7 +152,7 @@ and in different order among the processes.
   \indexmpidef{MPI_Barrier_init}
   \indexmpidef{MPI_Bcast_init}
   \indexmpidef{MPI_Reduce_init}
-  \indexmpidef{MPI_Allreduce_init}
+  \indexmpishow{MPI_Allreduce_init}
   \indexmpidef{MPI_Reduce_scatter_init}
   \indexmpidef{MPI_Reduce_scatter_block_init}
   \indexmpidef{MPI_Gather_init}
@@ -187,11 +196,15 @@ on \indextermbus{persistent}{communication},
 where a message is constructed in partitions.
 \begin{itemize}
 \item The normal \indexmpishow{MPI_Send_init} is replaced
-  by \indexmpidef{MPI_Psend_init}.
+  by \indexmpiref{MPI_Psend_init}.
+  Note the presence of an \indexmpishow{MPI_Info} argument,
+  as in persistent collectives, but unlike in persistent sends and receives.
 \item After this, the \indexmpishow{MPI_Start} does not
   actually start the transfer; instead:
 \item Each partition of the message is separately
   declared as read-to-be-sent with \indexmpishow{MPI_Pready}.
+\item An \indexmpishow{MPI_Wait} call completes the operation,
+  indicating that all partitions have been sent.
 \end{itemize}
 A common scenario for this is in multi-threaded environments,
 where each thread can construct its own part of a message.
@@ -201,24 +214,29 @@ can be sent off without having to wait for all threads to finish.
 Indicating that parts of a message are ready for sending
 is done by one of the following calls:
 \begin{itemize}
-\item \indexmpidef{MPI_Pready} for a single partition;
+\item \indexmpiref{MPI_Pready} for a single partition;
 \item \indexmpidef{MPI_Pready_range} for a range of partitions; and
 \item \indexmpidef{MPI_Pready_list} for an explicitly enumerated list of partitions.
 \end{itemize}
 The \indexmpishow{MPI_Psend_init} call yields an \indexmpishow{MPI_Request} object
 that can be used to test for completion
 (see sections \ref{sec:waittest} and~\ref{sec:mpitest})
-of the full operation started with
-\indexmpishow{MPI_Start}.
+of the full operation.
 
-On the receiving side:
+\cverbatimsnippet{psendsend}
+
+The receiving side is largely the mirror image of the sending side:
 \begin{itemize}
-\item A call to \indexmpishow{MPI_Recv_init} is replaced by
-  \indexmpidef{MPI_Precv_init}.
-\item Arrival of a partition can be tested with \indexmpidef{MPI_Parrived}.  
+\item a partitioned send can only be matched with a partitioned receive,
+  so we start with an \indexmpidef{MPI_Precv_init}. 
+\item Arrival of a partition can be tested with \indexmpiref{MPI_Parrived}.
+\item A call to \indexmpishow{MPI_Wait} completes the operation,
+  indicating that all partitions have arrived.
 \end{itemize}
 Again, the \indexmpishow{MPI_Request} object from the receive-init call can
 be used to test for completion of the full receive operation.
+
+\cverbatimsnippet{psendrecv}
 
 \index{partitioned communication|)}
 \end{mpifour}
