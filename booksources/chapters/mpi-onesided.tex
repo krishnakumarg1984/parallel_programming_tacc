@@ -550,6 +550,9 @@ int MPI_Win_post(MPI_Group group, int assert, MPI_Win win)
 int MPI_Win_wait(MPI_Win win)
 \end{lstlisting}
 In other words, this turns your window into the \indexterm{target} for a remote access.
+(There is a non-blocking version \indexmpidef{MPI_Win_test}
+of \indexmpidef{MPI_Win_wait}.
+See also \indexmpidef{MPI_Win_complete}.)
 
 You start and complete an \indextermsub{access}{epoch} with%
 \indexmpishow{MPI_Win_start}\indexmpishow{MPI_Win_complete}:

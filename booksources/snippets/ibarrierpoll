@@ -3,6 +3,9 @@ for ( ; ; step++) {
   MPI_Test(&barrier_request,&barrier_done_flag,
            MPI_STATUS_IGNORE);
 //stop if you're done!
+  if (barrier_done_flag) {
+    break;
+  } else {
 // if you're not done with the barrier:
     int flag; MPI_Status status;
     MPI_Iprobe

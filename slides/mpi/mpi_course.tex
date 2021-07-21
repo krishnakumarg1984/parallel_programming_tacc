@@ -27,18 +27,17 @@
 \newcolumntype{R}{>{\hbox to 1.2em\bgroup\hss}{r}<{\egroup}}
 \newcolumntype{T}{>{\hbox to 8em\bgroup}{c}<{\hss\egroup}}
 
+%% \newenvironment{theindex}{}{}% imakeidx redefines the index
+%% \usepackage[makeindex]{imakeidx}
+%% \input idxmacs
+
 \input commonmacs
 \input acromacs
-
-\newenvironment{theindex}{}{}% imakeidx redefines the index
-\usepackage[makeindex]{imakeidx}
-\input idxmacs
-
+\input slidemacs
 \input coursemacs
-%\input slidemacs
-\input tutmacs
+%\input tutmacs
 \input listingmacs
-\input snippetmacs
+%\input snippetmacs
 
 %% \input slidemacs
 
@@ -168,7 +167,10 @@
 \input Onesided-slides 
 \input Atomic-slides
 
-\coursepart{Advanced (MPI-3) topics}
+\Level 0 {Big data communication}
+\input Bigdata-slides
+
+\coursepart{Advanced (MPI-3/4) topics}
 
 \begin{frame}{Justification}
   Recent additions to the MPI standard allow your 

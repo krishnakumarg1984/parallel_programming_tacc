@@ -43,7 +43,15 @@ that is, with counting the gaps in the type.
 It is measured in bytes so the output parameters are
 of type \lstinline+MPI_Aint+.
 
-In the following example we measure the extent of a vector type.
+\begin{figure}[ht]
+  \includegraphics{extentvector}
+  \caption{Extent of a vector datatype}
+  \label{fig:extentvector}
+\end{figure}
+
+In the following example
+(see also figure~\ref{fig:extentvector})
+we measure the extent of a vector type.
 Note that the extent is not the stride times the number of blocks,
 because that would count a `trailing gap'.
 %

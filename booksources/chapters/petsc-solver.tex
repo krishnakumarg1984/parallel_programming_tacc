@@ -547,11 +547,21 @@ configuring PETSc with the
 You need to specify which package provides the LU factorization:
 
 \begin{lstlisting}
-PCFactorSetMatSolverType(pc, <solvertype> )
+PCFactorSetMatSolverType(pc, MatSolverType solver )
 \end{lstlisting}
 
-where solvertype can be mumps, superlu, umfpack, or a number of
-others. Note that availability of these packages depends on how PETSc
+where the solver variable is of type \indexpetscdef{MatSolverType},
+and can be \indexpetscdef{MATSOLVERMUMS} and such when specified in source:
+%
+\cverbatimsnippet{petscmumps}
+%
+As specified on the commandline
+\begin{verbatim}
+yourprog -ksp_type preonly -pc_type lu -pc_factor_mat_solver_type mumps
+\end{verbatim}
+the choices are mumps, superlu, umfpack, or a number of
+others. 
+Note that availability of these packages depends on how PETSc
 was installed on your system.
 
 \Level 0 {Control through command line options}

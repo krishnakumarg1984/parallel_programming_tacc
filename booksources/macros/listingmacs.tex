@@ -109,7 +109,7 @@
     MPI_Win_free,MPI_Alloc_mem,MPI_Win_fence,
     MPI_Win_lock,MPI_Win_unlock,MPI_Win_lock_all,MPI_Win_unlock_all,
     MPI_Win_flush,MPI_Win_flush_all,MPI_Win_flush_local,MPI_Win_flush_local_all,MPI_Win_sync,
-    MPI_Win_post,MPI_Win_start,MPI_Win_wait,MPI_Win_complete,
+    MPI_Win_post,MPI_Win_start,MPI_Win_wait,MPI_Win_complete,MPI_Win_test,MPI_Win_complete,
     MPI_Put,MPI_Rput,MPI_Get,MPI_Get_c,MPI_Rget,MPI_Accumulate,MPI_Raccumulate,MPI_Rget_accumulate,
     MPI_Get_accumulate,MPI_Fetch_and_op,MPI_Compare_and_swap,
     % topology
@@ -330,6 +330,7 @@
     DM_BOUNDARY_NONE,DM_BOUNDARY_GHOSTED,DM_BOUNDARY_PERIODIC,DM_STENCIL_STAR,DM_STENCIL_BOX,
     KSPCG,KSPPIPECG,KSPGMRES,KSPBCGS,KSPPREONLY,
     MATMPIDENSE,MATMPIAIJ,MATSEQDENSE,MATSEQAIJ,MATMPIDENSECUDA,MATDENSECUDA,MATAIJCUSPARSE,
+    MATSOLVERMUMPS,
     MAT_FINAL_ASSEMBLY,MAT_FLUSH_ASSEMBLY,
     MAT_NEW_NONZERO_LOCATIONS,MAT_NEW_NONZERO_LOCATION_ERR,
     NORM_1,NORM_2,NORM_INF,
@@ -356,7 +357,7 @@
     PetscInt,PetscBLASInt,PetscMPIInt,PetscViewer,
     DM,DMDA,DMBoundaryType,DMStencilType,DMDALocalInfo,
     KSP,KSPConvergedReason,
-    Mat,MatStencil,MatPartitioning,PC,PCCompositeType,
+    Mat,MatStencil,MatPartitioning,MatSolverType,PC,PCCompositeType,
     Vec,IS,VecScatter,
   },emphstyle={[6]\bfseries\color{blue}},
 }
