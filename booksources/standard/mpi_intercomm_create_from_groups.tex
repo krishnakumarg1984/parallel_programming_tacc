@@ -25,14 +25,14 @@
 \mdseries\textrm{inout}\\
 \midrule
 \hbox to 20pt{MPI_Intercomm_create_from_groups (\hss} \\
- & local_group & MPI_Group & TYPE(MPI_Group)  \\&\hbox to 0pt{\footnotesize\sl local group\hss} \\ 
- & local_leader & int & INTEGER  \\&\hbox to 0pt{\footnotesize\sl rank of local group leader in \mpiarg{local\_group}\hss} \\ 
- & remote_group & MPI_Group & TYPE(MPI_Group)  \\&\hbox to 0pt{\footnotesize\sl remote group, significant only at \mpiarg{local\_leader}\hss} \\ 
- & remote_leader & int & INTEGER  \\&\hbox to 0pt{\footnotesize\sl rank of remote group leader in \mpiarg{remote\_group}, significant only at \mpiarg{local\_leader}\hss} \\ 
- & stringtag & char* & CHARACTER  \\&\hbox to 0pt{\footnotesize\sl unique idenitifier for this operation\hss} \\ 
- & info & MPI_Info & TYPE(MPI_Info)  \\&\hbox to 0pt{\footnotesize\sl info object\hss} \\ 
- & errhandler & MPI_Errhandler & TYPE(MPI_Errhandler)  \\&\hbox to 0pt{\footnotesize\sl error handler to be attached to new inter-communicator\hss} \\ 
- & newintercomm & MPI_Comm* & TYPE(MPI_Comm)  \\&\hbox to 0pt{\footnotesize\sl new inter-communicator\hss} \\ 
+ & local_group & MPI_Group & TYPE(MPI_Group)  \\&\hbox to 0pt{\footnotesize\sl local group\hss} \\ [+3pt] 
+ & local_leader & int & INTEGER  \\&\hbox to 0pt{\footnotesize\sl rank of local group leader in \mpiarg{local\_group}\hss} \\ [+3pt] 
+ & remote_group & MPI_Group & TYPE(MPI_Group)  \\&\hbox to 0pt{\footnotesize\sl remote group, significant only at \mpiarg{local\_leader}\hss} \\ [+3pt] 
+ & remote_leader & int & INTEGER  \\&\hbox to 0pt{\footnotesize\sl rank of remote group leader in \mpiarg{remote\_group}, significant only at \mpiarg{local\_leader}\hss} \\ [+3pt] 
+ & stringtag & char* & CHARACTER  \\&\hbox to 0pt{\footnotesize\sl unique idenitifier for this operation\hss} \\ [+3pt] 
+ & info & MPI_Info & TYPE(MPI_Info)  \\&\hbox to 0pt{\footnotesize\sl info object\hss} \\ [+3pt] 
+ & errhandler & MPI_Errhandler & TYPE(MPI_Errhandler)  \\&\hbox to 0pt{\footnotesize\sl error handler to be attached to new inter-communicator\hss} \\ [+3pt] 
+ & newintercomm & MPI_Comm* & TYPE(MPI_Comm)  \\&\hbox to 0pt{\footnotesize\sl new inter-communicator\hss} \\ [+3pt] 
 
 \bottomrule
 \end{tabular}

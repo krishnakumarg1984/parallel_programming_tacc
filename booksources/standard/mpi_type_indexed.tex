@@ -28,15 +28,15 @@
 \hbox to 20pt{MPI_Type_indexed_c (\hss} \\
  & count & int & INTEGER  & IN \\ [-3pt]
 (big) & & MPI_Count & \hbox to 0pt {INTEGER(KIND=MPI_COUNT_KIND) \hss} \\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl number of blocks---also number of entries in \mpiarg{array_of_displacements} and \mpiarg{array_of_blocklengths}\hss} \\ 
+&\hbox to 0pt{\footnotesize\sl number of blocks---also number of entries in \mpiarg{array_of_displacements} and \mpiarg{array_of_blocklengths}\hss} \\ [+3pt] 
  & array_of_blocklengths & int & INTEGER  & IN \\ [-3pt]
 (big) & & MPI_Count & \hbox to 0pt {INTEGER(KIND=MPI_COUNT_KIND) \hss} \\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl number of elements per block\hss} \\ 
+&\hbox to 0pt{\footnotesize\sl number of elements per block\hss} \\ [+3pt] 
  & array_of_displacements & int & INTEGER  & IN \\ [-3pt]
 (big) & & MPI_Count & \hbox to 0pt {INTEGER(KIND=MPI_COUNT_KIND) \hss} \\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl displacement for each block, in multiples of \mpiarg{oldtype}\hss} \\ 
- & oldtype & MPI_Datatype & TYPE(MPI_Datatype)  & IN \\&\hbox to 0pt{\footnotesize\sl old datatype\hss} \\ 
- & newtype & MPI_Datatype* & TYPE(MPI_Datatype)  & OUT \\&\hbox to 0pt{\footnotesize\sl new datatype\hss} \\ 
+&\hbox to 0pt{\footnotesize\sl displacement for each block, in multiples of \mpiarg{oldtype}\hss} \\ [+3pt] 
+ & oldtype & MPI_Datatype & TYPE(MPI_Datatype)  & IN \\&\hbox to 0pt{\footnotesize\sl old datatype\hss} \\ [+3pt] 
+ & newtype & MPI_Datatype* & TYPE(MPI_Datatype)  & OUT \\&\hbox to 0pt{\footnotesize\sl new datatype\hss} \\ [+3pt] 
 
 \bottomrule
 \end{tabular}

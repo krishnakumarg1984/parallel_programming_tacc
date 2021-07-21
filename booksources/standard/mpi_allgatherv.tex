@@ -26,20 +26,20 @@
 \midrule
 \hbox to 20pt{MPI_Allgatherv (\hss} \\
 \hbox to 20pt{MPI_Allgatherv_c (\hss} \\
- & sendbuf & void* & TYPE(*), DIMENSION(..)  & IN \\&\hbox to 0pt{\footnotesize\sl starting address of send buffer\hss} \\ 
+ & sendbuf & void* & TYPE(*), DIMENSION(..)  & IN \\&\hbox to 0pt{\footnotesize\sl starting address of send buffer\hss} \\ [+3pt] 
  & sendcount & int & INTEGER  & IN \\ [-3pt]
 (big) & & MPI_Count & \hbox to 0pt {INTEGER(KIND=MPI_COUNT_KIND) \hss} \\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl number of elements in send buffer\hss} \\ 
- & sendtype & MPI_Datatype & TYPE(MPI_Datatype)  & IN \\&\hbox to 0pt{\footnotesize\sl datatype of send buffer elements\hss} \\ 
- & recvbuf & void* & TYPE(*), DIMENSION(..)  & OUT \\&\hbox to 0pt{\footnotesize\sl address of receive buffer\hss} \\ 
+&\hbox to 0pt{\footnotesize\sl number of elements in send buffer\hss} \\ [+3pt] 
+ & sendtype & MPI_Datatype & TYPE(MPI_Datatype)  & IN \\&\hbox to 0pt{\footnotesize\sl datatype of send buffer elements\hss} \\ [+3pt] 
+ & recvbuf & void* & TYPE(*), DIMENSION(..)  & OUT \\&\hbox to 0pt{\footnotesize\sl address of receive buffer\hss} \\ [+3pt] 
  & recvcounts & int & INTEGER  & IN \\ [-3pt]
 (big) & & MPI_Count & \hbox to 0pt {INTEGER(KIND=MPI_COUNT_KIND) \hss} \\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl non-negative integer array (of length group size) containing the number of elements that are received from each process\hss} \\ 
+&\hbox to 0pt{\footnotesize\sl non-negative integer array (of length group size) containing the number of elements that are received from each process\hss} \\ [+3pt] 
  & displs & int & INTEGER  & IN \\ [-3pt]
 (big) & & MPI_Aint & \hbox to 0pt {INTEGER(KIND=MPI_ADDRESS_KIND) \hss} \\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl integer array (of length group size). Entry \mpicode{i} specifies the displacement (relative to \mpiarg{recvbuf}) at which to place the incoming data from process \mpicode{i}\hss} \\ 
- & recvtype & MPI_Datatype & TYPE(MPI_Datatype)  & IN \\&\hbox to 0pt{\footnotesize\sl datatype of receive buffer elements\hss} \\ 
- & comm & MPI_Comm & TYPE(MPI_Comm)  & IN \\&\hbox to 0pt{\footnotesize\sl communicator\hss} \\ 
+&\hbox to 0pt{\footnotesize\sl integer array (of length group size). Entry \mpicode{i} specifies the displacement (relative to \mpiarg{recvbuf}) at which to place the incoming data from process \mpicode{i}\hss} \\ [+3pt] 
+ & recvtype & MPI_Datatype & TYPE(MPI_Datatype)  & IN \\&\hbox to 0pt{\footnotesize\sl datatype of receive buffer elements\hss} \\ [+3pt] 
+ & comm & MPI_Comm & TYPE(MPI_Comm)  & IN \\&\hbox to 0pt{\footnotesize\sl communicator\hss} \\ [+3pt] 
 
 \bottomrule
 \end{tabular}

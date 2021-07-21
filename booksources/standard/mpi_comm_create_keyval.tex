@@ -25,10 +25,10 @@
 \mdseries\textrm{inout}\\
 \midrule
 \hbox to 20pt{MPI_Comm_create_keyval (\hss} \\
- & comm_copy_attr_fn & MPI_Comm_copy_attr_function* & PROCEDURE(MPI_Comm_copy_attr_function)  \\&\hbox to 0pt{\footnotesize\sl copy callback function for \mpiarg{comm_keyval}\hss} \\ 
- & comm_delete_attr_fn & MPI_Comm_delete_attr_function* & PROCEDURE(MPI_Comm_delete_attr_function)  \\&\hbox to 0pt{\footnotesize\sl delete callback function for \mpiarg{comm_keyval}\hss} \\ 
- & comm_keyval & int* & INTEGER  \\&\hbox to 0pt{\footnotesize\sl key value for future access\hss} \\ 
- & extra_state & void* & INTEGER(KIND=MPI_ADDRESS_KIND)  \\&\hbox to 0pt{\footnotesize\sl extra state for callback function\hss} \\ 
+ & comm_copy_attr_fn & MPI_Comm_copy_attr_function* & PROCEDURE(MPI_Comm_copy_attr_function)  \\&\hbox to 0pt{\footnotesize\sl copy callback function for \mpiarg{comm_keyval}\hss} \\ [+3pt] 
+ & comm_delete_attr_fn & MPI_Comm_delete_attr_function* & PROCEDURE(MPI_Comm_delete_attr_function)  \\&\hbox to 0pt{\footnotesize\sl delete callback function for \mpiarg{comm_keyval}\hss} \\ [+3pt] 
+ & comm_keyval & int* & INTEGER  \\&\hbox to 0pt{\footnotesize\sl key value for future access\hss} \\ [+3pt] 
+ & extra_state & void* & INTEGER(KIND=MPI_ADDRESS_KIND)  \\&\hbox to 0pt{\footnotesize\sl extra state for callback function\hss} \\ [+3pt] 
 
 \bottomrule
 \end{tabular}

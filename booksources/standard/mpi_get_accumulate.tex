@@ -26,24 +26,24 @@
 \midrule
 \hbox to 20pt{MPI_Get_accumulate (\hss} \\
 \hbox to 20pt{MPI_Get_accumulate_c (\hss} \\
- & origin_addr & void* & TYPE(*), DIMENSION(..)  & IN \\&\hbox to 0pt{\footnotesize\sl initial address of buffer\hss} \\ 
+ & origin_addr & void* & TYPE(*), DIMENSION(..)  & IN \\&\hbox to 0pt{\footnotesize\sl initial address of buffer\hss} \\ [+3pt] 
  & origin_count & int & INTEGER  & IN \\ [-3pt]
 (big) & & MPI_Count & \hbox to 0pt {INTEGER(KIND=MPI_COUNT_KIND) \hss} \\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl number of entries in origin buffer\hss} \\ 
- & origin_datatype & MPI_Datatype & TYPE(MPI_Datatype)  & IN \\&\hbox to 0pt{\footnotesize\sl datatype of each entry in origin buffer\hss} \\ 
- & result_addr & void* & TYPE(*), DIMENSION(..)  & OUT \\&\hbox to 0pt{\footnotesize\sl initial address of result buffer\hss} \\ 
+&\hbox to 0pt{\footnotesize\sl number of entries in origin buffer\hss} \\ [+3pt] 
+ & origin_datatype & MPI_Datatype & TYPE(MPI_Datatype)  & IN \\&\hbox to 0pt{\footnotesize\sl datatype of each entry in origin buffer\hss} \\ [+3pt] 
+ & result_addr & void* & TYPE(*), DIMENSION(..)  & OUT \\&\hbox to 0pt{\footnotesize\sl initial address of result buffer\hss} \\ [+3pt] 
  & result_count & int & INTEGER  & IN \\ [-3pt]
 (big) & & MPI_Count & \hbox to 0pt {INTEGER(KIND=MPI_COUNT_KIND) \hss} \\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl number of entries in result buffer\hss} \\ 
- & result_datatype & MPI_Datatype & TYPE(MPI_Datatype)  & IN \\&\hbox to 0pt{\footnotesize\sl datatype of each entry in result buffer\hss} \\ 
- & target_rank & int & INTEGER  & IN \\&\hbox to 0pt{\footnotesize\sl rank of target\hss} \\ 
- & target_disp & MPI_Aint & INTEGER(KIND=MPI_ADDRESS_KIND)  & IN \\&\hbox to 0pt{\footnotesize\sl displacement from start of window to beginning of target buffer\hss} \\ 
+&\hbox to 0pt{\footnotesize\sl number of entries in result buffer\hss} \\ [+3pt] 
+ & result_datatype & MPI_Datatype & TYPE(MPI_Datatype)  & IN \\&\hbox to 0pt{\footnotesize\sl datatype of each entry in result buffer\hss} \\ [+3pt] 
+ & target_rank & int & INTEGER  & IN \\&\hbox to 0pt{\footnotesize\sl rank of target\hss} \\ [+3pt] 
+ & target_disp & MPI_Aint & INTEGER(KIND=MPI_ADDRESS_KIND)  & IN \\&\hbox to 0pt{\footnotesize\sl displacement from start of window to beginning of target buffer\hss} \\ [+3pt] 
  & target_count & int & INTEGER  & IN \\ [-3pt]
 (big) & & MPI_Count & \hbox to 0pt {INTEGER(KIND=MPI_COUNT_KIND) \hss} \\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl number of entries in target buffer\hss} \\ 
- & target_datatype & MPI_Datatype & TYPE(MPI_Datatype)  & IN \\&\hbox to 0pt{\footnotesize\sl datatype of each entry in target buffer\hss} \\ 
- & op & MPI_Op & TYPE(MPI_Op)  & IN \\&\hbox to 0pt{\footnotesize\sl reduce operation\hss} \\ 
- & win & MPI_Win & TYPE(MPI_Win)  & IN \\&\hbox to 0pt{\footnotesize\sl window object\hss} \\ 
+&\hbox to 0pt{\footnotesize\sl number of entries in target buffer\hss} \\ [+3pt] 
+ & target_datatype & MPI_Datatype & TYPE(MPI_Datatype)  & IN \\&\hbox to 0pt{\footnotesize\sl datatype of each entry in target buffer\hss} \\ [+3pt] 
+ & op & MPI_Op & TYPE(MPI_Op)  & IN \\&\hbox to 0pt{\footnotesize\sl reduce operation\hss} \\ [+3pt] 
+ & win & MPI_Win & TYPE(MPI_Win)  & IN \\&\hbox to 0pt{\footnotesize\sl window object\hss} \\ [+3pt] 
 
 \bottomrule
 \end{tabular}

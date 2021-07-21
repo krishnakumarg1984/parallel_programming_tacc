@@ -26,25 +26,25 @@
 \midrule
 \hbox to 20pt{MPI_Type_get_contents (\hss} \\
 \hbox to 20pt{MPI_Type_get_contents_c (\hss} \\
- & datatype & MPI_Datatype & TYPE(MPI_Datatype)  & IN \\&\hbox to 0pt{\footnotesize\sl datatype to decode\hss} \\ 
+ & datatype & MPI_Datatype & TYPE(MPI_Datatype)  & IN \\&\hbox to 0pt{\footnotesize\sl datatype to decode\hss} \\ [+3pt] 
  & max_integers & int & INTEGER  & IN \\ [-3pt]
 (big) & & MPI_Count & \hbox to 0pt {INTEGER(KIND=MPI_COUNT_KIND) \hss} \\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl number of elements in \mpiarg{array_of_integers}\hss} \\ 
+&\hbox to 0pt{\footnotesize\sl number of elements in \mpiarg{array_of_integers}\hss} \\ [+3pt] 
  & max_addresses & int & INTEGER  & IN \\ [-3pt]
 (big) & & MPI_Count & \hbox to 0pt {INTEGER(KIND=MPI_COUNT_KIND) \hss} \\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl number of elements in \mpiarg{array_of_addresses}\hss} \\ 
+&\hbox to 0pt{\footnotesize\sl number of elements in \mpiarg{array_of_addresses}\hss} \\ [+3pt] 
  & max_datatypes & int & INTEGER  & IN \\ [-3pt]
 (big) & & MPI_Count & \hbox to 0pt {INTEGER(KIND=MPI_COUNT_KIND) \hss} \\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl number of elements in \mpiarg{array_of_large_counts}\hss} \\ 
+&\hbox to 0pt{\footnotesize\sl number of elements in \mpiarg{array_of_large_counts}\hss} \\ [+3pt] 
  & array_of_integers & int & INTEGER  & IN \\ [-3pt]
 (big) & & MPI_Count & \hbox to 0pt {INTEGER(KIND=MPI_COUNT_KIND) \hss} \\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl number of elements in \mpiarg{array_of_datatypes}\hss} \\ 
+&\hbox to 0pt{\footnotesize\sl number of elements in \mpiarg{array_of_datatypes}\hss} \\ [+3pt] 
  & array_of_addresses & MPI_Aint & INTEGER(KIND=MPI_ADDRESS_KIND)  & OUT \\ [-3pt]
 (big) & & int & \hbox to 0pt {INTEGER \hss} \\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl contains integer arguments used in constructing \mpiarg{datatype}\hss} \\ 
+&\hbox to 0pt{\footnotesize\sl contains integer arguments used in constructing \mpiarg{datatype}\hss} \\ [+3pt] 
  & array_of_datatypes & MPI_Datatype & TYPE(MPI_Datatype)  & OUT \\ [-3pt]
 (big) & & MPI_Aint & \hbox to 0pt {INTEGER(KIND=MPI_ADDRESS_KIND) \hss} \\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl contains address arguments used in constructing \mpiarg{datatype}\hss} \\ 
+&\hbox to 0pt{\footnotesize\sl contains address arguments used in constructing \mpiarg{datatype}\hss} \\ [+3pt] 
 
 \bottomrule
 \end{tabular}

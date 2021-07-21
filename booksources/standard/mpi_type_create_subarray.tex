@@ -26,19 +26,19 @@
 \midrule
 \hbox to 20pt{MPI_Type_create_subarray (\hss} \\
 \hbox to 20pt{MPI_Type_create_subarray_c (\hss} \\
- & ndims & int & INTEGER  & IN \\&\hbox to 0pt{\footnotesize\sl number of array dimensions\hss} \\ 
+ & ndims & int & INTEGER  & IN \\&\hbox to 0pt{\footnotesize\sl number of array dimensions\hss} \\ [+3pt] 
  & array_of_sizes & int & INTEGER  & IN \\ [-3pt]
 (big) & & MPI_Count & \hbox to 0pt {INTEGER(KIND=MPI_COUNT_KIND) \hss} \\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl number of elements of type \mpiarg{oldtype} in each dimension of the full array\hss} \\ 
+&\hbox to 0pt{\footnotesize\sl number of elements of type \mpiarg{oldtype} in each dimension of the full array\hss} \\ [+3pt] 
  & array_of_subsizes & int & INTEGER  & IN \\ [-3pt]
 (big) & & MPI_Count & \hbox to 0pt {INTEGER(KIND=MPI_COUNT_KIND) \hss} \\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl number of elements of type \mpiarg{oldtype} in each dimension of the subarray\hss} \\ 
+&\hbox to 0pt{\footnotesize\sl number of elements of type \mpiarg{oldtype} in each dimension of the subarray\hss} \\ [+3pt] 
  & array_of_starts & int & INTEGER  & IN \\ [-3pt]
 (big) & & MPI_Count & \hbox to 0pt {INTEGER(KIND=MPI_COUNT_KIND) \hss} \\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl starting coordinates of the subarray in each dimension\hss} \\ 
- & order & int & INTEGER  & IN \\&\hbox to 0pt{\footnotesize\sl array storage order flag\hss} \\ 
- & oldtype & MPI_Datatype & TYPE(MPI_Datatype)  & IN \\&\hbox to 0pt{\footnotesize\sl old datatype\hss} \\ 
- & newtype & MPI_Datatype* & TYPE(MPI_Datatype)  & OUT \\&\hbox to 0pt{\footnotesize\sl new datatype\hss} \\ 
+&\hbox to 0pt{\footnotesize\sl starting coordinates of the subarray in each dimension\hss} \\ [+3pt] 
+ & order & int & INTEGER  & IN \\&\hbox to 0pt{\footnotesize\sl array storage order flag\hss} \\ [+3pt] 
+ & oldtype & MPI_Datatype & TYPE(MPI_Datatype)  & IN \\&\hbox to 0pt{\footnotesize\sl old datatype\hss} \\ [+3pt] 
+ & newtype & MPI_Datatype* & TYPE(MPI_Datatype)  & OUT \\&\hbox to 0pt{\footnotesize\sl new datatype\hss} \\ [+3pt] 
 
 \bottomrule
 \end{tabular}

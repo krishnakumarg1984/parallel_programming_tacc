@@ -26,13 +26,13 @@
 \midrule
 \hbox to 20pt{MPI_File_write_at_all_begin (\hss} \\
 \hbox to 20pt{MPI_File_write_at_all_begin_c (\hss} \\
- & fh & MPI_File & TYPE(MPI_File)  & INOUT \\&\hbox to 0pt{\footnotesize\sl file handle\hss} \\ 
- & offset & MPI_Offset & INTEGER(KIND=MPI_OFFSET_KIND)  & IN \\&\hbox to 0pt{\footnotesize\sl file offset\hss} \\ 
- & buf & void* & TYPE(*), DIMENSION(..)  & IN \\&\hbox to 0pt{\footnotesize\sl initial address of buffer\hss} \\ 
+ & fh & MPI_File & TYPE(MPI_File)  & INOUT \\&\hbox to 0pt{\footnotesize\sl file handle\hss} \\ [+3pt] 
+ & offset & MPI_Offset & INTEGER(KIND=MPI_OFFSET_KIND)  & IN \\&\hbox to 0pt{\footnotesize\sl file offset\hss} \\ [+3pt] 
+ & buf & void* & TYPE(*), DIMENSION(..)  & IN \\&\hbox to 0pt{\footnotesize\sl initial address of buffer\hss} \\ [+3pt] 
  & count & int & INTEGER  & IN \\ [-3pt]
 (big) & & MPI_Count & \hbox to 0pt {INTEGER(KIND=MPI_COUNT_KIND) \hss} \\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl number of elements in buffer\hss} \\ 
- & datatype & MPI_Datatype & TYPE(MPI_Datatype)  & IN \\&\hbox to 0pt{\footnotesize\sl datatype of each buffer element\hss} \\ 
+&\hbox to 0pt{\footnotesize\sl number of elements in buffer\hss} \\ [+3pt] 
+ & datatype & MPI_Datatype & TYPE(MPI_Datatype)  & IN \\&\hbox to 0pt{\footnotesize\sl datatype of each buffer element\hss} \\ [+3pt] 
 
 \bottomrule
 \end{tabular}

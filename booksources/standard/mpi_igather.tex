@@ -26,19 +26,19 @@
 \midrule
 \hbox to 20pt{MPI_Igather (\hss} \\
 \hbox to 20pt{MPI_Igather_c (\hss} \\
- & sendbuf & void* & TYPE(*), DIMENSION(..)  & IN \\&\hbox to 0pt{\footnotesize\sl starting address of send buffer\hss} \\ 
+ & sendbuf & void* & TYPE(*), DIMENSION(..)  & IN \\&\hbox to 0pt{\footnotesize\sl starting address of send buffer\hss} \\ [+3pt] 
  & sendcount & int & INTEGER  & IN \\ [-3pt]
 (big) & & MPI_Count & \hbox to 0pt {INTEGER(KIND=MPI_COUNT_KIND) \hss} \\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl number of elements in send buffer\hss} \\ 
- & sendtype & MPI_Datatype & TYPE(MPI_Datatype)  & IN \\&\hbox to 0pt{\footnotesize\sl datatype of send buffer elements\hss} \\ 
- & recvbuf & void* & TYPE(*), DIMENSION(..)  & OUT \\&\hbox to 0pt{\footnotesize\sl address of receive buffer\hss} \\ 
+&\hbox to 0pt{\footnotesize\sl number of elements in send buffer\hss} \\ [+3pt] 
+ & sendtype & MPI_Datatype & TYPE(MPI_Datatype)  & IN \\&\hbox to 0pt{\footnotesize\sl datatype of send buffer elements\hss} \\ [+3pt] 
+ & recvbuf & void* & TYPE(*), DIMENSION(..)  & OUT \\&\hbox to 0pt{\footnotesize\sl address of receive buffer\hss} \\ [+3pt] 
  & recvcount & int & INTEGER  & IN \\ [-3pt]
 (big) & & MPI_Count & \hbox to 0pt {INTEGER(KIND=MPI_COUNT_KIND) \hss} \\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl number of elements for any single receive\hss} \\ 
- & recvtype & MPI_Datatype & TYPE(MPI_Datatype)  & IN \\&\hbox to 0pt{\footnotesize\sl datatype of recv buffer elements\hss} \\ 
- & root & int & INTEGER  & IN \\&\hbox to 0pt{\footnotesize\sl rank of receiving process\hss} \\ 
- & comm & MPI_Comm & TYPE(MPI_Comm)  & IN \\&\hbox to 0pt{\footnotesize\sl communicator\hss} \\ 
- & request & MPI_Request* & TYPE(MPI_Request)  & OUT \\&\hbox to 0pt{\footnotesize\sl communication request\hss} \\ 
+&\hbox to 0pt{\footnotesize\sl number of elements for any single receive\hss} \\ [+3pt] 
+ & recvtype & MPI_Datatype & TYPE(MPI_Datatype)  & IN \\&\hbox to 0pt{\footnotesize\sl datatype of recv buffer elements\hss} \\ [+3pt] 
+ & root & int & INTEGER  & IN \\&\hbox to 0pt{\footnotesize\sl rank of receiving process\hss} \\ [+3pt] 
+ & comm & MPI_Comm & TYPE(MPI_Comm)  & IN \\&\hbox to 0pt{\footnotesize\sl communicator\hss} \\ [+3pt] 
+ & request & MPI_Request* & TYPE(MPI_Request)  & OUT \\&\hbox to 0pt{\footnotesize\sl communication request\hss} \\ [+3pt] 
 
 \bottomrule
 \end{tabular}

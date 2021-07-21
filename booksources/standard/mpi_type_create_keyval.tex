@@ -25,10 +25,10 @@
 \mdseries\textrm{inout}\\
 \midrule
 \hbox to 20pt{MPI_Type_create_keyval (\hss} \\
- & type_copy_attr_fn & MPI_Type_copy_attr_function* & PROCEDURE(MPI_Type_copy_attr_function)  \\&\hbox to 0pt{\footnotesize\sl copy callback function for \mpiarg{type_keyval}\hss} \\ 
- & type_delete_attr_fn & MPI_Type_delete_attr_function* & PROCEDURE(MPI_Type_delete_attr_function)  \\&\hbox to 0pt{\footnotesize\sl delete callback function for \mpiarg{type_keyval}\hss} \\ 
- & type_keyval & int* & INTEGER  \\&\hbox to 0pt{\footnotesize\sl key value for future access\hss} \\ 
- & extra_state & void* & INTEGER(KIND=MPI_ADDRESS_KIND)  \\&\hbox to 0pt{\footnotesize\sl extra state for callback function\hss} \\ 
+ & type_copy_attr_fn & MPI_Type_copy_attr_function* & PROCEDURE(MPI_Type_copy_attr_function)  \\&\hbox to 0pt{\footnotesize\sl copy callback function for \mpiarg{type_keyval}\hss} \\ [+3pt] 
+ & type_delete_attr_fn & MPI_Type_delete_attr_function* & PROCEDURE(MPI_Type_delete_attr_function)  \\&\hbox to 0pt{\footnotesize\sl delete callback function for \mpiarg{type_keyval}\hss} \\ [+3pt] 
+ & type_keyval & int* & INTEGER  \\&\hbox to 0pt{\footnotesize\sl key value for future access\hss} \\ [+3pt] 
+ & extra_state & void* & INTEGER(KIND=MPI_ADDRESS_KIND)  \\&\hbox to 0pt{\footnotesize\sl extra state for callback function\hss} \\ [+3pt] 
 
 \bottomrule
 \end{tabular}

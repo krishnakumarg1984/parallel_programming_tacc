@@ -25,15 +25,15 @@
 \mdseries\textrm{inout}\\
 \midrule
 \hbox to 20pt{MPI_Dist_graph_create (\hss} \\
- & comm_old & MPI_Comm & TYPE(MPI_Comm)  \\&\hbox to 0pt{\footnotesize\sl input communicator\hss} \\ 
- & n & int & INTEGER  \\&\hbox to 0pt{\footnotesize\sl number of source nodes for which this process specifies edges\hss} \\ 
- & sources & int & INTEGER  \\&\hbox to 0pt{\footnotesize\sl array containing the \mpiarg{n} source nodes for which this process specifies edges\hss} \\ 
- & degrees & int & INTEGER  \\&\hbox to 0pt{\footnotesize\sl array specifying the number of destinations for each source node in the source node array\hss} \\ 
- & destinations & int & INTEGER  \\&\hbox to 0pt{\footnotesize\sl destination nodes for the source nodes in the source node array\hss} \\ 
- & weights & int & INTEGER  \\&\hbox to 0pt{\footnotesize\sl weights for source to destination edges\hss} \\ 
- & info & MPI_Info & TYPE(MPI_Info)  \\&\hbox to 0pt{\footnotesize\sl hints on optimization and interpretation of weights\hss} \\ 
- & reorder & int & LOGICAL  \\&\hbox to 0pt{\footnotesize\sl the ranks may be reordered (\mpicode{true}) or not~(\mbox{\mpicode{false}})\hss} \\ 
- & comm_dist_graph & MPI_Comm* & TYPE(MPI_Comm)  \\&\hbox to 0pt{\footnotesize\sl communicator with distributed graph topology added\hss} \\ 
+ & comm_old & MPI_Comm & TYPE(MPI_Comm)  \\&\hbox to 0pt{\footnotesize\sl input communicator\hss} \\ [+3pt] 
+ & n & int & INTEGER  \\&\hbox to 0pt{\footnotesize\sl number of source nodes for which this process specifies edges\hss} \\ [+3pt] 
+ & sources & int & INTEGER  \\&\hbox to 0pt{\footnotesize\sl array containing the \mpiarg{n} source nodes for which this process specifies edges\hss} \\ [+3pt] 
+ & degrees & int & INTEGER  \\&\hbox to 0pt{\footnotesize\sl array specifying the number of destinations for each source node in the source node array\hss} \\ [+3pt] 
+ & destinations & int & INTEGER  \\&\hbox to 0pt{\footnotesize\sl destination nodes for the source nodes in the source node array\hss} \\ [+3pt] 
+ & weights & int & INTEGER  \\&\hbox to 0pt{\footnotesize\sl weights for source to destination edges\hss} \\ [+3pt] 
+ & info & MPI_Info & TYPE(MPI_Info)  \\&\hbox to 0pt{\footnotesize\sl hints on optimization and interpretation of weights\hss} \\ [+3pt] 
+ & reorder & int & LOGICAL  \\&\hbox to 0pt{\footnotesize\sl the ranks may be reordered (\mpicode{true}) or not~(\mbox{\mpicode{false}})\hss} \\ [+3pt] 
+ & comm_dist_graph & MPI_Comm* & TYPE(MPI_Comm)  \\&\hbox to 0pt{\footnotesize\sl communicator with distributed graph topology added\hss} \\ [+3pt] 
 
 \bottomrule
 \end{tabular}

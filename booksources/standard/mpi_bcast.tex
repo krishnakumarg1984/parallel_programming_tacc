@@ -26,13 +26,13 @@
 \midrule
 \hbox to 20pt{MPI_Bcast (\hss} \\
 \hbox to 20pt{MPI_Bcast_c (\hss} \\
- & buffer & void* & TYPE(*), DIMENSION(..)  & INOUT \\&\hbox to 0pt{\footnotesize\sl starting address of buffer\hss} \\ 
+ & buffer & void* & TYPE(*), DIMENSION(..)  & INOUT \\&\hbox to 0pt{\footnotesize\sl starting address of buffer\hss} \\ [+3pt] 
  & count & int & INTEGER  & IN \\ [-3pt]
 (big) & & MPI_Count & \hbox to 0pt {INTEGER(KIND=MPI_COUNT_KIND) \hss} \\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl number of entries in buffer\hss} \\ 
- & datatype & MPI_Datatype & TYPE(MPI_Datatype)  & IN \\&\hbox to 0pt{\footnotesize\sl datatype of buffer\hss} \\ 
- & root & int & INTEGER  & IN \\&\hbox to 0pt{\footnotesize\sl rank of broadcast root\hss} \\ 
- & comm & MPI_Comm & TYPE(MPI_Comm)  & IN \\&\hbox to 0pt{\footnotesize\sl communicator\hss} \\ 
+&\hbox to 0pt{\footnotesize\sl number of entries in buffer\hss} \\ [+3pt] 
+ & datatype & MPI_Datatype & TYPE(MPI_Datatype)  & IN \\&\hbox to 0pt{\footnotesize\sl datatype of buffer\hss} \\ [+3pt] 
+ & root & int & INTEGER  & IN \\&\hbox to 0pt{\footnotesize\sl rank of broadcast root\hss} \\ [+3pt] 
+ & comm & MPI_Comm & TYPE(MPI_Comm)  & IN \\&\hbox to 0pt{\footnotesize\sl communicator\hss} \\ [+3pt] 
 
 \bottomrule
 \end{tabular}

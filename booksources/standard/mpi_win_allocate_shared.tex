@@ -26,14 +26,14 @@
 \midrule
 \hbox to 20pt{MPI_Win_allocate_shared (\hss} \\
 \hbox to 20pt{MPI_Win_allocate_shared_c (\hss} \\
- & size & MPI_Aint & INTEGER(KIND=MPI_ADDRESS_KIND)  & IN \\&\hbox to 0pt{\footnotesize\sl size of local window in bytes\hss} \\ 
+ & size & MPI_Aint & INTEGER(KIND=MPI_ADDRESS_KIND)  & IN \\&\hbox to 0pt{\footnotesize\sl size of local window in bytes\hss} \\ [+3pt] 
  & disp_unit & int & INTEGER  & IN \\ [-3pt]
 (big) & & MPI_Aint & \hbox to 0pt {INTEGER(KIND=MPI_ADDRESS_KIND) \hss} \\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl local unit size for displacements, in bytes\hss} \\ 
- & info & MPI_Info & TYPE(MPI_Info)  & IN \\&\hbox to 0pt{\footnotesize\sl info argument\hss} \\ 
- & comm & MPI_Comm & TYPE(MPI_Comm)  & IN \\&\hbox to 0pt{\footnotesize\sl intra-communicator\hss} \\ 
- & baseptr & void* & TYPE(C_PTR)  & OUT \\&\hbox to 0pt{\footnotesize\sl address of local allocated window segment\hss} \\ 
- & win & MPI_Win* & TYPE(MPI_Win)  & OUT \\&\hbox to 0pt{\footnotesize\sl window object returned by the call\hss} \\ 
+&\hbox to 0pt{\footnotesize\sl local unit size for displacements, in bytes\hss} \\ [+3pt] 
+ & info & MPI_Info & TYPE(MPI_Info)  & IN \\&\hbox to 0pt{\footnotesize\sl info argument\hss} \\ [+3pt] 
+ & comm & MPI_Comm & TYPE(MPI_Comm)  & IN \\&\hbox to 0pt{\footnotesize\sl intra-communicator\hss} \\ [+3pt] 
+ & baseptr & void* & TYPE(C_PTR)  & OUT \\&\hbox to 0pt{\footnotesize\sl address of local allocated window segment\hss} \\ [+3pt] 
+ & win & MPI_Win* & TYPE(MPI_Win)  & OUT \\&\hbox to 0pt{\footnotesize\sl window object returned by the call\hss} \\ [+3pt] 
 
 \bottomrule
 \end{tabular}

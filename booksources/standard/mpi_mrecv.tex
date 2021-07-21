@@ -26,13 +26,13 @@
 \midrule
 \hbox to 20pt{MPI_Mrecv (\hss} \\
 \hbox to 20pt{MPI_Mrecv_c (\hss} \\
- & buf & void* & TYPE(*), DIMENSION(..)  & OUT \\&\hbox to 0pt{\footnotesize\sl initial address of receive buffer\hss} \\ 
+ & buf & void* & TYPE(*), DIMENSION(..)  & OUT \\&\hbox to 0pt{\footnotesize\sl initial address of receive buffer\hss} \\ [+3pt] 
  & count & int & INTEGER  & IN \\ [-3pt]
 (big) & & MPI_Count & \hbox to 0pt {INTEGER(KIND=MPI_COUNT_KIND) \hss} \\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl number of elements in receive buffer\hss} \\ 
- & datatype & MPI_Datatype & TYPE(MPI_Datatype)  & IN \\&\hbox to 0pt{\footnotesize\sl datatype of each receive buffer element\hss} \\ 
- & message & MPI_Message* & TYPE(MPI_Message)  & INOUT \\&\hbox to 0pt{\footnotesize\sl message\hss} \\ 
- & status & MPI_Status* & TYPE(MPI_Status)  & OUT \\&\hbox to 0pt{\footnotesize\sl status object\hss} \\ 
+&\hbox to 0pt{\footnotesize\sl number of elements in receive buffer\hss} \\ [+3pt] 
+ & datatype & MPI_Datatype & TYPE(MPI_Datatype)  & IN \\&\hbox to 0pt{\footnotesize\sl datatype of each receive buffer element\hss} \\ [+3pt] 
+ & message & MPI_Message* & TYPE(MPI_Message)  & INOUT \\&\hbox to 0pt{\footnotesize\sl message\hss} \\ [+3pt] 
+ & status & MPI_Status* & TYPE(MPI_Status)  & OUT \\&\hbox to 0pt{\footnotesize\sl status object\hss} \\ [+3pt] 
 
 \bottomrule
 \end{tabular}

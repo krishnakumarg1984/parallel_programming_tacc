@@ -26,13 +26,13 @@
 \midrule
 \hbox to 20pt{MPI_Win_shared_query (\hss} \\
 \hbox to 20pt{MPI_Win_shared_query_c (\hss} \\
- & win & MPI_Win & TYPE(MPI_Win)  & IN \\&\hbox to 0pt{\footnotesize\sl shared memory window object\hss} \\ 
- & rank & int & INTEGER  & IN \\&\hbox to 0pt{\footnotesize\sl rank in the group of window win or \const{MPI_PROC_NULL}\hss} \\ 
- & size & MPI_Aint* & INTEGER(KIND=MPI_ADDRESS_KIND)  & OUT \\&\hbox to 0pt{\footnotesize\sl size of the window segment\hss} \\ 
+ & win & MPI_Win & TYPE(MPI_Win)  & IN \\&\hbox to 0pt{\footnotesize\sl shared memory window object\hss} \\ [+3pt] 
+ & rank & int & INTEGER  & IN \\&\hbox to 0pt{\footnotesize\sl rank in the group of window win or \const{MPI_PROC_NULL}\hss} \\ [+3pt] 
+ & size & MPI_Aint* & INTEGER(KIND=MPI_ADDRESS_KIND)  & OUT \\&\hbox to 0pt{\footnotesize\sl size of the window segment\hss} \\ [+3pt] 
  & disp_unit & int* & INTEGER  & OUT \\ [-3pt]
 (big) & & MPI_Aint & \hbox to 0pt {INTEGER(KIND=MPI_ADDRESS_KIND) \hss} \\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl local unit size for displacements, in bytes\hss} \\ 
- & baseptr & void* & TYPE(C_PTR)  & OUT \\&\hbox to 0pt{\footnotesize\sl address for load/store access to window segment\hss} \\ 
+&\hbox to 0pt{\footnotesize\sl local unit size for displacements, in bytes\hss} \\ [+3pt] 
+ & baseptr & void* & TYPE(C_PTR)  & OUT \\&\hbox to 0pt{\footnotesize\sl address for load/store access to window segment\hss} \\ [+3pt] 
 
 \bottomrule
 \end{tabular}

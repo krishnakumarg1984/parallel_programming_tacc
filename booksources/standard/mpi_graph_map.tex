@@ -25,11 +25,11 @@
 \mdseries\textrm{inout}\\
 \midrule
 \hbox to 20pt{MPI_Graph_map (\hss} \\
- & comm & MPI_Comm & TYPE(MPI_Comm)  \\&\hbox to 0pt{\footnotesize\sl input communicator\hss} \\ 
- & nnodes & int & INTEGER  \\&\hbox to 0pt{\footnotesize\sl number of graph nodes\hss} \\ 
- & index & int & INTEGER  \\&\hbox to 0pt{\footnotesize\sl integer array specifying the graph structure, see \mpifunc{MPI_GRAPH_CREATE}\hss} \\ 
- & edges & int & INTEGER  \\&\hbox to 0pt{\footnotesize\sl integer array specifying the graph structure\hss} \\ 
- & newrank & int* & INTEGER  \\&\hbox to 0pt{\footnotesize\sl reordered rank of the calling process; \const{MPI_UNDEFINED} if the calling process does not belong to graph\hss} \\ 
+ & comm & MPI_Comm & TYPE(MPI_Comm)  \\&\hbox to 0pt{\footnotesize\sl input communicator\hss} \\ [+3pt] 
+ & nnodes & int & INTEGER  \\&\hbox to 0pt{\footnotesize\sl number of graph nodes\hss} \\ [+3pt] 
+ & index & int & INTEGER  \\&\hbox to 0pt{\footnotesize\sl integer array specifying the graph structure, see \mpifunc{MPI_GRAPH_CREATE}\hss} \\ [+3pt] 
+ & edges & int & INTEGER  \\&\hbox to 0pt{\footnotesize\sl integer array specifying the graph structure\hss} \\ [+3pt] 
+ & newrank & int* & INTEGER  \\&\hbox to 0pt{\footnotesize\sl reordered rank of the calling process; \const{MPI_UNDEFINED} if the calling process does not belong to graph\hss} \\ [+3pt] 
 
 \bottomrule
 \end{tabular}

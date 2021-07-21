@@ -26,19 +26,19 @@
 \midrule
 \hbox to 20pt{MPI_Unpack (\hss} \\
 \hbox to 20pt{MPI_Unpack_c (\hss} \\
- & inbuf & void* & TYPE(*), DIMENSION(..)  & IN \\&\hbox to 0pt{\footnotesize\sl input buffer start\hss} \\ 
+ & inbuf & void* & TYPE(*), DIMENSION(..)  & IN \\&\hbox to 0pt{\footnotesize\sl input buffer start\hss} \\ [+3pt] 
  & insize & int & INTEGER  & IN \\ [-3pt]
 (big) & & MPI_Count & \hbox to 0pt {INTEGER(KIND=MPI_COUNT_KIND) \hss} \\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl size of input buffer, in bytes\hss} \\ 
+&\hbox to 0pt{\footnotesize\sl size of input buffer, in bytes\hss} \\ [+3pt] 
  & position & int* & INTEGER  & INOUT \\ [-3pt]
 (big) & & MPI_Count & \hbox to 0pt {INTEGER(KIND=MPI_COUNT_KIND) \hss} \\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl current position in bytes\hss} \\ 
- & outbuf & void* & TYPE(*), DIMENSION(..)  & OUT \\&\hbox to 0pt{\footnotesize\sl output buffer start\hss} \\ 
+&\hbox to 0pt{\footnotesize\sl current position in bytes\hss} \\ [+3pt] 
+ & outbuf & void* & TYPE(*), DIMENSION(..)  & OUT \\&\hbox to 0pt{\footnotesize\sl output buffer start\hss} \\ [+3pt] 
  & outcount & int & INTEGER  & IN \\ [-3pt]
 (big) & & MPI_Count & \hbox to 0pt {INTEGER(KIND=MPI_COUNT_KIND) \hss} \\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl number of items to be unpacked\hss} \\ 
- & datatype & MPI_Datatype & TYPE(MPI_Datatype)  & IN \\&\hbox to 0pt{\footnotesize\sl datatype of each output data item\hss} \\ 
- & comm & MPI_Comm & TYPE(MPI_Comm)  & IN \\&\hbox to 0pt{\footnotesize\sl communicator for packed message\hss} \\ 
+&\hbox to 0pt{\footnotesize\sl number of items to be unpacked\hss} \\ [+3pt] 
+ & datatype & MPI_Datatype & TYPE(MPI_Datatype)  & IN \\&\hbox to 0pt{\footnotesize\sl datatype of each output data item\hss} \\ [+3pt] 
+ & comm & MPI_Comm & TYPE(MPI_Comm)  & IN \\&\hbox to 0pt{\footnotesize\sl communicator for packed message\hss} \\ [+3pt] 
 
 \bottomrule
 \end{tabular}

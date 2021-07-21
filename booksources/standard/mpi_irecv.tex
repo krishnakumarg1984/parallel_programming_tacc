@@ -26,15 +26,15 @@
 \midrule
 \hbox to 20pt{MPI_Irecv (\hss} \\
 \hbox to 20pt{MPI_Irecv_c (\hss} \\
- & buf & void* & TYPE(*), DIMENSION(..)  & OUT \\&\hbox to 0pt{\footnotesize\sl initial address of receive buffer\hss} \\ 
+ & buf & void* & TYPE(*), DIMENSION(..)  & OUT \\&\hbox to 0pt{\footnotesize\sl initial address of receive buffer\hss} \\ [+3pt] 
  & count & int & INTEGER  & IN \\ [-3pt]
 (big) & & MPI_Count & \hbox to 0pt {INTEGER(KIND=MPI_COUNT_KIND) \hss} \\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl number of elements in receive buffer\hss} \\ 
- & datatype & MPI_Datatype & TYPE(MPI_Datatype)  & IN \\&\hbox to 0pt{\footnotesize\sl datatype of each receive buffer element\hss} \\ 
- & source & int & INTEGER  & IN \\&\hbox to 0pt{\footnotesize\sl rank of source or \const{MPI_ANY_SOURCE}\hss} \\ 
- & tag & int & INTEGER  & IN \\&\hbox to 0pt{\footnotesize\sl message tag or \const{MPI_ANY_TAG}\hss} \\ 
- & comm & MPI_Comm & TYPE(MPI_Comm)  & IN \\&\hbox to 0pt{\footnotesize\sl communicator\hss} \\ 
- & request & MPI_Request* & TYPE(MPI_Request)  & OUT \\&\hbox to 0pt{\footnotesize\sl communication request\hss} \\ 
+&\hbox to 0pt{\footnotesize\sl number of elements in receive buffer\hss} \\ [+3pt] 
+ & datatype & MPI_Datatype & TYPE(MPI_Datatype)  & IN \\&\hbox to 0pt{\footnotesize\sl datatype of each receive buffer element\hss} \\ [+3pt] 
+ & source & int & INTEGER  & IN \\&\hbox to 0pt{\footnotesize\sl rank of source or \const{MPI_ANY_SOURCE}\hss} \\ [+3pt] 
+ & tag & int & INTEGER  & IN \\&\hbox to 0pt{\footnotesize\sl message tag or \const{MPI_ANY_TAG}\hss} \\ [+3pt] 
+ & comm & MPI_Comm & TYPE(MPI_Comm)  & IN \\&\hbox to 0pt{\footnotesize\sl communicator\hss} \\ [+3pt] 
+ & request & MPI_Request* & TYPE(MPI_Request)  & OUT \\&\hbox to 0pt{\footnotesize\sl communication request\hss} \\ [+3pt] 
 
 \bottomrule
 \end{tabular}

@@ -25,10 +25,10 @@
 \mdseries\textrm{inout}\\
 \midrule
 \hbox to 20pt{MPI_Group_range_excl (\hss} \\
- & group & MPI_Group & TYPE(MPI_Group)  \\&\hbox to 0pt{\footnotesize\sl group\hss} \\ 
- & n & int & INTEGER  \\&\hbox to 0pt{\footnotesize\sl number of triplets in array \mpiarg{ranges}\hss} \\ 
- & ranges & int & INTEGER  \\&\hbox to 0pt{\footnotesize\sl a one-dimensional array of integer triplets, of the form (first rank, last rank, stride) indicating ranks in \mpiarg{group} of processes to be excluded from the output group \mpiarg{newgroup}\hss} \\ 
- & newgroup & MPI_Group* & TYPE(MPI_Group)  \\&\hbox to 0pt{\footnotesize\sl new group derived from above, preserving the order in \mpiarg{group}\hss} \\ 
+ & group & MPI_Group & TYPE(MPI_Group)  \\&\hbox to 0pt{\footnotesize\sl group\hss} \\ [+3pt] 
+ & n & int & INTEGER  \\&\hbox to 0pt{\footnotesize\sl number of triplets in array \mpiarg{ranges}\hss} \\ [+3pt] 
+ & ranges & int & INTEGER  \\&\hbox to 0pt{\footnotesize\sl a one-dimensional array of integer triplets, of the form (first rank, last rank, stride) indicating ranks in \mpiarg{group} of processes to be excluded from the output group \mpiarg{newgroup}\hss} \\ [+3pt] 
+ & newgroup & MPI_Group* & TYPE(MPI_Group)  \\&\hbox to 0pt{\footnotesize\sl new group derived from above, preserving the order in \mpiarg{group}\hss} \\ [+3pt] 
 
 \bottomrule
 \end{tabular}
