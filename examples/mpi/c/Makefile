@@ -28,7 +28,7 @@ APPS = init thread env outerr abort procname \
     postwaitwin passive numa \
     reduce reduceinplace allreduce allreduceinplace gather gatherv allgatherv \
     reducescatter trueextent typesize typematch countx tags \
-    contiguous vector vectorx getx stridestretch interleave indexed struct pack subarray \
+    contiguous vector vectorx vectorpadsend getx stridestretch interleave indexed struct pack subarray \
     typefloat \
     itransposeblock \
     commdupwrong commdupright commdupall commcompare \

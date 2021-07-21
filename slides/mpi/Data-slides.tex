@@ -244,7 +244,62 @@ CALL MPI_Type_create_f90_real( 15 , 300 , realtype , error )
 
 \sectionframe{Extent and resizing}
 
+\begin{numberedframe}{Extent}
+  Extent: `size' of a type,\\
+  especially useful for derived types.
 
+  \includegraphics{extentvector}
+\end{numberedframe}
+
+\begin{numberedframe}{Extent computation}
+  \cverbatimsnippet{vectortypeextent}
+\end{numberedframe}
+
+\begin{numberedframe}{Extent of subarray type}
+  The `subarray' type: \\
+  data does not start at the start of the type.
+
+  \indexmpiref{MPI_Type_get_true_extent} returns
+  non-zero lower bound.
+\end{numberedframe}
+
+\begin{numberedframe}{Extent resizing: enlarging}
+  Multiple derived types may not be what you intended\\
+  extent resizing makes it artificually larger:
+
+  \includegraphics[scale=.8]{extentpad}  
+\end{numberedframe}
+
+\begin{numberedframe}{Naive code}
+  Send:
+  \cverbatimsnippet{twovectorsend}
+  Recv:
+  \cverbatimsnippet{twovectorrecv}
+giving an output of:
+\begin{verbatim}
+Receive 6 elements: 0 2 4 5 7 9
+\end{verbatim}
+\end{numberedframe}
+
+\begin{numberedframe}{Resizing code}
+\cverbatimsnippet{twovectorpad}
+giving:
+\begin{verbatim}
+Strided type l=0 e=20
+Padded  type l=0 e=24
+Receive 6 elements: 0 2 4 6 8 10
+\end{verbatim}
+\end{numberedframe}
+
+\begin{numberedframe}{Extent resizing: shrinking}
+  Elements are placed at distance equal to extent:
+
+  \includegraphics[scale=.35]{stride-extent}
+\end{numberedframe}
+
+\begin{exerciseframe}[stridesend]
+ \input{ex:stridesendsized}
+\end{exerciseframe}
 
 \sectionframe{Packed data}
 

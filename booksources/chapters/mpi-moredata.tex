@@ -100,7 +100,7 @@ A type is partly characterized by its lower bound and extent,
 or equivalently lower bound and upperbound.
 Somewhat miraculously, you can actually change these to achieve special effects.
 This is needed for some cases of gather/scatter operations, or when the count
-of items in a buffer is more than one.
+of derived items in a buffer is more than one.
 
 To understand the latter case, consider the vector type from the previous section.
 It is clear that
@@ -112,12 +112,6 @@ will not give the same result as
 MPI_Type_vector( count,bs,stride,oldtype,&one_n_type );
 MPI_Type_contiguous( 2,&one_n_type,&two_n_type );
 \end{lstlisting}
-(Can you draw a picture of the two cases?)
-
-For the former case, consider figure~\ref{fig:stridesend} and exercise~\ref{ex:stridesend}.
-There, strided data was sent in individual transactions.
-Would it be possible to address all these interleaved packets in one
-gather or scatter call?
 
 The problem here is that MPI uses the extent of the send type in a scatter,
 or the receive type in a gather: if that type is 20 bytes big from
@@ -126,11 +120,57 @@ data will be read out 20 bytes apart in a scatter, or written 20 bytes apart
 in a gather. This ignores the `gaps' in the type!
 
 The technicality on which the solution hinges is that you can `resize' a type
+with \indexmpiref{MPI_Type_create_resized}
 to give it a different extent, while not affecting how much data there
 actually is in it.
 
-Let's consider an example where each process makes a
+\Level 2 {Example 1}
+
+\begin{figure}[ht]
+  \includegraphics{extentpad}
+  \caption{Effect of resizing a type}
+  \label{fig:extentpad}
+\end{figure}
+
+First consider sending more than one derived type,
+from a buffer containing consecutive integers:
+%
+\cverbatimsnippet[examples/mpi/c/vectorpadsend.c]{twovectorsend}
+%
+We receive into a contiguous buffer:
+%
+\cverbatimsnippet[examples/mpi/c/vectorpadsend.c]{twovectorrecv}
+%
+giving an output of:
+\begin{verbatim}
+Receive 6 elements: 0 2 4 5 7 9
+\end{verbatim}
+Next, we resize the type to ad the gap at the end.
+This is illustrated in figure~\ref{fig:extentpad}.
+
+Resizing the type looks like:
+%
+\cverbatimsnippet[examples/mpi/c/vectorpadsend.c]{twovectorpad}
+%
+and the corresponding output,
+including querying the extents,
+is:
+\begin{verbatim}
+Strided type l=0 e=20
+Padded  type l=0 e=24
+Receive 6 elements: 0 2 4 6 8 10
+\end{verbatim}
+
+\Level 2 {Example 2}
+
+For another example, let's revisit exercise~\ref{ex:stridesend}
+(and  figure~\ref{fig:stridesend})
+where each process makes a
 buffer of integers that will be interleaved in a gather call:
+Strided data was sent in individual transactions.
+Would it be possible to address all these interleaved packets in one
+gather or scatter call?
+
 \begin{lstlisting}
 int *mydata = (int*) malloc( localsize*sizeof(int) );
 for (int i=0; i<localsize; i++)
@@ -162,7 +202,13 @@ MPI_Gather( mydata,localsize,MPI_INT,
  0 1879048192 1100361260 3 3 0 6 0 0 9 1 198654
 \end{verbatim}
 
-The trick is to use \indexmpidef{MPI_Type_create_resized}
+\begin{figure}[ht]
+  \includegraphics[scale=.4]{stride-extent}
+  \caption{Interleaved gather from data with resized extent}
+  \label{fig:stride-extent}
+\end{figure}
+
+The trick is to use \indexmpishow{MPI_Type_create_resized}
 to make the extent of the type only one int long:
 %
 \cverbatimsnippet[examples/mpi/c/interleavegather]{interleavegather}
@@ -173,12 +219,13 @@ at starting points equal to the shrunk extent:
  0 1 2 3 4 5 6 7 8 9 10 11
 \end{verbatim}
 
-\begin{figure}[ht]
-  \includegraphics[scale=.4]{stride-extent}
-  \caption{Interleaved gather from data with resized extent}
-  \label{fig:stride-extent}
-\end{figure}
 This is illustrated in figure~\ref{fig:stride-extent}.
+
+\begin{exercise}[stridesend]
+  \label{ex:stridesendsized}
+  Rewrite exercise~\ref{ex:stridesend} to use a gather,
+  rather than individual messages.
+\end{exercise}
 
 \begin{mplnote}{Extent resizing}
   Resizing a datatype does not give a new type, but
