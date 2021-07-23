@@ -11,6 +11,8 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\Level 0 {Tau}
+
 \index{TAU|(}
 
 TAU~\url{http://www.cs.uoregon.edu/Research/tau/home.php} is a utility
@@ -25,8 +27,6 @@ information on  your program run, for instance showing you if one
 process lags behind others. For understanding a program's behaviour,
 and the reasons behind profiling statistics, a tracing tool can be
 very insightful.
-
-\Level 0 {Workflow}
 
 \Level 1 {Instrumentation}
 
@@ -120,9 +120,9 @@ The \n{slog2} file can be viewed with \indextermtt{jumpshot}:
 jumpshot yourprogram.slog2
 \end{verbatim}
 
-\Level 0 {Examples}
+\Level 1 {Examples}
 
-\Level 1 {Bucket brigade}
+\Level 2 {Bucket brigade}
 
 Let's consider a \indexterm{bucket brigade} implementation of a broadcast:
 each process sends its data to the next higher rank. 
@@ -174,7 +174,7 @@ and received with non-blocking calls.
 %
 The TAU trace is in figure~\ref{fig:tau-bucketpipe}.
 
-\Level 1 {Butterfly exchange}
+\Level 2 {Butterfly exchange}
 
 \begin{figure}[ht]
 \includegraphics[scale=.4]{butterfly8-legend}
