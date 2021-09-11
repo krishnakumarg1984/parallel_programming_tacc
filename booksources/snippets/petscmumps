@@ -1,0 +1,10 @@
+// direct.c
+ierr = KSPCreate(comm,&Solver);
+ierr = KSPSetOperators(Solver,A,A); CHKERRQ(ierr);
+ierr = KSPSetType(Solver,KSPPREONLY); CHKERRQ(ierr);
+{
+  PC Prec;
+  ierr = KSPGetPC(Solver,&Prec); CHKERRQ(ierr);
+  ierr = PCSetType(Prec,PCLU); CHKERRQ(ierr);
+  ierr = PCFactorSetMatSolverType(Prec,MATSOLVERMUMPS); CHKERRQ(ierr);
+}

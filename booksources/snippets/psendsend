@@ -1,0 +1,15 @@
+// partition.c
+double *sendbuffer = (double*)malloc(bufsize*sizeof(double));
+fill_buffer(sendbuffer,bufsize,1);
+double start = MPI_Wtime();
+MPI_Request send_request;
+MPI_Psend_init
+  (sendbuffer,nparts,SIZE,MPI_DOUBLE,tgt,0,
+   comm,MPI_INFO_NULL,&send_request);
+for (int it=0; it<ITERATIONS; it++) {
+  MPI_Start(&send_request);
+  for (int ip=0; ip<nparts; ip++)
+    MPI_Pready(ip,send_request);
+  MPI_Wait(&send_request,MPI_STATUS_IGNORE);
+}
+MPI_Request_free(&send_request);
