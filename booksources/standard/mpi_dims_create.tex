@@ -27,7 +27,7 @@
 \hbox to 20pt{MPI_Dims_create (\hss} \\
  & nnodes & int & INTEGER  \\&\hbox to 0pt{\footnotesize\sl number of nodes in a grid\hss} \\ [+3pt] 
  & ndims & int & INTEGER  \\&\hbox to 0pt{\footnotesize\sl number of Cartesian dimensions\hss} \\ [+3pt] 
- & dims & int & INTEGER  \\&\hbox to 0pt{\footnotesize\sl integer array of size \mpiarg{ndims} specifying the number of nodes in each dimension\hss} \\ [+3pt] 
+ & dims & int[] & INTEGER(ndims)  \\&\hbox to 0pt{\footnotesize\sl integer array of size \mpiarg{ndims} specifying the number of nodes in each dimension\hss} \\ [+3pt] 
 
 \bottomrule
 \end{tabular}

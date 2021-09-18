@@ -26,14 +26,14 @@
 \midrule
 \hbox to 20pt{MPI_Allgather (\hss} \\
 \hbox to 20pt{MPI_Allgather_c (\hss} \\
- & sendbuf & void* & TYPE(*), DIMENSION(..)  & IN \\&\hbox to 0pt{\footnotesize\sl starting address of send buffer\hss} \\ [+3pt] 
+ & sendbuf & const void* & TYPE(*), DIMENSION(..)  & IN \\&\hbox to 0pt{\footnotesize\sl starting address of send buffer\hss} \\ [+3pt] 
  & sendcount & int & INTEGER  & IN \\ [-3pt]
-(big) & & MPI_Count & \hbox to 0pt {INTEGER(KIND=MPI_COUNT_KIND) \hss} \\ [-3pt]
+(c) & & MPI_Count & \hbox to 0pt {INTEGER(KIND=MPI_COUNT_KIND) \hss} \\ [-3pt]
 &\hbox to 0pt{\footnotesize\sl number of elements in send buffer\hss} \\ [+3pt] 
  & sendtype & MPI_Datatype & TYPE(MPI_Datatype)  & IN \\&\hbox to 0pt{\footnotesize\sl datatype of send buffer elements\hss} \\ [+3pt] 
  & recvbuf & void* & TYPE(*), DIMENSION(..)  & OUT \\&\hbox to 0pt{\footnotesize\sl address of receive buffer\hss} \\ [+3pt] 
  & recvcount & int & INTEGER  & IN \\ [-3pt]
-(big) & & MPI_Count & \hbox to 0pt {INTEGER(KIND=MPI_COUNT_KIND) \hss} \\ [-3pt]
+(c) & & MPI_Count & \hbox to 0pt {INTEGER(KIND=MPI_COUNT_KIND) \hss} \\ [-3pt]
 &\hbox to 0pt{\footnotesize\sl number of elements received from any process\hss} \\ [+3pt] 
  & recvtype & MPI_Datatype & TYPE(MPI_Datatype)  & IN \\&\hbox to 0pt{\footnotesize\sl datatype of receive buffer elements\hss} \\ [+3pt] 
  & comm & MPI_Comm & TYPE(MPI_Comm)  & IN \\&\hbox to 0pt{\footnotesize\sl communicator\hss} \\ [+3pt] 

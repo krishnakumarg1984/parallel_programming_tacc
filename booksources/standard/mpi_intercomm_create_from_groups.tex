@@ -29,7 +29,7 @@
  & local_leader & int & INTEGER  \\&\hbox to 0pt{\footnotesize\sl rank of local group leader in \mpiarg{local\_group}\hss} \\ [+3pt] 
  & remote_group & MPI_Group & TYPE(MPI_Group)  \\&\hbox to 0pt{\footnotesize\sl remote group, significant only at \mpiarg{local\_leader}\hss} \\ [+3pt] 
  & remote_leader & int & INTEGER  \\&\hbox to 0pt{\footnotesize\sl rank of remote group leader in \mpiarg{remote\_group}, significant only at \mpiarg{local\_leader}\hss} \\ [+3pt] 
- & stringtag & char* & CHARACTER  \\&\hbox to 0pt{\footnotesize\sl unique idenitifier for this operation\hss} \\ [+3pt] 
+ & stringtag & const char* & CHARACTER  \\&\hbox to 0pt{\footnotesize\sl unique idenitifier for this operation\hss} \\ [+3pt] 
  & info & MPI_Info & TYPE(MPI_Info)  \\&\hbox to 0pt{\footnotesize\sl info object\hss} \\ [+3pt] 
  & errhandler & MPI_Errhandler & TYPE(MPI_Errhandler)  \\&\hbox to 0pt{\footnotesize\sl error handler to be attached to new inter-communicator\hss} \\ [+3pt] 
  & newintercomm & MPI_Comm* & TYPE(MPI_Comm)  \\&\hbox to 0pt{\footnotesize\sl new inter-communicator\hss} \\ [+3pt] 

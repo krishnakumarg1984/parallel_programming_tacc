@@ -43,18 +43,22 @@ TEXROOTDIR = ../../booksources
 onepass :
 	TEXINPUTS=.:..:${TEXROOTDIR}:../taccstyle:../taccstyle/figures:${TEXROOTDIR}/chapters:${TEXROOTDIR}/exercises:${TEXROOTDIR}/graphics//:${TEXROOTDIR}/macros:${TEXROOTDIR}/hwloc:${TEXROOTDIR}/mpireference:${TEXROOTDIR}/snippets:../course-support:${TEXINPUTS}${EXTRATEXINPUTS} ${ENGINE} ${FILE}
 pdf :: 
-	@make --no-print-directory onepass FILE=${FILE} \
+	@\
+	file=${FILE} \
+	 && make --no-print-directory onepass FILE=$${file} \
 	 && if [ -z "${BIB}" ] ; then \
 	        bib=0 ; else bib=1 ; fi \
-	 && if [ -z "${INDEX}" ] ; then \
-	        index=0 ; else index=1 ; fi \
 	 && if [ $${bib} -eq 1 ] ; then \
 	        ( bibtex          $${file} || echo true ) \
 	    ; fi \
+	 && if [ -z "${INDEX}" ] ; then \
+	        index=0 ; else index=1 ; fi \
 	 && if [ $${index} -eq 1 ] ; then \
 	        ( makeindex       $${file} || echo true ) \
 	    ; fi \
-	 && if [ $${index} -eq 1 -o $${bib} -eq 1 ] ; then \
+	 && if [ $$( cat ${FILE}.log | grep "Rerun to get cross-references right" | wc -l ) -eq 0 ] ; then \
+	    ref=0; else ref=1 ; fi \
+	 && if [ $${index} -eq 1 -o $${bib} -eq 1 -o $${ref} -eq 1 ] ; then \
 	        make onepass FILE=$${file} \
 	    ; fi
 

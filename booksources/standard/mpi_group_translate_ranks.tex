@@ -27,9 +27,9 @@
 \hbox to 20pt{MPI_Group_translate_ranks (\hss} \\
  & group1 & MPI_Group & TYPE(MPI_Group)  \\&\hbox to 0pt{\footnotesize\sl group1\hss} \\ [+3pt] 
  & n & int & INTEGER  \\&\hbox to 0pt{\footnotesize\sl number of ranks in \mpiarg{ranks1} and \mpiarg{ranks2} arrays\hss} \\ [+3pt] 
- & ranks1 & int & INTEGER  \\&\hbox to 0pt{\footnotesize\sl array of zero or more valid ranks in group1\hss} \\ [+3pt] 
+ & ranks1 & const int[] & INTEGER(n)  \\&\hbox to 0pt{\footnotesize\sl array of zero or more valid ranks in group1\hss} \\ [+3pt] 
  & group2 & MPI_Group & TYPE(MPI_Group)  \\&\hbox to 0pt{\footnotesize\sl group2\hss} \\ [+3pt] 
- & ranks2 & int & INTEGER  \\&\hbox to 0pt{\footnotesize\sl array of corresponding ranks in group2, \const{MPI_UNDEFINED} when no correspondence exists.\hss} \\ [+3pt] 
+ & ranks2 & int[] & INTEGER(n)  \\&\hbox to 0pt{\footnotesize\sl array of corresponding ranks in group2, \const{MPI_UNDEFINED} when no correspondence exists.\hss} \\ [+3pt] 
 
 \bottomrule
 \end{tabular}

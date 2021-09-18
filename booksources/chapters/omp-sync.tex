@@ -110,18 +110,72 @@ value has been computed.
 
 \Level 0 {Mutual exclusion}
 
-Sometimes it is necessary to let only one thread execute a piece of code.
+Sometimes it is necessary to limit a piece of code
+so that it can be executed by only one tread at a time.
 Such a piece of code is called a \indexterm{critical section}, and
 OpenMP has several mechanisms for realizing this.
+
+\Level 1 {Why critical sections?}
 
 The most common use of critical sections is to update a variable. Since updating
 involves reading the old value, and writing back the new, this has the possibility
 for a \indexterm{race condition}: another thread reads the current value
 before the first can update it; the second thread the updates to the wrong value.
 
-Critical sections are an easy way to turn an existing code into a correct parallel code.
-However, there are disadvantages to this, and sometimes a more drastic rewrite
-is called for.
+Suppose that two processes both try to increment an integer
+variable~\texttt{I}:
+\begin{tabbing}
+  process 1: \texttt{I=I+2}\\
+  process 2: \texttt{I=I+3}
+\end{tabbing}
+This is a legitimate activity if the variable is an accumulator for
+values computed by independent processes.
+The result of these two updates
+depends on the sequence in which the processors read and
+write the variable.
+
+\begin{figure}[ht]
+  \begin{tabular}{|rr|rr|rr|}
+    \hline
+    \multicolumn{2}{|c|}{scenario 1.}& \multicolumn{2}{|c|}{scenario 2.}&
+    \multicolumn{2}{|c|}{scenario 3.}\\ \hline
+    \multicolumn{6}{|c|}{$\n{I}=0$}\\ \hline
+    read $\n{I}=0$&read $\n{I}=0$&
+    read $\n{I}=0$&read $\n{I}=0$&
+    read $\n{I}=0$& \\
+    compute $\n{I}=2$&compute $\n{I}=3$& 
+    compute $\n{I}=2$&compute $\n{I}=3$&
+    compute $\n{I}=2$& \\
+    write $\n{I}=2$& & &write $\n{I}=3$&write $\n{I}=2$& \\
+    &write $\n{I}=3$&write $\n{I}=2$& & &read $\n{I}=2$\\
+    &&&&&compute $\n{I}=5$\\
+    &&&&&write $\n{I}=5$\\
+    \hline
+    \multicolumn{2}{|c|}{$\n{I}=3$}& \multicolumn{2}{|c|}{$\n{I}=2$}&
+    \multicolumn{2}{|c|}{$\n{I}=5$}\\ \hline
+  \end{tabular}
+  \caption{Three executions of a data race scenario}
+  \label{fig:race}
+\end{figure}
+
+Figure~\ref{fig:race} illustrates
+three scenarios.
+Such a scenario,
+where the final result depends on `micro-timing' of the actions of a thread,
+is known as a \indextermdef{race condition} or
+\emph{data race}\index{data race|see{race condition}}.
+A~formal definition would be:
+\begin{quotation}
+  We talk of a a \emph{data race} if there are two statements~$S_1,S_2$,
+  \begin{itemize}
+  \item that are not causally related;
+  \item that both access a location~$L$; and
+  \item at least one access is a write.
+  \end{itemize}
+\end{quotation}
+Enclosing the update statement in a critical section,
+or making it atomic by some other mechanism,
+enforces scenario~3 of the above figure.
 
 \Level 1 {\texttt{critical} and \texttt{atomic}}
 \label{sec:critical}
@@ -180,6 +234,11 @@ The problem with \n{critical} sections being mutually exclusive can be mitigated
 \begin{lstlisting}
 #pragma omp critical (optional_name_in_parens)
 \end{lstlisting}
+
+Critical sections are an easy way to turn an existing code into a correct parallel code.
+However, there are performance disadvantages to critical sections,
+and sometimes a more drastic rewrite
+is called for.
 
 \index{atomic operation!OpenMP|)}
 
@@ -288,6 +347,18 @@ thread before being unlocked.
 \item \indexompdef{omp_unset_nest_lock}
 \item \indexompdef{omp_test_nest_lock}
 \end{itemize}
+
+\Level 1 {Example: object with atomic update}
+
+\ac{OO} languages such as C++ allow for syntactic simplification,
+for instance building the locking and unlocking actions into
+the update operator.
+
+\cverbatimsnippet[examples/omp/cxx/lockobject.cxx]{lockobject}
+
+Running this:
+
+\cverbatimsnippet[examples/omp/cxx/lockobject.cxx]{lockobjectuse}
 
 \indexterm{lock|)}
 

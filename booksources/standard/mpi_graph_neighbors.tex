@@ -28,7 +28,7 @@
  & comm & MPI_Comm & TYPE(MPI_Comm)  \\&\hbox to 0pt{\footnotesize\sl communicator with graph topology\hss} \\ [+3pt] 
  & rank & int & INTEGER  \\&\hbox to 0pt{\footnotesize\sl rank of process in group of \mpiarg{comm}\hss} \\ [+3pt] 
  & maxneighbors & int & INTEGER  \\&\hbox to 0pt{\footnotesize\sl size of array \mpiarg{neighbors}\hss} \\ [+3pt] 
- & neighbors & int & INTEGER  \\&\hbox to 0pt{\footnotesize\sl ranks of processes that are neighbors to specified process\hss} \\ [+3pt] 
+ & neighbors & int[] & INTEGER(maxneighbors)  \\&\hbox to 0pt{\footnotesize\sl ranks of processes that are neighbors to specified process\hss} \\ [+3pt] 
 
 \bottomrule
 \end{tabular}

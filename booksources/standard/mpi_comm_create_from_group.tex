@@ -26,7 +26,7 @@
 \midrule
 \hbox to 20pt{MPI_Comm_create_from_group (\hss} \\
  & group & MPI_Group & TYPE(MPI_Group)  \\&\hbox to 0pt{\footnotesize\sl group\hss} \\ [+3pt] 
- & stringtag & char* & CHARACTER  \\&\hbox to 0pt{\footnotesize\sl unique identifier for this operation\hss} \\ [+3pt] 
+ & stringtag & const char* & CHARACTER  \\&\hbox to 0pt{\footnotesize\sl unique identifier for this operation\hss} \\ [+3pt] 
  & info & MPI_Info & TYPE(MPI_Info)  \\&\hbox to 0pt{\footnotesize\sl info object\hss} \\ [+3pt] 
  & errhandler & MPI_Errhandler & TYPE(MPI_Errhandler)  \\&\hbox to 0pt{\footnotesize\sl error handler to be attached to new intra-communicator\hss} \\ [+3pt] 
  & newcomm & MPI_Comm* & TYPE(MPI_Comm)  \\&\hbox to 0pt{\footnotesize\sl new communicator\hss} \\ [+3pt] 

@@ -48,6 +48,7 @@
 \def\Location{}% redefine in the inex file
 \def\courseyear{2021}
 \def\Location{TACC HPC Training \courseyear}
+\excludecomment{xsede}
 
 \includecomment{full}
 \excludecomment{condensed}
@@ -56,7 +57,6 @@
 \specialcomment{tacc}{\stepcounter{tacc}\def\CommentCutFile{tacc\arabic{tacc}.cut}}{}
 \newcounter{tacc}
 %\excludecomment{tacc}
-\includecomment{xsede}
 \includecomment{utonly}
 
 \includecomment{onesided}
@@ -105,6 +105,13 @@
 %%   \input tacc-conduct
 %% \end{utonly}
 
+\begin{frame}{Materials}
+  Textbook and lecture slides: \url{https://tinyurl.com/vle335course}
+
+  Source repository with exercises:
+  \url{https://bitbucket.org/VictorEijkhout/parallel-programming-public/}
+\end{frame}
+
 \begin{frame}{Justification}
   The MPI library is the main tool
   for parallel programming on a large scale.
@@ -113,10 +120,17 @@
 \end{frame}
 
 \begin{frame}{Table of Contents}
-  \tableofcontents
+  \def\contentsline####1####2{\item ####2}
+  \IfFileExists{\jobname.toc}
+               {\begin{itemize}
+                   \tableofcontents
+               \end{itemize}
+               }{}
 \end{frame}
 
 \coursepart{Basics}
+
+\renewcommand\standardversion{3}
 
 \Level 0 {The SPMD model}
 \input SPMD-slides
@@ -145,6 +159,8 @@
   \item Shared memory
   \end{itemize}
 \end{frame}
+
+\renewcommand\standardversion{}
 
 \coursepart{Intermediate topics}
 
@@ -177,7 +193,7 @@
   code to deal with unusual scenarios or very large scale runs.
 \end{frame}
 
-\Level 0 {More about collectives}
+\Level 0 {Advanced collectives}
 \input Highercollective-slides
 
 \Level 0 {Shared memory}

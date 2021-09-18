@@ -45,7 +45,8 @@ is repeated many times, this overhead may be avoided.
 \item The communication can then be restarted with another `start' call.
 \item The wait call does not release the request object,
   since it can be used for repeat occurrences of this transaction.
-  The request object is freed, as usual, with \indexmpishow{MPI_Request_free}.
+  The request object is only freed with \indexmpishow{MPI_Request_free}.
+  See section~\ref{ref:mpirequest} for the non-persistent handling of requests.
 \end{enumerate}
 
 \begin{lstlisting}

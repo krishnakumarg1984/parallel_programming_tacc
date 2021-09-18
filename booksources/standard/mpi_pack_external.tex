@@ -26,18 +26,18 @@
 \midrule
 \hbox to 20pt{MPI_Pack_external (\hss} \\
 \hbox to 20pt{MPI_Pack_external_c (\hss} \\
- & datarep & char & CHARACTER  & IN \\&\hbox to 0pt{\footnotesize\sl data representation\hss} \\ [+3pt] 
- & inbuf & void* & TYPE(*), DIMENSION(..)  & IN \\&\hbox to 0pt{\footnotesize\sl input buffer start\hss} \\ [+3pt] 
+ & datarep & const char[] & CHARACTER  & IN \\&\hbox to 0pt{\footnotesize\sl data representation\hss} \\ [+3pt] 
+ & inbuf & const void* & TYPE(*), DIMENSION(..)  & IN \\&\hbox to 0pt{\footnotesize\sl input buffer start\hss} \\ [+3pt] 
  & incount & int & INTEGER  & IN \\ [-3pt]
-(big) & & MPI_Count & \hbox to 0pt {INTEGER(KIND=MPI_COUNT_KIND) \hss} \\ [-3pt]
+(c) & & MPI_Count & \hbox to 0pt {INTEGER(KIND=MPI_COUNT_KIND) \hss} \\ [-3pt]
 &\hbox to 0pt{\footnotesize\sl number of input data items\hss} \\ [+3pt] 
  & datatype & MPI_Datatype & TYPE(MPI_Datatype)  & IN \\&\hbox to 0pt{\footnotesize\sl datatype of each input data item\hss} \\ [+3pt] 
  & outbuf & void* & TYPE(*), DIMENSION(..)  & OUT \\&\hbox to 0pt{\footnotesize\sl output buffer start\hss} \\ [+3pt] 
  & outsize & MPI_Aint & INTEGER(KIND=MPI_ADDRESS_KIND)  & IN \\ [-3pt]
-(big) & & MPI_Count & \hbox to 0pt {INTEGER(KIND=MPI_COUNT_KIND) \hss} \\ [-3pt]
+(c) & & MPI_Count & \hbox to 0pt {INTEGER(KIND=MPI_COUNT_KIND) \hss} \\ [-3pt]
 &\hbox to 0pt{\footnotesize\sl output buffer size, in bytes\hss} \\ [+3pt] 
  & position & MPI_Aint* & INTEGER(KIND=MPI_ADDRESS_KIND)  & INOUT \\ [-3pt]
-(big) & & MPI_Count & \hbox to 0pt {INTEGER(KIND=MPI_COUNT_KIND) \hss} \\ [-3pt]
+(c) & & MPI_Count & \hbox to 0pt {INTEGER(KIND=MPI_COUNT_KIND) \hss} \\ [-3pt]
 &\hbox to 0pt{\footnotesize\sl current position in buffer, in bytes\hss} \\ [+3pt] 
 
 \bottomrule

@@ -14,11 +14,12 @@
 MAKEFLAGS += --no-builtin-rules
 
 info ::
+	@echo
+	@echo "================ Compilation"
+	@echo "make APP (in ${APPS} ${EXERCISES} )"
 	@echo "    [ OPTLEVEL=0/1/2, default:${OPTLEVEL} ]"
-OPTLEVEL = 2
-
-info ::
 	@echo "    [ EXTRA_OPTIONS=... ]"
+OPTLEVEL = 2
 
 EXT_c = c
 EXT_C = c
@@ -40,12 +41,6 @@ CXX_STD_FLAGS = -std=c++${CPPSTANDARD}
 CFLAGS   += ${C_STD_FLAGS}
 CXXFLAGS += ${CXX_STD_FLAGS}
 
-ifdef PETSC_DIR
-  CFLAGS += ${PETSC_CC_INCLUDES} 
-  CXXFLAGS += ${PETSC_CXX_INCLUDES} 
-  FFLAGS += ${PETSC_FC_INCLUDES} 
-endif
-
 OPTFLAGS = -O${OPTLEVEL} -g
 
 ifdef TACC_TAU_DIR
@@ -57,29 +52,19 @@ ifdef TACC_TAU_DIR
   MPI_F_COMPILER = tau_f90.sh
 else
 
-ifdef PETSC_DIR
-  ##
-  ## annoyingly, there is only an mpicc/mpicxx/mpif90 script
-  ## in the petsc bin dir, if you have --download-mpich
-  ## this may have changed in 3.12.4
-  ##
-  C_COMPILER = mpicc
-  # ${PETSC_DIR}/${PETSC_ARCH}/bin/mpicc
-  CXX_COMPILER = mpicxx
-  #${PETSC_DIR}/${PETSC_ARCH}/bin/mpicxx
-  F_COMPILER = mpif90
-  #${PETSC_DIR}/${PETSC_ARCH}/bin/mpif90
-  MPI_C_COMPILER   = ${C_COMPILER}
-  MPI_CXX_COMPILER = ${CXX_COMPILER}
-  MPI_F_COMPILER   = ${F_COMPILER}
-
-else
-
-      MPI_C_COMPILER = mpicc
-      MPI_CXX_COMPILER = mpicxx
-      MPI_F_COMPILER = mpif90
+    MPI_C_COMPILER = mpicc
+    MPI_CXX_COMPILER = mpicxx
+    MPI_F_COMPILER = mpif90
 
     ifeq "${MODE}" "mpi"
+      C_COMPILER   = ${MPI_C_COMPILER}
+      CXX_COMPILER = ${MPI_CXX_COMPILER}
+      F_COMPILER   = ${MPI_F_COMPILER}
+    else ifeq "${MODE}" "hybrid"
+      C_COMPILER   = ${MPI_C_COMPILER}
+      CXX_COMPILER = ${MPI_CXX_COMPILER}
+      F_COMPILER   = ${MPI_F_COMPILER}
+    else ifeq "${MODE}" "mpl"
       C_COMPILER   = ${MPI_C_COMPILER}
       CXX_COMPILER = ${MPI_CXX_COMPILER}
       F_COMPILER   = ${MPI_F_COMPILER}
@@ -91,6 +76,26 @@ else
       else
         CXX_COMPILER = dpcpp
       endif
+    else ifeq "${MODE}" "petsc"
+      ##
+      ## annoyingly, there is only an mpicc/mpicxx/mpif90 script
+      ## in the petsc bin dir, if you have --download-mpich
+      ## this may have changed in 3.12.4
+      ##
+      C_COMPILER = mpicc
+      # ${PETSC_DIR}/${PETSC_ARCH}/bin/mpicc
+      CXX_COMPILER = mpicxx
+      #${PETSC_DIR}/${PETSC_ARCH}/bin/mpicxx
+      F_COMPILER = mpif90
+      #${PETSC_DIR}/${PETSC_ARCH}/bin/mpif90
+      MPI_C_COMPILER   = ${C_COMPILER}
+      MPI_CXX_COMPILER = ${CXX_COMPILER}
+      MPI_F_COMPILER   = ${F_COMPILER}
+
+      CFLAGS += ${PETSC_CC_INCLUDES} 
+      CXXFLAGS += ${PETSC_CXX_INCLUDES} 
+      FFLAGS += ${PETSC_FC_INCLUDES} 
+
     else # other modes use the regular compilers
 
 	ifeq "${TACC_FAMILY_COMPILER}" "intel"
@@ -105,20 +110,27 @@ else
 	  C_COMPILER   = clang
 	  CXX_COMPILER = clang++
 	  F_COMPILER   = gfortran
+	else ifeq "${TACC_FAMILY_COMPILER}" "xl"
+	  C_COMPILER   = xlc
+	  CXX_COMPILER = xlc++
+	  F_COMPILER   = xlf
 	else ifeq "${TACC_FAMILY_COMPILER}" "devcloud"
 	  CXX_COMPILER = dpcpp
 	endif # end of non-mpi compiler setting
 
     endif # end of mode choices
 
-endif # end of petsc section
-
 OMPFLAGS_intel    = -qopenmp 
 OMPFLAGS_gcc      = -ggdb -fopenmp
 OMPFLAGS_clang    = -fopenmp
+OMPFLAGS_xl       = -qsmp=omp -qoffload
 OMPFLAGS = ${OMPFLAGS_${TACC_FAMILY_COMPILER}}
 
 ifeq "${MODE}" "omp"
+  CFLAGS   += ${OMPFLAGS}
+  CXXFLAGS += ${OMPFLAGS}
+  FFLAGS   += ${OMPFLAGS}
+else ifeq "${MODE}" "hybrid"
   CFLAGS   += ${OMPFLAGS}
   CXXFLAGS += ${OMPFLAGS}
   FFLAGS   += ${OMPFLAGS}
@@ -144,27 +156,43 @@ FFLAGS   += ${EXTRA_OPTIONS}
 %.o : %.F90
 	${F_COMPILER}   -c $< ${FFLAGS}
 
-ifeq "${MODE}" "mpi"
-C_LINKER   = ${MPI_C_COMPILER}
-CXX_LINKER = ${MPI_CXX_COMPILER}
-F_LINKER   = ${MPI_F_COMPILER}
-else
-C_LINKER   = ${C_COMPILER}
-CXX_LINKER = ${CXX_COMPILER}
-F_LINKER   = ${F_COMPILER}
+C_LINKER   := ${MPI_C_COMPILER}
+CXX_LINKER := ${MPI_CXX_COMPILER}
+F_LINKER   := ${MPI_F_COMPILER}
+ifeq "${MODE}" "seq"
+C_LINKER   := ${C_COMPILER}
+CXX_LINKER := ${CXX_COMPILER}
+F_LINKER   := ${F_COMPILER}
+else ifeq "${MODE}" "omp"
+C_LINKER   := ${C_COMPILER}
+CXX_LINKER := ${CXX_COMPILER}
+F_LINKER   := ${F_COMPILER}
+else ifeq "${MODE}" "1api"
+C_LINKER   := ${C_COMPILER}
+CXX_LINKER := ${CXX_COMPILER}
+F_LINKER   := ${F_COMPILER}
 endif
-LINKER = ${${LANGUAGE}_LINKER}
+LINKER     := ${${LANGUAGE}_LINKER}
 
-ifeq "${MODE}" "mpi"
-LINK_FLAGS += ${PETSC_LIB}
+ifeq "${MODE}" "petsc"
+  LINK_FLAGS += ${PETSC_LIB}
+else ifeq "${MODE}" "hybrid"
+  LINK_FLAGS += ${OMPFLAGS}
+else ifeq "${MODE}" "omp"
+  LINK_FLAGS += ${OMPFLAGS}
 endif
-ifeq "${MODE}" "omp"
-LINK_FLAGS += ${OMPFLAGS}
+ifeq "${TACC_FAMILY_COMPILER}" "gcc"
+  LINK_FLAGS += -lm
 endif
 
 .SECONDEXPANSION:
-${APPS} ${EXERCISES} ${WRONGS} : $$@.o
+${APPS} ${EXERCISES} ${WRONGS} :: $$@.o ${EXTRA_OBJS}
 	${LINKER} -o $@ $^ ${LINK_FLAGS} ${EXTRA_LIBS}
+# ${EXTRA_OBJS} 
+.PHONY: compile
+compile :
+	@make --no-print-directory ${PROGRAM}.o
+	${LINKER} -o ${PROGRAM} ${PROGRAM}.o ${EXTRA_OBJS} ${LINK_FLAGS} ${EXTRA_LIBS}
 
 info ::
 	@if [ ! -z "${APPS}" ] ; then \
@@ -174,10 +202,20 @@ info ::
 	fi
 .PHONY: apps listapps
 apps :
-	@for a in ${APPS} ; do \
+	@( \
+	for a in ${APPS} ; do \
 	    echo "%%%%%%%%%%%%%%%%" && echo "Compile $${a}" \
-	    && make $${a} \
+	    && make $${a} || echo "failure..." \
 	    ; \
-	done
+	done \
+	) 2>&1 | tee compile.log
+	@echo && echo "See compile.log for all output" && echo 
+clean ::
+	@rm -f compile.log
 listapps :
-	@echo ${APPS}
+	@echo ${APPS} ${EXERCISES}
+	@for a in ${APPS} ${EXERCISES} ; do \
+	    if [ `ls $$a.{c,cxx,F,F90,f,f90,py} 2>/dev/null | wc -l` -eq 0 ] ; then \
+	        echo "Missing source for <<$$a>>" \
+	    ; fi \
+	; done

@@ -26,8 +26,8 @@
 \midrule
 \hbox to 20pt{MPI_Waitall (\hss} \\
  & count & int & INTEGER  \\&\hbox to 0pt{\footnotesize\sl list length\hss} \\ [+3pt] 
- & array_of_requests & MPI_Request & TYPE(MPI_Request)  \\&\hbox to 0pt{\footnotesize\sl array of requests\hss} \\ [+3pt] 
- & array_of_statuses & MPI_Status & TYPE(MPI_Status)  \\&\hbox to 0pt{\footnotesize\sl array of status objects\hss} \\ [+3pt] 
+ & array_of_requests & MPI_Request[] & TYPE(MPI_Request)(count)  \\&\hbox to 0pt{\footnotesize\sl array of requests\hss} \\ [+3pt] 
+ & array_of_statuses & MPI_Status[] & TYPE(MPI_Status)(*)  \\&\hbox to 0pt{\footnotesize\sl array of status objects\hss} \\ [+3pt] 
 
 \bottomrule
 \end{tabular}

@@ -47,7 +47,8 @@ scheme is used.
 PetscErrorCode ierr;
 ierr = AnyPetscRoutine( arguments ); CHKERRQ(ierr);
 \end{lstlisting}
-
+\item Other error checking macros are \indexpetscdef{CHKERRABORT}
+  which aborts immediately, and \indexpetscdef{CHKERRMPI}.
 \item You can effect your own error return by using
   \indexpetscref{SETERRQ}
   \indexpetscxref{SETERRQ1}{SETERRQ},

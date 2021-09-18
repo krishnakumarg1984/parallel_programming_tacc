@@ -27,7 +27,7 @@
 \hbox to 20pt{MPI_Group_incl (\hss} \\
  & group & MPI_Group & TYPE(MPI_Group)  \\&\hbox to 0pt{\footnotesize\sl group\hss} \\ [+3pt] 
  & n & int & INTEGER  \\&\hbox to 0pt{\footnotesize\sl number of elements in array \mpiarg{ranks} (and size of \mpiarg{newgroup})\hss} \\ [+3pt] 
- & ranks & int & INTEGER  \\&\hbox to 0pt{\footnotesize\sl ranks of processes in \mpiarg{group} to appear in \mpiarg{newgroup}\hss} \\ [+3pt] 
+ & ranks & const int[] & INTEGER(n)  \\&\hbox to 0pt{\footnotesize\sl ranks of processes in \mpiarg{group} to appear in \mpiarg{newgroup}\hss} \\ [+3pt] 
  & newgroup & MPI_Group* & TYPE(MPI_Group)  \\&\hbox to 0pt{\footnotesize\sl new group derived from above, in the order defined by \mpiarg{ranks}\hss} \\ [+3pt] 
 
 \bottomrule

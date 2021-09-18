@@ -26,7 +26,7 @@
 \midrule
 \hbox to 20pt{MPI_File_write_ordered_end (\hss} \\
  & fh & MPI_File & TYPE(MPI_File)  \\&\hbox to 0pt{\footnotesize\sl file handle\hss} \\ [+3pt] 
- & buf & void* & TYPE(*), DIMENSION(..)  \\&\hbox to 0pt{\footnotesize\sl initial address of buffer\hss} \\ [+3pt] 
+ & buf & const void* & TYPE(*), DIMENSION(..)  \\&\hbox to 0pt{\footnotesize\sl initial address of buffer\hss} \\ [+3pt] 
  & status & MPI_Status* & TYPE(MPI_Status)  \\&\hbox to 0pt{\footnotesize\sl status object\hss} \\ [+3pt] 
 
 \bottomrule

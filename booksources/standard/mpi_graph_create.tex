@@ -27,8 +27,8 @@
 \hbox to 20pt{MPI_Graph_create (\hss} \\
  & comm_old & MPI_Comm & TYPE(MPI_Comm)  \\&\hbox to 0pt{\footnotesize\sl input communicator\hss} \\ [+3pt] 
  & nnodes & int & INTEGER  \\&\hbox to 0pt{\footnotesize\sl number of nodes in graph\hss} \\ [+3pt] 
- & index & int & INTEGER  \\&\hbox to 0pt{\footnotesize\sl array of integers describing node degrees (see below)\hss} \\ [+3pt] 
- & edges & int & INTEGER  \\&\hbox to 0pt{\footnotesize\sl array of integers describing graph edges (see below)\hss} \\ [+3pt] 
+ & index & const int[] & INTEGER(nnodes)  \\&\hbox to 0pt{\footnotesize\sl array of integers describing node degrees (see below)\hss} \\ [+3pt] 
+ & edges & const int[] & INTEGER(*)  \\&\hbox to 0pt{\footnotesize\sl array of integers describing graph edges (see below)\hss} \\ [+3pt] 
  & reorder & int & LOGICAL  \\&\hbox to 0pt{\footnotesize\sl ranking may be reordered (\mpicode{true}) or not (\mpicode{false})\hss} \\ [+3pt] 
  & comm_graph & MPI_Comm* & TYPE(MPI_Comm)  \\&\hbox to 0pt{\footnotesize\sl communicator with graph topology added\hss} \\ [+3pt] 
 

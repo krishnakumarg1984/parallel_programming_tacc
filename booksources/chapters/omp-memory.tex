@@ -98,37 +98,31 @@ To start with that last clause: any workshare construct ends with an
 \indextermsub{implicit}{barrier}, so data written before that barrier
 can safely be read after it.
 
-As an illustration of a possible problem:
-\begin{lstlisting}
-c = d = 0;
-#pragma omp sections
-{
-#pragma omp section
-  { a = 1; c = b; }
-#pragma omp section
-  { b = 1; d = a; }
-}
-\end{lstlisting}
+\Level 1 {Dekker's algorithm}
+
+A standard illustration of the weak memory model is
+\indexterm{Dekker's algorithm}.
+We model that in OpenMP as follows;
+\cverbatimsnippet{dekkerweak}
+
 Under any reasonable interpretation of parallel execution,
-the possible values for \n{c,d} are $1,1$ $0,1$ or~$1,0$.
+the possible values for \n{r1,r2} are $1,1$ $0,1$ or~$1,0$.
 This is known as \indexterm{sequential consistency}:
 the parallel outcome is consistent with a sequential execution that
 interleaves the parallel computations, respecting their local statement orderings.
 (See also~\HPSCref{sec:seq-consist}.)
 
-However, without synchronization, threads are allowed to maintain a value for a
-variable locally that is not the same as the stored value. In this
-example, that means that the thread executing the first section need
-not write its value of~\n{a} to memory, and likewise \n{b}~in the
-second thread, so $0,0$~is in fact a possible outcome.
-
-In order to resolve multiple accesses:
+However, running this, we get a small number of cases where $r_1=r_2=0$.
+There are two possible explanations:
 \begin{enumerate}
-\item Thread one reads the variable.
-\item Thread one flushes the variable.
-\item Thread two flushes the variable.
-\item Thread two reads the variable.
+\item The compiler is allowed to interchange the first and second statements,
+  since there is no dependence between them; or
+\item The thread is allowed to have a local copy of the variable
+  that is not coherent with the value in memory.
 \end{enumerate}
+
+We fix this by flushing both \n{a,b}:
+\cverbatimsnippet{dekkerflush}.
 
 % \url{https://software.intel.com/es-es/forums/intel-moderncode-for-parallel-architectures/topic/610017}
 

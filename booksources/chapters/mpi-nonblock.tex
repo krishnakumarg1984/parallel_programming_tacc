@@ -114,8 +114,13 @@ status object, you can pass \indexmpishow{MPI_STATUS_IGNORE}.
 
 \cverbatimsnippet[examples/mpi/c/hangwait.c]{bcastsendwait}
 
-Note that the request is passed by reference, so that the wait routine
-can free it.
+The request is passed by reference, so that the wait routine
+can free it:
+\begin{itemize}
+\item The wait call deallocates the request object, and
+\item sets the value of the variable to \indexmpishow{MPI_REQUEST_NULL}.
+\end{itemize}
+(See section~\ref{ref:mpirequest} for details.)
 
 \begin{mplnote}{Requests from nonblocking calls}
   \label{mpl:irequest}
@@ -485,9 +490,11 @@ This meeans that when you call, for instance, \indexmpishow{MPI_Irecv},
 MPI will allocate an actual request object, and return its
 address in the \indexmpishow{MPI_Request} variable.
 
-Correspondingly, calls to \lstinline{MPI_Wait...} or \indexmpishow{MPI_Test}
+Correspondingly, calls to \lstinline{MPI_Wait} or \indexmpishow{MPI_Test}
 free this object,
 setting the handle to \indexmpishow{MPI_REQUEST_NULL}.
+(There is an exception for persistent communications where
+the request is only set to `inactive'; section~\ref{sec:persistent}.)
 Thus, it is wise to issue wait calls even
 if you know that the operation has succeeded. For instance, if all
 receive calls are concluded, you know that the corresponding send

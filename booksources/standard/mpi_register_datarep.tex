@@ -26,12 +26,12 @@
 \midrule
 \hbox to 20pt{MPI_Register_datarep (\hss} \\
 \hbox to 20pt{MPI_Register_datarep_c (\hss} \\
- & datarep & char* & CHARACTER  & IN \\&\hbox to 0pt{\footnotesize\sl data representation identifier\hss} \\ [+3pt] 
+ & datarep & const char* & CHARACTER  & IN \\&\hbox to 0pt{\footnotesize\sl data representation identifier\hss} \\ [+3pt] 
  & read_conversion_fn & MPI_Datarep_conversion_function* & PROCEDURE(MPI_Datarep_conversion_function)  & IN \\ [-3pt]
-(big) & & MPI_Datarep_conversion_function_c & \hbox to 0pt {PROCEDURE(MPI_Datarep_conversion_function_c) \hss} \\ [-3pt]
+(c) & & MPI_Datarep_conversion_function_c & \hbox to 0pt {PROCEDURE(MPI_Datarep_conversion_function_c) \hss} \\ [-3pt]
 &\hbox to 0pt{\footnotesize\sl function invoked to convert from file representation to native representation\hss} \\ [+3pt] 
  & write_conversion_fn & MPI_Datarep_conversion_function* & PROCEDURE(MPI_Datarep_conversion_function)  & IN \\ [-3pt]
-(big) & & MPI_Datarep_conversion_function_c & \hbox to 0pt {PROCEDURE(MPI_Datarep_conversion_function_c) \hss} \\ [-3pt]
+(c) & & MPI_Datarep_conversion_function_c & \hbox to 0pt {PROCEDURE(MPI_Datarep_conversion_function_c) \hss} \\ [-3pt]
 &\hbox to 0pt{\footnotesize\sl function invoked to convert from native representation to file representation\hss} \\ [+3pt] 
  & dtype_file_extent_fn & MPI_Datarep_extent_function* & PROCEDURE(MPI_Datarep_extent_function)  & IN \\&\hbox to 0pt{\footnotesize\sl function invoked to get the extent of a datatype as represented in the file\hss} \\ [+3pt] 
  & extra_state & void* & INTEGER(KIND=MPI_ADDRESS_KIND)  & IN \\&\hbox to 0pt{\footnotesize\sl extra state\hss} \\ [+3pt] 

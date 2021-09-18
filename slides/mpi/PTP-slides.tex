@@ -236,6 +236,7 @@ Ideal vs actual send/recv behaviour.
 
 \begin{numberedframe}{Deadlock}
 \lstset{language=C}
+Exchange between two processes:
 \begin{lstlisting}
 other = 1-procno; /* if I am 0, other is 1; and vice versa */
 receive(source=other);
@@ -493,6 +494,11 @@ int MPI_Isend(void *buf,
 int MPI_Irecv(void *buf,
   int count, MPI_Datatype datatype, int source, int tag,
   MPI_Comm comm, MPI_Request *request)  
+\end{lstlisting}
+
+Basic wait:
+\begin{lstlisting}
+MPI_Wait( MPI_Request*, MPI_Status* );
 \end{lstlisting}
 
 Most common way of waiting for completion:

@@ -26,7 +26,7 @@
 \midrule
 \hbox to 20pt{MPI_Cart_rank (\hss} \\
  & comm & MPI_Comm & TYPE(MPI_Comm)  \\&\hbox to 0pt{\footnotesize\sl communicator with Cartesian structure\hss} \\ [+3pt] 
- & coords & int & INTEGER  \\&\hbox to 0pt{\footnotesize\sl integer array (of size \mpiarg{ndims}) specifying the Cartesian coordinates of a process\hss} \\ [+3pt] 
+ & coords & const int[] & INTEGER(*)  \\&\hbox to 0pt{\footnotesize\sl integer array (of size \mpiarg{ndims}) specifying the Cartesian coordinates of a process\hss} \\ [+3pt] 
  & rank & int* & INTEGER  \\&\hbox to 0pt{\footnotesize\sl rank of specified process\hss} \\ [+3pt] 
 
 \bottomrule

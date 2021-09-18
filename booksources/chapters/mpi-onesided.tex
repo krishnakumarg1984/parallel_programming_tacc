@@ -244,6 +244,7 @@ size = mem.nbytes
 \end{pythonnote}
 
 \index{window!memory allocation|)}
+\index{window|)}
 
 \Level 0 {Active target synchronization: epochs}
 \label{sec:fence}
@@ -307,7 +308,58 @@ adding them or using logical-or.
 The value zero is always correct. For further information, see
 section~\ref{sec:mpi-assert}.
 
-\index{window|)}
+\Level 1 {Non-global target synchronization}
+\label{sec:ref:post-wait}
+
+The `fence' mechanism (section~\ref{sec:fence}) uses a global synchronization on the
+communicator of the window, giving a program a \ac{BSP} like character.
+As such it is good for applications where
+the processes are largely synchronized, but it may 
+lead to performance inefficiencies if processors are not in step which each other. 
+Also, global synchronization may have hardware support, making this less
+restrictive than it may at first seem.
+
+There is a mechanism that is more fine-grained, by using synchronization only 
+on a processor \indexterm{group}. This takes four different calls, two for starting
+and two for ending the epoch, separately for target and origin.
+\begin{figure}[ht]
+  \includegraphics[scale=.1]{postwait}
+  \caption{Window locking calls in fine-grained active target synchronization}
+  \label{fig:postwait}
+\end{figure}
+
+You start and complete an \indextermsub{exposure}{epoch} with%
+\indexmpishow{MPI_Win_post}\indexmpishow{MPI_Win_wait}:
+\begin{lstlisting}
+int MPI_Win_post(MPI_Group group, int assert, MPI_Win win)
+int MPI_Win_wait(MPI_Win win)
+\end{lstlisting}
+In other words, this turns your window into the \indexterm{target} for a remote access.
+(There is a non-blocking version \indexmpidef{MPI_Win_test}
+of \indexmpidef{MPI_Win_wait}.
+See also \indexmpidef{MPI_Win_complete}.)
+
+You start and complete an \indextermsub{access}{epoch} with%
+\indexmpishow{MPI_Win_start}\indexmpishow{MPI_Win_complete}:
+\begin{lstlisting}
+int MPI_Win_start(MPI_Group group, int assert, MPI_Win win)
+int MPI_Win_complete(MPI_Win win)
+\end{lstlisting}
+In other words, these calls border the access to a remote window, with the current processor
+being the \indexterm{origin} of the remote access.
+
+In the following snippet a single processor puts data on one
+other. Note that they both have their own definition of the group, and
+that the receiving process only does the post and wait calls.
+%
+\cverbatimsnippet[examples/mpi/c/postwaitwin.c]{postwaittwo}
+
+Both pairs of operations declare a
+\indextermbus{group of}{processors}; see section~\ref{sec:comm-group}
+for how to get such a group from a communicator.
+On an origin processor you would specify a group that includes the targets
+you will interact with, on a target processor you specify a group
+that includes the possible origins.
 
 \Level 0 {Put, get, accumulate}
 \label{sec:putget}
@@ -527,55 +579,6 @@ and \indexmpishow{MPI_Rget_accumulate}.
 These only apply to passive target synchronization.
 Any \indexmpishow{MPI_Win_flush...} call also terminates these transfers.
 
-\Level 1 {More active target synchronization}
-\label{sec:ref:post-wait}
-
-The `fence' mechanism (section~\ref{sec:fence}) uses a global synchronization on the
-communicator of the window. As such it is good for applications where
-the processes are largely synchronized, but it may 
-lead to performance inefficiencies if processors are not in step which each other. 
-There is a mechanism that is more fine-grained, by using synchronization only 
-on a processor \indexterm{group}. This takes four different calls, two for starting
-and two for ending the epoch, separately for target and origin.
-\begin{figure}[ht]
-  \includegraphics[scale=.1]{postwait}
-  \caption{Window locking calls in fine-grained active target synchronization}
-  \label{fig:postwait}
-\end{figure}
-
-You start and complete an \indextermsub{exposure}{epoch} with%
-\indexmpishow{MPI_Win_post}\indexmpishow{MPI_Win_wait}:
-\begin{lstlisting}
-int MPI_Win_post(MPI_Group group, int assert, MPI_Win win)
-int MPI_Win_wait(MPI_Win win)
-\end{lstlisting}
-In other words, this turns your window into the \indexterm{target} for a remote access.
-(There is a non-blocking version \indexmpidef{MPI_Win_test}
-of \indexmpidef{MPI_Win_wait}.
-See also \indexmpidef{MPI_Win_complete}.)
-
-You start and complete an \indextermsub{access}{epoch} with%
-\indexmpishow{MPI_Win_start}\indexmpishow{MPI_Win_complete}:
-\begin{lstlisting}
-int MPI_Win_start(MPI_Group group, int assert, MPI_Win win)
-int MPI_Win_complete(MPI_Win win)
-\end{lstlisting}
-In other words, these calls border the access to a remote window, with the current processor
-being the \indexterm{origin} of the remote access.
-
-In the following snippet a single processor puts data on one
-other. Note that they both have their own definition of the group, and
-that the receiving process only does the post and wait calls.
-%
-\cverbatimsnippet[examples/mpi/c/postwaitwin.c]{postwaittwo}
-
-Both pairs of operations declare a
-\indextermbus{group of}{processors}; see section~\ref{sec:comm-group}
-for how to get such a group from a communicator.
-On an origin processor you would specify a group that includes the targets
-you will interact with, on a target processor you specify a group
-that includes the possible origins.
-
 \Level 1 {Atomic operations}
 \label{sec:mpi-atomic}
 \index{atomic operation!MPI|(}
@@ -752,6 +755,9 @@ The two lock types are:
   window on a certain target.
   Unlike the shared lock, this has no consistency problems.
 \end{itemize}
+
+You can only specify a lock type in \indexmpishow{MPI_Win_lock};
+\indexmpishow{MPI_Win_lock_all} is always shared.
 
 To unlock a window, use
 \indexmpiref{MPI_Win_unlock}, % includes unlock_all

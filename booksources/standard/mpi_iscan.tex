@@ -26,10 +26,10 @@
 \midrule
 \hbox to 20pt{MPI_Iscan (\hss} \\
 \hbox to 20pt{MPI_Iscan_c (\hss} \\
- & sendbuf & void* & TYPE(*), DIMENSION(..)  & IN \\&\hbox to 0pt{\footnotesize\sl starting address of send buffer\hss} \\ [+3pt] 
+ & sendbuf & const void* & TYPE(*), DIMENSION(..)  & IN \\&\hbox to 0pt{\footnotesize\sl starting address of send buffer\hss} \\ [+3pt] 
  & recvbuf & void* & TYPE(*), DIMENSION(..)  & OUT \\&\hbox to 0pt{\footnotesize\sl starting address of receive buffer\hss} \\ [+3pt] 
  & count & int & INTEGER  & IN \\ [-3pt]
-(big) & & MPI_Count & \hbox to 0pt {INTEGER(KIND=MPI_COUNT_KIND) \hss} \\ [-3pt]
+(c) & & MPI_Count & \hbox to 0pt {INTEGER(KIND=MPI_COUNT_KIND) \hss} \\ [-3pt]
 &\hbox to 0pt{\footnotesize\sl number of elements in input buffer\hss} \\ [+3pt] 
  & datatype & MPI_Datatype & TYPE(MPI_Datatype)  & IN \\&\hbox to 0pt{\footnotesize\sl datatype of elements of input buffer\hss} \\ [+3pt] 
  & op & MPI_Op & TYPE(MPI_Op)  & IN \\&\hbox to 0pt{\footnotesize\sl operation\hss} \\ [+3pt] 

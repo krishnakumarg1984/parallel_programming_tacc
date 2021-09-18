@@ -62,6 +62,12 @@ Here the \n{split_type} parameter has to be from the following (short) list:
 \end{mpifour}
 \end{itemize}
 
+\begin{remark}
+  The \indexterm{OpenMPI} implementation of MPI has a number of
+  non-standard split types, such as \indexmpishow{OMPI_COMM_TYPE_SOCKET};
+  see \url{https://www.open-mpi.org/doc/v4.1/man3/MPI_Comm_split_type.3.php}
+\end{remark}
+
 \begin{mplnote}{Split by shared memory}
   Similar to ordinary communicator splitting~\ref{mpl::split}:
   \lstinline+communicator::+\indexmpldef{split_shared}.
@@ -112,21 +118,57 @@ would increase latency for some processes. To prevent this, the key
 
 \cverbatimsnippet[examples/mpi/c/numa.c]{winnoncontig}
 
-Let's now consider a scenario where you spawn two MPI processes per node,
-and the node has 100G of memory.
-Using the above option to allow for noncontiguous window allocation,
-you hope that the windows of the two processes are placed 50G apart.
-However, if you print out the addresses, you will find that that they
-are placed considerably closer together. For a small windows that distance
-may be as little as~4K, the size of a \indextermsub{small}{page}.
+Let's explore this.
+We create a shared window where each process stores exactly one double,
+that is, 8~bytes.
+The following code fragment queries the window locations,
+and prints the distance in bytes to the window on process~0.
+%
+\cverbatimsnippet[examples/mpi/c/numa.c]{wincontigquery}
 
-The reason for this mismatch is that an address that you obtain with
-the ampersand operator in~C is not a
-\indextermsub{physical}{address}, but a
-\indextermsub{virtual}{address}.
-The translation of where pages are placed in physical memory
-is determined by the \indextermbus{page}{table}.
+With the default strategy, these windows are contiguous,
+and so the distances are multiples of~8 bytes.
+Not so for the the non-contiguous allocation:
+%
+\begin{multicols}{2}
+Strategy: default behavior of shared window allocation
+\begin{verbatim}
+Distance 1 to zero: 8
+Distance 2 to zero: 16
+Distance 3 to zero: 24
+Distance 4 to zero: 32
+Distance 5 to zero: 40
+Distance 6 to zero: 48
+Distance 7 to zero: 56
+Distance 8 to zero: 64
+Distance 9 to zero: 72
+\end{verbatim}
+\columnbreak
+Strategy: allow non-contiguous shared window allocation
+\begin{verbatim}
+Distance 1 to zero: 4096
+Distance 2 to zero: 8192
+Distance 3 to zero: 12288
+Distance 4 to zero: 16384
+Distance 5 to zero: 20480
+Distance 6 to zero: 24576
+Distance 7 to zero: 28672
+Distance 8 to zero: 32768
+Distance 9 to zero: 36864
+\end{verbatim}
+\end{multicols}
 
+The explanation here is that each window is placed 
+on its own \indextermsub{small}{page},
+which on this particular system has a size of~4K.
+
+\begin{remark}
+  The ampersand operator in~C is not a
+  \indextermsub{physical}{address}, but a
+  \indextermsub{virtual}{address}.
+  The translation of where pages are placed in physical memory
+  is determined by the \indextermbus{page}{table}.
+\end{remark}
 
 \Level 1 {Querying the shared structure}
 

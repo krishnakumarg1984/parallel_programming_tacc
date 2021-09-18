@@ -25,8 +25,8 @@
 \mdseries\textrm{inout}\\
 \midrule
 \hbox to 20pt{MPI_Compare_and_swap (\hss} \\
- & origin_addr & void* & TYPE(*), DIMENSION(..)  \\&\hbox to 0pt{\footnotesize\sl initial address of buffer\hss} \\ [+3pt] 
- & compare_addr & void* & TYPE(*), DIMENSION(..)  \\&\hbox to 0pt{\footnotesize\sl initial address of compare buffer\hss} \\ [+3pt] 
+ & origin_addr & const void* & TYPE(*), DIMENSION(..)  \\&\hbox to 0pt{\footnotesize\sl initial address of buffer\hss} \\ [+3pt] 
+ & compare_addr & const void* & TYPE(*), DIMENSION(..)  \\&\hbox to 0pt{\footnotesize\sl initial address of compare buffer\hss} \\ [+3pt] 
  & result_addr & void* & TYPE(*), DIMENSION(..)  \\&\hbox to 0pt{\footnotesize\sl initial address of result buffer\hss} \\ [+3pt] 
  & datatype & MPI_Datatype & TYPE(MPI_Datatype)  \\&\hbox to 0pt{\footnotesize\sl datatype of the element in all buffers\hss} \\ [+3pt] 
  & target_rank & int & INTEGER  \\&\hbox to 0pt{\footnotesize\sl rank of target\hss} \\ [+3pt] 

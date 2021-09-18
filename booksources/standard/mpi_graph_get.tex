@@ -28,8 +28,8 @@
  & comm & MPI_Comm & TYPE(MPI_Comm)  \\&\hbox to 0pt{\footnotesize\sl communicator with graph structure\hss} \\ [+3pt] 
  & maxindex & int & INTEGER  \\&\hbox to 0pt{\footnotesize\sl length of vector \mpiarg{index} in the calling program\hss} \\ [+3pt] 
  & maxedges & int & INTEGER  \\&\hbox to 0pt{\footnotesize\sl length of vector \mpiarg{edges} in the calling program\hss} \\ [+3pt] 
- & index & int & INTEGER  \\&\hbox to 0pt{\footnotesize\sl array of integers containing the graph structure (for details see the definition of \mpifunc{MPI_GRAPH_CREATE})\hss} \\ [+3pt] 
- & edges & int & INTEGER  \\&\hbox to 0pt{\footnotesize\sl array of integers containing the graph structure\hss} \\ [+3pt] 
+ & index & int[] & INTEGER(maxindex)  \\&\hbox to 0pt{\footnotesize\sl array of integers containing the graph structure (for details see the definition of \mpifunc{MPI_GRAPH_CREATE})\hss} \\ [+3pt] 
+ & edges & int[] & INTEGER(maxedges)  \\&\hbox to 0pt{\footnotesize\sl array of integers containing the graph structure\hss} \\ [+3pt] 
 
 \bottomrule
 \end{tabular}

@@ -26,7 +26,9 @@ APPS = init thread env outerr abort procname \
     putfence putfencealloc getfence windynamic anysource \
     cancel scan exscan fft itranspose progress interleavegather \
     postwaitwin passive numa \
-    reduce reduceinplace allreduce allreduceinplace gather gatherv allgatherv \
+    reduce reduceinplace reducecount \
+    allreduce allreduceinplace gather gatherv allgatherv \
+    randomupdatefence randomupdatelock randomupdateshared \
     reducescatter trueextent typesize typematch countx tags \
     contiguous vector vectorx vectorpadsend getx stridestretch interleave indexed struct pack subarray \
     typefloat \

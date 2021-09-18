@@ -27,12 +27,12 @@
 \hbox to 20pt{MPI_Pack_size (\hss} \\
 \hbox to 20pt{MPI_Pack_size_c (\hss} \\
  & incount & int & INTEGER  & IN \\ [-3pt]
-(big) & & MPI_Count & \hbox to 0pt {INTEGER(KIND=MPI_COUNT_KIND) \hss} \\ [-3pt]
+(c) & & MPI_Count & \hbox to 0pt {INTEGER(KIND=MPI_COUNT_KIND) \hss} \\ [-3pt]
 &\hbox to 0pt{\footnotesize\sl count argument to packing call\hss} \\ [+3pt] 
  & datatype & MPI_Datatype & TYPE(MPI_Datatype)  & IN \\&\hbox to 0pt{\footnotesize\sl datatype argument to packing call\hss} \\ [+3pt] 
  & comm & MPI_Comm & TYPE(MPI_Comm)  & IN \\&\hbox to 0pt{\footnotesize\sl communicator argument to packing call\hss} \\ [+3pt] 
  & size & int* & INTEGER  & OUT \\ [-3pt]
-(big) & & MPI_Count & \hbox to 0pt {INTEGER(KIND=MPI_COUNT_KIND) \hss} \\ [-3pt]
+(c) & & MPI_Count & \hbox to 0pt {INTEGER(KIND=MPI_COUNT_KIND) \hss} \\ [-3pt]
 &\hbox to 0pt{\footnotesize\sl upper bound on size of packed message, in bytes\hss} \\ [+3pt] 
 
 \bottomrule

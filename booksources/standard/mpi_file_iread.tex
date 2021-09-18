@@ -29,7 +29,7 @@
  & fh & MPI_File & TYPE(MPI_File)  & INOUT \\&\hbox to 0pt{\footnotesize\sl file handle\hss} \\ [+3pt] 
  & buf & void* & TYPE(*), DIMENSION(..)  & OUT \\&\hbox to 0pt{\footnotesize\sl initial address of buffer\hss} \\ [+3pt] 
  & count & int & INTEGER  & IN \\ [-3pt]
-(big) & & MPI_Count & \hbox to 0pt {INTEGER(KIND=MPI_COUNT_KIND) \hss} \\ [-3pt]
+(c) & & MPI_Count & \hbox to 0pt {INTEGER(KIND=MPI_COUNT_KIND) \hss} \\ [-3pt]
 &\hbox to 0pt{\footnotesize\sl number of elements in buffer\hss} \\ [+3pt] 
  & datatype & MPI_Datatype & TYPE(MPI_Datatype)  & IN \\&\hbox to 0pt{\footnotesize\sl datatype of each buffer element\hss} \\ [+3pt] 
  & request & MPI_Request* & TYPE(MPI_Request)  & OUT \\&\hbox to 0pt{\footnotesize\sl request object\hss} \\ [+3pt] 

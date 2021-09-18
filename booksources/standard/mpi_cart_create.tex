@@ -27,8 +27,8 @@
 \hbox to 20pt{MPI_Cart_create (\hss} \\
  & comm_old & MPI_Comm & TYPE(MPI_Comm)  \\&\hbox to 0pt{\footnotesize\sl input communicator\hss} \\ [+3pt] 
  & ndims & int & INTEGER  \\&\hbox to 0pt{\footnotesize\sl number of dimensions of Cartesian grid\hss} \\ [+3pt] 
- & dims & int & INTEGER  \\&\hbox to 0pt{\footnotesize\sl integer array of size \mpiarg{ndims} specifying the number of processes in each dimension\hss} \\ [+3pt] 
- & periods & int & LOGICAL  \\&\hbox to 0pt{\footnotesize\sl logical array of size \mpiarg{ndims} specifying whether the grid is periodic (\mpicode{true}) or not (\mpicode{false}) in each dimension\hss} \\ [+3pt] 
+ & dims & const int[] & INTEGER(ndims)  \\&\hbox to 0pt{\footnotesize\sl integer array of size \mpiarg{ndims} specifying the number of processes in each dimension\hss} \\ [+3pt] 
+ & periods & const int[] & LOGICAL(ndims)  \\&\hbox to 0pt{\footnotesize\sl logical array of size \mpiarg{ndims} specifying whether the grid is periodic (\mpicode{true}) or not (\mpicode{false}) in each dimension\hss} \\ [+3pt] 
  & reorder & int & LOGICAL  \\&\hbox to 0pt{\footnotesize\sl ranking may be reordered (\mpicode{true}) or not (\mpicode{false})\hss} \\ [+3pt] 
  & comm_cart & MPI_Comm* & TYPE(MPI_Comm)  \\&\hbox to 0pt{\footnotesize\sl communicator with new Cartesian topology\hss} \\ [+3pt] 
 

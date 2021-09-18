@@ -25,14 +25,14 @@
 \mdseries\textrm{inout}\\
 \midrule
 \hbox to 20pt{MPI_Comm_spawn (\hss} \\
- & command & char* & CHARACTER  \\&\hbox to 0pt{\footnotesize\sl name of program to be spawned\hss} \\ [+3pt] 
- & argv & char* & CHARACTER  \\&\hbox to 0pt{\footnotesize\sl arguments to \mpiarg{command}\hss} \\ [+3pt] 
+ & command & const char* & CHARACTER  \\&\hbox to 0pt{\footnotesize\sl name of program to be spawned\hss} \\ [+3pt] 
+ & argv & char*[] & CHARACTER(*)  \\&\hbox to 0pt{\footnotesize\sl arguments to \mpiarg{command}\hss} \\ [+3pt] 
  & maxprocs & int & INTEGER  \\&\hbox to 0pt{\footnotesize\sl maximum number of processes to start\hss} \\ [+3pt] 
  & info & MPI_Info & TYPE(MPI_Info)  \\&\hbox to 0pt{\footnotesize\sl a set of key-value pairs telling the runtime system where and how to start the processes\hss} \\ [+3pt] 
  & root & int & INTEGER  \\&\hbox to 0pt{\footnotesize\sl rank of process in which previous arguments are examined\hss} \\ [+3pt] 
  & comm & MPI_Comm & TYPE(MPI_Comm)  \\&\hbox to 0pt{\footnotesize\sl intra-communicator containing group of spawning processes\hss} \\ [+3pt] 
  & intercomm & MPI_Comm* & TYPE(MPI_Comm)  \\&\hbox to 0pt{\footnotesize\sl inter-communicator between original group and the newly spawned group\hss} \\ [+3pt] 
- & array_of_errcodes & int & INTEGER  \\&\hbox to 0pt{\footnotesize\sl one code per process\hss} \\ [+3pt] 
+ & array_of_errcodes & int[] & INTEGER(*)  \\&\hbox to 0pt{\footnotesize\sl one code per process\hss} \\ [+3pt] 
 
 \bottomrule
 \end{tabular}

@@ -25,7 +25,7 @@
 \mdseries\textrm{inout}\\
 \midrule
 \hbox to 20pt{MPI_Psend_init (\hss} \\
- & buf & void* & TYPE(*), DIMENSION(..)  \\&\hbox to 0pt{\footnotesize\sl initial address of send buffer\hss} \\ [+3pt] 
+ & buf & const void* & TYPE(*), DIMENSION(..)  \\&\hbox to 0pt{\footnotesize\sl initial address of send buffer\hss} \\ [+3pt] 
  & partitions & int & INTEGER  \\&\hbox to 0pt{\footnotesize\sl number of partitions\hss} \\ [+3pt] 
  & count & MPI_Count & INTEGER(KIND=MPI_COUNT_KIND)  \\&\hbox to 0pt{\footnotesize\sl number of elements sent per partition\hss} \\ [+3pt] 
  & datatype & MPI_Datatype & TYPE(MPI_Datatype)  \\&\hbox to 0pt{\footnotesize\sl type of each element\hss} \\ [+3pt] 

@@ -181,6 +181,27 @@ space is needed for the on-node communication.
 \label{sec:init-thread}
 \label{sec:ref:mpi-thread}
 
+While the MPI standard itself makes no mention of threads
+--~process being the primary unit of computation~--
+the use of threads is allowed.
+Below we will discuss what provisions exist for doing so.
+
+Using threads and other shared memory models in combination with MPI
+leads of course to the question how
+\indexterm{race condition}s are handled.
+Example of a code with a data race that pertains to MPI:
+\begin{lstlisting}
+#pragma omp sections
+#pragma omp section
+  MPI_Send( x, /* to process 2 */ )
+#pragma omp section
+  MPI_Recv( x, /* from process 3 */ )
+\end{lstlisting}
+The MPI standard here puts the burden on the user:
+this code is not legal, and behavior is not defined.
+
+\Level 1 {MPI support for threading}
+
 In hybrid execution, the main question is whether all threads
 are allowed to make MPI calls. To determine this,
 replace the \n{MPI_Init} call by

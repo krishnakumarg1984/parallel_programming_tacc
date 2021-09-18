@@ -257,7 +257,8 @@ using \indexpetscshow{MatCreateVecs}.
 
 There are many routines operating on vectors that you need
 to write scientific applications. Examples are: norms, vector addition
-(including \ac{BLAS}-type `AXPY' routines), pointwise scaling, inner products.
+(including \ac{BLAS}-type `AXPY' routines: \indexpetscref{VecAXPY}),
+pointwise scaling, inner products.
 A~large number of such operations are available in PETSc through
 single function calls to {VecXYZ} routines.
 
@@ -798,8 +799,48 @@ This requires that you add an FFT library, such as \indexterm{fftw},
 at configuration time; see section~\ref{sec:petsc-external}.
 
 FFT libraries may use padding, so vectors should be created with
-\indexpetsc{MatCreateVecsFFTW},
+\indexpetscdef{MatCreateVecsFFTW},
 not with an independent \indexpetscshow{VecSetSizes}.
+
+The \indexterm{fftw} library does not scale the output vector,
+so a forward followed by a backward pass gives a result that is too large
+by the vector size.
+
+\cverbatimsnippet[examples/petsc/c/fftsine.c]{vecviewbeforeafter}
+
+\begin{multicols}{2}
+One full cosine wave:
+\begin{verbatim}
+1.
+0.809017 + 0.587785 i
+0.309017 + 0.951057 i
+-0.309017 + 0.951057 i
+-0.809017 + 0.587785 i
+-1. + 1.22465e-16 i
+-0.809017 - 0.587785 i
+-0.309017 - 0.951057 i
+0.309017 - 0.951057 i
+0.809017 - 0.587785 i
+\end{verbatim}
+\columnbreak
+Frequency $n=1$ amplitude~$\equiv1$:
+\begin{verbatim}
+-2.22045e-17 + 2.33487e-17 i
+1. - 9.23587e-17 i
+2.85226e-17 + 1.56772e-17 i
+-4.44089e-17 + 1.75641e-17 i
+-3.35828e-19 + 3.26458e-18 i
+0. - 1.22465e-17 i
+-1.33873e-17 + 3.26458e-18 i
+-4.44089e-17 + 7.59366e-18 i
+7.40494e-18 + 1.56772e-17 i
+0. + 1.8215e-17 i
+\end{verbatim}
+\end{multicols}
+
+Strangely enough, the backward pass does not need to be scaled:
+
+\cverbatimsnippet[examples/petsc/c/fftsine.c]{fftaccuracy}
 
 \Level 0 {Index sets and Vector Scatters}
 
