@@ -1,0 +1,37 @@
+% -*- latex -*-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% This text file is part of the source of 
+%% `Parallel Computing'
+%% by Victor Eijkhout, copyright 2012-2021
+%%
+%% MPI API file for MPI_Testsome
+%%
+%% THIS FILE IS AUTO-GENERATED
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begingroup
+\ttfamily\bfseries
+\catcode`\_=12
+\begin{tabular}{lllll}
+\toprule
+\mdseries\textrm{Name}&
+\mdseries\textrm{Param name}&
+\mdseries\textrm{C type}&
+\mdseries\textrm{F type}&
+\mdseries\textrm{inout}\\
+\midrule
+\hbox to 20pt{MPI_Testsome (\hss} \\
+ & incount & int & INTEGER  \\&\hbox to 0pt{\footnotesize\sl length of array_of_requests\hss} \\ [+3pt] 
+ & array_of_requests & MPI_Request[] & TYPE(MPI_Request)(incount)  \\&\hbox to 0pt{\footnotesize\sl array of requests\hss} \\ [+3pt] 
+ & outcount & int* & INTEGER  \\&\hbox to 0pt{\footnotesize\sl number of completed requests\hss} \\ [+3pt] 
+ & array_of_indices & int[] & INTEGER(*)  \\&\hbox to 0pt{\footnotesize\sl array of indices of operations that completed\hss} \\ [+3pt] 
+ & array_of_statuses & MPI_Status[] & TYPE(MPI_Status)(*)  \\&\hbox to 0pt{\footnotesize\sl array of status objects for operations that completed\hss} \\ [+3pt] 
+
+\bottomrule
+\end{tabular}
+\endgroup
+

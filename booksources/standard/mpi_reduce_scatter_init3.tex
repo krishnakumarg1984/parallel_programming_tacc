@@ -1,0 +1,40 @@
+% -*- latex -*-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% This text file is part of the source of 
+%% `Parallel Computing'
+%% by Victor Eijkhout, copyright 2012-2021
+%%
+%% MPI API file for MPI_Reduce_scatter_init
+%%
+%% THIS FILE IS AUTO-GENERATED
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begingroup
+\ttfamily\bfseries
+\catcode`\_=12
+\begin{tabular}{lllll}
+\toprule
+\mdseries\textrm{Name}&
+\mdseries\textrm{Param name}&
+\mdseries\textrm{C type}&
+\mdseries\textrm{F type}&
+\mdseries\textrm{inout}\\
+\midrule
+\hbox to 20pt{MPI_Reduce_scatter_init (\hss} \\
+ & sendbuf & const void* & TYPE(*), DIMENSION(..)  & IN \\&\hbox to 0pt{\footnotesize\sl starting address of send buffer\hss} \\ [+3pt] 
+ & recvbuf & void* & TYPE(*), DIMENSION(..)  & OUT \\&\hbox to 0pt{\footnotesize\sl starting address of receive buffer\hss} \\ [+3pt] 
+ & recvcounts & const int[] & INTEGER(*)  & IN \\&\hbox to 0pt{\footnotesize\sl non-negative integer array specifying the number of elements in result distributed to each process. This array must be identical on all calling processes.\hss} \\ [+3pt] 
+ & datatype & MPI_Datatype & TYPE(MPI_Datatype)  & IN \\&\hbox to 0pt{\footnotesize\sl datatype of elements of input buffer\hss} \\ [+3pt] 
+ & op & MPI_Op & TYPE(MPI_Op)  & IN \\&\hbox to 0pt{\footnotesize\sl operation\hss} \\ [+3pt] 
+ & comm & MPI_Comm & TYPE(MPI_Comm)  & IN \\&\hbox to 0pt{\footnotesize\sl communicator\hss} \\ [+3pt] 
+ & info & MPI_Info & TYPE(MPI_Info)  & IN \\&\hbox to 0pt{\footnotesize\sl info argument\hss} \\ [+3pt] 
+ & request & MPI_Request* & TYPE(MPI_Request)  & OUT \\&\hbox to 0pt{\footnotesize\sl communication request\hss} \\ [+3pt] 
+
+\bottomrule
+\end{tabular}
+\endgroup
+

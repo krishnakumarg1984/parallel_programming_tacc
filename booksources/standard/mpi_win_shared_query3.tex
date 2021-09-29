@@ -1,0 +1,37 @@
+% -*- latex -*-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% This text file is part of the source of 
+%% `Parallel Computing'
+%% by Victor Eijkhout, copyright 2012-2021
+%%
+%% MPI API file for MPI_Win_shared_query
+%%
+%% THIS FILE IS AUTO-GENERATED
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begingroup
+\ttfamily\bfseries
+\catcode`\_=12
+\begin{tabular}{lllll}
+\toprule
+\mdseries\textrm{Name}&
+\mdseries\textrm{Param name}&
+\mdseries\textrm{C type}&
+\mdseries\textrm{F type}&
+\mdseries\textrm{inout}\\
+\midrule
+\hbox to 20pt{MPI_Win_shared_query (\hss} \\
+ & win & MPI_Win & TYPE(MPI_Win)  & IN \\&\hbox to 0pt{\footnotesize\sl shared memory window object\hss} \\ [+3pt] 
+ & rank & int & INTEGER  & IN \\&\hbox to 0pt{\footnotesize\sl rank in the group of window win or \const{MPI_PROC_NULL}\hss} \\ [+3pt] 
+ & size & MPI_Aint* & INTEGER(KIND=MPI_ADDRESS_KIND)  & OUT \\&\hbox to 0pt{\footnotesize\sl size of the window segment\hss} \\ [+3pt] 
+ & disp_unit & int* & INTEGER  & OUT \\&\hbox to 0pt{\footnotesize\sl local unit size for displacements, in bytes\hss} \\ [+3pt] 
+ & baseptr & void* & TYPE(C_PTR)  & OUT \\&\hbox to 0pt{\footnotesize\sl address for load/store access to window segment\hss} \\ [+3pt] 
+
+\bottomrule
+\end{tabular}
+\endgroup
+

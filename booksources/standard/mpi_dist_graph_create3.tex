@@ -1,0 +1,41 @@
+% -*- latex -*-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% This text file is part of the source of 
+%% `Parallel Computing'
+%% by Victor Eijkhout, copyright 2012-2021
+%%
+%% MPI API file for MPI_Dist_graph_create
+%%
+%% THIS FILE IS AUTO-GENERATED
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begingroup
+\ttfamily\bfseries
+\catcode`\_=12
+\begin{tabular}{lllll}
+\toprule
+\mdseries\textrm{Name}&
+\mdseries\textrm{Param name}&
+\mdseries\textrm{C type}&
+\mdseries\textrm{F type}&
+\mdseries\textrm{inout}\\
+\midrule
+\hbox to 20pt{MPI_Dist_graph_create (\hss} \\
+ & comm_old & MPI_Comm & TYPE(MPI_Comm)  \\&\hbox to 0pt{\footnotesize\sl input communicator\hss} \\ [+3pt] 
+ & n & int & INTEGER  \\&\hbox to 0pt{\footnotesize\sl number of source nodes for which this process specifies edges\hss} \\ [+3pt] 
+ & sources & const int[] & INTEGER(n)  \\&\hbox to 0pt{\footnotesize\sl array containing the \mpiarg{n} source nodes for which this process specifies edges\hss} \\ [+3pt] 
+ & degrees & const int[] & INTEGER(n)  \\&\hbox to 0pt{\footnotesize\sl array specifying the number of destinations for each source node in the source node array\hss} \\ [+3pt] 
+ & destinations & const int[] & INTEGER(*)  \\&\hbox to 0pt{\footnotesize\sl destination nodes for the source nodes in the source node array\hss} \\ [+3pt] 
+ & weights & const int[] & INTEGER(*)  \\&\hbox to 0pt{\footnotesize\sl weights for source to destination edges\hss} \\ [+3pt] 
+ & info & MPI_Info & TYPE(MPI_Info)  \\&\hbox to 0pt{\footnotesize\sl hints on optimization and interpretation of weights\hss} \\ [+3pt] 
+ & reorder & int & LOGICAL  \\&\hbox to 0pt{\footnotesize\sl the ranks may be reordered (\mpicode{true}) or not~(\mbox{\mpicode{false}})\hss} \\ [+3pt] 
+ & comm_dist_graph & MPI_Comm* & TYPE(MPI_Comm)  \\&\hbox to 0pt{\footnotesize\sl communicator with distributed graph topology added\hss} \\ [+3pt] 
+
+\bottomrule
+\end{tabular}
+\endgroup
+

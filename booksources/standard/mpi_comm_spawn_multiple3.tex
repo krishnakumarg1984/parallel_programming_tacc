@@ -1,0 +1,41 @@
+% -*- latex -*-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% This text file is part of the source of 
+%% `Parallel Computing'
+%% by Victor Eijkhout, copyright 2012-2021
+%%
+%% MPI API file for MPI_Comm_spawn_multiple
+%%
+%% THIS FILE IS AUTO-GENERATED
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begingroup
+\ttfamily\bfseries
+\catcode`\_=12
+\begin{tabular}{lllll}
+\toprule
+\mdseries\textrm{Name}&
+\mdseries\textrm{Param name}&
+\mdseries\textrm{C type}&
+\mdseries\textrm{F type}&
+\mdseries\textrm{inout}\\
+\midrule
+\hbox to 20pt{MPI_Comm_spawn_multiple (\hss} \\
+ & count & int & INTEGER  \\&\hbox to 0pt{\footnotesize\sl number of commands\hss} \\ [+3pt] 
+ & array_of_commands & char*[] & CHARACTER(*)  \\&\hbox to 0pt{\footnotesize\sl programs to be executed\hss} \\ [+3pt] 
+ & array_of_argv & char**[] & CHARACTER(count, *)  \\&\hbox to 0pt{\footnotesize\sl arguments for \mpiarg{commands}\hss} \\ [+3pt] 
+ & array_of_maxprocs & const int[] & INTEGER(*)  \\&\hbox to 0pt{\footnotesize\sl maximum number of processes to start for each command\hss} \\ [+3pt] 
+ & array_of_info & const MPI_Info[] & TYPE(MPI_Info)(*)  \\&\hbox to 0pt{\footnotesize\sl info objects telling the runtime system where and how to start processes\hss} \\ [+3pt] 
+ & root & int & INTEGER  \\&\hbox to 0pt{\footnotesize\sl rank of process in which previous arguments are examined\hss} \\ [+3pt] 
+ & comm & MPI_Comm & TYPE(MPI_Comm)  \\&\hbox to 0pt{\footnotesize\sl intra-communicator containing group of spawning processes\hss} \\ [+3pt] 
+ & intercomm & MPI_Comm* & TYPE(MPI_Comm)  \\&\hbox to 0pt{\footnotesize\sl inter-communicator between original group and the newly spawned group\hss} \\ [+3pt] 
+ & array_of_errcodes & int[] & INTEGER(*)  \\&\hbox to 0pt{\footnotesize\sl one error code per process\hss} \\ [+3pt] 
+
+\bottomrule
+\end{tabular}
+\endgroup
+

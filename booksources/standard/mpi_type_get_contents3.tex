@@ -1,0 +1,39 @@
+% -*- latex -*-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% This text file is part of the source of 
+%% `Parallel Computing'
+%% by Victor Eijkhout, copyright 2012-2021
+%%
+%% MPI API file for MPI_Type_get_contents
+%%
+%% THIS FILE IS AUTO-GENERATED
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begingroup
+\ttfamily\bfseries
+\catcode`\_=12
+\begin{tabular}{lllll}
+\toprule
+\mdseries\textrm{Name}&
+\mdseries\textrm{Param name}&
+\mdseries\textrm{C type}&
+\mdseries\textrm{F type}&
+\mdseries\textrm{inout}\\
+\midrule
+\hbox to 20pt{MPI_Type_get_contents (\hss} \\
+ & datatype & MPI_Datatype & TYPE(MPI_Datatype)  & IN \\&\hbox to 0pt{\footnotesize\sl datatype to decode\hss} \\ [+3pt] 
+ & max_integers & int & INTEGER  & IN \\&\hbox to 0pt{\footnotesize\sl number of elements in \mpiarg{array_of_integers}\hss} \\ [+3pt] 
+ & max_addresses & int & INTEGER  & IN \\&\hbox to 0pt{\footnotesize\sl number of elements in \mpiarg{array_of_addresses}\hss} \\ [+3pt] 
+ & max_datatypes & int & INTEGER  & IN \\&\hbox to 0pt{\footnotesize\sl number of elements in \mpiarg{array_of_large_counts}\hss} \\ [+3pt] 
+ & array_of_integers & int[] & INTEGER(max_integers)  & IN \\&\hbox to 0pt{\footnotesize\sl number of elements in \mpiarg{array_of_datatypes}\hss} \\ [+3pt] 
+ & array_of_addresses & MPI_Aint[] & INTEGER(KIND=MPI_ADDRESS_KIND)(max_addresses)  & OUT \\&\hbox to 0pt{\footnotesize\sl contains integer arguments used in constructing \mpiarg{datatype}\hss} \\ [+3pt] 
+ & array_of_datatypes & MPI_Datatype[] & TYPE(MPI_Datatype)(max_datatypes)  & OUT \\&\hbox to 0pt{\footnotesize\sl contains address arguments used in constructing \mpiarg{datatype}\hss} \\ [+3pt] 
+
+\bottomrule
+\end{tabular}
+\endgroup
+

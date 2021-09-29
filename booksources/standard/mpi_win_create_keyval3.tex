@@ -1,0 +1,36 @@
+% -*- latex -*-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% This text file is part of the source of 
+%% `Parallel Computing'
+%% by Victor Eijkhout, copyright 2012-2021
+%%
+%% MPI API file for MPI_Win_create_keyval
+%%
+%% THIS FILE IS AUTO-GENERATED
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begingroup
+\ttfamily\bfseries
+\catcode`\_=12
+\begin{tabular}{lllll}
+\toprule
+\mdseries\textrm{Name}&
+\mdseries\textrm{Param name}&
+\mdseries\textrm{C type}&
+\mdseries\textrm{F type}&
+\mdseries\textrm{inout}\\
+\midrule
+\hbox to 20pt{MPI_Win_create_keyval (\hss} \\
+ & win_copy_attr_fn & MPI_Win_copy_attr_function* & PROCEDURE(MPI_Win_copy_attr_function)  \\&\hbox to 0pt{\footnotesize\sl copy callback function for \mpiarg{win_keyval}\hss} \\ [+3pt] 
+ & win_delete_attr_fn & MPI_Win_delete_attr_function* & PROCEDURE(MPI_Win_delete_attr_function)  \\&\hbox to 0pt{\footnotesize\sl delete callback function for \mpiarg{win_keyval}\hss} \\ [+3pt] 
+ & win_keyval & int* & INTEGER  \\&\hbox to 0pt{\footnotesize\sl key value for future access\hss} \\ [+3pt] 
+ & extra_state & void* & INTEGER(KIND=MPI_ADDRESS_KIND)  \\&\hbox to 0pt{\footnotesize\sl extra state for callback function\hss} \\ [+3pt] 
+
+\bottomrule
+\end{tabular}
+\endgroup
+

@@ -1,0 +1,39 @@
+% -*- latex -*-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% This text file is part of the source of 
+%% `Parallel Computing'
+%% by Victor Eijkhout, copyright 2012-2021
+%%
+%% MPI API file for MPI_Unpack
+%%
+%% THIS FILE IS AUTO-GENERATED
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begingroup
+\ttfamily\bfseries
+\catcode`\_=12
+\begin{tabular}{lllll}
+\toprule
+\mdseries\textrm{Name}&
+\mdseries\textrm{Param name}&
+\mdseries\textrm{C type}&
+\mdseries\textrm{F type}&
+\mdseries\textrm{inout}\\
+\midrule
+\hbox to 20pt{MPI_Unpack (\hss} \\
+ & inbuf & const void* & TYPE(*), DIMENSION(..)  & IN \\&\hbox to 0pt{\footnotesize\sl input buffer start\hss} \\ [+3pt] 
+ & insize & int & INTEGER  & IN \\&\hbox to 0pt{\footnotesize\sl size of input buffer, in bytes\hss} \\ [+3pt] 
+ & position & int* & INTEGER  & INOUT \\&\hbox to 0pt{\footnotesize\sl current position in bytes\hss} \\ [+3pt] 
+ & outbuf & void* & TYPE(*), DIMENSION(..)  & OUT \\&\hbox to 0pt{\footnotesize\sl output buffer start\hss} \\ [+3pt] 
+ & outcount & int & INTEGER  & IN \\&\hbox to 0pt{\footnotesize\sl number of items to be unpacked\hss} \\ [+3pt] 
+ & datatype & MPI_Datatype & TYPE(MPI_Datatype)  & IN \\&\hbox to 0pt{\footnotesize\sl datatype of each output data item\hss} \\ [+3pt] 
+ & comm & MPI_Comm & TYPE(MPI_Comm)  & IN \\&\hbox to 0pt{\footnotesize\sl communicator for packed message\hss} \\ [+3pt] 
+
+\bottomrule
+\end{tabular}
+\endgroup
+

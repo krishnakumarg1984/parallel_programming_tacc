@@ -1,0 +1,39 @@
+% -*- latex -*-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% This text file is part of the source of 
+%% `Parallel Computing'
+%% by Victor Eijkhout, copyright 2012-2021
+%%
+%% MPI API file for MPI_Dist_graph_neighbors
+%%
+%% THIS FILE IS AUTO-GENERATED
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begingroup
+\ttfamily\bfseries
+\catcode`\_=12
+\begin{tabular}{lllll}
+\toprule
+\mdseries\textrm{Name}&
+\mdseries\textrm{Param name}&
+\mdseries\textrm{C type}&
+\mdseries\textrm{F type}&
+\mdseries\textrm{inout}\\
+\midrule
+\hbox to 20pt{MPI_Dist_graph_neighbors (\hss} \\
+ & comm & MPI_Comm & TYPE(MPI_Comm)  \\&\hbox to 0pt{\footnotesize\sl communicator with distributed graph topology\hss} \\ [+3pt] 
+ & maxindegree & int & INTEGER  \\&\hbox to 0pt{\footnotesize\sl size of sources and sourceweights arrays\hss} \\ [+3pt] 
+ & sources & int[] & INTEGER(maxindegree)  \\&\hbox to 0pt{\footnotesize\sl processes for which the calling process is a destination\hss} \\ [+3pt] 
+ & sourceweights & int[] & INTEGER(*)  \\&\hbox to 0pt{\footnotesize\sl weights of the edges into the calling process\hss} \\ [+3pt] 
+ & maxoutdegree & int & INTEGER  \\&\hbox to 0pt{\footnotesize\sl size of destinations and destweights arrays\hss} \\ [+3pt] 
+ & destinations & int[] & INTEGER(maxoutdegree)  \\&\hbox to 0pt{\footnotesize\sl processes for which the calling process is a source\hss} \\ [+3pt] 
+ & destweights & int[] & INTEGER(*)  \\&\hbox to 0pt{\footnotesize\sl weights of the edges out of the calling process\hss} \\ [+3pt] 
+
+\bottomrule
+\end{tabular}
+\endgroup
+

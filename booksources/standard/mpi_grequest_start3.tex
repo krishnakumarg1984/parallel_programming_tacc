@@ -1,0 +1,37 @@
+% -*- latex -*-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% This text file is part of the source of 
+%% `Parallel Computing'
+%% by Victor Eijkhout, copyright 2012-2021
+%%
+%% MPI API file for MPI_Grequest_start
+%%
+%% THIS FILE IS AUTO-GENERATED
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begingroup
+\ttfamily\bfseries
+\catcode`\_=12
+\begin{tabular}{lllll}
+\toprule
+\mdseries\textrm{Name}&
+\mdseries\textrm{Param name}&
+\mdseries\textrm{C type}&
+\mdseries\textrm{F type}&
+\mdseries\textrm{inout}\\
+\midrule
+\hbox to 20pt{MPI_Grequest_start (\hss} \\
+ & query_fn & MPI_Grequest_query_function* & PROCEDURE(MPI_Grequest_query_function)  \\&\hbox to 0pt{\footnotesize\sl callback function invoked when request status is queried\hss} \\ [+3pt] 
+ & free_fn & MPI_Grequest_free_function* & PROCEDURE(MPI_Grequest_free_function)  \\&\hbox to 0pt{\footnotesize\sl callback function invoked when request is freed\hss} \\ [+3pt] 
+ & cancel_fn & MPI_Grequest_cancel_function* & PROCEDURE(MPI_Grequest_cancel_function)  \\&\hbox to 0pt{\footnotesize\sl callback function invoked when request is cancelled\hss} \\ [+3pt] 
+ & extra_state & void* & INTEGER(KIND=MPI_ADDRESS_KIND)  \\&\hbox to 0pt{\footnotesize\sl extra state\hss} \\ [+3pt] 
+ & request & MPI_Request* & TYPE(MPI_Request)  \\&\hbox to 0pt{\footnotesize\sl generalized request\hss} \\ [+3pt] 
+
+\bottomrule
+\end{tabular}
+\endgroup
+
