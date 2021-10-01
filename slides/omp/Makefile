@@ -18,4 +18,4 @@ FILE = omp_course
 INEX = tacc-full
 
 include ../course-support/Make.course
-include ../../makefiles/Make.clean
+include ../../booksources/makefiles/Make.clean

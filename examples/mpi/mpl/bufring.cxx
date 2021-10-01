@@ -33,7 +33,7 @@ int main(int argc,char **argv) {
 
   vector<float> sbuf(BUFLEN), rbuf(BUFLEN);
   int size{ comm_world.bsend_size<float>(mpl::contiguous_layout<float>(BUFLEN)) };
-  mpl::bsend_buffer<> buff(size);
+  mpl::bsend_buffer buff(size);
   comm_world.bsend(sbuf.data(),mpl::contiguous_layout<float>(BUFLEN), next);
 
   printf("Send succeeded on %d\n",procno);

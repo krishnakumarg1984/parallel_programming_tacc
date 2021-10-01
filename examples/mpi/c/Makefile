@@ -80,23 +80,26 @@ info ::
 RUNS += run_abort
 .PHONY: run_abort
 run_abort : abort
-	-@${MPIRUN} -np ${NP} ./abort ; \
+	-@${MPIRUN} -n ${NP} ./abort ; \
 	  echo "Return code from ${MPIRUN} is <<$$?>>"
 
 RUNS += run_backintime
 .PHONY: run_backintime
 run_backintime : backintime
 	for i in `seq 1 150` ; do \
-	  mpirun -np 3 ./backintime ; \
+	  ${MPIRUN} -n ${NP} ./backintime ; \
 	done | grep back
 
 RUNS += run_struct
 run_struct : struct
-	${MPIRUN} -np ${NP} ./struct
+	${MPIRUN} -n ${NP} ./struct
 
 RUNS += run_progress
 .PHONY: run_progress
 run_progress : progress
+	@if [ "${TACC_FAMILY_MPI}" != "intel" ] ; then \
+	    echo "This code only works with Intel MPI" && exit 1 \
+	    ; fi
 	@echo "Running with progress thread"
 	@export I_MPI_ASYNC_PROGRESS=off \
 	&& ${MPIRUN} -np ${NP} progress
@@ -126,6 +129,8 @@ run_spawnapp : spawnapp
 	    ; else \
 	        ${MPIEXEC} -n ${NP} -usize ${USIZE} spawnapp \
 	    ; fi
+
+include ../../../makefiles/Make.run
 
 MODE = mpi
 include ../../../makefiles/Make.clean

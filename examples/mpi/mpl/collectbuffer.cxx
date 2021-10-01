@@ -38,7 +38,8 @@ int main() {
     xrank = static_cast<float>( comm_world.rank() );
   vector<float> rank2p2p1{ 2*xrank,2*xrank+1 },reduce2p2p1{0,0};
   mpl::contiguous_layout<float> two_floats(rank2p2p1.size());
-  comm_world.allreduce(mpl::plus<float>(), rank2p2p1.data(),reduce2p2p1,two_floats);
+  comm_world.allreduce
+    (mpl::plus<float>(), rank2p2p1.data(),reduce2p2p1.data(),two_floats);
   if ( iprint )
     cout << "Got: " << reduce2p2p1.at(0) << ","
 	 << reduce2p2p1.at(1) << endl;
