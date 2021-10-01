@@ -39,7 +39,7 @@ exercisecheck :
 	        done ; \
 	   done
 
-include ../../makefiles/Make.clean
+include ../../booksources/makefiles/Make.clean
 
 total_clean ::
 	@for f in ${FILES} ; do \
