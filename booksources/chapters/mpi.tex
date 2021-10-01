@@ -141,6 +141,7 @@ Additionally, file system-specific keys can exist.
 
 Some runtime (or installation dependendent) values are available as
 attributes through
+\indexmpiref{MPI_Comm_set_attr} and
 \indexmpiref{MPI_Comm_get_attr}.
 (The \mpistandard{2} routine \indexmpidef{MPI_Attr_get} is deprecated).
 The flag parameter has two functions:
@@ -185,14 +186,14 @@ Also:
   reports the how-manieth program we are in.
 \end{itemize}
 
-\Level 2 {Create new keyval attributes}
+\Level 1 {Create new keyval attributes}
 
 Create a key value with \indexmpiref{MPI_Comm_create_keyval},
 \indexmpidef{MPI_Type_create_keyval},
 \indexmpidef{MPI_Win_create_keyval}.
 %
 Use this key to set new attributes with
-\indexmpiref{MPI_Comm_set_attr},
+\indexmpishow{MPI_Comm_set_attr},
 \indexmpidef{MPI_Type_set_attr},
 \indexmpidef{MPI_Win_set_attr}.
 %
