@@ -33,7 +33,7 @@ Program OneNorm
   data = -1.e0
 
   call MPI_Op_create(one_norm,.true.,calc_one,ierr)
-  call MPI_Reduce(data,data_one_norm,1,MPI_REAL,calc_one,comm,ierr)
+  call MPI_Allreduce(data,data_one_norm,1,MPI_REAL,calc_one,comm,ierr)
   actual_norm = nprocs
   if (data_one_norm/=actual_norm) then
      print *,procno,": result",data_one_norm," should be",actual_norm

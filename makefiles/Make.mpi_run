@@ -26,11 +26,13 @@ NP = 4
 CATCHER = ../course-support/catchout
 .PHONY: mpirun catchrun
 info ::
-	@echo "make mpirun/catchrun"
+	@echo "make mpirun / slurmrun / catchrun"
 	@echo "    ( catchrun gives orderly output)"
 	@echo "    [ PROGRAM=... NP=... ]"
 mpirun :
 	${ENVOPTIONS} ${MPIRUN} -np ${NP} ${PYTHON} ${PROGRAM}${PROGRAM_EXTENSION} ${OPTIONS}
+slurmrun :
+	${ENVOPTIONS} ${MPIRUN} -np ${SLURM_NPROCS} ${PYTHON} ${PROGRAM}${PROGRAM_EXTENSION} ${OPTIONS}
 catchrun :
 	@${MPIRUN} -np ${NP} ${CATCHER} ${PROGRAM} >/dev/null 2>&1
 	@for i in `seq 0 $$(( NP-1 ))` ; do \

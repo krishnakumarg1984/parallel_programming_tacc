@@ -87,6 +87,7 @@ int main(int argc, char *argv[])
     printf("Supervisor final readout %d\n",readout);
   if (procno==repo)
     printf("Window buffer=%d\n",win_buffer[0]);
+  MPI_Barrier(comm);
   MPI_Win_free(&the_window);
 
   MPI_Finalize();

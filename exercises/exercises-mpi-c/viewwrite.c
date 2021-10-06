@@ -16,6 +16,8 @@
 #include <string.h>
 #include "mpi.h"
 
+#include "tools.h"
+
 int main(int argc,char **argv) {
 
   MPI_Comm comm;
@@ -66,6 +68,7 @@ int main(int argc,char **argv) {
    * - the lowest process number where an error occured, or
    * - `nprocs' if no error.
    */
+  int error_condition = 0;
   if (procno==0) {
     FILE *f;
     f = fopen("viewwrite.dat","r");
@@ -73,14 +76,19 @@ int main(int argc,char **argv) {
       int fromfile,success;
       success = fread(&fromfile,sizeof(int),1,f);
       if (success==EOF) {
-  	printf("Premature end of file\n"); break;
+  	printf("Premature end of file\n");
+	error_condition = 1;
+	break;
       }
-      if (fromfile!=i+1)
+      if (fromfile!=i+1) {
   	printf("Error s/b %d, got %d\n",i+1,fromfile);
+	error_condition = 1;
+	break;
+      }
     }
     fclose(f);
-    printf("Execution finished correctly\n");
   }
+  print_final_result(error_condition,comm);
 
   MPI_Finalize();
   return 0;

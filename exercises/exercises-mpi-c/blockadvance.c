@@ -16,6 +16,8 @@
 #include <string.h>
 #include "mpi.h"
 
+#include "tools.h"
+
 int main(int argc,char **argv) {
 
   MPI_Comm comm;
@@ -86,8 +88,8 @@ int main(int argc,char **argv) {
    * - the lowest process number where an error occured, or
    * - `nprocs' if no error.
    */
+  int error_condition = 0;
   if (procno==0) {
-    int error=nprocs, errors;
     FILE *f;
     f = fopen("blockwrite.dat","r");
     int location = 0;
@@ -97,24 +99,20 @@ int main(int argc,char **argv) {
 	int fromfile,success;
 	success = fread(&fromfile,sizeof(int),1,f);
 	if (success==EOF) {
-	  error = procno;
+	  error_condition = 1;
 	  printf("Premature end of file\n"); break;
 	}
 	if (fromfile!=location+1) {
-	  error = procno;
+	  error_condition = 1;
 	  printf("Error loc=%d found=%d expect=%d\n",
 		 location,fromfile,location+1);
 	}
 	location++;
       }
     }
-    errors = error;
     fclose(f);
-    if (errors==nprocs) 
-      printf("Execution finished correctly\n");
-    else
-      printf("Execution finished with errors\n");
   }
+  print_final_result(error_condition,comm);
 
   MPI_Finalize();
   return 0;

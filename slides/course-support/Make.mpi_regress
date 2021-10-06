@@ -60,15 +60,17 @@ regression_compile : clean
 regression :
 	@regressout=`pwd`/regress.out \
 	 && rm -f $$regressout && touch $$regressout \
-	 && for e in ${EXERCISES} ; do \
+	 && ( \
+	    for e in ${REGRESSIONRUNS} ; do \
 	        echo "================ $$e" \
-	        && echo "================ $$e" >> $$regressout \
-	        && if [ ` grep run_$${e} ../course-support/Make.mpi_regress | wc -l ` -gt 0 ] ; then \
-	                make --no-print-directory run_$${e}    >> $$regressout \
+	         && app=$${e##run_} && hasapp=$$( make --no-print-directory listapps | grep $$app | wc -l ) \
+	         && if [ $$hasapp -gt 0 ] ; then \
+	                make --no-print-directory $${e} REGRESSOUTS="" \
 	            ; else \
-	                echo "no regression defined for $${e}" >>  $$regressout \
+	                echo ".. no regression for app=$$app for this language" \
 	            ; fi \
 	    ; done \
+	    ) 2>&1 | tee -a $$regressout \
 	 && echo && echo "See results in $$regressout" && echo
 old_runs :
 	@if [ ! -z "${REGRESSIONRUNS}" ] ; then \
@@ -94,6 +96,7 @@ info ::
 	  echo "set MODE for regression test!" ; exit 1; fi
 	@if [ ${MODE} = "mpi" ] ; then \
 	  echo "  ( optional settings: NP PROGRAM )" ; fi
+REGRESSOUTS = 1
 regress_out : 
 	@if [ -z ${MODE} ] ; then \
 	  echo "set MODE for regression test!" ; exit 1 ; fi
@@ -102,14 +105,17 @@ regress_out :
 	@if [ ${MODE} = "mpi" -o ${MODE} = "mpl" ] ; then \
 	    if [ -z "${CATCHER}" ] ; then \
 	        echo "CATCHER variable not set" ; exit 1 \
-	    ; fi \
-	     &&  /bin/rm -f ${PROGRAM}.out* \
+	        ; fi \
+	     && /bin/rm -f ${PROGRAM}.out* \
 	     && cmd="${MPIRUN} -np ${NP} ${CATCHER} \
 	          ./${PROGRAM}`if [ "${LANGUAGE}" = "p" ] ; then echo ".py" ; fi ` \
 	          >/dev/null 2>&1" \
 	     && echo "Executing: $${cmd}" \
 	     && eval $${cmd} \
-	     && cat ${PROGRAM}.out[0-9]* > ${PROGRAM}.out_total ; \
+	     && if [ ! -z ${REGRESSOUTS} ] ; then \
+	            cat ${PROGRAM}.out[0-9]* > ${PROGRAM}.out_total \
+	            ; fi \
+	    ; \
 	else \
 	    echo "unsupported regression mode: ${MODE}" && exit 1 ; \
 	fi
@@ -148,6 +154,9 @@ regress_success :
 
 REGRESSIONRUNS =
 .PHONY: run_start
+##
+## auxiliary rule that will be called from each run_whatever rule
+##
 run_start :
 	@export atgram=${PROGRAM} && export program=$${atgram##run_} \
 	 && if [ "${INCOMPLETE}" = "1" ] ; then \
@@ -333,6 +342,7 @@ only_zero_out :
 	&& echo $${error}
 
 .PHONY: run_cubegather
+REGRESSIONRUNS += run_cubegather
 run_cubegather : cubegather
 	@rrr=0 \
 	 && for r in `seq 1 ${NP}` ; do \
@@ -624,13 +634,11 @@ run_countdown : countdown
 # 	make --no-print-directory regress_success SUCCESS=$$success PROGRAM=$${program} ; \
 # 	echo
 
-.PHONY: run_bucketblock run_bucketnonblock run_bucketpipe run_bucketpipenonblock
-REGRESSIONRUNS += run_bucketblock run_bucketnonblock run_bucketpipe run_bucketpipenonblock
+.PHONY: run_bucketblock  run_bucketpipenonblock
+REGRESSIONRUNS += run_bucketblock run_bucketpipenonblock
 run_bucketblock :  bucketblock
-run_bucketnonblock :  bucketnonblock
-run_bucketpipe : bucketpipe
 run_bucketpipenonblock : bucketpipenonblock
-run_bucketblock run_bucketnonblock run_bucketpipe run_bucketpipenonblock :
+run_bucketblock run_bucketpipenonblock :
 	@make --no-print-directory run_start PROGRAM=$@ NP=${NP}
 	@export atgram=$@ ; export program=$${atgram##run_} \
 	 && export np=${NP} \

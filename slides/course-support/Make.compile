@@ -198,20 +198,19 @@ info ::
 	@if [ ! -z "${APPS}" ] ; then \
 	    echo "make listapps : list all apps in this directory" \
 	    && echo "make apps : compile all applications in this directory" \
+	    && echo "make runapps : compile and run all applications in this directory" \
 	    ; \
 	fi
-.PHONY: apps listapps
+.PHONY: apps listapps runapps
 apps :
 	@( \
 	for a in ${APPS} ; do \
-	    echo "%%%%%%%%%%%%%%%%" && echo "Compile $${a}" \
-	    && make $${a} || echo "failure..." \
+	    echo "%%%%%%%%%%%%%%%%" && echo "Compiling: $${a}" \
+	    && make $${a} || echo "failure" \
 	    ; \
 	done \
 	) 2>&1 | tee compile.log
-	@echo && echo "See compile.log for all output" && echo 
-clean ::
-	@rm -f compile.log
+	@echo && echo "See compile.log for full output" && echo
 listapps :
 	@echo ${APPS} ${EXERCISES}
 	@for a in ${APPS} ${EXERCISES} ; do \
@@ -219,3 +218,16 @@ listapps :
 	        echo "Missing source for <<$$a>>" \
 	    ; fi \
 	; done
+runapps :
+	@( \
+	for a in ${APPS} ; do \
+	    echo "%%%%%%%%%%%%%%%%" && echo "Compile $${a}" \
+	    && make $${a} \
+	    && ./$${a} \
+	    ; \
+	done \
+	) 2>&1 | tee run.log
+	@echo && echo "See run.log for all output" && echo 
+
+clean ::
+	@rm -f compile.log run.log
