@@ -1,0 +1,41 @@
+% -*- latex -*-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% This text file is part of the source of 
+%% `Parallel Computing'
+%% by Victor Eijkhout, copyright 2012-2021
+%%
+%% MPI API file for MPI_Pack_external
+%%
+%% THIS FILE IS AUTO-GENERATED
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begingroup
+\ttfamily\bfseries
+\catcode`\_=12
+\begin{tabular}{lllll}
+\toprule
+\mdseries\textrm{Name}&
+\mdseries\textrm{Param name}&
+\mdseries\textrm{C type}&
+\mdseries\textrm{F type}&
+\mdseries\textrm{inout}\\
+\midrule
+\hbox to 20pt{MPI_Pack_external (\hss} \\
+ & datarep & const char[] & CHARACTER  & IN \\&\hbox to 0pt{\footnotesize\sl data representation\hss} \\ [+3pt] 
+ & inbuf & const void* & TYPE(*), DIMENSION(..)  & IN \\&\hbox to 0pt{\footnotesize\sl input buffer start\hss} \\ [+3pt] 
+ & incount & int & INTEGER  & IN \\&\hbox to 0pt{\footnotesize\sl number of input data items\hss} \\ [+3pt] 
+ & datatype & MPI_Datatype & TYPE(MPI_Datatype)  & IN \\&\hbox to 0pt{\footnotesize\sl datatype of each input data item\hss} \\ [+3pt] 
+ & outbuf & void* & TYPE(*), DIMENSION(..)  & OUT \\&\hbox to 0pt{\footnotesize\sl output buffer start\hss} \\ [+3pt] 
+ & outsize & MPI_Aint & INTEGER(KIND=MPI_ADDRESS_KIND)  & IN \\&\hbox to 0pt{\footnotesize\sl output buffer size, in bytes\hss} \\ [+3pt] 
+ & position & MPI_Aint* & INTEGER(KIND=MPI_ADDRESS_KIND)  & INOUT \\&\hbox to 0pt{\footnotesize\sl current position in buffer, in bytes\hss} \\ [+3pt] 
+
+&)\\
+
+\bottomrule
+\end{tabular}
+\endgroup
+

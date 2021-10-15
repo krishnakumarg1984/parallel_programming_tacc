@@ -1,0 +1,39 @@
+% -*- latex -*-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% This text file is part of the source of 
+%% `Parallel Computing'
+%% by Victor Eijkhout, copyright 2012-2021
+%%
+%% MPI API file for MPI_Cart_get
+%%
+%% THIS FILE IS AUTO-GENERATED
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begingroup
+\ttfamily\bfseries
+\catcode`\_=12
+\begin{tabular}{lllll}
+\toprule
+\mdseries\textrm{Name}&
+\mdseries\textrm{Param name}&
+\mdseries\textrm{C type}&
+\mdseries\textrm{F type}&
+\mdseries\textrm{inout}\\
+\midrule
+\hbox to 20pt{MPI_Cart_get (\hss} \\
+ & comm & MPI_Comm & TYPE(MPI_Comm)  \\&\hbox to 0pt{\footnotesize\sl communicator with Cartesian structure\hss} \\ [+3pt] 
+ & maxdims & int & INTEGER  \\&\hbox to 0pt{\footnotesize\sl length of vectors \mpiarg{dims}, \mpiarg{periods}, and \mpiarg{coords} in the calling program\hss} \\ [+3pt] 
+ & dims & int[] & INTEGER(maxdims)  \\&\hbox to 0pt{\footnotesize\sl number of processes for each Cartesian dimension\hss} \\ [+3pt] 
+ & periods & int[] & LOGICAL(maxdims)  \\&\hbox to 0pt{\footnotesize\sl periodicity (\mpicode{true}/\mpicode{false}) for each Cartesian dimension\hss} \\ [+3pt] 
+ & coords & int[] & INTEGER(maxdims)  \\&\hbox to 0pt{\footnotesize\sl coordinates of calling process in Cartesian structure\hss} \\ [+3pt] 
+
+&)\\
+
+\bottomrule
+\end{tabular}
+\endgroup
+

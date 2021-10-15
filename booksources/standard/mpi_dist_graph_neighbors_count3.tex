@@ -1,0 +1,38 @@
+% -*- latex -*-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% This text file is part of the source of 
+%% `Parallel Computing'
+%% by Victor Eijkhout, copyright 2012-2021
+%%
+%% MPI API file for MPI_Dist_graph_neighbors_count
+%%
+%% THIS FILE IS AUTO-GENERATED
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begingroup
+\ttfamily\bfseries
+\catcode`\_=12
+\begin{tabular}{lllll}
+\toprule
+\mdseries\textrm{Name}&
+\mdseries\textrm{Param name}&
+\mdseries\textrm{C type}&
+\mdseries\textrm{F type}&
+\mdseries\textrm{inout}\\
+\midrule
+\hbox to 20pt{MPI_Dist_graph_neighbors_count (\hss} \\
+ & comm & MPI_Comm & TYPE(MPI_Comm)  \\&\hbox to 0pt{\footnotesize\sl communicator with distributed graph topology\hss} \\ [+3pt] 
+ & indegree & int* & INTEGER  \\&\hbox to 0pt{\footnotesize\sl number of edges into this process\hss} \\ [+3pt] 
+ & outdegree & int* & INTEGER  \\&\hbox to 0pt{\footnotesize\sl number of edges out of this process\hss} \\ [+3pt] 
+ & weighted & int* & LOGICAL  \\&\hbox to 0pt{\footnotesize\sl \mpicode{false} if \const{MPI_UNWEIGHTED} was supplied during creation, \mpicode{true} otherwise\hss} \\ [+3pt] 
+
+&)\\
+
+\bottomrule
+\end{tabular}
+\endgroup
+

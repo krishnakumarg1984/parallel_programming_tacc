@@ -1,0 +1,43 @@
+% -*- latex -*-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% This text file is part of the source of 
+%% `Parallel Computing'
+%% by Victor Eijkhout, copyright 2012-2021
+%%
+%% MPI API file for MPI_Precv_init
+%%
+%% THIS FILE IS AUTO-GENERATED
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begingroup
+\ttfamily\bfseries
+\catcode`\_=12
+\begin{tabular}{lllll}
+\toprule
+\mdseries\textrm{Name}&
+\mdseries\textrm{Param name}&
+\mdseries\textrm{C type}&
+\mdseries\textrm{F type}&
+\mdseries\textrm{inout}\\
+\midrule
+\hbox to 20pt{MPI_Precv_init (\hss} \\
+ & buf & void* & TYPE(*), DIMENSION(..)  \\&\hbox to 0pt{\footnotesize\sl initial address of recv buffer\hss} \\ [+3pt] 
+ & partitions & int & INTEGER  \\&\hbox to 0pt{\footnotesize\sl number of partitions\hss} \\ [+3pt] 
+ & count & MPI_Count & INTEGER(KIND=MPI_COUNT_KIND)  \\&\hbox to 0pt{\footnotesize\sl number of elements received per partition\hss} \\ [+3pt] 
+ & datatype & MPI_Datatype & TYPE(MPI_Datatype)  \\&\hbox to 0pt{\footnotesize\sl type of each element\hss} \\ [+3pt] 
+ & source & int & INTEGER  \\&\hbox to 0pt{\footnotesize\sl rank of source\hss} \\ [+3pt] 
+ & tag & int & INTEGER  \\&\hbox to 0pt{\footnotesize\sl message tag\hss} \\ [+3pt] 
+ & comm & MPI_Comm & TYPE(MPI_Comm)  \\&\hbox to 0pt{\footnotesize\sl communicator\hss} \\ [+3pt] 
+ & info & MPI_Info & TYPE(MPI_Info)  \\&\hbox to 0pt{\footnotesize\sl info argument\hss} \\ [+3pt] 
+ & request & MPI_Request* & TYPE(MPI_Request)  \\&\hbox to 0pt{\footnotesize\sl communication request\hss} \\ [+3pt] 
+
+&)\\
+
+\bottomrule
+\end{tabular}
+\endgroup
+
