@@ -1,0 +1,52 @@
+# -*- makefile -*-
+################################################################
+####
+#### This makefile is part of `Parallel Programming in MPI and OpenMP'
+#### by Victor Eijkhout, copyright 2013-2021
+#### eijkhout@tacc.utexas.edu
+####
+#### Make include file for omp test runs
+####
+################################################################
+
+.PHONY: omp_scaling
+info ::
+	@echo "make omp_scaling [ NP=... ] [ NDIV=... ] [ PROGRAM=... ]"
+
+.PHONY: num_cores
+num_cores :
+	@if [ ! -z ${NP} ] ; then \
+	        echo ${NP} \
+	    ; elif [ ! -z ${SLURM_NPROCS} ] ; then \
+	         echo ${SLURM_NPROCS} \
+	    ; else \
+	        echo "Specify number of processors with NP=..." \
+	         && exit 1 \
+	    ; fi 
+omp_scaling :
+	@export np=$$( make --no-print-directory num_cores ) \
+	 && if [ -z "${PROGRAM}" ] ; then \
+	        echo "Set PROGRAM variable" && exit 1 \
+	    ; fi \
+	 && if [ ! -z "${NDIV}" ] ; then \
+	        ndiv=${NDIV} \
+	    ; else \
+	        ndiv=3 \
+	    ; fi \
+	 && div=`seq 1 $$ndiv` \
+	 && frac=`for d in $$div ; do echo "$$(( $$d * $$np / $$ndiv ))" ; done` \
+	 && for t in 1 $$frac ; do \
+	        command="OMP_NUM_THREADS=$$t ./${PROGRAM}" \
+	         && echo "executing: $$command" \
+	         && eval $$command \
+	    ; done
+.PHONY: omp_cores
+omp_cores :
+	@if [ ! -z ${NP} ] ; then \
+	        echo ${NP} \
+	    ; elif [ ! -z ${SLURM_TASKS_PER_NODE} ] ; then \
+	        echo ${SLURM_TASKS_PER_NODE} \
+	    ; else \
+	        echo "Specify number of processors with NP=..." \
+	         && exit 1 \
+	    ; fi
