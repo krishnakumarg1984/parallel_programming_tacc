@@ -15,6 +15,8 @@
 #include <math.h>
 #include <mpi.h>
 
+#include "tools.h"
+
 int main(int argc,char **argv) {
   
   MPI_Init(&argc,&argv);
@@ -51,18 +53,12 @@ int main(int argc,char **argv) {
    * - the lowest process number where an error occured, or
    * - `nprocs' if no error.
    */
-  int error=nprocs, errors;
+  int error=0;
   if ( fabs(sum_scaled_random-1.)>1.e-5 ) {
     printf("Suspicious sum %7.5f on process %3d\n",sum_scaled_random,procno);
-    error = procno;
+    error = 1;
   }
-  MPI_Allreduce(&error,&errors,1,MPI_INT,MPI_MIN,comm);
-  if (procno==0) {
-    if (errors==nprocs) 
-      printf("Part 1 finished; all results correct\n");
-    else
-      printf("Part 1: first error occurred on rank %d\n",errors);
-  }
+  print_final_result(error,comm);
 
 #if 0
   // Exercise part 2:

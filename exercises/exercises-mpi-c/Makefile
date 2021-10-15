@@ -25,10 +25,11 @@ EXERCISES = hello \
     isendirecv isendirecvarray setdiff \
     bucketblock bucketpipenonblock \
     stridesend cubegather procgrid procgridnonblock \
-    randomput countdown randomupdatefence onesidedbuild lockall lockfetch lockfetchshared \
+    randomput countdown onesidedbuild lockall lockfetch lockfetchshared \
     blockwrite blockadvance blockseek blockall viewwrite scatterwrite \
     jordan rightsend rightput rightgraph \
-    ibarrierupdate shareddata
+    ibarrierupdate shareddata \
+    mcve
 SOURCES = $(patsubst %,%.c,${EXERCISES})
 OBJS = $(patsubst %,%.o,${EXERCISES})
 

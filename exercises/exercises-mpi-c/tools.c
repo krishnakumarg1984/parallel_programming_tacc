@@ -18,6 +18,9 @@
 
 #include "tools.h"
 
+/*
+ * Return max elementwise relative error
+ */
 double array_error(double ref_array[],double value_array[],int array_size) {
   double error = 0.,max_value=-1,min_value=-1;
   for (int i=0; i<array_size; i++) {
@@ -32,6 +35,10 @@ double array_error(double ref_array[],double value_array[],int array_size) {
   return error;
 };
 
+/*
+ * Return max elementwise error
+ * for integer arrays
+ */
 int int_array_error(int ref_array[],int value_array[],int array_size) {
   int error = 0.,max_error=0;
   for (int i=0; i<array_size; i++) {
@@ -42,6 +49,9 @@ int int_array_error(int ref_array[],int value_array[],int array_size) {
   return max_error;
 };
 
+/*
+ * all processes have 1 integer, are they all the same?
+ */
 int test_all_the_same_int( int value,MPI_Comm comm ) {
   int final_min,final_max;
   MPI_Allreduce(&value,&final_min,1,MPI_INT,MPI_MIN,comm);
@@ -49,6 +59,10 @@ int test_all_the_same_int( int value,MPI_Comm comm ) {
   return final_min==final_max;
 }
 
+/*
+ * Every process has an error condition;
+ * return lowest process no where condition true
+ */
 void print_final_result( int cond,MPI_Comm comm ) {
   int nprocs,procno;
   MPI_Comm_size(comm,&nprocs);

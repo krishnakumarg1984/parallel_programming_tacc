@@ -15,16 +15,18 @@
 Program RandomMax
 
   use mpi_f08
+  use tools
   implicit none
 
   type(MPI_Comm) :: comm = MPI_COMM_WORLD
-  integer :: nprocs, procno,error,errors, ierr,i
+  integer :: nprocs, procno, ierr,i
+  logical :: error
 
   ! stuff for the random number generator
   integer :: randomint,sender
   integer :: randsize
   integer,allocatable,dimension(:) :: randseed
-  real :: my_random,scaled_random,sum_random,sum_scaled_random
+  real(8) :: my_random,scaled_random,sum_random,sum_scaled_random
 
   call MPI_Init(); 
   call MPI_Comm_rank(comm,procno); 
@@ -37,7 +39,7 @@ Program RandomMax
   call random_seed(size=randsize)
   allocate(randseed(randsize))
   do i=1,randsize
-     randseed(i) = 1023*procno
+     randseed(i) = 1023+procno
   end do
   call random_seed(put=randseed)
 
@@ -62,22 +64,12 @@ Program RandomMax
   !!
   !! Correctness test
   !!
-  if (abs(sum_scaled_random-1.)>1.e-5) then
+  error = .false.
+  if (abs(sum_scaled_random-1.)>1.e-12) then
      print *,"Suspicious sum",sum_scaled_random,"on rank",procno
-     error = procno
+     error = .true.
   end if
-  call MPI_Allreduce(error,errors,1,MPI_INTEGER,MPI_MIN,comm)
-  if (procno==0) then
-     if (errors==nprocs) then
-        print *,"Part 1 finished; all results correct"
-     else
-        print *,"Part 1: first error occurred on rank",errors
-     end if
-  end if
-
-  if (procno==0) then
-     print *,"Success: all tests pass"
-  end if
+  call print_final_result(error,comm)
   
   call MPI_Finalize()
   

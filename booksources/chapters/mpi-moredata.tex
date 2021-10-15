@@ -300,7 +300,16 @@ $b$ of these lines together.
 
 \index{transpose!through derived types|)}
 
-\Level 0 {More about data}
+\Level 0 {Reconstructing types}
+
+It is possible to find from a datatype how it was constructed.
+This uses the routines
+\indexmpidef{MPI_Type_get_envelope} and
+\indexmpidef{MPI_Type_get_contents}.
+The first routine returns the \indexterm{combiner}
+(with values such as \indexmpidef{MPI_COMBINER_VECTOR})
+and the number of parameters;
+the second routine is then used to retrieve the actual parameters.
 
 \begin{comment}
   \Level 1 {Datatype signatures}
@@ -325,7 +334,7 @@ $b$ of these lines together.
   \index{datatype!signature|)}
 \end{comment}
 
-\Level 1 {Packing}
+\Level 0 {Packing}
 \label{sec:pack}
 
 One of the reasons for derived datatypes is dealing with noncontiguous data.
