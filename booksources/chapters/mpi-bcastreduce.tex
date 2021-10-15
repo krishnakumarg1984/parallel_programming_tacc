@@ -414,6 +414,9 @@ but you can also solve this with pointers:
   Reducing a buffer requires specification of a \lstinline+contiguous_layout+:
   %
   \cxxverbatimsnippet[examples/mpi/mpl/collectbuffer.cxx]{mplallreducebuffer}
+  %
+  Note that the buffers are of type \lstinline+T *+, so it is necessary
+  to take the \lstinline+data()+ of any \lstinline+std::vector+ and such.
 \end{mplnote}
 
 %% \begin{mplnote}{Rooted reduce}

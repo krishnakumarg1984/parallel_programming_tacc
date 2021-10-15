@@ -67,6 +67,14 @@ call MPI_Reduce( input,output, N, MPI_2DOUBLE_PRECISION, &
 \end{lstlisting}
 \lstset{language=C}
 
+\begin{mplnote}{Operators}
+  Arithmetic: \indexmplshow{plus}, \indexmplshow{multiplies}, \indexmplshow{max}, \indexmplshow{min}.
+
+  Logic: \indexmplshow{logical_and}, \indexmplshow{logical_or}, \indexmplshow{logical_xor}.
+
+  Bitwise: \indexmplshow{bit_and}, \indexmplshow{bit_or}, \indexmplshow{bit_xor}.
+\end{mplnote}
+
 \Level 1 {User-defined operators}
 \label{sec:mpi-op-create}
 
@@ -383,7 +391,7 @@ detect such completion, perform some local work.
 It is easy to visualize a broadcast as in figure~\ref{fig:bcast-simple}:
 see figure~\ref{fig:bcast-simple}.
 \begin{figure}[ht]
-  \includegraphics[scale=.08]{graphics/bcast-simple}
+  \includegraphics[scale=.08]{bcast-simple}
   \caption{A simple broadcast}
   \label{fig:bcast-simple}
 \end{figure}
@@ -414,7 +422,7 @@ number of processors.
 One way to ameliorate that is to structure the
 broadcast in a tree-like fashion.
 \begin{figure}[ht]
-  \includegraphics[scale=.1]{graphics/bcast-tree}
+  \includegraphics[scale=.1]{bcast-tree}
   \caption{A tree-based broadcast}
   \label{fig:bcast-tree}
 \end{figure}
@@ -445,7 +453,7 @@ MPI_Send(....);
 the send operations on all processors will occur after the root executes
 the broadcast. 
 \begin{figure}[ht]
-  \includegraphics[scale=.35]{graphics/reduce-two-node}
+  \includegraphics[scale=.35]{reduce-two-node}
   \caption{Trace of a reduction operation between two dual-socket 12-core nodes}
   \label{fig:trace-reduce}
 \end{figure}

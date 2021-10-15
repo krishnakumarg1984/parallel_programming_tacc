@@ -3,7 +3,7 @@
    %%%%
    %%%% This program file is part of the book and course
    %%%% "Parallel Computing"
-   %%%% by Victor Eijkhout, copyright 2020
+   %%%% by Victor Eijkhout, copyright 2020-2021
    %%%%
    %%%% commsplit.cx : illustrating MPI_Comm_split in MPL
    %%%%
@@ -24,12 +24,12 @@ int main(int argc,char **argv) {
 
   // create sub communicator modulo 2
   int color2 = procno % 2;
-  mpl::communicator comm2( mpl::communicator::split(), comm_world, color2 );
+  mpl::communicator comm2( mpl::communicator::split, comm_world, color2 );
   auto procno2 = comm2.rank();
 
   // create sub communicator modulo 4 recursively
   int color4 = procno2 % 2;
-  mpl::communicator comm4( mpl::communicator::split(), comm2, color4 );
+  mpl::communicator comm4( mpl::communicator::split, comm2, color4 );
   auto procno4 = comm4.rank();
 
   int mod4ranks[nprocs];

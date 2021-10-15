@@ -78,7 +78,7 @@ int main() {
     res = 3*procno;
   }
 
-  int error_test = !isapprox(mydata,res);
+  int error_test = !ISAPPROX(mydata,res);
   if (error_test) {
     stringstream proctext;
     proctext << "Data on proc " << procno << " should be " << res << ", found " << mydata;

@@ -3,7 +3,7 @@
    %%%%
    %%%% This program file is part of the book and course
    %%%% "Parallel Computing"
-   %%%% by Victor Eijkhout, copyright 2020
+   %%%% by Victor Eijkhout, copyright 2020-2021
    %%%%
    %%%% irecv_source.cxx : combine Irecv and Waitany
    %%%%
@@ -40,7 +40,7 @@ int main(int argc,char **argv) {
     for (int p=0; p<nprocs-1; p++) {
       recv_requests.push( comm_world.irecv( recv_buffer[p], p ) );
     }
-    printf("Outstanding request #=%d\n",recv_requests.size());
+    printf("Outstanding request #=%lu\n",recv_requests.size());
     for (int p=0; p<nprocs-1; p++) {
       auto [success,index] = recv_requests.waitany();
       if (success) {

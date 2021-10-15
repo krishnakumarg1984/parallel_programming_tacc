@@ -14,6 +14,9 @@
 ####
 ################################################################
 
+info ::
+	@echo && echo "================================ MPI run:"
+
 ifeq "${TACC_SYSTEM}" "macbookair"
   MPIRUN=mpirun
 else
@@ -21,15 +24,35 @@ else
 endif
 NP = 4
 CATCHER = ../course-support/catchout
-.PHONY: run catchrun
+.PHONY: mpirun catchrun
 info ::
-	@echo "make run/catchrun"
+	@echo "make mpirun / slurmrun / catchrun"
 	@echo "    ( catchrun gives orderly output)"
 	@echo "    [ PROGRAM=... NP=... ]"
-run :
+mpirun :
 	${ENVOPTIONS} ${MPIRUN} -np ${NP} ${PYTHON} ${PROGRAM}${PROGRAM_EXTENSION} ${OPTIONS}
+slurmrun :
+	${ENVOPTIONS} ${MPIRUN} -np ${SLURM_NPROCS} ${PYTHON} ${PROGRAM}${PROGRAM_EXTENSION} ${OPTIONS}
 catchrun :
 	@${MPIRUN} -np ${NP} ${CATCHER} ${PROGRAM} >/dev/null 2>&1
 	@for i in `seq 0 $$(( NP-1 ))` ; do \
 	  echo "$$i:" ; \
 	  cat ${PROGRAM}.out$$i ; done
+
+info ::
+	@echo "make runmpiapps : run mpi programs"
+	@echo "    [ NP= .... (default=${NP}) ]"
+	@echo "    [ MPIRUN= .... (default=${MPIRUN}) ]"
+.PHONY: runmpiapps
+runmpiapps :
+	@( \
+	for a in ${APPS} ; do \
+	    echo "%%%%%%%%%%%%%%%%" && echo "Compile $${a}" \
+	    && make $${a} \
+	    && make --no-print-directory mpirun PROGRAM=$${a} \
+	        ENVOPTIONS=${ENVOPTIONS} NP=${NP} PYTHON=${PYTHON} \
+	        PROGRAM_EXTENSION=${PROGRAM_EXTENSION} OPTIONS=${OPTIONS} \
+	    ; \
+	done \
+	) 2>&1 | tee run.log
+	@echo && echo "See run.log for all output" && echo 

@@ -74,7 +74,7 @@ first, the user is working on an interactive machine, which has
 network access to a number of hosts, typically a network of workstations;
 see figure~\ref{fig:mpi-interactive}.
 \begin{figure}[ht]
-  \includegraphics[scale=.12]{graphics/mpi-interactive}
+  \includegraphics[scale=.12]{mpi-interactive}
   \caption{Interactive MPI setup}
   \label{fig:mpi-interactive}
 \end{figure}
@@ -99,7 +99,7 @@ a \indextermbus{batch}{job} script with commands, and these will be
 run when the \indextermbus{batch}{scheduler} gives a number of hosts
 to the job.
 \begin{figure}[ht]
-  \includegraphics[scale=.1]{graphics/mpi-batch}
+  \includegraphics[scale=.1]{mpi-batch}
   \caption{Batch MPI setup}
   \label{fig:mpi-batch}
 \end{figure}
@@ -178,18 +178,26 @@ ibrun python-mpi yourprogram.py
 
 \Level 1 {C}
 \index{C!MPI bindigs|see{MPI, C bindings}}
+\index{C!bindings|see{MPI, C bindings}}
 
-The MPI library is written in~C. Thus, its bindings are the most natural
-for that language.
+The MPI library is written in~C. 
+However, the standard is careful to distinguish between MPI routines,
+versus their \emph{C bindings}.
+In fact, as of MPI~\mpistandard{4},
+for a number of routines there are two bindings,
+depending on whether you want 4~byte integers,
+or larger.
+See section~\ref{sec:mpi-bigdata},
+in particular~\ref{sec:c-mpi-count}.
 
 \index{MPI!C bindings|)}
 
 \Level 1 {C++, including MPL}
-\index{C++!MPI bindings|see{MPI, C++ bindings}}
+\index{C++!bindings|see{MPI, C++ bindings}}
 \index{MPI!C++ bindings|(}
 \index{MPL|(textbf}
 
-C++ bindings were defined in the standard at one point,
+\emph{C++ bindings} were defined in the standard at one point,
 but they were declared deprecated,
 and have been officially removed in the \emph{MPI~3}%
 \mpistandardsub{3}{C++ bindings removed}

@@ -61,8 +61,15 @@ in \indexterm{dense linear algebra}.
   \cxxverbatimsnippet[examples/mpi/mpl/commsplit.cxx]{commsplitmpl}
 
   \begin{mplimpl}
-    The \lstinline+communicator::+\indexmpldef{split} identifier itself is an otherwise empty
-    subclass of \indexmplshow{communicator}.
+    The \lstinline+communicator::+\indexmpldef{split} identifier
+    is an object of class
+    \lstinline+communicator::+\indexmpldef{split_tag},
+    itself is an otherwise empty
+    subclass of \indexmplshow{communicator}:
+\begin{lstlisting}
+class split_tag {};
+static constexpr split_tag split{};
+\end{lstlisting}
   \end{mplimpl}
 \end{mplnote}
 
