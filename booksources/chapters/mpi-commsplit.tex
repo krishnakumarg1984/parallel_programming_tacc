@@ -22,10 +22,14 @@ all processes in the old communicator with the same color
 wind up in a new communicator together. The old communicator still exists,
 so processes now have two different contexts in which to communicate.
 
-The ranking of processes in the new communicator is determined by a `key' value.
+The ranking of processes in the new communicator is determined by a `key' value:
+in a subcommunicator the process with lowest key is given the lowest rank, et cetera.
 Most of the time, there is no reason to use a relative ranking that is different from
 the global ranking, so the \indexmpishow{MPI_Comm_rank} value of the global communicator
 is a good choice.
+Any ties between identical key values are broken by using the rank from the original
+communicator.
+Thus, specifying zero are the key will also retain the original process ordering.
 
 Here is one example of communicator splitting. Suppose your processors
 are in a two-dimensional grid:

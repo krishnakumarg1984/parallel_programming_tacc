@@ -4,7 +4,7 @@
 %%%%
 %%%% This text file is part of the source of 
 %%%% `Parallel Programming in MPI and OpenMP'
-%%%% by Victor Eijkhout, copyright 2012-9
+%%%% by Victor Eijkhout, copyright 2012-2021
 %%%%
 %%%% omp-task.tex : openmp tasking
 %%%%
@@ -422,7 +422,7 @@ There are two ways of executing the task code directly:
 
 \Level 1 {Task cancelling}
 
-It is possible (in \indextermbus{OpenMP}{version 4}) to cancel
+It is possible (in \ompstandard{4.0}) to cancel
 tasks. This is useful when tasks are used to perform a search: the
 task that finds the result first can cancel any outstanding search
 tasks.

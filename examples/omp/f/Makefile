@@ -22,14 +22,6 @@ info ::
 	@echo
 	@echo "make app (where app=${APPS})"
 APPS = hello hellocount
-listapps :
-	@echo ${APPS}
-listsources :
-	@for a in ${APPS} ; do \
-	  for e in F F90 ; do \
-	    if [ -e $$a.$$e ] ; then echo $$a.$$e ; fi ; \
-	  done ; \
-	done | awk 'BEGIN { v="" } {v = v " " $$0} END {print v}'
 
 ifdef TACC_TAU_DIR
   FC = tau_f90.sh

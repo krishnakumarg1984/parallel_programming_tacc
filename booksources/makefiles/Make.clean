@@ -20,13 +20,14 @@ clean :: local_clean
 codeclean :
 	@/bin/rm -rf \
 	    *.a *.o *~ *.gch *.inst.c *.mod *.optrpt events.* *.mod a.out *.pyc __pycache__ \
+	    ${APPS} \
 	    *.dSYM MULTI__*  \
 	    core.[0-9]* idev[0-9]*.o[0-9]* ddt.o[0-9]* *.out[0-9]* jobtest.o* tautrace_* \
 	    *~ *.o *.pyc *.dSYM ddt.o* *.o[0-9]* *.dat *.log *.out *.out[0-9]* *.out_total \
 	    tautrace_* dcvserver.out
 texclean :
 	@/bin/rm -rf \
-	    *.{aux,blg,idx,ilg,ind,log,mod,nav,out,snm,svn,toc,vrb} *.cut texput.*
+	    *.{aux,blg,idx,ilg,ind,log,mod,nav,out,snm,svn,toc,vrb,wrt} *.cut texput.*
 localclean local_clean :: codeclean texclean
 	@/bin/rm -rf \
 	    ddt.o[0-9]* jobtest.o* tautrace_* __pycache__ \

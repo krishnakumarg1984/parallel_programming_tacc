@@ -31,17 +31,6 @@ include ../../../makefiles/Make.compile
 CPPSTANDARD = 17
 EXTRA_OPTIONS = -I${TACC_MPL_INC}
 
-info ::
-	@echo "make listsources : list of source files"
-.PHONY: listsources
-listsources :
-	@for a in ${APPS} ; do \
-	  if [ -e $$a.c ] ; then echo $$a.c ; fi ; \
-	  if [ -e $$a.cxx ] ; then echo $$a.cxx ; fi ; \
-	done | awk 'BEGIN { v="" } {v = v " " $$0} END {print v}'
-	@echo tools.{c,h}
-
-
 RUNS =
 info ::
 	@echo "make run_XXX (in ${RUNS})"

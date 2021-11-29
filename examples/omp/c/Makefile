@@ -19,18 +19,11 @@ info ::
 info ::
 	@echo
 	@echo "make app (where app=${APPS})"
-APPS = hello hello3 proccount pi speedup \
+APPS = hello hellocount proccount pi speedup scaling \
     parfor critfun reductpar \
-    alloc1 alloc2 sharing race \
+    alloc sharing race \
     threadprivate ireduct ireductinit ureduct reductpositive \
     taskgroup0 taskgroup1 taskgroup2 taskgroup3 taskgroup4 taskgroup5
-
-listsources :
-	@for a in ${APPS} ; do \
-	  for e in c cxx ; do \
-	    if [ -e $$a.$$e ] ; then echo $$a.$$e ; fi ; \
-	  done ; \
-	done | awk 'BEGIN { v="" } {v = v " " $$0} END {print v}'
 
 MODE = omp
 LANGUAGE = C
@@ -57,16 +50,35 @@ RUNS += run_speedup
 run_speedup : speedup
 	@make --no-print-directory omp_scaling PROGRAM=speedup
 
+RUNS += run_scaling
+.PHONY: run_scaling
+run_scaling : scaling
+	@make --no-print-directory omp_scaling PROGRAM=scaling
+
 .PHONY: run_race
 RUNS += run_race
 run_race : race
 	( \
-	for t in 1 2 4 8 ; do \
+	for t in ${OMPTHREADS} ; do \
 	    echo "On $${t} threads:" \
 	    && OMP_NUM_THREADS=$${t} ./race \
 	    ; \
 	done \
-	) 2>&1 | tee ../../../output/racecounter.out
+	) 2>&1 | tee racecounter.out
+
+.PHONY: run_pi
+RUNS += run_pi
+run_pi : pi
+	@export OMP_PROC_BIND=true && export OMP_PLACES=cores \
+	 && for n in 100 10000 100000 1000000 10000000 ; do \
+	        echo "================ N=$$n" \
+	         && for t in ${OMPTHREADS} ; do \
+	                OMP_NUM_THREADS=$${t} ./pi $$n \
+	                ; \
+	            done \
+	        ; \
+	    done
+
 info ::
 	@echo "make output : regenerate all output"
 .PHONY: output

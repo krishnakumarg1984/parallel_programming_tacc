@@ -17,7 +17,7 @@ LATEXENGINE = xelatex -shell-escape
 BOOKNAME = EijkhoutParallelProgramming
 
 onepass :
-	TEXINPUTS=.:graphics//:mpireference:snippets:macros:graphics:hwloc:..//:${TEXINPUTS} \
+	TEXINPUTS=.:../examples//:graphics//:mpireference:snippets:macros:graphics:hwloc:..//:${TEXINPUTS} \
 	    ${LATEXENGINE} ${BOOKNAME}
 pdf :
 	make --no-print-directory onepass

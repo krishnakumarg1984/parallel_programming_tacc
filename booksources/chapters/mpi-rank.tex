@@ -180,7 +180,6 @@ Hello from process 2 out of 5!
     overload the file system.}
   \skeleton{commrank}
 \end{exercise}
-
 \begin{exercise}
   \label{ex:hello4}
   Write a program where only the process with number zero
@@ -196,6 +195,7 @@ routines are methods of the communicator class:
   Rank and size are methods of the communicator object.
   Note that their names are slightly different from the MPI standard names.
 \begin{lstlisting}
+comm = MPI.COMM_WORLD
 procid = comm.Get_rank()
 nprocs = comm.Get_size()
 \end{lstlisting}

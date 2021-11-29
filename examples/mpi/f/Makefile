@@ -23,13 +23,6 @@ APPS = init local sendrecv anysource \
     persist typematch
 WRONGS = sendblock ssendblock
 
-listsources :
-	@for a in ${APPS} ; do \
-	  for e in F F90 ; do \
-	    if [ -e $$a.$$e ] ; then echo $$a.$$e ; fi ; \
-	  done ; \
-	done | awk 'BEGIN { v="" } {v = v " " $$0} END {print v}'
-
 LANGUAGE = F
 MODE = mpi
 include ../../../makefiles/Make.compile

@@ -19,13 +19,6 @@ info ::
 
 APPS = thread procthread
 
-listsources :
-	@for a in ${APPS} ; do \
-	  if [ -e $$a.c ] ; then echo $$a.c ; fi ; \
-	  if [ -e $$a.cxx ] ; then echo $$a.cxx ; fi ; \
-	done | awk 'BEGIN { v="" } {v = v " " $$0} END {print v}'
-	@echo tools.{c,h}
-
 MODE = hybrid
 LANGUAGE = C
 include ../../../makefiles/Make.compile
@@ -43,4 +36,5 @@ run_procthread : procthread
 	    ; \
 	done
 
+include  ../../../makefiles/Make.run
 include  ../../../makefiles/Make.clean

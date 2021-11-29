@@ -198,7 +198,10 @@ icc -o foo foo.c -qopenmp
 \end{verbatim}
 If you have separate compile and link stages, you need that option in both.
 
-When you use the openmp compiler option, a \indexterm{cpp} variable \indexompshow{_OPENMP}
+When you use the openmp compiler option, 
+the \indextermbus{OpenMP}{macro},
+(or  \indexterm{cpp} macro)
+ \indexompshow{_OPENMP}
 will be defined. Thus, you can have conditional compilation by writing
 \begin{lstlisting}
 #ifdef _OPENMP
@@ -207,6 +210,8 @@ will be defined. Thus, you can have conditional compilation by writing
    ...
 #endif
 \end{lstlisting}
+The value of this macro is a decimal value \n{yyyymm} denoting the OpenMP standard release
+that this compiler supports.
 
 \index{OpenMP!compiling|)}
 

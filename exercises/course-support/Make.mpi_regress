@@ -10,7 +10,7 @@
 ################################################################
 
 info ::
-	@echo && echo "%%%% regression testing %%%%" && echo
+	@echo && echo "================ regression testing" && echo
 ##
 ## source listing
 ##
@@ -111,9 +111,12 @@ regress_out :
 	          ./${PROGRAM}`if [ "${LANGUAGE}" = "p" ] ; then echo ".py" ; fi ` \
 	          >/dev/null 2>&1" \
 	     && echo "Executing: $${cmd}" \
-	     && eval $${cmd} \
+	     && eval $${cmd} || ret=$$? \
+	     && if [ $$ret -ne 0 ] ; then \
+	            echo "run failed: $$ret" && exit 1 ; fi \
 	     && if [ ! -z ${REGRESSOUTS} ] ; then \
-	            cat ${PROGRAM}.out[0-9]* > ${PROGRAM}.out_total \
+	            echo "generating output file <<${PROGRAM}.out_total>>" \
+	             && cat ${PROGRAM}.out[0-9]* > ${PROGRAM}.out_total \
 	            ; fi \
 	    ; \
 	else \
@@ -466,9 +469,9 @@ run_onenorm :  onenorm
 	    echo "I was not expecting output from proc $$p" ; \
 	    success=0; \
 	  fi ; \
-	 done ; \
-	make --no-print-directory regress_success SUCCESS=$$success PROGRAM=$${program} ; \
-	echo
+	 done \
+	 && make --no-print-directory regress_success SUCCESS=$$success PROGRAM=$${program} \
+	 && echo
 
 .PHONY: run_pingpong
 REGRESSIONRUNS += run_pingpong

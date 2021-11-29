@@ -9,9 +9,21 @@
 ####
 ################################################################
 
-.PHONY: omp_scaling
+info ::
+	@echo "================ OMP running"
+	@echo "make run_xxx in: ${RUNS}"
+
 info ::
 	@echo "make omp_scaling [ NP=... ] [ NDIV=... ] [ PROGRAM=... ]"
+	@echo "    OMPTHREADS= core range (default=${OMPTHREADS})"
+	@echo "    OMPSCHEDULE= core range (default=${OMPSCHEDULE})"
+.PHONY: omp_scaling
+ifeq "${TACC_SYSTEM}" "frontera"
+  OMPTHREADS = 1 2 4 8 12 26 38 56 
+else
+  OMPTHREADS = 1 2 4 8 12
+endif
+OMPSCHEDULE = static
 
 .PHONY: num_cores
 num_cores :
@@ -35,11 +47,17 @@ omp_scaling :
 	    ; fi \
 	 && div=`seq 1 $$ndiv` \
 	 && frac=`for d in $$div ; do echo "$$(( $$d * $$np / $$ndiv ))" ; done` \
-	 && for t in 1 $$frac ; do \
+	 && results=${PROGRAM}-scaling.out \
+	 && ( \
+	    for t in 1 $$frac ; do \
 	        command="OMP_NUM_THREADS=$$t ./${PROGRAM}" \
 	         && echo "executing: $$command" \
 	         && eval $$command \
-	    ; done
+	         && echo \
+	    ; done \
+	    ) | tee $$results \
+	 && cat $$results | awk '/threads/ { t = $$4 } /speedup=/ { print t " " $$6 }'
+
 .PHONY: omp_cores
 omp_cores :
 	@if [ ! -z ${NP} ] ; then \

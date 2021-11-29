@@ -181,6 +181,23 @@ there is a communicator argument that provides a context for the send transactio
   
 \end{mplnote}
 
+\begin{mplnote}{Iterator buffers}
+  It is possible to to send containers by iterators
+  %
+  \cxxverbatimsnippet[examples/mpi/mpl/sendrange.cxx]{mplsendrange}
+\end{mplnote}
+
+\begin{mplnote}{Iterator layout}
+  Noncontiguous iteratable objects can be send with a
+  \indexmpldef{iterator_layout}:
+  %
+\begin{lstlisting}
+std::list<int> v(20, 0);
+mpl::iterator_layout<int> l(v.begin(), v.end());
+comm_world.recv(&(*v.begin()), l, 0);  
+\end{lstlisting}
+\end{mplnote}
+
 \Level 2 {Receive call}
 
 The basic blocking receive command is

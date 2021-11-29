@@ -1,4 +1,4 @@
-// heat.c
+// heat.cxx
 #pragma omp parallel if (init>0)
   {
 #pragma omp for

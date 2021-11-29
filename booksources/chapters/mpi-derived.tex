@@ -244,22 +244,7 @@ declared as \lstinline{Integer}:
   (See note~\ref{mpl:cont_vector} for nonstrided vectors.)
 \end{mplnote}
 
-\begin{mplnote}{Iterator buffers}
-  It is possible to to send containers by iterators
-  %
-  \cxxverbatimsnippet[examples/mpi/mpl/sendrange.cxx]{mplsendrange}
-\end{mplnote}
-
-\begin{mplnote}{Iterator layout}
-  Noncontiguous iteratable objects can be send with a
-  \indexmpldef{iterator_layout}:
-  %
-\begin{lstlisting}
-std::list<int> v(20, 0);
-mpl::iterator_layout<int> l(v.begin(), v.end());
-comm_world.recv(&(*v.begin()), l, 0);  
-\end{lstlisting}
-\end{mplnote}
+\Level 2 {Two-dimensional arrays}
 
 Figure~\ref{fig:blasmatrix} indicates one source of irregular
 data:
@@ -321,6 +306,18 @@ by replacing the index expression by \n{mat+1}.
   Using $P$ sendrecv calls, distribute the rows of this matrix among the
   processors.
 \end{exercise}
+
+\begin{pythonnote}{Sending from the middle of a matrix}
+  In C and Fortran it's easy to apply a derived type
+  to data in the middle of an array,
+  for instance to extract an arbitrary column out of a C~matrix,
+  or row out of a Fortran matrix.
+  While Python has no trouble describing sections from an array,
+  usually it copies these instead of taking the address.
+  Therefore, it is necessary to convert the matrix
+  to a buffer and compute an explicit offset in bytes:
+  \verbatimsnippet{pmatcolsend}
+\end{pythonnote}
 
 \begin{figure}[t]
   \includegraphics[scale=.5]{stridesend}

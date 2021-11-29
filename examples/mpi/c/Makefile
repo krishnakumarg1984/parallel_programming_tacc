@@ -63,17 +63,6 @@ countdown_put.o countdown_acc.o countdown_op.o \
 #### VLE ${patsubst %,%.o,${APPS}} tools.o : tools.h globalinit.c
 #### maybe we need to use $< instead of $^ in the compile rule
 
-info ::
-	@echo "make listsources : list of source files"
-.PHONY: listsources
-listsources :
-	@for a in ${APPS} ; do \
-	  if [ -e $$a.c ] ; then echo $$a.c ; fi ; \
-	  if [ -e $$a.cxx ] ; then echo $$a.cxx ; fi ; \
-	done | awk 'BEGIN { v="" } {v = v " " $$0} END {print v}'
-	@echo tools.{c,h}
-
-
 RUNS =
 info ::
 	@echo "make run_XXX (in ${RUNS})"

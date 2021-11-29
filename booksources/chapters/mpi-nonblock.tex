@@ -162,7 +162,7 @@ you could call this routine in a loop.
 
 \begin{lstlisting}
 for (p=0; p<nrequests ; p++) // Not efficient!
-  MPI_Wait(request[p],&(status[p]));
+  MPI_Wait(&request[p],&(status[p]));
 \end{lstlisting}
 
 However, this would be inefficient if the first request is fulfilled

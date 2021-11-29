@@ -3,7 +3,7 @@
 ####
 #### This makefile is part of the source of 
 #### "Parallel Computing for Science and Engineering"
-#### by Victor Eijkhout, copyright 2013-9
+#### by Victor Eijkhout, copyright 2013-2021
 ####
 #### This is the makefile for the python examples
 ####     in examples/mpi/p
@@ -28,22 +28,9 @@ TESTS = \
 APPS = \
     allreduce anysource bcast buffertoolarge inttype \
     gatherv getfence irecvnonblock \
-    hello irecvloop persist putfence \
+    hello irecvloop persist putfence rowcol \
     pingpong scan scipingpong \
     commdup commsplit 
-
-info ::
-	@echo "make listapps : list all application targets"
-.PHONY: listapps
-listapps :
-	@echo ${APPS}
-	@for a in ${APPS} ; do \
-	    if [ ! -f $${a}.py ] ; then \
-	        echo "Warning: no source file for <<$${a}>>" \
-	        ; \
-	    fi \
-	    ; \
-	done
 
 info ::
 	@echo "make run_spawn : process spawning example"

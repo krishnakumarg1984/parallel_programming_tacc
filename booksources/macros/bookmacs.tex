@@ -99,11 +99,14 @@
   \immediate\message{sourcing <<#1>>}
   \Level 1 {Listing of code #1}
   \label{lst:#1}
+  \ListStrippedSource{#1}
+  \par
+}
+\newcommand\ListStrippedSource[1]{
   \begingroup \footnotesize
   \immediate \write 18 { ./stripsource #1 }
   \verbatiminput{input.cut}
   \endgroup
-  \par
 }
 \def\LSR{\LSR}
 \def\ChapterSourceHeader#1\LSR{

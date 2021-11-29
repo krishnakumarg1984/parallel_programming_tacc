@@ -83,43 +83,43 @@
 }
 \endinput
 
-\def\verbatimsnippet#1{\verbatiminput{snippets/#1}}
-\def\cverbatimsnippet#1{\verbatiminput{snippets/#1}}
-\usepackage{listings,xcolor}
-\lstset{language=C}
-\lstdefinestyle{reviewcode}{
-  belowcaptionskip=1\baselineskip, breaklines=true, frame=L,
-  xleftmargin=.5\unitindent, showstringspaces=false,
-  basicstyle=\footnotesize\ttfamily,
-  keywordstyle=\bfseries\color{blue},
-  commentstyle=\color{red!60!black},
-  identifierstyle=\slshape\color{black},
-  stringstyle=\color{green!60!black}, columns=fullflexible,
-  keepspaces=true, }
-\lstset{style=reviewcode}
-\newcommand\pyinline[1]{\lstset{language=Python}\lstinline{#1}\lstset{language=C}}
+%% \def\verbatimsnippet#1{\verbatiminput{snippets/#1}}
+%% \def\cverbatimsnippet#1{\verbatiminput{snippets/#1}}
+%% \usepackage{listings,xcolor}
+%% \lstset{language=C}
+%% \lstdefinestyle{reviewcode}{
+%%   belowcaptionskip=1\baselineskip, breaklines=true, frame=L,
+%%   xleftmargin=.5\unitindent, showstringspaces=false,
+%%   basicstyle=\footnotesize\ttfamily,
+%%   keywordstyle=\bfseries\color{blue},
+%%   commentstyle=\color{red!60!black},
+%%   identifierstyle=\slshape\color{black},
+%%   stringstyle=\color{green!60!black}, columns=fullflexible,
+%%   keepspaces=true, }
+%% \lstset{style=reviewcode}
+%% \newcommand\pyinline[1]{\lstset{language=Python}\lstinline{#1}\lstset{language=C}}
 
-\def\codedir{./code}
+%% \def\codedir{./code}
 
-\newcommand\snippetwithoutput[4][]{
-  %\message{snippet <<#1>> <<#2>> <<#3>> <<#4>>}
-  %\tracingmacros=2 \tracingcommands=2
-  \answerwithoutput{#2}{#3}{#4}
-}
-\newcommand{\snippetoutput}[2]{
-  \message{In directory <#1> running program <#2>}
-  % go into vertical mode
-  \par
-  % make nice two-column layout
-  \begin{minipage}[t]{.3\hsize}{%
-      \footnotesize \raggedright \textbf{Output\\\relax [#1] #2:}\par }
-  \immediate\write18{
-    cd \codedir /#1
-    && make run_#2 > #2.out 2>&1
-  }
-  \footnotesize
-  \def\verbatim@startline{\verbatim@line{\leavevmode\relax}}
-  \verbatiminput{\codedir /#1/#2.out}
-  \end{minipage}
-}
-\makeatother
+%% \newcommand\snippetwithoutput[4][]{
+%%   %\message{snippet <<#1>> <<#2>> <<#3>> <<#4>>}
+%%   %\tracingmacros=2 \tracingcommands=2
+%%   \answerwithoutput{#2}{#3}{#4}
+%% }
+%% \newcommand{\snippetoutput}[2]{
+%%   \message{In directory <#1> running program <#2>}
+%%   % go into vertical mode
+%%   \par
+%%   % make nice two-column layout
+%%   \begin{minipage}[t]{.3\hsize}{%
+%%       \footnotesize \raggedright \textbf{Output\\\relax [#1] #2:}\par }
+%%   \immediate\write18{
+%%     cd \codedir /#1
+%%     && make run_#2 > #2.out 2>&1
+%%   }
+%%   \footnotesize
+%%   \def\verbatim@startline{\verbatim@line{\leavevmode\relax}}
+%%   \verbatiminput{\codedir /#1/#2.out}
+%%   \end{minipage}
+%% }
+%% \makeatother

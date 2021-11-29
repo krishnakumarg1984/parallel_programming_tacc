@@ -23,10 +23,10 @@ EXERCISES = hello \
     pingpong sendrecv sumsquares scangather \
     rightsend bucketblock bucketpipenonblock lockfetch lockfetchshared \
     isendirecv isendirecvarray setdiff \
-    cubegather onenorm procgrid \
+    cubegather procgrid \
     rightput randomput countdown onesidedbuild \
     blockwrite shareddata ibarrierupdate
-OTHERPROGRAMS = write
+OTHERPROGRAMS = onenorm  write
 SOURCES = $(patsubst %,%.F90,${EXERCISES})
 OBJS    = $(patsubst %,%.o,${EXERCISES})
 

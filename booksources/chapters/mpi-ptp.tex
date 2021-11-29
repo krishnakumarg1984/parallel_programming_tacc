@@ -86,11 +86,21 @@ the \emph{status}\index{status!of received message} of the message:
   out how much data is being sent.
 \end{itemize}
 
-To do this, the receive call has a \indexmpidef{MPI_Status}
-parameter.
-
-This status is a property of the actually received messsage, so \indexmpishow{MPI_Irecv}
-does not have a status parameter, but \indexmpishow{MPI_Wait} does.
+To do this, the receive call has a \indexmpidef{MPI_Status} parameter.
+The \indexmpishow{MPI_Status} object
+is a structure with freely accessible members:
+\begin{itemize}
+\item \indexmpiref{MPI_ERROR} gives the error status of the receive call;
+  see section~\ref{sec:mpi-status-error}.
+\item \indexmpiref{MPI_SOURCE} gives the source of the message;
+  see section~\ref{sec:mpi-source}.
+\item \indexmpiref{MPI_TAG} gives the tag with which the message was received;
+  see section~\ref{sec:mpi-tag}.
+\item The number if items in the message can be deduced from the status object,
+  but through a function call to \indexmpishow{MPI_Get_count},
+  not as a structure member;
+  see section~\ref{sec:mpi-status-count}.
+\end{itemize}
 
 \begin{mplnote}{Status object}
   The \lstinline+mpl::status_t+ object is created by the receive
@@ -99,29 +109,23 @@ does not have a status parameter, but \indexmpishow{MPI_Wait} does.
   \cxxverbatimsnippet[examples/mpi/mpl/vector.cxx]{mplstatuscreate}
 \end{mplnote}
 
-The \indexmpishow{MPI_Status} object
-is a structure with freely accessible members,
-as discussed below.
-
 \Level 2 {Source}
+\label{sec:mpi-source}
 
 In some applications it makes sense that a message can come from 
 one of a number of processes. In this case, it is possible to specify
 \indexmpishow{MPI_ANY_SOURCE} as the source.
 %
 To find out the \emph{source}\index{message!status!source}
-where the message actually
-came from, you would use the \indexmpishow{MPI_SOURCE} field of the status object
-that is delivered by \indexmpishow{MPI_Recv} or the \indexmpishow{MPI_Wait...} call after an \indexmpishow{MPI_Irecv}.
+where the message actually came from,
+you would use the \indexmpidef{MPI_SOURCE} field of the status object
+that is delivered by \indexmpishow{MPI_Recv}
+or the \indexmpishow{MPI_Wait...} call after an \indexmpishow{MPI_Irecv}.
 \begin{lstlisting}
 MPI_Recv(recv_buffer+p,1,MPI_INT, MPI_ANY_SOURCE,0,comm,
          &status);
 sender = status.MPI_SOURCE;
 \end{lstlisting}
-
-The source of a message can be obttained as the
-\indexmpidef{MPI_SOURCE}
-member of the status structure.
 
 There are various scenarios where receiving from `any source' makes sense.
 One is that of the \indexterm{manager-worker} model. The manager task would first send
@@ -149,6 +153,7 @@ int source = recv_status.source();
 \end{mplnote}
 
 \Level 2 {Tag}
+\label{sec:mpi-tag}
 
 If a processor is expecting more than one messsage from a single other processor,
 message tags are used to distinguish between them. In that case,
@@ -190,6 +195,7 @@ For a function returning multiple statuses, the presence of any error
 is indicated by a result of \indexmpishow{MPI_ERR_IN_STATUS}.
 
 \Level 2 {Count}
+\label{sec:mpi-status-count}
 
 If the amount of data received is not known a~priori, the
 \emph{count}\index{message!count} of elements received

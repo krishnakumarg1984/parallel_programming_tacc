@@ -16,7 +16,7 @@ MAKEFLAGS += --no-builtin-rules
 info ::
 	@echo
 	@echo "================ Compilation"
-	@echo "make APP (in ${APPS} ${EXERCISES} )"
+	@echo "make APP (in ${APPS} ${EXERCISES} ${PROGRAMS} )"
 	@echo "    [ OPTLEVEL=0/1/2, default:${OPTLEVEL} ]"
 	@echo "    [ EXTRA_OPTIONS=... ]"
 OPTLEVEL = 2
@@ -102,6 +102,10 @@ else
 	  C_COMPILER   = icc
 	  CXX_COMPILER = icpc
 	  F_COMPILER   = ifort
+	else ifeq "${TACC_FAMILY_COMPILER}" "oneapi"
+	  C_COMPILER   = icc
+	  CXX_COMPILER = icpc
+	  F_COMPILER   = ifort
 	else ifeq "${TACC_FAMILY_COMPILER}" "gcc"
 	  C_COMPILER   = gcc
 	  CXX_COMPILER = g++
@@ -121,6 +125,7 @@ else
     endif # end of mode choices
 
 OMPFLAGS_intel    = -qopenmp 
+OMPFLAGS_oneapi   = -qopenmp 
 OMPFLAGS_gcc      = -ggdb -fopenmp
 OMPFLAGS_clang    = -fopenmp
 OMPFLAGS_xl       = -qsmp=omp -qoffload
@@ -148,26 +153,34 @@ CXXFLAGS += ${EXTRA_OPTIONS}
 FFLAGS   += ${EXTRA_OPTIONS}
 
 %.o : %.c
-	${C_COMPILER}   -c $< ${CFLAGS}
+	@cmdline="${C_COMPILER} -g -std=c++${CPPSTANDARD} ${CFLAGS} \
+	    -c $<" \
+	 && if [ ! -z "${ECHO}" ] ; then \
+	        echo "Compiling: $$cmdline" ; fi \
+	 && eval $$cmdline
 %.o : %.cxx
-	${CXX_COMPILER} -c $< ${CXXFLAGS}
+	@cmdline="${CXX_COMPILER} -g -std=c++${CPPSTANDARD} ${CXXFLAGS} \
+	    -c $<" \
+	 && if [ ! -z "${ECHO}" ] ; then \
+	        echo "Compiling: $$cmdline" ; fi \
+	 && eval $$cmdline
+
 %.o : %.f
 	${F_COMPILER}   -c $< ${FFLAGS}
 %.o : %.F90
 	${F_COMPILER}   -c $< ${FFLAGS}
+%.o : %.f90
+	${F_COMPILER}   -c $< ${FFLAGS}
 
+ifeq "${MODE}" "mpi"
 C_LINKER   := ${MPI_C_COMPILER}
 CXX_LINKER := ${MPI_CXX_COMPILER}
 F_LINKER   := ${MPI_F_COMPILER}
-ifeq "${MODE}" "seq"
-C_LINKER   := ${C_COMPILER}
-CXX_LINKER := ${CXX_COMPILER}
-F_LINKER   := ${F_COMPILER}
-else ifeq "${MODE}" "omp"
-C_LINKER   := ${C_COMPILER}
-CXX_LINKER := ${CXX_COMPILER}
-F_LINKER   := ${F_COMPILER}
 else ifeq "${MODE}" "1api"
+C_LINKER   := ${C_COMPILER}
+CXX_LINKER := ${CXX_COMPILER}
+F_LINKER   := ${F_COMPILER}
+else 
 C_LINKER   := ${C_COMPILER}
 CXX_LINKER := ${CXX_COMPILER}
 F_LINKER   := ${F_COMPILER}
@@ -186,9 +199,17 @@ ifeq "${TACC_FAMILY_COMPILER}" "gcc"
 endif
 
 .SECONDEXPANSION:
-${APPS} ${EXERCISES} ${WRONGS} :: $$@.o ${EXTRA_OBJS}
+${APPS} ${EXERCISES} ${PROGRAMS} ${WRONGS} :: $$@.o ${EXTRA_OBJS}
+	@if [ "${ECHO}" = "1" ] ; then \
+	    echo ${LINK_SETUP_COMMANDS} \
+	    ; fi \
+	 && eval ${LINK_SETUP_COMMANDS}
 	${LINKER} -o $@ $^ ${LINK_FLAGS} ${EXTRA_LIBS}
-# ${EXTRA_OBJS} 
+	@if [ "${ECHO}" = "1" ] ; then \
+	    echo ${LINK_EXTRA_COMMANDS} \
+	    ; fi \
+	 && eval ${LINK_EXTRA_COMMANDS}
+
 .PHONY: compile
 compile :
 	@make --no-print-directory ${PROGRAM}.o
@@ -196,12 +217,20 @@ compile :
 
 info ::
 	@if [ ! -z "${APPS}" ] ; then \
+	    echo "make listsources : list all sources in this directory" \
 	    echo "make listapps : list all apps in this directory" \
 	    && echo "make apps : compile all applications in this directory" \
 	    && echo "make runapps : compile and run all applications in this directory" \
 	    ; \
 	fi
-.PHONY: apps listapps runapps
+.PHONY: apps listapps runapps listsources
+listsources :
+	@for a in ${APPS} ; do \
+	  if [ -e $$a.c ] ; then echo $$a.c ; fi ; \
+	  if [ -e $$a.cxx ] ; then echo $$a.cxx ; fi ; \
+	  if [ -e $$a.F90 ] ; then echo $$a.F90 ; fi ; \
+	done | awk 'BEGIN { v="" } {v = v " " $$0} END {print v}'
+	@echo tools.{c,h}
 apps :
 	@( \
 	for a in ${APPS} ; do \

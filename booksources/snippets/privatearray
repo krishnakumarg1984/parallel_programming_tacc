@@ -1,4 +1,9 @@
-// alloc3.c
+int array[nthreads];
+#pragma omp parallel firstprivate(array)
+{
+  int t = omp_get_thread_num();
+  array[t] = t;
+}
 int array[nthreads];
 {
   int t = 2;

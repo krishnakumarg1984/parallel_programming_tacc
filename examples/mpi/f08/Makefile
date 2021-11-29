@@ -22,13 +22,6 @@ APPS = reduceinplace reduceinplaceptr section anysource putfence waitnull vector
 LANGUAGE = F
 MODE = mpi
 
-listsources :
-	@for a in ${APPS} ; do \
-	  for e in F F90 ; do \
-	    if [ -e $$a.$$e ] ; then echo $$a.$$e ; fi ; \
-	  done ; \
-	done | awk 'BEGIN { v="" } {v = v " " $$0} END {print v}'
-
 info ::
 	@echo "make putfence0"
 .PHONY: putfence0

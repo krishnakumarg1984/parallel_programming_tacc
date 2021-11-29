@@ -27,7 +27,12 @@ endif
 .PHONY: allruns
 info ::
 	@echo "make allruns : all run_.... targets"
-allruns :
+runs :
 	@for r in ${RUNS} ; do \
-	    make --no-print-directory $$r \
+	    app=$${r##run_} \
+	     && make --no-print-directory $$app \
+	     && make --no-print-directory $$r \
+	        | tee $$app.runout \
 	    ; done
+clean ::
+	@rm -f *.runout

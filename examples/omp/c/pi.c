@@ -3,7 +3,7 @@
    %%%%
    %%%% This program file is part of the book and course
    %%%% "Parallel Computing"
-   %%%% by Victor Eijkhout, copyright 2013-2020
+   %%%% by Victor Eijkhout, copyright 2013-2021
    %%%%
    %%%% pi.c : compute pi
    %%%%
@@ -34,7 +34,14 @@ int main(int argc,char **argv) {
   }
   double duration = omp_get_wtime()-tstart;
 
-  printf("Pi computed with %d samples: %e; time=%e\n",N,4*pi4,duration);
+  const double pi=3.14159265358979323;
+  double err = pi-4*pi4;
+  int nt;
+#pragma omp parallel
+#pragma omp master
+  nt = omp_get_num_threads();
+  printf("Pi computed with %4.1e samples, %3d threads: err=%9.6f; time=%6.4f\n",
+	 (double)N,nt,fabs(err),duration);
 
   return 0;
 }

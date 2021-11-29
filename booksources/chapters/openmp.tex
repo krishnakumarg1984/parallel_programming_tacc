@@ -275,7 +275,7 @@ The performance of an OpenMP code can be influenced by the following.
 
 \Level 0 {Accelerators}
 
-In OpenMP 4.0 there is support for offloading work to an
+In \ompstandard{4.0} there is support for offloading work to an
 \emph{accelerator}\index{OpenMP!accelerator support in}
 or
 \emph{co-processor}\index{OpenMP!co-processor support in}:
@@ -288,11 +288,36 @@ with clauses such as
 \item \n{update}: make data consistent between host and device
 \end{itemize}
 
-\endinput
+\Level 0 {Tools interface}
 
-\Level 0 {Idioms}
+The \ompstandard{5.0} defines a tools interface.
+This means that routines can be defined that get called by the OpenMP runtime.
+For instance, the following example defines callback that are evaluated
+when OpenMP is initialized and finalized, thereby giving the
+runtime for the application.
 
-\Level 1 {While loops}
+\begin{lstlisting}
+int ompt_initialize(ompt_function_lookup_t lookup, int initial_device_num,
+                    ompt_data_t *tool_data) {
+  printf("libomp init time: %f\n",
+         omp_get_wtime() - *(double *)(tool_data->ptr));
+  *(double *)(tool_data->ptr) = omp_get_wtime();
+  return 1; // success: activates tool
+}
 
-\cverbatimsnippet[examples/omp/c/link.c]{linkedlist}
+void ompt_finalize(ompt_data_t *tool_data) {
+  printf("application runtime: %f\n",
+         omp_get_wtime() - *(double *)(tool_data->ptr));
+}
+
+ompt_start_tool_result_t *ompt_start_tool(unsigned int omp_version,
+                                          const char *runtime_version) {
+  static double time = 0; // static defintion needs constant assigment
+  time = omp_get_wtime();
+  static ompt_start_tool_result_t ompt_start_tool_result = {
+      &ompt_initialize, &ompt_finalize, {.ptr = &time}};
+  return &ompt_start_tool_result; // success: registers tool
+}  
+\end{lstlisting}
+(Example courtesy of \url{https://git.rwth-aachen.de/OpenMPTools/OMPT-Examples}.)
 

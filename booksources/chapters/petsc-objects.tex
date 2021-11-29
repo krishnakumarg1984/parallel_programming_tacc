@@ -187,6 +187,8 @@ to be created on a communicator with
 
 The corresponding routine \indexpetscref{VecDestroy} deallocates data and zeros
 the pointer.
+(This and all other Destroy routines are collective because of underlying
+MPI technicalities.)
 
 The vector type needs to be set with \indexpetscref{VecSetType}.
 

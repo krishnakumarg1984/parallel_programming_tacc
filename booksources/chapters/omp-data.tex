@@ -214,13 +214,13 @@ can be shared or private, depending on the clause you use.
 \end{enumerate}
 Example of the first type: in
 %
-\cverbatimsnippet[examples/omp/c/alloc2.c]{privatearray}
+\cverbatimsnippet[examples/omp/c/alloc.c]{privatearray}
 %
 each thread gets a private copy of the array, properly initialized.
 
 On the other hand, in
 %
-\cverbatimsnippet[examples/omp/c/alloc1.c]{privatepointer}
+\cverbatimsnippet[examples/omp/c/alloc.c]{privatepointer}
 %
 each thread gets a private pointer, but all pointers point to the same
 object.
