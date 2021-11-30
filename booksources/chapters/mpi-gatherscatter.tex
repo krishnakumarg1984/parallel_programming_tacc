@@ -72,7 +72,7 @@ int MPI_Scatter
 
 Two things to note about these routines:
 \begin{itemize}
-\item The prototype for \indexmpiref{MPI_Gather} has two `count' parameters, one
+\item The signature for \indexmpiref{MPI_Gather} has two `count' parameters, one
   for the length of the individual send buffers, and one for the receive buffer.
   However, confusingly, the second parameter (which is only relevant on the root)
   does not indicate the total amount of information coming in, but

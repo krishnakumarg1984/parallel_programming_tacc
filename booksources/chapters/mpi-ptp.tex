@@ -90,11 +90,11 @@ To do this, the receive call has a \indexmpidef{MPI_Status} parameter.
 The \indexmpishow{MPI_Status} object
 is a structure with freely accessible members:
 \begin{itemize}
-\item \indexmpiref{MPI_ERROR} gives the error status of the receive call;
+\item \indexmpishow{MPI_ERROR} gives the error status of the receive call;
   see section~\ref{sec:mpi-status-error}.
-\item \indexmpiref{MPI_SOURCE} gives the source of the message;
+\item \indexmpishow{MPI_SOURCE} gives the source of the message;
   see section~\ref{sec:mpi-source}.
-\item \indexmpiref{MPI_TAG} gives the tag with which the message was received;
+\item \indexmpishow{MPI_TAG} gives the tag with which the message was received;
   see section~\ref{sec:mpi-tag}.
 \item The number if items in the message can be deduced from the status object,
   but through a function call to \indexmpishow{MPI_Get_count},

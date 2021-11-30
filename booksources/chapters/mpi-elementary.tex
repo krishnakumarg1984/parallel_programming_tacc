@@ -187,23 +187,38 @@ In python, all buffer data comes from \indexterm{Numpy}.
   mpi4py type&NumPy type\\
   \hline
   \n{MPI.INT}&\n{np.intc}\\
-  \n{MPI.LONG}&\n{np.int}\\
+             &\n{np.int32}\\
+  \n{MPI.LONG}&\n{np.int64}\\
   \n{MPI.FLOAT}&\n{np.float32}\\
   \n{MPI.DOUBLE}&\n{np.float64}\\
   \hline
 \end{tabular}
 
-Note that numpy integers correspond to \n{long int}s in~C,
-and are therefore 8~bytes long.
-This is no problem if you send and receive contiguous buffers of integers,
-but it may trip you up in cases where the actual size of the integer matters,
-such as in derived types, or window definitions.
+In this table we see that
+Numpy has three integer types,
+one corresponding to C~\lstinline{int}s,
+and two with the number of bits explicitly indicated.
+There used to be a \lstinline{np.int} type,
+but this is deprecated as of \indextermsub{Numpy}{1.20}
 
 Examples:
 
 \pverbatimsnippet[examples/mpi/p/inttype.py]{npintc}
 
 \pverbatimsnippet{bufallocp}
+
+\Level 2 {Type correspondences MPI / Python}
+
+Above we saw that the number of bytes of a Numpy type can be deduced from
+\lstset{language=Python}
+\begin{lstlisting}
+sizeofint = np.dtype('intc').itemsize  
+\end{lstlisting}
+
+It is possible to derive the Numpy type corresponding to an MPI type:
+\pverbatimsnippet{mpityp2numpy}
+
+\lstset{language=C}
 
 \Level 1 {Byte addressing type}
 \label{sec:mpi-byte-type}

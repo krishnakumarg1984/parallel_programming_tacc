@@ -190,7 +190,7 @@ for doing this calculation in Fortran, see section~\ref{sec:mpif-shape}.
 Next, one can obtain the memory from MPI by using
 \indexmpirep{MPI_Win_allocate},
 which has the data pointer as output. Note the \n{void*} in the
-C~prototype; it is still necessary to pass a pointer to a pointer:
+C~signature; it is still necessary to pass a pointer to a pointer:
 \begin{lstlisting}
 double *window_data;
 MPI_Win_allocate( ... &window_data ... );

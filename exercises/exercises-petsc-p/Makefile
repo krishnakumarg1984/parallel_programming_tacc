@@ -12,9 +12,10 @@
 ################################################################
 
 info ::
-	@echo "do:"
-	@echo "  make EXERCISE"
-	@echo "    where EXERCISE is one of ${EXERCISES}"
+	@echo "================================================================"
+	@echo " make exercises for system=${MODE}, language=${LANGUAGE}"
+	@echo "================================================================"
+	@echo "available rules:"
 
 include ${PETSC_DIR}/lib/petsc/conf/variables
 LOCDIR = csolutions

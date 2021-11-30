@@ -34,16 +34,18 @@
   all communication goes through the network.
 \end{numberedframe}
 
-\begin{numberedframe}
-  {Pure MPI}
+\begin{numberedframe}{Pure MPI}
   \includegraphics[scale=.1]{mpi-node2}
 
   A node has multiple sockets, each with multiple cores.\\
   Pure MPI puts a process on each core: pretend shared memory doesn't exist.
 \end{numberedframe}
 
-\begin{numberedframe}
-  {Hybrid programming}
+\begin{numberedframe}{Quad socket node}
+  \includegraphics[scale=.8]{ranger-node-small}
+\end{numberedframe}
+
+\begin{numberedframe}{Hybrid programming}
   \includegraphics[scale=.1]{mpi-node3}
 
   Hybrid programming puts a process per node or per socket;\\
@@ -325,9 +327,9 @@ Type(MPI_Comm) :: comm = MPI_COMM_WORLD
   \includegraphics[scale=.35]{rank-parallel}
 \end{numberedframe}
 
-\begin{numberedframe}{About routine prototypes: C/C++}
+\begin{numberedframe}{About routine signatures: C/C++}
   \label{sec:protos}
-Prototype:
+Signature:
 \lstset{language=C}
 \begin{lstlisting}
 int MPI_Comm_size(MPI_Comm comm,int *nprocs)
@@ -344,8 +346,8 @@ errorcode = MPI_Comm_size( comm,&nprocs );
 \end{numberedframe}
 
 \begin{mpithree}
-\begin{numberedframe}{About routine prototypes: Fortran2008}
-Prototype
+\begin{numberedframe}{About routine signatures: Fortran2008}
+Signature
 \lstset{language=Fortran}
 \begin{lstlisting}
 MPI_Comm_size(comm, size, ierror)
@@ -364,8 +366,8 @@ CALL MPI_Comm_size( comm, size ) ! F2008 style
 \item \n{MPI_...} types are \n{Type}.
 \end{itemize}
 \end{numberedframe}
-\begin{numberedframe}{About routine prototypes: Fortran90}
-Prototype
+\begin{numberedframe}{About routine signatures: Fortran90}
+Signature
 \lstset{language=Fortran}
 \begin{lstlisting}
 MPI_Comm_size(comm, size, ierror)
@@ -385,8 +387,8 @@ CALL MPI_Comm_size( comm, size, ierr ) ! F90 style
 \end{numberedframe}
 \end{mpithree}
 
-\begin{numberedframe}{About routine prototypes: Python}
-Prototype:
+\begin{numberedframe}{About routine signatures: Python}
+Signature:
 \lstset{language=Python}
 \begin{lstlisting}
 # object method

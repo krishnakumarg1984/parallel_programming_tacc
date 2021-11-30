@@ -709,7 +709,7 @@ will be invoked by \indexpetscshow{MatMult}:
 \indexpetscref{MatShellSetOperation}
 
 The routine that implements the actual product should have the same
-prototype as \indexpetscshow{MatMult}, accepting a matrix and two
+signature as \indexpetscshow{MatMult}, accepting a matrix and two
 vectors. The key to realizing your own product routine lies in the
 `context' argument to the create routine. With
 \indexpetscref{MatShellSetContext} you pass a pointer to some
@@ -740,7 +740,7 @@ struct matrix_data mystruct;
 MatShellSetContext( A, &mystruct );
 \end{lstlisting}
 
-The routine prototype
+The routine signature
 has this argument as a \clstinline{void*} but it's not necessary to
 cast it to that. Getting the context means that a pointer to your
 structure needs to be set

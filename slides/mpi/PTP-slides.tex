@@ -160,6 +160,7 @@ Result:
   \[ -u_{xx}=f(x). \]
   Finite difference approximation:
   \[ \frac{2u(x)-u(x+h)-u(x-h)}{h^2}=f(x,u(x),u'(x))+O(h^2), \]
+  Finite dimensional: $u_i\equiv u(ih)$.
 \end{numberedframe}
 
 \begin{numberedframe}{Motivation (continued)}
@@ -200,12 +201,16 @@ Result:
   \begin{itemize}
   \item Component operation: $y_i=2x_i-x_{i-1}-x_{i+1}$
   \item Parallel execution: each process has range of $i$-coordinates
-  \item So we need a point-to-point mechanism
+  \item $\Rightarrow$ segment of vector, block row of matrix
   \end{itemize}  
 \end{numberedframe}
 
-\begin{numberedframe}{In a picture}
+\begin{numberedframe}{Partitioned matrix-vector product}
+  We need a point-to-point mechanism:
+  
   \includegraphics[scale=.4]{mvpdist}
+
+  each process with ones before/after it.
 \end{numberedframe}
 
 \begin{numberedframe}{Operating on distributed data}
