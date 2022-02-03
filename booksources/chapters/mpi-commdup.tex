@@ -4,7 +4,7 @@
 %%%%
 %%%% This text file is part of the source of 
 %%%% `Parallel Programming in MPI and OpenMP'
-%%%% by Victor Eijkhout, copyright 2012-2020
+%%%% by Victor Eijkhout, copyright 2012-2022
 %%%%
 %%%% mpi-commbasic.tex : communicator basics
 %%%%
@@ -17,7 +17,7 @@ There is a nonblocking variant \indexmpiref{MPI_Comm_idup}.
 These calls do not propagate info hints
 (sections \ref{sec:mpi-info} and~\ref{sec:mpi-comm-info});
 to achieve this,
-use \indexmpishow{MPI_Comm_dup_with_info} and \indexmpishow{MPI_Comm_idup_with_info};
+use \indexmpidef{MPI_Comm_dup_with_info} and \indexmpidef{MPI_Comm_idup_with_info};
 section~\ref{sec:mpi-comm-info}.
 
 \begin{mplnote}{Communicator duplication}
@@ -48,19 +48,7 @@ The call \indexmpidef{MPI_Comm_compare} returns \indexmpishow{MPI_IDENT}
 if two communicator values are the same,
 and not if one is derived from the other by duplication:
 %
-\begin{multicols}{2}
-\cverbatimsnippet{commcopycompare}
-\columnbreak
-Output:
-\begin{verbatim}
-assign:    comm==copy: 1
-            congruent: 0
-            not equal: 0
-duplicate: comm==copy: 0
-            congruent: 1
-            not equal: 0
-\end{verbatim}
-\end{multicols}
+\csnippetwithoutput{commcopycompare}{examples/mpi/c}{commcompare}
 
 Communicators that are not actually the same can be
 \begin{itemize}

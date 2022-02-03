@@ -66,7 +66,7 @@ After the parallel region the outer variable~\n{x} will still have the
 value~\n{5}: there is no \indexterm{storage association} between the
 private variable and global one.
 
-\begin{fortrannote}
+\begin{fortrannote}{Private variables in parallel region}
   The Fortran language does not have this concept of scope, so you have to use a
   \indexclause{private} clause:
 \begin{lstlisting}
@@ -334,7 +334,7 @@ in a parallel region.
   Explore performance implications of the different loop scheduling strategies.
 \end{exercise}
 
-\begin{fortrannote}
+\begin{fortrannote}{Private common blocks}
   Named common blocks can be made thread-private with the syntax
 \begin{lstlisting}
 $!OMP threadprivate( /blockname/ )

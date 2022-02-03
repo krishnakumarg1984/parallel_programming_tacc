@@ -6,13 +6,15 @@
 #### "Parallel Computing for Science and Engineering"
 #### by Victor Eijkhout, copyright 2013-2021
 ####
-#### Make include file for clean rules
+#### Make include file for run output rules
 ####
 ################################################################
 ################################################################
 
 info ::
 	@echo "make runs : compile and run everything and generate output file"
+	@echo "    using RUNS=${RUNS}"
+
 .PHONY: runs
 MPIRUN  = mpiexec
 NP = 3

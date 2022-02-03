@@ -1,4 +1,4 @@
-// globalinit.F90
+!! globalinit.F90
 #define CHK(x) 
 !#define CHK(x) if (x) {				         \
 !     char errtxt[200]; int len=200;				 \

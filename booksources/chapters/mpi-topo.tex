@@ -43,7 +43,7 @@ topology are defined:
   graph that touch itself; see section~\ref{sec:mpi-dist-graph}.
 \end{itemize}
 These values can be discovered with the routine
-\indexmpiref{MPI_Topo_test}.
+\indexmpishow{MPI_Topo_test}.
 
 \Level 0 {Cartesian grid topology}
 \label{sec:cartesian}
@@ -57,67 +57,112 @@ the exception are the edge points. A~grid where edge processors
 are connected through \indexterm{wraparound connections} is called
 a \indextermsub{periodic}{grid}.
 
-The most common use of Cartesian coordinates
-is to find the rank of process by referring to it in grid terms.
-For instance, one could ask `what are my neighbors offset by $(1,0,0)$, 
-$(-1,0,0)$, $(0,1,0)$ et cetera'.
+The auxiliary routine \indexmpidef{MPI_Dims_create}
+assists in finding a grid of a given dimension,
+attempting to minimize the diameter.
+%
+%%\cverbatimsnippet{dimscreate}
+\csnippetwithoutput{dimscreate}{examples/mpi/c}{cartdims}
+%
+If the dimensions array is nonzero in a component, that one is not touched. 
+Of course, the product of the specified dimensions has to divide in
+the input number of nodes.
 
-While the Cartesian topology interface is fairly easy to use, as
-opposed to the more complicated general graph topology below, it is
-not actually sufficient for all Cartesian graph uses. Notably, in
-a so-called \indextermsub{star}{stencil}, such as the
-\indextermsub{nine-point}{stencil}, there are diagonal connections,
-which can not be described in a single step. Instead, it is necessary
-to take a separate step along each coordinate dimension. In higher
-dimensions this is of course fairly awkward.
+\begin{comment}
+  \Level 1 {Cartesian coordinates}
 
-Thus, even for Cartesian structures, it may be advisable to use the
-general graph topology interface.
+  The most common use of Cartesian coordinates
+  is to find the rank of process by referring to it in grid terms.
+  For instance, one could ask `what are my neighbors offset by $(1,0,0)$, 
+  $(-1,0,0)$, $(0,1,0)$ et cetera'.
 
-\Level 1 {Cartesian routines}
+  While the Cartesian topology interface is fairly easy to use, as
+  opposed to the more complicated general graph topology below, it is
+  not actually sufficient for all Cartesian graph uses. Notably, in
+  a so-called \indextermsub{star}{stencil}, such as the
+  \indextermsub{nine-point}{stencil}, there are diagonal connections,
+  which can not be described in a single step. Instead, it is necessary
+  to take a separate step along each coordinate dimension. In higher
+  dimensions this is of course fairly awkward.
+
+  Thus, even for Cartesian structures, it may be advisable to use the
+  general graph topology interface.
+\end{comment}
+
+\Level 1 {Cartesian topology communicator}
 
 The cartesian topology is specified by giving
-\indexmpidef{MPI_Cart_create} the sizes of the processor grid along
+\indexmpiref{MPI_Cart_create} the sizes of the processor grid along
 each axis, and whether the grid is periodic along that axis.
 
-\begin{lstlisting}
-int MPI_Cart_create(
-  MPI_Comm comm_old, int ndims, int *dims, int *periods, 
-  int reorder, MPI_Comm *comm_cart)
-\end{lstlisting}
+\cverbatimsnippet{cartcreate}
 
-Each point in this new communicator has a coordinate and a rank.  They
-can be queried with \indexmpidef{MPI_Cart_coords} and
-\indexmpidef{MPI_Cart_rank} respectively.
+(The Cartesian grid can have fewer processes than the input communicator:
+any processes not included get \indexmpishow{MPI_COMM_NULL} as output.)
 
-\begin{lstlisting}
-int MPI_Cart_coords(
-  MPI_Comm comm, int rank, int maxdims,
-  int *coords);
-int MPI_Cart_rank(
-  MPI_Comm comm, init *coords, 
-  int *rank);
-\end{lstlisting}
-
-Note that these routines can give the coordinates for any process,
-not just for the current process.
+For a given communicator, you can test what type it is
+with \indexmpiref{MPI_Topo_test}:
 %
+\cverbatimsnippet{carttypetest}
+
+For a Cartesian communicator, you can retrieve
+its information with \indexmpidef{MPI_Cartdim_get}
+and \indexmpidef{MPI_Cart_get}:
+%
+\cverbatimsnippet{cartget}
+
+\Level 1 {Cartesian vs world rank}
+
+Each point in this new communicator has a coordinate and a rank.
+The translation from rank to Cartesian coordinate is done by 
+\indexmpiref{MPI_Cart_coords},
+and translation from coordinates to a rank is done by
+\indexmpiref{MPI_Cart_rank}.
+In both cases, this translation can be done on any process;
+for the latter routine note that coordinates outside the
+Cartesian grid are erroneous,
+if the grid is not periodic in the offending coordinate.
+
 \cverbatimsnippet[examples/mpi/c/cart.c]{cart}
 
 The \n{reorder} parameter to \indexmpishow{MPI_Cart_create}
 indicates whether processes can have a rank
 in the new communicator that is different from in the old one.
 
-Strangely enough you can only shift in one direction, you can not
-specify a shift vector.
-\begin{lstlisting}
-int MPI_Cart_shift(MPI_Comm comm, int direction, int displ, int *source, 
-                  int *dest)
-\end{lstlisting}
-If you specify a processor outside the grid
-the result is \indexmpishow{MPI_PROC_NULL}.
+\Level 1 {Cartesian communication}
 
-\cverbatimsnippet[examples/mpi/c/cart.c]{cartshift}
+A common communication pattern in Cartesian grids is to
+do an \indexmpishow{MPI_Sendrecv} with processes that are adjacent
+along one coordinate axis.
+
+By way of example, consider a 3D grid that is periodic in the first dimension:
+%
+\cverbatimsnippet[examples/mpi/c/cartcoord.c]{cartperiod0}
+
+We shift process~0 in dimensions 0 and~1.
+In dimension~0 we get a wrapped-around source,
+and a target that is the next process in row-major ordering;
+in dimension~1 we get \indexmpishow{MPI_PROC_NULL} as source,
+and a legitimate target.
+%
+\csnippetwithoutput{cartshift01}{examples/mpi/c}{cartshift}
+
+\Level 1 {Communicators in subgrids}
+
+The routine \indexmpiref{MPI_Cart_sub} is similar to
+\indexmpishow{MPI_Comm_split}, in that it splits a communicator
+into disjoint subcommunicators.
+In this case, it splits a Cartesian communicator
+into disjoint Cartesian communicators,
+each corresponding to a subset of the dimensions.
+This subset inherits both sizes and periodicity from the original communicator.
+
+\csnippetwithoutput{hyperplane13p}{examples/mpi/c}{cartsub}
+
+\Level 1 {Reordering}
+
+The routine \indexmpidef{MPI_Cart_map} gives a re-ordered rank
+for the calling process.
 
 \Level 0 {Distributed graph topology}
 \label{sec:mpi-dist-graph}
@@ -371,4 +416,9 @@ Other legacy routines:
 \indexmpidef{MPI_Graph_neighbors_count},
 \indexmpidef{MPI_Graph_get},
 \indexmpidef{MPI_Graphdims_get}.
+
+\Level 1 {Re-ordering}
+
+The routine \indexmpidef{MPI_Graph_map} gives a re-ordered rank
+for the calling process.
 

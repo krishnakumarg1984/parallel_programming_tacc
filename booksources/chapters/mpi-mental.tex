@@ -4,7 +4,7 @@
 %%%%
 %%%% This text file is part of the source of 
 %%%% `Parallel Programming in MPI and OpenMP'
-%%%% by Victor Eijkhout, copyright 2012-2021
+%%%% by Victor Eijkhout, copyright 2012-2022
 %%%%
 %%%% mpi-started.tex : introductory chapter about MPI
 %%%%
@@ -34,7 +34,7 @@ reinforcing the symmetric model. Additionally, we advocate starting
 from realistic scenarios, rather than writing artificial code just
 to exercise newly-learned routines.
 
-\Level 1 {Introduction}
+\Level 0 {Introduction}
 
 The \ac{MPI} library~\cite{mpi-reference,mpi-documents} is the
 \textit{de facto} tool for large scale parallelism as it is used in
@@ -54,7 +54,7 @@ We have written an open-source textbook~\cite{Eijkhout:MPI} with
 exercise sets that follows the proposed sequencing of topics and the
 motivating applications.
 
-\Level 2 {Short background on MPI}
+\Level 1 {Short background on MPI}
 
 The \ac{MPI} library dates back to the early days of cluster
 computing, the first half of the 1990s. It was an academic/industrial
@@ -78,7 +78,7 @@ large scale simulations. The typical participant in an MPI course is
 likely to understand more than the basics of linear algebra and some
 amount of numerics of \acf{PDE}.
 
-\Level 2 {Distributed memory parallelism}
+\Level 1 {Distributed memory parallelism}
 
 Corresponding to its origins in cluster computing,
 MPI targets distributed memory parallelism\footnote{Recent additions
@@ -111,7 +111,7 @@ Some details of our proposed manner of teaching are explored in
 sections \ref{sec:games}, \ref{sec:course}, \ref{sec:online}. We
 conclude with discussion in sections \ref{sec:eval} and~\ref{sec:summary}.
 
-\Level 1 {Implied mental models}
+\Level 0 {Implied mental models}
 \label{sec:par-models}
 
 Denning~\cite{Denning:compthinking2017} argued how computational
@@ -130,7 +130,7 @@ The two (interrelated) aspects of a correct mental model for distributed memory
 programming are control and synchronization. We here discuss how these
 can be misunderstood by students.
 
-\Level 2 {The traditional view of parallelism}
+\Level 1 {The traditional view of parallelism}
 \label{sec:finger}
 
 The problem with mastering the \ac{MPI} library is that beginning
@@ -154,7 +154,7 @@ since there are always multiple processes active,
 with none essentially priviliged over others, and no shared or central
 data store.
 
-\Level 2 {The misconceptions of centralized control}
+\Level 1 {The misconceptions of centralized control}
 \label{sec:misconception}
 
 The sequential semantics mental model that, as described above,
@@ -187,7 +187,7 @@ suffer from a mental model that makes them
 insufficiently realize the symmetry of MPI processes,
 and thereby arrive at inefficient and nonscalable solutions.
 
-\Level 2 {The reality of distributed control}
+\Level 1 {The reality of distributed control}
 
 An MPI program run consists of multiple independent threads of control. One
 problem in recognizing this is that there is only a single source code, so
@@ -229,7 +229,7 @@ The distinction between sequential execution and
 replicated execution escapes many students at first, and in fact,
 since nothing it gained by explaining this, we do not do so.
 
-\Level 2 {The misconception of synchronization}
+\Level 1 {The misconception of synchronization}
 
 Even with multiple threads of control and distributed data, there is
 still a temptation to see execution as `bulk
@@ -257,7 +257,7 @@ Gaining an mental model for this sort of unsynchronized execution is
 nontrivial to achieve. We target this explicitly in
 section~\ref{sec:seq-game}.
 
-\Level 1 {Teaching MPI, the usual way}
+\Level 0 {Teaching MPI, the usual way}
 \label{sec:mpi-usual}
 
 The \ac{MPI} library is typically taught as follows.  After an
@@ -282,7 +282,7 @@ can be implemented as, a sequence of point-to-point communication calls.
 However, this is not a sufficient justification for
 teaching this sequence of topics.
 
-\Level 2 {Criticism}
+\Level 1 {Criticism}
 
 We offer three points of criticism against this traditional approach to teaching MPI.
 
@@ -317,7 +317,7 @@ We believe that a more fruitful approach to MPI
 programming starts from the global behavior, and then derives the MPI
 process in a top-down manner.
 
-\Level 2 {Teaching MPI and OpenMP}
+\Level 1 {Teaching MPI and OpenMP}
 
 In scientific computing, another commonly used parallel programming
 system is OpenMP~\cite{OpenMP:spec}. OpenMP and MPI are often taught
@@ -330,7 +330,7 @@ parallelism with a model that has a `master thread' and `parallel
 regions' they will find it much harder to make idiomatic use of the
 symmetric model of MPI.
 
-\Level 1 {Teaching MPI, our proposal}
+\Level 0 {Teaching MPI, our proposal}
 \label{sec:mpi-better}
 
 As alternative to the above sequence of introducing
@@ -347,7 +347,7 @@ the global calculation. The opposing view, where the overall
 computation is emergent from the individual processes, is the \ac{CSP} model
 mentioned above.
 
-\Level 2 {Motivation from applications}
+\Level 1 {Motivation from applications}
 \label{sec:par-app}
 
 The typical application for MPI comes from Computational Science and
@@ -401,14 +401,14 @@ MPI training, even a one-day short course, we insert a lecture on
 sparse matrices and their computational structure to motivate the need
 for various MPI constructs.
 
-\Level 2 {Process symmetry}
+\Level 1 {Process symmetry}
 
 Paradoxically, the first way to get students to
 appreciate
 the notion of process symmetry in MPI is to run
 a non-MPI program. Thus, students are asked
 to write a `hello world' program, and execute this
-with \n{mpiexec}, as if it were an MPI program.
+with \indextermtt{mpiexec}, as if it were an MPI program.
 Every process executes the print statement identically,
 bearing out the total symmetry between the processes.
 
@@ -423,7 +423,7 @@ not identical is offered by the exercise of using the \n{MPI_Get_processor_name}
 function, which will have different output for some or all of the processes,
 depending on how the hostfile was arranged.
 
-\Level 2 {Functional parallelism}
+\Level 1 {Functional parallelism}
 
 The \n{MPI_Comm_rank} function is introduced as a way of distinguishing
 between the MPI processes. Students are asked to write a program
@@ -449,7 +449,7 @@ without involving any data space; a~process finding a satisfying input
 can simply print this fact. However, this example requires background
 that students typically don't have.
 
-\Level 2 {Introducing collectives}
+\Level 1 {Introducing collectives}
 
 At this point we can introduce collectives, for instance to find the maximum
 of a random value that is computed locally on each process. This requires teaching
@@ -507,7 +507,7 @@ This has the added advantage of not bothering the students initially
 with the asymmetric treatment of the receive buffer between the root
 and all other processes.
 
-\Level 2 {Distributed data}
+\Level 1 {Distributed data}
 
 As motivation for the following discussion of point-to-point routines,
 we now introduce the notion of distributed data. In its simplest form,
@@ -545,7 +545,7 @@ collecting the global result is slightly more useful than the collective
 in the previous examples. For this example no translation from local to global
 numbering is needed.
 
-\Level 2 {Point-to-point motivated from operations on distributed data}
+\Level 1 {Point-to-point motivated from operations on distributed data}
 
 We now state the importance of local combining operations such as
 \[ y_i=\bigl( x_{i-1}+x_i+x_{i+1} \bigr)/3\colon i=1,\ldots,N-1 \]
@@ -564,7 +564,7 @@ in order to compute the first and last element of the local part of~$y$:
 We then state that this data transfer is realized in MPI by two-sided
 send/receive pairs.
 
-\Level 2 {Detour: deadlock and serialization}
+\Level 1 {Detour: deadlock and serialization}
 \label{sec:p-serial}
 
 The concept of `blocking' is now introduced, and we discuss how this
@@ -584,7 +584,7 @@ subsets. The limits to this approach, code complexity and the reliance
 on regular process connectivity, are explained to the students as a
 preliminary to the motivation for nonblocking sends; section~\ref{sec:mental-nonblock}.
 
-\Level 2 {Detour: ping-pong}
+\Level 1 {Detour: ping-pong}
 
 At this point we briefly abandon the process symmetry, and consider
 the ping-pong operation between two processes A~and~B\footnote {In this
@@ -608,7 +608,7 @@ test the ping-pong code on messages of increasing size.
 The concept of halfbandwidth can be introduced by letting half of all processes
 execute a ping-pong with a partner process in the other half.
 
-\Level 2 {Back to data exchange}
+\Level 1 {Back to data exchange}
 
 The foregoing detours into the behavior of two-sided send and receive calls
 were necessary, but they introduced asymmetric behavior in the processes.
@@ -643,7 +643,7 @@ Note that students have at this point not done any serious exercises
 with the blocking communication calls, other than the ping-pong.
 No such exercises will in fact be done.
 
-\Level 2 {Nonblocking sends}
+\Level 1 {Nonblocking sends}
 \label{sec:mental-nonblock}
 
 Nonblocking sends are now introduced as the solution to a specific problem:
@@ -672,7 +672,7 @@ Doing so is a correctness bug that is very hard to find, and
 at large scale it induces a memory leak since many requests objects
 are lost.
 
-\Level 2 {Taking it from here}
+\Level 1 {Taking it from here}
 
 At this point various advanced topics can be discussed. For instance,
 Cartesian topologies can be introduced, extending the linear averaging operation
@@ -685,7 +685,7 @@ However, didactically these topics do not require the careful
 attention that the introduction of the basic concepts needs, so we
 will not go into further detail here.
 
-\Level 1 {`Parallel computer games'}
+\Level 0 {`Parallel computer games'}
 \label{sec:games}
 
 Part of the problem in developing an accurate mental model of parallel
@@ -706,7 +706,7 @@ act out the program in front of the class. With each student acting
 out the program, any interaction is clearly visible to an extent that
 is hard to achieve any other way.
 
-\Level 2 {Sequentialization}
+\Level 1 {Sequentialization}
 \label{sec:seq-game}
 
 Our prime example is to illustrate the blocking behavior of
@@ -757,7 +757,7 @@ unexpectedly low performance because of the interaction of the processes.
 (In fact, we have had explicit feedback that this game was
 the biggest lightbulb moment of the class.)
 
-\Level 2 {Ping-pong}
+\Level 1 {Ping-pong}
 
 While in general we emphasize the symmetry of MPI processes, during
 the discussion of send and receive calls we act out the ping-pong
@@ -771,7 +771,7 @@ is `send-receive' for the one, and `receive-send' for the other
 student. Incorporating this in the SPMD model then leads to a code
 with conditionals to determine the right action for the right process.
 
-\Level 2 {Collectives and other games}
+\Level 1 {Collectives and other games}
 
 Other operations can be acted out by the class. For instance, the
 teacher can ask one student to add the grades of all students, as a
@@ -783,7 +783,7 @@ We have at one point tried to have a pair of student act out a `race
 condition' in shared memory programming, but modeling this quickly
 became too complicated to be convincing.
 
-\Level 2 {Remaining questions}
+\Level 1 {Remaining questions}
 \label{sec:ploop}
 
 Even with our current approach, however, we still see students writing
@@ -802,7 +802,7 @@ class with a sign `I~am process~5', and go through the above loop
 out loud (`Am I process zero? No. Am I process one? No.') which
 quickly drives home the point about the futility of this construct.
 
-\Level 1 {Further course summary}
+\Level 0 {Further course summary}
 \label{sec:course}
 
 We have taught MPI based on the above ideas in two ways.
@@ -826,7 +826,7 @@ workshop format:
   management, the profiling and tools interfaces, neighborhood collectives.
 \end{itemize}
 
-\Level 2 {Exercises}
+\Level 1 {Exercises}
 
 On day~1 the students do approximately 10 programming exercises,
 mostly finishing a skeleton code given by the instructor.
@@ -865,7 +865,7 @@ This leaves open the possibility of both a blockwise and a cyclic
 distribution of the search space, as well as incorrect solutions where
 each process runs through the whole search space.
 
-\Level 2 {Projects}
+\Level 1 {Projects}
 
 Students in our academic course do a programming project in place of a
 final exam. Students can choose between one of a set of standard
@@ -882,7 +882,7 @@ programmer, simpler to use, there is an in fact a clear preference for it
 among the students who pick their own project.
 
 \begin{comment}
-  \Level 2 {Evaluation and supervision}
+  \Level 1 {Evaluation and supervision}
 
   In our academic class the programming exercises are done partly in
   class and partly as homework. They are very lightly
@@ -897,7 +897,7 @@ among the students who pick their own project.
   students fall by the wayside. The typical exercise takes 15--30 minutes.
 \end{comment}
 
-\Level 1 {Prospect for an online course}
+\Level 0 {Prospect for an online course}
 \label{sec:online}
 
 Currently the present author teaches MPI in the form of an academic
@@ -945,7 +945,7 @@ less than 200 lines of python) we can perform a sophisticated analysis
 of the students' codes. We hope to report on this in more detail in a
 follow-up paper.
 
-\Level 1 {Evaluation and discussion}
+\Level 0 {Evaluation and discussion}
 \label{sec:eval}
 
 At the moment,
@@ -966,7 +966,7 @@ programming project of their own choosing. After teaching the
 model, or using centralized storage. In earlier semesters, we had seen
 students do this, even though this model was never taught as such.
 
-\Level 1 {Summary}
+\Level 0 {Summary}
 \label{sec:summary}
 
 In this paper we have introduced a nonstandard sequence for presenting

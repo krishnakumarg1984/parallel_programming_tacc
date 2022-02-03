@@ -4,30 +4,30 @@
 %%%% This TeX file is part of the tutorial
 %%%% `Introduction to the PETSc library'
 %%%% Victor Eijkhout, eijkhout@tacc.utexas.edu
-%%%% copyright Victor Eijkhout 2012-2020
+%%%% copyright Victor Eijkhout 2012-2022
 %%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \sectionframe{Grid manipulation}
 
 \begin{longversion}
-\frame[containsverbatim]{\frametitle{Regular grid: DMDA}
+\begin{numberedframe}{Regular grid: DMDA}
 DMDAs are for storing vector field, not matrix.
 
 Support for different stencil types:
 
 \includegraphics[scale=.07]{starbox}
-}
+\end{numberedframe}
 
-\frame[containsverbatim]{\frametitle{Ghost regions around processors}
+\begin{numberedframe}{Ghost regions around processors}
 A DMDA defines a global vector, which contains the elements of the grid,
 and a local vector for each processor which
 has space for "ghost points".
 
 \includegraphics[scale=.6]{ghost}
-}
+\end{numberedframe}
 
-\frame[containsverbatim]{\frametitle{DMDA construction}
+\begin{numberedframe}{DMDA construction}
 \begin{lstlisting}
 DMDACreate2d(comm, bndx,bndy, type, M, N, m, n, 
   dof, s, lm[], ln[], DMDA *da)
@@ -36,17 +36,17 @@ DMDACreate2d(comm, bndx,bndy, type, M, N, m, n,
 \n{bndx,bndy} boundary behaviour: none/ghost/periodic
 
 type: Specifies stencil\\
-\n{DMDA_STENCIL_BOX} or \n{DMDA_STENCIL_STAR}
+\lstinline{DMDA_STENCIL_BOX} or \lstinline{DMDA_STENCIL_STAR}
 
 M/N: Number of grid points in x/y-direction\\
 m/n: Number of processes in x/y-direction\\
 dof: Degrees of freedom per node\\
 s: The stencil width (for instance, 1 for 2D five-point stencil)\\
 lm/n: array of local sizes (optional; 
-Use \n{PETSC_NULL} for the default)
-}
+Use \lstinline{PETSC_NULL} for the default)
+\end{numberedframe}
 
-\frame[containsverbatim]{\frametitle{Associated vectors}
+\begin{numberedframe}{Associated vectors}
 \begin{lstlisting}
 DMCreateGlobalVector(DM grid,Vec *g);
 DMCreateLocalVector(DM grid,Vec *l);
@@ -63,10 +63,10 @@ local -> global -> local :
 DMLocalToLocalBegin/End
     (DMDA da,Vec l1,InsertMode iora,Vec l2);
 \end{lstlisting}
-}
+\end{numberedframe}
 
 
-\frame[containsverbatim]{\frametitle{Associated matrix}
+\begin{numberedframe}{Associated matrix}
 Matrix that has knowledge of the grid:
 \begin{lstlisting}
 DMSetUp(DM grid);
@@ -79,19 +79,19 @@ MatSetValuesStencil(Mat mat,
   PetscInt n,const MatStencil idxn[],
   const PetscScalar v[],InsertMode addv)
 \end{lstlisting}
-(ordering of row/col variables too complicated for \n{MatSetValues})
-}
+(ordering of row/col variables too complicated for \lstinline{MatSetValues})
+\end{numberedframe}
 
-%% \begin{frame}[containsverbatim]{Looping over the grid}
+%% \begin{numberedframe}{Looping over the grid}
 %% Loop over local part of the grid:
 %% \begin{lstlisting}
 %% DMDAGetCorners(DMDA da,
 %%   PetscInt *x,PetscInt *y,PetscInt *z,
 %%   PetscInt *m,PetscInt *n,PetscInt *p)
 %% \end{lstlisting}
-%% \end{frame}
+%% \end{numberedframe}
 
-\begin{frame}[containsverbatim]{Grid info}
+\begin{numberedframe}{Grid info}
 \begin{lstlisting}
 typedef struct {
   PetscInt         dim,dof,sw;
@@ -105,9 +105,9 @@ typedef struct {
   DM               da;
 } DMDALocalInfo;
 \end{lstlisting}
-\end{frame}
+\end{numberedframe}
 
-\begin{frame}[containsverbatim]{Set values by stencil}
+\begin{numberedframe}{Set values by stencil}
 \begin{lstlisting}
 DMDALocalInfo  info;
 ierr = DMDAGetLocalInfo(grid,&info);CHKERRQ(ierr);
@@ -126,17 +126,17 @@ for (int j=info.ys; j<info.ys+info.ym; j++) {
     if (j<info.my-1) {col[ncols].j = j+1; col[ncols].i = i;   v[ncols++] = -1.;}
 [et cetera]    
 \end{lstlisting}
-\end{frame}
+\end{numberedframe}
 
-\begin{frame}{DMPlex}
+\begin{numberedframe}{DMPlex}
   Support for unstructured grids and node/edge/cell relations.
 
   This is complicated and under-documented.
-\end{frame}
+\end{numberedframe}
 
 \endinput
 
-% \frame[containsverbatim]{\frametitle{Indexing, setting, getting values}
+% \begin{numberedframe}{Indexing, setting, getting values}
 % \begin{lstlisting}
 % PetscScalar **f,**u;
 % ...

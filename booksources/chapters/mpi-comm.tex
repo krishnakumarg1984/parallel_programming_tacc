@@ -26,7 +26,7 @@ available processes.
 There are three predefined communicators:
 \begin{itemize}
 \item \indexmpishow{MPI_COMM_WORLD} comprises all processes that were started 
-  together by \indexterm{mpiexec} (or some related program).
+  together by \indextermtt{mpiexec} (or some related program).
 \item \indexmpishow{MPI_COMM_SELF} is the communicator that contains only
    the current process.
 \item \indexmpishow{MPI_COMM_NULL} is the invalid communicator. Routines
@@ -78,7 +78,7 @@ const communicator& mpl::environment::comm_self();
 There doesn't seem to be an equivalent of \indexmpishow{MPI_COMM_NULL}.
 \end{mplnote}
 
-You can name your communicators with \indexmpishow{MPI_Comm_set_name}, which
+You can name your communicators with \indexmpidef{MPI_Comm_set_name}, which
 could improve the quality of error messages when they arise.
 
 \Level 0 {Duplicating communicators}
@@ -125,6 +125,8 @@ The usage is as follows:
 \item you use that communiator for a while;
 \item and you call \indexmpidef{MPI_Comm_free} when you are done with it;
   this also sets the communicator variable to \indexmpishow{MPI_COMM_NULL}.
+  A~similar routine, \indexmpidef{MPI_Comm_disconnect} waits for all pending
+  communication to finish. Both are collective.
 \end{itemize}
 
 \Level 1 {Scenario: distributed linear algebra}

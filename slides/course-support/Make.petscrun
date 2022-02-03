@@ -10,17 +10,7 @@
 ################################################################
 
 info ::
-	@echo "make listexercises, compileexercises"
-.PHONY: listexercises compileexercises
-listexercises sources :
-	@echo ${SOURCES}
-compileexercises :
-	@for e in ${SOURCES} ; do \
-	    echo ; echo "Compile $$e" ; echo ; make $$e ; \
-	done
-
-info ::
-	@echo
+	@echo && echo "================ Petsc running"
 	@echo "make run [PROGRAM=prog (default=${PROGRAM})]"
 	@echo "         [NP=nn (default=${NP})]"
 	@echo "         [OPTIONS=programoptions]"

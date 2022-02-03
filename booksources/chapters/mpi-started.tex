@@ -4,7 +4,7 @@
 %%%%
 %%%% This text file is part of the source of 
 %%%% `Parallel Programming in MPI and OpenMP'
-%%%% by Victor Eijkhout, copyright 2012-2020
+%%%% by Victor Eijkhout, copyright 2012-2022
 %%%%
 %%%% mpi-started.tex : introductory chapter about MPI
 %%%%
@@ -46,10 +46,20 @@ only when necessary.
 
 Another reason that MPI was a big hit with programmers is that
 it does not ask you to learn a new language: it is a library that 
-can be interface to C/C++ or Fortran; there are even bindings to Python.
-A~related point is that it is easy to install: there are free implementations
+can be interfaced to C/C++ or Fortran; there are even bindings to Python
+and \indexterm{Java} (not described in this course).
+This does not mean, however, that it is simple to
+`add parallelism' to an existing sequential program.
+An MPI version of a serial program takes considerable rewriting;
+certainly more than shared memory parallelism through OpenMP,
+discussed later in this book.
+
+MPI is also easy to install: there are free implementations
 that you can download and install on any computer that has a Unix-like
 operating system, even if that is not a parallel machine.
+However, if you are working on a supercomputer cluster,
+likely there will already be an MPI installation,
+tuned to that machine's network.
 
 \Level 0 {History}
 
@@ -89,10 +99,10 @@ and supplies
   host; followed by
 \item the name of the program and its parameters.
 \end{itemize}
-The \n{mpiexec} program then makes an \n{ssh}\index{ssh} connection
+The \indextermtt{mpiexec} program then makes an \n{ssh}\index{ssh} connection
 to each of the hosts, giving them sufficient information that they 
 can find each other. All the output of the processors is piped through the 
-\n{mpiexec} program, and appears on the interactive console.
+\indextermtt{mpiexec} program, and appears on the interactive console.
 
 In the second scenario (figure~\ref{fig:mpi-batch}) the user prepares
 a \indextermbus{batch}{job} script with commands, and these will be
@@ -103,16 +113,16 @@ to the job.
   \caption{Batch MPI setup}
   \label{fig:mpi-batch}
 \end{figure}
-Now the batch script contains the \n{mpiexec} command%
+Now the batch script contains the \indextermtt{mpiexec} command%
 \begin{istc}
-, or some variant such as \n{ibrun}\index{ibrun}%
+, or some variant such as \indextermtt{ibrun}%
 \end{istc}
 , and the hostfile is dynamically generated when the job starts.
 Since the job now runs at a time when the user may not be logged in, 
 any screen output goes into an output file.
 
 You see that in both scenarios the parallel program is started
-by the \n{mpiexec} command using
+by the \indextermtt{mpiexec} command using
 an \ac{SPMD} mode of execution: all hosts execute the same program.
 It is possible for different hosts to execute different programs,
 but we will not consider that in this book.
@@ -138,11 +148,28 @@ gcc -o my_mpi_prog my_mpi_prog.o -L/path/to/mpi -lmpich
 \end{verbatim}
 However, MPI libraries may have different names between different
 architectures, making it hard to have a portable makefile. Therefore,
-MPI typically has shell scripts around your compiler call:
+MPI typically has shell scripts around your compiler call,
+called \indextermtt{mpicc}, \indextermtt{mpicxx}, \indextermtt{mpif90}
+for C/C++/Fortran respectively.
 \begin{verbatim}
 mpicc -c my_mpi_prog.c
 mpicc -o my_mpi_prog my_mpi_prog.o
 \end{verbatim}
+
+If you want to know what \indextermttdef{mpicc} does,
+there is usually an option that prints out its definition.
+On a Mac with the \indexterm{clang} compiler:
+\begin{verbatim}
+$$ mpicc -show
+clang -fPIC -fstack-protector -fno-stack-check -Qunused-arguments -g3 -O0 -Wno-implicit-function-declaration -Wl,-flat_namespace -Wl,-commons,use_dylibs -I/Users/eijkhout/Installation/petsc/petsc-3.16.1/macx-clang-debug/include -L/Users/eijkhout/Installation/petsc/petsc-3.16.1/macx-clang-debug/lib -lmpi -lpmpi
+\end{verbatim}
+
+\begin{remark}
+  In \indexterm{OpenMPI}, these commands are 
+  binary executables by default,
+  but you can make it a shell script by passing the
+  \n{--enable-script-wrapper-compilers} option at configure time.
+\end{remark}
 
 MPI programs can be run on many different architectures. Obviously it
 is your ambition (or at least your dream) to run your code on a
@@ -156,7 +183,7 @@ The way this works is that you do not start your executable directly,
 but you use a program, typically called \indextermtt{mpiexec} or
 something similar, which makes a connection to all available
 processors and starts a run of your executable there. So if you have a
-thousand nodes in your cluster, \n{mpiexec} can start your program once
+thousand nodes in your cluster, \indextermtt{mpiexec} can start your program once
 on each, and if you only have your laptop it can start a few instances
 there. In the latter case you will of course not get great
 performance, but at least you can test your code for correctness.
@@ -178,7 +205,7 @@ ibrun python-mpi yourprogram.py
 
 \Level 1 {C}
 \index{C!MPI bindigs|see{MPI, C bindings}}
-\index{C!bindings|see{MPI, C bindings}}
+\index{MPI!C bindings|(}
 
 The MPI library is written in~C. 
 However, the standard is careful to distinguish between MPI routines,
@@ -207,7 +234,7 @@ Thus, MPI can be used from C++ by including
 \end{verbatim}
 and using the C API.
 
-\begin{mpifour}
+\begin{mpifournote}{Header file hpp}
   The \mpistandard{4} standard supports integer arguments larger than 32 bits,
   through the \lstinline+MPI_Count+ datatype.
   All MPI routines are now polymorphic between using
@@ -217,7 +244,7 @@ and using the C API.
 #include <mpi.hpp>
 \end{verbatim}
   rather than \indextermtt{mpi.h}.
-\end{mpifour}
+\end{mpifournote}
 
 The \indexterm{boost} library has its own version of MPI, but it seems
 not to be under further development.  A~recent
@@ -237,10 +264,10 @@ Notes on MPI usage from MPL will be indicated like this.
 
 \Level 1 {Fortran}
 \index{Fortran!MPI bindings|see{MPI, Fortran bindings}}
-\index{Fortran2008!MPI bindings|see{MPI, Fortran2008 bindings}}
+\index{Fortran!Fortran2008!MPI bindings|see{MPI, Fortran2008 bindings}}
 \index{MPI!Fortran bindings|(}
 
-\begin{fortrannote}
+\begin{fortrannote}{Formatting of Fortran notes}
   Fortran-specific notes will be indicated with a note like this.
 \end{fortrannote}
 
@@ -252,7 +279,7 @@ You will find that a lot of MPI code in Fortran conforms to this.
 \index{MPI!Fortran2008 bindings|(}
 %
 However, in the \emph{MPI~3}%
-\index{MPI!3!Fortran2008 interface} standard it is recommended that
+\index{MPI!MPI-3!Fortran2008 interface} standard it is recommended that
 an MPI implementation providing a Fortran interface provide a
 module named \indextermttdef{mpi_f08} that can be used in a Fortran program.
 This incorporates the following improvements:
@@ -271,7 +298,7 @@ This incorporates the following improvements:
   Window~\ref{sec:windows}.
 \item
   The \indextermtt{mpi_f08} module solves a problem with previous
-  \emph{Fortran90 bindings}\index{Fortran!90!bindings}:
+  \emph{Fortran90 bindings}\index{Fortran!Fortran90!bindings}:
   %
   Fortran90 is a strongly typed language, so it is not possible to pass
   argument by reference to their address, as C/C++ do with the \n{void*}
@@ -410,7 +437,7 @@ Type(MPI_Comm), Intent(In) :: comm
 Integer, Intent(Out) :: size
 Integer, Optional, Intent(Out) :: ierror
 \end{lstlisting}
-or for the pre-2008 legacy mode:
+or for the \fstandard{90} legacy mode:
 \begin{lstlisting}
 MPI_Comm_size(comm, size, ierror)
 INTEGER, INTENT(IN) :: comm
@@ -492,7 +519,7 @@ MPI.Request.Waitall(requests)
   \begin{enumerate}
   \item The size of the cluster you run on.
   \item The number of cores per cluster node.
-  \item\label{it:ans:mpiexec} The parameters of the MPI starter (\n{mpiexec},
+  \item\label{it:ans:mpiexec} The parameters of the MPI starter (\indextermtt{mpiexec},
     \n{ibrun},\ldots)
   \end{enumerate}
 \end{review}

@@ -4,7 +4,7 @@
 %%%%
 %%%% This text file is part of the source of 
 %%%% `Parallel Programming in MPI and OpenMP'
-%%%% by Victor Eijkhout, copyright 2012-9
+%%%% by Victor Eijkhout, copyright 2012-2022
 %%%%
 %%%% omp-reduction.tex : reduction loops
 %%%%
@@ -18,15 +18,23 @@
 
 Parallel tasks often produce some quantity that needs to be summed
 or otherwise combined.
-In section~\ref{sec:parallelregion} you saw an example, and it was stated that the
-solution given there was not very good.
+If you write:
+\begin{lstlisting}
+  int sum=0;
+  #pragma omp parallel for
+  for (int i=0; i<N; i++)
+    sum += f(i);
+\end{lstlisting}
+you will find that the \lstinline{sum} value depends on the number of threads,
+and is likely not the same as when you execute the code sequentially.
+The problem here is the \indexterm{race condition} involving the \n{sum}
+variable, since this variable is shared between all threads.
 
-The problem in that example was the \indexterm{race condition} involving the \n{result}
-variable. We will discuss several strategies of dealing with this.
+We will discuss several strategies of dealing with this.
 
 \Level 1 {Code your own solution}
 
-The simplest solution is to eliminate the race condition
+The most immediate way is to eliminate the race condition
 by declaring a \indexterm{critical section}:
 \begin{lstlisting}
 double result = 0;
@@ -77,6 +85,14 @@ has the following effect:
 \item At the end of the parallel region, the local results are combined, again
   using the reduction operator, into the global variable.
 \end{itemize}
+
+The simplest case is a reduction over a parallel loop.
+Here we compute $\pi/4$ as a \indextermbus{Riemann}{sum}:
+
+\cverbatimsnippet[examples/omp/c/reductpar.c]{pi4reduct}
+
+Another reduction, this time over a parallel region, but not a loop:
+%
 \cverbatimsnippet[examples/omp/c/reductpar.c]{reductpar}
 
 If you want to reduce multiple variables with the same operator, use
@@ -135,7 +151,9 @@ double result = 0;
 }
 \end{lstlisting}
 
-\Level 0 {Built-in reduction operators}
+\Level 0 {Built-in reduction}
+
+\Level 1 {Operators}
 
 Arithmetic reductions: \lstinline{+,*,-,max,min}.
 
@@ -152,6 +170,11 @@ Logical operator reductions in Fortran:
   Discuss the various options. Do timings
   to evaluate the speedup that is attained and to find the best option.
 \end{exercise}
+
+\Level 1 {Types}
+
+Reduction can be applied to any type for which the operator is defined.
+The types to which \lstinline{max/min} are applicable are limited.
 
 \Level 0 {Initial value for reductions}
 
@@ -190,8 +213,27 @@ The figure is based on execution using two threads.
 \Level 0 {User-defined reductions}
 \index{omp!reduction!user-defined|(textbf}
 
+In a loop that performs a reduction,
+most of the element-by-element reduction as done in user code.
+However, in a parallel version of that loop,
+OpenMP needs to perform that same reduction on the partial results
+from the threads.
+Thus, if you want to perform your own reduction,
+you need to declare this reduction to OpenMP.
+
 With \emph{user-defined reductions}, the programmer specifies the
 function that does the elementwise comparison.
+We discuss two strategies:
+\begin{enumerate}
+\item In non-\ac{OO} languages you can define a function,
+  and declare that to be a reduction operator with the
+  \indexpragma{declare}~\indexclause{reduction} construct.
+\item In \ac{OO} languages (C++ and \fstandard{2003})
+  you can overload ordinary operators for a class.
+\end{enumerate}
+
+\Level 1 {Reduction functions}
+
 This takes two steps.
 \begin{enumerate}
 \item You need a function of two arguments that returns the result of
@@ -224,6 +266,22 @@ where:
     can be an expression or a brace initializer.
 \end{description}
 
+\Level 2 {Explicit expressions}
+
+For very simple cases:
+%
+\cverbatimsnippet{ompminabsloop}
+%
+you can declare the reduction through an expression:
+%
+\cverbatimsnippet{ompminabsdef}
+%
+and use that in the \indexclause{reduction} clause:
+%
+\cverbatimsnippet{ompminabsclause}
+
+\Level 2 {Reduction functions}
+
 For instance, recreating the maximum reduction would look like this:
 %
 \cverbatimsnippet[examples/omp/c/ireduct.c]{ompmymax}
@@ -234,13 +292,52 @@ For instance, recreating the maximum reduction would look like this:
   zero, or entirely consists of zeros, return~\n{-1}.
 \end{exercise}
 
-\begin{cppnote}
+\begin{cppnote}{Reduction over iterators}
   Support for
   \emph{C++ iterators}\index{C++ iterators!in OMP reduction}
 \begin{lstlisting}
 #pragma omp declare reduction (merge : std::vector<int>
     : omp_out.insert(omp_out.end(), omp_in.begin(), omp_in.end())) 
 \end{lstlisting}
+\end{cppnote}
+
+\begin{cppnote}{Templated reductions}
+  You can reduce with a templated function
+  if you put both the declaration and the reduction
+  in the same templated function:
+  %
+  \cxxverbatimsnippet{ompreducttemplate}
+  %
+  which is then called with specific data:
+  %
+  \cxxverbatimsnippet{ompreducttcall}
+\end{cppnote}
+
+\Level 1 {Overloaded operators}
+
+\begin{fortrannote}{Reductions on derived types}
+  Reduction can be applied to any derived type that has the
+  reduction operator defined.
+  \begin{multicols}{2}
+    \fverbatimsnippet{ftypeopdef}
+    \columnbreak
+    \fverbatimsnippet{ftypeopuse}
+  \end{multicols}
+  
+\end{fortrannote}
+
+\begin{cppnote}
+  Reduction can be applied to any class for which the
+  reduction operator is defined as \lstinline{operator+}
+  or whichever operator the case may be.
+  \begin{multicols}{2}
+    \cxxverbatimsnippet{ompclassop}
+    \columnbreak
+    \cxxverbatimsnippet{ompreductop}
+  \end{multicols}
+  A default constructor is required for the
+  internally used init value;
+  see figure~\ref{fig:omp-reduct}.
 \end{cppnote}
 
 \index{omp!reduction!user-defined|)}

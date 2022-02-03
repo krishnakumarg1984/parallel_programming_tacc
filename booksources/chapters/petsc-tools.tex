@@ -37,8 +37,10 @@ scheme is used.
 \item Every PETSc routine is a function returning a parameter of type
   \indexpetscdef{PetscErrorCode}.
 \item For a good traceback, surround the executable part of any subprogram
-  with \indexpetscdef{PetscFunctionBegin} and \indexpetscdef{PetscFunctionReturn},
+  with \indexpetscdef{PetscFunctionBeginUser} and \indexpetscdef{PetscFunctionReturn},
   where the latter has the return value as parameter.
+  (The routine \indexpetscdef{PetscFunctionBegin} does the same, but
+  should only be used for PETSc library routines.)
 \item Calling the macro \indexpetscdef{CHKERRQ} on the error code will
   cause an error to be printed and the current routine to be
   terminated. Recursively this gives a traceback of where the error
@@ -55,7 +57,7 @@ ierr = AnyPetscRoutine( arguments ); CHKERRQ(ierr);
   \indexpetscxref{SETERRQ2}{SETERRQ}.
 \end{enumerate}
 
-\begin{fortrannote}
+\begin{fortrannote}{Error code handling}
   In the main program, use \indexpetscdef{CHKERRA} and
   \indexpetscdef{SETERRA}. Also beware that these error `commands' are
   macros, and after expansion may interfere with
@@ -77,7 +79,7 @@ Running this gives, in process~zero, the output
 [0]PETSC ERROR: #2 main() line 30 in backtrace.c  
 \end{verbatim}
 
-\begin{fortrannote}
+\begin{fortrannote}{Backtrace on error}
   In Fortran the backtrace is not quite as elegant.
   \fverbatimsnippet[examples/petsc/f/backtrace.F90]{petscbacktracef}
 \begin{verbatim}
@@ -168,7 +170,14 @@ To make sure that output is properly flushed from all system buffers
 use \indexpetscref{PetscSynchronizedFlush}
 where for ordinary screen output you would use \n{stdout} for the file.
 
-\begin{fortrannote}
+\begin{fortrannote}{Print string construction}
+  Fortran does not have the variable-number-of-arguments mechanism
+  from~C, so you can only use \indexpetscshow{PetscPrintf}
+  on a buffer that you construct with a \lstinline{Write} statement:
+  \fverbatimsnippet{pfprintf}
+\end{fortrannote}
+
+\begin{fortrannote}{Printing and newlines}
   The Fortran calls are only wrappers around C~routines, so you can 
   use \verb+\n+ newline characters in the Fortran string argument
   to \indexpetscshow{PetscPrintf}.

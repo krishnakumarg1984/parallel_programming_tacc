@@ -4,7 +4,7 @@
 %%%%
 %%%% This text file is part of the source of 
 %%%% `Parallel Programming in MPI and OpenMP'
-%%%% by Victor Eijkhout, copyright 2012-2021
+%%%% by Victor Eijkhout, copyright 2012-2022
 %%%%
 %%%% omp-loop.tex : the OpenMP loop construct
 %%%%
@@ -54,7 +54,7 @@ This has several advantages. For one, you don't have to calculate the loop bound
 for the threads yourself, but you can also tell OpenMP to assign the loop
 iterations according to different schedules (section~\ref{sec:schedule}).
 
-\begin{fortrannote}
+\begin{fortrannote}{OMP do pragma}
   The \indexpragma{for} pragma only exists in~C;
   there is a correspondingly named \indexpragma{do} pragma in Fortran.
 \begin{lstlisting}
@@ -95,24 +95,8 @@ and divide the loop iterations over them.
 This means that the \n{omp for} or \n{omp do} directive needs to be
 inside a parallel region.
 
-As an illustration:\\
-\begin{minipage}{\hsize}
-  \begin{multicols}{2}
-    \cverbatimsnippet{ompparforthread}
-    \columnbreak
-    \footnotesize
-\begin{verbatim}
-Thread 4 entering parallel region
-thread 0 executing iteration 0
-Thread 4 entering parallel region
-thread 1 executing iteration 1
-Thread 4 entering parallel region
-thread 2 executing iteration 2
-Thread 4 entering parallel region
-thread 3 executing iteration 3
-\end{verbatim}
-  \end{multicols}
-\end{minipage}
+As an illustration:
+\csnippetwithoutput{ompparforthread}{examples/omp/c}{parfor}
 
 \begin{exercise}
   What would happen in the above example if you increase the number of threads
@@ -125,6 +109,34 @@ It is also possible to have a combined
 #pragma omp parallel for
   for (i=0; .....
 \end{lstlisting}
+
+\begin{remark}
+  There are certain restrictions on the type of loop
+  that can be executed in parallel.
+  These arise from the fact that iterations need to be scheduled
+  before the loop starts.
+  Thus
+  \begin{itemize}
+  \item the loop body is not allowed to change the loop variable:
+    \begin{lstlisting}
+      for (int i=0; i<N; ) {
+        // something
+        if (something)
+        i++;
+        else
+        i += 2;
+      }
+    \end{lstlisting}
+  \end{itemize}
+  Furthermore, you are not allowed to \lstinline{break}
+  out of a loop.
+\end{remark}
+
+\begin{remark}
+  The loop index needs to be an integer value
+  for the loop to be parallelizable.
+  Unsigned values are allowed as of \ompstandard{3}.
+\end{remark}
 
 \begin{exercise}
   \label{ex:omp-pi}
@@ -317,7 +329,7 @@ With static schedules, the iterations are assigned purely based on the number
 of iterations and the number of threads (and the \indexompshow{chunk} parameter; see later).
 In dynamic schedules, on the other hand, iterations are assigned to threads that
 are unoccupied. Dynamic schedules are a good idea if iterations take an unpredictable
-amount of time, so that \indexterm{load balancing} is needed.
+amount of time, so that \indextermbus{load}{balancing} is needed.
 
 \begin{figure}[ht]
   \includegraphics[scale=.07]{scheduling}
@@ -330,8 +342,9 @@ gets assigned two (blocks of) iterations and these blocks take
 gradually less and less time. You see from the left picture that
 thread~1 gets two fairly long blocks, where as thread~4 gets two short
 blocks, thus finishing much earlier. (This phenomenon of threads
-having unequal amounts of work is known as \indexterm{load
-  imbalance}.) On the other hand, in the right figure thread~4 gets
+having unequal amounts of work is known as
+\indextermbus{load}{imbalance}.)
+On the other hand, in the right figure thread~4 gets
 block~5, since it finishes the first set of blocks early. The effect
 is a perfect load balancing.
 
@@ -564,6 +577,27 @@ Is it now correct to have the \indexompshow{collapse} directive
 on the nested loop?
 \end{exercise}
 
+\begin{exercise}
+  Consider this code for matrix transposition:
+\begin{lstlisting}
+void transposer(int n, int m, double *dst, const double *src) {
+   int blocksize;
+   for (int i = 0; i < n; i += blocksize) {
+      for (int j = 0; j < m; j += blocksize) {
+          // transpose the block beginning at [i,j]
+          for (int k = i; k < i + blocksize; ++k) {
+              for (int l = j; l < j + blocksize; ++l) {
+                  dst[k + l*n] = src[l + k*m];
+               }
+          }
+      }
+   }
+}  
+\end{lstlisting}
+Assuming that the \lstinline{src} and \lstinline{dst}
+array are disjoint, which loops are parallel, and how many
+levels can you collapse?
+\end{exercise}
 
 \Level 0 {Ordered iterations}
 \label{sec:omp-ordered}
@@ -607,7 +641,8 @@ each iteration can encounter only one \indexompshow{ordered} directive.
 \label{sec:omp-nowait}
 
 The implicit barrier at the end of a work sharing construct
-can be cancelled with a \indexclause{nowait} clause.
+can be cancelled with a
+\indexclause{nowait}\index[omp]{barrier!cancelled by nowait} clause.
 This has the effect that threads that are finished can continue
 with the next code in the parallel region:
 \begin{lstlisting}
@@ -676,11 +711,12 @@ contains the \emph{last} location where \n{a[i]} is zero.
 
 \Level 0 {Scaling tests}
 
-\verbatimsnippet{scalingsineloop}
+\verbatimsnippet{ompsineloop}
 
 \Level 1 {Lonestar 6}
 
-Lonestar 6, dual socket Milan, total 112 cores
+Lonestar 6, dual socket \indextermbus{AMD}{Milan}, total 112 cores:
+figure~\ref{fig:ls6-bind}.
 
 \begin{figure}[t]
   \begin{tikzpicture}  
@@ -706,7 +742,8 @@ Lonestar 6, dual socket Milan, total 112 cores
 
 \Level 1 {Frontera}
 
-Dual Cascade Lake, 56 cores total
+\indextermbus{Intel}{Cascade Lake}, dual socket, 56 cores total;
+figure~\ref{fig:frontera-bind}.
 
 For all core counts to half the total,
 performance for all binding strategies seems equal.
@@ -737,7 +774,8 @@ but the speedup for the \n{false} value gives erratic numbers.
 
 \Level 1 {Stampede2 skylake}
 
-Dual 24-core
+Dual 24-core \indextermbus{Intel}{Skylake};
+figure~\ref{fig:skx-bind}.
 
 We see that \n{close} binding gives worse performance than \n{spread}.
 Setting binding to \n{false} only gives bad performance for large core counts.
@@ -765,6 +803,9 @@ Setting binding to \n{false} only gives bad performance for large core counts.
 \end{figure}
 
 \Level 1 {Stampede2 Knights Landing}
+
+Single socket 68-core \indextermbus{Intel}{Knights Landing};
+\ref{fig:knl-bind}.
 
 Since this is a single socket design,
 we don't distinguish between the \n{close} and \n{spread} binding.
@@ -797,7 +838,8 @@ Single 68 core
 
 \Level 1 {Longhorn}
 
-Dual 20-core Power9, 4~hyperthreads
+Dual 20-core \indextermbus{IBM}{Power9}, 4~hyperthreads;
+\ref{fig:longhorn-bind}
 
 Unlike the Intel processors, here we use the hyperthreads.
 Figure~\ref{fig:longhorn-bind} shows dip in the speedup

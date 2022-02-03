@@ -3,7 +3,7 @@
 ####
 #### This makefile is part of the source of 
 #### "Parallel Computing in MPI and OpenMP"
-#### by Victor Eijkhout, copyright 2013-2021
+#### by Victor Eijkhout, copyright 2013-2022
 ####
 #### Makefile for OpenMP C example programs
 ####
@@ -20,7 +20,7 @@ info ::
 	@echo
 	@echo "make app (where app=${APPS})"
 APPS = hello hellocount proccount pi speedup scaling \
-    parfor critfun reductpar \
+    parfor critfun reductexpr reductpar taskreduct \
     alloc sharing race \
     threadprivate ireduct ireductinit ureduct reductpositive \
     taskgroup0 taskgroup1 taskgroup2 taskgroup3 taskgroup4 taskgroup5
@@ -29,22 +29,12 @@ MODE = omp
 LANGUAGE = C
 include ../../../makefiles/Make.compile
 
-EXEC = hello
-NP = 4
-info ::
-	@echo
-	@echo "make testrun [EXEC=app (where app in ${APPS})]"
-testrun:
-	make clean; rm -f ${EXEC}; make ${EXEC}
-	OMP_NUM_THREADS=${NP} ./${EXEC}
-
-include ../Make.omp
-
-info ::
-	@echo "make run_xyz (in: ${RUNS})"
-	@echo "    [NP=nnn (default: ${NP})]"
 include  ../../../makefiles/Make.omp_run
-RUNS =
+RUNS += run_parfor
+.PHONY: run_parfor
+run_parfor : parfor
+	@make --no-print-directory omp_run PROGRAM=parfor
+
 RUNS += run_speedup
 .PHONY: run_speedup
 run_speedup : speedup
@@ -79,13 +69,12 @@ run_pi : pi
 	        ; \
 	    done
 
-info ::
-	@echo "make output : regenerate all output"
-.PHONY: output
-output :
-	@for r in ${RUNS} ; do \
-	  make $${r} \
-	  ; \
-	done
+RUNS += run_proccount
+.PHONY: run_proccount
+run_proccount : proccount
+	for t in 1 2 4 8 16 ; do \
+	    echo "================ env: $$t threads" \
+	     && OMP_NUM_THREADS=$$t ./proccount \
+	    ; done
 
-include  ../../../makefiles/Make.clean
+include ../../../makefiles/Make.clean

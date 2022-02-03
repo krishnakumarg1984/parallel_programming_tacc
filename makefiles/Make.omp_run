@@ -2,7 +2,7 @@
 ################################################################
 ####
 #### This makefile is part of `Parallel Programming in MPI and OpenMP'
-#### by Victor Eijkhout, copyright 2013-2021
+#### by Victor Eijkhout, copyright 2013-2022
 #### eijkhout@tacc.utexas.edu
 ####
 #### Make include file for omp test runs
@@ -13,11 +13,6 @@ info ::
 	@echo "================ OMP running"
 	@echo "make run_xxx in: ${RUNS}"
 
-info ::
-	@echo "make omp_scaling [ NP=... ] [ NDIV=... ] [ PROGRAM=... ]"
-	@echo "    OMPTHREADS= core range (default=${OMPTHREADS})"
-	@echo "    OMPSCHEDULE= core range (default=${OMPSCHEDULE})"
-.PHONY: omp_scaling
 ifeq "${TACC_SYSTEM}" "frontera"
   OMPTHREADS = 1 2 4 8 12 26 38 56 
 else
@@ -25,41 +20,45 @@ else
 endif
 OMPSCHEDULE = static
 
-.PHONY: num_cores
-num_cores :
-	@if [ ! -z ${NP} ] ; then \
-	        echo ${NP} \
-	    ; elif [ ! -z ${SLURM_NPROCS} ] ; then \
-	         echo ${SLURM_NPROCS} \
-	    ; else \
-	        echo "Specify number of processors with NP=..." \
-	         && exit 1 \
-	    ; fi 
+info ::
+	@echo "make omp_run [ NP=... ] PROGRAM=program"
+	@echo "make omp_scaling [ NP=... ] [ NDIV=... ] [ PROGRAM=... ]"
+	@echo "    OMPTHREADS= core range (default=${OMPTHREADS})"
+	@echo "    OMPSCHEDULE= core range (default=${OMPSCHEDULE})"
+	@echo "    NEST=true/false (default=${NEST})"
+	@echo "        ACTIVE=... (default=${ACTIVE}) for OMP_MAX_ACTIVE_LEVELS"
+
+.PHONY: omp_scaling
+NEST = false
+ACTIVE = 1
+ECHO = 0
+.PHONY: omp_run omp_scaling
+omp_run :
+	@command="OMP_NUM_THREADS=`make --no-print-directory num_cores NP=${NP}` ./${PROGRAM}" \
+	 && if [ "${NEST}" = true ] ; then \
+	         command="OMP_MAX_ACTIVE_LEVELS=${ACTIVE} $$command" ; fi \
+	 && if [ ${ECHO} = 1 ] ; then echo "executing: $$command" ; fi \
+	 && eval $$command
 omp_scaling :
 	@export np=$$( make --no-print-directory num_cores ) \
+	 && export ompthreads="$$( make --no-print-directory omp_threads )" \
 	 && if [ -z "${PROGRAM}" ] ; then \
 	        echo "Set PROGRAM variable" && exit 1 \
 	    ; fi \
-	 && if [ ! -z "${NDIV}" ] ; then \
-	        ndiv=${NDIV} \
-	    ; else \
-	        ndiv=3 \
-	    ; fi \
-	 && div=`seq 1 $$ndiv` \
-	 && frac=`for d in $$div ; do echo "$$(( $$d * $$np / $$ndiv ))" ; done` \
 	 && results=${PROGRAM}-scaling.out \
 	 && ( \
-	    for t in 1 $$frac ; do \
-	        command="OMP_NUM_THREADS=$$t ./${PROGRAM}" \
-	         && echo "executing: $$command" \
-	         && eval $$command \
+	    for t in $$ompthreads ; do \
+	        make --no-print-directory omp_run NP=$$t PROGRAM=${PROGRAM} NEST=${NEST} \
 	         && echo \
 	    ; done \
 	    ) | tee $$results \
 	 && cat $$results | awk '/threads/ { t = $$4 } /speedup=/ { print t " " $$6 }'
 
-.PHONY: omp_cores
-omp_cores :
+#
+# Utility targets
+#
+.PHONY: num_cores
+num_cores :
 	@if [ ! -z ${NP} ] ; then \
 	        echo ${NP} \
 	    ; elif [ ! -z ${SLURM_TASKS_PER_NODE} ] ; then \
@@ -68,3 +67,38 @@ omp_cores :
 	        echo "Specify number of processors with NP=..." \
 	         && exit 1 \
 	    ; fi
+.PHONY: omp_threads
+omp_threads :
+	@if [ ! -z "${OMPTHREADS}" ] ; then \
+	    echo "${OMPTHREADS}" \
+	    ; \
+	else \
+	    if [ ! -z "${NDIV}" ] ; then \
+	        ndiv=${NDIV} \
+	    ; else \
+	        ndiv=3 \
+	    ; fi \
+	     && div=`seq 1 $$ndiv` \
+	     && frac=`for d in $$div ; do echo "$$(( $$d * $$np / $$ndiv ))" ; done` \
+	     && echo "1 $$frac" \
+	    ; \
+	fi
+
+info ::
+	@echo "make runs : compile and run everything and generate output file"
+	@echo "    using RUNS=${RUNS}"
+
+.PHONY: runs
+runs :
+	@for r in ${RUNS} ; do \
+	    echo "---------------- Test run: $$r ----------------" \
+	     && runname=$${r##run_} \
+	     && make $$r OPTLEVEL=${OPTLEVEL} \
+	                NEST=${NEST} ACTIVE=${ACTIVE} OMPTHREADS="${OMPTHREADS}" \
+	            2>&1 | tee $$runname.runout \
+	     && git add  $$runname.runout \
+	 ; done
+
+total_clean ::
+	@rm -f *.runout
+

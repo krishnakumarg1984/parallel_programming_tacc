@@ -4,7 +4,7 @@
 %%%%
 %%%% This text file is part of the source of 
 %%%% `Parallel Programming in MPI and OpenMP'
-%%%% by Victor Eijkhout, copyright 2012-2021
+%%%% by Victor Eijkhout, copyright 2012-2022
 %%%%
 %%%% mpi.tex : leftover MPI topics
 %%%%
@@ -19,6 +19,8 @@
 \label{sec:mpi-info}
 
 Certain MPI routines can accept \indexmpidef{MPI_Info} objects.
+(For files, see section~\ref{sec:mpi-info-file},
+for windows, see section~\ref{sec:win-attr}.)
 These contain key-value pairs that can offer system or implementation
 dependent information.
 
@@ -46,7 +48,7 @@ are parsed before that routine returns.
 This means that in nonblocking routines they can be freed immediately,
 unlike, for instance, send buffers.
 
-\begin{mpifour}
+\begin{mpifournote}{Info with null terminator}
   The routines \indexmpidepr{MPI_Info_get} and \indexmpidepr{MPI_Info_get_valuelen}
   are not robust with respect to the C language \indexterm{null terminator}.
   Therefore, they are deprecated, and should be replaced with
@@ -56,7 +58,7 @@ int MPI_Info_get_string
    (MPI_Info info, const char *key, 
     int *buflen, char *value, int *flag)  
 \end{lstlisting}
-\end{mpifour}
+\end{mpifournote}
 
 \Level 2 {Environment information}
 \label{sec:mpi-info-env}
@@ -100,16 +102,17 @@ using the calls
 
 Copying a communicator with \indexmpishow{MPI_Comm_dup} does not cause
 the info to be copied; to propagate information to the copy there is
-\indexmpidef{MPI_Comm_dup_with_info}.
+\indexmpishow{MPI_Comm_dup_with_info} (section~\ref{sec:comm-dup}).
 
 \Level 2 {File information}
-\label{sec:mpi-file-info}
+\label{sec:mpi-info-file}
 
 An \indexmpishow{MPI_Info} object can be passed to the following file routines:
 \begin{itemize}
 \item \indexmpishow{MPI_File_open}
 \item \indexmpishow{MPI_File_set_view}
 \item \indexmpishow{MPI_File_set_info}; collective.
+  The converse routine is \indexmpishow{MPI_File_get_info}.
 \end{itemize}
 
 The following keys are defined in the \mpistandard{2} standard:
@@ -126,9 +129,9 @@ The following keys are defined in the \mpistandard{2} standard:
 \item \indexmpishow{chunked_size}: a comma separated list specifying the size of the subarrays used in chunking
 \item \indexmpishow{file_perm}: UNIX file permissions at time of creation, in octal
 \item \indexmpishow{io_node_list}: a comma separated list of I/O nodes to use
-\begin{mpifour}
+\begin{mpifournote}{Memory alignment}
   \item \indexmpishow{mpi_minimum_memory_alignment}: aligment of allocated memory.
-\end{mpifour}
+\end{mpifournote}
 \item \indexmpishow{nb_proc}: integer number of processes expected to access a file simultaneously
 \item \indexmpishow{num_io_nodes}: integer number of I/O nodes to use
 \item \indexmpishow{striping_factor}: integer number of I/O nodes/devices a file should be striped across
@@ -181,9 +184,10 @@ Also:
   initially started processes. See section~\ref{sec:mpi-dynamic}.
 
   Python: \lstinline{mpi4py.MPI.UNIVERSE_SIZE}.
-\item \indexmpidef{MPI_APPNUM}: if MPI is used in \ac{MPMD} mode, or
-  if \indexmpishow{MPI_Comm_spawn_multiple} is used, this attribute
-  reports the how-manieth program we are in.
+\item \indexmpishow{MPI_APPNUM}: if MPI is used in \ac{MPMD} mode
+  (section~\ref{sec:mpmd-start}), or
+  if \indexmpishow{MPI_Comm_spawn_multiple} is used (section~\ref{sec:mpi-dynamic}),
+  this attribute reports the how-manieth program we are in.
 \end{itemize}
 
 \Level 1 {Create new keyval attributes}
@@ -223,6 +227,30 @@ The \indextermbus{MPI}{version} is available through two parameters
 \indexmpishow{MPI_VERSION} and \indexmpishow{MPI_SUBVERSION}
 or the function \indexmpiref{MPI_Get_version}.
 
+\Level 1 {Python utility functions}
+
+\begin{pythonnote}{Utility functions}
+  \verbatimsnippet{mpi4pyutils}
+Mac OS X with Python installed through \indexterm{macports}:
+\begin{verbatim}
+Configuration:
+{'mpicc': '/opt/local/bin/mpicc-mpich-mp'}
+Include dir:
+/opt/local/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/mpi4py/include
+\end{verbatim}
+Intel compiler and locally installed Python:
+\begin{verbatim}
+Configuration:
+{'mpicc': '/opt/intel/compilers_and_libraries_2020.4.304/linux/mpi/intel64/bin/mpicc',
+ 'mpicxx': '/opt/intel/compilers_and_libraries_2020.4.304/linux/mpi/intel64/bin/mpicxx',
+ 'mpifort': '/opt/intel/compilers_and_libraries_2020.4.304/linux/mpi/intel64/bin/mpif90',
+ 'mpif90': '/opt/intel/compilers_and_libraries_2020.4.304/linux/mpi/intel64/bin/mpif90',
+ 'mpif77': '/opt/intel/compilers_and_libraries_2020.4.304/linux/mpi/intel64/bin/mpif77'}
+Include dir:
+/opt/apps/intel19/impi19_0/python3/3.9.2/lib/python3.9/site-packages/mpi4py/include
+\end{verbatim}
+\end{pythonnote}
+
 \Level 0 {Error handling}
 \label{sec:mpi:error}
 
@@ -248,6 +276,14 @@ A few examples of what can go wrong:
   (including nonblocking ones) than are sent to it.
 \end{itemize}
 
+While it is desirable for an MPI implementation to return an error,
+this is not always possible.
+Therefore, some scenarios,
+whether supplying certain procedure arguments,
+or doing a certain sequence of procedure calls,
+are simply marked as `erroneous',
+and the state of MPI after an erroneous call is undefined.
+
 \Level 1 {Error codes}
 \label{sec:mpi-err-codes}
 
@@ -264,8 +300,10 @@ User-defined error codes are all larger than this.
 \item \indexmpidef{MPI_ERR_COMM}: 
   invalid communicator. A common error is to use a null communicator in
   a call.
+\item \indexmpidef{MPI_ERR_COUNT} Invalid count argument, usually this is
+  caused by a negative count value; zero is often a valid count.
 \item \indexmpidef{MPI_ERR_INTERN} An internal error in MPI has been detected.
-\item \indexmpidef{MPI_ERR_IN_STATUS} A functioning returning an array of statuses
+\item \indexmpishow{MPI_ERR_IN_STATUS} A functioning returning an array of statuses
   has at least one status where the \indexmpishow{MPI_ERROR} field is set
   to other than \indexmpishow{MPI_SUCCESS}. See section~\ref{sec:mpi-status-error}.
 \item \indexmpidef{MPI_ERR_INFO}: 
@@ -277,10 +315,13 @@ User-defined error codes are all larger than this.
   about this error; see section~\ref{sec:mpi-error-print}.
 \item \indexmpidef{MPI_ERR_PORT}: invalid port; this applies to
   \indexmpishow{MPI_Comm_connect} and such.
-\begin{mpifour}
+\begin{mpifournote}{Error code for aborted process}
   \item \indexmpidef{MPI_ERR_PROC_ABORTED} is returned if a process tries to communicate
     with a process that has aborted.
-\end{mpifour}
+\end{mpifournote}
+\item \indexmpidef{MPI_ERR_RANK}: an invalid source or destination rank is specified.
+  Valid ranks are $0\ldots s-1$ where $s$~is the size of the communicator,
+  or \indexmpishow{MPI_PROC_NULL}, or \indexmpishow{MPI_ANY_SOURCE} for receive operations.
 \item \indexmpishow{MPI_ERR_SERVICE}: invalid service in
   \indexmpishow{MPI_Unpublish_name}; section~\ref{sec:mpi-publish}.
 \end{itemize}
@@ -298,10 +339,10 @@ one can specify an error handler, specific to MPI objects.
 \item other possibilities are
   \indexmpidef{MPI_File_set_errhandler},
   \indexmpidef{MPI_File_call_errhandler},
-\begin{mpifour}
+\begin{mpifournote}{Error handler for session}
   \indexmpidef{MPI_Session_set_errhandler},
   \indexmpidef{MPI_Session_call_errhandler},
-\end{mpifour}
+\end{mpifournote}
   \indexmpidef{MPI_Win_set_errhandler},
   \indexmpidef{MPI_Win_call_errhandler}.
 \end{itemize}
@@ -312,11 +353,24 @@ one can specify an error handler, specific to MPI objects.
   replaced by its \mpistandard{2} variant  \indexmpishow{MPI_Comm_set_errhandler}.
 \end{remark}
 
-Some handlers of type \indexmpidef{MPI_Errhandler} are predefined,
+Some handlers of type \indexmpidef{MPI_Errhandler} are predefined
+(\indexmpishow{MPI_ERRORS_ARE_FATAL},
+\indexmpishow{MPI_ERRORS_ABORT},
+\indexmpishow{MPI_ERRORS_RETURN}; see below),
 but you can define your own with
 \indexmpidef{MPI_Errhandler_create},
 to be freed later with
 \indexmpidef{MPI_Errhandler_free}.
+
+\begin{pythonnote}{Error policy}
+  The policy for dealing with errors can be set through the \lstinline{mpi4py.rc} object
+  (section~\ref{sec:mpi-init}):
+\begin{lstlisting}
+mpi4py.rc.errors # default: "exception"
+\end{lstlisting}
+Available levels are
+\n{exception}, \n{default}, \n{fatal}.
+\end{pythonnote}
 
 \Level 2 {Abort}
 
@@ -330,15 +384,15 @@ MPI_Comm_set_errhandler(MPI_COMM_WORLD,MPI_ERRORS_ARE_FATAL);
 The handler \indexmpidef{MPI_ERRORS_ARE_FATAL}, even though it is
 associated with a communicator, causes the whole application to abort.
 
-\begin{mpifour}
+\begin{mpifournote}{Abort on communicator}
   % https://github.com/mpi-forum/mpi-issues/issues/3
   The handler \indexmpidef{MPI_ERRORS_ABORT} (\mpistandard{4})
   aborts on the processes in the communicator for which it is specified.
-\end{mpifour}
+\end{mpifournote}
 
 \Level 2 {Return}
 
-Another simple possibility is to specify
+Another simple possibility is to specify \indexmpidef{MPI_ERRORS_RETURN}:
 \begin{lstlisting}
 MPI_Comm_set_errhandler(MPI_COMM_WORLD,MPI_ERRORS_RETURN);
 \end{lstlisting}
@@ -459,7 +513,7 @@ Fatal error in MPI_Comm_call_errhandler: Attempting to send zero buffer
 MPI is typically written in C, what if you program \emph{Fortran}?
 
 See section~\ref{sec:f90-types} for MPI types corresponding to
-\emph{Fortran90 types}\index{Fortran90!types!in MPI}.
+\emph{Fortran90 types}\index{Fortran!Fortran90!types!in MPI}.
 
 \Level 1 {Assumed-shape arrays}\index{Fortran!assumed-shape arrays in MPI}
 \label{sec:mpif-shape}
@@ -966,11 +1020,29 @@ Return code from ibrun is <<37>>
 \Level 1 {Multiple program start}
 \label{sec:mpmd-start}
 
-The sort of script of section~\ref{sec:mpi-stdin}
-can also be used to implement \indexac{MPMD} runs:
-we let the script start one of a number of programs. For this, we use
-the fact that the MPI rank is known in the environment as
-\indextermtt{PMI_RANK}. Use a script \n{mpmdscript}:
+If the MPI application consists of sub-applications,
+that is, if we have a true \indexac{MPMD} runs,
+there are usually two ways of starting this up.
+(Once started, each process can retrieve with
+\indexmpishow{MPI_APPNUM} to which application it belongs.)
+
+The first possibility is that the job starter,
+\indextermtt{mpiexec} or \indextermtt{mpirun} or a local variant,
+accepts multiple executables:
+\begin{verbatim}
+mpiexec spec0 [ : spec1 [ : spec2 : ... ] ]
+\end{verbatim}
+
+Absent this mechanism,
+the sort of script of section~\ref{sec:mpi-stdin}
+can also be used to implement \indexac{MPMD} runs.
+We let the script start one of a number of programs,
+and we use
+the fact that the MPI rank is known in the environment.
+The name of the variable is implementation dependent,
+for \indextermtt{mpich} and its derivates
+such as \indextermbus{Intel}{MPI} it is \indextermtt{PMI_RANK}.
+Use a script \n{mpmdscript}:
 \begin{verbatim}
 #!/bin/bash
 if [ ${PMI_RANK} -eq 0 ] ; then
@@ -984,19 +1056,10 @@ which is then run in parallel:
 mpiexec -n 25 mpmdscript
 \end{verbatim}
 
-\Level 0 {The origin of one-sided communication in ShMem}
-
-The \indextermbus{Cray}{T3E} had a library called \indexterm{shmem}
-which offered a type of shared memory. Rather than having a true
-global address space it worked by supporting variables that were
-guaranteed to be identical between processors, and indeed, were
-guaranteed to occupy the same location in memory. Variables could be
-declared to be shared a `symmetric' pragma or directive; their values
-could be retrieved or set by \n{shmem_get} and \n{shmem_put} calls.
-
 \Level 0 {Leftover topics}
 
 \Level 1 {MPI constants}
+\label{sec:mpi-constant}
 \index{MPI!constants|(}
 
 MPI has a number of built-in \emph{constants}. These do not all behave
@@ -1058,7 +1121,7 @@ Assorted constants:
 %% C type: const int (or unnamed enum)
 %% Fortran type: INTEGER
 \begin{itemize}
-\item \indexmpishow{MPI_PROC_NULL}
+\item \indexmpishow{MPI_PROC_NULL} and other \lstinline+..._NULL+ constants.
 \item \indexmpishow{MPI_ANY_SOURCE}
 \item \indexmpishow{MPI_ANY_TAG}
 \item \indexmpishow{MPI_UNDEFINED}
@@ -1101,16 +1164,15 @@ or one-sided transfers.
   As of \mpistandard{3.2}, cancelling a send is deprecated.
 \end{remark}
 
-\Level 1 {Constants}
+\Level 1 {The origin of one-sided communication in ShMem}
 
-MPI constants such as \indexmpishow{MPI_COMM_WORLD} or \indexmpishow{MPI_INT} are not
-necessarily statitally defined, such as by a \n{#define} statement:
-the best you can say is that they have a value after
-\indexmpishow{MPI_Init} or \indexmpishow{MPI_Init_thread}.
-That means you can not transfer a compiled MPI file between
-platforms, or even between compilers on one platform.
-However, a working MPI source on one MPI implementation
-will also work on another.
+The \indextermbus{Cray}{T3E} had a library called \indexterm{shmem}
+which offered a type of shared memory. Rather than having a true
+global address space it worked by supporting variables that were
+guaranteed to be identical between processors, and indeed, were
+guaranteed to occupy the same location in memory. Variables could be
+declared to be shared a `symmetric' pragma or directive; their values
+could be retrieved or set by \n{shmem_get} and \n{shmem_put} calls.
 
 \Level 0 {Literature}
 

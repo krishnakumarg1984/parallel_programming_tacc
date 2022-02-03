@@ -38,6 +38,9 @@ info ::
 run_spawn :
 	@make regression APPS=spawn_manager
 
+RUNS = 
+include ../../../makefiles/Make.run
+
 TESTSWRONG = buffertoosmall.py 
 TESTSNOT = exscan.py
 TESTS_IN_PROGRESS =  interleave.py

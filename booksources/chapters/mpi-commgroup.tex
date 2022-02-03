@@ -57,6 +57,12 @@ MPI_Group_size(group, size, ierr)
 MPI_Group_rank(group, rank, ierr)
 \end{lstlisting}
 
+Certain MPI types, \indexmpishow{MPI_Win} and \indexmpishow{MPI_File},
+are created on a communicator.
+While you can not directly extract that communicator from the object,
+you can get the group with
+\indexmpishow{MPI_Win_get_group} and \indexmpishow{MPI_File_get_group}.
+
 \Level 1 {Example}
 
 Suppose you want to split the world communicator into

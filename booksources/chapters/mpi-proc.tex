@@ -4,7 +4,7 @@
 %%%%
 %%%% This text file is part of the source of 
 %%%% `Parallel Programming in MPI and OpenMP'
-%%%% by Victor Eijkhout, copyright 2012-2021
+%%%% by Victor Eijkhout, copyright 2012-2022
 %%%%
 %%%% mpi-proc.tex : about point-to-point communication
 %%%%
@@ -14,7 +14,7 @@
 In this course we have up to now only considered the \ac{SPMD} model
 of running MPI programs.  In some rare cases you may want to run in an
 \ac{MPMD} mode, rather than \ac{SPMD}. This can be achieved either on
-the \ac{OS} level, using options of the \indexterm{mpiexec} mechanism,
+the \ac{OS} level, using options of the \indextermtt{mpiexec} mechanism,
 or you can use MPI's built-in process management. Read on if you're
 interested in the latter.
 
@@ -81,7 +81,7 @@ on the parent processes.
 
 \begin{taccnote}
 \indextermbus{Intel}{MPI} requires you to pass an option \n{-usize} to
-\n{mpiexec} indicating the size of the comm universe. With the TACC
+\indextermtt{mpiexec} indicating the size of the comm universe. With the TACC
 jobs starter \indextermtt{ibrun} do the following:
 \begin{verbatim}
 export FI_MLX_ENABLE_SPAWN=yes
@@ -131,7 +131,12 @@ I detect I am worker 7/8 running on c209-028.frontera.tacc.utexas.edu
 \Level 1 {MPMD}
 
 Instead of spawning a single executable, you can spawn multiple with
-\indexmpishow{MPI_Comm_spawn_multiple}.
+\indexmpidef{MPI_Comm_spawn_multiple}.
+In that case a process can retrieve with
+the attribute
+\indexmpidef{MPI_APPNUM}
+which of the executables it is;
+section~\ref{sec:mpi_attr}.
 
 \Level 0 {Socket-style communications}
 
@@ -175,7 +180,7 @@ If the named port does not exist (or has been closed),
 \indexmpishow{MPI_Comm_connect} raises an error of class \indexmpishow{MPI_ERR_PORT}.
 
 The client can sever the connection with
-\indexmpidef{MPI_Comm_disconnect}
+\indexmpishow{MPI_Comm_disconnect}.
 
 Running the above code on 5 processes gives:
 \begin{small}
@@ -245,7 +250,7 @@ with
 \Level 0 {Sessions}
 \label{sec:session}
 
-\begin{mpifour}
+\begin{mpifournote}{Session model}
 
 The most common way of initializing MPI,
 with \indexmpishow{MPI_Init} (or \indexmpishow{MPI_Init_thread}) and \indexmpishow{MPI_Finalize},
@@ -268,52 +273,53 @@ In the \indextermdef{session model}, the world model has become a single session
 and it is possible to start multiple sessions, each on their own set of processes,
 possibly identical or overlapping.
 
-An MPI \indextermdef{session} is initialized and finalized
-with \indexmpidef{MPI_Session_init} and \indexmpidef{MPI_Session_finalize},
-somewhat similar to \indexmpishow{MPI_Init} and \indexmpishow{MPI_Finalize}.
-
-\begin{lstlisting}
-MPI_Info       info;
-MPI_Errhandler errhandler;
-MPI_Session    session;
-MPI_Session_init(info,errhandler,&session);
-
-MPI_Info info_used;
-MPI_Session_get_info(session,&info_used);
-MPI_Info_free(&info_used);
-
-MPI_Session_finalize(&session);
-\end{lstlisting}
-
-The info object can contain implementation-specific data,
-but the key \indexmpishow{mpi_thread_support_level} is pre-defined.
-
 You can not mix in a single call objects
 from different sessions,
 from a session and from the world model,
 or from a session and from \indexmpishow{MPI_Comm_get_parent}
 or \indexmpishow{MPI_Comm_join}.
 
-\Level 1 {Process sets}
+\Level 1 {Session creation}
 
+An MPI \indextermdef{session} is initialized and finalized
+with \indexmpidef{MPI_Session_init} and \indexmpidef{MPI_Session_finalize},
+somewhat similar to \indexmpishow{MPI_Init} and \indexmpishow{MPI_Finalize}.
+
+\cverbatimsnippet{sessioninit}
+
+The \indexmpishow{MPI_Info} object can be null, or
+it can be used to request a threading level:
+%
+\cverbatimsnippet{sessionreq}
+%
+Other info keys can be implementation-dependent,
+but the key \indexmpishow{thread_support} is pre-defined.
+
+Info keys can be retrieved again with \indexmpidef{MPI_Session_get_info}:
+%
+\cverbatimsnippet{sessioninfohave}
+
+\Level 1 {Process sets and communicators}
+
+A session has a number of \indextermbus{process}{set}s.
 Process sets are indicated with a \acf{URI},
 where the \acp{URI} \indexmpishow{mpi://WORLD} and \indexmpishow{mpi://SELF}
 are always defined.
 
+You query the `psets' with \indexmpidef{MPI_Session_get_num_psets}
+and \indexmpidef{MPI_Session_get_nth_pset}:
+%
+\cverbatimsnippet{sessionpsetq}
+
 The following partial code creates a communicator equivalent to \indexmpishow{MPI_COMM_WORLD}
 in the session model:
-\begin{lstlisting}
-const char pset_name[] = "mpi://WORLD";
-MPI_Group_from_session_pset
-   (lib_shandle,pset_name,&wgroup);
-MPI_Comm_create_from_group
-   (wgroup,"parcompbook-example",
-    MPI_INFO_NULL,MPI_ERRORS_RETURN,&world_comm);
-\end{lstlisting}
+%
+\cverbatimsnippet{sessioncommworld}
 
-Further process sets can be found: \indexmpishow{MPI_Session_get_num_psets}.
-
-Get a specific one: \indexmpishow{MPI_Session_get_nth_pset}.
+The resulting communicator compares as \indexmpishow{MPI_CONGRUENT}
+under \indexmpishow{MPI_Comm_compare}:
+%
+\csnippetwithoutput{sessionmix}{examples/mpi/c}{sessionmix}
 
 Get the info object (section~\ref{sec:mpi-info}) from a process set:
 \indexmpishow{MPI_Session_get_pset_info}.
@@ -332,7 +338,7 @@ Are those two at odds? The first one seems to imply that in the second
 statement objects from the world model can't even exist.
 \end{comment}
 
-\end{mpifour}
+\end{mpifournote}
 
 \Level 0 {Functionality available outside init/finalize}
 
@@ -340,7 +346,7 @@ statement objects from the world model can't even exist.
 \indexmpishow{MPI_Initialized}
 \indexmpishow{MPI_Finalized}
 \indexmpishow{MPI_Get_version}
-\indexmpishow{MPI_Get_library_version}
+\indexmpidef {MPI_Get_library_version}
 \indexmpishow{MPI_Info_create}
 \indexmpishow{MPI_Info_create_env}
 \indexmpishow{MPI_Info_set}

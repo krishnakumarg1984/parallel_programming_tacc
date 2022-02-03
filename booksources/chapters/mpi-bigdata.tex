@@ -4,7 +4,7 @@
 %%%%
 %%%% This text file is part of the source of 
 %%%% `Parallel Programming in MPI and OpenMP'
-%%%% by Victor Eijkhout, copyright 2012-2021
+%%%% by Victor Eijkhout, copyright 2012-2022
 %%%%
 %%%% mpi-bigdata.tex : discussion of MPI big datatypes
 %%%%
@@ -22,7 +22,7 @@ As of the MPI~\mpistandard{4} standard, this has been solved by allowing a
 larger count parameter.
 The implementation of this depends somewhat on the language.
 
-\begin{mpifour}
+\begin{mpifournote}{MPI Count type}
 
 \Level 1 {C}
 \label{sec:c-mpi-count}
@@ -41,7 +41,7 @@ Integer(kind=MPI_COUNT_KIND) :: count
 \end{lstlisting}
 Since Fortran has polymorphism, the same routine names can be used.
 
-\end{mpifour}
+\end{mpifournote}
 
 \Level 1 {Count datatype}
 

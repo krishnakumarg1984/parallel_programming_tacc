@@ -6,6 +6,8 @@ MPI_Precv_init
 for (int it=0; it<ITERATIONS; it++) {
   MPI_Start(&recv_request);
   MPI_Wait(&recv_request,MPI_STATUS_IGNORE);
-  int r = chck_buffer(recvbuffer,bufsize,1);
+  int r = 1;
+	for (ip=0; ip<nparts; ip++)
+	  r *= chck_buffer(recvbuffer,partitions[ip],partitions[ip+1],ip);
 }
 MPI_Request_free(&recv_request);

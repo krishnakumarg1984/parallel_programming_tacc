@@ -4,13 +4,13 @@
 %%%% This TeX file is part of the tutorial
 %%%% `Introduction to the PETSc library'
 %%%% Victor Eijkhout, eijkhout@tacc.utexas.edu
-%%%% copyright Victor Eijkhout 2012-2020
+%%%% copyright Victor Eijkhout 2012-2022
 %%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \sectionframe{\texttt{KSP \& PC}: Iterative solvers}
 
-\frame{\frametitle{What are iterative solvers?}
+\begin{numberedframe}{What are iterative solvers?}
 
 Solving a linear system $Ax=b$ with Gaussian elimination can take lots
 of time/memory.
@@ -23,9 +23,9 @@ solution:
 \item Basic operation: $y\leftarrow Ax$ executed once per iteration
 \item Also needed: preconditioner $B\approx A^{-1}$
 \end{itemize}
-}
+\end{numberedframe}
 
-\frame[containsverbatim]{\frametitle{Topics}
+\begin{numberedframe}{Topics}
   \begin{itemize}
   \item All linear solvers in PETSc are iterative, even the direct ones
   \item Preconditioners
@@ -33,56 +33,57 @@ solution:
   \item Tolerances, convergence and divergence reason
   \item Custom monitors and convergence tests
   \end{itemize}
-}
+\end{numberedframe}
 
 %\subsectionframe{KSP: Krylov Space objects}
 
-\frame[containsverbatim]{\frametitle{Iterative solver basics}
-\begin{verbatim}
+\begin{numberedframe}{Iterative solver basics}
+\begin{lstlisting}
 KSPCreate(comm,&solver); KSPDestroy(solver);
 // set Amat and Pmat
 KSPSetOperators(solver,A,B); // usually: A,A
 // solve
 KSPSolve(solver,rhs,sol);
-\end{verbatim}
-Optional: \n{KSPSetup(solver)}
+\end{lstlisting}
+Optional: \lstinline{KSPSetUp(solver)}
 
-Reuse \n{Amat} or \n{Pmat}: \n{KSPGetOperators} and \n{PetscObjectReference}.
-}
+%Reuse \lstinline{Amat} or \lstinline{Pmat}:
+%\lstinline{KSPGetOperators} and \lstinline{PetscObjectReference}.
+\end{numberedframe}
 
-\frame[containsverbatim]{\frametitle{Solver type}
+\begin{numberedframe}{Solver type}
 
-\begin{verbatim}
+\begin{lstlisting}
 KSPSetType(solver,KSPGMRES);
-\end{verbatim}
+\end{lstlisting}
 
 KSP can be controlled from the commandline:
-\begin{verbatim}
+\begin{lstlisting}
 KSPSetFromOptions(solver);
 /* right before KSPSolve or KSPSetUp */
-\end{verbatim}
+\end{lstlisting}
 then options \n{-ksp....} are parsed.
 \begin{itemize}
 \item type: \n{-ksp_type gmres -ksp_gmres_restart 20}
 \item \n{-ksp_view}
 \end{itemize}
 
-}
+\end{numberedframe}
 
-\frame[containsverbatim]{\frametitle{Convergence}
+\begin{numberedframe}{Convergence}
 Iterative solvers can fail
   \begin{itemize}
   \item Solve call itself gives no feedback: solution may be completely wrong
-  \item \n{KSPGetConvergedReason(solver,&reason)} : \\
+  \item \lstinline{KSPGetConvergedReason(solver,&reason)} : \\
     positive is convergence, negative divergence \\
-    \n{KSPConvergedReasons[reason]} is string      
-  \item \n{KSPGetIterationNumber(solver,&nits)} : after how many
+    \lstinline{KSPConvergedReasons[reason]} is string      
+  \item \lstinline{KSPGetIterationNumber(solver,&nits)} : after how many
     iterations did the method stop?
   \end{itemize}
-}
+\end{numberedframe}
 
-\frame[containsverbatim]{
-\begin{verbatim}
+\begin{numberedframe}{Reason for convergence}
+\begin{lstlisting}
 KSPSolve(solver,B,X);
 KSPGetConvergedReason(solver,&reason);
 if (reason<0) {
@@ -94,10 +95,10 @@ if (reason<0) {
  PetscPrintf(comm,
     "Convergence in %d iterations.\n",its);
 }
-\end{verbatim}
-}
+\end{lstlisting}
+\end{numberedframe}
 
-\frame{\frametitle{Preconditioners}
+\begin{numberedframe}{Preconditioners}
 System $Ax=b$ is transformed:
 \[ M\inv A=M\inv b \]
 \begin{itemize}
@@ -111,41 +112,41 @@ System $Ax=b$ is transformed:
   however can be symmetrized by change of inner product
 \item Can be tricky to make both parallel and efficient
 \end{itemize}
-}
+\end{numberedframe}
 
-\frame[containsverbatim]{\frametitle{PC basics}
+\begin{numberedframe}{PC basics}
   \begin{itemize}
   \item PC usually created as part of KSP: separate create and destroy
     calls exist, but are (almost) never needed
-\begin{verbatim}
+\begin{lstlisting}
 KSP solver; PC precon;
 KSPCreate(comm,&solver);
 KSPGetPC(solver,&precon);
 PCSetType(precon,PCJACOBI);
-\end{verbatim}
-  \item Many choices, some with options: \n{PCJACOBI}, \n{PCILU} (only
-    sequential), \n{PCASM}, \n{PCBJACOBI}, \n{PCMG}, et cetera
-  \item Controllable through commandline options:\\ \n{-pc_type ilu
-      -pc_factor_levels 3}
+\end{lstlisting}
+  \item Many choices, some with options: \lstinline{PCJACOBI}, \lstinline{PCILU} (only
+    sequential), \lstinline{PCASM}, \lstinline{PCBJACOBI}, \lstinline{PCMG}, et cetera
+  \item Controllable through commandline options:\\
+    \n{-pc_type ilu -pc_factor_levels 3}
   \end{itemize}
-}
+\end{numberedframe}
 
 \begin{longversion}
-\frame[containsverbatim]{\frametitle{Preconditioner reuse}
+\begin{numberedframe}{Preconditioner reuse}
 In context of nonlinear solvers, the preconditioner can sometimes be reused:
 \begin{itemize}
 \item If the jacobian doesn't change much, reuse the preconditioner completely
 \item If the preconditioner is recomputed, the sparsity pattern 
   probably stays the same
 \end{itemize}
-\n{KSPSetOperators(solver,A,B)}
+\lstinline{KSPSetOperators(solver,A,B)}
     \begin{itemize}
-    \item \n{B} is basis for preconditioner, need not be~\n{A}
-    \item if \n{A} or \n{B} is to be reused, use \n{NULL}
+    \item \lstinline{B} is basis for preconditioner, need not be~\lstinline{A}
+    \item if \lstinline{A} or \lstinline{B} is to be reused, use \lstinline{NULL}
     \end{itemize}
-}
+\end{numberedframe}
 
-\frame{\frametitle{Types of preconditioners}
+\begin{numberedframe}{Types of preconditioners}
   \begin{itemize}
   \item Simple preconditioners: Jacobi, SOR, ILU
   \item Compose simple preconditioners:
@@ -156,9 +157,9 @@ In context of nonlinear solvers, the preconditioner can sometimes be reused:
   \item Global parallel preconditioners: multigrid, approximate
     inverses
   \end{itemize}
-}
+\end{numberedframe}
 
-\frame{\frametitle{Simple preconditioners}
+\begin{numberedframe}{Simple preconditioners}
   $A = D_A+L_A+U_A$, $M=\ldots$
   \begin{itemize}
   \item None: $M=I$
@@ -178,9 +179,9 @@ In context of nonlinear solvers, the preconditioner can sometimes be reused:
     \end{itemize}
   \item SSOR: $M=(I+(\omega\inv D_A)\inv+L_A)(\omega\inv D_A+U_A)$
   \end{itemize}
-}
+\end{numberedframe}
 
-\frame{\frametitle{Factorization preconditioners}
+\begin{numberedframe}{Factorization preconditioners}
 
 Exact factorization: $A=LU$
 
@@ -196,27 +197,27 @@ Application of the preconditioner (that is, solve $Mx=y$)
 approx same cost as matrix-vector product $y\leftarrow Ax$
 
 Factorization preconditioners are sequential
-}
+\end{numberedframe}
 
-\frame[containsverbatim]{\frametitle{ILU}
-\n{PCICC}: symmetric, \n{PCILU}: nonsymmetric\\
+\begin{numberedframe}{ILU}
+\lstinline{PCICC}: symmetric, \lstinline{PCILU}: nonsymmetric\\
 many options:
-\begin{verbatim}
+\begin{lstlisting}
 PCFactorSetLevels(PC pc,int levels);
 -pc_factor_levels <levels>
-\end{verbatim}
+\end{lstlisting}
 
 Prevent indefinite preconditioners:
-\begin{verbatim}
+\begin{lstlisting}
 PCFactorSetShiftType(PC pc,MatFactorShiftType type);
-\end{verbatim}
-value \n{MAT_SHIFT_POSITIVE_DEFINITE} et cetera
-}
+\end{lstlisting}
+value \lstinline{MAT_SHIFT_POSITIVE_DEFINITE} et cetera
+\end{numberedframe}
 
 \end{longversion}
 
 \begin{higher}
-\frame[containsverbatim]{\frametitle{Block Jacobi and Additive Schwarz}
+\begin{numberedframe}{Block Jacobi and Additive Schwarz}
   \begin{itemize}
   \item Factorization preconditioners are sequential;
   \item can be made parallel by use in Block Jacobi\\
@@ -227,15 +228,16 @@ value \n{MAT_SHIFT_POSITIVE_DEFINITE} et cetera
       \n{-pc_type bjacobi -sub_pc_type ilu -sub_pc_factor_levels 3}
 \end{shortversion}
   \end{itemize}
-}
+\end{numberedframe}
 
-\frame{
-\includegraphics[scale=.5]{bjacobi}
-}
+\begin{numberedframe}{Jacobi method}
+  \includegraphics[scale=.5]{bjacobi}
+\end{numberedframe}
+
 \end{higher}
 
 \begin{longversion}
-\frame[containsverbatim]{\frametitle{Block Jacobi and Additive Schwarz, theory}
+\begin{numberedframe}{Block Jacobi and Additive Schwarz, theory}
   \begin{itemize}
   \item Both methods parallel
   \item Jacobi fully parallel\\ Schwarz local communication between neighbours
@@ -243,11 +245,11 @@ value \n{MAT_SHIFT_POSITIVE_DEFINITE} et cetera
     precondtitioners
   \item Jacobi limited reduction in iterations\\ Schwarz can be optimal
   \end{itemize}
-}
+\end{numberedframe}
 
-\frame[containsverbatim]{\frametitle{Block Jacobi and Additive Schwarz, coding}
+\begin{numberedframe}{Block Jacobi and Additive Schwarz, coding}
 
-\begin{verbatim}
+\begin{lstlisting}
 KSP *ksps; int nlocal,firstlocal; PC pc;
 PCBJacobiGetSubKSP(pc,&nlocal,&firstlocal,&ksps);
 for (i=0; i<nlocal; i++) {
@@ -255,15 +257,16 @@ for (i=0; i<nlocal; i++) {
   KSPGetPC( ksps[i], &pc );
   PCSetType( pc, PCILU );
 }
-\end{verbatim}
+\end{lstlisting}
 
 Much shorter: commandline options \n{-sub_ksp_type} and \n{-sub_pc_type}
 (subksp is PREONLY  by default)
 
-\begin{verbatim}
+\begin{lstlisting}
 PCASMSetOverlap(PC pc,int overlap);
-\end{verbatim}
-}
+\end{lstlisting}
+\end{numberedframe}
+
 \end{longversion}
 
 \begin{exerciseframe}[ksp]
@@ -289,37 +292,37 @@ PCASMSetOverlap(PC pc,int overlap);
 \end{exerciseframe}
 
 \begin{exerciseframe}[shell]
-  After the main program, a routine \n{mymatmult} is
-  declared, which is attached by \n{MatShellSetOperation} to the matrix
-  \n{A} as the means of computing the product \n{MatMult(A,in,out)}, for
+  After the main program, a routine \lstinline{mymatmult} is
+  declared, which is attached by \lstinline{MatShellSetOperation} to the matrix
+  \lstinline{A} as the means of computing the product \lstinline{MatMult(A,in,out)}, for
   instance inside an iterative method.
 
-  In addition to the shell matrix \n{A}, the code also creates a
-  traditional matrix \n{AA}. Your assignment is to make it so that
-  \n{mymatmult} computes the product $y\leftarrow A^tAx$.
+  In addition to the shell matrix \lstinline{A}, the code also creates a
+  traditional matrix \lstinline{AA}. Your assignment is to make it so that
+  \lstinline{mymatmult} computes the product $y\leftarrow A^tAx$.
 
-  In C, use \n{MatShellSetContext} to attach \n{AA} to \n{A} and
-  \n{MatShellGetContext} to retrieve it again for use; in Fortran use a
-  common block (or a module) to store \n{AA}.
+  In C, use \lstinline{MatShellSetContext} to attach \lstinline{AA} to \lstinline{A} and
+  \lstinline{MatShellGetContext} to retrieve it again for use; in Fortran use a
+  common block (or a module) to store \lstinline{AA}.
 
-  The code uses a preconditioner \n{PCNONE}. What happens if you run it
+  The code uses a preconditioner \lstinline{PCNONE}. What happens if you run it
   with option \n{-pc_type jacobi}?
 \end{exerciseframe}
 
-\frame[containsverbatim]{\frametitle{Monitors and convergence tests}
-\begin{verbatim}
+\begin{numberedframe}{Monitors and convergence tests}
+\begin{lstlisting}
 KSPSetTolerances(solver,rtol,atol,dtol,maxit);
-\end{verbatim}
+\end{lstlisting}
 Monitors can be set in code, but simple cases:
 \begin{itemize}
 \item \n{-ksp_monitor}
 \item \n{-ksp_monitor_true_residual}
 \end{itemize}
-}
+\end{numberedframe}
 
 \begin{longversion}
-\frame[containsverbatim]{\frametitle{Custom monitors and convergence tests}
-\begin{verbatim}
+\begin{numberedframe}{Custom monitors and convergence tests}
+\begin{lstlisting}
 KSPMonitorSet(KSP ksp,
  PetscErrorCode (*monitor)
       (KSP,PetscInt,PetscReal,void*),
@@ -330,11 +333,11 @@ KSPSetConvergenceTest(KSP ksp,
       (KSP,PetscInt,PetscReal,KSPConvergedReason*,void*),
  void *cctx,
  PetscErrorCode (*destroy)(void*))
-\end{verbatim}
-}
+\end{lstlisting}
+\end{numberedframe}
 
-\frame[containsverbatim]{\frametitle{Example of convergence tests}
-\begin{verbatim}
+\begin{numberedframe}{Example of convergence tests}
+\begin{lstlisting}
 PetscErrorCode resconverge
 (KSP solver,PetscInt it,PetscReal res,
  KSPConvergedReason *reason,void *ctx)
@@ -349,10 +352,10 @@ PetscErrorCode resconverge
   if (sometest) *reason = 15;
   else *reason = KSP_CONVERGED_ITERATING;
   PetscFunctionReturn(0);
-\end{verbatim}
-}
+\end{lstlisting}
+\end{numberedframe}
 
-%\frame[containsverbatim]{\frametitle{monitors including sing-monitor}
+%\begin{numberedframe}{monitors including sing-monitor}
 % PetscDrawLG lg;
 % KSPMonitorLGCreate(char *display,char *title,int x,int y,int w,int h,PetscDrawLG *lg);
 % KSPMonitorSet(KSP ksp,KSPMonitorLG,lg,0);
@@ -364,35 +367,36 @@ PetscErrorCode resconverge
 % KSPComputeEigenvalues(KSP ksp, int n,double *realpart,double *complexpart,int *neig);
 %}
 
-\frame[containsverbatim]{\frametitle{Advanced options}
+\begin{numberedframe}{Advanced options}
 Many options for the (mathematically) sophisticated user\\
 some specific to one method
-\begin{verbatim}
+\begin{lstlisting}
 KSPSetInitialGuessNonzero
 KSPGMRESSetRestart
 KSPSetPreconditionerSide
 KSPSetNormType
-\end{verbatim}
+\end{lstlisting}
 Many options easier through commandline.
-}
+\end{numberedframe}
 
-\frame[containsverbatim]{\frametitle{Null spaces}
+\begin{numberedframe}{Null spaces}
 
-\begin{verbatim}
+\begin{lstlisting}
 MatNullSpace sp;
 MatNullSpaceCreate /* constant vector */
     (PETSC_COMM_WORLD,PETSC_TRUE,0,PETSC_NULL,&sp);
 MatNullSpaceCreate /* general vectors */
     (PETSC_COMM_WORLD,PETSC_FALSE,5,vecs,&sp);
 KSPSetNullSpace(ksp,sp);
-\end{verbatim}
+\end{lstlisting}
 
 The solver will now properly remove the null space at each iteration.
-}
-\frame[containsverbatim]{\frametitle{Matrix-free solvers}
+\end{numberedframe}
+
+\begin{numberedframe}{Matrix-free solvers}
 Shell matrix requires shell preconditioner
-in \n{KSPSetOperators}):
-\begin{verbatim}
+in \lstinline{KSPSetOperators}):
+\begin{lstlisting}
 PCSetType(pc,PCSHELL);
 PCShellSetContext(PC pc,void *ctx);
 PCShellGetContext(PC pc,void **ctx);
@@ -400,56 +404,59 @@ PCShellSetApply(PC pc,
     PetscErrorCode (*apply)(void*,Vec,Vec));
 PCShellSetSetUp(PC pc,
     PetscErrorCode (*setup)(void*))
-\end{verbatim}
+\end{lstlisting}
 similar idea to shell matrices
 
 Alternative: use different operator for preconditioner
-}
+\end{numberedframe}
+
 \end{longversion}
 
 \begin{shortversion}
-  \frame[containsverbatim]{\frametitle{More KSP topics}
+
+\begin{numberedframe}{More KSP topics}
   \begin{itemize}
   \item Custom monitors and convergence tests
   \item Method-specific options (especially GMRES)
   \item Null spaces
   \end{itemize}
-}
+\end{numberedframe}
+
 \end{shortversion}
 
-\frame[containsverbatim]{\frametitle{Fieldsplit preconditioners}
+\begin{numberedframe}{Fieldsplit preconditioners}
 If a problem contains multiple physics, seperate preconditioning can
 make sense
 
-Matrix block storage: \n{MatCreateNest}
+Matrix block storage: \lstinline{MatCreateNest}
 \[ 
 \begin{pmatrix}
   A_{00}&A_{01}&A_{02}\\ A_{10}&A_{11}&A_{12}\\ A_{20}&A_{21}&A_{22}\\ 
 \end{pmatrix}
 \]
 However, it makes more sense to interleave these fields
-}
+\end{numberedframe}
 
-\frame[containsverbatim]{
+\begin{numberedframe}{Fieldsplit use}
 Easy case: all fields are the same size
-\begin{verbatim}
+\begin{lstlisting}
 PCSetType(prec,PCFIELDSPLIT);
 PCFieldSplitSetBlockSize(prec,3);
 PCFieldSplitSetType(prec,PC_COMPOSITE_ADDITIVE);
-\end{verbatim}
+\end{lstlisting}
 Subpreconditioners can be specified in code, but easier with options:
-\begin{verbatim}
+\begin{lstlisting}
 PetscOptionsSetValue
  ("-fieldsplit_0_pc_type","lu");
 PetscOptionsSetValue
  ("-fieldsplit_0_pc_factor_mat_solver_package","mumps");
-\end{verbatim}
+\end{lstlisting}
 Fields can be named instead of numbered.
-}
+\end{numberedframe}
 
-\frame[containsverbatim]{
+\begin{numberedframe}{more}
 
-Non-strided, arbitrary fields: \n{ PCFieldSplitSetIS()}
+Non-strided, arbitrary fields: \lstinline{ PCFieldSplitSetIS()}
 
 Stokes equation can be detected:
 \n{-pc_fieldsplit_detect_saddle_point}
@@ -464,10 +471,10 @@ If there are just two fields, they can be combined by Schur complement
 \begin{pmatrix} I\\ A_{10}A_{00}\inv&I \end{pmatrix}
 \begin{pmatrix} A_{00}&A_{01}\\ &A_{11}-A_{10}A_{00}\inv A_{01} \end{pmatrix}
 \]
-}
+\end{numberedframe}
 
-\frame[containsverbatim]{\frametitle{Fieldsplit example}
-\begin{verbatim}
+\begin{numberedframe}{Fieldsplit example}
+\begin{lstlisting}
  KSPGetPC(solver,&prec);
  PCSetType(prec,PCFIELDSPLIT);
  PCFieldSplitSetBlockSize(prec,2);
@@ -480,11 +487,11 @@ If there are just two fields, they can be combined by Schur complement
     ("-fieldsplit_1_pc_type","lu");
  PetscOptionsSetValue
     ("-fieldsplit_1_pc_factor_mat_solver_package","mumps");
-\end{verbatim}
-}
+\end{lstlisting}
+\end{numberedframe}
 
-\frame[containsverbatim]{\frametitle{Global preconditioners: MG}
-\begin{verbatim}
+\begin{numberedframe}{Global preconditioners: MG}
+\begin{lstlisting}
 PCSetType(PC pc,PCMG);
 PCMGSetLevels(pc,int levels,MPI Comm *comms);
 PCMGSetType(PC pc,PCMGType mode);
@@ -496,10 +503,10 @@ PCMGSetInterpolation(PC pc,int level,Mat P); and
 PCMGSetRestriction(PC pc,int level,Mat R);
 PCMGSetResidual(PC pc,int level,PetscErrorCode
 (*residual)(Mat,Vec,Vec,Vec),Mat mat);
-\end{verbatim}
-}
+\end{lstlisting}
+\end{numberedframe}
 
-\frame[containsverbatim]{\frametitle{Global preconditioners: Hypre}
+\begin{numberedframe}{Global preconditioners: Hypre}
   \begin{itemize}
   \item Hypre is a package like PETSc
   \item selling point: fancy preconditioners
@@ -507,33 +514,35 @@ PCMGSetResidual(PC pc,int level,PetscErrorCode
   \item then use \n{-pc_type hypre -pc_hypre_type parasails/boomeramg/euclid/pilut}
   \end{itemize}
   
-}
+\end{numberedframe}
 
 \begin{details}
-\frame[containsverbatim]{\frametitle{Direct methods}
+\begin{numberedframe}{Direct methods}
   \begin{itemize}
   \item Iterative method with direct solver as preconditioner would
     converge in one step
   \item Direct methods in PETSc implemented as special iterative
-    method: \n{KSPPREONLY} only apply preconditioner
-  \item All direct methods are preconditioner type \n{PCLU}: 
+    method: \lstinline{KSPPREONLY} only apply preconditioner
+  \item All direct methods are preconditioner type \lstinline{PCLU}: 
   \end{itemize}
 \begin{verbatim}
 myprog -pc_type lu -ksp_type preonly \
     -pc_factor_mat_solver_package mumps 
 \end{verbatim}
-}
+\end{numberedframe}
+
 \end{details}
 
 \begin{higher}
-\frame[containsverbatim]{\frametitle{Other external PCs}
+\begin{numberedframe}{Other external PCs}
 If installed, other parallel preconditioner are available:
 
 \begin{itemize}
 \item
-From Hypre: \n{PCHYPRE} with subtypes \n{boomeramg, parasails, euclid, pilut}:\\\n{PCHYPRESetType(pc,parasails)}\\ or \n{-pc_hypre_type parasails}
-\item \n{PCSPAI} for Sparse Approximate Inverse
-\item \n{PCPROMETHEUS}
+  From Hypre: \lstinline{PCHYPRE} with subtypes \n{boomeramg, parasails, euclid, pilut}:\\
+  \lstinline{PCHYPRESetType(pc,parasails)}\\ or \lstinline{-pc_hypre_type parasails}
+\item \lstinline{PCSPAI} for Sparse Approximate Inverse
+\item \lstinline{PCPROMETHEUS}
 \item External packages' existence can be tested:
 \begin{verbatim}
 %% grep hypre $PETSC_DIR/$PETSC_ARCH/include/petscconf.h
@@ -543,12 +552,13 @@ From Hypre: \n{PCHYPRE} with subtypes \n{boomeramg, parasails, euclid, pilut}:\\
 #define PETSC_HAVE_LIBHYPRE 1
 \end{verbatim}
 \end{itemize}
-}
+\end{numberedframe}
+
 \end{higher}
 
 \endinput
 
-\frame[containsverbatim]{\frametitle{Multigrid}
+\begin{numberedframe}{Multigrid}
 PETSc provides support for three algebraic multigrid codes, all 
 parallel. Follow the links from 
 http://www-unix.mcs.anl.gov/petsc/petsc-as/documentation/linearsolvertable.html
@@ -619,10 +629,10 @@ with \n{-mg_levels_1_pc_type ilu -mg_levels_2_pc_type sor}
 
 You can set it for all the levels except the coarse by omitting the
 number. \n{-mg_levels_XXXX}
-}
+\end{numberedframe}
 
-\frame[containsverbatim]{\frametitle{Unusual ones:}
+\begin{numberedframe}{Unusual ones:}
 - PCFieldSplit
-}
+\end{numberedframe}
 
 

@@ -3,7 +3,7 @@
    %%%%
    %%%% This program file is part of the book and course
    %%%% "Parallel Computing"
-   %%%% by Victor Eijkhout, copyright 2013-6
+   %%%% by Victor Eijkhout, copyright 2013-2021
    %%%%
    %%%% cart.c : illustrating a cartesian grid of processes
    %%%%
@@ -21,24 +21,12 @@ int main(int argc,char **argv) {
 
 #include "globalinit.c"
 
-  if (nprocs<4) {
-    printf("This program needs at least four processes\n");
-    return -1;
-  }
+  int ndim = 2; int dimensions[2];
+  dimensions[0] = 0; dimensions[1] = 0;
+  MPI_Dims_create( nprocs,ndim,dimensions );
 
-  //
-  int idim,jdim;
-  int ndim,periodic[2],dimensions[2],coord_2d[2],rank_2d;
-  for (idim=(int)(sqrt(1.*nprocs)); idim>=2; idim--) {
-    jdim = nprocs/idim;
-    if (idim*jdim==nprocs) goto found;
-  }
-  printf("No prime numbers please\n"); return -1;
   MPI_Comm comm2d;
- found:
-
-  ndim = 2; periodic[0] = periodic[1] = 0;
-  dimensions[0] = idim; dimensions[1] = jdim;
+  int periodic[ndim]; periodic[0] = periodic[1] = 0;
   MPI_Cart_create(comm,ndim,dimensions,periodic,1,&comm2d);
   MPI_Cart_coords(comm2d,procno,ndim,coord_2d);
   MPI_Cart_rank(comm2d,coord_2d,&rank_2d);

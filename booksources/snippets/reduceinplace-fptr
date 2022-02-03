@@ -1,15 +1,15 @@
-// reduceinplaceptr.F90
-real,target :: mynumber,result,in_place_val
-real,pointer :: mynumber_ptr,result_ptr
-in_place_val = MPI_IN_PLACE
-if (mytid.eq.target_proc) then
-   result_ptr => result
-   mynumber_ptr => in_place_val
-   result_ptr = mytid
-else
-   mynumber_ptr => mynumber
-   result_ptr = in_place_val
-   mynumber_ptr = mytid
-end if
-call MPI_Reduce(mynumber_ptr,result_ptr,1,MPI_REAL,MPI_SUM,&
-     target_proc,comm,err)
+!! reduceinplaceptr.F90
+  real,target :: mynumber,result,in_place_val
+  real,pointer :: mynumber_ptr,result_ptr
+  in_place_val = MPI_IN_PLACE
+  if (mytid.eq.target_proc) then
+     result_ptr => result
+     mynumber_ptr => in_place_val
+     result_ptr = mytid
+  else
+     mynumber_ptr => mynumber
+     result_ptr = in_place_val
+     mynumber_ptr = mytid
+  end if
+  call MPI_Reduce(mynumber_ptr,result_ptr,1,MPI_REAL,MPI_SUM,&
+       target_proc,comm,err)

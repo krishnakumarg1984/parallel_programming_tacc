@@ -18,4 +18,5 @@ FILE = omp_course
 INEX = tacc-full
 
 include ../course-support/Make.course
+DROPBOXPATH = Courses
 include ../../booksources/makefiles/Make.clean

@@ -13,14 +13,31 @@
 
 \beamertemplatenavigationsymbolsempty
 \usepackage{beamerthemeTACC}
-\parskip=.5\baselineskip plus .5\baselineskip
-\event{PETSc Course 2021}
+\usetheme{Boadilla}
+\usecolortheme{seagull}
+%% left align frame title
+\setbeamertemplate{frametitle}{\insertframetitle} 
+
+\AtBeginSection[]
+{
+    \begin{frame}
+      \scriptsize
+        \frametitle{Table of Contents}
+        \tableofcontents[currentsection]
+    \end{frame}
+}
+
+%% \parskip=.5\baselineskip plus .5\baselineskip
+
+\event{PETSc Course 2022}
 \def\hpcteachers{Victor Eijkhout}
 
 \input commonmacs
 \input slidemacs
 \input listingmacs
 \input coursemacs
+\let\sectionframe\section
+
 \usepackage{graphicx,multicol,amsmath}
 
 %%%%
@@ -53,16 +70,12 @@
 %%%% And here we go....
 %%%%
 \begin{document}
-\title{Introduction to the PETSc library}
-\author{Victor Eijkhout\\
-\tt\normalsize eijkhout@tacc.utexas.edu}
-\date{2020/02/06}
-\frame{\titlepage}
 
-%% \frame{ \frametitle{Outline}
-%% \small
-%% \tableofcontents
-%% }
+\title{Introduction to the PETSc library}
+\author[Victor Eijkhout]{Victor Eijkhout\\
+\tt\normalsize eijkhout@tacc.utexas.edu}
+\date[2022/02/04]{TACC Training 2022/02/04}
+\frame{\titlepage}
 
 \begin{xsede}
   \input xsede-conduct
@@ -72,9 +85,8 @@
 %%   \printindex[programming]
 %% \end{frame}
 
-\sectionframe{Introduction}
+\section{Introduction}
 \input introduction
-
 \input spmd
 \input starting
 \input vector

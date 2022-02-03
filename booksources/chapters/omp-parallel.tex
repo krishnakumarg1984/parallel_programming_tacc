@@ -14,6 +14,8 @@
 \label{sec:parallelregion}
 \index{parallel region|(}
 
+\Level 0 {Creating parallelism with parallel regions}
+
 The simplest way to create parallelism in OpenMP is to use
 the \indexpragma{parallel} pragma. A~block preceded by the \n{omp parallel} pragma
 is called a \emph{parallel region}; it
@@ -154,17 +156,12 @@ void func(...) {
 }
 \end{lstlisting}
 
-By default, the nested parallel region will have only one thread. To
-allow nested thread creation,
-set \indexompdepr{OMP_NESTED} (default: false):
-\begin{verbatim}
-OMP_NESTED=true
- or
-omp_set_nested(1)
-\end{verbatim}
-For more fine-grained control use the environment variable
+By default, the nested parallel region will have only one thread.
+To allow nested thread creation,
+use the environment variable
 \indexompdef{OMP_MAX_ACTIVE_LEVELS} (default:~1)
-or the functions
+to set the number of levels of parallel nesting.
+Equivalently, there are functions
 \indexompdef{omp_set_max_active_levels} and \indexompdef{omp_get_max_active_levels}:
 \begin{verbatim}
 OMP_MAX_ACTIVE_LEVELS=3
@@ -172,6 +169,32 @@ OMP_MAX_ACTIVE_LEVELS=3
 void omp_set_max_active_levels(int);
 int omp_get_max_active_levels(void);
 \end{verbatim}
+
+\begin{remark}
+  A deprecated mechanism is to
+  set \indexompdepr{OMP_NESTED} (default: false):
+\begin{verbatim}
+OMP_NESTED=true
+ or
+omp_set_nested(1)
+\end{verbatim}
+\end{remark}
+
+Nested parallelism can happen with nested loops,
+but it's also possible to have a \indexompshow{sections} construct
+and a loop nested.
+Example:
+\cverbatimsnippet{ompsectionnest}
+\begin{multicols}{2}
+  \tiny
+  \verbatiminput{code/mpi/c/sectionnest.runout}
+\end{multicols}
+
+\Level 1 {Subprograms with parallel regions}
+
+A common application of nested parallelism is the case
+where you have a subprogram with a parallel region,
+which itself gets called from a parallel region.
 
 \begin{exercise}
   Test nested parallelism by writing an OpenMP program as follows:
@@ -210,6 +233,8 @@ parallel region, so the for loop will be parallelized.
 
 If the function may be called both from inside and outside parallel
 regions, you can test which is the case with \indexompshow{omp_in_parallel}.
+
+\Level 1 {Fine control}
 
 The amount of nested parallelism can be set:
 \begin{verbatim}

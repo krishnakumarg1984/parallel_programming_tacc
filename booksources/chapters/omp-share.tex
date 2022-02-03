@@ -110,7 +110,7 @@ int a;
 The point of the single directive in this last example is that the
 computation needs to be done only once, because of the shared memory.
 Since it's a work sharing construct there is an \emph{implicit
-  barrier}\index{implicit barrier!after single directive} after it,
+  barrier}\index[omp]{implicit barrier!after single directive} after it,
 which guarantees that all threads have the correct value in their
 local memory (see section~\ref{sec:omp:flush}.
 

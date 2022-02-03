@@ -21,17 +21,9 @@ include Make.inc
 info ::
 	@echo
 	@echo "make app (where app=${APPS})"
-APPS = hello hellocount
-
-ifdef TACC_TAU_DIR
-  FC = tau_f90.sh
-else
-  FC  = ${F90_COMPILER}
-endif
-info ::
-	@echo "    [OPTLEVEL=0/1/2/3 (default=${OPTLEVEL})]"
-% : %.F90
-	${FC} ${F90_OPTFLAGS} $*.F90 -o $@
+APPS = hello hellocount reducttype
+LANGUAGE = F
+include ../../../makefiles/Make.compile
 
 EXEC = hello
 NP = 4
@@ -41,5 +33,8 @@ info ::
 testrun:
 	make clean; rm -f ${EXEC}; make ${EXEC}
 	OMP_NUM_THREADS=${NP} ./${EXEC}
+
+RUNS = 
+include ../../../makefiles/Make.run
 
 include  ../../../makefiles/Make.clean

@@ -38,14 +38,16 @@ int main(int argc,char **argv) {
     position;
   char *buffer = malloc(buflen);
   if (procno==sender) {
-    int len=2*sizeof(int)+nsends*sizeof(double);
+    int len=2*sizeof(int)+nsends*sizeof(double)+MPI_BSEND_OVERHEAD;
     if (len>buflen) {
       printf("Not enough buffer space, need %d\n",len);
       return -4;
     }
+    position = 0;
     MPI_Pack(&nsends,1,MPI_INT,buffer,buflen,&position,comm);
     for (int i=0; i<nsends; i++) {
       double value = rand()/(double)RAND_MAX;
+      printf("[%d] pack %e\n",procno,value);
       MPI_Pack(&value,1,MPI_DOUBLE,buffer,buflen,&position,comm);
     }
     MPI_Pack(&nsends,1,MPI_INT,buffer,buflen,&position,comm);
@@ -54,9 +56,11 @@ int main(int argc,char **argv) {
     int irecv_value;
     double xrecv_value;
     MPI_Recv(buffer,buflen,MPI_PACKED,other,0,comm,MPI_STATUS_IGNORE);
+    position = 0;
     MPI_Unpack(buffer,buflen,&position,&nsends,1,MPI_INT,comm);
     for (int i=0; i<nsends; i++) {
       MPI_Unpack(buffer,buflen,&position,&xrecv_value,1,MPI_DOUBLE,comm);
+      printf("[%d] unpack %e\n",procno,xrecv_value);
     }
     MPI_Unpack(buffer,buflen,&position,&irecv_value,1,MPI_INT,comm);
     ASSERT(irecv_value==nsends);

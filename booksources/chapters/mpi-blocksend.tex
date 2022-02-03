@@ -4,7 +4,7 @@
 %%%%
 %%%% This text file is part of the source of 
 %%%% `Parallel Programming in MPI and OpenMP'
-%%%% by Victor Eijkhout, copyright 2012-2021
+%%%% by Victor Eijkhout, copyright 2012-2022
 %%%%
 %%%% mpi-blocksend.tex : blocking sends
 %%%%
@@ -77,7 +77,7 @@ MPI realizes this through matched send and receive calls:
 
 We will now discuss the send and receive routines in detail.
 
-\Level 1 {Send example: ping-pong}
+\Level 1 {Example: ping-pong}
 \label{sec:mpi-send-recv}
 
 A simple scenario for information exchange between just two processes
@@ -116,7 +116,7 @@ if ( /* I am process A */ ) {
   receiver buffer, rather than a network transfer.
 \end{remark}
 
-\Level 2 {Send call}
+\Level 1 {Send call}
 
 The blocking send command is
 %
@@ -198,11 +198,10 @@ comm_world.recv(&(*v.begin()), l, 0);
 \end{lstlisting}
 \end{mplnote}
 
-\Level 2 {Receive call}
+\Level 1 {Receive call}
 
 The basic blocking receive command is
-%
-\indexmpiref{MPI_Recv}
+\indexmpiref{MPI_Recv}.
 
 An example:
 %
@@ -221,7 +220,7 @@ This sets an upper bound on the length of the incoming message.
 \item For receiving messages with unknown length, use \indexmpishow{MPI_Probe};
   section~\ref{sec:mpi-probe}.
 \item A message longer than the buffer size will give an overflow error,
-  typically ending your program; see section~\ref{sec:mpi-error}.
+  either returning an error, or ending your program; see section~\ref{sec:mpi-error}.
 \end{itemize}
 The length of the received message can be determined 
 from the status object; see section~\ref{sec:mpi-status} for more detail.
@@ -259,6 +258,16 @@ This gives information about the message received,
 for instance if you used wildcards for source or tag.
 See section~\ref{sec:mpi-status}
 for more about the status object.
+
+\begin{remark}
+  If you're not interested in the status,
+  as is the case in many examples in this book,
+  specify the constant \indexmpidef{MPI_STATUS_IGNORE}.
+  Note that the signature of \indexmpishow{MPI_Recv} lists the status parameter
+  as `output'; this `direction' of the parameter of course only applies
+  if you do not specify this constant.
+  (See also section~\ref{sec:mpi-constant}.)
+\end{remark}
 
 \begin{exercise}
   \label{ex:pingpong}
@@ -334,17 +343,36 @@ send call\ldots\ and then can't go on, because they are both waiting
 for the other to issue the send call corresponding to their receive call.
 This is known as \indextermdef{deadlock}.
 
-\Level 2 {Eager limit}
+\Level 2 {Eager vs rendezvous protocol}
 \label{sec:eager-limit}
 \index{eager limit|(textbf}
 
-If you reverse the send and receive call:
+Messages can be sent using (at least) two different
+\indextermdef{protocol}s:
+\begin{enumerate}
+\item Rendezvous protocol, and
+\item Eager protocol.
+\end{enumerate}
+The \indextermsub{rendezvous}{protocol} is the most general.
+Sending a message takes several steps:
+\begin{enumerate}
+\item the sender sends a header,
+  typically containing the \indextermbus{message}{envelope};
+\item the receiver returns a `ready-to-send' message;
+\item the sender sends the actual data.
+\end{enumerate}
+The purpose of this is to to prepare the receiver buffer space
+for large messages. However, it implies that the sender has to
+wait for some return message from the receiver,
+making the behavior a \indextermsub{synchronous}{message}.
+
+For the eager protocol, consider the example:
 \begin{lstlisting}
 other = 1-mytid; /* if I am 0, other is 1; and vice versa */
 send(target=other);
 receive(source=other);
 \end{lstlisting}
-you should get deadlock,
+With a synchronous protocol you should get deadlock,
 since the send calls will be waiting for the receive operation to be posted.
 
 In practice, however, this code will often work. The reason is that
@@ -353,12 +381,14 @@ the receive has been posted. This relies on the availability of
 some amount of available buffer space. The size under which this behavior
 is used is sometimes referred to as the \emph{eager limit}.
 
-The following code is guaranteed to block, since a \indexmpishow{MPI_Recv}
-always blocks:
-\cverbatimsnippet[examples/mpi/c/recvblock.c]{recvblock}
-On the other hand, if we put the send call before the receive,
-code may not block for small messages
-that fall under the eager limit.
+\begin{comment}
+  The following code is guaranteed to block, since a \indexmpishow{MPI_Recv}
+  always blocks:
+  \cverbatimsnippet[examples/mpi/c/recvblock.c]{recvblock}
+  On the other hand, if we put the send call before the receive,
+  code may not block for small messages
+  that fall under the eager limit.
+\end{comment}
 
 To illustrate eager and blocking behavior in \indexmpishow{MPI_Send},
 consider an example where we send
@@ -578,6 +608,13 @@ altering the receive buffer.  The corresponding
 \indexmpishow{MPI_PROC_NULL}, tag \indexmpishow{MPI_ANY_TAG}, and
 count zero.
 
+\begin{remark}
+  The \indexmpishow{MPI_Sendrecv} can inter-operate with
+  the normal send and receive calls, both blocking and non-blocking.
+  Thus it would also be possible to replace the \indexmpishow{MPI_Sendrecv}
+  calls at the end points by simple sends or receives.
+\end{remark}
+
 \begin{mplnote}{Send-recv call}
   The send-recv call in \ac{MPL} has the same possibilities
   for specifying the send and receive buffer as the separate send and recv calls:
@@ -598,7 +635,7 @@ count zero.
   from the serialized send/recv code? If you don't have TAU, run your
   code with different numbers of processes and show that the runtime
   is essentially constant.
-  \skeleton{rightsend}
+  %\skeleton{rightsend}
 \end{exercise}
 
 This call makes it easy to exchange data between two processors: both
@@ -684,7 +721,8 @@ send-receive call\footnote {There is an \n{MPI\_Compare\_and\_swap}
   It is not possible to use \indexmpishow{MPI_IN_PLACE} for the buffers.
   Instead, the routine \indexmpiref{MPI_Sendrecv_replace} has only one buffer,
   used as both send and receive buffer.
-  Of course, this requires the send and receive messages to be the same size.
+  Of course, this requires the send and receive messages
+  to fit in that one buffer.
 \end{remark}
 
 \begin{exercise}
@@ -694,7 +732,7 @@ send-receive call\footnote {There is an \n{MPI\_Compare\_and\_swap}
   number of steps as in the single scalar case?
 \end{exercise}
 
-\begin{mpifour}
+\begin{mpifournote}{Non-blocking/persistent sendrecv}
   There are
   \emph{non-blocking}\index{non-blocking communication}
   and
@@ -702,4 +740,4 @@ send-receive call\footnote {There is an \n{MPI\_Compare\_and\_swap}
   versions of this routine:
   \indexmpidef{MPI_Isendrecv}, \indexmpidef{MPI_Sendrecv_init},
   \indexmpidef{MPI_Isendrecv_replace}, \indexmpidef{MPI_Sendrecv_replace_init}.
-\end{mpifour}
+\end{mpifournote}

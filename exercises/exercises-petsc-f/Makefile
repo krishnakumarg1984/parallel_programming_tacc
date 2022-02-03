@@ -5,7 +5,7 @@
 #### `Introduction to the PETSc library'
 #### by Victor Eijkhout eijkhout@tacc.utexas.edu
 ####
-#### copyright Victor Eijkhout 2012-2021
+#### copyright Victor Eijkhout 2012-2022
 ####
 #### Makefile for Fortran90 exercises
 ####
@@ -22,12 +22,13 @@ LOCDIR = fsolutions
 
 EXERCISE = hello
 EXERCISES = hello root vec matvec ksp oddeven grid
+np_root = 1
+np_oddeven = 2
+np_viewer = 1
 LANGUAGE = F
 MODE = petsc
 include ../course-support/Make.compile
-#EXTRA_LIBS = ${PETSC_LIB}
-#EXTRA_FLAGS = ${PETSC_FC_INCLUDES}
-include ../course-support/Make.petscrun
+include ../course-support/Make.mpi_run
 
 shell : fivepoint.o
 

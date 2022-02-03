@@ -4,7 +4,7 @@
 %%%%
 %%%% This text file is part of the source of 
 %%%% `Parallel Programming in MPI and OpenMP'
-%%%% by Victor Eijkhout, copyright 2012-2021
+%%%% by Victor Eijkhout, copyright 2012-2022
 %%%%
 %%%% mpi-morecollective.tex : obscure stuff
 %%%%
@@ -50,7 +50,8 @@ Likewise, the input needs to consist of such structures:
 the input should be an array of such struct types, where the \n{int} is
 the rank of the number.
 
-The Fortran interface to MPI was designed to use pre-Fortran90 features,
+The original Fortran interface to MPI was designed around
+\fstandard{77} features,
 so it is not using Fortran derived types (\lstinline{Type} keyword).
 Instead, all integer indices are stored in whatever the type is that is
 being reduced. The available result types are then

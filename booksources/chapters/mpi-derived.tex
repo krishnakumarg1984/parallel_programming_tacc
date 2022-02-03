@@ -4,7 +4,7 @@
 %%%%
 %%%% This text file is part of the source of 
 %%%% `Parallel Programming in MPI and OpenMP'
-%%%% by Victor Eijkhout, copyright 2012-2021
+%%%% by Victor Eijkhout, copyright 2012-2022
 %%%%
 %%%% mpi-derived.tex : derived datatypes
 %%%%
@@ -72,7 +72,7 @@ MPI_Type_commit( &newtype );
 MPI_Type_free( &newtype );
 \end{lstlisting}
 
-In Fortran2008:
+In \fstandard{2008}:
 \lstset{language=Fortran}
 \begin{lstlisting}
 Type(MPI_Datatype) :: newvectortype
@@ -217,11 +217,11 @@ In this example a vector type is created only on the sender, in order to send
 a strided subset of an array; the receiver receives the data as a contiguous block.
 \cverbatimsnippet[examples/mpi/c/vector.c]{vector}
 
-We illustrate Fortran2008:
+We illustrate \fstandard{2008}:
 %
 \fverbatimsnippet[examples/mpi/f08/vector.F90]{vector-f08}
 
-In legacy mode, Fortran code stays the same except that the type is
+In legacy mode \fstandard{90}, code stays the same except that the type is
 declared as \lstinline{Integer}:
 %
 \fverbatimsnippet[examples/mpi/f/vector.F90]{vector-f}
@@ -480,9 +480,10 @@ assumes constant block length.
 There is an important difference between the \n{hindexed} and the
 above \indexmpishow{MPI_Type_indexed}: that one described offsets from
 a base location; these routines describes absolute memory addresses.
-You can use this to send for instance the elements of a linked
-list. You would traverse the list, recording the addresses of the
+You can use this to send for instance the elements of a linked list.
+You would traverse the list, recording the addresses of the
 elements with \indexmpiref{MPI_Get_address}.
+(The routine \indexmpidepr{MPI_Address} is deprecated.)
 
 In C++ you can use this to
 send an \lstinline{std::<vector>}\index{C++!standard library!vector}, that

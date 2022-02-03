@@ -4,7 +4,7 @@
 %%%%
 %%%% This text file is part of the source of 
 %%%% `Parallel Programming in MPI and OpenMP'
-%%%% by Victor Eijkhout, copyright 2012-2021
+%%%% by Victor Eijkhout, copyright 2012-2022
 %%%%
 %%%% petsc-design.tex : a tutorial section
 %%%%
@@ -111,8 +111,8 @@ to~C. There is no separate C++ interface.
 
 \Level 2 {Fortran}
 
-A~\emph{Fortran90}\index{Fortran90!PETSc interface}
-interface exists. The \emph{Fortran77}\index{Fortran77!PETSc interface}
+A~\emph{Fortran90}\index{Fortran!Fortran9090!PETSc interface}
+interface exists. The \emph{Fortran77}\index{Fortran!Fortran77!PETSc interface}
 interface is only of
 interest for historical reasons.
 
@@ -173,7 +173,16 @@ bug reports.
 
 A PETSc compilation needs a number of include and library paths,
 probably too many to specify interactively. The easiest solution is to
-create a makefile:
+create a makefile and load the standard variables and compilation rules.
+(You can use \n{$PETSC_DIR/share/petsc/Makefile.user} for inspiration.)
+
+Throughout, we will assume that variables \indexpetscshow{PETSC_DIR} and
+\indexpetscshow{PETSC_ARCH} have been set.
+These depend on your local installation; see section~\ref{sec:petsc-install}.
+
+In the easiest setup, you leave the compilation to PETSc and
+your make rules only do the link step, using \indextermtt{CLINKER}
+or \indextermtt{FLINKER} for C/Fortran respectively:
 \begin{verbatim}
 include ${PETSC_DIR}/lib/petsc/conf/variables
 include ${PETSC_DIR}/lib/petsc/conf/rules
@@ -182,23 +191,6 @@ program : program.o
 \end{verbatim}
 The two include lines provide the compilation rule and the library
 variable.
-
-If you want to write your own compile rule,
-there is an example makefile \verb+$PETSC_DIR/share/petsc/Makefile.user+
-you can take for inspiration. Invoked without arguments it prints out
-the relevant variables:
-\begin{verbatim}
-[c:246] make -f ! $PETSC_DIR/share/petsc/Makefile.user
-CC=/Users/eijkhout/Installation/petsc/petsc-3.13/macx-clang-debug/bin/mpicc
-CXX=/Users/eijkhout/Installation/petsc/petsc-3.13/macx-clang-debug/bin/mpicxx
-FC=/Users/eijkhout/Installation/petsc/petsc-3.13/macx-clang-debug/bin/mpif90
-CFLAGS=-Wall -Wwrite-strings -Wno-strict-aliasing -Wno-unknown-pragmas -fstack-protector -Qunused-arguments -fvisibility=hidden -g3
-CXXFLAGS=-Wall -Wwrite-strings -Wno-strict-aliasing -Wno-unknown-pragmas -fstack-protector -fvisibility=hidden -g
-FFLAGS=-m64 -g
-CPPFLAGS=-I/Users/eijkhout/Installation/petsc/petsc-3.13/macx-clang-debug/include -I/Users/eijkhout/Installation/petsc/petsc-3.13/include
-LDFLAGS=-L/Users/eijkhout/Installation/petsc/petsc-3.13/macx-clang-debug/lib -Wl,-rpath,/Users/eijkhout/Installation/petsc/petsc-3.13/macx-clang-debug/lib
-LDLIBS=-lpetsc -lm
-\end{verbatim}
 
 You can use these rules:
 \begin{verbatim}
@@ -231,20 +223,30 @@ the include options by:
 \begin{verbatim}
 cd $PETSC_DIR
 make getincludedirs
+make getlinklibs
 \end{verbatim}
 and copying the results into your compilation script.
 
-The build process assumes that variables \indexpetscshow{PETSC_DIR} and
-\indexpetscshow{PETSC_ARCH} have been set. These depend on your local
-installation. Usually there will be one installation with debug
-settings and one with production settings. Develop your code with the
-former: it will do memory and bound checking. Then recompile and run
-your code with the optimized production installation.
+There is an example makefile \verb+$PETSC_DIR/share/petsc/Makefile.user+
+you can take for inspiration. Invoked without arguments it prints out
+the relevant variables:
+\begin{verbatim}
+[c:246] make -f ! $PETSC_DIR/share/petsc/Makefile.user
+CC=/Users/eijkhout/Installation/petsc/petsc-3.13/macx-clang-debug/bin/mpicc
+CXX=/Users/eijkhout/Installation/petsc/petsc-3.13/macx-clang-debug/bin/mpicxx
+FC=/Users/eijkhout/Installation/petsc/petsc-3.13/macx-clang-debug/bin/mpif90
+CFLAGS=-Wall -Wwrite-strings -Wno-strict-aliasing -Wno-unknown-pragmas -fstack-protector -Qunused-arguments -fvisibility=hidden -g3
+CXXFLAGS=-Wall -Wwrite-strings -Wno-strict-aliasing -Wno-unknown-pragmas -fstack-protector -fvisibility=hidden -g
+FFLAGS=-m64 -g
+CPPFLAGS=-I/Users/eijkhout/Installation/petsc/petsc-3.13/macx-clang-debug/include -I/Users/eijkhout/Installation/petsc/petsc-3.13/include
+LDFLAGS=-L/Users/eijkhout/Installation/petsc/petsc-3.13/macx-clang-debug/lib -Wl,-rpath,/Users/eijkhout/Installation/petsc/petsc-3.13/macx-clang-debug/lib
+LDLIBS=-lpetsc -lm
+\end{verbatim}
 
 \begin{taccnote}
   On TACC clusters, a petsc installation is loaded by commands such as
 \begin{verbatim}
-module load petsc/3.11
+module load petsc/3.16
 \end{verbatim}
 Use \n{module avail petsc} to see what configurations exist. The basic
 versions are
@@ -299,12 +301,13 @@ There are two further arguments to \indexpetscshow{PetscInitialize}:
 \item a help string, that is displayed if you run your program with the \n{-h} option.
 \end{enumerate}
 
-\begin{fortrannote}
+\begin{fortrannote}{Petsc Initialization}
   \begin{itemize}
   \item
     The Fortran version has no arguments for commandline options;
     it also doesn't take a help string.
-  \item If no help string is passed, give \indexpetsctt{PETSC_NULL_CHARACTER} as argument.
+  \item The first argument is the name of a database file of options;
+    if none is specified, give \indexpetsctt{PETSC_NULL_CHARACTER} as argument.
   \item If your main program is in~C, but some of your PETSc calls are
     in Fortran files, it is necessary to call
     \indexpetscdef{PetscInitializeFortran} after
@@ -380,7 +383,8 @@ $PETSC_DIR/$PETSC_ARCH/lib/petsc/conf/make.log
 
 For any set of options, you will typically make two installations:
 one with \n{-with-debugging=yes} and once \n{no}.
-See section~\ref{sec:petsc-debug-mode} for more detail.
+See section~\ref{sec:petsc-debug-mode} for more detail
+on the differences between debug and non-debug mode.
 
 \Level 1 {Environment options}
 

@@ -4,7 +4,7 @@
 %%%%
 %%%% This text file is part of the source of 
 %%%% `Parallel Programming in MPI and OpenMP'
-%%%% by Victor Eijkhout, copyright 2012-2021
+%%%% by Victor Eijkhout, copyright 2012-2022
 %%%%
 %%%% mpi-ptp.tex : about point-to-point communication
 %%%%
@@ -88,7 +88,8 @@ the \emph{status}\index{status!of received message} of the message:
 
 To do this, the receive call has a \indexmpidef{MPI_Status} parameter.
 The \indexmpishow{MPI_Status} object
-is a structure with freely accessible members:
+is a structure (in~C a \lstinline{struct}, in~F90 an array, in~F2008 a derived type)
+with freely accessible members:
 \begin{itemize}
 \item \indexmpishow{MPI_ERROR} gives the error status of the receive call;
   see section~\ref{sec:mpi-status-error}.
@@ -101,6 +102,19 @@ is a structure with freely accessible members:
   not as a structure member;
   see section~\ref{sec:mpi-status-count}.
 \end{itemize}
+
+\begin{fortrannote}{Status object in f08}
+  The \indextermtt{mpi_f08} module turns many handles
+  (such as communicators)
+  from Fortran \lstinline{Integer}s into \lstinline{Type}s.
+  Retrieving the integer from the type is usually done
+  through the \lstinline+%val+ member,
+  but for the status object this is more difficult.
+  The routines \indexmpidef{MPI_Status_f2f08} and \indexmpidef{MPI_Status_f082f}
+  convert between these.
+  (Remarkably, these routines are even available in~C,
+  where they operate on \indexmpishow{MPI_Fint}, \indexmpishow{MPI_F08_status} arguments.)
+\end{fortrannote}
 
 \begin{mplnote}{Status object}
   The \lstinline+mpl::status_t+ object is created by the receive
@@ -137,11 +151,11 @@ a random amount of time. For efficiency, the manager process accepts message fro
 
 \cverbatimsnippet[examples/mpi/c/anysource.c]{anysource}
 
-In Fortran2008 style, the source is a member of the \flstinline{Status} type.
+In \fstandard{2003} style, the source is a member of the \flstinline{Status} type.
 
 \fverbatimsnippet[examples/mpi/f08/anysource.F90]{anysource-f08}
 
-In Fortran90 style, the source is an index in the \flstinline{Status} array.
+In \fstandard{90} style, the source is an index in the \flstinline{Status} array.
 
 \fverbatimsnippet[examples/mpi/f/anysource.F90]{anysource-f}
 
@@ -163,7 +177,8 @@ of a message can be retrieved as the
 %
 \indexmpidef{MPI_TAG}
 %
-member in the status structure. See the section about \clstinline+MPI_SOURCE+
+member in the status structure.
+See section~\ref{sec:mpi-source} about \clstinline+MPI_SOURCE+
 for how to use this.
 
 \begin{mplnote}{Message tag}
@@ -192,7 +207,8 @@ such as \indexmpishow{MPI_Waitall}.
 For functions that return a single status, any error is returned
 as the function result.
 For a function returning multiple statuses, the presence of any error
-is indicated by a result of \indexmpishow{MPI_ERR_IN_STATUS}.
+is indicated by a result of \indexmpishow{MPI_ERR_IN_STATUS};
+section~\ref{sec:mpi-wait-status}.
 
 \Level 2 {Count}
 \label{sec:mpi-status-count}
@@ -258,6 +274,30 @@ This design patterns offers an opportunity for inspecting the
 object describing the data that was received.
 
 \index{message!status|)}
+
+\Level 1 {Errors}
+
+MPI routines return \indexmpishow{MPI_SUCCESS} upon succesful completion.
+The following error codes can be returned
+(see section~\ref{sec:mpi-err-codes} for details)
+for completion with error by both send and receive operations:
+  \indexmpishow{MPI_ERR_COMM},
+  \indexmpishow{MPI_ERR_COUNT},
+  \indexmpishow{MPI_ERR_TYPE},
+  \indexmpishow{MPI_ERR_TAG},
+  \indexmpishow{MPI_ERR_RANK}.
+
+
+\Level 1 {Message envelope}
+\label{sec:mpi-envelope}
+\index{message!envelope|(}
+\index{envelope|see{message, envelope}}
+
+Apart from its bare data, each message has a \emph{message envelope}.
+This has enough information to distinguish messages from each other:
+the source, destination, tag, communicator.
+
+\index{message!envelope|)}
 
 \Level 0 {Review questions}
 

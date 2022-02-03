@@ -194,7 +194,9 @@ and their collective versions
 \indexmpidef{MPI_File_iread_all}.
 
 Also 
+\indexmpidef{MPI_File_iwrite_at},
 \indexmpidef{MPI_File_iwrite_at_all},
+\indexmpidef{MPI_File_iread_at}.,
 \indexmpidef{MPI_File_iread_at_all}.
 
 These routines output an \indexmpishow{MPI_Request} object,
@@ -304,7 +306,7 @@ This call is collective, even if not all processes access the file.
     data formats.
   \end{itemize}
 \item The \n{info} parameter is an \indexmpishow{MPI_Info} object,
-  or \indexmpishow{MPI_INFO_NULL}. See section~\ref{sec:mpi-file-info} for more.
+  or \indexmpishow{MPI_INFO_NULL}. See section~\ref{sec:mpi-info-file} for more.
   (See \indextermdef{T3PIO}~\cite{t3pio-git} for a tool that 
   assists in setting this object.)
 \end{itemize}
@@ -332,7 +334,7 @@ datatype.
   \includegraphics[scale=.4]{write-at-derived}
 \end{figure}
 
-\begin{fortrannote}
+\begin{fortrannote}{Offset literals}
   In Fortran you have to assure that the displacement parameter is of
   `kind' \indexmpishow{MPI_OFFSET_KIND}. In particular, you can not
   specify a literal zero~`0' as the displacement; use

@@ -4,7 +4,7 @@
 %%%%
 %%%% This text file is part of the source of 
 %%%% `Parallel Programming in MPI and OpenMP'
-%%%% by Victor Eijkhout, copyright 2012-2021
+%%%% by Victor Eijkhout, copyright 2012-2022
 %%%%
 %%%% mpi-elementary.tex : elementary datatypes
 %%%%
@@ -81,30 +81,45 @@ and more about byte counting.
 \index{datatype!elementary!in Fortran}
 \lstset{style=reviewcode,language=Fortran} %pyskip
 
+\begin{table}[ht]
+\hbox{
 \begin{tabular}{|ll|}
   \hline
 \indexmpidef{MPI_CHARACTER}&Character(Len=1)\\
 % int
 \indexmpidef{MPI_INTEGER}&\\
-\indexmpidef{MPI_INTEGER1}&\\
-\indexmpidef{MPI_INTEGER2}&\\
-\indexmpidef{MPI_INTEGER4}&\\
-\indexmpidef{MPI_INTEGER8}&(common compiler extension; not standard)\\
-\indexmpidef{MPI_INTEGER16}&\\
 % real
 \indexmpidef{MPI_REAL}&\\
 \indexmpidef{MPI_DOUBLE_PRECISION}&\\
-\indexmpidef{MPI_REAL2}&\\
-\indexmpidef{MPI_REAL4}&\\
-\indexmpidef{MPI_REAL8}&\\
 % complex
 \indexmpidef{MPI_COMPLEX}&\\
-\indexmpidef{MPI_DOUBLE_COMPLEX}&Complex(Kind=Kind(0.d0))\\
 % other
 \indexmpidef{MPI_LOGICAL}&\\
+\indexmpishow{MPI_BYTE}&\\
 \indexmpidef{MPI_PACKED}&\\
   \hline
 \end{tabular}
+
+\begin{tabular}{|l|}
+  \hline
+% int
+\indexmpidef{MPI_INTEGER1}\\
+\indexmpidef{MPI_INTEGER2}\\
+\indexmpidef{MPI_INTEGER4}\\
+\indexmpidef{MPI_INTEGER8}\\
+\indexmpidef{MPI_INTEGER16}\\
+% real
+\indexmpidef{MPI_REAL2}\\
+\indexmpidef{MPI_REAL4}\\
+\indexmpidef{MPI_REAL8}\\
+% complex
+\indexmpidef{MPI_DOUBLE_COMPLEX}\\ \kern20pt Complex(Kind=Kind(0.d0))\\
+  \hline
+\end{tabular}
+}
+\caption{Standard Fortran types (left) and common extension (right)}
+\label{tab:mpi-f-types}
+\end{table}
 
 Not all these types need be supported, for instance
 \indexmpishow{MPI_INTEGER16} may not exist, in which case it will be
@@ -124,12 +139,15 @@ Integer(kind=MPI_COUNT_KIND) :: count
 call MPI_Type_size_x(my_type, count)
 \end{lstlisting}
 
-\begin{mpifour}
+\begin{mpifournote}{Count type}
   For every routine \lstinline{MPI_Something}
   with an \lstinline{int} count parameter,
   there is a corresponding routine \lstinline{MPI_Something_c}
   with an \lstinline{MPI_Count} parameter.
-\end{mpifour}
+
+  The above \lstinline{MPI_Something_x} routines
+  will probably be deprecated in the \mpistandard{4.1} standard.
+\end{mpifournote}
 
 \Level 2 {Byte counting types}
 \label{sec:mpi-byte-count}
@@ -144,7 +162,7 @@ used in file I/O; section~\ref{sec:mpi-filepoint}.
 \Level 2 {Fortran90 kind-defined types}
 \label{sec:f90-types}
 
-If your Fortran code uses \lstinline{KIND} to define scalar types with
+If your \fstandard{90} code uses \lstinline{KIND} to define scalar types with
 specified precision, these do not in general correspond to any
 predefined MPI datatypes. Hence the following routines exist to make
 \emph{MPI equivalences of Fortran scalar types}%

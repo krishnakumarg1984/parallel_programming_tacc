@@ -37,7 +37,7 @@ this code is not legal, and behavior is not defined.
 
 In hybrid execution, the main question is whether all threads
 are allowed to make MPI calls. To determine this,
-replace the \n{MPI_Init} call by
+replace the \indexmpishow{MPI_Init} call by
 %
 \indexmpiref{MPI_Init_thread}
 %
@@ -66,6 +66,17 @@ with \indexmpiref{MPI_Query_thread}.
 In case more than one thread performs communication, 
 \indexmpiref{MPI_Is_thread_main}
 can determine whether a thread is the main thread.
+
+\begin{pythonnote}{Thread level}
+  The thread level can be set through the \lstinline{mpi4py.rc} object
+  (section~\ref{sec:mpi-init}):
+\begin{lstlisting}
+mpi4py.rc.threads # default True
+mpi4py.rc.thread_level # default "multiple"
+\end{lstlisting}
+Available levels are
+\n{multiple}, \n{serialized}, \n{funneled}, \n{single}.
+\end{pythonnote}
 
 \begin{mplnote}{Threading support}
   \ac{MPL} always calls \indexmpishow{MPI_Init_thread}
@@ -103,7 +114,7 @@ release_mt : multi-threaded with per-object lock for thread-split
 
 The \emph{mpiexec}\index{mpiexec!and environment variables}
 program usually propagates \indexterm{environment variables},
-so the value of \indextermtt{OMP_NUM_THREADS} when you call \n{mpiexec}
+so the value of \indextermtt{OMP_NUM_THREADS} when you call \indextermtt{mpiexec}
 will be seen by each MPI process.
 
 \begin{itemize}

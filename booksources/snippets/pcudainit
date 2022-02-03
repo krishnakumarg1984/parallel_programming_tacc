@@ -1,3 +1,3 @@
-// cudamatself.c
+// cudainit.c
 ierr = PetscCUDAInitialize(comm,PETSC_DECIDE); CHKERRQ(ierr);
 ierr = PetscCUDAInitializeCheck(); CHKERRQ(ierr);

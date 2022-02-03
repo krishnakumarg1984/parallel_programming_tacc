@@ -37,7 +37,7 @@ info ::
 	@echo "make run_PROGRAM (in: ${RUNS})"
 	@echo "    [ NPSPEC=\"-np 4\" or so; default=<<${NPSPEC}>> ]"
 RUNS =
-include ../../../makefiles/Make.mpirun
+include ../../../makefiles/Make.mpi_run
 .PHONY: run_waitnull
 RUNS += run_waitnull
 run_waitnull : waitnull

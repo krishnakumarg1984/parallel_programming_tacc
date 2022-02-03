@@ -176,6 +176,10 @@ ifeq "${MODE}" "mpi"
 C_LINKER   := ${MPI_C_COMPILER}
 CXX_LINKER := ${MPI_CXX_COMPILER}
 F_LINKER   := ${MPI_F_COMPILER}
+else ifeq "${MODE}" "hybrid"
+C_LINKER   := ${MPI_C_COMPILER}
+CXX_LINKER := ${MPI_CXX_COMPILER}
+F_LINKER   := ${MPI_F_COMPILER}
 else ifeq "${MODE}" "1api"
 C_LINKER   := ${C_COMPILER}
 CXX_LINKER := ${CXX_COMPILER}
@@ -200,11 +204,15 @@ endif
 
 .SECONDEXPANSION:
 ${APPS} ${EXERCISES} ${PROGRAMS} ${WRONGS} : $$@.o ${EXTRA_OBJS}
-	@if [ "${ECHO}" = "1" ] ; then \
-	    echo ${LINK_SETUP_COMMANDS} \
-	    ; fi \
-	 && eval ${LINK_SETUP_COMMANDS}
-	${LINKER} -o $@ $^ ${LINK_FLAGS} ${EXTRA_LIBS}
+	@if [ ! -z "${LINK_SETUP_COMMANDS}" ] ; then \
+	    if [ "${ECHO}" = "1" ] ; then echo ${LINK_SETUP_COMMANDS} ; fi \
+	     && eval ${LINK_SETUP_COMMANDS} \
+	    ; fi
+	@if [ -z "${LINKER}" ] ; then \
+	    echo "No linker defined for LANGUAGE=${LANGUAGE}" && exit 1 ; fi
+	@cmd="${LINKER} -o $@ $^ ${LINK_FLAGS} ${EXTRA_LIBS}" \
+	 && if [ "${ECHO}" = "1" ] ; then echo $$cmd ; fi \
+	 && eval $$cmd
 	@if [ "${ECHO}" = "1" ] ; then \
 	    echo ${LINK_EXTRA_COMMANDS} \
 	    ; fi \
@@ -216,7 +224,7 @@ compile :
 	${LINKER} -o ${PROGRAM} ${PROGRAM}.o ${EXTRA_OBJS} ${LINK_FLAGS} ${EXTRA_LIBS}
 
 info ::
-	@if [ ! -z "${APPS}" ] ; then \
+	@if [ ! -z "${APPS}${EXERCISES}" ] ; then \
 	    echo "make listsources : list all sources in this directory" \
 	    echo "make listapps : list all apps in this directory" \
 	    && echo "make apps : compile all applications in this directory" \
@@ -233,9 +241,9 @@ listsources :
 	@echo tools.{c,h}
 apps :
 	@( \
-	for a in ${APPS} ; do \
+	for a in ${APPS} ${EXERCISES} ; do \
 	    echo "%%%%%%%%%%%%%%%%" && echo "Compiling: $${a}" \
-	    && make $${a} || echo "failure" \
+	    && make --no-print-directory $${a} || echo "failure" \
 	    ; \
 	done \
 	) 2>&1 | tee compile.log
@@ -249,10 +257,19 @@ listapps :
 	; done
 runapps :
 	@( \
-	for a in ${APPS} ; do \
-	    echo "%%%%%%%%%%%%%%%%" && echo "Compile $${a}" \
-	    && make $${a} \
-	    && ./$${a} \
+	for a in ${APPS} ${EXERCISES} ; do \
+	    echo "%%%%%%%%%%%%%%%% Compile $${a}" \
+	     && make --no-print-directory $${a} ECHO=${ECHO} \
+	     && if [ ${MODE} = "mpi" -o ${MODE} = "petsc" ] ; then \
+	            echo "%%%%%%%%%%%%%%%% mpirun $${a}" \
+	             && make --no-print-directory mpirun \
+	                    PROGRAM=$$a ECHO=${ECHO} \
+	            ; \
+	        else \
+	            echo "%%%%%%%%%%%%%%%% run $${a}" \
+	             && ./$${a} \
+	            ; \
+	        fi \
 	    ; \
 	done \
 	) 2>&1 | tee run.log

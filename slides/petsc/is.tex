@@ -4,13 +4,13 @@
 %%%% This TeX file is part of the tutorial
 %%%% `Introduction to the PETSc library'
 %%%% Victor Eijkhout, eijkhout@tacc.utexas.edu
-%%%% copyright Victor Eijkhout 2012-2020
+%%%% copyright Victor Eijkhout 2012-2022
 %%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \sectionframe{IS and VecScatter: irregular grids}
 
-\frame[containsverbatim]{\frametitle{Irregular data movement}
+\begin{numberedframe}{Irregular data movement}
 
   Example: collect distributed boundary onto a single processor
   (this happens in the matrix-vector product)
@@ -19,9 +19,9 @@
 
   Problem: figuring out communication is hard, actual communication is
   cheap
-}
+\end{numberedframe}
 
-\frame[containsverbatim]{\frametitle{VecScatter}
+\begin{numberedframe}{VecScatter}
 Preprocessing: determine mapping between input vector and output:
 \begin{verbatim}
 VecScatterCreate(Vec,IS,Vec,IS,VecScatter*) 
@@ -34,9 +34,9 @@ VecScatterBegin(VecScatter,
 VecScatterEnd  (VecScatter,
   Vec,Vec, InsertMode mode, ScatterMode direction)
 \end{verbatim}
-}
+\end{numberedframe}
 
-\frame[containsverbatim]{\frametitle{IS: index set}
+\begin{numberedframe}{IS: index set}
 Index Set is a set of indices
 \begin{verbatim}
 ISCreateGeneral(comm,n,indices,PETSC_COPY_VALUES,&is);
@@ -46,14 +46,14 @@ ISCreateBlock  (comm,bs,n,indices,&is);
 
 ISDestroy(is);
 \end{verbatim}
-Use \n{MPI_COMM_SELF} most of the time.
+Use \lstinline{MPI_COMM_SELF} most of the time.
 
-Various manipulations: \n{ISSum}, \n{ISDifference}, \n{ISInvertPermutations}
+Various manipulations: \lstinline{ISSum}, \lstinline{ISDifference}, \lstinline{ISInvertPermutations}
 et cetera.\\
-Also \n{ISGetIndices} / \n{ISRestoreIndices} / \n{ISGetSize}
-}
+Also \lstinline{ISGetIndices} / \lstinline{ISRestoreIndices} / \lstinline{ISGetSize}
+\end{numberedframe}
 
-\begin{frame}[containsverbatim]{Example: split odd and even}
+\begin{numberedframe}{Example: split odd and even}
 Input:
 \begin{multicols}{2}
 \tiny
@@ -98,15 +98,15 @@ Process [1]
 11.
 \end{verbatim}
 \end{multicols}
-\end{frame}
+\end{numberedframe}
 
-\begin{frame}[containsverbatim]{index sets for this example}
+\begin{numberedframe}{index sets for this example}
 \cverbatimsnippet{isoddeven}
-\end{frame}
+\end{numberedframe}
 
-\begin{frame}[containsverbatim]{scatter for this example}
+\begin{numberedframe}{scatter for this example}
 \cverbatimsnippet{vsoddeven}
-\end{frame}
+\end{numberedframe}
 
 \begin{exerciseframe}[oddeven]
 Now alter the \lstinline{IS} objects so that the output becomes:
@@ -134,7 +134,7 @@ Process [1]
 \end{multicols}
 \end{exerciseframe}
 
-\frame[containsverbatim]{\frametitle{Example: simulate allgather}
+\begin{numberedframe}{Example: simulate allgather}
 \small
 \begin{verbatim}
 /* create the distributed vector with one element per processor */
@@ -147,9 +147,9 @@ ierr = VecCreate(MPI_COMM_SELF,&local);
 ierr = VecSetType(local,VECSEQ); 
 ierr = VecSetSizes(local,ntids,ntids); 
 \end{verbatim}
-}
+\end{numberedframe}
 
-\frame[containsverbatim]{
+\begin{numberedframe}
 \small
 \begin{verbatim}
 IS indices;
@@ -160,15 +160,15 @@ ierr = VecScatterCreate
 /* index set is no longer needed */
 ierr = ISDestroy(&indices); 
 \end{verbatim}
-}
+\end{numberedframe}
 
-\frame[containsverbatim]{\frametitle{Example: even and odd indices}
+\begin{numberedframe}{Example: even and odd indices}
 \small
 \cverbatimsnippet{isoddeven}
-}
+\end{numberedframe}
 
-\frame[containsverbatim]{\frametitle{scattering odd and even}
+\begin{numberedframe}{scattering odd and even}
 \small
 \cverbatimsnippet{vsoddeven}
-}
+\end{numberedframe}
 

@@ -4,7 +4,7 @@
 %%%%
 %%%% This text file is part of the source of 
 %%%% `Parallel Programming in MPI and OpenMP'
-%%%% by Victor Eijkhout, copyright 2012-2020
+%%%% by Victor Eijkhout, copyright 2012-2022
 %%%%
 %%%% slurm.tex : about batch systems
 %%%%
@@ -228,6 +228,7 @@ Common options are:
   \item The shorter your job, the more likely it is to get scheduled sooner
     rather than later.
   \end{enumerate}
+\item \n{-w c452-[101-104,111-112,115]} specific nodes to place the job.
 \item \n{-A}: the name of the account to which your job should be billed.
 \item \n{--mail-user=you@where} Slurm can notify you when a job starts or ends.
   You may for instance want to connect to a job when it starts
@@ -322,7 +323,7 @@ per node with \n{--ntasks-per-node}.
   \n{--ntasks-per-node} values.
 \end{exercise}
 
-\begin{pythonnote}
+\begin{pythonnote}{Python MPI programs}
   Python programs using \indextermtt{mpi4py} should be treated like other
   MPI programs, except that instead of an executable name you specify
   the python executable and the script name:
@@ -365,7 +366,7 @@ executable for a large number of inputs.
 This is called variously a \indextermdef{parameter sweep} or an \indexterm{ensemble}.
 
 Slurm can support this itself with \indextermsubp{array}{job},
-though there are more sophisticated \indexterm{launcher} tools
+though there are more sophisticated \indextermunix{launcher} tools
 for such purposes.
 
 \begin{taccnote}

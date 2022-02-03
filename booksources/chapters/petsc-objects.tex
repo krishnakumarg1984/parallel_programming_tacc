@@ -4,7 +4,7 @@
 %%%%
 %%%% This text file is part of the source of 
 %%%% `Parallel Programming in MPI and OpenMP'
-%%%% by Victor Eijkhout, copyright 2012-2021
+%%%% by Victor Eijkhout, copyright 2012-2022
 %%%%
 %%%% petsc-objects.tex : petsc tangible-ish objects
 %%%%
@@ -104,7 +104,9 @@ Furthermore, there is
 \Level 1 {Integers}
 
 Integers in PETSc are likewise of a size determined at installation
-time: \indexpetscdef{PetscInt} can be 32 or 64 bits. Furthermore,
+time: \indexpetscdef{PetscInt} can be 32 or 64 bits.
+The latter possibility is useful for indexing into large vectors and matrices.
+Furthermore,
 there is a \indexpetscshow{PetscErrorCode} type for catching the return
 code of PETSc routines; see section~\ref{sec:petsc-error}.
 
@@ -183,6 +185,8 @@ to be created on a communicator with
   %
   In C and Fortran, the vector type is a keyword; in Python it is a
   member of \n{PETSc.Vec.Type}.
+  %
+  \pverbatimsnippet{pyveccreate}
 \end{pythonnote}
 
 The corresponding routine \indexpetscref{VecDestroy} deallocates data and zeros
@@ -226,8 +230,12 @@ Since a
 vector is typically distributed, this involves the global size and the
 sizes on the processors. Setting both is redundant, so it is possible
 to specify one and let the other be computed by the library. This is
-indicated by setting it to \indexpetscdef{PETSC_DECIDE}
-(\plstinline{PETSc.DECIDE} in python).
+indicated by setting it to \indexpetscdef{PETSC_DECIDE}.
+
+\begin{pythonnote}{Vector size}
+  Use \plstinline{PETSc.DECIDE} for the parameter not specified:
+  \pverbatimsnippet{pyvecsize}
+\end{pythonnote}
 
 The size is queried with \indexpetscref{VecGetSize} for the global size
 and \indexpetscxref{VecGetLocalSize}{VecGetSize} for the local size.
@@ -303,6 +311,19 @@ n \leftarrow \|x\|_2\\
 \end{array}
 \]
 \end{exercise}
+
+\begin{pythonnote}{Vector operations}
+  The plus operator is overloaded so that
+  \begin{lstlisting}
+    x+y
+  \end{lstlisting}
+  is defined.
+  \begin{lstlisting}
+    x.sum() # max,min,....
+    x.dot(y)
+    x.norm(PETSc.NormType.NORM_INFINITY)
+  \end{lstlisting}
+\end{pythonnote}
 
 \Level 2 {Split collectives}
 
@@ -398,20 +419,18 @@ PETSc insists that you properly release this pointer again with
 \indexpetscref{VecRestoreArray} or
 \indexpetscxref{VecRestoreArrayRead}{VecRestoreArray}.
 
-Note that in a distributed running context you can only get the array
-of local elements. Accessing the elements from another process
-requires explicit communication; see section~\ref{sec:petsc-vs}.
+In the following example, a vector is scaled through direct array access.
+Note the differing calls for the source and target vector,
+and note the \lstinline{const} qualifier on the source array:
+%
+\cverbatimsnippet{vecgetarray}
 
-\begin{lstlisting}
-PetscScalar *in_array,*out_array;
-VecGetArrayRead(in,&in_array);
-VecGetArray(out,&out_array);
-VecGetLocalSize(in,&localsize);
-for (int i=0; i<localsize; i++)
-  out_array[i] = 2*in_array[i];
-VecRestoreArrayRead(in,&in_array);
-VecRestoreArray(out,&out_array);
-\end{lstlisting}
+This example also uses \indexpetscshow{VecGetLocalSize}
+to determine the size of the data accessed.
+Even running in a distributed context you can only get the array
+of local elements.
+Accessing the elements from another process
+requires explicit communication; see section~\ref{sec:petsc-vs}.
 
 There are some variants to the \clstinline{VecGetArray} operation:
 \begin{itemize}
@@ -431,14 +450,23 @@ you would create a sequential vector, and
 \indexpetscshow{VecPlaceArray} the contents of the distributed vector
 into it.
 
-\begin{fortrannote}
+\begin{fortrannote}{F90 array access through pointer}
   There are routines such as \indexpetscdef{VecGetArrayF90}
   (with corresponding \indexpetscdef{VecRestoreArrayF90})
   that
   return a (Fortran) pointer to a one-dimensional array.
   %
   \fverbatimsnippet[examples/petsc/f/vecset.F90]{vecinspect90}
+  \fverbatimsnippet[examples/petsc/f08/vecarray.F90]{pfvecgetarray}
 \end{fortrannote}
+
+\begin{pythonnote}{Vector access}
+  \begin{lstlisting}
+    x.getArray()
+    x.getValues(3)
+    x.getValues([1, 2])
+  \end{lstlisting}
+\end{pythonnote}
 
 \Level 1 {File I/O}
 \label{sec:vecviewload}
@@ -602,7 +630,7 @@ were specified elsewhere. As with vectors this takes two calls:
 and
 \indexpetscxref{MatAssemblyEnd}{MatAssemblyBegin}
 %
-which can be used to achieve \indexterm{latency hiding}.
+which can be used to achieve \indextermbus{latency}{hiding}.
 
 Elements can either be inserted
 (\indexpetscshow{INSERT_VALUES}) or added

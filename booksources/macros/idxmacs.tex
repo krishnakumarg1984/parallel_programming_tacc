@@ -250,16 +250,19 @@
 \newcommand\indexompex    {\PackageIndex\ompIndexIT}
 \let\indexomprep\indexompshow % need to incorporate link to man page
 
-\def\indexpragma#1{\texttt{#1}\index[omp]{omp!#1|texttt}}
-\def\indexpragmadef#1{\texttt{#1}\index[omp]{omp!#1|textbf}}
-\index{pragma|see{for list see under `omp'}}
+%%%% \def\indexpragma#1{\texttt{#1}\index[omp]{#1}}
+\newcommand\indexpragma   {\PackageIndex\ompIndexTT}
+%%%% \def\indexpragmadef#1{\texttt{#1}\index[omp]{#1|textbf}}
+\newcommand\indexpragmadef{\PackageIndex\ompIndexBF}
+\index[omp]{pragma|see{see under pragma name}}
 %\def\indexompclause#1{\texttt{#1}\index[omp]{omp clause!#1}}
-\def\indexclause#1{\texttt{#1}\index[omp]{omp clause!#1}}
-\def\indexclausedef#1{\texttt{#1}\index[omp]{omp clause!#1|textbf}}
-\def\indexclauseoption#1#2{\texttt{#2}\index[omp]{omp clause!#1!#2}}
-\def\indexompclauseoption#1#2{\texttt{#2}\index[omp]{omp clause!#1!#2}}
+\newcommand\indexclause   {\PackageIndex\ompIndexTT}
+\newcommand\indexclausedef{\PackageIndex\ompIndexTT}
+\def\indexclauseoption#1#2{\texttt{#2}\index[omp]{#1!#2}}
+\def\indexompclauseoption#1#2{\texttt{#2}\index[omp]{#1!#2}}
 
 \newcommand\ompIndexTe{\TermIndexFont{omp}{textrm}\endgroup}
+\newcommand\ompIndexTT{\RoutineIndexFont{omp}{texttt}\endgroup}
 \newcommand\ompIndexRM{\RoutineIndexFont{omp}{textrm}\endgroup}
 \newcommand\ompIndexBF{\RoutineIndexFont{omp}{textbf}\endgroup}
 \newcommand\ompIndexRd{\RoutineDeprcFont{omp}{textrm}\endgroup}
@@ -327,7 +330,7 @@
     \noexpand\index[#1]{%
       \indexedroutine@{\catcode95=12 \noexpand\texttt{\indexedroutine}}|#2}%
   }%
-  \tmp
+  \tmp%
 }
 \def\TermIndexFont#1#2{% 
   \def\ifont{#2}\def\bfont{textbf}%

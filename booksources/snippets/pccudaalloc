@@ -1,3 +1,4 @@
+// cudamatself.c
 Mat cuda_matrix;
 PetscScalar *matdata;
 ierr = PetscMallocSetCUDAHost(); CHKERRQ(ierr);

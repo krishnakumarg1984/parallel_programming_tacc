@@ -3,7 +3,7 @@
    %%%%
    %%%% This program file is part of the book and course
    %%%% "Parallel Computing"
-   %%%% by Victor Eijkhout, copyright 2013-2021
+   %%%% by Victor Eijkhout, copyright 2013-2022 
    %%%%
    %%%% speedup.c : exploration of loop speedup
    %%%%

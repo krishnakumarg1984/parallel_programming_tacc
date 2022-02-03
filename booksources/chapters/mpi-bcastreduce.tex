@@ -53,6 +53,12 @@ Each of these needs some elucidation.
   See chapter~\ref{ch:mpi-data} for details.
 \end{enumerate}
 
+\begin{remark}
+  Routines with both a send and receive buffer should not alias these.
+  Instead, see the discussion of \indexmpishow{MPI_IN_PLACE};
+  section~\ref{sec:allreduce-inplace}.
+\end{remark}
+
 \Level 2 {Examples and exercises}
 
 \begin{exercise}
@@ -205,7 +211,7 @@ MPI_Send( &xx[0],25,MPI_FLOAT, .... );
 \end{lstlisting}
 \end{cppnote}
 
-\begin{fortrannote}
+\begin{fortrannote}{MPI send/recv buffers}
   In~\emph{Fortran} parameters are always passed by reference,
   so the \emph{buffer}\index{buffer!MPI, in Fortran}
   is treated the same way:

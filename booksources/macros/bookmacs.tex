@@ -37,6 +37,7 @@
 %%%%
 %%%% stuff
 %%%%
+\newcommand\fstandard[1]{Fortran#1\index{Fortran!Fortran#1}}
 \newcommand\mpistandard[1]{MPI-#1\index{MPI!MPI-#1}}
 \newcommand\mpistandardsub[2]{MPI-#1\index{MPI!MPI-#1!#2}}
 \newcommand\ompstandard[1]{OpenMP-#1\index{OpenMP!OpenMP-#1}}
@@ -154,37 +155,60 @@
                  \noindent \hbox{\kern-\unitindent \textsl{#1.}}\kern1em\ignorespaces
                }
                {\par\end{raggedright}}
-\newcounter{fortrannote}
-\newenvironment{fortrannote}
-  {\begin{specialnote}{Fortran note}\lstset{language=Fortran}}
-  {\end{specialnote}\lstset{language=C}}
 \newenvironment{cppnote}
   {\begin{specialnote}{C++ note}\lstset{language=C++}}
   {\end{specialnote}\lstset{language=C}}
 
+%% list of python notes and such
+\usepackage{tocloft}
+
+\newcommand\listftnnote{List of Fortran notes}
+\newlistof{fortrannote}{loftn}\listftnnote
+\renewcommand\cftloftntitlefont{\slshape}
+\argcomment
+    {fortrannote}
+    {\par\advance\leftskip by \unitindent
+      \refstepcounter{fortrannote}
+      \noindent \hbox
+                {\kern-\unitindent \textsl{Fortran note \arabic{fortrannote}:\ \CommentArg.}}\ %
+      \addcontentsline{loftn}{fortrannote}{\protect\numberline{\thefortrannote}\CommentArg}
+      %\index[fortran]{\CommentArg}%
+      \lstset{language=Fortran}%
+    }
+    {\par\advance\leftskip by -\unitindent
+      \lstset{language=C}
+      \relax}
+
+\newcommand\listpynote{List of Python notes}
+\newlistof{pythonnote}{lopy}\listpynote
+\renewcommand\cftlopytitlefont{\slshape}
 \argcomment
     {pythonnote}
     {\par\advance\leftskip by \unitindent
-      \index[python]{\CommentArg}%
-      \noindent \hbox{\kern-\unitindent \textsl{Python note.}}\ %
+      \refstepcounter{pythonnote}
+      \noindent \hbox{\kern-\unitindent \textsl{Python note \arabic{pythonnote}:\ \CommentArg.}}\ %
+      \addcontentsline{lopy}{pythonnote}{\protect\numberline{\thepythonnote}\CommentArg}
+      %\index[python]{\CommentArg}%
       \lstset{language=Python}%
     }
     {\par\advance\leftskip by -\unitindent
       \lstset{language=C}
       \relax}
 
-\newcounter{mplnote}
+%\newcounter{mplnote}
+\newcommand\listmplnote{List of Mpl notes}
+\newlistof{mplnote}{lompl}\listmplnote
+\renewcommand\cftlompltitlefont{\slshape}
 \argcomment
     {mplnote}
-    {\refstepcounter{mplnote}
+    {\par\advance\leftskip by \unitindent
+      \refstepcounter{mplnote}
       {\lccode32=45 \lccode47=45
         \edef\tmp{\lowercase{\gdef\noexpand\CommentArg{\CommentArg}}}\tmp}
       \def\CommentCutFile{snippets/mplnote-\CommentArg.cut}
-      %% \def\PrepareCutFile
-      %%     {\immediate\write\CommentStream{\CommentArg}}
-      \par\advance\leftskip by \unitindent
-      \index[mpl]{\CommentArg}%
+      %\index[mpl]{\CommentArg}%
       \noindent \hbox{\kern-\unitindent \textsl{MPL note \arabic{mplnote}.}}\ %
+      \addcontentsline{lompl}{mplnote}{\protect\numberline{\themplnote}\CommentArg}
       \lstset{language=C++}%
     }
     {\par \noindent\textsl{End of MPL note}\par
@@ -210,11 +234,17 @@
     {\end{specialnote}
 }
 
-\specialcomment{mpifour}
-    {\begingroup\def\ProcessCutFile{}\par}
+\newcommand\listmpifournote{List of MPI-4 notes}
+\newlistof{mpifournote}{lomfour}\listmpifournote
+\renewcommand\cftlomfourtitlefont{\slshape}
+\argcomment
+    {mpifournote}
+    {\refstepcounter{mpifournote}
+      \begingroup\def\ProcessCutFile{}\par}
     {\par \smallskip \hrule
       \hbox{\textsl{The following material is for the recently released MPI-4 standard and may not be supported yet.}}
       \nobreak
+      \addcontentsline{lomfour}{mpifournote}{\protect\numberline{\thempifournote}\CommentArg}
       \input{\CommentCutFile}
       \par
       \hbox{\textsl{End of MPI-4 material}}

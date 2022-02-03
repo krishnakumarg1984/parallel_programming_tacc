@@ -4,11 +4,11 @@
 %%%% This TeX file is part of the tutorial
 %%%% `Introduction to the PETSc library'
 %%%% Victor Eijkhout, eijkhout@tacc.utexas.edu
-%%%% copyright Victor Eijkhout 2012-2020
+%%%% copyright Victor Eijkhout 2012-2022
 %%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\frame{\frametitle{To set the stage}
+\begin{numberedframe}{To set the stage}
 
   Developing parallel, nontrivial PDE solvers that
   deliver high performance is still difficult and requires months (or
@@ -17,9 +17,9 @@
   black-box PDE solver, nor a silver bullet.
 
   Barry Smith
-}
+\end{numberedframe}
 
-\frame{\frametitle{More specifically\ldots}
+\begin{numberedframe}{More specifically\ldots}
 Portable Extendable Toolkit for Scientific Computations
 \begin{itemize}
 \item Scientific Computations: parallel linear algebra, in particular
@@ -30,39 +30,31 @@ Portable Extendable Toolkit for Scientific Computations
 \end{itemize}
 
 Why use it? It's big, powerful, well supported.
-}
+\end{numberedframe}
 
-\frame{\frametitle{What does PETSc target?}
+\begin{numberedframe}{What is in PETSc?}
   \begin{itemize}
-  \item Serial and Parallel
-  \item Linear and nonlinear
-  \item Finite difference and finite element
-  \item Structured and unstructured
-  \end{itemize}
-}
-
-\frame{\frametitle{What is in PETSc?}
-  \begin{itemize}
+  \item Linear algebra data structures, all serial/parallel
   \item Linear system solvers (sparse/dense, iterative/direct)
   \item Nonlinear system solvers
   \item Optimization: \n{TAO} (used to be separate library)
   \item Tools for distributed matrices
   \item Support for profiling, debugging, graphical output
   \end{itemize}
-}
+\end{numberedframe}
 
-\frame{
+\begin{numberedframe}{Structure of a PETSc application}
  \includegraphics[scale=.5]{petscwww}
-}
+\end{numberedframe}
 
-\frame{
+\begin{numberedframe}{Hierarchy of tools}
  \includegraphics[scale=.45]{zoom}
-}
+\end{numberedframe}
 
-\begin{frame}[containsverbatim]{Documentation and help}
+\begin{numberedframe}{Documentation and help}
 \begin{itemize}
-\item Web page: \url{http://www.mcs.anl.gov/petsc/}
-\item PDF manual: \url{http://www.mcs.anl.gov/petsc/petsc-current/docs/manual.pdf}
+\item Web page: \url{https://petsc.org/}
+\item Documentation (pdf/html): \url{https://petsc.org/release/docs/}
 \item Follow-up to this tutorial: eijkhout@tacc.utexas.edu
 \item PETSc on your local cluster: ask your local support
 \item General questions about PETSc: petsc-maint@mcs.anl.gov
@@ -71,21 +63,22 @@ et cetera
 \item Sometimes consult include files, for instance
 \verb+$PETSC_DIR/include/petscmat.h+
 \end{itemize}
-\end{frame}
+\end{numberedframe}
 
 \begin{details}
-\frame[containsverbatim]{\frametitle{External packages}
+\begin{numberedframe}{External packages}
 PETSc does not do everything, but it interfaces to other software:
   \begin{itemize}
   \item Dense linear algebra: \n{Scalapack}, \n{Plapack}, \n{Elemental}
   \item Grid partitioning software: \n{ParMetis}, \n{Jostle}, \n{Chaco}, \n{Party}
   \item ODE solvers: \n{PVODE}
-  \item Eigenvalue solvers (including SVD): \n{SLEPc}
+  \item Optimization: \n{TAO} (now integrated)
+  \item Eigenvalue solvers (including SVD): \n{SLEPc} (integrated)
   \end{itemize}
-}
+\end{numberedframe}
 \end{details}
 
-\frame{\frametitle{PETSc and parallelism}
+\begin{numberedframe}{PETSc and parallelism}
 
 PETSc is layered on top of MPI
 
@@ -98,11 +91,10 @@ do parallel matrix-vector product
 \item 
 $\Rightarrow$ you do not need to know much MPI when you use PETSc
 \end{itemize}
-
-}
+\end{numberedframe}
 
 \begin{details}
-\frame{\frametitle{PETSc and parallelism}
+\begin{numberedframe}{PETSc and parallelism}
 
 \begin{itemize}
 \item
@@ -111,7 +103,8 @@ can only interact if on the same communicator
 \item
 Parallelism through MPI
 \item 
-Transparent: same code works sequential and parallel.
+  Transparent: same code works sequential and parallel.\\
+  (Some objects explicitly declared \n{Seq/MPI})
 \item
 No OpenMP used in the library:\\
 user can use shared memory programming.
@@ -123,10 +116,10 @@ Only available on the Frontera RTX nodes (single precision).
 \end{taccnote}
 \end{itemize}
 
-}
+\end{numberedframe}
 \end{details}
 
-\frame[containsverbatim]{\frametitle{Object oriented design}
+\begin{numberedframe}{Object oriented design}
 
 Petsc uses objects: vector, matrix, linear solver, nonlinear solver
 
@@ -135,9 +128,9 @@ Overloading:
   MATMult(A,x,y); // y <- A x
 \end{verbatim}
 same for sequential, parallel, dense, sparse, FFT
-}
+\end{numberedframe}
 
-\frame[containsverbatim]{\frametitle{Data hiding}
+\begin{numberedframe}{Data hiding}
 To support this uniform interface, the implementation is hidden:
 \begin{verbatim}
   MatSetValue(A,i,j,v,INSERT_VALUES); // A[i,j] <- v
@@ -146,4 +139,4 @@ There are some direct access routines, but most of the time you don't
 need them.
 
 (And don't worry about function call overhead.)
-}
+\end{numberedframe}

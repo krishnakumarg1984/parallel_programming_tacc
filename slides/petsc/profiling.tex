@@ -4,12 +4,13 @@
 %%%% This TeX file is part of the tutorial
 %%%% `Introduction to the PETSc library'
 %%%% Victor Eijkhout, eijkhout@tacc.utexas.edu
-%%%% copyright Victor Eijkhout 2012-2020
+%%%% copyright Victor Eijkhout 2012-2022
 %%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \sectionframe{Profiling, debugging}
-\frame[containsverbatim]{\frametitle{Basic profiling}
+
+\begin{numberedframe}{Basic profiling}
 %  Most profiling and debugging requires PETSc installation with debug.
 
   \begin{itemize}
@@ -22,9 +23,9 @@
 \end{verbatim}
   \item \n{-log_trace} start and end of all events: good for hanging code
   \end{itemize}
-}
+\end{numberedframe}
 
-\frame[containsverbatim]{\frametitle{Log summary: overall}
+\begin{numberedframe}{Log summary: overall}
 \small
 \begin{verbatim}
                      Max       Max/Min        Avg      Total 
@@ -37,9 +38,9 @@ MPI Messages:     1.040e+02      1.00000   1.040e+02  2.080e+02
 MPI Msg Lengths:  4.772e+05      1.00000   4.588e+03  9.544e+05
 MPI Reductions:   1.450e+02      1.00000
 \end{verbatim}
-}
+\end{numberedframe}
 
-\frame[containsverbatim]{\frametitle{Log summary: details}
+\begin{numberedframe}{Log summary: details}
 \tiny
 \begin{verbatim}
                    Max Ratio  Max     Ratio   Max  Ratio Avg len %T %F %M %L %R  %T %F %M %L %R Mflop/s
@@ -52,10 +53,10 @@ VecDot               101 1.0 8.3244e-03 1.2 1.43e+08 1.2 0.0e+00  1  7  0  0 35 
 KSPSetup               2 1.0 1.9123e-02 1.0 0.00e+00 0.0 0.0e+00  3  0  0  0  2   3  0  0  0  2     0
 KSPSolve               1 1.0 1.4158e-01 1.0 9.70e+07 1.0 8.0e+02 26100 96 17 92  26100 96 17 92   194
 \end{verbatim}
-}
+\end{numberedframe}
 
 \begin{longversion}
-\frame[containsverbatim]{\frametitle{User events}
+\begin{numberedframe}{User events}
 \begin{lstlisting}
 #include "petsclog.h"
 int USER EVENT;
@@ -65,31 +66,31 @@ PetscLogEventBegin(USER EVENT,0,0,0,0);
 PetscLogFlops(number of flops for this code segment);
 PetscLogEventEnd(USER EVENT,0,0,0,0);
 \end{lstlisting}
-}
+\end{numberedframe}
 
-\frame[containsverbatim]{\frametitle{Program stages}
+\begin{numberedframe}{Program stages}
 \begin{lstlisting}
 PetscLogStagePush(int stage); /* 0 <= stage <= 9 */
 PetscLogStagePop();
 PetscLogStageRegister(int stage,char *name)
 \end{lstlisting}
-}
+\end{numberedframe}
 \end{longversion}
 
-\frame[containsverbatim]{\frametitle{Debugging}
-
+\begin{numberedframe}{Debugging}
   \begin{itemize}
-  \item Use of \n{CHKERRQ} and \n{SETERRQ} for catching and generating
+  \item Use of \lstinline{CHKERRQ} and \lstinline{SETERRQ} for catching and generating
     error
-  \item Use of \n{PetscMalloc} and \n{PetscFree} to catch memory problems;\\
-    \n{CHKMEMQ} for instantaneous memory test (debug mode only)
-  \item Better than \n{PetscMalloc}: \n{PetscMalloc1} aligned to \n{PETSC_MEMALIGN}
+  \item Use of \lstinline{PetscMalloc} and \lstinline{PetscFree} to catch memory problems;\\
+    \lstinline{CHKMEMQ} for instantaneous memory test (debug mode only)
+  \item Better than \lstinline{PetscMalloc}:
+    \lstinline{PetscMalloc1} aligned to \lstinline{PETSC_MEMALIGN}
   \end{itemize}
-}
+\end{numberedframe}
 
-%\frame[containsverbatim]{\frametitle{debugging on lonestar}}
+%\begin{numberedframe}{debugging on lonestar}}
 
-% \frame[containsverbatim]{\frametitle{valgrind}
+% \begin{numberedframe}{valgrind}
 % mpirun -np 2 valgrind --tool=memcheck ./ex2
 
 % And make sure that you use mpich2 - for this to work.

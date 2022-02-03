@@ -1,4 +1,4 @@
-// typecheck.F90
-integer(8) :: source,n=1
-call MPI_Init()
-call MPI_Send(source,n,MPI_INTEGER,1,0,MPI_COMM_WORLD)
+!! typecheck.F90
+  integer(8) :: source,n=1
+  call MPI_Init()
+  call MPI_Send(source,n,MPI_INTEGER,1,0,MPI_COMM_WORLD)

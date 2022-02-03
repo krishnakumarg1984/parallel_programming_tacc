@@ -28,5 +28,7 @@ MODE = mpi
 include ../../../makefiles/Make.compile
 ${patsubst %,%.o,${APPS}} tools.o : globalinit.F90
 
-#include ../../../makefiles/Make.mpi_run
+RUNS = 
+include ../../../makefiles/Make.run
+
 include ../../../makefiles/Make.clean

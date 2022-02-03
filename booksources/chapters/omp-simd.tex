@@ -13,8 +13,16 @@
 
 You can declare a loop to be executable with
 \indextermbus{vector}{instructions} with
-%
-\indexpragmadef{simd}
+\indexpragmadef{simd}.
+
+\begin{remark}
+  Depending on your compiler, it may be necessary to give an extra option
+  enabling SIMD:
+  \begin{itemize}
+  \item  \n{-fopenmp-simd} for \indexterm{GCC}~/ \indexterm{Clang}, and
+  \item \n{-qopenmp-simd} for \indexterm{ICC}.
+  \end{itemize}
+\end{remark}
 
 The \indexpragma{simd} pragma has the following clauses:
 \begin{itemize}

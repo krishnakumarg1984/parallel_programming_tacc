@@ -4,7 +4,7 @@
 %%%%
 %%%% This text file is part of the source of 
 %%%% `Parallel Programming in MPI and OpenMP'
-%%%% by Victor Eijkhout, copyright 2012-2021
+%%%% by Victor Eijkhout, copyright 2012-2022
 %%%%
 %%%% mpi-running.tex : about running MPI programs
 %%%%
@@ -53,12 +53,12 @@ This exercise is illustrated in figure~\ref{fig:hello-parallel}.
 \Level 1 {Headers}
 
 If you use MPI commands in a program file, be sure to include
-the proper header file, \indexterm{mpi.h} or \indexterm{mpif.h}.
+the proper header file, \indextermtt{mpi.h} or \indextermtt{mpif.h}.
 \begin{verbatim}
 #include "mpi.h" // for C
 #include "mpif.h" ! for Fortran
 \end{verbatim}
-For \emph{Fortran90}\index{Fortran!Fortran90}, many MPI installations
+For \fstandard{90}, many MPI installations
 also have an MPI module, so you can write
 \begin{verbatim}
 use mpi     ! pre 3.0
@@ -106,9 +106,25 @@ int main(int argc,char **argv) {
 Fortran (before 2008) lacks this commandline argument handling,
 so \indexmpishow{MPI_Init} lacks those arguments.
 
-\begin{pythonnote}{No initialize/finalize calls}
-  There are no initialize and finalize calls: the \n{import} statement
+\begin{pythonnote}{Initialize/finalize}
+  In many cases,  no initialize and finalize calls are needed:
+  the statement
+  \verbatimsnippet{pympiimport}
   performs the initialization.
+  Likewise, the finalize happens at the end of the program.
+
+  However, for special cases, there is an \lstinline{mpi4py.rc} object
+  that can be set in between importing \lstinline{mpi4py} and
+  importing \lstinline{mpi4py.MPI}:
+\begin{lstlisting}
+import mpi4py
+mpi4py.rc.initialize = False
+mpi4py.rc.finalize = False
+from mpi4py import MPI
+MPI.Init()
+# stuff
+MPI.Finalize()
+\end{lstlisting}
 \end{pythonnote}
 
 \begin{mplnote}{Init, finalize}
@@ -154,6 +170,8 @@ This stop execution on all processes associated with the communicator,
 but many implementations will terminate all processes. The \n{value} parameter
 is returned to the environment.
 
+\csnippetwithoutput{abortcode}{code/mpi/c}{return}
+
 \Level 2 {Testing the initialized/finalized status}
 
 The commandline arguments \n{argc} and \n{argv} are only guaranteed to
@@ -183,11 +201,11 @@ information; see section~\ref{sec:mpi-info-env}.
 
 The \indexmpishow{MPI_Init} routines takes a reference to \indextermtt{argc}
 and \indextermtt{argv} for the following reason: the \indexmpishow{MPI_Init} calls
-filters out the arguments to \indexterm{mpirun} or \indexterm{mpiexec},
+filters out the arguments to \indexterm{mpirun} or \indextermtt{mpiexec},
 thereby lowering the value of \n{argc} and elimitating some of the \n{argv}
 arguments.
 
-On the other hand, the commandline arguments that are meant for \n{mpiexec}
+On the other hand, the commandline arguments that are meant for \indextermtt{mpiexec}
 wind up in the \indexmpishow{MPI_INFO_ENV} object as a set of
 key/value pairs; see section~\ref{sec:mpi-info}.
 

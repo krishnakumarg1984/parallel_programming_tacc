@@ -36,7 +36,7 @@ The length of the buffer is also passed,
 and on return that parameter has the actually used length.
 The maximum needed length is \indexmpishow{MPI_MAX_PROCESSOR_NAME}.
 %
-\cverbatimsnippet{procname}
+\csnippetwithoutput{procname}{examples/mpi/c}{procname}
 %
 (Underallocating the buffer will not lead to a runtime error.)
 
@@ -79,7 +79,7 @@ MPI_Comm comm = MPI_COMM_WORLD;
 MPI_Send( /* stuff */ comm );
 \end{lstlisting}
 
-\begin{fortrannote}
+\begin{fortrannote}{Communicator type}
   In Fortran, pre-2008 a communicator was an \indexterm{opaque handle},
   stored in an \lstinline{Integer}. With \indextermbus{Fortran}{2008},
   communicators are derived types:

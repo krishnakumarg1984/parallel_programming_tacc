@@ -21,6 +21,7 @@ COURSES  = mpi mpl mpithree
 EXTRATEXINPUTS =
 
 include ../course-support/Make.course
+DROPBOXPATH = Courses
 
 jordan.pdf :
 	@TEXINPUTS=../graphics:${TEXINPUTS} ${ENGINE} jordan.tex

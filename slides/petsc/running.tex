@@ -4,7 +4,7 @@
 %%%% This TeX file is part of the tutorial
 %%%% `Introduction to the PETSc library'
 %%%% Victor Eijkhout, eijkhout@tacc.utexas.edu
-%%%% copyright Victor Eijkhout 2012-6
+%%%% copyright Victor Eijkhout 2012-2022
 %%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -12,7 +12,7 @@
 
 \subsection{Installation}
 
-\frame[containsverbatim]{\frametitle{Installation}
+\begin{numberedframe}{Installation}
 \begin{verbatim}
 cd petsc-3.7
 ./configure
@@ -32,11 +32,11 @@ PETSc:
   --with-installation-method=<method>      : Method of installation, e.g. tarball, clone,
   et cetera: many more
 \end{verbatim}
-}
+\end{numberedframe}
 
 \subsection{Compiling, linking, running to your program}
 
-\frame[containsverbatim]{\frametitle{Compiling}
+\begin{numberedframe}{Compiling}
 
 Petsc compile and link lines are very long!\\
 Use PETSc include file with variables and rules:
@@ -53,18 +53,19 @@ CFLAGS = ${PETSC_CC_INCLUDES}
 FFLAGS = ${PETSC_FC_INCLUDES}
 \end{verbatim}
 and write your own compile rules
-}
+\end{numberedframe}
 
 \begin{longversion}
-\frame[containsverbatim]{
+\begin{numberedframe}
 Find out what \n{PETSC_INCLUDE} and \n{PETSC_LIB} are:
 \begin{verbatim}
 cd $PETSC_DIR ; make getincludedirs getlinklibs
 \end{verbatim}
-}
+\end{numberedframe}
+
 \end{longversion}
 
-\frame[containsverbatim]{\frametitle{Environment variables}
+\begin{numberedframe}{Environment variables}
 \small
   \begin{itemize}
   \item \n{PETSC_DIR} : different for different version numbers
@@ -87,9 +88,9 @@ Versions available at TACC:
 %% echo $PETSC_ARCH
 sandybridge-cxxi64debug
 \end{verbatim}
-}
+\end{numberedframe}
 
-\frame[containsverbatim]{\frametitle{Running}
+\begin{numberedframe}{Running}
 Parallel invocation. On your own machine:
 \verb+mpirun -np 3 petscprog <bunch of runtime options>+\\
 At TACC: \n{ibrun}
@@ -104,18 +105,18 @@ Petsc has lots of runtime options.
 \item \n{-ksp_type gmres} (et cetera) : program control
 \end{itemize}
 more later
-}
+\end{numberedframe}
 
-\frame{\frametitle{Running}
+\begin{numberedframe}{Running}
 Options can be set:
 \begin{itemize}
 \item on the commandline
 \item in the program by \n{PetscOptionsSetValue}
 \item in a file \n{./.petscrc} or \n{\$\{HOME\}/.petscrc}
 \end{itemize}
-}
+\end{numberedframe}
 
-\frame[containsverbatim]{\frametitle{Fortran}
+\begin{numberedframe}{Fortran}
 
   \begin{itemize}
   \item Include files (already mentioned):
@@ -127,33 +128,34 @@ Options can be set:
 \begin{verbatim}
 VecGetArrayF90(Vec x,{Scalar, pointer :: xx_v(:)},integer ierr)
 \end{verbatim}
-\item Null pointers: C~is tolerant for 0 or \n{PETSC_NULL}, Fortran
-    use \n{PETSC_NULL_CHARACTER}, \n{PETSC_NULL_INTEGER} et cetera.\\
+\item Null pointers: C~is tolerant for 0 or \lstinline{PETSC_NULL}, Fortran
+    use \lstinline{PETSC_NULL_CHARACTER}, \lstinline{PETSC_NULL_INTEGER} et cetera.\\
     Example:
 \begin{verbatim}
 call PetscOptionsGetInt(PETSC_NULL_CHARACTER,"-name",
     N,flg,ierr)
 \end{verbatim}
   \end{itemize}
-}
+\end{numberedframe}
 
 \begin{longversion}
-\frame[containsverbatim]{\frametitle{More Fortran}
+\begin{numberedframe}{More Fortran}
   \begin{itemize}
-  \item Indexing in \n{MatSetValues} and such is always zero-based
+  \item Indexing in \lstinline{MatSetValues} and such is always zero-based
   \item Function pointers: routine is assumed to be in the same language
   \end{itemize}
-}
+\end{numberedframe}
+
 \end{longversion}
 
-\begin{frame}[containsverbatim]{Python bindings}
+\begin{numberedframe}{Python bindings}
   \url{https://pythonhosted.org/petsc4py/}
-\end{frame}
+\end{numberedframe}
 
 \begin{comment}
 \subsection{Source code organization}
 
-\frame[containsverbatim]{\frametitle{Program/subprogram heading}
+\begin{numberedframe}{Program/subprogram heading}
 CPP definition of (sub)program name:\\
 will be used in traceback
 \begin{verbatim}
@@ -169,9 +171,9 @@ int main(int argc,char **args)
 Use this for every subprogram.
 
 Not available in Fortran
-}
+\end{numberedframe}
 
-\frame[containsverbatim]{\frametitle{Petsc function return values}
+\begin{numberedframe}{Petsc function return values}
 Every PETSc function returns an error code, zero is success.
 
 C:
@@ -183,9 +185,9 @@ Fortran:
 call SomePetscFunction(...., ierr )
 CHKERRQ(ierr)
 \end{verbatim}
-}
+\end{numberedframe}
 
-\frame[containsverbatim]{\frametitle{Petsc initialize / finalize}
+\begin{numberedframe}{Petsc initialize / finalize}
 
 One-time initialization, includes MPI if not already initialized:
 \begin{verbatim}
@@ -202,9 +204,9 @@ Fortran:
   call PetscFinalize(ierr)
   CHKERRQ(ierr)
 \end{verbatim}
-}
+\end{numberedframe}
 
-\frame[containsverbatim]{\frametitle{Note to self}
+\begin{numberedframe}{Note to self}
 \begin{verbatim}
   PetscInitialize(&argc,&args,0,"Usage: prog -o1 v1 -o2 v2\n");
 \end{verbatim}
@@ -215,9 +217,9 @@ run as
 displays note, plus all available petsc options.
 
 Not available in Fortran
-}
+\end{numberedframe}
 
-\frame[containsverbatim]{\frametitle{Variable declarations}
+\begin{numberedframe}{Variable declarations}
 
 Everything is an object
 \begin{verbatim}
@@ -237,5 +239,6 @@ Everything is an object
   ....
 \end{verbatim}
 (note scalar vs real)
-}
+\end{numberedframe}
+
 \end{comment}

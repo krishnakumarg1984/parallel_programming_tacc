@@ -4,7 +4,7 @@
 %%%%
 %%%% This text file is part of the source of 
 %%%% `Parallel Programming in MPI and OpenMP'
-%%%% by Victor Eijkhout, copyright 2012-2021
+%%%% by Victor Eijkhout, copyright 2012-2022
 %%%%
 %%%% omp-task.tex : openmp tasking
 %%%%
@@ -371,6 +371,26 @@ there are four types of dependencies.
 \end{description}
 \index{OpenMP!tasks!dependencies|)}
 
+\Level 0 {Task reduction}
+
+The \indexclause{reduction} only pertains to ordinary parallel loops,
+not to \indexpragma{taskgroup} loops of tasks.
+To do a reduction over computations in tasks you need the
+\indexclausedef{task_reduction} clause
+(a~\ompstandard{5.0} feature):
+\begin{lstlisting}
+#pragma omp taskgroup task_reduction(+:sum)
+\end{lstlisting}
+The task group can contain both task that contribute to the reduction,
+and ones that don't. The former type needs a clause \indexclausedef{in_reduction}:
+\begin{lstlisting}
+#pragma omp task in_reduction(+:sum)
+\end{lstlisting}
+
+As an example, here the sum $\sum_{i=1}^{100} i$ is computed with tasks:
+%
+\cverbatimsnippet{omptaskreduct}
+
 \Level 0 {More}
 
 \Level 1 {Scheduling points}
@@ -400,7 +420,8 @@ while (!omp_test_lock(lock))
   ;
 \end{lstlisting}
 
-\Level 1 {Avoiding small tasks}
+\Level 1 {Hints for performance improvement}
+\label{sec:omp-task-hint}
 
 If a task involves only a small amount of work,
 the scheduling overhead may negate any performance gain.
@@ -419,6 +440,14 @@ There are two ways of executing the task code directly:
 #pragma omp task final(level<3)
 \end{lstlisting}
 \end{itemize}
+
+If you want to indicate that certain tasks are more important
+than others, use the \indexompshow{priority} clause:
+\begin{lstlisting}
+#pragma omp task priority(5)
+\end{lstlisting}
+where the priority is any non-negative scalar
+less than \indexompdef{OMP_MAX_TASK_PRIORITY}.
 
 \Level 1 {Task cancelling}
 

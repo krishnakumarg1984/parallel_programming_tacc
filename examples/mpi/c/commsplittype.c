@@ -45,11 +45,10 @@ int main(int argc,char **argv) {
   if (new_procno==0) {
     char procname[MPI_MAX_PROCESSOR_NAME]; int namlen;
     MPI_Get_processor_name(procname,&namlen);
-    printf("I am processor %d in a shared group of %d, running on %s\n",
-	   new_procno,new_nprocs,procname);
+    printf("[%d] is processor %d in a shared group of %d, running on %s\n",
+	   procno,new_procno,new_nprocs,procname);
   }
-  if (procno==0)
-    printf("Finished\n");
+  //if (procno==0) printf("Finished\n");
 
   MPI_Finalize();
   return 0;

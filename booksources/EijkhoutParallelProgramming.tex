@@ -25,7 +25,10 @@
 \includecomment{review}
 \includecomment{book}
 
+%% arbitrary numbers of output streams
 \usepackage{scrwfile}
+
+%% graphics stuff
 \usepackage{graphicx,outliner}
 \usepackage{wrapfig}
 \usepackage{pgfplots}  
@@ -213,10 +216,16 @@
 \usepackage[all]{hypcap}
 
 \def\publicdraft{{\bf\normalsize \relax Public draft - open for comments}}
-\def\revdate{2nd edition 2020, formatted \today}
+\def\revdate{3rd edition 2022, formatted \today\\
+  \small
+  Book and slides download: \url{https://tinyurl.com/vle335course}\\
+  Public repository: \url{https://bitbucket.org/VictorEijkhout/parallel-programming-public/}\\
+  HTML version: \url{https://theartofhpc.com/pcse/}\\ [20pt]
+  This book is published under the CC-BY 4.0 license.
+}
 \begin{lulu}
 \def\publicdraft{}
-\def\revdate{2nd edition 2020}
+\def\revdate{3rd edition 2022}
 \end{lulu}
 
 \newwrite\chapterlist \openout\chapterlist=chapternames.tex
@@ -228,11 +237,7 @@
 \small Using MPI, OpenMP, and the PETSc library}
 \expandafter\date\expandafter{\revdate}
 \maketitle
-\publicdraft
-\vfill\pagebreak 
 
-\input copyright
-\vfill\pagebreak 
 \input introduction
 \vfill\pagebreak 
 
@@ -243,12 +248,15 @@
 
 \acresetall
 \part{MPI}
+\addcontentsline{loftn}{fortrannote}{MPI}
+\addcontentsline{lopy}{fortrannote}{MPI}
 
 \input chapters/mpi-competency
 \CHAPTER{Getting started with MPI}{mpi-started}
 \CHAPTER{MPI topic: Functional parallelism}{mpi-functional}
 \CHAPTER{MPI topic: Collectives}{mpi-collective}
 \CHAPTER{MPI topic: Point-to-point}{mpi-ptp}
+%\end{document}
 \CHAPTER{MPI topic: Communication modes}{mpi-persist}
 \CHAPTER{MPI topic: Data types}{mpi-data}
 \CHAPTER{MPI topic: Communicators}{mpi-comm}
@@ -265,6 +273,8 @@
 
 \acresetall
 \part{OpenMP}
+\addcontentsline{loftn}{fortrannote}{OpenMP}
+\addcontentsline{lopy}{fortrannote}{OpenMP}
 
 \input chapters/omp-competency
 \CHAPTER{Getting started with OpenMP}{omp-basics}
@@ -286,6 +296,8 @@
 \CHAPTER{OpenMP Examples}{omp-examples}
 
 \part{PETSc}
+\addcontentsline{loftn}{fortrannote}{PETSc}
+\addcontentsline{lopy}{pythonnote}{PETSc}
 
 \CHAPTER{PETSc basics}{petsc-design}
 \CHAPTER{PETSc objects}{petsc-objects}
@@ -298,6 +310,8 @@
 \CHAPTER{PETSc topics}{petsc}
 
 \part{Other programming models}
+\addcontentsline{loftn}{fortrannote}{Other}
+\addcontentsline{lopy}{fortrannote}{Other}
 
 \lstset{language=Fortran}
 \CHAPTER{Co-array Fortran}{caf}
@@ -331,6 +345,8 @@
 
 \part{Tutorials}
 \label{app:practical}
+\addcontentsline{loftn}{fortrannote}{Tutorials}
+\addcontentsline{lopy}{fortrannote}{Tutorials}
 
 \input tutorials/blurb
 
@@ -382,9 +398,30 @@
 \end{multicols}
 \vfill\pagebreak
 
-%\Level 1 {Index}
+\Level 0 {Lists of notes}
 
-%Bold reference: defining passage; italic reference: illustration.
+\Level 1 {MPI-4 notes}
+
+\listofmpifournote
+
+\Level 1 {Fortran notes}
+
+\listoffortrannote
+
+\Level 1 {The MPL C++ interface}
+\label{sec:idx:mpl}
+
+\listofmplnote
+
+\begin{comment}
+  \begin{multicols*}{2}
+    \printindex[mpl]
+  \end{multicols*}
+\end{comment}
+
+\Level 1 {Python notes}
+
+\listofpythonnote
 
 \Level 0 {General Index}
 
@@ -417,20 +454,7 @@ Where these appear in this book, a page reference is given.
 \Level 2 {List of all callbacks}
 \input{standard/standard-callbacks}
 
-\Level 1 {MPL commands and topics}
-\label{sec:idx:mpl}
-
-\begin{multicols*}{2}
-  \printindex[mpl]
-\end{multicols*}
-
-\Level 1 {Python}
-
-\Level 2 {Notes}
-
-\begin{multicols*}{2}
-  \printindex[python]
-\end{multicols*}
+\Level 1 {MPI for Python}
 
 \Level 2 {Buffer specifications}
 

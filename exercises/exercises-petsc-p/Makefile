@@ -5,7 +5,7 @@
 #### `Introduction to the PETSc library'
 #### by Victor Eijkhout eijkhout@tacc.utexas.edu
 ####
-#### copyright Victor Eijkhout 2012-2021
+#### copyright Victor Eijkhout 2012-2022
 ####
 #### Makefile for Python exercises
 ####
@@ -24,15 +24,17 @@ EXERCISE = hello
 EXERCISES = hello vec matvec ksp grid
 #matvec grid
 #grid mat ksp shell ex46 ex46a
+np_root = 1
+np_oddeven = 2
+np_viewer = 1
 LANGUAGE = python
 MODE = petsc
 include ../course-support/Make.compile
+PROGRAMEXT = .py
+include ../course-support/Make.mpi_run
 
 # no need to make the examples, so:
 .PHONY: ${EXERCISES}
-
-PROGRAMEXT = .py
-include ../course-support/Make.petscrun
 
 .SECONDEXPANSION:
 

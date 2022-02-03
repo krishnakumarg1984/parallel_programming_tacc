@@ -5,7 +5,7 @@
 %%%% `Introduction to the PETSc library'
 %%%% by Victor Eijkhout, eijkhout@tacc.utexas.edu
 %%%%
-%%%% copyright Victor Eijkhout 2012-7
+%%%% copyright Victor Eijkhout 2012-2022
 %%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -13,7 +13,7 @@
 
 %\subsection{Matrix basics}
 
-\frame[containsverbatim]{\frametitle{Matrix creation}
+\begin{numberedframe}{Matrix creation}
 \small
 The usual create/destroy calls:
 \begin{lstlisting}
@@ -28,9 +28,9 @@ MatSeqAIJSetPreallocation /* more about this later*/
   (Mat B,PetscInt nz,const PetscInt nnz[])
 \end{lstlisting}
 Local or global size can be \lstinline{PETSC_DECIDE} (as in the vector case)
-}
+\end{numberedframe}
 
-\frame[containsverbatim]{\frametitle{If you already have a CRS matrix}
+\begin{numberedframe}{If you already have a CRS matrix}
 \begin{lstlisting}
 PetscErrorCode  MatCreateSeqAIJWithArrays
   (MPI_Comm comm,PetscInt m,PetscInt n,
@@ -39,9 +39,9 @@ PetscErrorCode  MatCreateSeqAIJWithArrays
 (also from triplets)
 
 Do not use this unless you interface to a legacy code. And even then\ldots
-}
+\end{numberedframe}
 
-\frame[containsverbatim]{\frametitle{Matrix Preallocation}
+\begin{numberedframe}{Matrix Preallocation}
 
   \begin{itemize}
   \item PETSc matrix creation is very flexible:
@@ -61,9 +61,9 @@ MatSetOption(A,MAT_NEW_NONZERO_LOCATIONS,PETSC_FALSE);
 \end{verbatim}
   \end{itemize}
 
-}
+\end{numberedframe}
 
-\frame[containsverbatim]{\frametitle{Sequential matrix  structure}
+\begin{numberedframe}{Sequential matrix  structure}
 \begin{lstlisting}
 MatSeqAIJSetPreallocation
     (Mat B,PetscInt nz,const PetscInt nnz[])
@@ -74,13 +74,13 @@ MatSeqAIJSetPreallocation
   \item considerable savings over dynamic allocation!
   \end{itemize}
 In Fortran use \lstinline{PETSC_NULL_INTEGER} if not specifying \lstinline{nnz} array
-}
+\end{numberedframe}
 
-\frame[containsverbatim]{\frametitle{Parallel matrix structure}
+\begin{numberedframe}{Parallel matrix structure}
 \includegraphics[scale=.5]{petscmat}
-}
+\end{numberedframe}
 
-\frame{\frametitle{(why does it do this?)}
+\begin{numberedframe}{(why does it do this?)}
   \begin{itemize}
   \item $y\leftarrow Ax_A+Bx_b$
   \item $x_B$ needs to be communicated; $Ax_A$ can be computed in the
@@ -97,9 +97,9 @@ In Fortran use \lstinline{PETSC_NULL_INTEGER} if not specifying \lstinline{nnz} 
   \item This is one of the few places where PETSc's design is visible to
     the user.
   \end{itemize}
-}
+\end{numberedframe}
 
-\frame[containsverbatim]{\frametitle{Parallel matrix structure description}
+\begin{numberedframe}{Parallel matrix structure description}
   \begin{itemize}
   \item \lstinline{m,n} local size; \lstinline{M,N} global. Note: If the matrix is
     square, specify $m,n$ equal, even though distribution by block rows
@@ -116,10 +116,10 @@ MatMPIAIJSetPreallocation
 \end{lstlisting}
 
 In Fortran use \lstinline{PETSC_NULL_INTEGER} if not specifying arrays
-}
+\end{numberedframe}
 
 \begin{details}
-\frame[containsverbatim]{\frametitle{Matrix creation all in one}
+\begin{numberedframe}{Matrix creation all in one}
 \begin{lstlisting}
 MatCreateSeqAIJ(MPI_Comm comm,PetscInt m,PetscInt n,
   PetscInt nz,const PetscInt nnz[],Mat *A)
@@ -129,10 +129,11 @@ MatCreateMPIAIJ(MPI_Comm comm,
   PetscInt o_nz,const PetscInt o_nnz[],
   Mat *A)
 \end{lstlisting}
-}
+\end{numberedframe}
+
 \end{details}
 
-\frame[containsverbatim]{\frametitle{Querying parallel structure}
+\begin{numberedframe}{Querying parallel structure}
 
 Matrix partitioned by block rows:
 \begin{lstlisting}
@@ -143,9 +144,9 @@ MatGetOwnershipRange(Mat A,int *first row,int *last row);
  In query functions, unneeded components can be specified as
  \lstinline{PETSC_NULL}.\\
  Fortran: \lstinline{PETSC_NULL_INTEGER}
-}
+\end{numberedframe}
 
-\frame[containsverbatim]{\frametitle{Setting values}
+\begin{numberedframe}{Setting values}
 
 Set one value:
 \begin{lstlisting}
@@ -161,17 +162,21 @@ MatSetValues(Mat A,int m,const int idxm[],
     InsertMode mode)
 \end{lstlisting}
 (\lstinline{v} is row-oriented)
-}
+\end{numberedframe}
 
-\frame[containsverbatim]{
+\begin{numberedframe}{Set only one element}
+\begin{lstlisting}
+MatSetValue(A,i,j,&v,INSERT_VALUES); // C
+MatSetValue(A,i,j,v,INSERT_VALUES,e); ! F
+\end{lstlisting}
 Special case of the general case:
 \begin{lstlisting}
 MatSetValues(A,1,&i,1,&j,&v,INSERT_VALUES); // C
 MatSetValues(A,1,i,1,j,v,INSERT_VALUES,e); ! F
 \end{lstlisting}
-}
+\end{numberedframe}
 
-\frame[containsverbatim]{\frametitle{Assembling the matrix}
+\begin{numberedframe}{Assembling the matrix}
 Setting elements is independent of parallelism; move elements to
 proper processor:
 \begin{lstlisting}
@@ -181,7 +186,7 @@ MatAssemblyEnd(Mat A,MAT_FINAL_ASSEMBLY);
 
 Cannot mix inserting/adding values: need to do assembly in between
 with \lstinline{MAT_FLUSH_ASSEMBLY}
-}
+\end{numberedframe}
 
 \begin{exerciseframe}[matvec]
   Pretend that you do not know how the matrix is created. Use
@@ -193,7 +198,7 @@ with \lstinline{MAT_FLUSH_ASSEMBLY}
 \end{exerciseframe}
 
 \begin{details}
-\frame[containsverbatim]{\frametitle{Getting values (C)}
+\begin{numberedframe}{Getting values (C)}
   \begin{itemize}
   \item Values are often not needed: many matrix operations supported
   \item Matrix elements can only be obtained locally.
@@ -205,16 +210,16 @@ PetscErrorCode  MatGetRow(Mat mat,
 PetscErrorCode MatRestoreRow(/* same parameters */
 \end{lstlisting}
 Note: for inspection only; possibly expensive.
-}
+\end{numberedframe}
 
-\frame[containsverbatim]{\frametitle{Getting values (F)}
+\begin{numberedframe}{Getting values (F)}
 \begin{lstlisting}
   MatGetRow(A,row,ncols,cols,vals,ierr)
   MatRestoreRow(A,row,ncols,cols,vals,ierr)
 \end{lstlisting}
 where \lstinline{cols(maxcols), vals(maxcols)} are long enough arrays
 (allocated by the user)
-}
+\end{numberedframe}
 
 \begin{exerciseframe}[matvec]
   Advanced exercise: create a sequential (uni-processor)
@@ -225,7 +230,7 @@ where \lstinline{cols(maxcols), vals(maxcols)} are long enough arrays
   (Start by removing the \verb+#if 0+ and \verb+#endif+.)
 \end{exerciseframe}
 
-\frame[containsverbatim]{\frametitle{Other matrix types}
+\begin{numberedframe}{Other matrix types}
 
 \lstinline{MATBAIJ} : blocked matrices (dof per node)
 
@@ -241,10 +246,32 @@ MatCreateDense(MPI_Comm comm,
 fg\end{lstlisting}
 Data argument optional:
 \lstinline{PETSC_NULL} or \lstinline{PETSC_NULL_SCALAR} causes allocation
-}
+\end{numberedframe}
+
+\begin{numberedframe}{GPU support}
+  \begin{itemize}
+  \item Create as GPU matrix,
+  \item Otherwise transparent through overloading
+  \end{itemize}
+\cverbatimsnippet{pcudainit}
+\indexpetscdef{VECCUDA},
+\indexpetscdef{MatCreateDenseCUDA},
+\indexpetscdef{MATAIJCUSPARSE}
+\end{numberedframe}
+
+\begin{numberedframe}{}
+  \cverbatimsnippet{matcreatecuda}
+\end{numberedframe}
+
+\begin{comment}
+  \begin{numberedframe}{}
+    \cverbatimsnippet{pccudaallocsp}
+  \end{numberedframe}
+\end{comment}
+
 \end{details}
 
-\frame[containsverbatim]{\frametitle{Matrix operations}
+\begin{numberedframe}{Matrix operations}
 Main operations are matrix-vector:
 \begin{lstlisting}
 MatMult(Mat A,Vec in,Vec out);
@@ -260,9 +287,9 @@ MatNorm
 MatScale
 MatDiagonalScale
 \end{lstlisting}
-}
+\end{numberedframe}
 
-\frame[containsverbatim]{\frametitle{Some matrix-matrix operations}
+\begin{numberedframe}{Some matrix-matrix operations}
 \begin{lstlisting}
  MatMatMult(Mat,Mat,MatReuse,PetscReal,Mat*);
 
@@ -272,10 +299,10 @@ MatDiagonalScale
 
  MatAXPY(Mat,PetscScalar,Mat,MatStructure);
 \end{lstlisting}
-}
+\end{numberedframe}
 
 \begin{details}
-\frame[containsverbatim]{\frametitle{Matrix viewers}
+\begin{numberedframe}{Matrix viewers}
 \begin{lstlisting}
 MatView(A,PETSC_VIEWER_STDOUT_WORLD);
 
@@ -290,11 +317,12 @@ row 1: (0, 0.5)  (1, 0.333333)  (2, 0.25)  (3, 0.2)
   \item other viewers: for instance \n{-mat_view_draw} (X~terminal)
   \end{itemize}
 
-}
+\end{numberedframe}
+
 \end{details}
 
 \begin{longversion}
-\frame[containsverbatim]{\frametitle{General viewers}
+\begin{numberedframe}{General viewers}
   Any PETSc object can be `viewed'
   \begin{itemize}
   \item Terminal output: useful for vectors and matrices but also for
@@ -311,7 +339,7 @@ PetscViewerSetType( fd,PETSCVIEWERVTK );
 MatView( A,fd );
 PetscViewerDestroy(fd);
 \end{lstlisting}
-}
+\end{numberedframe}
 
 %% \begin{exerciseframe}[viewer]
 %%   Fill in the blanks.
@@ -319,7 +347,7 @@ PetscViewerDestroy(fd);
 
 %\subsection{Shell matrices}
 
-\frame[containsverbatim]{\frametitle{Shell matrices}
+\begin{numberedframe}{Shell matrices}
 What if the matrix is a user-supplied operator, and not stored?
 
 \begin{lstlisting}
@@ -334,9 +362,9 @@ MatShellSetOperation(Mat mat,MatOperation MATOP_MULT,
 \end{lstlisting}
 Inside iterative solvers, PETSc calls \lstinline{MatMult(A,x,y)}: \\
 no difference between stored matrices and shell matrices
-}
+\end{numberedframe}
 
-\frame[containsverbatim]{\frametitle{Shell matrix context}
+\begin{numberedframe}{Shell matrix context}
 Shell matrices need custom data
 \begin{lstlisting}
 MatShellSetContext(Mat mat,void *ctx);
@@ -346,9 +374,9 @@ MatShellGetContext(Mat mat,void **ctx);
 or write interface block)
 
 User program sets context, matmult routine accesses it
-}
+\end{numberedframe}
 
-\frame[containsverbatim]{\frametitle{Shell matrix example}
+\begin{numberedframe}{Shell matrix example}
 \begin{lstlisting}
 ...
 MatSetType(A,MATSHELL);
@@ -364,11 +392,11 @@ PetscErrorCode mymatmult(Mat mat,Vec in,Vec out)
   PetscFunctionReturn(0);
 }
 \end{lstlisting}
-}
+\end{numberedframe}
 
 %\subsection{More matrix topics}
 
-\frame[containsverbatim]{\frametitle{Submatrices}
+\begin{numberedframe}{Submatrices}
 Extract one parallel submatrix:
 \begin{lstlisting}
 MatGetSubMatrix(Mat mat,
@@ -384,13 +412,13 @@ MatGetSubMatrices(Mat mat,
 \end{lstlisting}
 }
 Collective call, but different index sets per processor
-}
+\end{numberedframe}
 
-\frame[containsverbatim]{\frametitle{Load balancing}
+\begin{numberedframe}{Load balancing}
 
 \begin{lstlisting}
 MatPartitioningCreate
-    (MPI Comm comm,MatPartitioning *part);
+    (MPI_Comm comm,MatPartitioning *part);
 \end{lstlisting}
 Various packages for creating better partitioning: Chaco, Parmetis
 
@@ -405,20 +433,20 @@ Various packages for creating better partitioning: Chaco, Parmetis
 % ISPartitioningToNumbering(IS is,IS *isg);
 
 
-}
+\end{numberedframe}
 
 \end{longversion}
 \endinput
 
 \subsection{Example}
 
-\frame[containsverbatim]{\frametitle{Example: stencil matrices}
+\begin{numberedframe}{Example: stencil matrices}
 \includegraphics[scale=.6]{laplacedomain}
 domain, gives matrix:
 \includegraphics[scale=.6]{laplacematrix}
-}
+\end{numberedframe}
 
-\frame[containsverbatim]{\frametitle{Example: stencil matrices}
+\begin{numberedframe}{Example: stencil matrices}
 \small
 \begin{lstlisting}
 for ( i=0; i<m; i++ ) {
@@ -439,10 +467,11 @@ for ( i=0; i<m; i++ ) {
   }
 }
 \end{lstlisting}
-}
+\end{numberedframe}
+
 \end{longversion}
 
-\frame[containsverbatim]{\frametitle{Matrices from user data}
+\begin{numberedframe}{Matrices from user data}
 \footnotesize
 \begin{lstlisting}
 MatCreateSeqAIJWithArrays(MPI_Comm comm,
@@ -459,15 +488,16 @@ MatCreateMPIAIJWithSplitArrays(MPI_Comm comm,
   Mat *mat)
 \end{lstlisting}
 Data is copied in the 2nd case.
-}
+\end{numberedframe}
 
 \begin{shortversion}
-\frame[containsverbatim]{\frametitle{More matrix topics}
+\begin{numberedframe}{More matrix topics}
   \begin{itemize}
   \item Viewers are also for binary dump, plotting with~X
   \item Shell matrices: matrix-free operation
   \item Submatrix extraction
   \item Matrix partitioning for load balancing
   \end{itemize}
-}
+\end{numberedframe}
+
 \end{shortversion}

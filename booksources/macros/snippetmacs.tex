@@ -4,7 +4,7 @@
 %%%%
 %%%% This text file is part of the source of 
 %%%% `Introduction to High-Performance Scientific Computing'
-%%%% by Victor Eijkhout, copyright 2012-9
+%%%% by Victor Eijkhout, copyright 2012-2022
 %%%%
 %%%% This book is distributed under a Creative Commons Attribution 3.0
 %%%% Unported (CC BY 3.0) license and made possible by funding from
@@ -35,7 +35,10 @@
   \def\xx{XX}\def\yy{#1}
   % typeset as nice Python code
   \lstset{style=reviewcode,language=#3}
-  \lstinputlisting{#2}
+  \IfFileExists
+      {#2}
+      {\lstinputlisting{#2}}
+      {\hbox{\textbf{missing snippet #2}\message{missing snippet #2}}}
   \lstset{style=reviewcode,language=C}
   \nobreak
   \ifx\xx\yy\else
@@ -60,8 +63,8 @@
     {\end{lstlisting}}
 
 \makeatletter
-\newcommand{\csnippetwithoutput}[2]{
-  \message{Code snippet <#1> with output file <#2>}
+\newcommand{\csnippetwithoutput}[3]{
+  \message{Code snippet <#1> in dir <#2> with output file <#3>}
   % go into vertical mode
   \par
   % make nice two-column layout
@@ -73,53 +76,16 @@
       \lstset{xleftmargin=\unitindent}
     \end{minipage}
     \begin{minipage}[t]{.3\hsize}
-      { \footnotesize \raggedright \textbf{Output:}\par
-      }
-      \footnotesize
-      \def\verbatim@startline{\verbatim@line{\leavevmode\relax}}
-      \verbatiminput{#2.out}
+      { \footnotesize \raggedright \textbf{Output:}\par }
+      \IfFileExists
+          {#2/#3.runout}
+          { \footnotesize
+            \def\verbatim@startline{\verbatim@line{\leavevmode\relax}}
+            \verbatiminput{#2/#3.runout}
+          }
+          { \textbf{Missing output for #3} }
     \end{minipage}
   }
 }
 \endinput
 
-%% \def\verbatimsnippet#1{\verbatiminput{snippets/#1}}
-%% \def\cverbatimsnippet#1{\verbatiminput{snippets/#1}}
-%% \usepackage{listings,xcolor}
-%% \lstset{language=C}
-%% \lstdefinestyle{reviewcode}{
-%%   belowcaptionskip=1\baselineskip, breaklines=true, frame=L,
-%%   xleftmargin=.5\unitindent, showstringspaces=false,
-%%   basicstyle=\footnotesize\ttfamily,
-%%   keywordstyle=\bfseries\color{blue},
-%%   commentstyle=\color{red!60!black},
-%%   identifierstyle=\slshape\color{black},
-%%   stringstyle=\color{green!60!black}, columns=fullflexible,
-%%   keepspaces=true, }
-%% \lstset{style=reviewcode}
-%% \newcommand\pyinline[1]{\lstset{language=Python}\lstinline{#1}\lstset{language=C}}
-
-%% \def\codedir{./code}
-
-%% \newcommand\snippetwithoutput[4][]{
-%%   %\message{snippet <<#1>> <<#2>> <<#3>> <<#4>>}
-%%   %\tracingmacros=2 \tracingcommands=2
-%%   \answerwithoutput{#2}{#3}{#4}
-%% }
-%% \newcommand{\snippetoutput}[2]{
-%%   \message{In directory <#1> running program <#2>}
-%%   % go into vertical mode
-%%   \par
-%%   % make nice two-column layout
-%%   \begin{minipage}[t]{.3\hsize}{%
-%%       \footnotesize \raggedright \textbf{Output\\\relax [#1] #2:}\par }
-%%   \immediate\write18{
-%%     cd \codedir /#1
-%%     && make run_#2 > #2.out 2>&1
-%%   }
-%%   \footnotesize
-%%   \def\verbatim@startline{\verbatim@line{\leavevmode\relax}}
-%%   \verbatiminput{\codedir /#1/#2.out}
-%%   \end{minipage}
-%% }
-%% \makeatother

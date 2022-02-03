@@ -4,7 +4,7 @@
 %%%%
 %%%% This text file is part of the source of 
 %%%% `Parallel Programming in MPI and OpenMP'
-%%%% by Victor Eijkhout, copyright 2012-2021
+%%%% by Victor Eijkhout, copyright 2012-2022
 %%%%
 %%%% mpi-shared.tex : about shared memory in MPI
 %%%%
@@ -50,7 +50,7 @@ Here the \n{split_type} parameter has to be from the following (short) list:
 \begin{itemize}
 \item \indexmpishow{MPI_COMM_TYPE_SHARED}: split the communicator into subcommunicators
   of processes sharing a memory area.
-\begin{mpifour}
+\begin{mpifournote}{Split by guided types}
   \item \indexmpishow{MPI_COMM_TYPE_HW_GUIDED} (\mpistandard{4}):
     split using an \n{info} value from \indexmpidef{MPI_Get_hw_resource_types}.
     % https://github.com/mpi-forum/mpi-issues/issues/132
@@ -59,8 +59,12 @@ Here the \n{split_type} parameter has to be from the following (short) list:
     should be a strict subset of the original communicator.
     On processes where this condition can not be fullfilled,
     \indexmpishow{MPI_COMM_NULL} will be returned.
-\end{mpifour}
+\end{mpifournote}
 \end{itemize}
+
+Splitting by shared memory:
+%
+\csnippetwithoutput{commsplittype}{examples/mpi/c}{commsplittype}
 
 \begin{exercise}
   Write a program that uses \indexmpishow{MPI_Comm_split_type}
@@ -85,11 +89,6 @@ Here the \n{split_type} parameter has to be from the following (short) list:
   \lstinline+communicator::+\indexmpldef{split_shared}.
 \end{mplnote}
 
-In the following example, \n{CORES_PER_NODE} is a platform-dependent
-constant:
-%
-\cverbatimsnippet[examples/mpi/c/commsplittype.c]{commsplittype}
-
 \Level 0 {Shared memory for windows}
 
 Processes that exist on the same physical shared memory should be able
@@ -98,7 +97,10 @@ to move data by copying, rather than through MPI send/receive calls
 In order to do such user-level copying:
 \begin{enumerate}
 \item We need to create a shared memory area with
-  \indexmpishow{MPI_Win_allocate_shared}, and
+  \indexmpishow{MPI_Win_allocate_shared}.
+  This creates a window with the
+  \emph{unified memory model}\index{window!memory!model!unified};
+  and
 \item We need to get pointers to where a process' area is in this
   shared space; this is done with \indexmpishow{MPI_Win_shared_query}.
 \end{enumerate}
@@ -120,13 +122,13 @@ instance if two sockets have memory directly attached to each, this
 would increase latency for some processes. To prevent this, the key
 \indexmpishow{alloc_shared_noncontig} can be set to \n{true} in the
 \indexmpishow{MPI_Info} object.
-\begin{mpifour}
+\begin{mpifournote}{Window memory alignment}
   In the contiguous case, the \indexmpishow{mpi_minimum_memory_alignment}
   info argument
   (section~\ref{sec:win-alloc})
   applies only to the memory on the first process;
   in the noncontiguous case it applies to all.
-\end{mpifour}
+\end{mpifournote}
 
 \cverbatimsnippet[examples/mpi/c/numa.c]{winnoncontig}
 

@@ -28,7 +28,8 @@ int main(int argc,char **argv) {
     int *recv_buffer;
     MPI_Request *request; MPI_Status status;
     recv_buffer = (int*) malloc((nprocs-1)*sizeof(int));
-    request = (MPI_Request*) malloc((nprocs-1)*sizeof(MPI_Request));
+    request = (MPI_Request*) malloc
+      ((nprocs-1)*sizeof(MPI_Request));
 
     for (int p=0; p<nprocs-1; p++) {
       ierr = MPI_Irecv(recv_buffer+p,1,MPI_INT, p,0,comm,
@@ -36,17 +37,19 @@ int main(int argc,char **argv) {
     }
     for (int p=0; p<nprocs-1; p++) {
       int index,sender;
-      MPI_Waitany(nprocs-1,request,&index,&status); //MPI_STATUS_IGNORE);
+      MPI_Waitany(nprocs-1,request,&index,&status);
       if (index!=status.MPI_SOURCE)
-	printf("Mismatch index %d vs source %d\n",index,status.MPI_SOURCE);
-      printf("Message from %d: %d\n",index,recv_buffer[index]);
+        printf("Mismatch index %d vs source %d\n",
+               index,status.MPI_SOURCE);
+      printf("Message from %d: %d\n",
+             index,recv_buffer[index]);
     }
   } else {
     float randomfraction = (rand() / (double)RAND_MAX);
     int randomwait = (int) ( 2* nprocs * randomfraction );
-    printf("process %d waits for %d\n",procno,randomwait);
+    printf("process %d waits %ds before sending\n",procno,randomwait);
     sleep(randomwait);
-    ierr = MPI_Send(&procno,1,MPI_INT, nprocs-1,0,comm); CHK(ierr);
+    ierr = MPI_Send(&procno,1,MPI_INT, nprocs-1,0,comm);
   }
 
   MPI_Finalize();

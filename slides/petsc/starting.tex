@@ -5,13 +5,13 @@
 %%%% `Introduction to the PETSc library'
 %%%% by Victor Eijkhout, eijkhout@tacc.utexas.edu
 %%%%
-%%%% copyright Victor Eijkhout 2012-2020
+%%%% copyright Victor Eijkhout 2012-2022
 %%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \sectionframe{Getting started}
 
-\frame[containsverbatim]{\frametitle{Include files}
+\begin{numberedframe}{Include files}
 C:
 \lstset{language=C}
 \begin{lstlisting}
@@ -31,10 +31,10 @@ Python:
 \begin{lstlisting}
 from petsc4py import PETSc
 \end{lstlisting}
-}
+\end{numberedframe}
 
 \lstset{language=C}
-\frame[containsverbatim]{\frametitle{Variable declarations, C}
+\begin{numberedframe}{Variable declarations, C}
 \begin{lstlisting}
   KSP            solver;
   Mat            A;
@@ -44,9 +44,10 @@ from petsc4py import PETSc
   PetscReal      nrm;
 \end{lstlisting}
 Note Scalar vs Real
-}
+\end{numberedframe}
+
 \lstset{language=Fortran}
-\frame[containsverbatim]{\frametitle{Variable declarations, F}
+\begin{numberedframe}{Variable declarations, F}
 \begin{lstlisting}
   KSP            :: solver
   Mat            :: A
@@ -55,19 +56,20 @@ Note Scalar vs Real
   PetscScalar    :: mv
   PetscReal      :: nrm
 \end{lstlisting}
-Much like in C; uses cpp
-}
+Much like in C
+\end{numberedframe}
+
 \lstset{language=C}
 
-\frame[containsverbatim]{\frametitle{Library setup, C}
+\begin{numberedframe}{Library setup, C}
 \cverbatimsnippet{petscinit}
-Can replace \verb+MPI_Init+
+Can replace \lstinline{MPI_Init}
 
 General: Every routine has an error return. Catch that value!
-}
+\end{numberedframe}
 
 \lstset{language=Fortran}
-\frame[containsverbatim]{\frametitle{Library setup, F}
+\begin{numberedframe}{Library setup, F}
 \begin{lstlisting}
   call PetscInitialize(PETSC_NULL_CHARACTER,ierr)
       CHKERRQ(ier)
@@ -75,15 +77,11 @@ General: Every routine has an error return. Catch that value!
   call PetscFinalize(ierr); CHKERRQ(ier)
 \end{lstlisting}
 Error code is now final parameter. This holds for every PETSc routine.
+\end{numberedframe}
 
-\begin{itemize}
-\item \n{CHKERRA} in main program
-\item \n{CKKERRQ} in subprograms
-\end{itemize}
-}
 \lstset{language=C}
 
-\begin{frame}[containsverbatim]{A word about datatypes}
+\begin{numberedframe}{A word about datatypes}
 PETSc programs can not mix single and double precision, nor real/complex:\\
 \lstinline{PetscScalar} is single/double/complex depending on the installation.\\
 \lstinline{PetscReal} is always real, even in complex installations.
@@ -97,30 +95,31 @@ Other scalar data types: \lstinline{PetscBool}, \lstinline{PetscErrorCode}
 module spider petsc
 module avail petsc
 
-module load petsc/3.12-i64 # et cetera
+module load petsc/3.16-i64 # et cetera
 \end{verbatim}
 \end{taccnote}
 
-\end{frame}
+\end{numberedframe}
 
-\begin{frame}[containsverbatim]{Debug and production}
+\begin{numberedframe}{Debug and production}
 While you are developing your code:
 \begin{verbatim}
-module load petsc/3.15-debug
+module load petsc/3.16-debug
+# or 3.16-complexdebug, i64debug, rtxdebug &c
 \end{verbatim}
 This does bounds tests and other time-wasting error checking.
 
 Production:
 \begin{verbatim}
-module load petsc/3.15
+module load petsc/3.16
 \end{verbatim}
 This will just bomb if your program is not correct.
 
 Every petsc configuration is available as debug and non-debug.
-\end{frame}
+\end{numberedframe}
 
 \begin{exerciseframe}[hello]
-Look up the function \n{PetscPrintf} and print a message\\
+Look up the function \lstinline{PetscPrintf} and print a message\\
 `This program runs on 27 processors'\\
 from process zero.
 
@@ -128,13 +127,13 @@ from process zero.
 \item Start with the template code \n{hello.c}/\n{hello.F}
 \item (or see slide~\ref{sl:ranksize})
 \item Compile with \n{make hello}
-\item Part two: use \n{PetscSynchronizedPrintf}
+\item Part two: use \lstinline{PetscSynchronizedPrintf}
 \end{itemize}
 \end{exerciseframe}
 
 \petscroutineslide{PetscPrintf}
 
-\begin{frame}[containsverbatim]{About routine prototypes: C/C++}
+\begin{numberedframe}{About routine prototypes: C/C++}
   \label{sec:protos}
 Prototype:
 \begin{lstlisting}
@@ -148,22 +147,24 @@ Vec v;
 ierr = VecCreate( comm,&vec ); CHKERRQ(ierr).
 \end{lstlisting}
 (always good idea to catch that error code)
-\end{frame}
+\end{numberedframe}
 
 \lstset{language=Fortran}
-\begin{frame}[containsverbatim]{About routine prototypes: Fortran}
+\begin{numberedframe}{About routine prototypes: Fortran}
 \begin{multicols}{2}
 \footnotesize
 Prototype
 \begin{lstlisting}
-Subroutine VecCreate( comm,v,ierr )
+Subroutine VecCreate
+   ( comm,v,ierr )
 Type(MPI_Comm) :: comm
 Vec            :: v
 PetscErrorCode :: ierr
 \end{lstlisting}
 Use:
 \begin{lstlisting}
-Type(MPI_Comm) :: comm = MPI_COMM_WORLD
+Type(MPI_Comm) :: &
+    comm = MPI_COMM_WORLD
 Vec            :: v
 PetscErrorCode :: ierr
 
@@ -177,10 +178,10 @@ call VecCreate(comm,v,ierr)
 \end{itemize}
 \hbox{}\vfill\hbox{}
 \end{multicols}
-\end{frame}
+\end{numberedframe}
 
 \lstset{language=Python}
-\begin{frame}[containsverbatim]{About routine prototypes: Python}
+\begin{numberedframe}{About routine prototypes: Python}
 Prototype:
 \begin{lstlisting}
 # object method
@@ -195,11 +196,11 @@ PETSc.Sys.Print("detecting n option")
 A = PETSc.Mat().create(comm=comm)
 A.setSizes( ( (None,matrix_size), (None,matrix_size) ) )
 \end{lstlisting}
-\end{frame}
+\end{numberedframe}
 
 \lstset{language=C}
 \begin{details}
-\frame[containsverbatim]{\frametitle{Note to self}
+\begin{numberedframe}{Note to self}
 \begin{lstlisting}
   PetscInitialize
     (&argc,&args,0,"Usage: prog -o1 v1 -o2 v2\n");
@@ -211,25 +212,25 @@ run as
 This displays the usage note, plus all available petsc options.
 
 Not available in Fortran
-}
+\end{numberedframe}
 
-\frame[containsverbatim]{\frametitle{Routine start/end, C}
+\begin{numberedframe}{Routine start/end, C}
 Debugging support:
 \begin{lstlisting}
-PetscFunctionBegin;
+PetscFunctionBeginUser;
 // all statements
 PetscFunctionReturn(0);
 \end{lstlisting}
 leads to informative tracebacks.
 
 (Only in C, not in Fortran)
-}
+\end{numberedframe}
 
-\begin{frame}[containsverbatim]{Example: function with error}
+\begin{numberedframe}{Example: function with error}
 \cverbatimsnippet{petscbacktrace}
-\end{frame}
+\end{numberedframe}
 
-\begin{frame}[containsverbatim]{Example: error traceback}
+\begin{numberedframe}{Example: error traceback}
 \footnotesize
 \begin{verbatim}
 [0]PETSC ERROR: We cannot go on like this
@@ -240,7 +241,7 @@ leads to informative tracebacks.
 [0]PETSC ERROR: #1 this_function_bombs() line 20 in backtrace.c
 [0]PETSC ERROR: #2 main() line 30 in backtrace.c
 \end{verbatim}
-\end{frame}
+\end{numberedframe}
 
 \begin{exerciseframe}[root]
 Start with \n{root.c}. Write a function that computes a square root,
@@ -267,8 +268,8 @@ Root of 1.500000 is 1.224745
 Fortran: you need to set the \n{ierr} value yourself.
 \end{exerciseframe}
 
-\begin{frame}[containsverbatim]{Program parameters, C}
-(I'm leaving out the \n{CHKERRQ(ierr)} in the examples,\\
+\begin{numberedframe}{Commandline arguments, C}
+(I'm leaving out the \lstinline{CHKERRQ(ierr)} in the examples,\\
 but do use this in actual code)
 \begin{lstlisting}
 ierr = PetscOptionsGetInt
@@ -276,12 +277,12 @@ ierr = PetscOptionsGetInt
 ierr = PetscPrintf
     (comm,"Input parameter: %d\n",n); CHKERRQ(ierr);
 \end{lstlisting}
-Read commandline argument, print out from processor zero\\
-flag can be \n{PETSC_NULL}
-\end{frame}
+Read commandline argument, print out from processor zero;\\
+flag can be \lstinline{PETSC_NULL} if not wanted
+\end{numberedframe}
 
 \lstset{language=Fortran}
-\frame[containsverbatim]{\frametitle{Program parameters, F}
+\begin{numberedframe}{Program parameters, F}
 \begin{lstlisting}
   character*80      msg
   call PetscOptionsGetInt(
@@ -291,32 +292,32 @@ flag can be \n{PETSC_NULL}
  10 format("Input parameter:",i5)
   call PetscPrintf(PETSC_COMM_WORLD,msg,ierr)
 \end{lstlisting}
-\begin{compat}
-\n{PETSC_NULL_BOOL} will be introduced after 3.10.2
-\end{compat}
-Less elegant than \n{PetscPrintf} in C
+Less elegant than \lstinline{PetscPrintf} in C
 
-Note the \n{PETSC_NULL_XXX}: Fortran has strict type checking.
-}
+Note the \lstinline{PETSC_NULL_XXX}: Fortran has strict type checking.
+\end{numberedframe}
+
 \lstset{language=C}
 
 \end{details}
 
 \lstset{language=Python}
-\begin{frame}[containsverbatim]{Program parameters, Python}
+\begin{numberedframe}{Program parameters, Python}
 \begin{lstlisting}
 nlocal = PETSc.Options().getInt("n",10)
 \end{lstlisting}
-\end{frame}
+\end{numberedframe}
 \lstset{language=C}
 
 \endinput
 
-\frame[containsverbatim]{\frametitle{, C}
+\begin{numberedframe}{, C}
 \begin{verbatim}
 \end{verbatim}
-}
-\frame[containsverbatim]{\frametitle{, F}
+\end{numberedframe}
+
+\begin{numberedframe}{, F}
 \begin{verbatim}
 \end{verbatim}
-}
+\end{numberedframe}
+

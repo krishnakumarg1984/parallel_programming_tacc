@@ -4,7 +4,7 @@
 %%%%
 %%%% This LaTeX file is part of the source of 
 %%%% `Parallel Computing'
-%%%% by Victor Eijkhout, copyright 2018-2020
+%%%% by Victor Eijkhout, copyright 2018-2022
 %%%%
 %%%% listingmacs.tex : listing-related macros.
 %%%%
@@ -16,7 +16,8 @@
 
 \lstdefinestyle{reviewcode}{
   belowcaptionskip=1\baselineskip, frame=L,
-  breaklines=true, postbreak=\hbox{{$\hookrightarrow$}}, % \textcolor{green}
+  breaklines=true, breakatwhitespace=true,
+  postbreak=\hbox{{$\hookrightarrow$}}, % \textcolor{green}
   xleftmargin=\unitindent, showstringspaces=false,
   basicstyle=\footnotesize\ttfamily,
   keywordstyle=\bfseries\color{blue},
@@ -71,11 +72,13 @@
     MPI_Wait,MPI_Wait...,MPI_Waitall,MPI_Waitany,MPI_Waitsome,
     MPI_Test,MPI_Test...,MPI_Testall,MPI_Testany,MPI_Testsome,
     MPI_Probe,MPI_Iprobe,MPI_Mprobe,
-    MPI_Request_free,MPI_Request_get_status,
+    %% util
+    MPI_Buffer_attach,MPI_Buffer_detach,
     MPI_Get_count,MPI_Get_count_c,MPI_Get_count_x,
     MPI_Get_elements,MPI_Get_elements_c,MPI_Get_elements_x,MPI_Get_address,
     MPI_Get_hw_resource_types,
-    MPI_Buffer_attach,MPI_Buffer_detach,
+    MPI_Request_free,MPI_Request_get_status,
+    MPI_Status_f2f08,MPI_Status_f082f,
     % operator
     MPI_Op_create,MPI_Op_free,MPI_Op_commutative,
     % type
@@ -102,7 +105,7 @@
     MPI_File_write_shared,MPI_File_iwrite_shared,MPI_File_write_ordered,
     MPI_File_set_view,MPI_File_get_view,MPI_File_set_size,MPI_File_get_size,
     MPI_File_preallocate,MPI_File_seek,MPI_File_seek_shared,
-    MPI_File_set_atomicity,MPI_File_sync,
+    MPI_File_set_atomicity,MPI_File_sync,MPI_File_get_group,
     % one-sided
     MPI_Win_create,MPI_Win_create_dynamic,MPI_Win_allocate,MPI_Win_allocate_shared,
     MPI_Win_attach,MPI_Win_detach,
@@ -115,11 +118,13 @@
     MPI_Put,MPI_Rput,MPI_Get,MPI_Get_c,MPI_Rget,MPI_Accumulate,MPI_Raccumulate,MPI_Rget_accumulate,
     MPI_Get_accumulate,MPI_Fetch_and_op,MPI_Compare_and_swap,
     % topology
-    MPI_Topo_test,MPI_Cart_create,MPI_Cart_coords,MPI_Cart_rank,MPI_Cart_shift,
+    MPI_Topo_test,MPI_Dims_create,
+    MPI_Cart_create,MPI_Cart_coords,MPI_Cart_get,MPI_Cartdim_get,MPI_Cart_rank,MPI_Cart_shift,
+    MPI_Cart_sub,MPI_Cart_map,
     MPI_Dist_graph_create_adjacent,MPI_Dist_graph_create,
     MPI_Dist_graph_neighbors,MPI_Dist_graph_neighbors_count,
     MPI_Graph_create,MPI_Graph_get,MPI_Graphdims_get,
-    MPI_Graph_neighbors,MPI_Graph_neighbors_count,
+    MPI_Graph_neighbors,MPI_Graph_neighbors_count,MPI_Graph_map,
     MPI_Neighbor_...,MPI_Neighbor_allgather,MPI_Neighbor_allgatherv,
     MPI_Neighbor_alltoall,MPI_Neighbor_alltoallv,MPI_Neighbor_alltoallw,
     MPI_Ineighbor_allgather,MPI_Ineighbor_allgatherv,
@@ -242,6 +247,8 @@
     MPI_Info,MPI_Message,MPI_Offset,MPI_Op,MPI_Request,MPI_Session,MPI_Status,
     MPI_User_function,MPI_Win,
     MPI_T_enum,MPI_T_cvar_handle,MPI_T_pvar_session,MPI_T_pvar_handle,
+    %% Fortrn types
+    MPI_Fint,MPI_F08_status,
     %% OMP directives
     for,parallel,sections,section,single,task,taskgroup,workshare
     %% MPL methods
@@ -257,9 +264,9 @@
     threading_modes,single,funneled,serialized,multiple,
     %% SYCL methods
     host_selector,submit,get_access,accessor,
-  },emphstyle={[3]\color{yellow!20!brown}\bfseries},
+  },emphstyle={[3]\color{yellow!10!brown}\bfseries},
   emph={[4] %% PETSc functions
-    AnyPetscRoutine,
+    AnyPetscRoutine,PetscObjectGetComm,PetscObjectDereference,
     PetscInitialize,PetscInitializeFortran,PetscFinalize,PetscSplitOwnership,
     PetscSynchronizedPrintf,PetscPrintf,PetscSynchronizedFlush,
     PetscSplitOwnership,PetscNew,PetscFree,PetscBLASIntCast,
@@ -291,20 +298,25 @@
     MatSetOption,
     MatGetSize,MatGetLocalSize,MatGetOwnershipRange,
     MatGetRow,MatRestoreRow,MatGetArray,MatRestoreArray,
-    MatMult,MatMultTranspose,MatMultHermitianTranspose,
+    MatGetMatrix,MatGetMatrices,
+    MatMult,MatMultTranspose,MatMultTransposeAdd,MatMultHermitianTranspose,
     MatAXPY,MatMultAdd,MatRealPart,MatImaginaryPart,
+    MatNorm,MatScale,MatDiagonalScale,
+    MatMatMult,MatMatMultTranspose,MatPtAP,
     MatPartitioningCreate,MatPartitioningDestroy,MatPartitioningSetType,MatPartitioningApply,
     KSPCreate,KSPDestroy,KSPSetTolerances,KSPSetType,KSPSetFromOptions,
     KSPSetOperators,KSPGetOperators,KSPSetTolerances,KSPGMRESSetRestart,
-    KSPSolve,KSPMatSolve,KSPGetIterationNumber,
+    KSPSetUp,KSPSolve,KSPMatSolve,KSPGetIterationNumber,
     KSPGetConvergedReason,KSPConvergenceReasonView,KSPReasonView,
     KSPGetPC,PCSetType,PCHYPRESetType,
-    KSPSetConvergenceTest,KSPConvergedDefault,
+    KSPSetConvergenceTest,KSPConvergedDefault,KSPSetInitialGuessNonzero,
+    KSPSetPreconditionerSide,KSPSetNormType,
     KSPMonitorSet,KSPMonitorDefault,KSPMonitorTrueResidualNorm,KSPMonitorTrueResidualNorm,
     KSPGetSolution,KSPGetRhs,KSPBuildSolution,KSPBuildResidual,
     PCFactorSetMatSolverType,PCFactorSetLevels,
     PCCompositeSetType,PCCompositeAddPC,
     PCShellSetApply,PCShellSetContext,PCShellGetContext,PCShellSetSetUp,
+    PCBJacobiGetSubKSP,PCASMSetOverlap,
     VecCreate,VecDestroy,VecDestroyVecs,VecDuplicate,VecDuplicateVecs,VecXYZ,
     VecCreateSeqWithArray,VecCreateMPIWithArray,
     VecSetType,VecSetSizes,VecGetSize,VecGetLocalSize,VecGetOwnershipRange,
@@ -331,20 +343,21 @@
   emph={[5] %% PETSc keywords and macros
     ADD_VALUES,INSERT_VALUES,MPIU_REAL,MPIU_SCALAR,MPIU_COMPLEX,
     DM_BOUNDARY_NONE,DM_BOUNDARY_GHOSTED,DM_BOUNDARY_PERIODIC,DM_STENCIL_STAR,DM_STENCIL_BOX,
-    KSPCG,KSPPIPECG,KSPGMRES,KSPBCGS,KSPPREONLY,
+    KSPCG,KSPPIPECG,KSPGMRES,KSPBCGS,KSPPREONLY,KSP_CONVERGED_ITERATING,
     MATMPIDENSE,MATMPIAIJ,MATSEQDENSE,MATSEQAIJ,MATMPIDENSECUDA,MATDENSECUDA,MATAIJCUSPARSE,
     MATSOLVERMUMPS,
+    MATSHELL,MATOP_MULT,MATOP_MULTTRANSPOSE,
     MAT_FINAL_ASSEMBLY,MAT_FLUSH_ASSEMBLY,
     MAT_NEW_NONZERO_LOCATIONS,MAT_NEW_NONZERO_LOCATION_ERR,
     NORM_1,NORM_2,NORM_INF,
-    PCASM,PCBJACOBI,PCGAMG,PCHYPRE,PCILU,PCLU,PCMG,PCSPAI,
+    PCASM,PCJACOBI,PCBJACOBI,PCGAMG,PCHYPRE,PCILU,PCLU,PCICC,PCMG,PCSPAI,PCNONE,
     PCCOMPOSITE,PC_COMPOSITE_MULTIPLICATIVE,
     PETSC_DIR,PETSC_ARCH,PETSC_CC_INCLUDES,PETSC_FC_INCLUDES,
     PETSC_COMM_WORLD,PETSC_COMM_SELF,PETSC_i,
     PETSC_FALSE,PETSC_TRUE,PETSC_DECIDE,PETSC_DETERMINE,PETSC_DEFAULT,
     PETSC_ERR_ARG_OUTOFRANGE,PETSC_MEMALIGN,
-    PETSC_NULL,PETSC_NULL_CHARACTER,PETSC_NULL_INTEGER,PETSC_NULL_OBJECT,
-    PETSC_NULL_IS,PETSC_NULL_VIEWER,
+    PETSC_NULL,PETSC_NULL_BOOL,PETSC_NULL_CHARACTER,PETSC_NULL_INTEGER,PETSC_NULL_IS,
+    PETSC_NULL_OBJECT,PETSC_NULL_OPTIONS,PETSC_NULL_SCALAR,PETSC_NULL_VIEWER,
     PETSC_STDOUT,
     PETSC_VIEWER_STDOUT_WORLD,PETSC_VIEWER_ASCII_INFO_DETAIL,
     PETSCVIEWERASCII,PETSCVIEWERBINARY,PETSCVIEWERSTRING,PETSCVIEWERDRAW,
@@ -359,8 +372,9 @@
     PetscDataType,PetscBool,PetscComplex,PetscReal,PetscScalar,PetscLogDouble,PetscErrorCode,
     PetscInt,PetscBLASInt,PetscMPIInt,PetscViewer,
     DM,DMDA,DMBoundaryType,DMStencilType,DMDALocalInfo,
-    KSP,KSPConvergedReason,
-    Mat,MatStencil,MatPartitioning,MatSolverType,PC,PCCompositeType,
+    KSP,KSPConvergedReason,KSPConvergedReasons,
+    Mat,MatStencil,MatPartitioning,MatSolverType,MatFactorShiftType,
+    PC,PCCompositeType,
     Vec,IS,VecScatter,
   },emphstyle={[6]\bfseries\color{blue}},
 }

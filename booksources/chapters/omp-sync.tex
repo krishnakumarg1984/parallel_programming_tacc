@@ -35,7 +35,7 @@ threads to bring a certain order to the sequence in which they do things.
 \Level 0 {Barrier}
 \label{sec:ompbarrier}
 
-A barrier defines a point in the code where all active threads will stop
+A \indexompdef{barrier} defines a point in the code where all active threads will stop
 until all threads have arrived at that point. With this, you can guarantee that
 certain calculations are finished. For instance, in this code snippet, computation 
 of~\n{y} can not proceed until another thread has computed its value of~\n{x}.
@@ -59,7 +59,7 @@ This can be guaranteed with a \indexpragma{barrier} pragma:
 \end{lstlisting}
 
 Apart from the barrier directive, which inserts an explicit barrier,
-OpenMP has \emph{implicit barriers}\index{omp!barrier!implicit} after
+OpenMP has \emph{implicit barriers}\index[omp]{omp!barrier!implicit} after
 a load sharing construct. Thus the following code is well defined:
 \begin{lstlisting}
 #pragma omp parallel 
@@ -82,7 +82,7 @@ team of threads in between the regions.
 At the end of a parallel region the team of threads is dissolved and
 only the master thread continues. Therefore, there is an
 \emph{implicit barrier at the end of a parallel region}%
-\index{parallel region!barrier at the end of}.
+\index[omp]{parallel region!barrier at the end of}.
 
 There is some \emph{barrier behavior}\index{omp!for!barrier
   behavior} associated with \n{omp for} loops and other

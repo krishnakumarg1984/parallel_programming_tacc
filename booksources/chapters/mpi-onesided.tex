@@ -4,7 +4,7 @@
 %%%%
 %%%% This text file is part of the source of 
 %%%% `Parallel Programming in MPI and OpenMP'
-%%%% by Victor Eijkhout, copyright 2012-2021
+%%%% by Victor Eijkhout, copyright 2012-2022
 %%%%
 %%%% mpi-onesided.tex : about onesided communication
 %%%%
@@ -121,7 +121,7 @@ A window can be characteristized as follows:
 \item The window is the target of data in a put operation, or the
   source of data in a get operation; see figure~\ref{fig:putget}.
 \item There can be memory associated with a window, so it needs to be
-  freed explicitly.
+  freed explicitly with \indexmpidef{MPI_Win_free}.
 \end{itemize}
 
 The typical calls involved are:
@@ -202,11 +202,11 @@ part of \indexmpishow{MPI_Win_allocate}, after which you need to
 \item
   An error of \indexmpishow{MPI_ERR_NO_MEM} indicates that
   no memory could be allocated.
-\begin{mpifour}
+\begin{mpifournote}{Info key for alignment}
   \item 
     Allocated memory can be aligned by specifying an \indexmpishow{MPI_Info} key
     of \indexmpishow{mpi_minimum_memory_alignment}.
-\end{mpifour}
+\end{mpifournote}
 \end{itemize}
 
 This memory is freed with
@@ -220,7 +220,8 @@ There will be more discussion of window memory in section~\ref{sec:win-model}.
 
 \begin{pythonnote}{Window buffers}
   Unlike in~C, the python window allocate call does not return a pointer
-  to the buffer memory. Should you need this, there are the following options:
+  to the buffer memory, but an \lstinline+MPI.memory+ object.
+  Should you need the bare memory, there are the following options:
   \begin{itemize}
   \item  Window objects expose the Python buffer interface. So you can do Pythonic things like
 \begin{lstlisting}
@@ -244,6 +245,14 @@ size = mem.nbytes
 \end{pythonnote}
 
 \index{window!memory allocation|)}
+
+\Level 1 {Address arithmetic}
+
+Working with windows involves a certain amount of arithmetic
+on addresses, meaning~\indexmpishow{MPI_Aint}.
+See \indexmpishow{MPI_Aint_add} and \indexmpishow{MPI_Aint_diff}
+in section~\ref{sec:mpi-byte-type}.
+
 \index{window|)}
 
 \Level 0 {Active target synchronization: epochs}
@@ -261,21 +270,21 @@ any data-related calls.
 In this section we look at the first mechanism,
 which is to use a \indexterm{fence} operation: \indexmpiref{MPI_Win_fence}.
 This operation is collective on the communicator of the window.
-It is comparable to \indexmpishow{MPI_Wait} calls for nonblocking communication.
 (Another, more sophisticated mechanism for active target synchronization
 is discussed in section~\ref{sec:ref:post-wait}.)
 
-The use of fences is somewhat complicated. The interval between two fences
-is known as an \indextermdef{epoch}.
-You can give various hints to the system about this epoch versus the ones
-before and after through the \n{assert} parameter.
+The interval between two fences is known as an \indextermdef{epoch}.
+Roughly speaking, in an epoch you can make one-sided communication calls,
+and after the concluding fence all these communications are concluded.
 \begin{lstlisting}
-MPI_Win_fence((MPI_MODE_NOPUT | MPI_MODE_NOPRECEDE), win);
+MPI_Win_fence(0,win);
 MPI_Get( /* operands */, win);
-MPI_Win_fence(MPI_MODE_NOSUCCEED, win);
+MPI_Win_fence(0, win);
+// the `got' data is available
 \end{lstlisting}
-In between the two fences the window is exposed, and while it is you
-should not access it locally. If you absolutely need to access it
+In between the two fences the window is exposed,
+and while it is you should not access it locally.
+If you absolutely need to access it
 locally, you can use an \ac{RMA} operation for that. Also, there can be only one
 remote process that does a \n{put}; multiple \n{accumulate} accesses are allowed.
 
@@ -303,6 +312,28 @@ or \indexmpishow{MPI_Accumulate} calls in a single epoch. Hence, we can
 characterize an epoch as an \indextermsub{access}{epoch} on the
 origin, and as an \indextermsub{exposure}{epoch} on the target.
 
+\Level 1 {Fence assertions}
+
+You can give various hints to the system about this epoch versus the ones
+before and after through the \n{assert} parameter.
+\begin{itemize}
+\item \indexmpidef{MPI_MODE_NOSTORE}
+  This value can be specified or not per process.
+\item \indexmpidef{MPI_MODE_NOPUT}
+  This value can be specified or not per process.
+\item \indexmpidef{MPI_MODE_NOPRECEDE}
+  This value has to be specified or not the same on all processes.
+\item \indexmpidef{MPI_MODE_NOSUCCEED}
+  This value has to be specified or not the same on all processes.
+\end{itemize}
+
+Example:
+\begin{lstlisting}
+MPI_Win_fence((MPI_MODE_NOPUT | MPI_MODE_NOPRECEDE), win);
+MPI_Get( /* operands */, win);
+MPI_Win_fence(MPI_MODE_NOSUCCEED, win);
+\end{lstlisting}
+
 Assertions are an integer parameter: you can combine assertions by
 adding them or using logical-or.
 The value zero is always correct. For further information, see
@@ -328,8 +359,8 @@ and two for ending the epoch, separately for target and origin.
   \label{fig:postwait}
 \end{figure}
 
-You start and complete an \indextermsub{exposure}{epoch} with%
-\indexmpishow{MPI_Win_post}\indexmpishow{MPI_Win_wait}:
+You start and complete an \indextermsub{exposure}{epoch} with
+\indexmpishow{MPI_Win_post}~/ \indexmpishow{MPI_Win_wait}:
 \begin{lstlisting}
 int MPI_Win_post(MPI_Group group, int assert, MPI_Win win)
 int MPI_Win_wait(MPI_Win win)
@@ -337,10 +368,10 @@ int MPI_Win_wait(MPI_Win win)
 In other words, this turns your window into the \indexterm{target} for a remote access.
 (There is a non-blocking version \indexmpidef{MPI_Win_test}
 of \indexmpidef{MPI_Win_wait}.
-See also \indexmpidef{MPI_Win_complete}.)
+See also \indexmpishow{MPI_Win_complete}.)
 
 You start and complete an \indextermsub{access}{epoch} with%
-\indexmpishow{MPI_Win_start}\indexmpishow{MPI_Win_complete}:
+\indexmpidef{MPI_Win_start}~/ \indexmpidef{MPI_Win_complete}:
 \begin{lstlisting}
 int MPI_Win_start(MPI_Group group, int assert, MPI_Win win)
 int MPI_Win_complete(MPI_Win win)
@@ -413,12 +444,12 @@ of the communicator that was used in the create call.
 %
 \cverbatimsnippet[examples/mpi/c/putfence.c]{putfence}
 
-\begin{fortrannote}
+\begin{fortrannote}{Displacement unit}
   The \n{disp_unit} variable is declared as an integer of `kind'
   \indexmpishow{MPI_ADDRESS_KIND}:
 \fverbatimsnippet[examples/mpi/f08/putfence.F90]{fdisplacementtype}
 
-Prior to \indexterm{Fortran2008},
+Prior to \fstandard{2008},
 specifying a literal constant, such as~\n{0}, could lead to bizarre
 runtime errors; the solution was to specify a zero-valued variable
 of the right type.
@@ -898,10 +929,12 @@ pass to \indexmpishow{MPI_Win_create} or that you get from
 \indexmpishow{MPI_Win_allocate} (section~\ref{sec:win-alloc}).
 This is not necessarily true, and the
 actual state of affairs is called the
-\emph{memory model}\index{window!memory!model}. There are two memory models:
+\emph{memory model}\index{window!memory!model}%
+\index{memory!model|see{window, memory, model}}.
+There are two memory models:
 \index{window!memory|seealso{memory model}}%pyskip
 \begin{itemize}
-\item Under the \emph{unified}\index{window!memory!unified} memory
+\item Under the \emph{unified}\index{window!memory!model!unified} memory
   model, the buffer in process space is indeed the window memory,
   or at least they are kept \emph{coherent}\index{memory!coherent}.
   This
@@ -909,13 +942,29 @@ actual state of affairs is called the
   epoch you can read the window contents from the buffer.
   To get this, the window needs to be created with
   \indexmpishow{MPI_Win_allocate_shared}.
-\item Under the \emph{separate}\index{window!memory!separate} memory
+  This memory model is required for MPI shared memory; chapter~\ref{ch:mpi-shared}.
+\item Under the \emph{separate}\index{window!memory!model!separate} memory
   model, the buffer in process space is the
   \indextermsub{private}{window} and the target of put/get operations
   is the \indextermsub{public}{window} and the two are not the same
   and are not kept coherent. Under this model, you need to do an
   explicit get to read the window contents.
 \end{itemize}
+
+You can query the model of a window
+using the \indexmpishow{MPI_Win_get_attr} call
+with the \indexmpidef{MPI_WIN_MODEL} keyword:
+\begin{lstlisting}
+int *memory_model;
+MPI_Win_get_attr(win, MPI_WIN_MODEL, &memory_model, &flag);
+\end{lstlisting}
+with possible values:
+\begin{itemize}
+\item \indexmpishow{MPI_WIN_SEPARATE},
+\item \indexmpishow{MPI_WIN_UNIFIED},
+\end{itemize}
+
+
 (Window models can be queried as attributes; see section~\ref{sec:win-attr}.)
 
 \Level 1 {Dynamically attached memory}
@@ -992,26 +1041,29 @@ The following keys can be passed as info argument:
 \Level 1 {Window information}
 \label{sec:win-attr}
 
-The \indexmpishow{MPI_Info} parameter can be used to pass implementation-dependent 
-information; see section~\ref{sec:mpi-info}.
+The \indexmpishow{MPI_Info} parameter
+(see section~\ref{sec:mpi-info} for info objects)
+can be used to pass implementation-dependent 
+information.
 
 A number of attributes are stored with a window when it is created.
-
-Obtaining a pointer to the start of the window area:
+\begin{itemize}
+\item \indexmpishow{MPI_WIN_BASE} for
+  obtaining a pointer to the start of the window area:
 \begin{lstlisting}
 void *base;
 MPI_Win_get_attr(win, MPI_WIN_BASE, &base, &flag)  
 \end{lstlisting}
-
-Obtaining the size and \indextermbus{window}{displacement unit}:
+\item \indexmpishow{MPI_WIN_SIZE} and \indexmpishow{MPI_WIN_DISP_UNIT} for
+  obtaining the size and \indextermbus{window}{displacement unit}:
 \begin{lstlisting}
 MPI_Aint *size;
 MPI_Win_get_attr(win, MPI_WIN_SIZE, &size, &flag), 
 int *disp_unit;
 MPI_Win_get_attr(win, MPI_WIN_DISP_UNIT, &disp_unit, &flag), 
 \end{lstlisting}
-
-The type of create call used:
+\item \indexmpishow{MPI_WIN_CREATE_FLAVOR} for determining
+the type of create call used:
 \begin{lstlisting}
 int *create_kind;
 MPI_Win_get_attr(win, MPI_WIN_CREATE_FLAVOR, &create_kind, &flag)
@@ -1028,24 +1080,18 @@ with possible values:
 \item \indexmpishow{MPI_WIN_FLAVOR_SHARED} if the window was create
   with \indexmpishow{MPI_Win_allocate_shared};
 \end{itemize}
-
-The window model:
-\begin{lstlisting}
-int *memory_model;
-MPI_Win_get_attr(win, MPI_WIN_MODEL, &memory_model, &flag);
-\end{lstlisting}
-with possible values:
-\begin{itemize}
-\item \indexmpishow{MPI_WIN_SEPARATE},
-\item \indexmpishow{MPI_WIN_UNIFIED},
+\item \indexmpishow{MPI_WIN_MODEL} for
+  querying the window memory model; see section~\ref{sec:win-model}.
 \end{itemize}
 
-Get the group of processes associated with a window:
+Get the group of processes (see section~\ref{sec:mpi-comm-group})
+associated with a window:
 \begin{lstlisting}
 int MPI_Win_get_group(MPI_Win win, MPI_Group *group) 
 \end{lstlisting}
 
-Window information objects:
+Window information objects (see section~\ref{sec:mpi-info})
+can be set and retrieved:
 \begin{lstlisting}
 int MPI_Win_set_info(MPI_Win win, MPI_Info info)
 \end{lstlisting}
@@ -1056,7 +1102,17 @@ int MPI_Win_get_info(MPI_Win win, MPI_Info *info_used)
 \Level 0 {Assertions}
 \label{sec:mpi-assert}
 
-The \indexmpishow{MPI_Win_fence} call, as well \indexmpishow{MPI_Win_start} and such, take an argument
+The routines
+\begin{itemize}
+\item (Active target synchronization)
+  \indexmpishow{MPI_Win_fence},
+  \indexmpishow{MPI_Win_post},
+  \indexmpishow{MPI_Win_start};
+\item (Passive target synchronization)
+  \indexmpishow{MPI_Win_lock},
+  \indexmpishow{MPI_Win_lockall},
+\end{itemize}
+take an argument
 through which assertions can be passed about the activity before, after, and during the epoch.
 The value zero is always allowed, by you can make your program more efficient by specifying
 one or more of the following, combined by bitwise OR in C/C++ or
