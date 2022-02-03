@@ -14,22 +14,90 @@
 ####
 ################################################################
 
+info ::
+	@echo && echo "================================ MPI run:"
+
 ifeq "${TACC_SYSTEM}" "macbookair"
-  MPIRUN=mpirun
+  MPIRUN=mpiexec
+  NPOPTION=-n
 else
   MPIRUN=ibrun
+  NPOPTION=-np
 endif
 NP = 4
 CATCHER = ../course-support/catchout
-.PHONY: run catchrun
+.PHONY: mpirun catchrun
 info ::
-	@echo "make run/catchrun"
+	@echo "make mpirun / slurmrun / catchrun"
 	@echo "    ( catchrun gives orderly output)"
 	@echo "    [ PROGRAM=... NP=... ]"
-run :
-	${ENVOPTIONS} ${MPIRUN} -np ${NP} ${PYTHON} ${PROGRAM}${PROGRAM_EXTENSION} ${OPTIONS}
+mpirun :
+	@progargs="${PROGRAM}${PROGRAM_EXTENSION} ${OPTIONS}" \
+	 && if [ "${LANGUAGE}" = "python" ] ; then \
+	        progargs="${PYTHON} $$progargs" ; fi \
+	 && if [ -z "${np_${PROGRAM}}" ] ; then \
+	        np=${NP} ; \
+	    else np=${np_${PROGRAM}} ; fi \
+	 && cmdline="${ENVOPTIONS} ${MPIRUN} ${NPOPTION} $$np $${progargs}" \
+	 && if [ "${ECHO}" = "1" ] ; then \
+	        echo $$cmdline ; fi \
+	 && eval $$cmdline \
+	 && echo >/dev/null
+slurmrun :
+	${ENVOPTIONS} ${MPIRUN} -np ${SLURM_NPROCS} ${PYTHON} ${PROGRAM}${PROGRAM_EXTENSION} ${OPTIONS}
 catchrun :
 	@${MPIRUN} -np ${NP} ${CATCHER} ${PROGRAM} >/dev/null 2>&1
 	@for i in `seq 0 $$(( NP-1 ))` ; do \
 	  echo "$$i:" ; \
 	  cat ${PROGRAM}.out$$i ; done
+
+info ::
+	@echo && echo "================ Output and regression "
+	@echo "make runs : compile and run everything"
+	@echo "make runouts :same, and generate output files"
+	@echo "    ${RUNS}"
+	@echo "    [ NP= .... (default=${NP}) ]"
+	@echo "    [ MPIRUN= .... (default=${MPIRUN}) ]"
+	@echo "    ( make totalclean removes *.runout )"
+	@echo "make run_generic PROGRAM=... : compile and default run"
+	@echo "    [ RUNOUT=0/1 ]"
+.PHONY: runs runouts run_generic
+run_generic :
+	@if [ -z "${PROGRAM}" ] ; then \
+	    echo "please specify PROGRAM variable" && exit 1 ; fi 
+	@if [ ! "${LANGUAGE}" = "python" ] ; then \
+	    make --no-print-directory \
+	            ENVOPTIONS=${ENVOPTIONS} NP=${NP} PYTHON=${PYTHON} \
+	            PROGRAM_EXTENSION=${PROGRAM_EXTENSION} OPTIONS=${OPTIONS} \
+	        ${PROGRAM} \
+	    ; fi \
+	 && make --no-print-directory \
+	            ECHO=${ECHO} MPIRUN=${MPIRUN} OPTIONS=${OPTIONS} \
+	            NP=${NP} PYTHON=${PYTHON} PROGRAM_EXTENSION=${PROGRAM_EXTENSION} \
+	        mpirun PROGRAM=${PROGRAM}
+runs :
+	@for r in ${RUNS} ; do \
+	    echo "---------------- Test run: $$r ----------------" \
+	     && runname=$${r##run_} \
+	     && make --no-print-directory \
+	            $$r \
+	            ENVOPTIONS=${ENVOPTIONS} NP=${NP} PYTHON=${PYTHON} \
+	            PROGRAM_EXTENSION=${PROGRAM_EXTENSION} OPTIONS=${OPTIONS} \
+	     ; \
+	 done
+runouts :
+	@for r in ${RUNS} ; do \
+	    echo "---------------- Test run: $$r ----------------" \
+	     && runname=$${r##run_} \
+	     && make --no-print-directory \
+	            $$r \
+	            ENVOPTIONS=${ENVOPTIONS} NP=${NP} PYTHON=${PYTHON} \
+	            PROGRAM_EXTENSION=${PROGRAM_EXTENSION} OPTIONS=${OPTIONS} \
+	            RUNOUT=1 \
+	        2>&1 | tee $$runname.runout \
+	     && git add $$runname.runout \
+	    ; \
+	 done \
+	 && git status *.runout
+total_clean totalclean ::
+	@rm -f *.runout
