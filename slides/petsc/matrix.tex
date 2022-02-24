@@ -166,13 +166,11 @@ MatSetValues(Mat A,int m,const int idxm[],
 
 \begin{numberedframe}{Set only one element}
 \begin{lstlisting}
-MatSetValue(A,i,j,&v,INSERT_VALUES); // C
-MatSetValue(A,i,j,v,INSERT_VALUES,e); ! F
+MatSetValue(A,i,j,&v,INSERT_VALUES);
 \end{lstlisting}
 Special case of the general case:
 \begin{lstlisting}
-MatSetValues(A,1,&i,1,&j,&v,INSERT_VALUES); // C
-MatSetValues(A,1,i,1,j,v,INSERT_VALUES,e); ! F
+MatSetValues(A,1,&i,1,&j,&v,INSERT_VALUES);
 \end{lstlisting}
 \end{numberedframe}
 
@@ -212,6 +210,7 @@ PetscErrorCode MatRestoreRow(/* same parameters */
 Note: for inspection only; possibly expensive.
 \end{numberedframe}
 
+\begin{fortran}
 \begin{numberedframe}{Getting values (F)}
 \begin{lstlisting}
   MatGetRow(A,row,ncols,cols,vals,ierr)
@@ -220,6 +219,7 @@ Note: for inspection only; possibly expensive.
 where \lstinline{cols(maxcols), vals(maxcols)} are long enough arrays
 (allocated by the user)
 \end{numberedframe}
+\end{fortran}
 
 \begin{exerciseframe}[matvec]
   Advanced exercise: create a sequential (uni-processor)
@@ -321,7 +321,6 @@ row 1: (0, 0.5)  (1, 0.333333)  (2, 0.25)  (3, 0.2)
 
 \end{details}
 
-\begin{longversion}
 \begin{numberedframe}{General viewers}
   Any PETSc object can be `viewed'
   \begin{itemize}
@@ -435,7 +434,6 @@ Various packages for creating better partitioning: Chaco, Parmetis
 
 \end{numberedframe}
 
-\end{longversion}
 \endinput
 
 \subsection{Example}
@@ -468,8 +466,6 @@ for ( i=0; i<m; i++ ) {
 }
 \end{lstlisting}
 \end{numberedframe}
-
-\end{longversion}
 
 \begin{numberedframe}{Matrices from user data}
 \footnotesize

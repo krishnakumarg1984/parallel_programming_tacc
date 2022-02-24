@@ -38,6 +38,13 @@ solution:
 %\subsectionframe{KSP: Krylov Space objects}
 
 \begin{numberedframe}{Iterative solver basics}
+  \begin{itemize}
+  \item \lstinline{KSP} object: solver
+  \item set linear system operator
+  \item solve with rhs/sol vector
+  \item this is a default setup
+  \end{itemize}
+
 \begin{lstlisting}
 KSPCreate(comm,&solver); KSPDestroy(solver);
 // set Amat and Pmat
@@ -46,18 +53,16 @@ KSPSetOperators(solver,A,B); // usually: A,A
 KSPSolve(solver,rhs,sol);
 \end{lstlisting}
 Optional: \lstinline{KSPSetUp(solver)}
-
-%Reuse \lstinline{Amat} or \lstinline{Pmat}:
-%\lstinline{KSPGetOperators} and \lstinline{PetscObjectReference}.
 \end{numberedframe}
 
-\begin{numberedframe}{Solver type}
-
+\begin{numberedframe}{Solver settings}
+  Change default settings by program calls\\
+  example: solver type
 \begin{lstlisting}
 KSPSetType(solver,KSPGMRES);
 \end{lstlisting}
 
-KSP can be controlled from the commandline:
+Settings can be controlled from the commandline:
 \begin{lstlisting}
 KSPSetFromOptions(solver);
 /* right before KSPSolve or KSPSetUp */
@@ -65,9 +70,8 @@ KSPSetFromOptions(solver);
 then options \n{-ksp....} are parsed.
 \begin{itemize}
 \item type: \n{-ksp_type gmres -ksp_gmres_restart 20}
-\item \n{-ksp_view}
+\item \n{-ksp_view} for seeing all settings
 \end{itemize}
-
 \end{numberedframe}
 
 \begin{numberedframe}{Convergence}
@@ -83,19 +87,9 @@ Iterative solvers can fail
 \end{numberedframe}
 
 \begin{numberedframe}{Reason for convergence}
-\begin{lstlisting}
-KSPSolve(solver,B,X);
-KSPGetConvergedReason(solver,&reason);
-if (reason<0) {
-  PetscPrintf(comm,
-    "Failure to converge after %d iterations; reason %s\n",
-    its,KSPConvergedReasons[reason]);
-} else {
- KSPGetIterationNumber(solver,&its);
- PetscPrintf(comm,
-    "Convergence in %d iterations.\n",its);
-}
-\end{lstlisting}
+  Query the solver object:
+  
+  \cverbatimsnippet{pcgreason}
 \end{numberedframe}
 
 \begin{numberedframe}{Preconditioners}
@@ -118,12 +112,7 @@ System $Ax=b$ is transformed:
   \begin{itemize}
   \item PC usually created as part of KSP: separate create and destroy
     calls exist, but are (almost) never needed
-\begin{lstlisting}
-KSP solver; PC precon;
-KSPCreate(comm,&solver);
-KSPGetPC(solver,&precon);
-PCSetType(precon,PCJACOBI);
-\end{lstlisting}
+    \cverbatimsnippet{pcgcreate}
   \item Many choices, some with options: \lstinline{PCJACOBI}, \lstinline{PCILU} (only
     sequential), \lstinline{PCASM}, \lstinline{PCBJACOBI}, \lstinline{PCMG}, et cetera
   \item Controllable through commandline options:\\
@@ -131,7 +120,6 @@ PCSetType(precon,PCJACOBI);
   \end{itemize}
 \end{numberedframe}
 
-\begin{longversion}
 \begin{numberedframe}{Preconditioner reuse}
 In context of nonlinear solvers, the preconditioner can sometimes be reused:
 \begin{itemize}
@@ -179,6 +167,8 @@ In context of nonlinear solvers, the preconditioner can sometimes be reused:
     \end{itemize}
   \item SSOR: $M=(I+(\omega\inv D_A)\inv+L_A)(\omega\inv D_A+U_A)$
   \end{itemize}
+  Mostly of textbook value.\\
+  See next for more state-of-the-art.
 \end{numberedframe}
 
 \begin{numberedframe}{Factorization preconditioners}
@@ -195,8 +185,6 @@ Inexact:
 
 Application of the preconditioner (that is, solve $Mx=y$)
 approx same cost as matrix-vector product $y\leftarrow Ax$
-
-Factorization preconditioners are sequential
 \end{numberedframe}
 
 \begin{numberedframe}{ILU}
@@ -212,9 +200,11 @@ Prevent indefinite preconditioners:
 PCFactorSetShiftType(PC pc,MatFactorShiftType type);
 \end{lstlisting}
 value \lstinline{MAT_SHIFT_POSITIVE_DEFINITE} et cetera
-\end{numberedframe}
 
-\end{longversion}
+Factorization preconditioners are sequential\\
+but still useful; see later
+
+\end{numberedframe}
 
 \begin{higher}
 \begin{numberedframe}{Block Jacobi and Additive Schwarz}
@@ -230,14 +220,17 @@ value \lstinline{MAT_SHIFT_POSITIVE_DEFINITE} et cetera
   \end{itemize}
 \end{numberedframe}
 
-\begin{numberedframe}{Jacobi method}
-  \includegraphics[scale=.5]{bjacobi}
+\begin{numberedframe}{Block preconditioners}
+  \includegraphics[scale=.6]{bjacobi}
+
+  Illustration of block Jacobi and Additive Schwarz preconditioners:
+  left domains and subdomains, right the corresponding submatrices
 \end{numberedframe}
 
 \end{higher}
 
-\begin{longversion}
 \begin{numberedframe}{Block Jacobi and Additive Schwarz, theory}
+  \includegraphics[scale=.05]{block-jacobi}
   \begin{itemize}
   \item Both methods parallel
   \item Jacobi fully parallel\\ Schwarz local communication between neighbours
@@ -267,7 +260,6 @@ PCASMSetOverlap(PC pc,int overlap);
 \end{lstlisting}
 \end{numberedframe}
 
-\end{longversion}
 
 \begin{exerciseframe}[ksp]
   File \n{ksp.c}~/ \n{ksp.F90} contains the solution of a (possibly
@@ -320,7 +312,6 @@ Monitors can be set in code, but simple cases:
 \end{itemize}
 \end{numberedframe}
 
-\begin{longversion}
 \begin{numberedframe}{Custom monitors and convergence tests}
 \begin{lstlisting}
 KSPMonitorSet(KSP ksp,
@@ -380,14 +371,14 @@ Many options easier through commandline.
 \end{numberedframe}
 
 \begin{numberedframe}{Null spaces}
-
+  Iterating orthogonal to the null space of the operator:
 \begin{lstlisting}
 MatNullSpace sp;
 MatNullSpaceCreate /* constant vector */
     (PETSC_COMM_WORLD,PETSC_TRUE,0,PETSC_NULL,&sp);
 MatNullSpaceCreate /* general vectors */
     (PETSC_COMM_WORLD,PETSC_FALSE,5,vecs,&sp);
-KSPSetNullSpace(ksp,sp);
+MatSetNullSpace(mat,sp);
 \end{lstlisting}
 
 The solver will now properly remove the null space at each iteration.
@@ -409,8 +400,6 @@ similar idea to shell matrices
 
 Alternative: use different operator for preconditioner
 \end{numberedframe}
-
-\end{longversion}
 
 \begin{shortversion}
 
@@ -502,7 +491,7 @@ PCMGGetCoarseSolve(PC pc,KSP *ksp);
 PCMGSetInterpolation(PC pc,int level,Mat P); and
 PCMGSetRestriction(PC pc,int level,Mat R);
 PCMGSetResidual(PC pc,int level,PetscErrorCode
-(*residual)(Mat,Vec,Vec,Vec),Mat mat);
+    (*residual)(Mat,Vec,Vec,Vec),Mat mat);
 \end{lstlisting}
 \end{numberedframe}
 

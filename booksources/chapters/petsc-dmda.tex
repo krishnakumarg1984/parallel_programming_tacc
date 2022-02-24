@@ -58,8 +58,8 @@ DMDACreate2d( communicator,
   The stencil type is of type \indexpetscdef{DMStencilType},
   with values
   \begin{itemize}
-  \item \indexpetscshow{DM_STENCIL_BOX},
-  \item \indexpetscshow{DM_STENCIL_STAR}.
+  \item \indexpetscshow{DMDA_STENCIL_BOX},
+  \item \indexpetscshow{DMDA_STENCIL_STAR}.
   \end{itemize}
   (See figure~\ref{fig:starbox}.)
 \item
@@ -80,6 +80,8 @@ DMDACreate2d( communicator,
   giving explicit partitionings of the grid over the processors,
   or \indexpetscshow{PETSC_NULL} for default distributions.
 \end{itemize}
+
+\csnippetwithoutput{dm2dcreate}{examples/petsc/c}{dmcreate}
 
 After you define a \indexpetscshow{DM} object, each process has a contiguous
 subdomain out of the total grid.
@@ -114,16 +116,128 @@ for (int j=info.ys; j<info.ys+info.ym; j++) {
 On each point of the domain, we describe the stencil at that point.
 First of all, we now have the information to compute the $x,y$ coordinates
 of the domain points:
+%
+\cverbatimsnippet[examples/petsc/c/dmrhs.c]{vecdmgetarray}
+
+In some circumstances, we want to perform stencil operations
+on the vector of a \indexpetscshow{DMDA} grid.
+This requires having the \indexterm{halo region}.
+Above, you already saw the \lstinline{gxs,gxm} and other
+quantities relating to the halo of each process' subdomain.
+
+What we need is a way to make vectors that contain these halo points.
+\begin{itemize}
+\item You can make a traditonal vector corresponding to a grid with
+  \indexpetscshow{DMCreateGlobalVector};
+  if you need this vector only for a short while,
+  use \indexpetscshow{DMGetGlobalVector} and \indexpetscshow{DMRestoreGlobalVector}.
+\item You can make a vector including halo points with
+  \indexpetscshow{DMCreateLocalVector};
+  if you need this vector only for a short while,
+  use \indexpetscshow{DMGetLocalVector} and \indexpetscshow{DMRestoreLocalVector}.
+\item If you have a `global' vector, you can made the corresponding `local' vector,
+  filling in its halo points, with \indexpetscshow{DMGlobalToLocal};
+  after operating on a local vector, you can copy its non-halo part back
+  to a global vector with \indexpetscshow{DMLocalToGlobal}.
+\end{itemize}
+
+Here we set up a local vector for operations:
+%
+\cverbatimsnippet[examples/petsc/c/dmrhs.c]{dmghostvec}
+
+The actual operations involve some tests for the actual presence of the halo:
+%
+\cverbatimsnippet[examples/petsc/c/dmrhs.c]{dmghostsweep}
+
+\Level 0 {General Data Management}
+
 \begin{lstlisting}
-PetscReal
-  hx = 1. / ( info.mx-1 ),
-  hy = 1. / ( info.my-1 );
-for (int j=info.ys; j<info.ys+info.ym; j++) {
-  for (int i=info.xs; i<info.xs+info.xm; i++) {
-    PetscReal x = i*hx, y = j*hy;
-    ...
-  }
+  ierr = DMCreate(PETSC_COMM_WORLD, &dm);CHKERRQ(ierr);
+  ierr = DMSetType(dm, DMPLEX);CHKERRQ(ierr);
+\end{lstlisting}
+
+A \indexpetscshow{DMPLEX} is by default two-dimensional.
+Use
+\begin{verbatim}
+plexprogram  -dm_plex_dim k
+\end{verbatim}
+for other dimensions.
+In two dimensions there are three levels of cells:
+\begin{itemize}
+\item
+  0-cells are vertices,
+\item 1-cells are edges, and
+\item 2-cells are triangles.
+\end{itemize}
+
+The default $2\times 2$ grid has:
+\begin{verbatim}
+[code/petsc/c 1087] ./plex7 -dm_view
+DM Object: Sphere 1 MPI processes
+  type: plex
+Sphere in 2 dimensions:
+  0-cells: 9
+  1-cells: 16
+  2-cells: 8
+\end{verbatim}
+
+For larger grids:
+\begin{verbatim}
+plexprogram -dm_plex_box_faces 4,4
+\end{verbatim}
+
+\begin{multicols}{2}
+  Graphics output from
+\begin{verbatim}
+plexprogram -dm_view draw -draw_pause 20
+\end{verbatim}
+\vfill
+\columnbreak
+\includegraphics[scale=.5]{dmplex4x4}
+\end{multicols}
+
+\begin{verbatim}
+plexprogram -dm_view :outputfile.tex:ascii_latex \
+            -dm_plex_view_scale 4
+\end{verbatim}
+
+\hbox to \textwidth {
+\input mesh-plex7-p1.tex
+\hfil
+\input mesh-plex7-p2.tex
 }
+
+\Level 1 {Matrix from dmplex}
+
+\begin{tabbing}
+  Loop \=over batch of elements (e):\\
+  \>Loop \=over element matrix entries (f,fc,g,gc --> i,j:\\
+  \>\>Loop \=over quadrature points (q):\\
+  \>\>\>Make \n{u_q} and \n{gradU_q} (loops over fields,Nb,Ncomp)\\
+  \>\>\>$elemMat[i,j] += $ \= $\psi^{fc}_f(q) g^{(0)}_{fc,gc}(u, \nabla u) \phi^{gc}_g(q)$\\
+  \>\>\>\> $+ \psi^{fc}_f(q) \cdot g^{(1)}w_{fc,gc,dg}(u, \nabla u) \nabla\phi^{gc}_g(q)$\\
+  \>\>\>\> $+ \nabla\psi^{fc}_f(q) \cdot g^{(2)}_{fc,gc,df}(u, \nabla u) \phi^{gc}_g(q)$\\
+  \>\>\>\> $+ \nabla\psi^{fc}_f(q) \cdot g^{(3)}_{fc,gc,df,dg}(u, \nabla u) \nabla\phi^{gc}_g(q)$\\
+\end{tabbing}
+
+\begin{lstlisting}
+  ierr = DMPlexGetDepthStratum(dm, 0, &vStart, &vEnd);CHKERRQ(ierr);
+  ierr = PetscSectionCreate(PetscObjectComm((PetscObject) dm), &s);CHKERRQ(ierr);
+  // setup the section
+  ierr = DMSetLocalSection(dm, s);CHKERRQ(ierr);
+  ierr = PetscSectionDestroy(&s);CHKERRQ(ierr);
+\end{lstlisting}
+
+\begin{lstlisting}
+  ierr = PetscSectionSetNumFields(s, 1);CHKERRQ(ierr);
+  ierr = PetscSectionSetFieldComponents(s, 0, 1);CHKERRQ(ierr);
+  ierr = PetscSectionSetChart(s, vStart, vEnd);CHKERRQ(ierr);
+  //  printf("start-end: %d -- %d\n",vStart,vEnd);
+  for (v = vStart; v < vEnd; ++v) {
+    ierr = PetscSectionSetDof(s, v, 1);CHKERRQ(ierr);
+    ierr = PetscSectionSetFieldDof(s, v, 0, 1);CHKERRQ(ierr);
+  }
+  ierr = PetscSectionSetUp(s);CHKERRQ(ierr);
 \end{lstlisting}
 
 \Level 0 {Constructing a vector on a grid}

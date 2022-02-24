@@ -5,7 +5,7 @@
 %%%% `Introduction to the PETSc library'
 %%%% by Victor Eijkhout, eijkhout@tacc.utexas.edu
 %%%%
-%%%% copyright Victor Eijkhout 2012-2020
+%%%% copyright Victor Eijkhout 2012-2022
 %%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -27,8 +27,11 @@ Vec V;
 VecCreate(MPI_COMM_WORLD,&V);
 VecDestroy(&V);
 \end{lstlisting}
+\end{numberedframe}
 
 \lstset{language=Fortran}
+\begin{fortran}
+\begin{numberedframe}{Create calls, Fortran}
 \begin{lstlisting}
 ! Fortran
 Vec V
@@ -37,6 +40,7 @@ call VecDestroy(V,e)
 \end{lstlisting}
 Note: in Fortran there are no `star' arguments
 \end{numberedframe}
+\end{fortran}
 \lstset{language=C}
 
 \begin{numberedframe}{More about vectors}
@@ -57,11 +61,13 @@ VecDuplicate(Vec v,Vec *w);
 \end{details}
 
 \lstset{language=Python}  
+\begin{python}
 \begin{numberedframe}{Python}
   Create is a class method:
 
   \pverbatimsnippet{pyveccreate}
 \end{numberedframe}
+\end{python}
 \lstset{language=C}
 
 \begin{numberedframe}{Parallel layout up to PETSc}
@@ -84,12 +90,14 @@ Global size can be specified as \lstinline{PETSC_DECIDE}.
 \end{numberedframe}
 
 \lstset{language=Python}
+\begin{python}
 \begin{numberedframe}{Vector layout in python}
   Local and global sizes in a tuple,\\
   \plstinline{PETSc.DECIDE} for parameter not specified.
   
   \pverbatimsnippet{pyvecsize}
 \end{numberedframe}
+\end{python}
 \lstset{language=C}
 
 \begin{details}
@@ -102,7 +110,6 @@ Query vector layout:
 VecGetSize(Vec,PetscInt *globalsize)
 VecGetLocalSize(Vec,PetscInt *localsize)
 VecGetOwnershipRange(Vec x,PetscInt *low,PetscInt *high)
-VecGetOwnershipRange(x,low,high,ierr) ! F
 \end{lstlisting}
 \includegraphics[scale=.08]{veclayout}
 \end{numberedframe}
@@ -111,7 +118,6 @@ VecGetOwnershipRange(x,low,high,ierr) ! F
 Query general layout:
 \begin{lstlisting}
 PetscSplitOwnership(MPI_Comm comm,PetscInt *n,PetscInt *N);
-PetscSplitOwnership(comm,n,N,ierr) ! F
 \end{lstlisting}
 (get local/global given the other)
 \end{numberedframe}
@@ -133,8 +139,8 @@ VecSetValue
 i = 1; v = 3.14;
 VecSetValue(x,i,v,INSERT_VALUES);
 
-call VecSetValue(x,i,v,INSERT_VALUES,ierr,e)
-\end {lstlisting}
+call VecSetValue(x,i,v,INSERT_VALUES)
+\end{lstlisting}
 The other insertmode is \indexpetscshow{ADD_VALUES}.
 \end{numberedframe}
 
@@ -154,6 +160,13 @@ call VecSetValues(x,2,ii,vv,INSERT_VALUES,ierr,e)
 \end{lstlisting}
 \end{numberedframe}
 
+\begin{python}
+\begin{numberedframe}{Setting values: Python}
+  \pverbatimsnippet{pyvecval}
+  \pverbatimsnippet{pyvecvals}
+\end{numberedframe}
+\end{python}
+
 \begin{numberedframe}{Setting values}
 No restrictions on parallelism;\\
 after setting, move values to appropriate processor:
@@ -161,6 +174,9 @@ after setting, move values to appropriate processor:
 VecAssemblyBegin(Vec x);
 VecAssemblyEnd(Vec x);
 \end{lstlisting}
+`Latency hiding':\\
+some of the implementation is visible here
+to the user
 \end{numberedframe}
 
 \begin{numberedframe}{Basic operations}
@@ -273,6 +289,7 @@ Fortran: \lstinline{PETSC_NULL_INTEGER}
 \end{numberedframe}
 
 \lstset{language=Fortran}
+\begin{fortran}
 \begin{numberedframe}{Array handling in F90}
 \begin{lstlisting}
     PetscScalar, pointer :: xx_v(:)
@@ -284,6 +301,7 @@ Fortran: \lstinline{PETSC_NULL_INTEGER}
 More seperate F90 versions for `Get' routines\\
 (there are some ugly hacks for F77)
 \end{numberedframe}
+\end{fortran}
 
 \end{details}
 \lstset{language=C}

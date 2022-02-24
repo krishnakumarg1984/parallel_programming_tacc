@@ -69,7 +69,7 @@ int main(int argc,char **argv) {
     const char *workerprogram = "./spawnapp";
     MPI_Comm_spawn(workerprogram,MPI_ARGV_NULL,
                    work_n,MPI_INFO_NULL,
-    		   0,comm_world,&comm_inter,NULL);
+                   0,comm_world,&comm_inter,NULL);
   }
 
   MPI_Finalize();

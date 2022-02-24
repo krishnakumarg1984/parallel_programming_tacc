@@ -4,7 +4,7 @@
 %%%%
 %%%% This text file is part of the source of 
 %%%% `Parallel Programming in MPI and OpenMP'
-%%%% by Victor Eijkhout, copyright 2012-2020
+%%%% by Victor Eijkhout, copyright 2012-2022
 %%%%
 %%%% omp-affinity.tex : thread affinity
 %%%%
@@ -93,7 +93,7 @@ The value \n{OMP_PROC_BIND=master} puts the threads in the same place
 as the master of the team. This is convenient if you create teams
 recursively. In that case you would use the \indexclause{proc\_bind}
 clause rather than the environment variable, set to \n{spread} for the
-initial team, and to \n{master} for the recursively created team.
+initial team, and to \indexpragma{master} for the recursively created team.
 
 \Level 1 {Effects of thread binding}
 \label{sec:omp:bindeffect}

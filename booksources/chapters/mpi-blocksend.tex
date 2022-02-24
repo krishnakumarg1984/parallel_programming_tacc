@@ -427,10 +427,21 @@ if ( /* I am processor 0 */ ) {
 }
 \end{lstlisting}
 
-The eager limit is implementation-specific. For instance, for
-\indextermbus{Intel}{MPI} there is a variable
-\indextermtt{I_MPI_EAGER_THRESHOLD}, for \indexterm{mvapich2} it is
-\indextermtt{MV2_IBA_EAGER_THRESHOLD}, and for \indexterm{OpenMPI} the
+Eager sends also influences
+\emph{non-blocking}\index{eager send!and non-blocking} sends.
+The wait call after a non-blocking send:
+%
+\csnippetwithoutput{eagerisend}{code/mpi/c}{eageri}
+%
+will return immediately, regardless any receive call,
+if the message is under the eager limit.
+
+The eager limit is implementation-specific.
+For instance,
+for \indextermbus{Intel}{MPI} there is a variable
+\indextermtt{I_MPI_EAGER_THRESHOLD} (old versions) or \indextermtt{I_MPI_SHM_EAGER_THRESHOLD};
+for \indexterm{mvapich2} it is \indextermtt{MV2_IBA_EAGER_THRESHOLD},
+and for \indexterm{OpenMPI} the
 \texttt{--mca} options \indextermtt{btl_openib_eager_limit} and
 \indextermtt{btl_openib_rndv_eager_limit}.
 

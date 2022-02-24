@@ -44,17 +44,14 @@
 %%%% In/exclude this that and the other
 %%%%
 % \usepackage{comment} already in coursemacs
-\includecomment{longversion}
 \excludecomment{higher}
 \excludecomment{xsede}
 
 % not for edit
 \excludecomment{details}
 \includecomment{shortversion}
-\begin{longversion}
 \excludecomment{shortversion}
 \includecomment{details}
-\end{longversion}
 %
 
 \includecomment{compat} %% VLE what?!
@@ -65,6 +62,11 @@
 \usepackage{enumitem}
 \setlist{nosep,label=$\bullet$}
 \parskip=12pt plus 2pt
+
+%%%%
+%%%% language specific
+%%%%
+\input lang
 
 %%%%
 %%%% And here we go....
@@ -95,10 +97,8 @@
 \input grid
 \input is
 
-\begin{longversion}
-  \input nonlinear
-  \input higher
-\end{longversion}
+\input nonlinear
+\input higher
 
 \input profiling
 

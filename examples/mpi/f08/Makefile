@@ -3,7 +3,7 @@
 ####
 #### This makefile is part of the source of 
 #### "Parallel Computing for Science and Engineering"
-#### by Victor Eijkhout, copyright 2013-2020
+#### by Victor Eijkhout, copyright 2013-2022
 ####
 #### This is the makefile for the examples/mpi/f08
 ####
@@ -16,8 +16,9 @@ info ::
 	@echo "================================================================"
 	@echo "available rules:"
 
-APPS = reduceinplace reduceinplaceptr section anysource putfence waitnull vector vectorx \
-    typecheck
+APPS = f08 count reduceinplace reduceinplaceptr section sectionisend \
+    anysource putfence\
+    waitnull vector vectorx typecheck
 
 LANGUAGE = F
 MODE = mpi
@@ -33,14 +34,15 @@ include ../../../makefiles/Make.compile
 app_dependencies =
 .SECONDEXPANSION:
 
-info ::
-	@echo "make run_PROGRAM (in: ${RUNS})"
-	@echo "    [ NPSPEC=\"-np 4\" or so; default=<<${NPSPEC}>> ]"
 RUNS =
 include ../../../makefiles/Make.mpi_run
-.PHONY: run_waitnull
+
 RUNS += run_waitnull
+.PHONY: run_waitnull
 run_waitnull : waitnull
 	${MPIEXEC} ${NP} waitnull
+.PHONY: run_count
+run_count : count
+	@make --no-print-directory run_generic PROGRAM=count
 
 include  ../../../makefiles/Make.clean

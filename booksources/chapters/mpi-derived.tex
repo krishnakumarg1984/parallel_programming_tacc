@@ -390,9 +390,23 @@ Normally you use \n{ibrun} without process count argument.
 
 \end{exercise}
 
-Subarrays are naturally supported in Fortran through array sections:
-\fverbatimsnippet[examples/mpi/f08/section.F90]{fsectionsend}
-at least, since \mpistandard{3}.
+\begin{fortrannote}{Subarrays}
+  Subarrays are naturally supported in Fortran through array sections.
+  %
+  \fverbatimsnippet[examples/mpi/f08/section.F90]{fsectionsend}
+  %
+  However, there is a subtlety with non-blocking operations:
+  for a non-contiguous buffer a temporary is created, which is released
+  after the MPI call. This is correct for blocking sends, but for non-blocking
+  the temporary has to stay around till the wait call.
+  %
+  \fverbatimsnippet[examples/mpi/f08/sectionisend.F90]{fsectionisend}
+  %
+  In \mpistandard{3} the variable \indexmpidef{MPI_SUBARRAYS_SUPPORTED}
+  indicates support for this mechanism:
+  %
+  \fverbatimsnippet[examples/mpi/f08/sectionisend.F90]{fsectiontest}
+\end{fortrannote}
 
 The possibilities for the \n{order} parameter are
 \indexmpidef{MPI_ORDER_C} and \indexmpidef{MPI_ORDER_FORTRAN}.

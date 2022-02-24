@@ -10,7 +10,6 @@
 
 \sectionframe{Grid manipulation}
 
-\begin{longversion}
 \begin{numberedframe}{Regular grid: DMDA}
 DMDAs are for storing vector field, not matrix.
 
@@ -46,25 +45,38 @@ lm/n: array of local sizes (optional;
 Use \lstinline{PETSC_NULL} for the default)
 \end{numberedframe}
 
+\begin{numberedframe}{Grid info}
+  \tiny
+  \csnippetwithoutput{dm2dcreate}{examples/petsc/c}{dmcreate}
+\end{numberedframe}
+
 \begin{numberedframe}{Associated vectors}
+  \begin{itemize}
+  \item Global vector: based on grid partitioning.
+  \item Local vector: including halo regions
+  \end{itemize}
+  \cverbatimsnippet[examples/petsc/c/dmrhs.c]{dmghostvec}
+\end{numberedframe}
+
+\begin{numberedframe}{Grid info}
 \begin{lstlisting}
-DMCreateGlobalVector(DM grid,Vec *g);
-DMCreateLocalVector(DM grid,Vec *l);
-
-global -> local
-DMGlobalToLocalBegin/End
-    (DMDA da,Vec g,InsertMode iora,Vec l);
-
-local -> global
-DMLocalToGlobalBegin/End
-    (DMDA da,Vec l,InsertMode mode,Vec g);
-
-local -> global -> local :
-DMLocalToLocalBegin/End
-    (DMDA da,Vec l1,InsertMode iora,Vec l2);
+typedef struct {
+  PetscInt     dim,dof,sw;
+  PetscInt     mx,my,mz;    /* grid points in x,y,z */
+  PetscInt     xs,ys,zs;    /* starting point, excluding ghosts */
+  PetscInt     xm,ym,zm;    /* grid points, excluding ghosts */
+  PetscInt     gxs,gys,gzs; /* starting point, including ghosts */
+  PetscInt     gxm,gym,gzm; /* grid points, including ghosts */
+  DMBoundaryType   bx,by,bz;    /* type of ghost nodes */
+  DMDAStencilType  st;
+  DM               da;
+} DMDALocalInfo;
 \end{lstlisting}
 \end{numberedframe}
 
+\begin{numberedframe}{Operating on arrays}
+  \cverbatimsnippet[examples/petsc/c/dmrhs.c]{dmghostsweep}  
+\end{numberedframe}
 
 \begin{numberedframe}{Associated matrix}
 Matrix that has knowledge of the grid:
@@ -91,22 +103,6 @@ MatSetValuesStencil(Mat mat,
 %% \end{lstlisting}
 %% \end{numberedframe}
 
-\begin{numberedframe}{Grid info}
-\begin{lstlisting}
-typedef struct {
-  PetscInt         dim,dof,sw;
-  PetscInt         mx,my,mz;    /* grid points in x,y,z */
-  PetscInt         xs,ys,zs;    /* starting point, excluding ghosts */
-  PetscInt         xm,ym,zm;    /* grid points, excluding ghosts */
-  PetscInt         gxs,gys,gzs; /* starting point, including ghosts */
-  PetscInt         gxm,gym,gzm; /* grid points, including ghosts */
-  DMBoundaryType   bx,by,bz;    /* type of ghost nodes */
-  DMDAStencilType  st;
-  DM               da;
-} DMDALocalInfo;
-\end{lstlisting}
-\end{numberedframe}
-
 \begin{numberedframe}{Set values by stencil}
 \begin{lstlisting}
 DMDALocalInfo  info;
@@ -120,10 +116,13 @@ for (int j=info.ys; j<info.ys+info.ym; j++) {
     // diagonal element:
     col[ncols].j = j; col[ncols].i = i; v[ncols++] = 4.;
     /* boundaries: top row */
-    if (i>0)         {col[ncols].j = j;   col[ncols].i = i-1; v[ncols++] = -1.;}
+    if (i>0)
+        {col[ncols].j = j;   col[ncols].i = i-1; v[ncols++] = -1.;}
     /* boundary left and right */
-    if (j>0)         {col[ncols].j = j-1; col[ncols].i = i;   v[ncols++] = -1.;}
-    if (j<info.my-1) {col[ncols].j = j+1; col[ncols].i = i;   v[ncols++] = -1.;}
+    if (j>0)
+        {col[ncols].j = j-1; col[ncols].i = i;   v[ncols++] = -1.;}
+    if (j<info.my-1)
+        {col[ncols].j = j+1; col[ncols].i = i;   v[ncols++] = -1.;}
 [et cetera]    
 \end{lstlisting}
 \end{numberedframe}
@@ -157,5 +156,5 @@ for (int j=info.ys; j<info.ys+info.ym; j++) {
 % (also global?)
 
 % }
-\end{longversion}
+
 

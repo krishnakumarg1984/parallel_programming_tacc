@@ -1,10 +1,10 @@
-% -*- latex
+% -*- latex -*-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%
 %%%% This text file is part of the source of 
 %%%% `Introduction to High-Performance Scientific Computing'
-%%%% by Victor Eijkhout, copyright 2012-2021
+%%%% by Victor Eijkhout, copyright 2012-2022
 %%%%
 %%%% This book is distributed under a Creative Commons Attribution 3.0
 %%%% Unported (CC BY 3.0) license and made possible by funding from
@@ -137,6 +137,13 @@
   \addchaptersource{{#1}}
   % typeset as nice C code
   \lstset{style=reviewcode,language=C}\lstinputlisting{#2}}
+\newcommand{\csnippetwithoutput}[3]{
+  \begin{multicols}{2}
+    \lstset{style=reviewcode,language=C}\lstinputlisting{#1}
+    \vfill\columnbreak
+    \verbatiminput{#2/#3}\vfill  
+  \end{multicols}
+  }
 \newcommand{\cxxverbatimsnippet}[2][XX]{
   % record this file as bracketed name
   \addchaptersource{{#1}}

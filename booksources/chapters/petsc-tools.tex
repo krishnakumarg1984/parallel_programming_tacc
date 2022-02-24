@@ -4,7 +4,7 @@
 %%%%
 %%%% This text file is part of the source of 
 %%%% `Parallel Programming in MPI and OpenMP'
-%%%% by Victor Eijkhout, copyright 2012-2021
+%%%% by Victor Eijkhout, copyright 2012-2022
 %%%%
 %%%% petsc-tools.tex : guess.
 %%%%
@@ -198,7 +198,7 @@ of different sizes, depending on the installation.
 Instead, use \indexpetscref{PetscViewerRead}, which operates in terms of
 \indexpetscshow{PetscDataType}.
 
-\Level 1 {Exporting internal data structures}
+\Level 1 {Viewers}
 \label{sec:petsc-view}
 
 In order to export PETSc matrix or vector data structures
@@ -260,6 +260,16 @@ program -mat_view binary:matrix.dat
 \end{verbatim}
 where \n{binary} forces a binary dump (\n{ascii} is the default)
 and a file name is explicitly given.
+
+Binary dump may not be supported for all datatypes,
+in particular \indexpetscshow{DM}.
+For that case, do
+\begin{verbatim}
+program -dm_view draw \
+    -draw_pause 20
+\end{verbatim}
+which pops up an \indexterm{X11} window,
+for the duration of the indicated \n{pause}.
 
 If a viewer needs to be triggered at a specific location,
 calls such as \indexpetscdef{VecViewFromOptions} can be used.

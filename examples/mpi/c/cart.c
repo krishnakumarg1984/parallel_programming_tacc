@@ -30,7 +30,8 @@ int main(int argc,char **argv) {
   MPI_Cart_create(comm,ndim,dimensions,periodic,1,&comm2d);
   MPI_Cart_coords(comm2d,procno,ndim,coord_2d);
   MPI_Cart_rank(comm2d,coord_2d,&rank_2d);
-  printf("I am %d: (%d,%d); originally %d\n",rank_2d,coord_2d[0],coord_2d[1],procno);
+  printf("I am %d: (%d,%d); originally %d\n",
+         rank_2d,coord_2d[0],coord_2d[1],procno);
 
   int rank_left,rank_right,rank_up,rank_down;
   char indata[4]; int idata=0,sdata=0;

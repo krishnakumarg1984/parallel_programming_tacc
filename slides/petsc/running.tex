@@ -55,15 +55,12 @@ FFLAGS = ${PETSC_FC_INCLUDES}
 and write your own compile rules
 \end{numberedframe}
 
-\begin{longversion}
 \begin{numberedframe}
 Find out what \n{PETSC_INCLUDE} and \n{PETSC_LIB} are:
 \begin{verbatim}
 cd $PETSC_DIR ; make getincludedirs getlinklibs
 \end{verbatim}
 \end{numberedframe}
-
-\end{longversion}
 
 \begin{numberedframe}{Environment variables}
 \small
@@ -116,6 +113,7 @@ Options can be set:
 \end{itemize}
 \end{numberedframe}
 
+\begin{fortran}
 \begin{numberedframe}{Fortran}
 
   \begin{itemize}
@@ -137,20 +135,22 @@ call PetscOptionsGetInt(PETSC_NULL_CHARACTER,"-name",
 \end{verbatim}
   \end{itemize}
 \end{numberedframe}
+\end{fortran}
 
-\begin{longversion}
+\begin{fortran}
 \begin{numberedframe}{More Fortran}
   \begin{itemize}
   \item Indexing in \lstinline{MatSetValues} and such is always zero-based
   \item Function pointers: routine is assumed to be in the same language
   \end{itemize}
 \end{numberedframe}
+\end{fortran}
 
-\end{longversion}
-
+\begin{python}
 \begin{numberedframe}{Python bindings}
   \url{https://pythonhosted.org/petsc4py/}
 \end{numberedframe}
+\end{python}
 
 \begin{comment}
 \subsection{Source code organization}

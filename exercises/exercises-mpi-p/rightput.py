@@ -3,7 +3,7 @@
 ################################################################
 ####
 #### This program file is part of the book and course
-#### "Parallel Computing"
+####   Parallel Computing for Science and Engineering
 #### by Victor Eijkhout, copyright 2019
 ####
 #### rightput.py : put data right by one-sided

@@ -367,6 +367,8 @@ the receive buffer.)
   \end{itemize}
   Also possible:
 \lstset{language=C}
+\begin{multicols}{2}
+\small
 \begin{lstlisting}
 if ( /* i am first */ )
   Sendrecv( to=right, from=NULL );
@@ -375,6 +377,15 @@ else if ( /* i am last */
 else 
   Sendrecv( to=right, from=left );
 \end{lstlisting}
+\begin{lstlisting}
+if ( /* i am first */ )
+  Send( to=right );
+else if ( /* i am last */
+  Recv( from=left );
+else 
+  Sendrecv( to=right, from=left );
+\end{lstlisting}
+\end{multicols}
 But:\\
 Code duplication is error-prone, also\\
 chance of deadlock by missing a case
@@ -556,6 +567,32 @@ MPI_Waitsomething(.....)
 \end{lstlisting}
 \end{numberedframe}
 
+\begin{numberedframe}{Pitfalls}
+  \begin{itemize}
+  \item Strictly one request/wait per \n{isend}/\n{irecv}:\\
+    can not use one request for multiple simultaneous \n{isend}s
+  \item Some people argue:
+    \begin{quote}
+      Wait for the send is not necessary: if you wait for the receive, the message
+      has arrived safely
+    \end{quote}
+    This leads to memory leaks! The \n{wait} call deallocates the request object.
+  \end{itemize}
+\end{numberedframe}
+
+\begin{numberedframe}{Matrices in parallel}
+  \[ y\leftarrow Ax\]
+  and $A,x,y$ all distributed:
+
+  \includegraphics[scale=.12]{distmvp}
+\end{numberedframe}
+
+\begin{numberedframe}{Hiding the halo}
+  Interior of a process domain can overlap with halo transfer:
+
+  \includegraphics[scale=.1]{laplaceghost}
+\end{numberedframe}
+
 \begin{numberedframe}{Latency hiding}
   Other motivation for non-blocking calls:\\
   overlap of computation and communication, provided
@@ -570,19 +607,6 @@ MPI_Waitsomething(.....)
   \item Wait for edge points from neighbor processes
   \item Incorporate incoming data.
   \end{enumerate}
-\end{numberedframe}
-
-\begin{numberedframe}{Matrices in parallel}
-  \[ y\leftarrow Ax\]
-  and $A,x,y$ all distributed:
-
-  \includegraphics[scale=.12]{distmvp}
-\end{numberedframe}
-
-\begin{numberedframe}{Hiding the halo}
-  Interior of a process domain can overlap with halo transfer:
-
-  \includegraphics[scale=.1]{laplaceghost}
 \end{numberedframe}
 
 \begin{exerciseframe}[isendirecvarray]

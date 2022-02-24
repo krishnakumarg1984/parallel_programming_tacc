@@ -1,4 +1,4 @@
-// pi.py
+## pi.py
 def calc_pi1(pi,n):
     for i in range(n):
         x = random.random()

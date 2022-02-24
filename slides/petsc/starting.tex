@@ -1,4 +1,4 @@
-% -*- latex
+% -*- latex -*-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%
 %%%% This TeX file is part of the tutorial
@@ -18,20 +18,30 @@ C:
 #include "petsc.h"
 int main(int argc,char **argv)
 \end{lstlisting}
-Fortran:
+\end{numberedframe}
+
+\begin{fortran}
 \lstset{language=Fortran}
+\begin{numberedframe}{Include files, Fortran}
+  Include file for preprocessor definitions,\\
+  module for library definitions
 \begin{lstlisting}
 program basic
 #include <petsc/finclude/petsc.h>
-  use petsc
-  implicit none
+use petsc
+implicit none
 \end{lstlisting}
-Python:
+\end{numberedframe}
+\end{fortran}
+
+\begin{python}
+\begin{numberedframe}{Include files, Python}
 \lstset{language=Python}
 \begin{lstlisting}
 from petsc4py import PETSc
 \end{lstlisting}
 \end{numberedframe}
+\end{python}
 
 \lstset{language=C}
 \begin{numberedframe}{Variable declarations, C}
@@ -47,6 +57,7 @@ Note Scalar vs Real
 \end{numberedframe}
 
 \lstset{language=Fortran}
+\begin{fortran}
 \begin{numberedframe}{Variable declarations, F}
 \begin{lstlisting}
   KSP            :: solver
@@ -58,6 +69,7 @@ Note Scalar vs Real
 \end{lstlisting}
 Much like in C
 \end{numberedframe}
+\end{fortran}
 
 \lstset{language=C}
 
@@ -69,15 +81,17 @@ General: Every routine has an error return. Catch that value!
 \end{numberedframe}
 
 \lstset{language=Fortran}
+\begin{fortran}
 \begin{numberedframe}{Library setup, F}
 \begin{lstlisting}
   call PetscInitialize(PETSC_NULL_CHARACTER,ierr)
-      CHKERRQ(ier)
+      CHKERRQ(ierr)
 // all the petsc work
-  call PetscFinalize(ierr); CHKERRQ(ier)
+  call PetscFinalize(ierr); CHKERRQ(ierr)
 \end{lstlisting}
 Error code is now final parameter. This holds for every PETSc routine.
 \end{numberedframe}
+\end{fortran}
 
 \lstset{language=C}
 
@@ -150,6 +164,7 @@ ierr = VecCreate( comm,&vec ); CHKERRQ(ierr).
 \end{numberedframe}
 
 \lstset{language=Fortran}
+\begin{fortran}
 \begin{numberedframe}{About routine prototypes: Fortran}
 \begin{multicols}{2}
 \footnotesize
@@ -179,24 +194,31 @@ call VecCreate(comm,v,ierr)
 \hbox{}\vfill\hbox{}
 \end{multicols}
 \end{numberedframe}
+\end{fortran}
 
 \lstset{language=Python}
+\begin{python}
 \begin{numberedframe}{About routine prototypes: Python}
-Prototype:
+Object methods:
 \begin{lstlisting}
-# object method
+# definition
 PETSc.Mat.setSizes(self, size, bsize=None)
-# class method
-PETSc.Sys.Print(type cls, *args, **kwargs)
-\end{lstlisting}
-Use:
-\begin{lstlisting}
-from petsc4py import PETSc
-PETSc.Sys.Print("detecting n option")
+
+# use
 A = PETSc.Mat().create(comm=comm)
 A.setSizes( ( (None,matrix_size), (None,matrix_size) ) )
 \end{lstlisting}
+
+Class methods:
+\begin{lstlisting}
+# definition
+PETSc.Sys.Print(type cls, *args, **kwargs)
+
+# use
+PETSc.Sys.Print("detecting n option")
+\end{lstlisting}
 \end{numberedframe}
+\end{python}
 
 \lstset{language=C}
 \begin{details}
@@ -265,7 +287,6 @@ Root of 1.500000 is 1.224745
 [0]PETSC ERROR: #2 main() line 39 in root.c
 \end{verbatim}
 \endgroup
-Fortran: you need to set the \n{ierr} value yourself.
 \end{exerciseframe}
 
 \begin{numberedframe}{Commandline arguments, C}
@@ -282,6 +303,7 @@ flag can be \lstinline{PETSC_NULL} if not wanted
 \end{numberedframe}
 
 \lstset{language=Fortran}
+\begin{fortran}
 \begin{numberedframe}{Program parameters, F}
 \begin{lstlisting}
   character*80      msg
@@ -296,17 +318,20 @@ Less elegant than \lstinline{PetscPrintf} in C
 
 Note the \lstinline{PETSC_NULL_XXX}: Fortran has strict type checking.
 \end{numberedframe}
+\end{fortran}
 
 \lstset{language=C}
 
 \end{details}
 
 \lstset{language=Python}
+\begin{python}
 \begin{numberedframe}{Program parameters, Python}
 \begin{lstlisting}
 nlocal = PETSc.Options().getInt("n",10)
 \end{lstlisting}
 \end{numberedframe}
+\end{python}
 \lstset{language=C}
 
 \endinput

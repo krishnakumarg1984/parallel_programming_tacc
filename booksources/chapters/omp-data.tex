@@ -4,7 +4,7 @@
 %%%%
 %%%% This text file is part of the source of 
 %%%% `Parallel Programming in MPI and OpenMP'
-%%%% by Victor Eijkhout, copyright 2012-2021
+%%%% by Victor Eijkhout, copyright 2012-2022
 %%%%
 %%%% omp-data.tex : about thread data
 %%%%
@@ -159,7 +159,7 @@ values are not otherwise used.
 \Level 0 {Default}
 
 \begin{itemize}
-\item Loop variables in an \n{omp for} are private;
+\item Loop variables in an \indexpragma{omp for} are private;
 \item Local variables in the parallel region are private.
 \end{itemize}
 You can alter this default behavior with the \indexclause{default} clause:
@@ -294,6 +294,17 @@ though often simply zero:
 %
 \cverbatimsnippet[examples/omp/c/threadprivate.c]{threadprivate}
 
+\begin{fortrannote}{Private common blocks}
+  Named common blocks can be made thread-private with the syntax
+\begin{lstlisting}
+$!OMP threadprivate( /blockname/ )
+\end{lstlisting}
+Example:
+%
+\fsnippetwithoutput{threadprivf}{examples/omp/f}{priv}
+%
+\end{fortrannote}
+
 On the other hand, if the thread private data starts out identical in
 all threads, the \indexclause{copyin} clause can be used:
 \begin{lstlisting}
@@ -316,6 +327,9 @@ If one thread needs to set all thread private data to its value, the
 }
 \end{lstlisting}
 
+Threadprivate variables require \indexompshow{OMP_DYNAMIC} to be
+switched off.
+
 \Level 1 {Thread private example}
 
 The typical application for thread-private variables is in
@@ -333,16 +347,6 @@ in a parallel region.
   thread; then use a parallel loop to evaluate the points.
   Explore performance implications of the different loop scheduling strategies.
 \end{exercise}
-
-\begin{fortrannote}{Private common blocks}
-  Named common blocks can be made thread-private with the syntax
-\begin{lstlisting}
-$!OMP threadprivate( /blockname/ )
-\end{lstlisting}
-\end{fortrannote}
-
-Threadprivate variables require \indexompshow{OMP_DYNAMIC} to be
-switched off.
 
 \Level 0 {Allocators}
 

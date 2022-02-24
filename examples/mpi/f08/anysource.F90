@@ -4,7 +4,7 @@
 !  %%%%
 !  %%%% This program file is part of the book and course
 !  %%%% "Parallel Computing"
-!  %%%% by Victor Eijkhout, copyright 2020
+!  %%%% by Victor Eijkhout, copyright 2020-2022
 !  %%%% 
 !  %%%% anysource.F90 : source wildcarding, f08 version
 !  %%%%

@@ -16,7 +16,10 @@
 \index{datatype!big|(}
 
 The \n{size} parameter in MPI send and receive calls is of type integer,
-meaning that it's maximally~$2^{31}-1$. These day computers are big enough
+meaning that it's maximally
+(platform-dependent, but typically:)
+$2^{31}-1$.
+These day computers are big enough
 that this is a limitation.
 As of the MPI~\mpistandard{4} standard, this has been solved by allowing a
 larger count parameter.
@@ -33,14 +36,22 @@ of type \indexmpishow{MPI_Count}.
 
 \cverbatimsnippet{reducecount}
 
+\csnippetwithoutput{bigpingpong}{examples/mpi/c}{pingpongbig}
+
 \Level 1 {Fortran}
+\label{sec:f-largecount}
 
 The count parameter can be declared  to be
+\lstset{language=Fortran}
 \begin{lstlisting}
+use mpi_f08
 Integer(kind=MPI_COUNT_KIND) :: count
 \end{lstlisting}
+\lstset{language=C}
 Since Fortran has polymorphism, the same routine names can be used.
 
+Routines using this type are not available
+unless using the \indextermtt{mpi_f08} module.
 \end{mpifournote}
 
 \Level 1 {Count datatype}

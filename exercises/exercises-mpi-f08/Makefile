@@ -2,7 +2,7 @@
 ################################################################
 ####
 #### This makefile is part of `Parallel Programming in MPI and OpenMP'
-#### by Victor Eijkhout, copyright 2013-2021
+#### by Victor Eijkhout, copyright 2013-2022
 #### eijkhout@tacc.utexas.edu
 ####
 #### Makefile for  MPI course exercises in Fortran2008
@@ -38,8 +38,7 @@ EXTRA_OBJS = tools.o
 ${OBJS} : tools.mod
 tools.mod : tools.o
 include ../course-support/Make.compile
-
-shareddata :: contents.o
+shareddata : contents.o
 
 ####
 #### Regression tests

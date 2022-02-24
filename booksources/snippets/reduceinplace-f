@@ -5,9 +5,9 @@
   if (mytid.eq.target_proc) then
      result = mytid
      call MPI_Reduce(MPI_IN_PLACE,result,1,MPI_REAL,MPI_SUM,&
-          target_proc,comm,err)
+          target_proc,comm)
   else
      mynumber = mytid
      call MPI_Reduce(mynumber,result,1,MPI_REAL,MPI_SUM,&
-          target_proc,comm,err)
+          target_proc,comm)
   end if

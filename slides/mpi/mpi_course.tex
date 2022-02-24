@@ -4,7 +4,7 @@
 %%%%
 %%%% This text file is part of the source of 
 %%%% `Parallel Computing'
-%%%% by Victor Eijkhout, copyright 2012-2021
+%%%% by Victor Eijkhout, copyright 2012-2022
 %%%%
 %%%% mpi_course.tex : master file for an MPI course
 %%%%
@@ -27,26 +27,19 @@
 \newcolumntype{R}{>{\hbox to 1.2em\bgroup\hss}{r}<{\egroup}}
 \newcolumntype{T}{>{\hbox to 8em\bgroup}{c}<{\hss\egroup}}
 
-%% \newenvironment{theindex}{}{}% imakeidx redefines the index
-%% \usepackage[makeindex]{imakeidx}
-%% \input idxmacs
-
 \input commonmacs
 \input acromacs
 \input slidemacs
 \input coursemacs
-%\input tutmacs
 \input listingmacs
-%\input snippetmacs
-
-%% \input slidemacs
+%% \input snippetmacs
 
 %%%%
 %%%% Where is this course?
 %%%%
 
 \def\Location{}% redefine in the inex file
-\def\courseyear{2021}
+\def\courseyear{2022}
 \def\Location{TACC HPC Training \courseyear}
 \excludecomment{xsede}
 
@@ -67,21 +60,6 @@
   \def\Location{TACC/XSEDE MPI training \courseyear}
 \end{xsede}
 \def\TitleExtra{}
-
-%%%%
-%%%% save slides for separate MPI-3 lecture
-%%%%
-\newcounter{mpitwo}
-\specialcomment{mpitwo}{
-  \stepcounter{mpitwo}
-  \def\CommentCutFile{mpitwo\arabic{mpitwo}.cut}
-  }{}
-\newcounter{mpithree}
-\specialcomment{mpithree}{
-  \stepcounter{mpithree}
-  \def\CommentCutFile{mpithree\arabic{mpithree}.cut}
-  }{}
-
 
 %%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%% Document
@@ -108,7 +86,7 @@
 \begin{frame}{Materials}
   Textbook and lecture slides: \url{https://tinyurl.com/vle335course}
 
-  Source repository with exercises:
+  Source repository with exercises:\\
   \url{https://bitbucket.org/VictorEijkhout/parallel-programming-public/}
 \end{frame}
 

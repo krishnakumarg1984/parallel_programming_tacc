@@ -246,8 +246,12 @@ sending them. The \indexmpidef{MPI_Aint} type is not so much for
 sending, as it is for describing the size of objects, such as the size
 of an \indexmpishow{MPI_Win} object; section~\ref{sec:windows}.
 
-Addresses have type \indexmpishow{MPI_Aint} The start of the address range is
+Addresses have type \indexmpishow{MPI_Aint}. The start of the address range is
 given in \indexmpishow{MPI_BOTTOM}.
+See also the \indexmpidef{MPI_Sizeof}
+(section~\ref{sec:mpi-type-match})
+and
+\indexmpishow{MPI_Get_address} routines.
 
 Variables of type \indexmpishow{MPI_Aint} can be sent as \indexmpidef{MPI_AINT}:
 \begin{lstlisting}
@@ -263,11 +267,6 @@ MPI_Aint MPI_Aint_add(MPI_Aint base, MPI_Aint disp)
 \end{lstlisting}
 and similarly \indexmpidef{MPI_Aint_diff}.
 
-See also the \indexmpishow{MPI_Sizeof}
-(section~\ref{sec:mpi-type-match})
-and
-\indexmpishow{MPI_Get_address} routines.
-
 \Level 2 {Fortran}
 
 The equivalent of
@@ -280,10 +279,10 @@ integer(kind=MPI_ADDRESS_KIND) :: winsize
 \end{lstlisting}
 \lstset{style=reviewcode,language=C} %pyskip
 
-Fortran lacks a \n{sizeof} operator to query the sizes of datatypes.
+Fortran lacks a \indextermtt{sizeof} operator to query the sizes of datatypes.
 Since sometimes exact byte counts are necessary,
 for instance in one-sided communication,
-Fortran can use the (deprecated) \indexmpiref{MPI_Sizeof} routine.
+Fortran can use the (deprecated) \indexmpidef{MPI_Sizeof} routine.
 See section~\ref{sec:mpi-type-match} for details.
 
 Example usage in \indexmpishow{MPI_Win_create}:
@@ -362,7 +361,7 @@ allowing you to write:
 \label{sec:mpi-type-match-f}
 
 In Fortran, the size of the datatype in the language can be obtained with
-\indexmpishow{MPI_Sizeof} (note the nonoptional error parameter!).
+\indexmpidef{MPI_Sizeof} (note the nonoptional error parameter!).
 This routine is deprecated in \mpistandard{4}: use of
 \indextermtt{storage_size} and/or \indextermtt{c_sizeof} is recommended.
 

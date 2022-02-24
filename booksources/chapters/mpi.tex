@@ -509,6 +509,7 @@ Fatal error in MPI_Comm_call_errhandler: Attempting to send zero buffer
 \label{sec:mpi-fortran}
 \index{MPI!Fortran issues|see{Fortran, MPI issues}}
 \index{Fortran!MPI issues|(}
+\lstset{language=Fortran}
 
 MPI is typically written in C, what if you program \emph{Fortran}?
 
@@ -536,7 +537,41 @@ in \mpistandard{3}.
   \indextermtt{sizeof}.
 \end{itemize}
 
+\Level 1 {Prevent compiler optimizations}
+
+The Fortran compiler can aggressively optimize
+by rearranging instructions.
+This may lead to incorrect behavior in MPI code.
+In the sequence:
+\begin{lstlisting}
+call MPI_Isend( buf, ..., request )
+call MPI_Wait(request)
+print *,buf(1)
+\end{lstlisting}
+the wait call does not involve the buffer, so the compiler can translate this into
+\begin{lstlisting}
+call MPI_Isend( buf, ..., request )
+register = buf(1)
+call MPI_Wait(request)
+print *,register
+\end{lstlisting}
+Preventing this is possible with a
+\fstandard{2018} mechanism.
+First of all the buffer should be declared \indextermtt{asynchronous}
+\begin{lstlisting}
+<type>,Asynchronous :: buf
+\end{lstlisting}
+and introducing
+\begin{lstlisting}
+IF (.NOT. MPI_ASYNC_PROTECTS_NONBLOCKING) &
+    CALL MPI_F_SYNC_REG( buf )
+\end{lstlisting}
+The call to \indexmpishow{MPI_F_sync_reg}
+will be removed at compile time if
+\indexmpishow{MPI_ASYNC_PROTECTS_NONBLOCKING} is true.
+
 \index{Fortran!MPI issues|)}
+\lstset{language=C}
 
 \Level 0 {Progress}
 \label{sec:progress}
@@ -1042,7 +1077,16 @@ the fact that the MPI rank is known in the environment.
 The name of the variable is implementation dependent,
 for \indextermtt{mpich} and its derivates
 such as \indextermbus{Intel}{MPI} it is \indextermtt{PMI_RANK}.
+(There is a similar \indextermtt{PMI_SIZE}.)
+
 Use a script \n{mpmdscript}:
+\begin{multicols}{2}
+  \verbatiminput{examples/mpi/mpmd/mpmd.sh}
+  \columnbreak
+  \verbatiminput{examples/mpi/mpmd/mpmd.runout}  
+\end{multicols}
+
+\begin{comment}
 \begin{verbatim}
 #!/bin/bash
 if [ ${PMI_RANK} -eq 0 ] ; then
@@ -1051,7 +1095,9 @@ else
   ./programworker
 fi
 \end{verbatim}
-which is then run in parallel:
+\end{comment}
+
+This script is run in parallel:
 \begin{verbatim}
 mpiexec -n 25 mpmdscript
 \end{verbatim}

@@ -69,6 +69,12 @@ installations, so you can not compile one file against one \n{mpi.h}
 file and another file, even with the same compiler on the same machine,
 against a different MPI.
 
+\begin{fortrannote}{New developments only in f08 module}
+  New language developments, such as large counts; section~\ref{sec:f-largecount}
+  will only be included in the \indextermtt{mpi_f08} module,
+  not in the earlier mechanisms.
+\end{fortrannote}
+
 \begin{pythonnote}{Import mpi module}
   It's easiest to
 \begin{lstlisting}
@@ -105,6 +111,12 @@ int main(int argc,char **argv) {
 
 Fortran (before 2008) lacks this commandline argument handling,
 so \indexmpishow{MPI_Init} lacks those arguments.
+
+After \indexmpishow{MPI_Finalize} no MPI routines
+(with a few exceptions such as \indexmpishow{MPI_Finalized})
+can be called.
+In particular, it is not allowed to call \indexmpishow{MPI_Init} again.
+If you want to do that, use the \indexterm{sessions model}; section~\ref{sec:session}.
 
 \begin{pythonnote}{Initialize/finalize}
   In many cases,  no initialize and finalize calls are needed:

@@ -3,7 +3,7 @@
 ####
 #### This makefile is part of the source of 
 #### "Parallel Computing for Science and Engineering"
-#### by Victor Eijkhout, copyright 2013-2021
+#### by Victor Eijkhout, copyright 2013-2022
 ####
 #### This is the makefile for the python examples
 ####     in examples/mpi/p
@@ -31,6 +31,7 @@ APPS = \
     hello irecvloop persist putfence rowcol \
     pingpong scan scipingpong \
     commdup commsplit 
+WRONGS = pingpongscalar.py
 
 info ::
 	@echo "make run_spawn : process spawning example"

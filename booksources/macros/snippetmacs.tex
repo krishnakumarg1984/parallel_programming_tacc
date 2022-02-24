@@ -68,13 +68,39 @@
   % go into vertical mode
   \par
   % make nice two-column layout
-  \hbox{%
+  \hbox to \hsize{%
     \begin{minipage}[t]{.6\hsize}
       \footnotesize\textbf{Code:}
       \lstset{language=C,xleftmargin=0pt}
       \lstinputlisting{#1}
       \lstset{xleftmargin=\unitindent}
+    \end{minipage}%
+    \hfil
+    \begin{minipage}[t]{.3\hsize}
+      { \footnotesize \raggedright \textbf{Output:}\par }
+      \IfFileExists
+          {#2/#3.runout}
+          { \footnotesize
+            \def\verbatim@startline{\verbatim@line{\leavevmode\relax}}
+            \verbatiminput{#2/#3.runout}
+          }
+          { \textbf{Missing output for #3} }
     \end{minipage}
+  }
+}
+\newcommand{\fsnippetwithoutput}[3]{
+  \message{Code snippet <#1> in dir <#2> with output file <#3>}
+  % go into vertical mode
+  \par
+  % make nice two-column layout
+  \hbox to \hsize{%
+    \begin{minipage}[t]{.6\hsize}
+      \footnotesize\textbf{Code:}
+      \lstset{language=Fortran,xleftmargin=0pt}
+      \lstinputlisting{#1}
+      \lstset{language=C,xleftmargin=\unitindent}
+    \end{minipage}%
+    \hfil
     \begin{minipage}[t]{.3\hsize}
       { \footnotesize \raggedright \textbf{Output:}\par }
       \IfFileExists

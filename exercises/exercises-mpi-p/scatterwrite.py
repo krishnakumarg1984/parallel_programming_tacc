@@ -3,7 +3,7 @@
 ################################################################
 ####
 #### This program file is part of the book and course
-#### "Parallel Computing"
+####   Parallel Computing for Science and Engineering
 #### by Victor Eijkhout, copyright 2013-2020
 ####
 #### scatterwrite.py : MPI python exercise for MPI I/O

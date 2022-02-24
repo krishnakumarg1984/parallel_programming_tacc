@@ -4,7 +4,7 @@
 %%%%
 %%%% This text file is part of the lecture slides for
 %%%% `Parallel Computing'
-%%%% by Victor Eijkhout, copyright 2012-2021
+%%%% by Victor Eijkhout, copyright 2012-2022
 %%%%
 %%%% Collective-slides.tex : slides about collective operations
 %%%%
@@ -78,7 +78,8 @@
     \lstinline{MPI_Reduce} (reduction) followed by \lstinline{MPI_Bcast} (broadcast)
   \item One line less code
   \item Same running time as either, half of reduce-followed-by-broadcast
-  \item (And you don't have to think about who is the root)
+  \item Expresses the symmetrical nature of the algorithm\\
+    (And you don't have to think about who is the root)
   \end{itemize}
 \end{numberedframe}
 
@@ -104,12 +105,12 @@ and assume that every processor stores just one~$x_i$ value.
 
 How do we compute this?
 \begin{enumerate}
-\item<2-> The calculation of the average~$\mu$ is a reduction.
-\item<3-> Every
+\item The calculation of the average~$\mu$ is a reduction.
+\item Every
   process needs to compute~$x_i-\mu$ for its value~$x_i$, so use
   allreduce operation, which does the reduction and leaves
   the result on all processors.
-\item<4-> $\sum_i(x_i-\mu)$ is another sum of
+\item $\sum_i(x_i-\mu)$ is another sum of
   distributed data, so we need another reduction operation. Might as
   well use allreduce.
 \end{enumerate}
@@ -145,7 +146,7 @@ How do we compute this?
   &\indexmpishow{MPI_COMPLEX}&\\
   &\indexmpishow{MPI_LOGICAL}&\\  
   \hline
-  &&internal use\\
+  unsigned&extensions&\\
   \hline
   &&\indexmpishow{MPI_Aint}\\
   &&\indexmpishow{MPI_Offset}\\
@@ -159,7 +160,7 @@ A bunch more.
 \begingroup \tt\catcode`\_=12\relax %pyskip
 \begin{tabular}{|l|l|}
   \hline
-  \indexmpishow{MPI operator}&description\\
+  \indexmpishow{MPI_Op}&description\\
   \hline
   \indexmpishow{MPI_MAX}&maximum\\
   \indexmpishow{MPI_MIN}&minimum\\
@@ -207,9 +208,22 @@ A couple more.
 vector<float> xx(25);
 MPI_Send( xx.data(),25,MPI_FLOAT, .... );
 MPI_Send( &xx[0],25,MPI_FLOAT, .... );
+MPI_Send( &xx.front(),25,MPI_FLOAT, .... );
 \end{lstlisting}
+\item Can not send from iterator~/
+  let recv determine size/capacity.
   \end{itemize}
  \lstset{language=C}
+\end{numberedframe}
+
+\begin{numberedframe}{Large buffers}
+  As of \mpistandard{4} a buffer can be longer than $2^{31}$ elements.\\
+  \begin{itemize}
+  \item Use \indexmpishow{MPI_Count} for count
+  \item In C: use \indexmpishow{MPI_Reduce_c}
+  \item in Fortran: polymorphism means no change to the call.
+  \end{itemize}
+  \cverbatimsnippet{reducecount}
 \end{numberedframe}
 
 \begin{numberedframe}{Buffers in Python}
@@ -235,6 +249,7 @@ comm.Recv(result, ...)
   \input ex:randommaxscale
 \end{exerciseframe}
 
+\begin{comment}
 \begin{numberedframe}{Random numbers in C}
 \lstset{language=C}
 \begin{lstlisting}
@@ -249,16 +264,17 @@ randomfraction = (rand() / (double)RAND_MAX);
 \lstset{language=Fortran}
 \begin{lstlisting}
 integer :: randsize
-integer,allocatable,dimension(:) :: randseed
 real :: random_value
-
+call random_number(random_value)
+\end{lstlisting}
+\begin{lstlisting}
+integer,allocatable,dimension(:) :: randseed
 call random_seed(size=randsize)
 allocate(randseed(randsize))
 randseed(:) = 1023*procno
-call random_seed(put=randseed)
-
-call random_number(random_value)
+call random_seed(put=randseed)  
 \end{lstlisting}
+\lstset{language=C}
 \end{numberedframe}
 
 \begin{numberedframe}{Random numbers in Python}
@@ -270,7 +286,9 @@ random.seed(procno)
 
 random_value = random.random()
 \end{lstlisting}
+\lstset{language=C}
 \end{numberedframe}
+\end{comment}
 
 \begin{numberedframe}{Inner product calculation}
   Given vectors $x,y$:
@@ -288,6 +306,7 @@ random_value = random.random()
 \begin{numberedframe}{Inner product calculation another way}
   What are (at least two) problems with:
 \begin{lstlisting}
+double local_inprod[localsize],global_inprod[localsize];
 MPI_Allreduce( &local_inprod, &global_inprod, 
                localsize,MPI_DOUBLE,MPI_SUM,comm )
 \end{lstlisting}
@@ -306,9 +325,11 @@ MPI_Allreduce( &local_inprod, &global_inprod,
 \end{lstlisting}
 \end{numberedframe}
 
-\begin{optexerciseframe}
-  \input ex:randomcoord
-\end{optexerciseframe}
+\begin{comment}
+  \begin{optexerciseframe}
+    \input ex:randomcoord
+  \end{optexerciseframe}
+\end{comment}
 
 \begin{numberedframe}{Reduction to single process}
     Regular reduce: great for printing out summary information at the
@@ -424,7 +445,7 @@ buffer; instead, it is the amount of data to/from each process.
 \end{numberedframe}
 
 \begin{numberedframe}{Popular application of gather}
-  Matrix is constructed distributed, but needs to be brough to one
+  Matrix is constructed distributed, but needs to be brougt to one
   process:
   
   \includegraphics[scale=.4]{allgathermatrix}
@@ -599,8 +620,8 @@ int MPI_Op_free(MPI_Op *op)
   \beta=\hbox{time per word}\approx 10^{-9}s
   \]
   \begin{itemize}
-  \item<2->Time for message of $n$ words: \[ \alpha +\beta n \]
-  \item<3->Time for collective? Can you improve on that?
+  \item Time for message of $n$ words: \[ \alpha +\beta n \]
+  \item Time for collective? Can you improve on that?
   \end{itemize}
 
 \end{numberedframe}
@@ -609,12 +630,12 @@ int MPI_Op_free(MPI_Op *op)
   \includegraphics[scale=.07]{graphics/bcast-tree}
   
   \begin{itemize}
-  \item<1->
+  \item
     What is the running time now?
-  \item<2->
+  \item
     Can you come up with lower bounds on the $\alpha,\beta$ terms? Are
     these achieved here?
-  \item<3-> How about the case of really long buffers?
+  \item How about the case of really long buffers?
   \end{itemize}
 
 \end{numberedframe}

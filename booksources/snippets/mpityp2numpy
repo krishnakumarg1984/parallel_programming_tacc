@@ -1,4 +1,4 @@
-// typesize.py
+## typesize.py
 datatype = MPI.FLOAT
 typecode = MPI._typecode(datatype)
 assert typecode is not None # check MPI datatype is built-in

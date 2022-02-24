@@ -29,22 +29,10 @@ EXERCISES = \
     lockfetch \
     procgrid blockwrite scatterwrite viewwrite
 
-info ::
-	@echo "make run [PROGRAM=prog (default=${PROGRAM})]"
-	@echo "         [NP=nn (default=${NP})] [PYTHON=... (default=${PYTHON})]"
-	@echo "         [OPTIONS=programoptions]"
-.PHONY: run
-NP = 4
-# PYTHON_clang = /opt/local/bin/python
-# PYTHON_gcc  = /opt/local/bin/python2.7
-# PYTHON_intel = python3
-# PYTHON = ${PYTHON_${TACC_FAMILY_COMPILER}}
-
 PYTHON = python3
 PROGRAM = hello
 OPTIONS =
 include ../course-support/Make.compile
-
 PROGRAM_EXTENSION = .py
 
 ####

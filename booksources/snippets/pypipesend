@@ -1,4 +1,4 @@
-// pipemulti.py
+## pipemulti.py
 def add_to_pipe(v,q):
     for i in range(10):
         print(f"put {v}")

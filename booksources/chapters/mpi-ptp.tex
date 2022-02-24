@@ -31,7 +31,9 @@ The routines \indexmpiref{MPI_Probe} and \indexmpiref{MPI_Iprobe}
 (for which see also section~\ref{sec:progress})
 accept a message but do not copy the data.
 Instead, when probing tells you that there is a
-message, you can use \indexmpishow{MPI_Get_count} to determine its size,
+message, you can use \indexmpishow{MPI_Get_count}
+(section~\ref{sec:mpi-status-count})
+to determine its size,
 allocate a large enough receive buffer, and do a regular receive to
 have the data copied.
 
@@ -217,6 +219,10 @@ If the amount of data received is not known a~priori, the
 \emph{count}\index{message!count} of elements received
 can be found by 
 \indexmpiref{MPI_Get_count}:
+%
+\cverbatimsnippet[examples/mpi/c/count.c]{mpigetcount}
+%
+\fsnippetwithoutput{mpigetcountf08}[examples/mpi/f08/count.F90]{count}
 
 This may be necessary since the \n{count} argument to \indexmpishow{MPI_Recv} is 
 the buffer size, not an indication of the actually received number of
@@ -224,7 +230,7 @@ data items.
 
 Remarks.
 \begin{itemize}
-\item Unlike the above, this is not directly a member of the status
+\item Unlike the source and tag, the message count is not directly a member of the status
   structure.
 \item The `count' returned is the number of elements of the specified
   datatype. If this is a derived type

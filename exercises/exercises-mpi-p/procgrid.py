@@ -3,7 +3,7 @@
 ################################################################
 ####
 #### This program file is part of the book and course
-#### "Parallel Computing"
+####   Parallel Computing for Science and Engineering
 #### by Victor Eijkhout, copyright 2020
 ####
 #### procgrid.py : MPI python exercise for multiple nonblocking collectives

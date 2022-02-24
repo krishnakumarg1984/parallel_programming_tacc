@@ -46,7 +46,7 @@
   \begin{itemize}
   \item Cartesian topology
   \item Graph topology, globally specified.\\
-    Not exactly scalable!
+    Not scalable, do not use!
   \end{itemize}
 \end{numberedframe}
 
@@ -57,6 +57,33 @@
     expression close to the algorith.
   \end{itemize}
 \end{numberedframe}
+
+\sectionframe{Cartesian topologies}
+
+\begin{numberedframe}{Cartesian decomposition}
+\csnippetwithoutput{dimscreate}{examples/mpi/c}{cartdims}
+\end{numberedframe}
+
+\begin{numberedframe}{Create/test Cartesian topology}
+  \cverbatimsnippet{cartcreate}
+  \cverbatimsnippet{carttypetest}
+  \cverbatimsnippet{cartget}
+\end{numberedframe}
+
+\begin{numberedframe}{Rank translation}
+  \cverbatimsnippet[examples/mpi/c/cart.c]{cart}
+\end{numberedframe}
+
+\begin{numberedframe}{Cartesian communication}
+  \cverbatimsnippet[examples/mpi/c/cartcoord.c]{cartperiod0}
+  \csnippetwithoutput{cartshift01}{examples/mpi/c}{cartshift}
+\end{numberedframe}
+
+\begin{numberedframe}{Subgrids}
+  \csnippetwithoutput{hyperplane13p}{examples/mpi/c}{cartsub}
+\end{numberedframe}
+
+\sectionframe{Graph topologies}
 
 \begin{numberedframe}{Example: 5-point stencil}
   Neighbor exchange,
@@ -131,7 +158,8 @@ int MPI_Neighbor_allgather
     MPI_Comm comm)
 \end{lstlisting}
 Like an ordinary \indexmpishow{MPI_Allgather}, but\\
-the receive buffer has a length \lstinline{degree}.
+the receive buffer has a length \lstinline{degree}\\
+(instead of comm size).
 \end{numberedframe}
 
 \begin{numberedframe}{Neighbor querying}
@@ -170,6 +198,15 @@ the receive buffer has a length \lstinline{degree}.
   \item Declare two sources: the previous and yourself.
     In that case bear in mind slide~\ref{sl:graph-neighbors}.
   \end{enumerate}
+\end{numberedframe}
+
+\begin{numberedframe}{More graph collectives}
+  \begin{itemize}
+  \item Heterogeneous: \indexmpishow{MPI_Neighbor_alltoallw}.
+  \item Non-blocking: \indexmpishow{MPI_Ineighbor_allgather} and such
+  \item Persistent:     \indexmpidef{MPI_Neighbor_allgather_init},
+    \indexmpidef{MPI_Neighbor_allgatherv_init}.
+  \end{itemize}
 \end{numberedframe}
 
 \endinput

@@ -4,7 +4,7 @@
 %%%%
 %%%% This text file is part of the lecture slides for
 %%%% `Parallel Computing'
-%%%% by Victor Eijkhout, copyright 2012-2021
+%%%% by Victor Eijkhout, copyright 2012-2022
 %%%%
 %%%% SPMD-slides.tex : slides about MPI's SPMD mode
 %%%%
@@ -167,11 +167,11 @@ mpirun -np 4 hostfile ... yourprogram arguments
   \item Type \n{make exercisename} to compile it
   \item Python: setup once per session
 \begin{verbatim}
-module load python3 # or python2
+module load python3
 \end{verbatim}
 No compilation needed. Run:
 \begin{verbatim}
-ibrun python3 yourprogram.py # or python2
+ibrun python3 yourprogram.py
 \end{verbatim}
 \item Add an exercise of your own to the makefile: add the name to
     the \n{EXERCISES}
@@ -188,22 +188,23 @@ ibrun python3 yourprogram.py # or python2
 
 \sectionframe{We start learning MPI!}
 
-\begin{mpithree}
-\begin{numberedframe}{MPI definitions}
-\label{sl:mpi-header}
+\begin{numberedframe}{MPI headers: C}
+\label{sl:mpi-header-c}
 You need an include file:
 \begin{verbatim}
-#include "mpi.h" // for C
+#include "mpi.h"
+\end{verbatim}
+This defines all routines and constants.
+\end{numberedframe}
 
+\begin{numberedframe}{MPI headers: Fortran}
+\label{sl:mpi-header-f}
+You need an include file:
+\begin{verbatim}
 use mpi_f08   ! for Fortran2008
 use mpi       ! for legacy Fortran90
-
-from mpi4py import MPI
-  
-#include <mpl/mpl.hpp>
 \end{verbatim}
 \begin{itemize}
-\item There are no real C++ bindings, but see MPL.
 \item True Fortran bindings as of the 2008 standard.
 \begin{tacc}
 Provided in Intel compiler:
@@ -214,6 +215,29 @@ or newer. Not in gcc7.
 \end{tacc}
 (Legacy bindings are far inferior)
 \end{itemize}
+\end{numberedframe}
+
+\begin{numberedframe}{MPI headers: Python}
+\label{sl:mpi-header-p}
+You need an include file:
+\begin{verbatim}
+from mpi4py import MPI
+\end{verbatim}
+\end{numberedframe}
+
+\begin{numberedframe}{MPI headers: C++}
+\label{sl:mpi-header-cpp}
+You need an include file:
+\begin{itemize}
+\item There are no real C++ bindings, but see MPL.
+\end{itemize}
+\begin{verbatim}
+module load mpl
+
+mpicc yourprogram.cpp -I${TACC_MPL_INC}
+
+#include <mpl/mpl.hpp>
+\end{verbatim}
 \end{numberedframe}
 
 \begin{numberedframe}{MPI Init / Finalize}
@@ -236,17 +260,20 @@ call MPI_Init(ierr) ! F90 style
 call MPI_Finalize(ierr)
 \end{lstlisting}
 \end{numberedframe}
-\end{mpithree}
 
-\begin{numberedframe}{About error codes}
-  MPI routines return an integer error code
-  (slide~\ref{sl:errhandler})
+\begin{numberedframe}{About errors}
+  MPI routines return invoke an error handler (slide~\ref{sl:errhandler})\\
+  return integer error code
   \begin{itemize}
-  \item In C: function result. Can be ignored; is ignored in this course.
+  \item In C: function result. 
 \lstset{language=C++}
 \begin{lstlisting}
 ierr = MPI_Init(0,0);
 if (ierr!=MPI_SUCCESS) /* do something */
+\end{lstlisting}
+  But really: can often be ignored; is ignored in this course.
+\begin{lstlisting}
+MPI_Init(0,0);
 \end{lstlisting}
   \item In Fortran: as optional (F08 only) parameter.
   \item In Python: throwing exception.
@@ -300,6 +327,7 @@ No initialization needed.
 \end{exerciseframe}
 
 \begin{numberedframe}{Process identification}
+  \label{sl:comm-world}
 Every process has a number (with respect to a communicator)
 \lstset{language=C}
 \begin{lstlisting}
@@ -312,14 +340,23 @@ This is a logical view of parallelism: mapping to physical
 processors/cores is invisible here.
 
 For now, the communicator will be \indexmpishow{MPI_COMM_WORLD}.
+
 \lstset{language=C}
 \begin{lstlisting}
 MPI_Comm comm = MPI_COMM_WORLD
 \end{lstlisting}
+
 \lstset{language=Fortran}
 \begin{lstlisting}
 Type(MPI_Comm) :: comm = MPI_COMM_WORLD
 \end{lstlisting}
+
+\lstset{language=Python}
+\begin{lstlisting}
+from mpi4py import MPI
+comm = MPI.COMM_WORLD
+\end{lstlisting}
+
 \lstset{language=C}
 \end{numberedframe}
 
@@ -345,7 +382,6 @@ errorcode = MPI_Comm_size( comm,&nprocs );
 (but forget about that error code most of the time)
 \end{numberedframe}
 
-\begin{mpithree}
 \begin{numberedframe}{About routine signatures: Fortran2008}
 Signature
 \lstset{language=Fortran}
@@ -385,7 +421,6 @@ CALL MPI_Comm_size( comm, size, ierr ) ! F90 style
 \item \n{MPI_...} types are \n{INTEGER}.
 \end{itemize}
 \end{numberedframe}
-\end{mpithree}
 
 \begin{numberedframe}{About routine signatures: Python}
 Signature:
@@ -427,10 +462,8 @@ Note: most functions are methods of the \lstinline{MPI.Comm} class.\\
 \begin{numberedframe}{Processor identification}
   \begin{itemize}
   \item Processors are organized in `communicators'.
-  \item For now only:
-\begin{lstlisting}
-MPI_Comm comm = MPI_COMM_WORLD;
-\end{lstlisting}
+  \item For now only the `world' communicator
+    (slide~\ref{sl:comm-world})
   \item Each process has a `rank' wrt the communicator.
   \end{itemize}
 \end{numberedframe}

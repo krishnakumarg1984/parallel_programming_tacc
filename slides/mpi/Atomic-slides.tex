@@ -71,7 +71,6 @@
   (In MPI, the read/write would be \indexmpishow{MPI_Get}~/ \indexmpishow{MPI_Put} calls)
 \end{numberedframe}
 
-\begin{mpithree}
 \begin{numberedframe}{Case study in shared memory: 1, wrong}
   \label{sl:fetchput}
   \cverbatimsnippet{countdowngetput}
@@ -143,8 +142,6 @@ MPI_Win_fence(0,the_window);
 \begin{exerciseframe}[lockfetchshared]
   \input ex:lockfetchshared
 \end{exerciseframe}
-
-\end{mpithree}
 
 \endinput
 

@@ -316,10 +316,17 @@ in the session model:
 %
 \cverbatimsnippet{sessioncommworld}
 
-The resulting communicator compares as \indexmpishow{MPI_CONGRUENT}
-under \indexmpishow{MPI_Comm_compare}:
-%
-\csnippetwithoutput{sessionmix}{examples/mpi/c}{sessionmix}
+However, comparing communicators (with \indexmpishow{MPI_Comm_compare})
+from the session and world model,
+or from different sessions,
+is undefined behavior.
+
+\begin{comment}
+  The resulting communicator compares as \indexmpishow{MPI_CONGRUENT}
+  under \indexmpishow{MPI_Comm_compare}:
+  %
+  \csnippetwithoutput{sessionmix}{examples/mpi/c}{sessionmix}
+\end{comment}
 
 Get the info object (section~\ref{sec:mpi-info}) from a process set:
 \indexmpishow{MPI_Session_get_pset_info}.

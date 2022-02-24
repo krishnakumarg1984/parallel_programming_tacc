@@ -20,7 +20,7 @@ info ::
 	@echo "available rules:"
 
 APPS = init thread env outerr abort procname \
-    sendandrecv isendandirecv bufring \
+    sendandrecv isendandirecv bufring pingpongbig count \
     irecvsource irecvnonblock \
     probe testhang findbarrier ibarriertest ibarrierprobe backintime reductpositive \
     putfence putfencealloc getfence windynamic anysource \
@@ -160,7 +160,7 @@ run_sessionmix : sessionmix
 #### generic runs
 ####
 GENERICS = run_irecvsource run_commsplittype run_gatherv run_persist \
-    run_procname run_scan
+    run_pingpongbig run_procname run_scan 
 info ::
 	@echo "generics: ${GENERICS}"
 RUNS += ${GENERICS}

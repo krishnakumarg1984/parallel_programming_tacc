@@ -15,7 +15,7 @@
 \index{OpenMP!tasks|(}
 
 Tasks are a mechanism that OpenMP uses under the cover:
-if you specify something as being parallel, OpenMP will create
+if you specify something as being a task, OpenMP will create
 a `block of work': a~section of code plus the data environment
 in which it occurred. This block is set aside for execution at some later point.
 
@@ -33,7 +33,8 @@ Let's look at a simple example using the \indexpragma{task} directive.
   \end{tabular}
 \end{quotation}
 The thread that executes this code segment creates a task,
-which will later be executed, probably by a different thread.
+which will later be executed, probably by a different thread
+(from the same team; we will not mention this from now on).
 The exact timing of the execution of the task is up to a \indextermbus{task}{scheduler},
 which operates invisible to the user.
 
@@ -51,7 +52,8 @@ with the loop and section constructs. For instance, a \indexterm{while
     \n{\ process( p );}& one for each element\\
     \n{\ p = next_element(p);}& the generating thread goes on without waiting\\
     \n{\}}&the tasks are executed while \\
-          &more are being generated.
+          &more are being generated.\\
+    \hline
   \end{tabular}
 \end{quotation}
 
@@ -127,7 +129,8 @@ for i in `seq 1 1000` ; do ./taskfactor ; done | grep -v 2999
 \index{OpenMP!tasks!data|(}
 
 Treatment of data in a task is somewhat subtle. The basic problem is
-that a task gets created at one time, and executed at another. Thus,
+that a task gets created at one time, and executed at some later time.
+Thus,
 if shared data is accessed, does the task see the value at creation
 time or at execution time? In fact, both possibilities make sense
 depending on the application, so we need to discuss the rules when
@@ -135,7 +138,9 @@ which possibility applies.
 
 The first rule is that shared data is shared in the task, but private
 data becomes \indexclause{firstprivate}. To see the distinction, consider two
-code fragments. In the first example:
+code fragments.
+
+\begin{multicols}{2}
 \begin{lstlisting}
 int count = 100;
 #pragma omp parallel
@@ -147,19 +152,17 @@ int count = 100;
       int countcopy = count;
       if (count==50) {
         sleep(1);
-        printf("%d,%d\n",count,countcopy);
+        printf("%d,%d\n",
+            count,countcopy);
       } // end if
     }   // end task
     count--;
   }     // end while
 }       // end single
 \end{lstlisting}
-the variable \n{count} is declared outside the
-parallel region and is therefore shared. When the print statement is
-executed, all tasks will have been generated, and so \n{count} will be
-zero. Thus, the output will likely be \n{0,50}.
 
-In the second example:
+\columnbreak
+
 \begin{lstlisting}
 #pragma omp parallel
 #pragma omp single
@@ -171,15 +174,26 @@ In the second example:
       int countcopy = count;
       if (count==50) {
         sleep(1);
-        printf("%d,%d\n",count,countcopy);
+        printf("%d,%d\n",
+            count,countcopy);
       } // end if
     }   // end task
     count--;
   }     // end while
 }       // end single
 \end{lstlisting}
+
+\end{multicols}
+
+In the first example,
+the variable \n{count} is declared outside the
+parallel region and is therefore shared. When the print statement is
+executed, all tasks will have been generated, and so \n{count} will be
+zero. Thus, the output will likely be \n{0,50}.
+
+In the second example,
 the \n{count} variable is private to the thread creating the tasks,
-and so it will be \n{firstprivate} in the task, preserving the value
+and so it will be \indexpragma{firstprivate} in the task, preserving the value
 that was current when the task was created.
 
 \index{OpenMP!tasks!data|)}
@@ -189,7 +203,7 @@ that was current when the task was created.
 
 Even though the above segment looks like a linear set of statements,
 it is impossible to say when
-the code after the \n{task} directive will be executed.
+the code after the \indexpragma{task} directive will be executed.
 This means that the following code is incorrect:
 \begin{lstlisting}
   x = f();
@@ -281,8 +295,8 @@ finished before any statement after the block is executed.
 
 A task group is somewhat similar to having a \indexpragma{taskwait}
 directive after the block. The big difference is that that
-\n{taskwait} directive does not wait for tasks that are recursively
-generated, while a \n{taskgroup} does.
+\indexpragma{taskwait} directive does not wait for tasks that are recursively
+generated, while a \indexpragma{taskgroup} does.
 
 \index{OpenMP!tasks!synchronization|)}
 
@@ -483,7 +497,7 @@ To solve this, we put dependencies on the tasks:
   \cverbatimsnippet[code/omp/c/binomial1.c]{binomialarray}
   %
   Putting a single task group around the double loop, and use
-  \n{depend} clauses to make the execution satisfy the proper dependencies.
+  \indexclause{depend} clauses to make the execution satisfy the proper dependencies.
 \end{exercise}
 
 \index{OpenMP!tasks|)}

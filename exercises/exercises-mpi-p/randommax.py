@@ -3,7 +3,7 @@
 ################################################################
 ####
 #### This program file is part of the book and course
-#### "Parallel Computing"
+####   Parallel Computing for Science and Engineering
 #### by Victor Eijkhout, copyright 2013-8
 ####
 #### randommaxp.py : use collectives to find maximum of local values

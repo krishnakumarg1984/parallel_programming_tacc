@@ -74,8 +74,8 @@ int main(int argc, char *argv[])
   int errorcodes[nworkers];
   MPI_Comm inter_to_workers;           /* intercommunicator */
   MPI_Comm_spawn(worker_program, MPI_ARGV_NULL, nworkers,
-		 MPI_INFO_NULL, 0, MPI_COMM_WORLD, &inter_to_workers,
-		 errorcodes);
+                 MPI_INFO_NULL, 0, MPI_COMM_WORLD, &inter_to_workers,
+                 errorcodes);
   for (int ie=0; ie<nworkers; ie++)
     if (errorcodes[ie]!=0)
       printf("Error %d in spawning worker %d\n",errorcodes[ie],ie);  

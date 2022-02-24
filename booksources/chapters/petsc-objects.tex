@@ -381,6 +381,13 @@ call VecSetValues(x,2,ii,vv,INSERT_VALUES,ierr)
 \end{lstlisting}
 \lstset{language=C}
 
+\begin{pythonnote}{Setting vector values}
+  Single element:
+  \pverbatimsnippet{pyvecval}
+  Multiple elements:
+  \pverbatimsnippet{pyvecvals}
+\end{pythonnote}
+
 Using \clstinline{VecSetValue} for specifying a local vector element
 corresponds to simple insertion in the local array. However,
 an element that belongs to another process needs to be

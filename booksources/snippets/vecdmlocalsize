@@ -1,4 +1,3 @@
-// dmrhs.c
 Vec xy;
 ierr = VecCreate(comm,&xy); CHKERRQ(ierr);
 ierr = VecSetType(xy,VECMPI); CHKERRQ(ierr);

@@ -18,15 +18,16 @@ ENGINE =  xelatex -shell-escape
 info::
 	@echo "make course COURSE=... (in: ${COURSES})"
 	@echo "make courses"
-.PHONY: course courses
-courses :
+.PHONY: course courses course_prep
+courses ::
 	@if [ -z "${COURSES}" ] ; then \
 	    echo "Error: no COURSES variable defined" && exit 1 ; fi
 	@for c in ${COURSES} ; do \
 	    make --no-print-directory course COURSE=$$c \
 	    ; done
 include ../../makefiles/Make.tex
-course ::
+course_prep ::
+course :: course_prep
 	@if [ -z "${COURSE}" ] ; then \
 	    echo "Error: no COURSE variable defined" && exit 1 ; fi 
 	@make --no-print-directory pdf FILE=${COURSE}_course
@@ -40,8 +41,15 @@ no_acro_rule :
 
 .PHONY: onepass pdf
 TEXROOTDIR = ../../booksources
-onepass :
-	TEXINPUTS=.:..:${TEXROOTDIR}:../taccstyle:../taccstyle/figures:${TEXROOTDIR}/chapters:${TEXROOTDIR}/exercises:${TEXROOTDIR}/graphics//:${TEXROOTDIR}/macros:${TEXROOTDIR}/hwloc:${TEXROOTDIR}/mpireference:${TEXROOTDIR}/snippets:../course-support:${TEXINPUTS}${EXTRATEXINPUTS} ${ENGINE} ${FILE}
+onepass ::
+	@if [ ! -z "${FILE}" ] ; then \
+	    export file=${FILE} \
+	; elif [ ! -z "${COURSE}" ] ; then \
+	    export file=${COURSE}_course \
+	; else \
+	    echo "Please set FILE or COURSE" && exit 1 \
+	; fi \
+	 && TEXINPUTS=.:..:${TEXROOTDIR}:../taccstyle:../taccstyle/figures:${TEXROOTDIR}/chapters:${TEXROOTDIR}/exercises:${TEXROOTDIR}/graphics//:${TEXROOTDIR}/macros:${TEXROOTDIR}/hwloc:${TEXROOTDIR}/mpireference:${TEXROOTDIR}/snippets:../course-support:${TEXINPUTS}${EXTRATEXINPUTS} ${ENGINE} $$file
 pdf :: 
 	@\
 	file=${FILE} \
