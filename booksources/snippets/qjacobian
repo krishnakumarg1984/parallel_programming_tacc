@@ -1,5 +1,5 @@
-ierr = MatCreate(comm,&J); CHKERRQ(ierr);
-ierr = MatSetType(J,MATSEQDENSE); CHKERRQ(ierr);
-ierr = MatSetSizes(J,1,1,1,1); CHKERRQ(ierr);
-ierr = MatSetUp(J); CHKERRQ(ierr);
-ierr = SNESSetJacobian(solver,J,J,&Jacobian,NULL); CHKERRQ(ierr);
+ierr = MatCreate(comm,&J); 
+ierr = MatSetType(J,MATSEQDENSE); 
+ierr = MatSetSizes(J,1,1,1,1); 
+ierr = MatSetUp(J); 
+ierr = SNESSetJacobian(solver,J,J,&Jacobian,NULL); 

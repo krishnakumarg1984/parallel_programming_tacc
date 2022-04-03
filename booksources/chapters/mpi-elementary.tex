@@ -42,7 +42,7 @@ Here we illustrate the correspondence between a type used to declare a variable,
 and how this type appears in MPI communication routines:
 \begin{lstlisting}
 long int i;
-MPI_Send(&i,1,MPI_LONG_INT,target,tag,comm);
+MPI_Send(&i,1,MPI_LONG,target,tag,comm);
 \end{lstlisting}
 
 \begin{tabular}{|ll|}
@@ -72,10 +72,17 @@ MPI_Send(&i,1,MPI_LONG_INT,target,tag,comm);
   \hline
 \end{tabular}
 
-There is some, but not complete, support for \indexterm{C99} types.
-
-See section~\ref{sec:mpi-byte-type} for \indexmpishow{MPI_Aint}
-and more about byte counting.
+\begin{itemize}
+\item
+  There is some, but not complete, support for \indexterm{C99} types.
+\item
+  The \indexmpishow{MPI_LONG_INT} type is not an integer type,
+  but rather a \lstinline{long} and an \lstinline{int} packed together;
+  see section~\ref{sec:minmaxloc}.
+\item 
+  See section~\ref{sec:mpi-byte-type} for \indexmpishow{MPI_Aint}
+  and more about byte counting.
+\end{itemize}
 
 \Level 1 {Fortran}
 \index{datatype!elementary!in Fortran}

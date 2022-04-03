@@ -98,6 +98,8 @@ so certain fields may not be applicable to your specific \ac{PDE}.)
   \label{fig:dmdalocalinfo}
 \end{figure}
 
+\Level 1 {Associated vectors}
+
 Using the fields in this structure, each process can now iterate over its
 own subdomain.
 For instance, the `top left' corner of the owned subdomain is at \n{xs,ys}
@@ -148,6 +150,51 @@ Here we set up a local vector for operations:
 The actual operations involve some tests for the actual presence of the halo:
 %
 \cverbatimsnippet[examples/petsc/c/dmrhs.c]{dmghostsweep}
+
+\Level 1 {Associated matrix}
+
+We construct a matrix on a \lstinline{DMDA} by constructing a stencil
+on every $(i,j)$ coordinate on a process:
+\begin{lstlisting}
+for (int j=info.ys; j<info.ys+info.ym; j++) {
+  for (int i=info.xs; i<info.xs+info.xm; i++) {
+    PetscReal x = i*hx, y = j*hy;
+    ...
+    // set the row, col, v values
+    ierr = MatSetValuesStencil(A,1,&row,ncols,col,v,INSERT_VALUES);CHKERRQ(ierr);
+  }
+}
+\end{lstlisting}
+
+Each matrix element \lstinline{row,col}
+is a combination of two \indexpetscshow{MatStencil} objects.
+Technically, this is a \lstinline{struct} with members \lstinline{i,j,k,s}
+for the domain coordinates and the number of the field.
+\begin{lstlisting}
+MatStencil  row;
+row.i = i; row.j = j; 
+\end{lstlisting}
+We could construct the columns in this row one by one,
+but \indexpetscshow{MatSetValuesStencil} can set multiple rows or columns at a time,
+so we construct all columns at the same time:
+\begin{lstlisting}
+MatStencil col[5];
+PetscScalar v[5];
+PetscInt    ncols = 0;
+/**** diagonal element ****/
+col[ncols].i = i; col[ncols].j = j;
+v[ncols++] = 4.;
+/**** off diagonal elements ****/
+....
+\end{lstlisting}
+
+The other `legs' of the stencil need to be set conditionally:
+the connection to $(i-1,j)$ is missing on the top row of the domain,
+and the connection to $(i,j-1)$ is missing on the left column.
+In all:
+%
+\cverbatimsnippet{grid2d5pt}
+
 
 \Level 0 {General Data Management}
 
@@ -278,53 +325,6 @@ set elements directly in the raw array, obtained by \indexpetscdef{DMDAVecGetArr
 The routine \indexpetscdef{DMDASetRefinementFactor}
 can be activated with the options \indexpetscoption{da_refine}
 or separately \indexpetscoption{da_refine_x}/y/z for the directions.
-
-\Level 0 {Constructing a matrix on a grid}
-
-\begin{lstlisting}
-for (int j=info.ys; j<info.ys+info.ym; j++) {
-  for (int i=info.xs; i<info.xs+info.xm; i++) {
-    PetscReal x = i*hx, y = j*hy;
-    ...
-    // set the row, col, v values
-    ierr = MatSetValuesStencil(A,1,&row,ncols,col,v,INSERT_VALUES);CHKERRQ(ierr);
-  }
-}
-\end{lstlisting}
-
-Next, we express matrix row/column coordinates in terms of domain coordinates.
-The row number corresponds to the $(i,j)$ pair:
-\begin{lstlisting}
-MatStencil  row;
-row.i = i; row.j = j; 
-\end{lstlisting}
-For a 5-point stencil we need five column numbers,
-as well as five element values:
-\begin{lstlisting}
-MatStencil col[5];
-PetscScalar v[5];
-PetscInt    ncols = 0;
-/**** diagonal element ****/
-col[ncols].i = i; col[ncols].j = j;
-v[ncols++] = 4.;
-\end{lstlisting}
-
-The other `legs' of the stencil need to be set conditionally:
-the connection to $(i-1,j)$ is missing on the top row of the domain,
-and the connection to $(i,j-1)$ is missing on the left column.
-\begin{lstlisting}
-/* if not top row */
-if (i>0) {
-    col[ncols].j = j;   col[ncols].i = i-1;
-    v[ncols++] = -1.;
-}
-/* if not left column */
-if (j>0) {
-    col[ncols].j = j-1; col[ncols].i = i;
-    v[ncols++] = -1.;
-}
-\end{lstlisting}
-Ditto for the connections to $(i+1,j)$ and $(i,j+1)$.
 
 \Level 0 {Vectors of a distributed array}
 

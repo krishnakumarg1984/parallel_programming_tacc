@@ -4,12 +4,18 @@
 %%%%
 %%%% This text file is part of the source of 
 %%%% `Parallel Programming in MPI and OpenMP'
-%%%% by Victor Eijkhout, copyright 2012-2021
+%%%% by Victor Eijkhout, copyright 2012-2022
 %%%%
-%%%% mpi.tex : leftover MPI topics
+%%%% mpi-tools.tex : tools interface
 %%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\index{MPI!tools interface|(}
+
+Recent versions of MPI have a standardized way of reading out
+performance variables: the \emph{tools interface}
+which improves on the old interface described in section~\ref{sec:profile}.
 
 \Level 0 {Initializing the tools interface}
 \label{sec:mpitools-init}
@@ -113,6 +119,13 @@ int MPI_T_cvar_write(MPI_T_cvar_handle handle, const void* buf);
 \Level 0 {Performance variables}
 \index[mpi]{performance variable|(}
 \index[mpi]{pvar|see{performance variable}}
+
+The realization of the tools interface is installation-dependent,
+you first need to query how much of the tools interface is provided.
+
+\cverbatimsnippet[code/mpi/c/mpitpvar.c]{mpit_init_q}
+
+\cverbatimsnippet[code/mpi/c/mpitpvar.c]{mpit_list}
 
 \begin{raggedlist}
   Performance variables come in classes:
@@ -276,4 +289,11 @@ If categories change dynamically, this can be detected with
 \begin{lstlisting}
 int MPI_T_category_changed(int *stamp)
 \end{lstlisting}
+
+\Level 0 {Events}
+
+\cverbatimsnippet{mpiteventcount}
+\cverbatimsnippet{mpiteventinfo}
+
+\index{MPI!tools interface|)}
 

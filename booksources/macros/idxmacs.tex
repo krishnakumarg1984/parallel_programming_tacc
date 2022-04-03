@@ -4,25 +4,23 @@
 %%%%
 %%%% This LaTeX file is part of the source of 
 %%%% `Parallel Computing'
-%%%% by Victor Eijkhout, copyright 2012-2021
+%%%% by Victor Eijkhout, copyright 2012-2022
 %%%%
 %%%% idxmacs.tex : index-related macros.
 %%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% the 
-% \usepackage{imakeidx}
-% line is in the master file
-%
+\usepackage{imakeidx}
 
+\indexsetup{noclearpage}
 \makeindex
-\makeindex[name=mpi]
-\makeindex[name=mpl]
-\makeindex[name=sycl]
-\makeindex[name=omp]
-\makeindex[name=petsc]
-\makeindex[name=python]
+\makeindex[name=mpi,title=,columns=1]
+\makeindex[name=mpl,title=,columns=1]
+\makeindex[name=omp,title=,columns=1]
+\makeindex[name=petsc,title=,columns=1]
+\makeindex[name=sycl,title=,columns=1]
+\makeindex[name=python,title=,columns=1]
 
 
 \newcommand{\indextermp}[1]{\emph{#1s}\index{#1}}

@@ -5,7 +5,7 @@
 !**** `Parallel programming for Science and Engineering'
 !**** by Victor Eijkhout, eijkhout@tacc.utexas.edu
 !****
-!**** copyright Victor Eijkhout 2012-2021
+!**** copyright Victor Eijkhout 2012-2022
 !****
 !**** MPI Exercise for Isend/Irecv
 !****
@@ -37,7 +37,7 @@ Program Isendirecv
   !! once to get data from the left, once from the right
 
   !!
-  !! first get left neighbour data
+  !! first get left neighbor data
   !!
 
   !! set processes to communicate with
@@ -52,7 +52,7 @@ Program Isendirecv
        ierr)
 
   !!
-  !! then get right neighbour data
+  !! then get right neighbor data
   !!
 
   !! set processors to communicate with

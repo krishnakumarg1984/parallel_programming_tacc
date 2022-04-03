@@ -11,12 +11,6 @@ public:
     omp_destroy_lock(&the_lock);
   };
   int operator +=( int i ) {
-// let's waste a little time,
-// otherwise the threads finish before they start
-    float s = i;
-    for (int i=0; i<1000; i++)
-      s += sin(i)*sin(i);
-
 // atomic increment
     omp_set_lock(&the_lock);
     _value += (s>0); int rv = _value;

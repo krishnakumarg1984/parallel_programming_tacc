@@ -5,14 +5,14 @@
     if ( command_argument_count()==0 ) then
        ! the program is called without parameter
        print *,"Usage: init [0-9]+\n"
-       return
+       stop
     else
        call get_command_argument(1,argstring) ! test for "-h"
        print *,argstring
        select case(adjustl(argstring))
        case("-h","--help")
           print *,"Usage: init [0-9]+\n"
-          return
+          stop
        case default
           ! parse input argument
           read(argstring,'(i5)') input_argument

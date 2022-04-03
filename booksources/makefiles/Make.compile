@@ -45,12 +45,12 @@ CXXFLAGS += ${CXX_STD_FLAGS}
 OPTFLAGS = -O${OPTLEVEL} -g
 
 ifdef TACC_TAU_DIR
-  C_COMPILER = tau_cc.sh -tau_options=-optCompInst
-  CXX_COMPILER = tau_cxx.sh
-  F_COMPILER = tau_f90.sh
-  MPI_C_COMPILER = tau_cc.sh -tau_options=-optCompInst
-  MPI_CXX_COMPILER = tau_cxx.sh
-  MPI_F_COMPILER = tau_f90.sh
+  C_COMPILER = tau_cc.sh -optCompInst -optPreProcess
+  CXX_COMPILER = tau_cxx.sh -optCompInst -optPreProcess
+  F_COMPILER = tau_f90.sh -optCompInst -optPreProcess
+  MPI_C_COMPILER = tau_cc.sh  -optCompInst -optPreProcess
+  MPI_CXX_COMPILER = tau_cxx.sh -optCompInst -optPreProcess
+  MPI_F_COMPILER = tau_f90.sh -optCompInst -optPreProcess
 else
 
     MPI_C_COMPILER = mpicc
@@ -169,7 +169,11 @@ FFLAGS   += ${EXTRA_OPTIONS}
 %.o : %.f
 	${F_COMPILER}   -c $< ${FFLAGS}
 %.o : %.F90
-	${F_COMPILER}   -c $< ${FFLAGS}
+	@cmdline="${F_COMPILER} -g ${FFLAGS} \
+	    -c $<" \
+	 && if [ ! -z "${ECHO}" ] ; then \
+	        echo "Compiling: $$cmdline" ; fi \
+	 && eval $$cmdline
 %.o : %.f90
 	${F_COMPILER}   -c $< ${FFLAGS}
 
@@ -212,7 +216,7 @@ ${APPS} ${EXERCISES} ${PROGRAMS} ${WRONGS} : $$@.o ${EXTRA_OBJS}
 	@if [ -z "${LINKER}" ] ; then \
 	    echo "No linker defined for LANGUAGE=${LANGUAGE}" && exit 1 ; fi
 	@cmd="${LINKER} -o $@ $^ ${LINK_FLAGS} ${EXTRA_LIBS}" \
-	 && if [ "${ECHO}" = "1" ] ; then echo $$cmd ; fi \
+	 && if [ "${ECHO}" = "1" ] ; then echo "Linking: $$cmd" ; fi \
 	 && eval $$cmd
 	@if [ "${ECHO}" = "1" ] ; then \
 	    echo ${LINK_EXTRA_COMMANDS} \

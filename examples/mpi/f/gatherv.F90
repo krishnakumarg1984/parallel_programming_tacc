@@ -3,7 +3,7 @@
 !  %%%%
 !  %%%% This program file is part of the book and course 
 !  %%%% "Parallel Computing for Science and Engineering"
-!  %%%% by Victor Eijkhout, copyright 2013-5
+!  %%%% by Victor Eijkhout, copyright 2013-2022
 !  %%%%
 !  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 !  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -11,6 +11,7 @@
 Program Gatherv
 
   use mpi
+  implicit none
 
   integer :: localsize,root
   integer,dimension(:),allocatable :: localsizes,offsets,localdata,alldata

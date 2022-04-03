@@ -12,17 +12,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\usepackage{pslatex}
-\usepackage{verbatim,wrapfig}
-
-\usepackage{amsmath}
-\usepackage{array,booktabs,multirow,multicol}
-\newcolumntype{R}{>{\hbox to 1.2em\bgroup\hss}{r}<{\egroup}}
-\newcolumntype{T}{>{\hbox to 8em\bgroup}{c}<{\hss\egroup}}
-
-\def\verbatimsnippet#1{\begingroup\small \verbatiminput{snippets/#1}\endgroup}
-\usepackage{hyperref}
-
 \newdimen\unitindent \unitindent=20pt
 \usepackage[algo2e,noline,noend]{algorithm2e}
 \newenvironment{displayalgorithm}
@@ -41,8 +30,6 @@
 %%%%
 %%%% Comment environment
 %%%%
-\usepackage{comment}
-%\input longshort
 \specialcomment{exercise}{
   \def\CommentCutFile{exercise.cut}
   \def\PrepareCutFile{%
@@ -53,14 +40,9 @@
 \excludecomment{pcse}
 \excludecomment{book}
 
-\def\innocentcharacters{% move this to commen and unify
-  \catcode`\_=12 \catcode`\#=12
-  \catcode`\>=12 \catcode`\<=12
-  \catcode`\&=12 \catcode`\^=12 \catcode`\~=12
-}
 \newcommand\slackpoll[1]{\begingroup \par \tiny\texttt{/poll #1} \par \endgroup}
 \def\slackpollTF#1{\begingroup \def\terminator{#1}
-  \innocentcharacters \catcode`\{=12 \catcode`\}=12
+  \InnocentChars \catcode`\{=12 \catcode`\}=12
   \edef\tmp{\def\noexpand\slackpollTFp####1\terminator
     {\noexpand\par
       \noexpand\tiny \noexpand\texttt{/poll "####1" "T" "F"}

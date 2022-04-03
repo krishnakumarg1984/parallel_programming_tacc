@@ -27,6 +27,7 @@
 %\OutlineLevelStart 1{\section{#1}}
 \OutlineLevelStart 1{\frame{\section{#1}\Large\bf#1}}
 \def\sectionframe#{\Level 1 }
+\def\subsectionframe#{\Level 2 }
 \setcounter{tocdepth}{2}
 \usepackage{framed}
 \colorlet{shadecolor}{blue!15}
@@ -140,8 +141,10 @@
 \newcommand{\csnippetwithoutput}[3]{
   \begin{multicols}{2}
     \lstset{style=reviewcode,language=C}\lstinputlisting{#1}
-    \vfill\columnbreak
-    \verbatiminput{#2/#3}\vfill  
+    \vfill\hbox{}\columnbreak
+    \footnotesize
+    \verbatiminput{#2/#3.runout}
+    \vfill\hbox{}\columnbreak
   \end{multicols}
   }
 \newcommand{\cxxverbatimsnippet}[2][XX]{
@@ -298,6 +301,7 @@
 \let\indexmplshow\indexmpishow
 \let\indexompshow\indexmpishow
 \let\indexpetscshow\indexmpishow
+\let\indexpragma\indexmpishow
 
 \newenvironment
     {mplimpl}

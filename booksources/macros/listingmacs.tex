@@ -14,12 +14,13 @@
 \usepackage{listings,xcolor}
 \newcommand\lstineline{LST TYPO\n}
 
+\def\codefontsize{\footnotesize}
 \lstdefinestyle{reviewcode}{
   belowcaptionskip=1\baselineskip, frame=L,
   breaklines=true, breakatwhitespace=true,
   postbreak=\hbox{{$\hookrightarrow$}}, % \textcolor{green}
   xleftmargin=\unitindent, showstringspaces=false,
-  basicstyle=\footnotesize\ttfamily,
+  basicstyle=\codefontsize\ttfamily,
   keywordstyle=\bfseries\color{blue},
   commentstyle=\color{red!60!black},
   identifierstyle=\slshape\color{black},
@@ -172,20 +173,22 @@
     omp_get_nested,omp_get_wtime,omp_get_wtick,omp_set_schedule,omp_get_schedule,
     omp_set_max_active_levels,omp_get_max_active_levels,omp_get_thread_limit,
     omp_get_level,omp_get_active_level,omp_get_ancestor_thread_num,omp_get_team_size,
+    omp_get_cancellation,
   },emphstyle={\color{red!70!black}\bfseries}
 }
 \lstset{emph={[2] %% constants
     MPI_VERSION,MPI_SUBVERSION,
     MPI_THREAD_SINGLE,MPI_THREAD_FUNNELED,MPI_THREAD_SERIALIZED,MPI_THREAD_MULTIPLE,
     % NULLs and ERRORs
-    MPI_ARGV_NULL,MPI_ARGVS_NULL,MPI_COMM_NULL,MPI_DATATYPE_NULL,MPI_INFO_NULL,MPI_INFO_ENV,
+    MPI_ARGV_NULL,MPI_ARGVS_NULL,MPI_COMM_NULL,MPI_DATATYPE_NULL,
+    MPI_GROUP_NULL,MPI_INFO_NULL,MPI_INFO_ENV,
     MPI_OP_NULL,MPI_PROC_NULL,MPI_REQUEST_NULL,
     MPI_ERROR,MPI_SUCCESS,MPI_LASTUSEDCODE,MPI_ERR_LASTCODE,
     MPI_ERRORS_ARE_FATAL,MPI_ERRORS_RETURN,MPI_ERRORS_ABORT,
     MPI_ERRCODES_IGNORE,
-    MPI_ERR_ARG,MPI_ERR_BUFFER,MPI_ERR_INTERN,MPI_ERR_INFO,MPI_ERR_IN_STATUS,
+    MPI_ERR_ARG,MPI_ERR_BUFFER,MPI_ERR_COUNT,MPI_ERR_INTERN,MPI_ERR_INFO,MPI_ERR_IN_STATUS,
     MPI_ERR_OTHER,MPI_ERR_NO_MEM,MPI_ERR_PORT,MPI_ERR_PROC_ABORTED,
-    MPI_ERR_SERVICE,MPI_ERR_COMM,
+    MPI_ERR_RANK,MPI_ERR_SERVICE,MPI_ERR_COMM,
     % comm stuff
     MPI_COMM_WORLD,MPI_COMM_SELF,MPI_ROOT,
     MPI_COMM_TYPE_SHARED,MPI_COMM_TYPE_HW_GUIDED,MPI_COMM_TYPE_HW_UNGUIDED,
@@ -193,7 +196,7 @@
     % stuff
     MPI_MAX_DATAREP_STRING,MPI_MAX_ERROR_STRING,
     MPI_MAX_INFO_KEY,MPI_MAX_INFO_VAL, MPI_MAX_LIBRARY_VERSION_STRING,
-    MPI_MAX_OBJECT_NAME,MPI_MAX_PORT_NAME,MPI_MAX_PROCESSOR_NAME,    
+    MPI_MAX_OBJECT_NAME,MPI_MAX_PORT_NAME,MPI_MAX_PSET_NAME_LEN,MPI_MAX_PROCESSOR_NAME,    
     MPI_WTIME_IS_GLOBAL, MPI_IN_PLACE,MPI_REPLACE,
     MPI_STATUS_IGNORE,MPI_STATUSES_IGNORE,MPI_STATUS_SIZE,
     MPI_TAG,MPI_SOURCE,MPI_ANY_SOURCE,MPI_ANY_TAG,MPI_TAG_UB,
@@ -250,7 +253,7 @@
     %% Fortrn types
     MPI_Fint,MPI_F08_status,
     %% OMP directives
-    for,parallel,sections,section,single,task,taskgroup,workshare
+    for,parallel,sections,section,single,task,taskgroup,taskwait,workshare
     %% MPL methods
     environment,processor_name,communicator,comm_world,comm_self,split,split_shared,
     rank,size,tag,any,up,get_count,any_source,source,
@@ -292,6 +295,7 @@
     DMDAVecGetArray,DMDAVecRestoreArray,
     MatCreate,MatDestroy,MatCreateSubMatrix,MatCreateSubMatrices,
     MatCreateFFT,MatCreateVecsFFTW,MatCreateVecs,
+    MatCreateSeqAIJ,MatCreateMPIAIJ,
     MatCreateSeqAIJWithArrays,MatCreateMPIAIJWithArrays,
     MatSetSizes,MatSizes,MatSetType,MatSetPreallocation,
     MatSetValue,MatSetValues,MatSetValuesStencil,MatAssemblyBegin,MatAssemblyEnd,
@@ -328,7 +332,7 @@
     VecSetType,VecSetSizes,VecGetSize,VecGetLocalSize,VecGetOwnershipRange,
     VecAXPY,VecAYPX,VecMAXPY,VecCopy,VecDot,VecMDot,VecDotBegin,VecDotEnd,
     VecNorm,VecNormBegin,VecNormEnd,VecScale,VecMax,VecMin,VecReciprocal,VecShift,
-    VecSum,VecSwap,VecPointwiseMult,VecPointwiseDivide,
+    VecSum,VecSwap,VecPointwiseMult,VecPointwiseDivide,VecAbs,
     VecSet,VecSetValue,VecSetValues,VecAssemblyBegin,VecAssemblyEnd,
     VecGetArray,VecRestoreArray,VecGetArrayRead,VecRestoreArrayRead,
     VecGetArrayF90,VecRestoreArrayF90,VecPlaceArray,VecReplaceArray,VecResetArray,
@@ -372,7 +376,7 @@
     PETSCVIEWERASCII,PETSCVIEWERBINARY,PETSCVIEWERSTRING,PETSCVIEWERDRAW,
     PETSCVIEWERSOCKET,PETSCVIEWERHDF5,PETSCVIEWERVTK,
     SCATTER_FORWARD,SCATTER_REVERSE,
-    VECSEQ,VECMPI,VECCUDA,VECSEQCUDA,VECMPICUDA,
+    VECSEQ,VECMPI,VECSTANDARD,VECCUDA,VECSEQCUDA,VECMPICUDA,
     CHKERRQ,SETERRQ,SETERRQ1,SETERRQ2,CHKERRA,SETERRA,CHKMEMQ,CHKMEMA,
     % python
     PETSc,DECIDE,
@@ -381,6 +385,7 @@
     PetscDataType,PetscBool,PetscComplex,PetscReal,PetscScalar,PetscLogDouble,PetscErrorCode,
     PetscInt,PetscBLASInt,PetscMPIInt,PetscViewer,
     DM,DMDA,DMBoundaryType,DMStencilType,DMDALocalInfo,
+    InsertMode,NormType,
     KSP,KSPConvergedReason,KSPConvergedReasons,
     Mat,MatNullSpace,MatStencil,MatPartitioning,MatSolverType,MatFactorShiftType,
     PC,PCCompositeType,

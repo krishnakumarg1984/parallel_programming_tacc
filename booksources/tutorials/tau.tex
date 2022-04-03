@@ -4,7 +4,7 @@
 %%%%
 %%%% This text file is part of the source of 
 %%%% `Parallel Programming in MPI and OpenMP'
-%%%% by Victor Eijkhout, copyright 2012-2020
+%%%% by Victor Eijkhout, copyright 2012-2022
 %%%%
 %%%% tau.tex : tutorial about tracing with TAU
 %%%%
@@ -53,6 +53,18 @@ endif
 If TAU is to be used (which we detect here by checking for the environment variable
 \indextermtt{TACC_TAU_DIR}), we define the \indextermtt{CC} variable as
 one of the TAU compilation scripts; otherwise we set it to a regular MPI compiler.
+
+\begin{fortrannote}{Cpp includes}
+  If your source contains 
+  \begin{lstlisting}
+    #include "something.h" 
+  \end{lstlisting}
+  directives, add the option
+\begin{verbatim}
+  -optPreProcess
+\end{verbatim}
+to the TAU compiler.
+\end{fortrannote}
 
 \begin{istc}
 To use \emph{TAU} on \emph{TACC}\index{TAU!on TACC resources} resources,
@@ -120,6 +132,14 @@ The \n{slog2} file can be viewed with \indextermtt{jumpshot}:
 \begin{verbatim}
 jumpshot yourprogram.slog2
 \end{verbatim}
+
+\Level 1 {Without instrumentation}
+
+Event-based sampling on uninstrumented code:
+\begin{verbatim}
+tau_exec -ebs yourprogram
+\end{verbatim}
+The resulting \n{.trc} file can be viewed with \indextermtt{paraprof}.
 
 \Level 1 {Examples}
 

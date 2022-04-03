@@ -43,14 +43,14 @@ int main(int argc,char **argv) {
   //    once to get data from the left, once from the right
   // -- for first/last process use MPI_PROC_NULL
 
-  // first specify left neighbour data
+  // first specify left neighbor data
 /**** your code here ****/
   MPI_Isend( // send data to the left
 /**** your code here ****/
 	    1,MPI_DOUBLE, sendto,0, comm,&(requests[0]));
   MPI_Irecv(&leftdata,1,MPI_DOUBLE, recvfrom,0, comm,&(requests[1]));
 
-  // then the right neighbour data
+  // then the right neighbor data
 /**** your code here ****/
   MPI_Isend( // send data to the right
 /**** your code here ****/

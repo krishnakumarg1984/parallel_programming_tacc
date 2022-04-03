@@ -4,7 +4,7 @@
  **** `Parallel programming for Science and Engineering'
  **** by Victor Eijkhout, eijkhout@tacc.utexas.edu
  ****
- **** copyright Victor Eijkhout 2012-8
+ **** copyright Victor Eijkhout 2012-2022
  ****
  **** MPI Exercise for sendrecv : three-point combination
  ****
@@ -33,7 +33,7 @@ int main(int argc,char **argv) {
   // -- set `sendto' and `recvfrom' twice
   // -- once to get data from the left, once from the right
 
-  // first get left neighbour data
+  // first get left neighbor data
   //hint:  sendto = 
   //hint:  recvfrom =
 /**** your code here ****/
@@ -41,7 +41,7 @@ int main(int argc,char **argv) {
     (&mydata,1,MPI_DOUBLE, sendto,0,
      &leftdata,1,MPI_DOUBLE, recvfrom,0, comm,MPI_STATUS_IGNORE);
 
-  // then the right neighbour data
+  // then the right neighbor data
   //hint:  recvfrom =
   //hint:  sendto = 
 /**** your code here ****/

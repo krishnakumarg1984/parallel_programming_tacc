@@ -17,21 +17,37 @@ ENGINE =  xelatex -shell-escape
 
 info::
 	@echo "make course COURSE=... (in: ${COURSES})"
-	@echo "make courses"
+	@echo "make courses : all courses;"
+	@if [ ! -z "${LANGUAGES}" ] ; then \
+	    echo "    also languages: ${LANGUAGES}" \
+	 ; fi
 .PHONY: course courses course_prep
 courses ::
-	@if [ -z "${COURSES}" ] ; then \
-	    echo "Error: no COURSES variable defined" && exit 1 ; fi
-	@for c in ${COURSES} ; do \
-	    make --no-print-directory course COURSE=$$c \
-	    ; done
+	@if [ ! -z "${COURSES}" ] ; then \
+	    cp ../course-support/lang_all.tex lang.tex \
+	     && for c in ${COURSES} ; do \
+	            make --no-print-directory course COURSE=$$c \
+	        ; done \
+	    ; \
+	 fi
+	@if [ ! -z "${LANGUAGES}" ] ; then \
+	    for l in ${LANGUAGES} ; do \
+	        cp ${COURSE}_course.tex ${COURSE}_$${l}_course.tex \
+	         && make course COURSE=${COURSE}_$${l} LANGUAGE=${LANGUAGE} \
+	         && rm -f ${COURSE}_$${l}_course.tex \
+	     ; done \
+	 ; fi
+
 include ../../makefiles/Make.tex
-course_prep ::
-course :: course_prep
+course ::
 	@if [ -z "${COURSE}" ] ; then \
 	    echo "Error: no COURSE variable defined" && exit 1 ; fi 
+	@if [ ! -z "${LANGUAGE}" ] ; then \
+	    cp ../course-support/lang_${LANGUAGE}.tex ./lang.tex \
+	 ; fi
 	@make --no-print-directory pdf FILE=${COURSE}_course
 	@make --no-print-directory diagnostics FILE=${COURSE}_course
+	@cp ../course-support/lang_all.tex ./lang.tex
 no_acro_rule :
 	@acro=`cat ${COURSE}_course.log | grep "Acronym.*not defined" | wc -l` \
 	 && if [ $$acro -gt 0 ] ; then \
@@ -49,7 +65,7 @@ onepass ::
 	; else \
 	    echo "Please set FILE or COURSE" && exit 1 \
 	; fi \
-	 && TEXINPUTS=.:..:${TEXROOTDIR}:../taccstyle:../taccstyle/figures:${TEXROOTDIR}/chapters:${TEXROOTDIR}/exercises:${TEXROOTDIR}/graphics//:${TEXROOTDIR}/macros:${TEXROOTDIR}/hwloc:${TEXROOTDIR}/mpireference:${TEXROOTDIR}/snippets:../course-support:${TEXINPUTS}${EXTRATEXINPUTS} ${ENGINE} $$file
+	 && TEXINPUTS=.:..:${TEXROOTDIR}:../taccstyle:../taccstyle/figures:${TEXROOTDIR}/chapters:${TEXROOTDIR}/exercises:${TEXROOTDIR}/graphics//:${TEXROOTDIR}/plots//:${TEXROOTDIR}/macros:${TEXROOTDIR}/hwloc:${TEXROOTDIR}/mpireference:${TEXROOTDIR}/snippets:../course-support:${TEXINPUTS}${EXTRATEXINPUTS} ${ENGINE} $$file
 pdf :: 
 	@\
 	file=${FILE} \

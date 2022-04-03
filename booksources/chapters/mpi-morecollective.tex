@@ -33,6 +33,7 @@ The following is the list of \emph{pre-defined operators}\index{operator!predefi
 \input mpi-opstable
 
 \Level 2 {Minloc and maxloc}
+\label{sec:minmaxloc}
 
 The \indexmpishow{MPI_MAXLOC} and \indexmpishow{MPI_MINLOC} operations
 yield both the maximum and the rank on which it occurs. Their result
@@ -50,23 +51,28 @@ Likewise, the input needs to consist of such structures:
 the input should be an array of such struct types, where the \n{int} is
 the rank of the number.
 
-The original Fortran interface to MPI was designed around
-\fstandard{77} features,
-so it is not using Fortran derived types (\lstinline{Type} keyword).
-Instead, all integer indices are stored in whatever the type is that is
-being reduced. The available result types are then
-\indexmpidef{MPI_2REAL},
-\indexmpidef{MPI_2DOUBLE_PRECISION},
-\indexmpidef{MPI_2INTEGER}.
+These types may have some unusual size properties:
+%
+\csnippetwithoutput{longintsize}{examples/mpi/c}{longint}
 
-Likewise, the input needs to be arrays of such type. Consider this example:
-\lstset{language=Fortran}
-\begin{lstlisting}
-Real*8,dimension(2,N) :: input,output
-call MPI_Reduce( input,output, N, MPI_2DOUBLE_PRECISION, &
-                 MPI_MAXLOC, root, comm )
-\end{lstlisting}
-\lstset{language=C}
+\begin{fortrannote}{Min/maxloc types}
+  The original Fortran interface to MPI was designed around
+  \fstandard{77} features,
+  so it is not using Fortran derived types (\lstinline{Type} keyword).
+  Instead, all integer indices are stored in whatever the type is that is
+  being reduced. The available result types are then
+  \indexmpidef{MPI_2REAL},
+  \indexmpidef{MPI_2DOUBLE_PRECISION},
+  \indexmpidef{MPI_2INTEGER}.
+
+  Likewise, the input needs to be arrays of such type. Consider this example:
+  \lstset{language=Fortran}
+  \begin{lstlisting}
+    Real*8,dimension(2,N) :: input,output
+    call MPI_Reduce( input,output, N, MPI_2DOUBLE_PRECISION, &
+    MPI_MAXLOC, root, comm )
+  \end{lstlisting}
+\end{fortrannote}
 
 \begin{mplnote}{Operators}
   Arithmetic: \indexmplshow{plus}, \indexmplshow{multiplies}, \indexmplshow{max}, \indexmplshow{min}.

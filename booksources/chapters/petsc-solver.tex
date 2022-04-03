@@ -4,7 +4,7 @@
 %%%%
 %%%% This text file is part of the source of 
 %%%% `Parallel Programming in MPI and OpenMP'
-%%%% by Victor Eijkhout, copyright 2012-2020
+%%%% by Victor Eijkhout, copyright 2012-2022
 %%%%
 %%%% petsc-solver.tex : linear system solvers
 %%%%
@@ -310,6 +310,16 @@ it is usually more convenient to use commandline options:
 \begin{verbatim}
 -pc_type hypre -pc_hypre_type xxxx
 \end{verbatim}
+
+\begin{comment}
+  hypre with drop tolerance:
+
+  You can run with -help to see this: 
+
+ -pc_hypre_euclid_level <now -2 : formerly -2>: Factorization levels (None)
+  -pc_hypre_euclid_droptolerance <0. : 0.>: Drop tolerance for ILU(k) in Euclid (None)
+  -pc_hypre_euclid_bj: <FALSE : FALSE> Use Block Jacobi for ILU in Euclid (None)
+\end{comment}
 
 \Level 3 {Sparse approximate inverses}
 

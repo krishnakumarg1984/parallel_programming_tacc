@@ -28,6 +28,24 @@ int main(int argc,char **argv) {
     printf("Usage: %s nnn\n",argv[0]);
     return -2;
   }
+  if (procno==0) {
+    printf("Size\n");
+    int s;
+    for (int i=1; i<=4; i++) {
+      MPI_Pack_size(i,MPI_CHAR,comm,&s);
+      printf("%d chars: %d\n",i,s);
+    }
+    for (int i=1; i<=4; i++) {
+      MPI_Pack_size(i,MPI_UNSIGNED_SHORT,comm,&s);
+      printf("%d unsigned shorts: %d\n",i,s);
+    }
+    for (int i=1; i<=4; i++) {
+      MPI_Pack_size(i,MPI_INT,comm,&s);
+      printf("%d ints: %d\n",i,s);
+    }
+    printf("size\n");
+  }
+
   int sender=0,receiver=nprocs-1,other=nprocs-1-procno;
   int nsends=atoi(argv[1]),maxsends=100;
   if (nsends>maxsends) {
@@ -37,6 +55,7 @@ int main(int argc,char **argv) {
   int buflen = 1000,
     position;
   char *buffer = malloc(buflen);
+  if (procno==0) printf("Packing\n");
   if (procno==sender) {
     int len=2*sizeof(int)+nsends*sizeof(double)+MPI_BSEND_OVERHEAD;
     if (len>buflen) {
@@ -65,6 +84,7 @@ int main(int argc,char **argv) {
     MPI_Unpack(buffer,buflen,&position,&irecv_value,1,MPI_INT,comm);
     ASSERT(irecv_value==nsends);
   }
+  if (procno==0) printf("packing\n");
 
   MPI_Finalize();
   return 0;

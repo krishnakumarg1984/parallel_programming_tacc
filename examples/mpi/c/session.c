@@ -28,8 +28,9 @@ int main(int argc,char **argv) {
                thread_key,"MPI_THREAD_MULTIPLE");
 
   MPI_Session the_session;
-  MPI_Session_init( session_request_info,MPI_ERRORS_ARE_FATAL,
-                    &the_session );
+  MPI_Session_init
+    ( session_request_info,MPI_ERRORS_ARE_FATAL,
+      &the_session );
 
   MPI_Info session_actual_info;
   MPI_Session_get_info( the_session,&session_actual_info );

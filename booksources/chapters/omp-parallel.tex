@@ -285,6 +285,17 @@ See section~\ref{sec:omp-dfs-example} for an example.
 Cancelling is disabled by default for performance reasons.
 To activate it, set the \indexompdef{OMP_CANCELLATION} variable to true.
 
+The state of cancellation can be queried with \indexompdef{omp_get_cancellation},
+but there is no function to set it.
+
+Cancellation can happen at most obvious places where OpenMP is active,
+but additional cancellation points can be set with 
+\begin{lstlisting}
+#pragma omp cancellation point <construct>
+\end{lstlisting}
+where the construct is \indexompshow{parallel}, \indexompshow{sections},
+\indexompshow{for}, \indexompshow{do}, \indexompshow{taskgroup}.
+
 \Level 0 {Review questions}
 
 \begin{exercise}

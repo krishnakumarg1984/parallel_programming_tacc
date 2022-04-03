@@ -19,10 +19,10 @@ info ::
 info ::
 	@echo
 	@echo "make app (where app=${APPS})"
-APPS = hello hellocount proccount pi speedup scaling \
+APPS = hello hellocount compliant proccount pi speedup scaling \
     parfor critfun reductexpr reductpar taskreduct \
     alloc sharing race \
-    threadprivate ireduct ireductinit ureduct reductpositive \
+    threadprivate ireduct ireductinit ureduct reductpositive reductarray \
     taskgroup0 taskgroup1 taskgroup2 taskgroup3 taskgroup4 taskgroup5
 
 MODE = omp

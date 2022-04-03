@@ -21,7 +21,7 @@ info ::
 
 APPS = init thread env outerr abort procname \
     sendandrecv isendandirecv bufring pingpongbig count \
-    irecvsource irecvnonblock \
+    irecvsource irecvnonblock longint \
     probe testhang findbarrier ibarriertest ibarrierprobe backintime reductpositive \
     putfence putfencealloc getfence windynamic anysource \
     cancel scan exscan fft itranspose progress interleavegather \
@@ -77,6 +77,11 @@ run_backintime : backintime
 	for i in `seq 1 150` ; do \
 	  ${MPIRUN} -n ${NP} ./backintime ; \
 	done | grep back
+
+RUNS += run_longint
+.PHONY: run_longint
+run_longint : longint
+	@./longint
 
 RUNS += run_struct
 run_struct : struct
@@ -146,10 +151,14 @@ RUNS += run_commcompare
 run_commcompare : commcompare
 	@${MPIRUN} -n 1 ./commcompare
 
-RUNS += run_pack
-.PHONY: run_pack
+RUNS += run_pack run_packsize
+.PHONY: run_pack run_packsize
 run_pack : pack
-	@${MPIRUN} -n 6 ./pack 6
+	@${MPIRUN} -n 6 ./pack 6 \
+	| awk '/packing/ {p=0} p==1 {print} /Packing/ {p=1}'
+run_packsize : pack
+	@${MPIRUN} -n 6 ./pack 6 \
+	| awk '/size/ {p=0} p==1 {print} /Size/ {p=1}'
 
 RUNS += run_sessionmix
 .PHONY: run_sessionmix

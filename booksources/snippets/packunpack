@@ -1,4 +1,3 @@
-// pack.c
 if (procno==sender) {
   position = 0;
   MPI_Pack(&nsends,1,MPI_INT,buffer,buflen,&position,comm);

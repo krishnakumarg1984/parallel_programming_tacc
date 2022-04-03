@@ -5,7 +5,7 @@
 !**** `Parallel programming for Science and Engineering'
 !**** by Victor Eijkhout, eijkhout@tacc.utexas.edu
 !****
-!**** copyright Victor Eijkhout 2012-9
+!**** copyright Victor Eijkhout 2012-2022
 !****
 !**** MPI Exercise for MPI_Sendrecv
 !**** fortran 2008 version
@@ -35,7 +35,7 @@ Program SendRecv
   !! set `sendto' and `recvfrom' twice:
   !! once to get data from the left, once from the right
 
-  !! first get left neighbour data
+  !! first get left neighbor data
   !!hint: sendto =
   !!hint: recvfrom =
 !!!! your code here !!!!
@@ -43,7 +43,7 @@ Program SendRecv
        leftdata,1,MPI_REAL8, recvfrom,0, &
        comm,MPI_STATUS_IGNORE)
 
-  !! then get right neighbour data
+  !! then get right neighbor data
 !!!! your code here !!!!
   call MPI_Sendrecv( mydata,1,MPI_REAL8, sendto,0, &
        rightdata,1,MPI_REAL8, recvfrom,0, &

@@ -32,6 +32,45 @@ variable, since this variable is shared between all threads.
 
 We will discuss several strategies of dealing with this.
 
+\Level 1 {Reduction clause}
+
+The easiest way to effect a reduction is of course to use the \indexclause{reduction}
+clause.
+Adding this to an \n{omp parallel} region
+has the following effect:
+\begin{itemize}
+\item OpenMP will make a copy of the reduction variable per thread,
+  initialized to the identity of the reduction operator, for instance
+  $1$~for multiplication.
+\item Each thread will then reduce into its local variable;
+\item At the end of the parallel region, the local results are combined, again
+  using the reduction operator, into the global variable.
+\end{itemize}
+
+The simplest case is a reduction over a parallel loop.
+Here we compute $\pi/4$ as a \indextermbus{Riemann}{sum}:
+
+\cverbatimsnippet[examples/omp/c/reductpar.c]{pi4reduct}
+
+You can also reduce over \indexompshow{sections}:
+%
+\cverbatimsnippet{ompsectreduct}
+
+Another reduction, this time over a parallel region,
+without any work sharing:
+%
+\cverbatimsnippet[examples/omp/c/reductpar.c]{reductpar}
+
+If you want to reduce multiple variables with the same operator, use
+\begin{lstlisting}
+reduction(+:x,y,z)
+\end{lstlisting}
+For multiple reduction with different operators, use more than one clause.
+
+A reduction is one of those cases where the parallel execution can have a slightly different
+value from the one that is computed sequentially, because floating point operations
+are not associative. See~\HPSCref{sec:roundoff-parallel} for more explanation.
+
 \Level 1 {Code your own solution}
 
 The most immediate way is to eliminate the race condition
@@ -71,39 +110,7 @@ double result = 0;
   that is more efficient? Time both codes.
 \end{exercise}
 
-\Level 1 {Reduction clause}
-
-The easiest way to effect a reduction is of course to use the \indexclause{reduction}
-clause.
-Adding this to an \n{omp parallel} region
-has the following effect:
-\begin{itemize}
-\item OpenMP will make a copy of the reduction variable per thread,
-  initialized to the identity of the reduction operator, for instance
-  $1$~for multiplication.
-\item Each thread will then reduce into its local variable;
-\item At the end of the parallel region, the local results are combined, again
-  using the reduction operator, into the global variable.
-\end{itemize}
-
-The simplest case is a reduction over a parallel loop.
-Here we compute $\pi/4$ as a \indextermbus{Riemann}{sum}:
-
-\cverbatimsnippet[examples/omp/c/reductpar.c]{pi4reduct}
-
-Another reduction, this time over a parallel region, but not a loop:
-%
-\cverbatimsnippet[examples/omp/c/reductpar.c]{reductpar}
-
-If you want to reduce multiple variables with the same operator, use
-\begin{lstlisting}
-reduction(+:x,y,z)
-\end{lstlisting}
-For multiple reduction with different operators, use more than one clause.
-
-A reduction is one of those cases where the parallel execution can have a slightly different
-value from the one that is computed sequentially, because floating point operations
-are not associative. See~\HPSCref{sec:roundoff-parallel} for more explanation.
+\Level 2 {False sharing}
 
 If your code can not be easily structured as a reduction, you can 
 realize the above scheme by hand by
@@ -175,6 +182,13 @@ Logical operator reductions in Fortran:
 
 Reduction can be applied to any type for which the operator is defined.
 The types to which \lstinline{max/min} are applicable are limited.
+
+Starting with the \ompstandard{4.5} standard, you can reduce
+on statically allocated arrays:
+\begin{lstlisting}
+int ar[N];
+#pragma omp parallel for reduction(+:ar[:N])
+\end{lstlisting}
 
 \Level 0 {Initial value for reductions}
 
@@ -326,7 +340,7 @@ For instance, recreating the maximum reduction would look like this:
   
 \end{fortrannote}
 
-\begin{cppnote}
+\begin{cppnote}{Reduction on class objects}
   Reduction can be applied to any class for which the
   reduction operator is defined as \lstinline{operator+}
   or whichever operator the case may be.

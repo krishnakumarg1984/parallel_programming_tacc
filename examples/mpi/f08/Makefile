@@ -17,8 +17,8 @@ info ::
 	@echo "available rules:"
 
 APPS = f08 count reduceinplace reduceinplaceptr section sectionisend \
-    anysource putfence\
-    waitnull vector vectorx typecheck
+    anysource putfence matchkind struct \
+    waitnull vector vectorx typecheck typecheck8
 
 LANGUAGE = F
 MODE = mpi

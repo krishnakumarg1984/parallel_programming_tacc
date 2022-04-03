@@ -35,6 +35,13 @@ RUNS =
 info ::
 	@echo "make run_XXX (in ${RUNS})"
 include ../../../makefiles/Make.mpi_run
+RUNS += run_commcompare run_rawcompare
+run_commcompare run_rawcompare :: commcompare
+run_commcompare ::
+	@${MPIRUN} -n 1 commcompare
+run_rawcompare :: 
+	@${MPIRUN} -n 1 commcompare \
+	| awk '/rawcompare/ {p=0} p==1 {print} /Rawcompare/ {p=1}'
 
 include ../../../makefiles/Make.clean
 #include ../../../teaching/course-support/Make.mpi_regress

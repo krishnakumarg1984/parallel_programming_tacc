@@ -44,10 +44,19 @@ void sub_force( struct force *f,struct force g ) {
 }
 \end{lstlisting}
 
+In C++ we can have a class with an addition operator and such:
+%
+\cxxverbatimsnippet{ompxmolclass}
+\cxxverbatimsnippet{ompxmolplus}
+
 For reference, this is the sequential code:
 \cverbatimsnippet{ompmolplain}
 Here $\overrightarrow F_{ij}$ is only computed for $j>i$, and then
 added to both $\overrightarrow F_i$ and~$\overrightarrow F_j$.
+
+In C++ we use the overloaded operators:
+%
+\cxxverbatimsnippet{ompxmolplain}
 
 \begin{exercise}
   Argue that both the outer loop and the inner are not directly parallelizable.
@@ -70,6 +79,11 @@ so that there are no conflicting writes.
 
 \cverbatimsnippet{ompmoljpar}
 
+In C++ we use the fact that we can reduce on any class
+that has an addition operator:
+%
+\cxxverbatimsnippet{ompxmoljpar}
+
 This increases the scalar work by a factor of two,
 but surprisingly, on a single thread the run time improves:
 we measure a speedup of \n{6.51} over the supposedly `optimal' code.
@@ -77,6 +91,7 @@ we measure a speedup of \n{6.51} over the supposedly `optimal' code.
 \begin{exercise}
   What would be an explanation?
 \end{exercise}
+
 
 \begin{figure}[t]
   \tikzsetnextfilename{omp-nbody1}
@@ -284,7 +299,7 @@ the sum of all nodes, and the sums of nodes of all subtrees:
 Another example is matrix factorization:
 \[ S = A_{33} - A_{31}A_{11}\inv A_{13} - A_{32}A_{22}\inv A_{23} \]
 where the two inverses $A_{11}\inv,A_{22}\inv$ can be computed
-indepedently and recursively.
+independently and recursively.
 
 %\Level 2 {Pre-order traversal}
 

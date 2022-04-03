@@ -15,7 +15,6 @@ Program AnySource
   implicit none
 
 #include "mpif.h"
-
   integer,dimension(:),allocatable :: recv_buffer
   integer :: status(MPI_STATUS_SIZE)
   real :: randomvalue

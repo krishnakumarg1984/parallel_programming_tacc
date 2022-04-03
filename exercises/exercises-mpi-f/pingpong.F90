@@ -20,7 +20,7 @@ Program PingPong
   integer :: nprocs, procno,ierr
   integer :: processA,processB
   double precision,dimension(:) :: senddata(10000),recvdata(10000)
-  integer :: nexperiments = 100,iexperiment,nanosec
+  integer :: nexperiments = 10000,iexperiment,nanosec
   double precision :: t,s=1.
 
   call MPI_Init(ierr)

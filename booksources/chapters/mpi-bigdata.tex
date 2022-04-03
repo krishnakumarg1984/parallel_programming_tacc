@@ -50,6 +50,16 @@ Integer(kind=MPI_COUNT_KIND) :: count
 \lstset{language=C}
 Since Fortran has polymorphism, the same routine names can be used.
 
+\begin{multicols}{2}
+  The legit way of coding:
+  %
+  \fverbatimsnippet{ftypecheck}
+  \columnbreak
+  \ldots~but you can see what's under the hood:
+  %
+  \fverbatimsnippet{ftypecheck8}
+\end{multicols}
+
 Routines using this type are not available
 unless using the \indextermtt{mpi_f08} module.
 \end{mpifournote}

@@ -27,7 +27,7 @@ int main() {
   nprocs = comm_world.size();
   procno = comm_world.rank();
 
-#define NEXPERIMENTS 100
+#define NEXPERIMENTS 10000
 
   // Exercise:
   // -- set source and target processors two ways:

@@ -204,7 +204,16 @@ The most common vector types are:
 \item \indexpetscshow{VECMPI} for a vector distributed over the communicator.
   This is typically created on the \indexmpishow{MPI_COMM_WORLD} or
   \indexpetscshow{PETSC_COMM_WORLD} communicator, or one derived from it.
+\item \indexpetscshow{VECSTANDARD} is \indexpetscshow{VECSEQ} when used on a single process,
+  or \indexpetscshow{VECMPI} on multiple.
 \end{itemize}
+
+You may wonder why these types exist: you could have just one type,
+which would be as parallel as possible.
+The reason is that in a parallel run you may occasionally
+have a separate linear system on each process, which
+would require a sequential vector (and matrix) on each process,
+not part of a larger linear system.
 
 Once you have created one vector, you can make more like it by
 \indexpetscdef{VecDuplicate},
@@ -652,7 +661,6 @@ execution since the \ac{OS} needs to reallocate the matrix every time
 it grows a little. Therefore, PETSc has calls for the user to indicate
 how many elements the matrix will ultimately contain.
 %
-
 \begin{lstlisting}
 MatSetOption(A, MAT_NEW_NONZERO_ALLOCATION_ERR, PETSC_FALSE)
 \end{lstlisting}
@@ -685,6 +693,25 @@ of the local matrix with
 \indexpetscshow{MatSeqAIJRestoreArray}.
 (Routines \indexpetscdepr{MatGetArray}~/ \indexpetscdepr{MatRestoreArray}
 are deprecated.)
+
+\Level 1 {Matrix viewers}
+
+Matrices can be `viewed'
+(see section~\ref{sec:petsc-view} for a discussion of the \indexpetscshow{PetscViewer} mechanism)
+in a variety of ways, starting with the \indexpetscshow{MatView} call.
+However, often it is more convenient to use online options such as
+\begin{verbatim}
+yourprogram -mat_view
+yourprogram -mat_view draw
+yourprogram -ksp_mat_view draw
+\end{verbatim}
+where \indexpetscoption{mat_view} is activated by the assembly routine,
+while \indexpetscoption{ksp_mat_view} shows only the matrix used as
+operator for a \indexpetscshow{KSP} object.
+Without further option refinements this will display
+the matrix elements inside the sparsity pattern.
+Using a sub-option \n{draw} will cause the sparsity pattern to be
+displayed in an \indexterm{X11} window.
 
 \Level 1 {Matrix operations}
 

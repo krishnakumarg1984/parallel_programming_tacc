@@ -3,7 +3,7 @@
 !  %%%%
 !  %%%% This program file is part of the book and course
 !  %%%% "Parallel Computing"
-!  %%%% by Victor Eijkhout, copyright 2013-5
+!  %%%% by Victor Eijkhout, copyright 2013-2022
 !  %%%%
 !  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 !  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -22,14 +22,14 @@ Program Init
     if ( command_argument_count()==0 ) then
        ! the program is called without parameter
        print *,"Usage: init [0-9]+\n"
-       return
+       stop
     else
        call get_command_argument(1,argstring) ! test for "-h"
        print *,argstring
        select case(adjustl(argstring))
        case("-h","--help")
           print *,"Usage: init [0-9]+\n"
-          return
+          stop
        case default
           ! parse input argument
           read(argstring,'(i5)') input_argument
@@ -39,6 +39,5 @@ Program Init
   call MPI_Bcast(input_argument,1,MPI_INTEGER,0,comm,err)
   print *,"Processor",mytid,"reports",input_argument
   call MPI_Finalize(err)
-  return
 
 end program

@@ -4,7 +4,7 @@
 %%%%
 %%%% This text file is part of the source of 
 %%%% `Parallel Programming in MPI and OpenMP'
-%%%% by Victor Eijkhout, copyright 2012-2021
+%%%% by Victor Eijkhout, copyright 2012-2022
 %%%%
 %%%% omp-sync.tex : synchronization
 %%%%
@@ -354,11 +354,14 @@ thread before being unlocked.
 for instance building the locking and unlocking actions into
 the update operator.
 
-\cverbatimsnippet[examples/omp/cxx/lockobject.cxx]{lockobject}
+\begin{cppnote}{Lock inside overloaded operator}
+  \label{cpp:op-lock}
+  \cverbatimsnippet[examples/omp/cxx/lockobject.cxx]{lockobject}
 
-Running this:
+  Running this:
 
-\cverbatimsnippet[examples/omp/cxx/lockobject.cxx]{lockobjectuse}
+  \cverbatimsnippet[examples/omp/cxx/lockobject.cxx]{lockobjectuse}
+\end{cppnote}
 
 \indexterm{lock|)}
 

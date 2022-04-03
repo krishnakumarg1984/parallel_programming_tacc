@@ -133,6 +133,14 @@ Sandra Mendez, Sebastian L?hrs, Volker Weinberg, Dominic Sloan-Murphy, and
 The {OpenMP} {API} specification for parallel programming.
 \newblock \url{http://openmp.org/wp/openmp-specifications/}.
 
+\bibitem{ruhela-eurompi18}
+Amit Ruhela, Hari Subramoni, Sourav Chakraborty, Mohammadreza Bayatpour, Pouya
+  Kousha, and Dhabaleswar~K. Panda.
+\newblock Efficient asynchronous communication progress for mpi without
+  dedicated resources.
+\newblock EuroMPI'18, New York, NY, USA, 2018. Association for Computing
+  Machinery.
+
 \bibitem{mpi-reference}
 Marc Snir, Steve Otto, Steven Huss-Lederman, David Walker, and Jack Dongarra.
 \newblock {\em MPI: The Complete Reference, Volume 1, The MPI-1 Core}.

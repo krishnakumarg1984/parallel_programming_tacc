@@ -3,7 +3,7 @@
 !  %%%%
 !  %%%% This program file is part of the book and course
 !  %%%% "Parallel Computing"
-!  %%%% by Victor Eijkhout, copyright 2013-2020
+!  %%%% by Victor Eijkhout, copyright 2013-2022
 !  %%%%
 !  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 !  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -23,6 +23,7 @@
 Program Init
 
   use allmod
+  implicit none
 
 #include "mpif.h"
 
@@ -38,7 +39,7 @@ Program Init
   stepsize = 1./(ntotal_points-1);
   allocate(array(nlocalpoints))
 
-  do i=1,nlocalpoint
+  do i=1,nlocalpoints
      array(i) = f( (i+my_global_start)*stepsize )
   end do
 

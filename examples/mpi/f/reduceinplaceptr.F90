@@ -3,7 +3,7 @@
 !  %%%%
 !  %%%% This program file is part of the book and course 
 !  %%%% "Parallel Computing for Science and Engineering"
-!  %%%% by Victor Eijkhout, copyright 2013-2021
+!  %%%% by Victor Eijkhout, copyright 2013-2022
 !  %%%%
 !  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 !  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -11,6 +11,7 @@
 Program ReduceInPlace
 
   use mpi
+  implicit none
 
   integer :: target_proc
   real,target :: mynumber,result,in_place_val

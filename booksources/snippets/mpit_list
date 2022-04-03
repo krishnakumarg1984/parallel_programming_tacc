@@ -3,6 +3,7 @@ int name_len=256,desc_len=256,
 char var_name[256],description[256]; 
 MPI_Datatype datatype; MPI_T_enum enumtype;
 for (int pvar=0; pvar<npvar; pvar++) {
+  name_len = 256; desc_len=256;
   MPI_T_pvar_get_info(pvar,var_name,&name_len,
                       &verbosity,&var_class,
                       &datatype,&enumtype,

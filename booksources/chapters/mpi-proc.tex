@@ -250,11 +250,25 @@ with
 \Level 0 {Sessions}
 \label{sec:session}
 
-\begin{mpifournote}{Session model}
-
 The most common way of initializing MPI,
 with \indexmpishow{MPI_Init} (or \indexmpishow{MPI_Init_thread}) and \indexmpishow{MPI_Finalize},
 is known as the \indexterm{world model}.
+This model suffers from some disadvantages:
+\begin{enumerate}
+\item There is no error handling during \indexmpishow{MPI_Init}.
+\item If multiple libraries are active, they can not initialize
+  or finalize MPI, but have to base themselves on subcommunicators;
+  section~\ref{sec:mpi-comm-dup-lib}.
+\item A library can't even 
+\begin{lstlisting}
+MPI_Initialized(&flag);
+if (!flag) MPI_Init(0,0);
+\end{lstlisting}
+if it is running in a multi-threaded environment.
+\end{enumerate}
+
+\begin{mpifournote}{Session model}
+
 Additionally, there is the \indexterm{session model},
 which can be described as doing multiple initializations and finalizations.
 The two models can be used in the same program, but there are limitations
@@ -287,6 +301,10 @@ somewhat similar to \indexmpishow{MPI_Init} and \indexmpishow{MPI_Finalize}.
 
 \cverbatimsnippet{sessioninit}
 
+This call is thread-safe, in view of the above reasoning.
+
+\Level 2 {Session info}
+
 The \indexmpishow{MPI_Info} object can be null, or
 it can be used to request a threading level:
 %
@@ -298,6 +316,12 @@ but the key \indexmpishow{thread_support} is pre-defined.
 Info keys can be retrieved again with \indexmpidef{MPI_Session_get_info}:
 %
 \cverbatimsnippet{sessioninfohave}
+
+\Level 2 {Session error handler}
+
+The error handler argument accepts a pre-defined error handler
+(section~\ref{sec:mpi-error})
+or one create by \indexmpidef{MPI_Session_create_errhandler}.
 
 \Level 1 {Process sets and communicators}
 

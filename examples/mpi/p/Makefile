@@ -20,7 +20,8 @@ info ::
 info ::
 	@echo "make regression"
 TESTS = \
-    allreduce.py anysource.py bcast.py buffertoolarge.py \
+    allreduce.py anysource.py bcast.py \
+    buffertoolarge.py buffer4g.py \
     gatherv.py getfence.py irecvnonblock.py irecvsource.py \
     hello.py irecvloop.py persist.py putfence.py \
     pingpong.py scan.py scipingpong.py tags.py \
@@ -31,7 +32,7 @@ APPS = \
     hello irecvloop persist putfence rowcol \
     pingpong scan scipingpong \
     commdup commsplit 
-WRONGS = pingpongscalar.py
+WRONGS = pingpongscalar.py buffer4g 
 
 info ::
 	@echo "make run_spawn : process spawning example"

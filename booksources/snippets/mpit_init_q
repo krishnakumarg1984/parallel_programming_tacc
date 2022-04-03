@@ -1,4 +1,4 @@
-// mpit.c
+// mpitpvar.c
 MPI_Init_thread(&argc,&argv,MPI_THREAD_SINGLE,&tlevel);
 MPI_T_init_thread(MPI_THREAD_SINGLE,&tlevel);
 int npvar;

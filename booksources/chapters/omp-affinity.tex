@@ -343,13 +343,16 @@ vector<double> x(N);
 equivalent to the non-parallel allocation and initialization above.
 
 Here is a solution.
-We make a template for uninitialized types:
-%
-\cxxverbatimsnippet{cppuninitial}
+\begin{cppnote}{Uninitialized containers}
+  \label{cpp:uninitial}
+  We make a template for uninitialized types:
+  %
+  \cxxverbatimsnippet{cppuninitial}
 
-so that we can create vectors that behave normally:
-%
-\cxxverbatimsnippet{cppuninitialvec}
+  so that we can create vectors that behave normally:
+  %
+  \cxxverbatimsnippet{cppuninitialvec}
+\end{cppnote}
 
 Running the code with the regular definition of a vector,
 and the above modification,

@@ -4,7 +4,7 @@
 ####
 #### This program file is part of the book and course
 ####   Parallel Computing for Science and Engineering
-#### by Victor Eijkhout, copyright 2013-8
+#### by Victor Eijkhout, copyright 2013-2022
 ####
 #### isendirecv.py : MPI python exercise for isend/irecv
 ####
@@ -34,10 +34,10 @@ requests = [ None ] * 4
 ## Exercise:
 ## -- set `sendto' and `recvfrom' twice:
 ##    once to get data from the left, once from the right
-## -- for first/last process use MPI_PROC_NULL as neighbour
+## -- for first/last process use MPI_PROC_NULL as neighbor
 ##
 
-## first specify communication with left neighbour
+## first specify communication with left neighbor
 #### your code here ####
 requests[
 #### your code here ####
@@ -46,7 +46,7 @@ requests[
 #### your code here ####
     ] = comm.Irecv(leftdata,recvfrom)
 
-## then with right neighbour
+## then with right neighbor
 #### your code here ####
 requests[
 #### your code here ####

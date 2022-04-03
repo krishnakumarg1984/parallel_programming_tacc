@@ -4,7 +4,7 @@
 ####
 #### This program file is part of the book and course
 ####   Parallel Computing for Science and Engineering
-#### by Victor Eijkhout, copyright 2013-8
+#### by Victor Eijkhout, copyright 2013-2022
 ####
 #### pingpong.py : MPI python exercise for send/recv
 ####
@@ -19,7 +19,7 @@ comm = MPI.COMM_WORLD
 
 nprocs = comm.Get_size()
 procno = comm.Get_rank()
-ntests = 100
+ntests = 10000
 
 if procno==0 or procno==nprocs-1:
     print("Node name:",MPI.Get_processor_name())

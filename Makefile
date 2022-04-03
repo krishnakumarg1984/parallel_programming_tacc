@@ -29,6 +29,7 @@ pdf :
 info ::
 	@echo "make clean"
 clean ::
+	@rm -f makefiles/*~
 	@for d in booksources examples exercises slides ; do \
 	    ( echo "cleaning in <<$$d>>" && cd "$$d" && make clean ) \
 	    ; done

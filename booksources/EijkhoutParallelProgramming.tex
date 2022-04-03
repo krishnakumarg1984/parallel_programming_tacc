@@ -4,7 +4,7 @@
 %%%%
 %%%% This text file is part of the source of 
 %%%% `Parallel Computing'
-%%%% by Victor Eijkhout, copyright 2012-2021
+%%%% by Victor Eijkhout, copyright 2012-2022
 %%%%
 %%%% parcompbook.tex : master file for the book
 %%%%
@@ -26,7 +26,7 @@
 \includecomment{book}
 
 %% arbitrary numbers of output streams
-\usepackage{scrwfile}
+\usepackage{morewrites}
 
 %% graphics stuff
 \usepackage{graphicx,outliner}
@@ -189,19 +189,14 @@
    \SetBaseLevel 0
 }}
 
-\newcommand\maillink[3]{
-  \href{mailto:eijkhout@tacc.utexas.edu?subject=comment on section #1 "#2"}
-    {comments on this #3?}\par
-}
-\renewcommand\maillink[3]{}
-
 \input commonmacs
 \input acromacs
 \input bookmacs
 \input exmacs
 \input tutmacs
-\usepackage[original]{imakeidx}
+
 \input idxmacs
+\makeindex
 \input listingmacs
 \input snippetmacs
 
@@ -249,8 +244,9 @@
 
 \acresetall
 \part{MPI}
+\addcontentsline{locpp}{cppnote}{MPI}
 \addcontentsline{loftn}{fortrannote}{MPI}
-\addcontentsline{lopy}{fortrannote}{MPI}
+\addcontentsline{lopy}{pythonnote}{MPI}
 
 \input chapters/mpi-competency
 \CHAPTER{Getting started with MPI}{mpi-started}
@@ -274,8 +270,9 @@
 
 \acresetall
 \part{OpenMP}
+\addcontentsline{locpp}{cppnote}{OpenMP}
 \addcontentsline{loftn}{fortrannote}{OpenMP}
-\addcontentsline{lopy}{fortrannote}{OpenMP}
+\addcontentsline{lopy}{pythonnote}{OpenMP}
 
 \input chapters/omp-competency
 \CHAPTER{Getting started with OpenMP}{omp-basics}
@@ -297,6 +294,7 @@
 \CHAPTER{OpenMP Examples}{omp-examples}
 
 \part{PETSc}
+\addcontentsline{locpp}{cppnote}{PETSc}
 \addcontentsline{loftn}{fortrannote}{PETSc}
 \addcontentsline{lopy}{pythonnote}{PETSc}
 
@@ -369,7 +367,7 @@
 \part{Didactics}
 
 \CHAPTER{Teaching guide}{mpi-course}
-\CHAPTER{Teaching from mental modesl}{mpi-mental}
+\CHAPTER{Teaching from mental models}{mpi-mental}
 %pyskipend
 
 %\CHAPTER{Introduction to parallel programming}{conwaysection}
@@ -399,6 +397,12 @@
 \end{multicols}
 \vfill\pagebreak
 
+\Level 0 {General Index}
+
+%\begin{multicols*}{2}
+\printindex
+%\end{multicols*}
+
 \Level 0 {Lists of notes}
 
 \Level 1 {MPI-4 notes}
@@ -409,26 +413,18 @@
 
 \listoffortrannote
 
+\Level 1 {C++ notes}
+
+\listofcppnote
+
 \Level 1 {The MPL C++ interface}
 \label{sec:idx:mpl}
 
 \listofmplnote
 
-\begin{comment}
-  \begin{multicols*}{2}
-    \printindex[mpl]
-  \end{multicols*}
-\end{comment}
-
 \Level 1 {Python notes}
 
 \listofpythonnote
-
-\Level 0 {General Index}
-
-\begin{multicols*}{2}
-\printindex
-\end{multicols*}
 
 \Level 0 {Index of MPI commands and keywords}
 
@@ -444,8 +440,9 @@ Where these appear in this book, a page reference is given.
 
 \Level 2 {List of all functions}
 \input{standard/standard-functions}
-%% \Level 2 {List of all dtypes}
-%% \input{standard/standard-dtypes}
+\Level 2 {List of all dtypes}
+%%%% empty list?
+%\input{standard/standard-dtypes}
 \Level 2 {List of all ctypes}
 \input{standard/standard-ctypes}
 \Level 2 {List of all ftypes}

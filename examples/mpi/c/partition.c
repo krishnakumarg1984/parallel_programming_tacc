@@ -56,7 +56,7 @@ int main(int argc,char **argv) {
       for (int it=0; it<ITERATIONS; it++) {
         MPI_Start(&send_request);
         for (int ip=0; ip<nparts; ip++)
-	  fill_buffer(sendbuffer,partitions[ip],partitions[ip+],ip);
+          fill_buffer(sendbuffer,partitions[ip],partitions[ip+],ip);
           MPI_Pready(ip,send_request);
         MPI_Wait(&send_request,MPI_STATUS_IGNORE);
         int confirm; MPI_Recv(&confirm,0,MPI_INT,tgt,0,comm,MPI_STATUS_IGNORE);
@@ -75,8 +75,8 @@ int main(int argc,char **argv) {
         MPI_Start(&recv_request);
         MPI_Wait(&recv_request,MPI_STATUS_IGNORE);
         int r = 1;
-	for (ip=0; ip<nparts; ip++)
-	  r *= chck_buffer(recvbuffer,partitions[ip],partitions[ip+1],ip);
+        for (ip=0; ip<nparts; ip++)
+          r *= chck_buffer(recvbuffer,partitions[ip],partitions[ip+1],ip);
         if (!r) printf("buffer problem %d\n",1);
         int confirm; MPI_Send(&confirm,0,MPI_INT,src,0,comm);
       }

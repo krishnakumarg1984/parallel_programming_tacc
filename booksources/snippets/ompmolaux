@@ -1,4 +1,4 @@
-// molecular.c
+// molecularstruct.c
 struct point{ double x,y; double c; };
 struct force{ double x,y; double f; };
 

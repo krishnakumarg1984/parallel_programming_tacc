@@ -9,7 +9,7 @@ MPI_Psend_init
 for (int it=0; it<ITERATIONS; it++) {
   MPI_Start(&send_request);
   for (int ip=0; ip<nparts; ip++)
-	  fill_buffer(sendbuffer,partitions[ip],partitions[ip+],ip);
+    fill_buffer(sendbuffer,partitions[ip],partitions[ip+],ip);
     MPI_Pready(ip,send_request);
   MPI_Wait(&send_request,MPI_STATUS_IGNORE);
 }

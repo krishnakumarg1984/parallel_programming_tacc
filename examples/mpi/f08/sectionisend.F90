@@ -7,7 +7,7 @@
 !****
 !**** copyright Victor Eijkhout 2012-2022
 !****
-!**** MPI example of Fortrna array section sending
+!**** MPI example of Fortran array section sending
 !****
 !****************************************************************/
 

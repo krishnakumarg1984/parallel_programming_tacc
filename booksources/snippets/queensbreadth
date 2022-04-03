@@ -4,7 +4,7 @@ optional<placement> result = {};
 for (int col=0; col<N; col++) {
   placement next = current;
   next.at(iqueen) = col;
-#pragma omp task firstprivate(next) shared(result)
+  #pragma omp task firstprivate(next) shared(result)
   if (feasible(next)) {
     if (iqueen==N-1) { 
 	result = next;

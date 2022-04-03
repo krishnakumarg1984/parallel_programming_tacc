@@ -423,11 +423,14 @@ specified in two ways:
 \end{verbatim}
 \end{enumerate}
 
-The Python interface (section~\ref{sec:py-interface})
-can be installed with the option
+\begin{pythonnote}{petsc4py interface}
+  The Python interface (section~\ref{sec:py-interface})
+  can be installed with the option
 \begin{verbatim}
---download-petsc4py=<no,yes
+--download-petsc4py=<no,yes,filename,url>
 \end{verbatim}
+  This is easiest if your python already includes \indexterm{mpi4py}.
+\end{pythonnote}
 
 \begin{remark}
   There are two packages that PETSc is capable of downloading and install,

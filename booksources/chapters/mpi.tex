@@ -594,6 +594,11 @@ This can happen in a number of ways:
 \item The MPI library may reserve a core or thread for communications
   processing. This is implementation dependent;
   see \indextermbus{Intel}{MPI} information below.
+\item Reserving a core,
+  or a thread in a continuous busy-wait \indexterm{spin loop},
+  takes away possible performance from the code.
+  For this reason, Ruhela \textit{et al.}~\cite{ruhela-eurompi18}
+  propose using a \indexterm{pthreads} signal to wake up the progress thread.
 \item Absent such dedicated resources, the application can force MPI
   to make progress by occasional calls to a \indexterm{polling}
   routine such as \indexmpishow{MPI_Iprobe}.
@@ -805,22 +810,6 @@ As you can see in figure~\ref{fig:pmpi-trace}, normally only the \n{PMPI} routin
 show up in the stack trace.
 
 %% Does the standard mandate this?
-
-\Level 1 {Tools interface}
-\index{MPI!tools interface|(}
-
-Recent versions of MPI have a standardized way of reading out
-performance variables: the \emph{tools interface}
-which improves on the old interface described in section~\ref{sec:profile}.
-
-The realization of the tools interface is installation-dependent,
-you first need to query how much of the tools interface is provided.
-
-\cverbatimsnippet[code/mpi/c/mpit.c]{mpit_init_q}
-
-\cverbatimsnippet[code/mpi/c/mpit.c]{mpit_list}
-
-\index{MPI!tools interface|)}
 
 \Level 1 {Programming for performance}
 

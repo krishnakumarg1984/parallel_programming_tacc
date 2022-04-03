@@ -32,7 +32,9 @@ info ::
 	@echo "    ( catchrun gives orderly output)"
 	@echo "    [ PROGRAM=... NP=... ]"
 mpirun :
-	@progargs="${PROGRAM}${PROGRAM_EXTENSION} ${OPTIONS}" \
+	@if [ ! -f "${PROGRAM}${PROGRAM_EXTENSION}" ] ; then \
+	    echo "No such program: ${PROGRAM}" && exit 1 ; fi \
+	 && progargs="${PROGRAM}${PROGRAM_EXTENSION} ${OPTIONS}" \
 	 && if [ "${LANGUAGE}" = "python" ] ; then \
 	        progargs="${PYTHON} $$progargs" ; fi \
 	 && if [ -z "${np_${PROGRAM}}" ] ; then \
@@ -56,6 +58,7 @@ info ::
 	@echo "make runs : compile and run everything"
 	@echo "make runouts :same, and generate output files"
 	@echo "    ${RUNS}"
+	@echo "    [ RUNOUTID= .... (extra id, default blank) ]"
 	@echo "    [ NP= .... (default=${NP}) ]"
 	@echo "    [ MPIRUN= .... (default=${MPIRUN}) ]"
 	@echo "    ( make totalclean removes *.runout )"
@@ -89,13 +92,14 @@ runouts :
 	@for r in ${RUNS} ; do \
 	    echo "---------------- Test run: $$r ----------------" \
 	     && runname=$${r##run_} \
+	     && runout=$${runname}${RUNOUTID}.runout \
 	     && make --no-print-directory \
 	            $$r \
 	            ENVOPTIONS=${ENVOPTIONS} NP=${NP} PYTHON=${PYTHON} \
 	            PROGRAM_EXTENSION=${PROGRAM_EXTENSION} OPTIONS=${OPTIONS} \
 	            RUNOUT=1 \
-	        2>&1 | tee $$runname.runout \
-	     && git add $$runname.runout \
+	        2>&1 | tee $${runout} \
+	     && git add $${runout} \
 	    ; \
 	 done \
 	 && git status *.runout
