@@ -32,8 +32,13 @@ use mpi       ! for Fortran90
 \end{verbatim}
 True Fortran bindings as of the 2008 standard.
 \begin{tacc}
-  Provided in Intel compiler version 18 or newer,\\
-  gcc~9 and later (not with Intel MPI, use mvapich).
+  Provided in
+  \begin{itemize}
+  \item
+    Intel compiler version 18 or newer,
+  \item 
+    gcc~9 and later (not with Intel MPI, use mvapich).
+  \end{itemize}
 \end{tacc}
 \end{numberedframe}
 
@@ -85,17 +90,30 @@ Also:
   \lstinline{MPI_Request}, \lstinline{MPI_Status}, \lstinline{MPI_Win}
 \end{numberedframe}
 
+\begin{numberedframe}{Status}
+  Fortran2008: status is a \lstinline{Type} with fields:
+  \fverbatimsnippet{anysource-f08}
+
+  Fortran90: status is an array with named indexing
+  \fverbatimsnippet{anysource-f}
+\end{numberedframe}
+
 \begin{numberedframe}{Type checking}
   Type checking catches potential problems:
-  \fverbatimsnippet{ftypecheck}
+  \fverbatimsnippet{ftypecheckarg}
 \begin{verbatim}
 typecheck.F90(20): error #6285: 
   There is no matching specific subroutine
   for this generic subroutine call.   [MPI_SEND]
-  call MPI_Send(source,n,MPI_INTEGER,1,0,MPI_COMM_WORLD)
+  call MPI_Send(source,MPI_INTEGER,n,
 -------^
 \end{verbatim}
-Unfortunately it can not say \emph{which} parameter is the offending one.
+\end{numberedframe}
+
+\begin{numberedframe}{Type checking'}
+  Type checking does not catch all problems:
+  \fverbatimsnippet{ftypecheckbuf}
+  This is fine.
 \end{numberedframe}
 
 \lstset{language=C}

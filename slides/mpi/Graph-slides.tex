@@ -4,7 +4,7 @@
 %%%%
 %%%% This text file is part of the lecture slides for
 %%%% `Parallel Computing'
-%%%% by Victor Eijkhout, copyright 2012-2021
+%%%% by Victor Eijkhout, copyright 2012-2022
 %%%%
 %%%% Graph-slides.tex : slides about MPI graph topologies
 %%%%
@@ -56,31 +56,6 @@
   \item Neighborhood collectives:\\
     expression close to the algorith.
   \end{itemize}
-\end{numberedframe}
-
-\sectionframe{Cartesian topologies}
-
-\begin{numberedframe}{Cartesian decomposition}
-\csnippetwithoutput{dimscreate}{examples/mpi/c}{cartdims}
-\end{numberedframe}
-
-\begin{numberedframe}{Create/test Cartesian topology}
-  \cverbatimsnippet{cartcreate}
-  \cverbatimsnippet{carttypetest}
-  \cverbatimsnippet{cartget}
-\end{numberedframe}
-
-\begin{numberedframe}{Rank translation}
-  \cverbatimsnippet[examples/mpi/c/cart.c]{cart}
-\end{numberedframe}
-
-\begin{numberedframe}{Cartesian communication}
-  \cverbatimsnippet[examples/mpi/c/cartcoord.c]{cartperiod0}
-  \csnippetwithoutput{cartshift01}{examples/mpi/c}{cartshift}
-\end{numberedframe}
-
-\begin{numberedframe}{Subgrids}
-  \csnippetwithoutput{hyperplane13p}{examples/mpi/c}{cartsub}
 \end{numberedframe}
 
 \sectionframe{Graph topologies}

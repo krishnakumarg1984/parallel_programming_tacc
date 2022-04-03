@@ -59,17 +59,6 @@
   \input ex:collective-cases
 \end{exerciseframe}
 
-\begin{numberedframe}{More collectives}
-  \begin{itemize}
-  \item Instead of a root, collect to all: \indexmpishow{MPI_All...}
-  \item Scatter/Gather individual data, but also individual size:
-    \indexmpishow{MPI_Scatterv}, \indexmpishow{MPI_Allgatherv} et cetera.
-  \item Everyone broadcasts: \indexmpishow{MPI_Alltoall}
-  \item Scan: like a reduction, but with partial results
-  \item Non-blocking collectives.
-  \end{itemize}
-\end{numberedframe}
-
 \sectionframe{Basic collectives}
 
 \begin{numberedframe}{Allreduce: reduce-to-all}
@@ -133,6 +122,8 @@ How do we compute this?
 \end{itemize}
 \end{numberedframe}
 
+\protoslide{MPI_Allreduce}
+
 \begin{numberedframe}{Elementary datatypes}
 \begin{tabular}{|l|l|l|}
   \hline
@@ -181,6 +172,7 @@ A bunch more.
 A couple more.
 \end{numberedframe}
 
+\begin{c}
 \begin{numberedframe}{Buffers in C}
   General principle: buffer argument is address in memory of the data.
   \begin{itemize}
@@ -189,7 +181,9 @@ A couple more.
   \item write \lstinline{x} or \lstinline{(void*)x} for array
   \end{itemize}
 \end{numberedframe}
+\end{c}
 
+\begin{fortran}
 \begin{numberedframe}{Buffers in Fortran}
   General principle: buffer argument is address in memory of the data.
   \begin{itemize}
@@ -198,7 +192,9 @@ A couple more.
   \item write \lstinline{x} for array
   \end{itemize}
 \end{numberedframe}
+\end{fortran}
 
+\begin{c}
 \begin{numberedframe}{Buffers in C++}
  \lstset{language=C++}
   \begin{itemize}
@@ -215,6 +211,7 @@ MPI_Send( &xx.front(),25,MPI_FLOAT, .... );
   \end{itemize}
  \lstset{language=C}
 \end{numberedframe}
+\end{c}
 
 \begin{numberedframe}{Large buffers}
   As of \mpistandard{4} a buffer can be longer than $2^{31}$ elements.\\
@@ -226,6 +223,7 @@ MPI_Send( &xx.front(),25,MPI_FLOAT, .... );
   \cverbatimsnippet{reducecount}
 \end{numberedframe}
 
+\begin{python}
 \begin{numberedframe}{Buffers in Python}
   For many routines there are two variants:
   \begin{itemize}
@@ -244,6 +242,7 @@ comm.Recv(result, ...)
     basicaly wrapper around C code: fast
   \end{itemize}
 \end{numberedframe}
+\end{python}
 
 \begin{exerciseframe}[randommax]
   \input ex:randommaxscale
@@ -260,6 +259,7 @@ randomfraction = (rand() / (double)RAND_MAX);
 \end{lstlisting}
 \end{numberedframe}
 
+\begin{fortran}
 \begin{numberedframe}{Random numbers in Fortran}
 \lstset{language=Fortran}
 \begin{lstlisting}
@@ -276,7 +276,9 @@ call random_seed(put=randseed)
 \end{lstlisting}
 \lstset{language=C}
 \end{numberedframe}
+\end{fortran}
 
+\begin{python}
 \begin{numberedframe}{Random numbers in Python}
 \lstset{language=Python}
 \begin{lstlisting}
@@ -288,6 +290,7 @@ random_value = random.random()
 \end{lstlisting}
 \lstset{language=C}
 \end{numberedframe}
+\end{python}
 \end{comment}
 
 \begin{numberedframe}{Inner product calculation}
@@ -306,8 +309,10 @@ random_value = random.random()
 \begin{numberedframe}{Inner product calculation another way}
   What are (at least two) problems with:
 \begin{lstlisting}
-double local_inprod[localsize],global_inprod[localsize];
-MPI_Allreduce( &local_inprod, &global_inprod, 
+double local_prod[localsize],global_inprod[localsize];
+for (i=0; i<localsize; i++)
+    local_prod[i] = x[i]*y[i];
+MPI_Allreduce( &local_prod, &global_inprod, 
                localsize,MPI_DOUBLE,MPI_SUM,comm )
 \end{lstlisting}
 \end{numberedframe}
@@ -579,12 +584,6 @@ typedef void MPI_User_function
     ( void *invec, void *inoutvec, int *len, 
       MPI_Datatype *datatype); 
 \end{lstlisting}
-\lstset{language=Fortran}
-\begin{lstlisting}
-FUNCTION user_function( invec(*), inoutvec(*), length, mpitype)
-<fortrantype> :: invec(length), inoutvec(length) 
-INTEGER :: length, mpitype
-\end{lstlisting}
 \item Don't forget to free:
 \lstset{language=C}
 \begin{lstlisting}
@@ -593,6 +592,17 @@ int MPI_Op_free(MPI_Op *op)
 \item Make your own reduction scheme \indexmpishow{MPI_Reduce_local}
   \end{itemize}
 \end{numberedframe}
+
+\begin{fortran}
+\begin{numberedframe}{User defined operators, Fortran}
+\lstset{language=Fortran}
+\begin{lstlisting}
+FUNCTION user_function( invec(*), inoutvec(*), length, mpitype)
+<fortrantype> :: invec(length), inoutvec(length) 
+INTEGER :: length, mpitype
+\end{lstlisting}
+\end{numberedframe}
+\end{fortran}
 
 \protoslide{MPI_Op_create}
 
@@ -645,6 +655,28 @@ int MPI_Op_free(MPI_Op *op)
 
   \slackpollTF+there are collectives that do not communicate data+
 \end{reviewframe}
+
+\subsectionframe{Reduction operators}
+
+\begin{numberedframe}{User-defined operators}
+\lstset{language=C}
+Given a reduction function:
+\begin{lstlisting}
+typedef void user_function
+    ( void *invec, void *inoutvec, int *len, 
+      MPI_Datatype *datatype); 
+\end{lstlisting}  
+create a new operator:
+\begin{lstlisting}
+MPI_Op rwz;
+MPI_Op_create(user_function,1,&rwz);
+MPI_Allreduce(data+procno,&positive_minimum,1,MPI_INT,rwz,comm);
+\end{lstlisting}
+\end{numberedframe}
+
+\begin{exerciseframe}[onenorm]
+  \input ex:one-norm-op
+\end{exerciseframe}
 
 \endinput
 

@@ -4,7 +4,7 @@
 %%%%
 %%%% This text file is part of the lecture slides for
 %%%% `Parallel Computing'
-%%%% by Victor Eijkhout, copyright 2012-2020
+%%%% by Victor Eijkhout, copyright 2012-2022
 %%%%
 %%%% Data-slides.tex : slides about data types
 %%%%
@@ -129,10 +129,6 @@ int MPI_Type_vector(
 Used to pick a regular subset of elements from an array.
 \end{numberedframe}
 
-\begin{numberedframe}{}
-\cverbatimsnippet{vector}
-\end{numberedframe}
-
 \begin{numberedframe}{Different send and receive types}
   Send and receive type can differ. Example:\\
   Sender type: vector\\ receiver type: contiguous or elementary
@@ -140,6 +136,10 @@ Used to pick a regular subset of elements from an array.
   \includegraphics[scale=.1]{data-vector-to-contiguous}
 
   Receiver has no knowledge of the stride of the sender.
+\end{numberedframe}
+
+\begin{numberedframe}{Send vs recv type}
+\cverbatimsnippet{vector}
 \end{numberedframe}
 
 \begin{numberedframe}{Illustration of the next exercise}
@@ -224,6 +224,7 @@ Subtle: data does not start at the buffer start
   \input ex:cubegather
 \end{exerciseframe}
 
+\begin{fortran}
 \begin{numberedframe}{Fortran `kind' types}
   Check out
 \indexmpishow{MPI_Type_create_f90_integer},
@@ -239,6 +240,7 @@ Type(MPI_Datatype) :: realtype
 CALL MPI_Type_create_f90_real( 15 , 300 , realtype , error )
 \end{lstlisting}
 \end{numberedframe}
+\end{fortran}
 
 \sectionframe{Extent and resizing}
 

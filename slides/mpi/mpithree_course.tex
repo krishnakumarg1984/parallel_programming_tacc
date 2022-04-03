@@ -4,7 +4,7 @@
 %%%%
 %%%% This text file is part of the source of 
 %%%% `Parallel Computing'
-%%%% by Victor Eijkhout, copyright 2012-2021
+%%%% by Victor Eijkhout, copyright 2012-2022
 %%%%
 %%%% mpi_course.tex : master file for an MPI course
 %%%%
@@ -54,11 +54,12 @@
 \def\Location{TACC APP institute MPI training \courseyear}
 \def\Location{TACC/XSEDE MPI training \courseyear}
 \def\Location{ISS 2021}
-\def\Location{PEARC2021\\
+\def\Location{PEARC2022}
+\iffalse
   \small
   \url{http://tinyurl.com/pearc21-tacc-advmpi}\\
   \texttt{\char126 train00/mpithree\_course\_2021.tgz}
-}
+\fi
 \def\TitleExtra{}
 
 %%%%
@@ -70,6 +71,8 @@
   name=programming,
   listname={List of Exercises},
   ]{lox}
+
+\input lang
 
 %%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%% Document
@@ -100,41 +103,6 @@
   \end{frame}
 \end{download}
 
-\begin{lab}
-  \begin{frame}[containsverbatim]{Materials and labs}
-    Textbook and lecture slides: \url{https://tinyurl.com/vle335course}
-
-    Labs:
-    \begin{itemize}
-    \item Login
-\begin{verbatim}
-  ssh you@frontera.tacc.utexas.edu
-\end{verbatim}
-
-\item Get exercise material:\\
-\begin{verbatim}
-  tar fxz ~train00/mpithree_course_2021.tgz
-\end{verbatim}
-
-\item Pick your favorite language:\\
-\begin{verbatim}
-  cd mpithree_course/exercises-mpi-c
-\end{verbatim}
-  or \n{f08} or \n{p}
-\item Get a compute node:
-\begin{verbatim}
-  idev -t 3:0:0
-\end{verbatim}
-
-\item Can you make an exercise?\\
-\begin{verbatim}
-  make hello && ibrun hello
-\end{verbatim}
-
-    \end{itemize}
-  \end{frame}
-\end{lab}
-
 \begin{frame}{Justification}
   Version 3 of the MPI standard has added a number
   of features, some geared purely towards functionality,
@@ -144,7 +112,7 @@
   and more flexible process management.
 
   Note: MPI-3 as of 2012, 3.1 as of~2015. Fully supported everywhere.\\
-  MPI-4 as of June 2021. Partial support in mpich alpha version.
+  MPI-4 as of June 2021. Partial support in mpich version~4.0.1.
 \end{frame}
 
 \Level 0 {Fortran bindings}
@@ -172,13 +140,13 @@
 \Level 0 {Process management}
 \input Spawn-slides
 
+\end{document}
+
 \Level 0 {Appendix: Intercommunicator recap}
 \input{sl:comm-inter}
 \input{sl:intercomm-picture}
 \input{sl:intercomm-concepts}
 \input{sl:intercomm-routines}
-
-\end{document}
 
 \coursepart{Supplemental material}
 

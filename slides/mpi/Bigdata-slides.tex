@@ -4,7 +4,7 @@
 %%%%
 %%%% This text file is part of the lecture slides for
 %%%% `Parallel Computing'
-%%%% by Victor Eijkhout, copyright 2020
+%%%% by Victor Eijkhout, copyright 2022
 %%%%
 %%%% Bigdata-slides.tex : slides about messages beyond 2G
 %%%%
@@ -53,7 +53,7 @@ Integer(kind=MPI_COUNT_KIND) :: count
 \lstset{language=C}
 Big enough for \lstinline{int}, \indexmpishow{MPI_Aint}, \indexmpishow{MPI_Offset}.
 
-However, this type could not be used to describe send buffers.
+However, this type could not be used in MPI-3 to describe send buffers.
 \end{numberedframe}
 
 \begin{numberedframe}{MPI 4 large count routines}
@@ -72,6 +72,10 @@ Integer(kind=MPI_COUNT_KIND) :: count
 call MPI_Send( buff,count, MPI_INTEGER, ... )
 \end{lstlisting}
 \lstset{language=C}
+\end{numberedframe}
+
+\begin{numberedframe}{Big count example}
+  \cverbatimsnippet{bigpingpong}
 \end{numberedframe}
 
 \protoslide{MPI_Send}
@@ -103,50 +107,36 @@ call MPI_Get_elements( status,MPI_INTEGER,count )
   \cverbatimsnippet{bigvectorrecv}
 \end{numberedframe}
 
-\begin{numberedframe}{So what's the problem?}
-  \begin{itemize}
-  \item Remember that in a receive call the buffer size is an upper bound.
-  \item You use \lstinline{MPI_Get_count} to ask how much you got
-  \item \ldots~that tells you how many semi-big objects there were
-  \item There is also \lstinline{MPI_Get_elements} that counts the underlying type
-  \item \ldots~and returns an \lstinline{int}.
-  \end{itemize}
-\end{numberedframe}
-
 \begin{numberedframe}{Large int counting}
-  New to MPI-3: 
-  \begin{itemize}
-  \item Datatype \lstinline{MPI_Count}
-  \item Routines such as \lstinline{MPI_Get_elements_x}
-  \end{itemize}
-  \cverbatimsnippet{bigvectorq}
+  MPI-3 mechanism, deprecated (probably) in MPI-4.1: 
 
-  MPI-4 will use \lstinline{MPI_Count} parameters everywhere,\\
-  in Fortran through polymorphism, in~C through \n{_c} suffix.
+  By composing types you can make a `big type'. Use\\
+  \indexmpishow{MPI_Type_get_extent_x},
+  \indexmpishow{MPI_Type_get_true_extent_x},
+   \lstinline{MPI_Get_elements_x}\\
+  to query.
+
+  \cverbatimsnippet{bigvectorq}
 \end{numberedframe}
 
 %\protoslide{MPI_Get_elements_x}
 
-\begin{numberedframe}{Big types}
-  By composing types you can make a `big type'. Use
-  \begin{itemize}
-  \item \indexmpishow{MPI_Type_get_extent_x},
-    \indexmpishow{MPI_Type_get_true_extent_x}
-  \end{itemize}
-  to query.
-  These return \lstinline{MPI_Count} instead of \lstinline{int}.
-\end{numberedframe}
+\begin{comment}
+  \begin{numberedframe}{For your amusement}
+    What do you get if you print the following:
+    \cverbatimsnippet{compsizet}
+    ?
+  \end{numberedframe}
+\end{comment}
 
-\begin{numberedframe}{For your amusement}
-What do you get if you print the following:
-\cverbatimsnippet{compsizet}
-?
-\end{numberedframe}
-
+\begin{comment}
+\begin{python}
 \begin{numberedframe}{Big data in python}
   The \n{mpi4py} interface uses Python integers,\\
   which are 8 bytes. So the \n{_x} routines are not needed.
 \end{numberedframe}
+\end{python}
+\end{comment}
 
 \endinput
 

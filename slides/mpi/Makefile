@@ -3,7 +3,7 @@
 ####
 #### This makefile is part of the source of 
 #### "Parallel Programming in MPI and OpenMP"
-#### by Victor Eijkhout, copyright 2013-2020
+#### by Victor Eijkhout, copyright 2013-2022
 ####
 #### Makefile for MPI course slides
 ####
@@ -20,11 +20,19 @@ COURSE = mpi
 COURSES  = mpi mpl mpithree
 EXTRATEXINPUTS =
 
+LANGUAGE = all
+LANGUAGES = c f p
+course_prep ::
+	@cp lang_${LANGUAGE}.tex lang.tex
 include ../course-support/Make.course
-DROPBOXPATH = Courses
 
+info ::
+	@echo "make jordan.pdf"
+.PHONY: jordan.pdf
 jordan.pdf :
 	@TEXINPUTS=../graphics:${TEXINPUTS} ${ENGINE} jordan.tex
+clean ::
+	@rm -f jordan/*~
 
 exercisecheck :
 	exercises=` grep exerciseframe *.tex | grep '\[' | cut -d [ -f 2 | cut -d ] -f 1 \
@@ -40,8 +48,9 @@ exercisecheck :
 	        done ; \
 	   done
 
-include ../../booksources/makefiles/Make.clean
+DROPBOXPATH = Courses
 
+include ../../booksources/makefiles/Make.clean
 total_clean ::
 	@for f in ${FILES} ; do \
 	  rm -f $${f}.pdf ; \

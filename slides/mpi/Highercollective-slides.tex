@@ -4,58 +4,40 @@
 %%%%
 %%%% This text file is part of the lecture slides for
 %%%% `Parallel Computing'
-%%%% by Victor Eijkhout, copyright 2018-2021
+%%%% by Victor Eijkhout, copyright 2018-2022
 %%%%
 %%%% Highercollective-slides.tex : more slides about collective operations
 %%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{numberedframe}[containsverbatim]{User-defined operators}
-\lstset{language=C}
-Given a reduction function:
-\begin{lstlisting}
-typedef void user_function
-    ( void *invec, void *inoutvec, int *len, 
-      MPI_Datatype *datatype); 
-\end{lstlisting}  
-create a new operator:
-\begin{lstlisting}
-MPI_Op rwz;
-MPI_Op_create(user_function,1,&rwz);
-MPI_Allreduce(data+procno,&positive_minimum,1,MPI_INT,rwz,comm);
-\end{lstlisting}
-\end{numberedframe}
-
-\begin{exerciseframe}[onenorm]
-  \input ex:one-norm-op
-\end{exerciseframe}
-
 \begin{numberedframe}{Non-blocking collectives}
   \label{sl:coll-nonblock-intro}
   \begin{itemize}
   \item Collectives are blocking.
   \item Compare blocking/non-blocking sends:\\
-    \indexmpishow{MPI_Send} $\rightarrow$ \indexmpishow{MPI_Isend}
+    \indexmpishow{MPI_Send} $\rightarrow$ \indexmpishow{MPI_Isend}\\
+    immediate return of control, produce request object.
   \item Non-blocking collectives:\\
-    \indexmpishow{MPI_Bcast} $\rightarrow$ \indexmpishow{MPI_Ibcast}
+    \indexmpishow{MPI_Bcast} $\rightarrow$ \indexmpishow{MPI_Ibcast}\\
+    Same: 
+\begin{lstlisting}
+MPI_Isomething( <usual arguments>, MPI_Request *req);
+\end{lstlisting}
+\item Considerations:
+  \begin{itemize}
+  \item
+    Calls return immediately;
+  \item the usual story about buffer reuse
+  \item Requires \lstinline{MPI_Wait}\texttt{...} for completion.
+  \item Multiple collectives can complete in any order
+  \end{itemize}
+\item Why?
+  \begin{itemize}
   \item Use for overlap communication/computation
   \item Imbalance resilience
   \item Allows pipelining
   \end{itemize}
-\end{numberedframe}
-
-\begin{numberedframe}{Use of non-blocking collectives}
-  \label{sl:coll-nonblock-use}
-  \begin{itemize}
-  \item Similar calls, but output a request object:
-\begin{lstlisting}
-MPI_Isomething( <usual arguments>, MPI_Request *req);
-\end{lstlisting}
-  \item Calls return immediately;\\
-    the usual story about buffer reuse
-  \item Requires \lstinline{MPI_Wait}\texttt{...} for completion.
-  \item Multiple collectives can complete in any order
   \end{itemize}
 \end{numberedframe}
 
@@ -132,6 +114,8 @@ else
 
   \cverbatimsnippet{itransposescatter}
 \end{numberedframe}
+
+\subsectionframe{Persistent collectives}
 
 \begin{numberedframe}{Persistent collectives (MPI-4)}
   Similar to persistent send/recv:

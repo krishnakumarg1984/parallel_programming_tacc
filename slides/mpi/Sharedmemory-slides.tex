@@ -46,7 +46,7 @@
     process' data, but only through function calls.
   \item MPI-3 shared memory gives you a pointer to another process'
     memory,\\
-    \emph{if that process is on shared memory}.
+    \emph{if that process is on the same shared memory}.
   \end{itemize}
 \end{numberedframe}
 
@@ -76,7 +76,7 @@
   \begin{itemize}
   \item
     \indexmpishow{MPI_Comm_split_type} splits into communicators of same type.
-  \item Only supported type: \indexmpishow{MPI_COMM_TYPE_SHARED} splitting by
+  \item Use type: \indexmpishow{MPI_COMM_TYPE_SHARED} splitting by
     shared memory.\\
     (MPI-4: split by other hardware features through \indexmpishow{MPI_COMM_TYPE_HW_GUIDED}
     and \indexmpidef{MPI_Get_hw_resource_types})

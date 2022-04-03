@@ -72,6 +72,8 @@
 \end{xsede}
 \def\TitleExtra{}
 
+\input lang
+
 %%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%% Document
 %%%%%%%%%%%%%%%%
@@ -177,10 +179,10 @@ export TACC_MPL_INC=/work2/00434/eijkhout/mpl/mpl
 \end{numberedframe}
 \begin{numberedframe}{Reduce on non-root processes}
   \footnotesize
-  \input{mplnote-non-root-variants.cut}
+  \input{mplnote-reduce-on-non-root.cut}
 \end{numberedframe}
 \begin{numberedframe}{Gather on non-root}
-  \input{mplnote-gather-on-non-root.cut}
+  \input{mplnote-gather-on-nonroot.cut}
 \end{numberedframe}
 \referenceframe{Gather}
 \begin{numberedframe}{Reduce in place}
@@ -213,8 +215,8 @@ export TACC_MPL_INC=/work2/00434/eijkhout/mpl/mpl
 \begin{numberedframe}{Lambda reduction operators}
   \input{mplnote-lambda-operator.cut}
 \end{numberedframe}
-\begin{numberedframe}{Non-blocking collectives}
-  \input{mplnote-non-blocking-collectives.cut}
+\begin{numberedframe}{Nonblocking collectives}
+  \input{mplnote-nonblocking-collectives.cut}
 \end{numberedframe}
 
 \Level 0 {Point-to-point communication}
@@ -246,8 +248,8 @@ export TACC_MPL_INC=/work2/00434/eijkhout/mpl/mpl
   \input{mplnote-receive-count.cut}
 \end{numberedframe}
 
-\begin{numberedframe}{Requests from non-blocking calls}
-  \input{mplnote-requests-from-non-blocking-calls.cut}
+\begin{numberedframe}{Requests from nonblocking calls}
+  \input{mplnote-requests-from-nonblocking-calls.cut}
 \end{numberedframe}
 \begin{numberedframe}{Request pools}
   \input{mplnote-request-pools.cut}

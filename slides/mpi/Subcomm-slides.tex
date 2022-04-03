@@ -4,7 +4,7 @@
 %%%%
 %%%% This text file is part of the lecture slides for
 %%%% `Parallel Computing'
-%%%% by Victor Eijkhout, copyright 2012-2021
+%%%% by Victor Eijkhout, copyright 2012-2022
 %%%%
 %%%% Subcomm-slides.tex : slides about communicator manipulation
 %%%%
@@ -170,6 +170,37 @@ but only one \n{column_comm} variable. Why?
   \item Process topologies: cartesian and graph.\\
     There will also be a section about this, later.
   \end{itemize}
+\end{numberedframe}
+
+\sectionframe{Cartesian topologies}
+
+\begin{numberedframe}{Cartesian decomposition}
+\csnippetwithoutput{dimscreate}{examples/mpi/c}{cartdims}
+\end{numberedframe}
+
+\begin{numberedframe}{Create/test Cartesian topology}
+  \cverbatimsnippet{cartcreate}
+
+  \cverbatimsnippet{cartget}
+\end{numberedframe}
+
+\begin{comment}
+  \begin{numberedframe}{Topology testing}
+    \cverbatimsnippet{carttypetest}  
+  \end{numberedframe}
+\end{comment}
+
+\begin{numberedframe}{Rank translation}
+  \cverbatimsnippet[examples/mpi/c/cart.c]{cart}
+\end{numberedframe}
+
+\begin{numberedframe}{Cartesian communication}
+  \cverbatimsnippet[examples/mpi/c/cartcoord.c]{cartperiod0}
+  \csnippetwithoutput{cartshift01}{examples/mpi/c}{cartshift}
+\end{numberedframe}
+
+\begin{numberedframe}{Subgrids}
+  \csnippetwithoutput{hyperplane13p}{examples/mpi/c}{cartsub}
 \end{numberedframe}
 
 \endinput
