@@ -11,14 +11,15 @@
 
 \sectionframe{Getting started}
 
-\begin{numberedframe}{Include files}
-C:
+\begin{c}
+\begin{numberedframe}{Include files, C}
 \lstset{language=C}
 \begin{lstlisting}
 #include "petsc.h"
 int main(int argc,char **argv)
 \end{lstlisting}
 \end{numberedframe}
+\end{c}
 
 \begin{fortran}
 \lstset{language=Fortran}
@@ -44,6 +45,7 @@ from petsc4py import PETSc
 \end{python}
 
 \lstset{language=C}
+\begin{c}
 \begin{numberedframe}{Variable declarations, C}
 \begin{lstlisting}
   KSP            solver;
@@ -55,6 +57,7 @@ from petsc4py import PETSc
 \end{lstlisting}
 Note Scalar vs Real
 \end{numberedframe}
+\end{c}
 
 \lstset{language=Fortran}
 \begin{fortran}
@@ -73,12 +76,14 @@ Much like in C
 
 \lstset{language=C}
 
+\begin{c}
 \begin{numberedframe}{Library setup, C}
 \cverbatimsnippet{petscinit}
 Can replace \lstinline{MPI_Init}
 
 General: Every routine has an error return. Catch that value!
 \end{numberedframe}
+\end{c}
 
 \lstset{language=Fortran}
 \begin{fortran}
@@ -147,6 +152,20 @@ from process zero.
 
 \petscroutineslide{PetscPrintf}
 
+\begin{fortran}
+\begin{numberedframe}{PetscPrintf in Fortran}
+Can only print character buffer:
+\begin{lstlisting}
+  character*80      msg
+  write(msg,10) n
+ 10 format("Input parameter:",i5)
+  call PetscPrintf(PETSC_COMM_WORLD,msg,ierr)
+\end{lstlisting}
+Less elegant than \lstinline{PetscPrintf} in C
+\end{numberedframe}
+\end{fortran}
+
+\begin{c}
 \begin{numberedframe}{About routine prototypes: C/C++}
   \label{sec:protos}
 Prototype:
@@ -162,6 +181,7 @@ ierr = VecCreate( comm,&vec ); CHKERRQ(ierr).
 \end{lstlisting}
 (always good idea to catch that error code)
 \end{numberedframe}
+\end{c}
 
 \lstset{language=Fortran}
 \begin{fortran}
@@ -221,7 +241,7 @@ PETSc.Sys.Print("detecting n option")
 \end{python}
 
 \lstset{language=C}
-\begin{details}
+
 \begin{numberedframe}{Note to self}
 \begin{lstlisting}
   PetscInitialize
@@ -236,6 +256,7 @@ This displays the usage note, plus all available petsc options.
 Not available in Fortran
 \end{numberedframe}
 
+\begin{c}
 \begin{numberedframe}{Routine start/end, C}
 Debugging support:
 \begin{lstlisting}
@@ -247,6 +268,7 @@ leads to informative tracebacks.
 
 (Only in C, not in Fortran)
 \end{numberedframe}
+\end{c}
 
 \begin{numberedframe}{Example: function with error}
 \cverbatimsnippet{petscbacktrace}
@@ -289,6 +311,7 @@ Root of 1.500000 is 1.224745
 \endgroup
 \end{exerciseframe}
 
+\begin{c}
 \begin{numberedframe}{Commandline arguments, C}
 (I'm leaving out the \lstinline{CHKERRQ(ierr)} in the examples,\\
 but do use this in actual code)
@@ -301,28 +324,22 @@ ierr = PetscPrintf
 Read commandline argument, print out from processor zero;\\
 flag can be \lstinline{PETSC_NULL} if not wanted
 \end{numberedframe}
+\end{c}
 
 \lstset{language=Fortran}
 \begin{fortran}
-\begin{numberedframe}{Program parameters, F}
+\begin{numberedframe}{Commandline argument, F}
 \begin{lstlisting}
-  character*80      msg
   call PetscOptionsGetInt(
     PETSC_NULL_OPTIONS, PETSC_NULL_CHARACTER, &
       "-n",n,PETSC_NULL_BOOL,ierr)
-  write(msg,10) n
- 10 format("Input parameter:",i5)
-  call PetscPrintf(PETSC_COMM_WORLD,msg,ierr)
 \end{lstlisting}
-Less elegant than \lstinline{PetscPrintf} in C
 
 Note the \lstinline{PETSC_NULL_XXX}: Fortran has strict type checking.
 \end{numberedframe}
 \end{fortran}
 
 \lstset{language=C}
-
-\end{details}
 
 \lstset{language=Python}
 \begin{python}

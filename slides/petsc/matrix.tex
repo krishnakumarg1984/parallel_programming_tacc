@@ -139,7 +139,7 @@ Matrix partitioned by block rows:
 \begin{lstlisting}
 MatGetSize(Mat mat,PetscInt *M,PetscInt* N);
 MatGetLocalSize(Mat mat,PetscInt *m,PetscInt* n);
-MatGetOwnershipRange(Mat A,int *first row,int *last row);
+MatGetOwnershipRange(Mat A,int *first_row,int *last_row);
 \end{lstlisting}
  In query functions, unneeded components can be specified as
  \lstinline{PETSC_NULL}.\\

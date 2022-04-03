@@ -46,7 +46,10 @@ Use \lstinline{PETSC_NULL} for the default)
 \end{numberedframe}
 
 \begin{numberedframe}{Grid info}
-  \tiny
+  Divide $100\times 100$ grid over 4 processes,\\
+  stencil width$=1$:
+
+  \def\codefontsize{\tiny}
   \csnippetwithoutput{dm2dcreate}{examples/petsc/c}{dmcreate}
 \end{numberedframe}
 
@@ -74,6 +77,20 @@ typedef struct {
 \end{lstlisting}
 \end{numberedframe}
 
+\begin{numberedframe}{Range over local subdomain}
+\begin{lstlisting}
+for (int j=info.ys; j<info.ys+info.ym; j++) {
+  for (int i=info.xs; i<info.xs+info.xm; i++) {
+    // actions on point i,j
+  }
+}
+\end{lstlisting}
+\end{numberedframe}
+
+\begin{numberedframe}{Arrays of vectors}
+  \cverbatimsnippet[examples/petsc/c/dmrhs.c]{dmghostvec}
+\end{numberedframe}
+
 \begin{numberedframe}{Operating on arrays}
   \cverbatimsnippet[examples/petsc/c/dmrhs.c]{dmghostsweep}  
 \end{numberedframe}
@@ -94,37 +111,9 @@ MatSetValuesStencil(Mat mat,
 (ordering of row/col variables too complicated for \lstinline{MatSetValues})
 \end{numberedframe}
 
-%% \begin{numberedframe}{Looping over the grid}
-%% Loop over local part of the grid:
-%% \begin{lstlisting}
-%% DMDAGetCorners(DMDA da,
-%%   PetscInt *x,PetscInt *y,PetscInt *z,
-%%   PetscInt *m,PetscInt *n,PetscInt *p)
-%% \end{lstlisting}
-%% \end{numberedframe}
-
 \begin{numberedframe}{Set values by stencil}
-\begin{lstlisting}
-DMDALocalInfo  info;
-ierr = DMDAGetLocalInfo(grid,&info);CHKERRQ(ierr);
-for (int j=info.ys; j<info.ys+info.ym; j++) {
-  for (int i=info.xs; i<info.xs+info.xm; i++) {
-    MatStencil  row = {0}, col[5 ] = {{0}};
-    PetscScalar v[ 5 ];
-    PetscInt    ncols = 0;
-    row.j        = j; row.i = i;
-    // diagonal element:
-    col[ncols].j = j; col[ncols].i = i; v[ncols++] = 4.;
-    /* boundaries: top row */
-    if (i>0)
-        {col[ncols].j = j;   col[ncols].i = i-1; v[ncols++] = -1.;}
-    /* boundary left and right */
-    if (j>0)
-        {col[ncols].j = j-1; col[ncols].i = i;   v[ncols++] = -1.;}
-    if (j<info.my-1)
-        {col[ncols].j = j+1; col[ncols].i = i;   v[ncols++] = -1.;}
-[et cetera]    
-\end{lstlisting}
+  \footnotesize
+  \cverbatimsnippet{grid2d5pt}
 \end{numberedframe}
 
 \begin{numberedframe}{DMPlex}
@@ -132,29 +121,4 @@ for (int j=info.ys; j<info.ys+info.ym; j++) {
 
   This is complicated and under-documented.
 \end{numberedframe}
-
-\endinput
-
-% \begin{numberedframe}{Indexing, setting, getting values}
-% \begin{lstlisting}
-% PetscScalar **f,**u;
-% ...
-% DMDAVecGetArray(DMDA da,Vec local,(void*)u);
-% DMDAVecGetArray(DMDA da,Vec global,(void*)f);
-% ...
-% f[i][j] = u[i][j] - ...
-% ...
-% DMDAVecRestoreArray(DMDA da,Vec local,(void*)u);
-% DMDAVecRestoreArray(DMDA da,Vec global,(void*)f);
-
-% Global indexing, but only local entries are defined.
-
-% DMDAGetCorners(DMDA da,int *x,int *y,int *z,int *m,int *n,int *p);
-% DMDAGetGhostCorners(DMDA da,int *x,int *y,int *z,int *m,int *n,int *p);
-% \end{lstlisting}
-
-% (also global?)
-
-% }
-
 

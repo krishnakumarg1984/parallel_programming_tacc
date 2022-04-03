@@ -22,7 +22,6 @@ Everything in PETSc is an object, with create and destroy calls:
 VecCreate(MPI_Comm comm,Vec *v);
 VecDestroy(Vec *v);
 
-/* C */
 Vec V;
 VecCreate(MPI_COMM_WORLD,&V);
 VecDestroy(&V);
@@ -33,8 +32,7 @@ VecDestroy(&V);
 \begin{fortran}
 \begin{numberedframe}{Create calls, Fortran}
 \begin{lstlisting}
-! Fortran
-Vec V
+Vec :: V
 call VecCreate(MPI_COMM_WORLD,V,e)
 call VecDestroy(V,e)
 \end{lstlisting}
@@ -139,7 +137,7 @@ VecSetValue
 i = 1; v = 3.14;
 VecSetValue(x,i,v,INSERT_VALUES);
 
-call VecSetValue(x,i,v,INSERT_VALUES)
+call VecSetValue(x,i,v,INSERT_VALUES,e)
 \end{lstlisting}
 The other insertmode is \indexpetscshow{ADD_VALUES}.
 \end{numberedframe}
