@@ -78,12 +78,12 @@ MPI_Waitall(2,reqs,MPI_STATUSES_IGNORE);
 \end{lstlisting}
 \end{numberedframe}
 
-\begin{exerciseframe}[procgridnonblock]
-  \label{sl:coll-nonblock-exgrid}
-  \hyperlink{ex:rowcolcomm}{\beamergotobutton{Earlier procgrid exercise}}
+%% \begin{exerciseframe}[procgridnonblock]
+%%   \label{sl:coll-nonblock-exgrid}
+%%   \hyperlink{ex:rowcolcomm}{\beamergotobutton{Earlier procgrid exercise}}
 
-  \input ex:procgridnonblock
-\end{exerciseframe}
+%%   \input ex:procgridnonblock
+%% \end{exerciseframe}
 
 \begin{numberedframe}{Matching collectives}
   \label{sl:coll-nonblock-match}
@@ -155,7 +155,7 @@ Available for all collectives and neighborhood collectives.
   \end{numberedframe}
 \end{comment}
 
-\sectionframe{Non-blocking barrier}
+\subsectionframe{Non-blocking barrier}
 
 \begin{numberedframe}{Just what is a barrier?}
   \begin{itemize}
@@ -203,15 +203,15 @@ Available for all collectives and neighborhood collectives.
 \cverbatimsnippet{ibarrierpoll}
 \end{numberedframe}
 
-\begin{exerciseframe}[ibarrierupdate]
-  \begin{itemize}
-  \item Let each process send to a random number of randomly chosen
-    neighbors. Use \indexmpishow{MPI_Isend}.
-  \item Write the main loop with the \indexmpishow{MPI_Test} call.
-  \item Insert an \indexmpishow{MPI_Iprobe} call and process incoming messages.
-  \item Can you make sure that all sends are indeed processed?
-  \end{itemize}
-\end{exerciseframe}
+%% \begin{exerciseframe}[ibarrierupdate]
+%%   \begin{itemize}
+%%   \item Let each process send to a random number of randomly chosen
+%%     neighbors. Use \indexmpishow{MPI_Isend}.
+%%   \item Write the main loop with the \indexmpishow{MPI_Test} call.
+%%   \item Insert an \indexmpishow{MPI_Iprobe} call and process incoming messages.
+%%   \item Can you make sure that all sends are indeed processed?
+%%   \end{itemize}
+%% \end{exerciseframe}
 
 \endinput
 

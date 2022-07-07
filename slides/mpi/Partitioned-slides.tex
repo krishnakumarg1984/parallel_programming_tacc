@@ -4,9 +4,9 @@
 %%%%
 %%%% This text file is part of the lecture slides for
 %%%% `Parallel Computing'
-%%%% by Victor Eijkhout, copyright 2020
+%%%% by Victor Eijkhout, copyright 2020-2022
 %%%%
-%%%% Bigdata-slides.tex : slides about messages beyond 2G
+%%%% Partitioned-slides.tex : slides about partitioned sends
 %%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -17,6 +17,15 @@
 
   Partitioned send/recv:\\
   the contributions can be declared/tested
+
+  Flexibility:\\
+  MPI can send big message or pipeline or send-on-demand
+\end{numberedframe}
+
+\begin{numberedframe}{Create partitions}
+  Buffer consists of equal sized partitions:
+  
+  \cverbatimsnippet{psendbufferpart}
 \end{numberedframe}
 
 \begin{numberedframe}{Init calls}
@@ -33,11 +42,10 @@ MPI_Precv_init
 \end{numberedframe}
 
 \begin{numberedframe}{Partitioned send}
-\cverbatimsnippet{psendsend}
-\end{numberedframe}
 
-\begin{numberedframe}{Partitioned receive}
-  \cverbatimsnippet{psendrecv}
+  Sender-side scenario, multiple messages:
+  
+  \cverbatimsnippet{psendsend}
 \end{numberedframe}
 
 \begin{numberedframe}{Partitioned receive tests}
@@ -48,3 +56,8 @@ MPI_Parrived(recv_request,ipart,&flag);
 to test for arrived partitions.
 \end{numberedframe}
 
+\begin{numberedframe}{Partitioned receive}
+  Receiver-side: handle partitions as they come in:
+
+  \cverbatimsnippet{psendrecv}
+\end{numberedframe}

@@ -6,7 +6,7 @@
 %%%% `Parallel Computing'
 %%%% by Victor Eijkhout, copyright 2012-2022
 %%%%
-%%%% mpi_course.tex : master file for an advanced MPI course
+%%%% mpi_sweden_course.tex : master file for an MPI lecture in Uppsala
 %%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -32,7 +32,6 @@
 \input acromacs
 \input slidemacs
 \input coursemacs
-\excludecomment{solutions}
 \input listingmacs
 \input snippetmacs
 
@@ -43,7 +42,7 @@
 \specialcomment{tacc}{\stepcounter{tacc}\def\CommentCutFile{tacc\arabic{tacc}.cut}}{}
 \newcounter{tacc}
 %\excludecomment{tacc}
-\includecomment{xsede}
+\excludecomment{xsede}
 
 \includecomment{download}
 \excludecomment{lab}
@@ -53,10 +52,10 @@
 \includecomment{foundations}
 
 \def\Location{}% redefine in the inex file
-\def\courseyear{2022}
+\def\courseyear{2021}
 \def\Location{TACC APP institute MPI training \courseyear}
 \def\Location{TACC/XSEDE MPI training \courseyear}
-\def\Location{PEARC2022}
+\def\Location{Uppsala MPI course}
 \iffalse
   \small
   \url{http://tinyurl.com/pearc21-tacc-advmpi}\\
@@ -83,7 +82,7 @@
 \begin{document}
 \parskip=10pt plus 5pt minus 3pt
 
-\title{Advanced Features of MPI-3 and MPI-4}
+\title{Advanced MPI Use}
 \author{Victor Eijkhout {\tt eijkhout@tacc.utexas.edu}}
 \date{\Location}
 
@@ -95,12 +94,36 @@
   \input xsede-conduct
 \end{xsede}
 
+\begin{frame}{Table of Contents}
+  \def\contentsline####1####2####3####4{\item ####2}
+  \IfFileExists{\jobname.toc}
+               {\begin{itemize}
+                   \tableofcontents
+               \end{itemize}
+               }{}
+\end{frame}
+
 \begin{download}
   \begin{frame}[containsverbatim]{Materials}
     Textbooks and repositories:\\
-    \url{https://theartofhpc.com/pcse}
+    \url{https://theartofhpc.com}
   \end{frame}
 \end{download}
+
+\Level 0 {Atomic operations}
+\input Atomic-slides
+%\input{sl:fetchop}
+ 
+\Level 0 {Shared memory}
+\input Sharedmemory-slides
+
+\Level 0 {Advanced collectives}
+\input Highercollective-slides
+
+\Level 0 {Process topologies}
+\input Graph-slides
+
+\coursepart{MPI-4}
 
 \begin{frame}{Justification}
   Version 3 of the MPI standard has added a number
@@ -120,23 +143,11 @@
 \Level 0 {Big data communication}
 \input Bigdata-slides
 
-\Level 0 {Advanced collectives}
-\input Highercollective-slides
-
-\Level 0 {Shared memory}
-\input Sharedmemory-slides
-
-\Level 0 {Atomic operations}
-\input Atomic-slides
- 
 \Level 0 {Partitioned communication}
 \input Partitioned-slides
 
 \Level 0 {Sessions model}
 \input Sessions-slides
-
-\Level 0 {Process topologies}
-\input Graph-slides
 
 \Level 0 {Other MPI-4 material}
 
@@ -150,7 +161,6 @@
     process tried to communicate
     with a process that has aborted.
   \end{itemize}
-
 \end{numberedframe}
 
 \begin{numberedframe}{Error as C-string}
@@ -164,22 +174,43 @@ int MPI_Info_get_string
 \end{lstlisting}
 \end{numberedframe}
 
+\begin{numberedframe}{Comm split by hw type}
+  \indexmpishow{MPI_Comm_split_type} has exactly one type in MPI-3:
+  \indexmpishow{MPI_COMM_TYPE_SHARED}
+
+  MPI-4: types
+  \begin{itemize}
+  \item \indexmpishow{MPI_COMM_TYPE_HW_GUIDED} use \lstinline{info}
+    to specify hardware type
+  \item \indexmpishow{MPI_COMM_TYPE_HW_UNGUIDED},
+    same but strict subset
+  \end{itemize}
+  Query types with \indexmpidef{MPI_Get_hw_resource_types}.
+\end{numberedframe}
+
+\Level 0 {MPL: a C++ interface to MPI}
+
+%\excludecomment{mplimpl}
+\input mpl_short_slides
+
 \Level 0 {Summary}
 
 \begin{numberedframe}{Summary}
   \begin{itemize}
+  \item Atomic one-sided communication and shared memory (MPI-3)
+  \item Non-blocking collectives (MPI-3) and persistent collectives (MPI-4)
+  \item Graph topologies (MPI-3)
   \item Fortran 2008 bindings (MPI-3)
   \item \indexmpishow{MPI_Count} arguments for large buffers (MPI-4)
-  \item Atomic one-sided communication (MPI-3)
-  \item Non-blocking collectives (MPI-3) and persistent collectives (MPI-4)
-  \item Shared memory (MPI-3)
-  \item Graph topologies (MPI-3)
   \item Partitioned sends (MPI-4)
   \item Sessions model (MPI-4)
+  \item C++ MPL
   \end{itemize}
 \end{numberedframe}
 
 \coursepart{Supplemental material}
+
+\Level 0 {Appendix: exercises}
 
 \begin{exerciseframe}[serialsend]
   \label{exserialsend}

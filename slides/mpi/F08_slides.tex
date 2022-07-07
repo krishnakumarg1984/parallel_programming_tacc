@@ -44,13 +44,21 @@ True Fortran bindings as of the 2008 standard.
 
 \begin{numberedframe}{Optional error parameter}
 \lstset{language=Fortran}
+\begin{multicols}{2}
+  Old Fortran90 style:
 \begin{lstlisting}
-call MPI_Init()     ! F08 style
-call MPI_Init(ierr) ! F90 style
+call MPI_Init(ierr)
 ! your code
-call MPI_Finalize()     ! F08 style
-call MPI_Finalize(ierr) ! F90 style
+call MPI_Finalize(ierr)
 \end{lstlisting}
+\columnbreak
+New Fortran2008 style:
+\begin{lstlisting}
+call MPI_Init()
+! your code
+call MPI_Finalize()
+\end{lstlisting}
+\end{multicols}
 \end{numberedframe}
 
 \begin{numberedframe}{Communicators}
@@ -113,7 +121,7 @@ typecheck.F90(20): error #6285:
 \begin{numberedframe}{Type checking'}
   Type checking does not catch all problems:
   \fverbatimsnippet{ftypecheckbuf}
-  This is fine.
+  Buffer/type mismatch is not caught.
 \end{numberedframe}
 
 \lstset{language=C}

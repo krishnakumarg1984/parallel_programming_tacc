@@ -51,7 +51,7 @@
 \end{numberedframe}
 
 \begin{numberedframe}{Shared memory per cluster node}
-  \includegraphics[scale=.35]{ranger-node-small}
+  \includegraphics[scale=.45]{ranger-node-small}
   \begin{itemize}
   \item Cluster node has shared memory
   \item Memory is attached to specific socket
@@ -82,18 +82,26 @@
     and \indexmpidef{MPI_Get_hw_resource_types})
   \end{itemize}
 
-  \cverbatimsnippet{commsplittype}
+  { 
+    \renewcommand\snippetcodefraction{.4}
+    \renewcommand\snippetlistfraction{.55}
+    \renewcommand\snippetoutputsize{\scriptsize}
+    \csnippetwithoutput{commsplittype}{examples/mpi/c}{commsplittype}
+    }
+  %\cverbatimsnippet{commsplittype}
 \end{numberedframe}
+
+
+\begin{exerciseframe}
+  \input{ex:mpi-node-proc-split}
+\end{exerciseframe}
 
 \begin{numberedframe}{Allocate shared window}
 Use \indexmpishow{MPI_Win_allocate_shared} to create a window that can
 be shared;
 \begin{itemize}
 \item Has to be on a communicator on shared memory
-\item memory will be allocated contiguously\\
-  convenient for address arithmetic,\\ not for NUMA:
-  set \indextermtt{alloc_shared_noncontig} true in
-  \indexmpishow{MPI_Info} object
+\item Example: window is one double.
 \end{itemize}
 \cverbatimsnippet[code/mpi/shared.c]{mpisharedwindow}
 \end{numberedframe}
@@ -105,6 +113,29 @@ be shared;
 
 \protoslide{MPI_Win_shared_query}
 
+\begin{numberedframe}{Allocated memory}
+  Memory will be allocated contiguously\\
+  convenient for address arithmetic,\\ not for NUMA:
+  set \indextermtt{alloc_shared_noncontig} true in
+  \indexmpishow{MPI_Info} object.  
+
+  Example: each window stores one double. Measure distance in bytes:
+  \begin{multicols}{2}
+    Strategy: default behavior of shared window allocation
+\begin{verbatim}
+Distance 1 to zero: 8
+Distance 2 to zero: 16
+\end{verbatim}
+\columnbreak
+Strategy: allow non-contiguous shared window allocation
+\begin{verbatim}
+Distance 1 to zero: 4096
+Distance 2 to zero: 8192
+\end{verbatim}
+  \end{multicols}
+Question: what is going on here?
+\end{numberedframe}
+
 \begin{numberedframe}{Exciting example: bulk data}
   \begin{itemize}
   \item Application: ray tracing:\\
@@ -112,13 +143,9 @@ be shared;
   \item traditional MPI would duplicate:\\
     excessive memory demands
   \item Better: allocate shared data on process~0 of the shared communicator
-  \item every else points to this object.
+  \item Everyone else points to this object.
   \end{itemize}
 \end{numberedframe}
-
-\begin{exerciseframe}[shareddata]
-  \input ex:shareddata  
-\end{exerciseframe}
 
 \endinput
 

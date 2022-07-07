@@ -32,7 +32,7 @@
 \input slidemacs
 \input coursemacs
 \input listingmacs
-%% \input snippetmacs
+\input snippetmacs
 
 %%%%
 %%%% Where is this course?
@@ -55,6 +55,7 @@
 \includecomment{onesided}
 \includecomment{advanced}
 \includecomment{foundations}
+\excludecomment{solutions}
 
 \begin{xsede}
   \def\Location{TACC/XSEDE MPI training \courseyear}
@@ -84,11 +85,9 @@
 %%   \input tacc-conduct
 %% \end{utonly}
 
-\begin{frame}{Materials}
-  Textbook and lecture slides: \url{https://tinyurl.com/vle335course}
-
-  Source repository with exercises:\\
-  \url{https://bitbucket.org/VictorEijkhout/parallel-programming-public/}
+\begin{frame}[containsverbatim]{Materials}
+    Textbooks and repositories:\\
+    \url{https://theartofhpc.com}
 \end{frame}
 
 \begin{frame}{Justification}

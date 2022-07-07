@@ -51,8 +51,13 @@ Fortran:
 Integer(kind=MPI_COUNT_KIND) :: count
 \end{lstlisting}
 \lstset{language=C}
-Big enough for \lstinline{int}, \indexmpishow{MPI_Aint}, \indexmpishow{MPI_Offset}.
-
+Big enough for
+\begin{itemize}
+\item
+  \lstinline{int};
+\item \indexmpishow{MPI_Aint}, used in one-sided;
+\item \indexmpishow{MPI_Offset}, used in file I/O.
+\end{itemize}
 However, this type could not be used in MPI-3 to describe send buffers.
 \end{numberedframe}
 
@@ -76,6 +81,10 @@ call MPI_Send( buff,count, MPI_INTEGER, ... )
 
 \begin{numberedframe}{Big count example}
   \cverbatimsnippet{bigpingpong}
+\end{numberedframe}
+
+\begin{numberedframe}{Same in F08}
+  \fverbatimsnippet{bigdataf}  
 \end{numberedframe}
 
 \protoslide{MPI_Send}

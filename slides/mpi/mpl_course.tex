@@ -108,8 +108,9 @@
 \begin{numberedframe}{Environment}
   For doing the exercises:
 \begin{verbatim}
-export TACC_MPL_INC=/work2/00434/eijkhout/mpl/mpl
+module load mpl
 \end{verbatim}
+which defines \n{TACC_MPL_INC}, \n{TACC_MPL_DIR}
 \end{numberedframe}
 
 \begin{numberedframe}{Header file}
@@ -178,7 +179,6 @@ export TACC_MPL_INC=/work2/00434/eijkhout/mpl/mpl
   \input{mplnote-gather-scatter.cut}
 \end{numberedframe}
 \begin{numberedframe}{Reduce on non-root processes}
-  \footnotesize
   \input{mplnote-reduce-on-non-root.cut}
 \end{numberedframe}
 \begin{numberedframe}{Gather on non-root}

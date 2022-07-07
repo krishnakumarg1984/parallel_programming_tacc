@@ -12,7 +12,12 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{numberedframe}{Overview}
-  This section discusses graph topologies.
+  This section discusses topologies:
+  \begin{itemize}
+  \item Cartesian topology
+  \item MPI-1 Graph topology
+  \item MPI-3 Graph topology
+  \end{itemize}
 
   Commands learned:
   \begin{itemize}
@@ -28,6 +33,7 @@
   \item Example: Cartesian grid, each process 4 (or so) neighbors
   \item Express operations in terms of topology
   \item Elegance of expression
+  \item MPI can optimize
   \end{itemize}
 \end{numberedframe}
 
@@ -36,8 +42,8 @@
   \item Consecutive process numbering often the best:\\
     divide array by chunks
   \item Not optimal for grids or general graphs:
-  \item MPI is allowed to renumbering ranks
-  \item Graph topology gives information from which to deduce
+  \item MPI is allowed to renumber ranks
+  \item Graph topology gives information from which MPI can deduce
     renumbering
   \end{itemize}
 \end{numberedframe}
@@ -52,13 +58,15 @@
 
 \begin{numberedframe}{MPI-3 topology}
   \begin{itemize}
-  \item Graph topologies locally specified: scalable!
+  \item Graph topologies locally specified: scalable!\\
+    Limit cases: each process specifies its own connectivity~\
+    one process specifies whole graph.
   \item Neighborhood collectives:\\
-    expression close to the algorith.
+    expression close to the algorithm.
   \end{itemize}
 \end{numberedframe}
 
-\sectionframe{Graph topologies}
+\subsectionframe{Graph topologies}
 
 \begin{numberedframe}{Example: 5-point stencil}
   Neighbor exchange,
@@ -97,7 +105,8 @@
 
 \begin{numberedframe}{Why neighborhood collectives?}
   \begin{itemize}
-  \item Using \indexmpishow{MPI_Isend}~/ \indexmpishow{MPI_Irecv} is like spelling out a collective;
+  \item Using \indexmpishow{MPI_Isend}~/ \indexmpishow{MPI_Irecv} is like spelling out a collective,
+    imposes order;
   \item Collectives can use pipelining as opposed to sending  a whole
     buffer;
   \item Collectives can use spanning trees as opposed to direct connections.
@@ -133,7 +142,7 @@ int MPI_Neighbor_allgather
     MPI_Comm comm)
 \end{lstlisting}
 Like an ordinary \indexmpishow{MPI_Allgather}, but\\
-the receive buffer has a length \lstinline{degree}\\
+the receive buffer has a length enough for \lstinline{degree} messages\\
 (instead of comm size).
 \end{numberedframe}
 
@@ -149,7 +158,29 @@ the receive buffer has a length \lstinline{degree}\\
   \end{itemize}
 \end{numberedframe}
 
+\protoslide{MPI_Dist_graph_neighbors_count}
 \protoslide{MPI_Dist_graph_neighbors}
+
+\begin{numberedframe}{Example: Systolic graph}
+\csnippetwithblock{distgraphsetup}{\vbox to 0pt {\includegraphics[scale=.75]{distgraph}\vss}}
+\end{numberedframe}
+
+\begin{numberedframe}{Output}
+  \let\snippetoutputsize\scriptsize
+  \def\snippetcodefraction{.4}
+  \def\snippetlistfraction{.55}
+  \csnippetwithoutput{distgraphreadout}{examples/mpi/c}{graph}
+
+  Note that the neighbors are listed in correct order.
+  This need not be the case.
+\end{numberedframe}
+
+\begin{numberedframe}{Query}
+  Explicit query of neighbor process ranks.
+
+  \let\snippetoutputsize\scriptsize
+  \csnippetwithoutput{distgraphreadout}{examples/mpi/c}{graphcount}
+\end{numberedframe}
 
 \begin{exerciseframe}[rightgraph]
   \hyperlink{exserialsend}{\beamergotobutton{Earlier rightsend exercise}}

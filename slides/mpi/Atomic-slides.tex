@@ -28,6 +28,10 @@
   \end{itemize}
 \end{numberedframe}
 
+\begin{numberedframe}{In a picture}
+  \includegraphics[scale=.5]{workpool}
+\end{numberedframe}
+
 \begin{numberedframe}{Simplified model}
   \begin{itemize}
   \item One process has a counter, which models the shared memory;
@@ -45,6 +49,7 @@
 
   Example:
   \begin{tabbing}
+    Init: \texttt{I=0}\\
     process 1: \texttt{I=I+2}\\
     process 2: \texttt{I=I+3}
   \end{tabbing}
@@ -81,7 +86,7 @@
   \item The multiple \indexmpishow{MPI_Put} calls conflict.
   \item Code is correct if in each iteration there is only one writer.
   \item Question: In that case, can we take out the middle fence?
-  \item Qestion: what is wrong with
+  \item Question: what is wrong with
 \begin{lstlisting}
 MPI_Win_fence(0,the_window);
 if (i_am_available) {
@@ -105,13 +110,13 @@ MPI_Win_fence(0,the_window);
   \begin{itemize}
   \item \indexmpishow{MPI_Accumulate} is atomic, so no conflicting writes.
   \item What is the problem?
-  \item Processes are not reading unique \lstinline+counter_value+ values.
-  \item Read and update need to come together:\\
+  \item Answer: Processes are not reading unique \lstinline+counter_value+ values.
+  \item Conclusion: Read and update need to come together:\\
     read unique value and immediately update.
   \end{itemize}
-  Atomic `get-and-set-with-no-one-coming-in-between'.\\
+  Atomic `get-and-set-with-no-one-coming-in-between':\\
   \indexmpishow{MPI_Fetch_and_op}~/ \indexmpishow{MPI_Get_accumulate}.\\
-  Former is syntactic sugar around the latter.
+  Former is simple version: scalar only.
 \end{numberedframe}
 
 \protoslide{MPI_Fetch_and_op}
@@ -135,13 +140,41 @@ MPI_Win_fence(0,the_window);
   use passive target synchronization and locks.
 \end{numberedframe}
 
+\begin{numberedframe}{Passive target epoch}
+\begin{lstlisting}
+if (rank == 0) {
+  MPI_Win_lock (MPI_LOCK_EXCLUSIVE, 1, 0, win);
+  MPI_Put (outbuf, n, MPI_INT, 1, 0, n, MPI_INT, win);
+  MPI_Win_unlock (1, win);
+}
+\end{lstlisting}
+No action on the target required!  
+\end{numberedframe}
+
 \begin{exerciseframe}[lockfetch]
   \input ex:lockandfetch
 \end{exerciseframe}
 
+\begin{solutions}
+\begin{solution}
+  Update shared window:
+  \cverbatimsnippet{workerop}
+  Read-out of counter value:
+  \cverbatimsnippet{managerread}
+\end{solution}
+\end{solutions}
+
 \begin{exerciseframe}[lockfetchshared]
   \input ex:lockfetchshared
 \end{exerciseframe}
+
+\begin{solutions}
+\begin{solution}
+  \begin{multicols}{2}
+    \cverbatimsnippet{sharedlockupdate}
+  \end{multicols}
+\end{solution}
+\end{solutions}
 
 \endinput
 
