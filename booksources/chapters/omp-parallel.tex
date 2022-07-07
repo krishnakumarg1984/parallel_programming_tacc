@@ -11,7 +11,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\label{sec:parallelregion}
 \index{parallel region|(}
 
 \Level 0 {Creating parallelism with parallel regions}
@@ -32,9 +31,7 @@ It would be pointless to have the block be executed identically by
 all threads. One way to get a meaningful parallel code is to use the function
 \indexompshow{omp_get_thread_num}, to find out which thread you are,
 and execute work that is individual to that thread.
-There is also a function
-\indexompshow{omp_get_num_threads} to find out the total number of threads.
-Both these functions give a number relative to the current team;
+This function gives a number relative to the current team;
 recall from figure~\ref{fig:forkjoin} that new teams can be created recursively.
 
 For instance, if you program computes
@@ -53,7 +50,6 @@ double result,fresult,gresult,hresult;
 result = fresult + gresult + hresult;
 \end{lstlisting}
 
-
 The first thing we want to do is create a team of threads. This
 is done with a \indexterm{parallel region}.
 Here is a very simple example:
@@ -64,6 +60,10 @@ or in C++
 \cxxverbatimsnippet[examples/omp/cxx/hello.cxx]{hello-omp-cxx}
 (Note the use of \indextermtt{stringstream}: without that
 the output lines from the various threads may get mixed up.)
+
+There is also a function
+\indexompshow{omp_get_num_threads} to find out the total number of threads.
+
 
 This code corresponds to the model we just discussed:
 \begin{itemize}
@@ -126,10 +126,6 @@ are actually handled by the compiler, not the preprocessor.
   outside a parallel region?
 \end{exercise}
 
-\begin{lstlisting}
-  omp_get_thread_limit
-\end{lstlisting}
-
 See also \indexompshow{OMP_WAIT_POLICY} values: \n{ACTIVE,PASSIVE}
 
 \Level 0 {Nested parallelism}
@@ -184,11 +180,7 @@ Nested parallelism can happen with nested loops,
 but it's also possible to have a \indexompshow{sections} construct
 and a loop nested.
 Example:
-\cverbatimsnippet{ompsectionnest}
-\begin{multicols}{2}
-  \tiny
-  \verbatiminput{code/mpi/c/sectionnest.runout}
-\end{multicols}
+\csnippetwithoutput{ompsectionnest}{code/omp/c}{sectionnest}
 
 \Level 1 {Subprograms with parallel regions}
 
@@ -245,22 +237,28 @@ each thread can create two more threads.
 
 \begin{verbatim}
 OMP_MAX_ACTIVE_LEVELS=123
-
-omp_set_max_active_levels( n )
-n = omp_get_max_active_levels()
-
-OMP_THREAD_LIMIT=123
-
-n = omp_get_thread_limit()
-
-omp_set_max_active_levels
-omp_get_max_active_levels
-omp_get_level
-omp_get_active_level
-omp_get_ancestor_thread_num
-
-omp_get_team_size(level)
 \end{verbatim}
+
+\begin{lstlisting}
+  omp_set_max_active_levels( n )
+  n = omp_get_max_active_levels()
+\end{lstlisting}
+
+\begin{verbatim}
+  OMP_THREAD_LIMIT=123
+\end{verbatim}
+
+\begin{lstlisting}
+  n = omp_get_thread_limit()
+
+  omp_set_max_active_levels
+  omp_get_max_active_levels
+  omp_get_level
+  omp_get_active_level
+  omp_get_ancestor_thread_num
+
+  omp_get_team_size(level)
+\end{lstlisting}
 
 \index{nested parallelism|)}
 \index{parallel region|)}

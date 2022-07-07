@@ -1,5 +1,5 @@
-sendbuf = np.ones(size,dtype=np.int)
-recvbuf = np.ones(size,dtype=np.int)
+sendbuf = np.ones(size,dtype=int)
+recvbuf = np.ones(size,dtype=int)
 if procid==src:
     print("Size:",size)
     requests[0] = comm.Send_init(sendbuf[0:size],dest=tgt)

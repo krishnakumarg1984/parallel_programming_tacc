@@ -4,7 +4,7 @@
 %%
 %% This text file is part of the source of 
 %% `Parallel Computing'
-%% by Victor Eijkhout, copyright 2012-2021
+%% by Victor Eijkhout, copyright 2012-2022
 %%
 %% MPI API file for MPI_Win_allocate
 %%
@@ -16,25 +16,25 @@
 \begingroup
 \ttfamily\bfseries
 \catcode`\_=12
-\begin{tabular}{lllll}
+\begin{tabular}{
+l       % name
+l       % param name
+p{\mpiparmtextsize}  % explanation
+p{.7in} % ctype
+p{.9in} % ftype
+l       % inout
+}
 \toprule
 \mdseries\textrm{Name}&
 \mdseries\textrm{Param name}&
+\mdseries\textrm{Explanation}&
 \mdseries\textrm{C type}&
 \mdseries\textrm{F type}&
 \mdseries\textrm{inout}\\
 \midrule
-\hbox to 20pt{MPI_Win_allocate (\hss} \\
-\hbox to 20pt{MPI_Win_allocate_c (\hss} \\
- & size & MPI_Aint & INTEGER(KIND=MPI_ADDRESS_KIND)  & IN \\&\hbox to 0pt{\footnotesize\sl size of window in bytes\hss} \\ [+3pt] 
- & disp_unit & int & INTEGER  & IN \\ [-3pt]
-(c) & & MPI_Aint & \hbox to 0pt {INTEGER(KIND=MPI_ADDRESS_KIND) \hss} \\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl local unit size for displacements, in bytes\hss} \\ [+3pt] 
- & info & MPI_Info & TYPE(MPI_Info)  & IN \\&\hbox to 0pt{\footnotesize\sl info argument\hss} \\ [+3pt] 
- & comm & MPI_Comm & TYPE(MPI_Comm)  & IN \\&\hbox to 0pt{\footnotesize\sl intra-communicator\hss} \\ [+3pt] 
- & baseptr & void* & TYPE(C_PTR)  & OUT \\&\hbox to 0pt{\footnotesize\sl initial address of window\hss} \\ [+3pt] 
- & win & MPI_Win* & TYPE(MPI_Win)  & OUT \\&\hbox to 0pt{\footnotesize\sl window object returned by call\hss} \\ [+3pt] 
-
+\hbox to 18pt{MPI_Win_allocate (\hss} \\
+\hbox to 18pt{MPI_Win_allocate_c (\hss} \\
+ & size & size of window in bytes & MPI_Aint & INTEGER\discretionary{}{\kern10pt}{}(KIND=MPI_ADDRESS_KIND)  & IN \\ & disp_unit & local unit size for displacements, in bytes & $\left[ \begin{array}{ll}\mathtt{ int }  \\ \mathtt{ MPI_Aint} \end{array} \right.$  & INTEGER  & IN \\ [+3pt] & info & info argument & MPI_Info & TYPE\discretionary{}{\kern10pt}{}(MPI_Info)  & IN \\ & comm & intra-communicator & MPI_Comm & TYPE\discretionary{}{\kern10pt}{}(MPI_Comm)  & IN \\ & baseptr & initial address of window & void* & TYPE\discretionary{}{\kern10pt}{}(C_PTR)  & OUT \\ & win & window object returned by call & MPI_Win* & TYPE\discretionary{}{\kern10pt}{}(MPI_Win)  & OUT \\
 &)\\
 
 \bottomrule

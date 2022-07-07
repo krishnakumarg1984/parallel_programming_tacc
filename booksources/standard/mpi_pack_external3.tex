@@ -4,7 +4,7 @@
 %%
 %% This text file is part of the source of 
 %% `Parallel Computing'
-%% by Victor Eijkhout, copyright 2012-2021
+%% by Victor Eijkhout, copyright 2012-2022
 %%
 %% MPI API file for MPI_Pack_external
 %%
@@ -16,23 +16,24 @@
 \begingroup
 \ttfamily\bfseries
 \catcode`\_=12
-\begin{tabular}{lllll}
+\begin{tabular}{
+l       % name
+l       % param name
+p{\mpiparmtextsize}  % explanation
+p{.7in} % ctype
+p{.9in} % ftype
+l       % inout
+}
 \toprule
 \mdseries\textrm{Name}&
 \mdseries\textrm{Param name}&
+\mdseries\textrm{Explanation}&
 \mdseries\textrm{C type}&
 \mdseries\textrm{F type}&
 \mdseries\textrm{inout}\\
 \midrule
-\hbox to 20pt{MPI_Pack_external (\hss} \\
- & datarep & const char[] & CHARACTER  & IN \\&\hbox to 0pt{\footnotesize\sl data representation\hss} \\ [+3pt] 
- & inbuf & const void* & TYPE(*), DIMENSION(..)  & IN \\&\hbox to 0pt{\footnotesize\sl input buffer start\hss} \\ [+3pt] 
- & incount & int & INTEGER  & IN \\&\hbox to 0pt{\footnotesize\sl number of input data items\hss} \\ [+3pt] 
- & datatype & MPI_Datatype & TYPE(MPI_Datatype)  & IN \\&\hbox to 0pt{\footnotesize\sl datatype of each input data item\hss} \\ [+3pt] 
- & outbuf & void* & TYPE(*), DIMENSION(..)  & OUT \\&\hbox to 0pt{\footnotesize\sl output buffer start\hss} \\ [+3pt] 
- & outsize & MPI_Aint & INTEGER(KIND=MPI_ADDRESS_KIND)  & IN \\&\hbox to 0pt{\footnotesize\sl output buffer size, in bytes\hss} \\ [+3pt] 
- & position & MPI_Aint* & INTEGER(KIND=MPI_ADDRESS_KIND)  & INOUT \\&\hbox to 0pt{\footnotesize\sl current position in buffer, in bytes\hss} \\ [+3pt] 
-
+\hbox to 18pt{MPI_Pack_external (\hss} \\
+ & datarep & data representation & const char[] & CHARACTER  & IN \\ & inbuf & input buffer start & const void* & TYPE\discretionary{}{\kern10pt}{}(*), DIMENSION\discretionary{}{\kern10pt}{}(..)  & IN \\ & incount & number of input data items & int & INTEGER  & IN \\ & datatype & datatype of each input data item & MPI_Datatype & TYPE\discretionary{}{\kern10pt}{}(MPI_Datatype)  & IN \\ & outbuf & output buffer start & void* & TYPE\discretionary{}{\kern10pt}{}(*), DIMENSION\discretionary{}{\kern10pt}{}(..)  & OUT \\ & outsize & output buffer size, in bytes & MPI_Aint & INTEGER\discretionary{}{\kern10pt}{}(KIND=MPI_ADDRESS_KIND)  & IN \\ & position & current position in buffer, in bytes & MPI_Aint* & INTEGER\discretionary{}{\kern10pt}{}(KIND=MPI_ADDRESS_KIND)  & INOUT \\
 &)\\
 
 \bottomrule

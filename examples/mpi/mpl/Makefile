@@ -48,4 +48,4 @@ include ../../../makefiles/Make.clean
 CATCHER = ../../../teaching/course-support/catchout
 
 clean ::
-	@rm -f *.dat *.out[0-9]*
+	@rm -f *.dat

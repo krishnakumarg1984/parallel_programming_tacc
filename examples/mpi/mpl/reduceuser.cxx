@@ -3,7 +3,7 @@
    %%%%
    %%%% This program file is part of the book and course
    %%%% "Parallel Computing"
-   %%%% by Victor Eijkhout, copyright 2020-2021
+   %%%% by Victor Eijkhout, copyright 2020-2022
    %%%%
    %%%% reduceuser.cxx : user-defined reduction in MPL
    %%%%

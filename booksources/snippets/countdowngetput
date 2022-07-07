@@ -6,8 +6,6 @@ MPI_Get( &counter_value,1,MPI_INT,
          the_window);
 MPI_Win_fence(0,the_window);
 if (i_am_available) {
-  my_counter_values[ n_my_counter_values++ ] = counter_value;
-  total_decrement++;
   int decrement = -1;
   counter_value += decrement;
   MPI_Put

@@ -4,9 +4,9 @@ mydata = procid
 # communicator modulo 2
 color = procid%2
 mod2comm = comm.Split(color)
-new_procid = mod2comm.Get_rank()
+procid2 = mod2comm.Get_rank()
 
 # communicator modulo 4 recursively
-color = new_procid%2
+color = procid2 % 2
 mod4comm = mod2comm.Split(color)
-new_procid = mod4comm.Get_rank()
+procid4 = mod4comm.Get_rank()

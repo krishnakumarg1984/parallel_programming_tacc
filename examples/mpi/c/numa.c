@@ -15,7 +15,9 @@
 #include <stdio.h>
 #include <time.h>
 #include <unistd.h>
+
 #include <mpi.h>
+#include "window.c"
 
 int main(int argc,char **argv) {
 
@@ -31,10 +33,10 @@ int main(int argc,char **argv) {
     (comm,MPI_COMM_TYPE_SHARED,procno,MPI_INFO_NULL,
      &nodecomm);
   MPI_Comm_size(nodecomm,&onnode_nprocs);
-  if (onnode_nprocs<2) {
-    printf("This example needs at least two ranks per node\n");
-    MPI_Abort(comm,0);
-  }
+  /* if (onnode_nprocs<2) { */
+  /*   printf("This example needs at least two ranks per node\n"); */
+  /*   //    MPI_Abort(comm,0); */
+  /* } */
   MPI_Comm_rank(nodecomm,&onnode_procno);
 
   for (int strategy=0; strategy<2; strategy++) {
@@ -59,6 +61,7 @@ int main(int argc,char **argv) {
                              nodecomm,
                              &window_data,&node_window);
     MPI_Info_free(&window_info);
+    test_window(node_window,nodecomm);
 
     /*
      * Now process zero checks on window placement

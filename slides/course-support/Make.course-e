@@ -38,7 +38,6 @@ courses ::
 	     ; done \
 	 ; fi
 
-include ../../makefiles/Make.tex
 course ::
 	@if [ -z "${COURSE}" ] ; then \
 	    echo "Error: no COURSE variable defined" && exit 1 ; fi 
@@ -56,6 +55,8 @@ no_acro_rule :
 	    ; fi
 
 .PHONY: onepass pdf
+info ::
+	@echo "make onepass COURSE=... / FILE=..."
 TEXROOTDIR = ../..
 onepass ::
 	@if [ ! -z "${FILE}" ] ; then \
@@ -85,6 +86,8 @@ pdf ::
 	 && if [ $${index} -eq 1 -o $${bib} -eq 1 -o $${ref} -eq 1 ] ; then \
 	        make onepass FILE=$${file} \
 	    ; fi
+
+include ../../makefiles/Make.tex
 
 .PHONY: listextra extrafiles
 listextra :

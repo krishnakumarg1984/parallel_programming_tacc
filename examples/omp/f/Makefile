@@ -19,7 +19,7 @@ info ::
 info ::
 	@echo
 	@echo "make app (where app=${APPS})"
-APPS = hello hellocount reducttype threadprivate
+APPS = hello hellocount reducttype private threadprivate
 LANGUAGE = F
 MODE = omp
 include ../../../makefiles/Make.compile
@@ -39,6 +39,11 @@ RUNS += run_priv
 run_priv : threadprivate
 	@./threadprivate
 
-include ../../../makefiles/Make.run
+include ../../../makefiles/Make.omp_run
+
+RUNS += run_private
+.PHONY: run_private
+run_private : private
+	@make --no-print-directory omp_run PROGRAM=private NP=4
 
 include  ../../../makefiles/Make.clean

@@ -36,11 +36,3 @@ PROGRAM=$1
 PROGRAMROOT=${PROGRAM%%.py}
 
 $RUNNER ./${PROGRAM} > ${PROGRAMROOT}.out${PMI_RANK} 2>&1
-
-# else
-#     if [ ${VALGRIND} -eq 1 ] ; then
-# 	valgrind ./$1 > $1.out${PMI_RANK} 2>&1
-#     else
-# 	./$1 > $1.out${PMI_RANK} 2>&1
-#     fi
-# fi

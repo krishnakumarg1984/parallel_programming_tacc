@@ -4,7 +4,7 @@
 %%
 %% This text file is part of the source of 
 %% `Parallel Computing'
-%% by Victor Eijkhout, copyright 2012-2021
+%% by Victor Eijkhout, copyright 2012-2022
 %%
 %% MPI API file for MPI_Type_indexed
 %%
@@ -16,28 +16,25 @@
 \begingroup
 \ttfamily\bfseries
 \catcode`\_=12
-\begin{tabular}{lllll}
+\begin{tabular}{
+l       % name
+l       % param name
+p{\mpiparmtextsize}  % explanation
+p{.7in} % ctype
+p{.9in} % ftype
+l       % inout
+}
 \toprule
 \mdseries\textrm{Name}&
 \mdseries\textrm{Param name}&
+\mdseries\textrm{Explanation}&
 \mdseries\textrm{C type}&
 \mdseries\textrm{F type}&
 \mdseries\textrm{inout}\\
 \midrule
-\hbox to 20pt{MPI_Type_indexed (\hss} \\
-\hbox to 20pt{MPI_Type_indexed_c (\hss} \\
- & count & int & INTEGER  & IN \\ [-3pt]
-(c) & & MPI_Count & \hbox to 0pt {INTEGER(KIND=MPI_COUNT_KIND) \hss} \\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl number of blocks---also number of entries in \mpiarg{array_of_displacements} and \mpiarg{array_of_blocklengths}\hss} \\ [+3pt] 
- & array_of_blocklengths & const int[] & INTEGER(count)  & IN \\ [-3pt]
-(c) & & MPI_Count & \hbox to 0pt {INTEGER(KIND=MPI_COUNT_KIND) \hss} \\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl number of elements per block\hss} \\ [+3pt] 
- & array_of_displacements & const int[] & INTEGER(count)  & IN \\ [-3pt]
-(c) & & MPI_Count & \hbox to 0pt {INTEGER(KIND=MPI_COUNT_KIND) \hss} \\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl displacement for each block, in multiples of \mpiarg{oldtype}\hss} \\ [+3pt] 
- & oldtype & MPI_Datatype & TYPE(MPI_Datatype)  & IN \\&\hbox to 0pt{\footnotesize\sl old datatype\hss} \\ [+3pt] 
- & newtype & MPI_Datatype* & TYPE(MPI_Datatype)  & OUT \\&\hbox to 0pt{\footnotesize\sl new datatype\hss} \\ [+3pt] 
-
+\hbox to 18pt{MPI_Type_indexed (\hss} \\
+\hbox to 18pt{MPI_Type_indexed_c (\hss} \\
+ & count & number of blocks---also number of entries in \mpiarg{array_of_displacements} and \mpiarg{array_of_blocklengths} & $\left[ \begin{array}{ll}\mathtt{ int }  \\ \mathtt{ MPI_Count} \end{array} \right.$  & INTEGER  & IN \\ [+3pt] & array_of_blocklengths & number of elements per block & $\left[ \begin{array}{ll}\mathtt{ const int[] }  \\ \mathtt{ MPI_Count} \end{array} \right.$  & INTEGER\discretionary{}{\kern10pt}{}(count)  & IN \\ [+3pt] & array_of_displacements & displacement for each block, in multiples of \mpiarg{oldtype} & $\left[ \begin{array}{ll}\mathtt{ const int[] }  \\ \mathtt{ MPI_Count} \end{array} \right.$  & INTEGER\discretionary{}{\kern10pt}{}(count)  & IN \\ [+3pt] & oldtype & old datatype & MPI_Datatype & TYPE\discretionary{}{\kern10pt}{}(MPI_Datatype)  & IN \\ & newtype & new datatype & MPI_Datatype* & TYPE\discretionary{}{\kern10pt}{}(MPI_Datatype)  & OUT \\
 &)\\
 
 \bottomrule

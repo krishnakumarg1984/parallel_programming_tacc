@@ -18,6 +18,7 @@ to alleviate the problems inherent in parallel file access.
 Let us first explore the issues.
 This story partly depends on what sort of parallel
 computer are you running on.
+Here are some of the hardware scenarios you may encounter:
 
 \begin{itemize}
 \item On networks of workstations each node will have a separate
@@ -36,7 +37,7 @@ we start talking about MPI I/O.
   and write it out. There are at least three things wrong with this:
   it uses network bandwidth for the gather, it may require a large
   amount of memory on the root process, and centralized writing
-  is a bottlenectk.
+  is a bottleneck.
 \item Absent a shared file system, writing can be parallelized by letting
   every process create a unique file and merge these after the run.
   This makes the I/O symmetric, but collecting all the files is a bottleneck.
@@ -55,8 +56,8 @@ we start talking about MPI I/O.
 
 For these reasons, MPI has a number of routines that make it possible
 to read and write a single file from a large number of processes,
-giving each well-defined locations where to access the data.
-In fact, MPI-IO uses MPI
+giving each process its own well-defined location where to access the data.
+These locations can use MPI
 \indextermsub{derived}{datatype}s for both the source data (that is, in memory)
 and target data (that is, on disk).
 Thus, in one call that is collective on a communicator
@@ -86,8 +87,13 @@ unix utility~\indextermtt{od}.)
 
 \Level 0 {File handling}
 
-MPI has its own file handle:
-\indexmpidef{MPI_File}.
+MPI has a datatype for files: \indexmpidef{MPI_File}.
+This acts a little like a traditional file handle,
+in that there are open, close, read/write, and seek operations on it.
+However, unlike traditional file handling,
+which in parallel would mean having one handle per process,
+this handle is collective: MPI processes
+act as if they share one file handle.
 
 You open a file with
 %
@@ -123,6 +129,10 @@ File access modes:
   of file.
 \end{itemize}
 These modes can be added or bitwise-or'ed.
+
+As a small illustration:
+%%
+\csnippetwithoutput{mpifilebasic}{examples/mpi/c}{write}
 
 You can delete a file with \indexmpidef{MPI_File_delete}.
 
@@ -165,7 +175,7 @@ For thread safety it is good to combine seek and read/write operations:
 \begin{itemize}
 \item \indexmpidef{MPI_File_read_at}: combine read and seek.
   The collective variant is \indexmpidef{MPI_File_read_at_all}.
-\item \indexmpishow{MPI_File_write_at}: combine write and seekl
+\item \indexmpishow{MPI_File_write_at}: combine write and seek.
   The collective variant is \indexmpidef{MPI_File_write_at_all};
   section~\ref{sec:mpi-filepoint}.
 \end{itemize}
@@ -205,10 +215,10 @@ which can then be tested with
 
 Nonblocking collective I/O functions
 much like other nonblocking collectives
-(section~{sec:mpi3collect}):
+(section~\ref{sec:mpi3collect}):
 the request is satisfied if all processes finish the collective.
 
-There are also \indextermsub{split}{collective} routines
+There are also \indextermsub{split}{collective}s
 that function like nonblocking collective I/O, but with the request/wait mechanism:
 \indexmpidef{MPI_File_write_all_begin}~/
 \indexmpidef{MPI_File_write_all_end}
@@ -225,7 +235,7 @@ Also \indexmpishow{MPI_File_iread_shared}, \indexmpishow{MPI_File_iwrite_shared}
 
 After the collective open call, each process holds an
 \emph{individual file pointer}\index{file!pointer!individual}
-each process can individually position the pointer somewhere in the shared file.
+that it can individually position somewhere in the shared file.
 Let's explore this modality.
 
 The simplest way of writing a data to file is much like a send call:
@@ -306,10 +316,13 @@ This call is collective, even if not all processes access the file.
     data formats.
   \end{itemize}
 \item The \n{info} parameter is an \indexmpishow{MPI_Info} object,
-  or \indexmpishow{MPI_INFO_NULL}. See section~\ref{sec:mpi-info-file} for more.
+  or \indexmpishow{MPI_INFO_NULL}.
+  See section~\ref{sec:mpi-info-file} for more on file info.
   (See \indextermdef{T3PIO}~\cite{t3pio-git} for a tool that 
   assists in setting this object.)
 \end{itemize}
+
+\cverbatimsnippet{mpiviewnative}
 
 \begin{figure}[ht]
   \label{fig:write-view}
@@ -342,10 +355,10 @@ datatype.
 \end{fortrannote}
 
 More:
-\indexmpidef{MPI_File_set_size}
-\indexmpidef{MPI_File_get_size}
-\indexmpidef{MPI_File_preallocate}
-\indexmpidef{MPI_File_get_view}
+\indexmpidef{MPI_File_set_size},
+\indexmpidef{MPI_File_get_size}k
+\indexmpidef{MPI_File_preallocate},
+\indexmpidef{MPI_File_get_view}.
 
 \Level 1 {Shared file pointers}
 
@@ -358,7 +371,7 @@ For reading and writing there are then two sets of routines:
   and \indexmpidef{MPI_File_write_shared}.
   Nonblocking variants are \indexmpidef{MPI_File_iread_shared}
   and \indexmpidef{MPI_File_iwrite_shared}.
-\item Collective accesse are done with \indexmpidef{MPI_File_read_ordered}
+\item Collective accesses are done with \indexmpidef{MPI_File_read_ordered}
   and \indexmpidef{MPI_File_write_ordered}, which execute the operations
   in order ascending by rank.
 \end{itemize}
@@ -370,7 +383,7 @@ shared pointer.
 \Level 0 {Consistency}
 
 It is possible for one process to read data previously writte by another process.
-For this it is of course necessary to impose a temporal order,
+For this, it is of course necessary to impose a temporal order,
 for instance by using \indexmpishow{MPI_Barrier},
 or using a zero-byte send from the writing to the reading process.
 
@@ -387,6 +400,21 @@ with
 make CPPFLAGS="-DMPICH_IGNORE_CXX_SEEK -DMPICH_SKIP_MPICXX"
 \end{verbatim}
 and such.
+
+\Level 0 {Error handling}
+\label{sec:mpi-file-err}
+
+By default, MPI uses \indexmpishow{MPI_ERRORS_ARE_FATAL} since parallel errors
+are almost impossible to recover from.
+File handling errors, on the other hand, are less serious:
+if a file is not found, the operation can be abandoned.
+For this reason, the default error handler for file operations
+is \indexmpishow{MPI_ERRORS_RETURN}.
+
+The default I/O error handler can be queried and set with
+\indexmpishow{MPI_File_get_errhandler} and 
+\indexmpishow{MPI_File_set_errhandler} respectively,
+passing \indexmpishow{MPI_FILE_NULL} as argument.
 
 \index{MPI/O|)}
 

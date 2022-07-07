@@ -108,6 +108,7 @@ Also \indexompclauseoption{target}{update to}
 (synchronize data to host from device).
 
 \Level 0 {Execution on the device}
+\label{sec:omp-team}
 
 For parallel execution of a loop on the device
 use the \indexompclause{teams} clause:
@@ -131,3 +132,10 @@ However, this combination only gives the chunk of space to the master thread
 in each team.
 Next we need \n{parallel for} or \n{parallel do} to spread the chunk over the
 threads in the team.
+
+When creating teams, it's often useful to limit the number of threads in each
+with \indexclause{thread_limit}.
+This can also be set with the \indexompdef{OMP_THREAD_LIMIT}
+environment variable.
+The value can be queried with \indexompdef{omp_get_thread_limit}.
+

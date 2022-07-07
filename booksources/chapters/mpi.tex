@@ -145,7 +145,8 @@ Additionally, file system-specific keys can exist.
 Some runtime (or installation dependendent) values are available as
 attributes through
 \indexmpiref{MPI_Comm_set_attr} and
-\indexmpiref{MPI_Comm_get_attr}.
+\indexmpiref{MPI_Comm_get_attr} for communicators,
+or \indexmpishow{MPI_Win_get_attr}, \indexmpishow{MPI_Type_get_attr}.
 (The \mpistandard{2} routine \indexmpidef{MPI_Attr_get} is deprecated).
 The flag parameter has two functions:
 \begin{itemize}
@@ -183,12 +184,15 @@ Also:
   \indexmpishow{MPI_COMM_WORLD} if the host list is larger than the number of
   initially started processes. See section~\ref{sec:mpi-dynamic}.
 
-  Python: \lstinline{mpi4py.MPI.UNIVERSE_SIZE}.
 \item \indexmpishow{MPI_APPNUM}: if MPI is used in \ac{MPMD} mode
   (section~\ref{sec:mpmd-start}), or
   if \indexmpishow{MPI_Comm_spawn_multiple} is used (section~\ref{sec:mpi-dynamic}),
   this attribute reports the how-manieth program we are in.
 \end{itemize}
+
+\begin{pythonnote}{Universe size}
+ \lstinline{mpi4py.MPI.UNIVERSE_SIZE}.
+\end{pythonnote}
 
 \Level 1 {Create new keyval attributes}
 
@@ -230,6 +234,7 @@ or the function \indexmpiref{MPI_Get_version}.
 \Level 1 {Python utility functions}
 
 \begin{pythonnote}{Utility functions}
+  \small
   \verbatimsnippet{mpi4pyutils}
 Mac OS X with Python installed through \indexterm{macports}:
 \begin{verbatim}
@@ -238,6 +243,7 @@ Configuration:
 Include dir:
 /opt/local/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/mpi4py/include
 \end{verbatim}
+
 Intel compiler and locally installed Python:
 \begin{verbatim}
 Configuration:
@@ -362,6 +368,9 @@ but you can define your own with
 to be freed later with
 \indexmpidef{MPI_Errhandler_free}.
 
+By default, MPI uses \indexmpishow{MPI_ERRORS_ARE_FATAL},
+except for file operations; see section~\ref{sec:mpi-file-err}.
+
 \begin{pythonnote}{Error policy}
   The policy for dealing with errors can be set through the \lstinline{mpi4py.rc} object
   (section~\ref{sec:mpi-init}):
@@ -398,7 +407,7 @@ MPI_Comm_set_errhandler(MPI_COMM_WORLD,MPI_ERRORS_RETURN);
 \end{lstlisting}
 which causes the error code to be returned to the user.
 This gives you the opportunity to write code that handles the error
-return value. 
+return value; see the next section.
 
 \Level 2 {Error printing}
 \label{sec:mpi-error-print}
@@ -741,8 +750,11 @@ t = MPI_Wtime()-t;
 
 However, if you try to time a parallel application you will most likely
 get different times for each process, so you would have to take the
-average or maximum.  Another solution is to synchronize the processors
-by using a \indexterm{barrier}\indexmpishow{MPI_Barrier}:
+average or maximum.
+Another solution is to synchronize the processors
+by using a
+\emph{barrier}\index{barrier!for timing}
+through \indexmpishow{MPI_Barrier}:
 \begin{lstlisting}
 MPI_Barrier(comm)
 t = MPI_Wtime();
@@ -782,6 +794,11 @@ your running time, for instance by increasing the amount of data.
 
 \Level 1 {Simple profiling}
 \label{sec:profile}
+
+\begin{remark}
+  This section describes MPI profiling before the introduction of the
+  \indextermbus{MPI}{tools interface}. For that, see chapter~\ref{ch:mpi-tools}.
+\end{remark}
 
 MPI allows you to write your own profiling interface. To make this possible,
 every routine \lstinline{MPI_Something} calls a routine \lstinline{PMPI_Something} that 
@@ -1130,14 +1147,20 @@ The following are the compile-time constants:
 \item \indexmpishow{MPI_MAX_PORT_NAME}
 \item \indexmpishow{MPI_VERSION}
 \item \indexmpishow{MPI_SUBVERSION}
-\item \indexmpishow{MPI_STATUS_SIZE} (Fortran only)
-\item \indexmpishow{MPI_ADDRESS_KIND} (Fortran only)
-\item \indexmpishow{MPI_COUNT_KIND} (Fortran only)
-\item \indexmpishow{MPI_INTEGER_KIND} (Fortran only)
-\item \indexmpishow{MPI_OFFSET_KIND} (Fortran only)
-\item \indexmpishow{MPI_SUBARRAYS_SUPPORTED} (Fortran only)
-\item \indexmpishow{MPI_ASYNC_PROTECTS_NONBLOCKING}  (Fortran only)
 \end{itemize}
+
+\begin{fortrannote}{Fortran-only compile-time constants}
+  \begin{itemize}
+  \item \indexmpishow{MPI_STATUS_SIZE}. No longer needed with Fortran2008 support;
+    see section~\ref{f:status-object}.
+  \item \indexmpishow{MPI_ADDRESS_KIND}
+  \item \indexmpishow{MPI_COUNT_KIND}
+  \item \indexmpishow{MPI_INTEGER_KIND}
+  \item \indexmpishow{MPI_OFFSET_KIND}
+  \item \indexmpishow{MPI_SUBARRAYS_SUPPORTED}
+  \item \indexmpishow{MPI_ASYNC_PROTECTS_NONBLOCKING}
+  \end{itemize}
+\end{fortrannote}
 
 The following are the link-time constants:
 \begin{itemize}

@@ -5,9 +5,12 @@ class Library():
         self.comm = comm.Dup()
         self.other = self.comm.Get_size()-self.comm.Get_rank()-1
         self.requests = [ None ] * 2
+    def __del__(self):
+        if self.comm.Get_rank()==0: print(".. freeing communicator")
+        self.comm.Free()
     def communication_start(self):
-        sendbuf = np.empty(1,dtype=np.int); sendbuf[0] = 37
-        recvbuf = np.empty(1,dtype=np.int)
+        sendbuf = np.empty(1,dtype=int); sendbuf[0] = 37
+        recvbuf = np.empty(1,dtype=int)
         self.requests[0] = self.comm.Isend( sendbuf, dest=other,tag=2 )
         self.requests[1] = self.comm.Irecv( recvbuf, source=other )
     def communication_end(self):

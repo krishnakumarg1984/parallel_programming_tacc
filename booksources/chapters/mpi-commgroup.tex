@@ -63,6 +63,13 @@ While you can not directly extract that communicator from the object,
 you can get the group with
 \indexmpishow{MPI_Win_get_group} and \indexmpishow{MPI_File_get_group}.
 
+There is a pre-defined empty group \indexmpidef{MPI_GROUP_EMPTY},
+which can be used as an input to group construction routines,
+or appear as the result of such operations as a zero intersection.
+This not the same as \indexmpidef{MPI_GROUP_NULL},
+which is the output of invalid operations on groups,
+or the result of \indexmpishow{MPI_Group_free}.
+
 \Level 1 {Example}
 
 Suppose you want to split the world communicator into

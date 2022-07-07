@@ -146,7 +146,7 @@ Fortran has type-specific nulls, such as
 \label{sec:py-interface}
 
 A \emph{python}\index{Python!PETSc interface} interface was written by
-Lisandro Dalcin.
+\indextermsub{Lisandro}{Dalcin}.
 It can be added to to PETSc at installation time;
 section~\ref{sec:petsc-install}.
 
@@ -405,7 +405,7 @@ performance.
   \n{single}, \n{double}, \n{__float128}, \n{__fp16}.
 \end{itemize}
 
-\Level 1 {External packages}
+\Level 0 {External packages}
 \label{sec:petsc-external}
 
 PETSc can extend its functionality through external packages such as
@@ -429,7 +429,8 @@ specified in two ways:
 \begin{verbatim}
 --download-petsc4py=<no,yes,filename,url>
 \end{verbatim}
-  This is easiest if your python already includes \indexterm{mpi4py}.
+This is easiest if your python already includes \indextermtt{mpi4py};
+see section~\ref{sec:python-bind}.
 \end{pythonnote}
 
 \begin{remark}
@@ -448,3 +449,31 @@ specified in two ways:
     improve your performance.
   \end{itemize}
 \end{remark}
+
+\Level 1 {Slepc}
+\label{sec:petsc-slepc}
+
+Most external packages add functionality to the lower layers of Petsc.
+For instance, the \indexterm{Hypre} package
+adds some preconditioners to Petsc's repertoire
+(section~\ref{sec:petsc-prec-list}),
+while \indexterm{Mumps}
+(section~\ref{sec:petsc-direct})
+makes it possible to use the LU
+preconditioner in parallel.
+
+On the other hand, there are packages
+that use Petsc as a lower level tool.
+In particular, the eigenvalue solver package \indextermdef{Slepc}~\cite{slepc-homepage}
+can be installed through the options
+\begin{verbatim}
+--download-slepc=<no,yes,filename,url>
+       Download and install slepc  current: no
+--download-slepc-commit=commitid
+       The commit id from a git repository to use for the build of slepc  current: 0
+--download-slepc-configure-arguments=string
+       Additional configure arguments for the build of SLEPc
+\end{verbatim}
+The slepc header files wind up in the same directory as the petsc headers,
+so no change to your compilation rules are needed.
+However, you need to add \n{-lslepc} to the link line.

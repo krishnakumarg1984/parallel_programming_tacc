@@ -88,6 +88,9 @@ choice here is of the iterative method type, such as `conjugate gradients',
 `generalized minimum residual', or `bi-conjugate gradients stabilized'.
 (We will go into direct solvers in section~\ref{sec:petsc-direct}.)
 
+Quantifying issues of convergence speed is difficult;
+see \HPSCref{sec:cg-converge}.
+
 \Level 1 {Solver objects}
 
 First we create a KSP object, which contains the coefficient matrix,
@@ -273,8 +276,9 @@ can get quite tedious, and it is more convenient to set them through
 commandline options.
 
 \Level 2 {Types}
+\label{sec:petsc-prec-list}
 
-\begin{tabular}{|l|l|l|}
+\begin{tabular}{p{2in}ll}
 \toprule
 Method&PCType&Options Database Name\\
 \midrule
@@ -429,6 +433,41 @@ matrix and subdomain terms.
 \label{sec:pcfieldsplit}
 
 For background refer to section~\ref{sec:matfieldsplit}.
+
+\begin{exercise}
+  \label{ex:petsc-ksp}
+  The example code \n{ksp.c} generates a five-point matrix, possibly nonsymmetric,
+  on a unit square.
+  Your assignment is to explore the convergence behavior of different solvers
+  on linear systems with this coefficient matrix.
+
+  The example code takes two commandline arguments:
+  \begin{itemize}
+  \item \n{-n 123} set the domain size, meaning that the matrix size
+    will be the square of that;
+  \item \n{-unsymmetry .5} introduces a skew-symmetric component to the matrix.
+  \end{itemize}
+
+  Investigate the following:
+  \begin{itemize}
+  \item Some iterative methods, such as \ac{CG}, are only
+    mathematically defined for symmetric (and positive definite)
+    matrices. How tolerant are iterative methods actually towards
+    nonsymmetry?
+  \item The number of iterations can sometimes be proved to depend
+    on the \indexterm{condition number} of the matrix, which is itself
+    related to the size of the matrix. Can you find a relation between
+    the matrix size and the number of iterations?
+  \item A more sophisticated iterative methods (for instance,
+    increasing the GMRES restart length) or a more sophisticated
+    preconditioner (for instance using more fill levels in an ILU
+    preconditioner), may lead to fewer iterations. (Does it, actually?)
+    But it will not necessarily give a faster solution time,
+    since each iteration is now more expensive.
+  \end{itemize}
+  See section~\ref{sec:petsc-math} for the background on this,
+  as well as the various specific subsections.
+\end{exercise}
 
 \Level 1 {Customization: monitoring and convergence tests}
 

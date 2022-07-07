@@ -4,7 +4,7 @@
 %%%%
 %%%% This text file is part of the source of 
 %%%% `Parallel Programming in MPI and OpenMP'
-%%%% by Victor Eijkhout, copyright 2012-2021
+%%%% by Victor Eijkhout, copyright 2012-2022
 %%%%
 %%%% mpi-commsplit.tex : about splitting communicators
 %%%%
@@ -31,6 +31,12 @@ Any ties between identical key values are broken by using the rank from the orig
 communicator.
 Thus, specifying zero are the key will also retain the original process ordering.
 
+\begin{figure}[ht]
+  \includegraphics[scale=.4]{procgrid-bcast}
+  \caption{Row and column broadcasts in subcommunicators}
+  \label{fig:procgrid-bcast}
+\end{figure}
+
 Here is one example of communicator splitting. Suppose your processors
 are in a two-dimensional grid:
 \begin{lstlisting}
@@ -45,54 +51,11 @@ MPI_Comm_split( MPI_COMM_WORLD, proc_j, mytid, &column_comm );
 \end{lstlisting}
 and do a broadcast in that column:
 \begin{lstlisting}
-MPI_Bcast( data, /* tag: */ 0, column_comm );
+MPI_Bcast( data, /* stuff */, column_comm );
 \end{lstlisting}
 Because of the SPMD nature of the program, you are now doing in parallel
 a broadcast in every processor column. Such operations often appear
 in \indexterm{dense linear algebra}.
-
-\begin{pythonnote}{Comm split key is optional}
-  In Python, the `key' argument is optional:
-  %
-  \pverbatimsnippet[examples/mpi/p/commsplit.py]{commsplitp}
-\end{pythonnote}
-
-\begin{mplnote}{Communicator splitting}
-  \label{mpl::split}
-  In \ac{MPL}, splitting a communicator is done as one of the overloads
-  of the communicator constructor;
-  %
-  \cxxverbatimsnippet[examples/mpi/mpl/commsplit.cxx]{commsplitmpl}
-
-  \begin{mplimpl}
-    The \lstinline+communicator::+\indexmpldef{split} identifier
-    is an object of class
-    \lstinline+communicator::+\indexmpldef{split_tag},
-    itself is an otherwise empty
-    subclass of \indexmplshow{communicator}:
-\begin{lstlisting}
-class split_tag {};
-static constexpr split_tag split{};
-\end{lstlisting}
-  \end{mplimpl}
-\end{mplnote}
-
-
-There is also a routine \indexmpishow{MPI_Comm_split_type}
-which uses a type rather than a key to split the communicator.
-We will see this in action in section~\ref{mpi-comm-split-type}.
-
-\begin{figure}[ht]
-  \includegraphics[scale=.4]{procgrid-bcast}
-  \caption{Row and column broadcasts in subcommunicators}
-  \label{fig:procgrid-bcast}
-\end{figure}
-
-\Level 1 {Examples}
-
-One application of communicator splitting is setting up a processor
-grid, with the possibility of using MPI solely within one row or
-column; see figure~\ref{fig:procgrid-bcast}.
 
 \begin{exercise}
   \label{ex:rowcolcomm}
@@ -119,6 +82,37 @@ Global ranks:  Ranks in row:  Ranks in colum:
 \end{tacc}
   \skeleton{procgrid}
 \end{exercise}
+
+\begin{pythonnote}{Comm split key is optional}
+  In Python, the `key' argument is optional:
+  %
+  \psnippetwithoutput{commsplitp}{examples/mpi/p}{dup}
+\end{pythonnote}
+
+\begin{mplnote}{Communicator splitting}
+  \label{mpl::split}
+  In \ac{MPL}, splitting a communicator is done as one of the overloads
+  of the communicator constructor;
+  %
+  \cxxverbatimsnippet[examples/mpi/mpl/commsplit.cxx]{commsplitmpl}
+
+  \begin{mplimpl}
+    The \lstinline+communicator::+\indexmpldef{split} identifier
+    is an object of class
+    \lstinline+communicator::+\indexmpldef{split_tag},
+    itself is an otherwise empty
+    subclass of \indexmplshow{communicator}:
+\begin{lstlisting}
+class split_tag {};
+static constexpr split_tag split{};
+\end{lstlisting}
+  \end{mplimpl}
+\end{mplnote}
+
+
+There is also a routine \indexmpishow{MPI_Comm_split_type}
+which uses a type rather than a key to split the communicator.
+We will see this in action in section~\ref{mpi-comm-split-type}.
 
 As another example of communicator splitting, consider the recursive
 algorithm for \indextermbus{matrix}{transposition}.

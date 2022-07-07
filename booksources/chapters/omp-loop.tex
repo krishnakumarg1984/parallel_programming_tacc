@@ -110,14 +110,20 @@ It is also possible to have a combined
   for (i=0; .....
 \end{lstlisting}
 
-\begin{remark}
-  There are certain restrictions on the type of loop
-  that can be executed in parallel.
-  These arise from the fact that iterations need to be scheduled
-  before the loop starts.
-  Thus
-  \begin{itemize}
-  \item the loop body is not allowed to change the loop variable:
+\Level 1 {Loops are static}
+
+There are some restrictions on the loop: basically, OpenMP needs to be
+able to determine in advance how many iterations there will be.
+\begin{itemize}
+\item The loop can not contains \n{break}, \n{return}, \n{exit} statements, or
+  \n{goto} to a label outside the loop.
+\item The \indextermttnote{continue|in OpenMP loops} (for~C/C++)
+  or \indextermttnote{cycle|in OpenMP loops} (for Fortran)
+  statement is allowed.
+\item The index update has to be an increment (or decrement) by a fixed amount.
+\item The loop index variable is automatically private, and not changes to it
+  inside the loop are allowed.
+  The following loop is not parallelizable in OpenMP:
     \begin{lstlisting}
       for (int i=0; i<N; ) {
         // something
@@ -127,16 +133,15 @@ It is also possible to have a combined
         i += 2;
       }
     \end{lstlisting}
-  \end{itemize}
-  Furthermore, you are not allowed to \lstinline{break}
-  out of a loop.
-\end{remark}
+\end{itemize}
 
 \begin{remark}
   The loop index needs to be an integer value
   for the loop to be parallelizable.
   Unsigned values are allowed as of \ompstandard{3}.
 \end{remark}
+
+\Level 1 {Exercises}
 
 \begin{exercise}
   \label{ex:omp-pi}
@@ -155,8 +160,8 @@ It is also possible to have a combined
   \item Put a \indexompshow{parallel} directive around your loop. Does it still
     compute the right result? Does the time go down with the number of
     threads? (The answers should be no and no.)
-  \item Change the \n{parallel} to \n{parallel for} (or \n{parallel
-    do}). Now is the result correct? Does execution speed up? (The
+  \item Change the \lstinline{parallel} to \lstinline{parallel for}
+    (or \lstinline{parallel do}). Now is the result correct? Does execution speed up? (The
     answers should now be no and yes.)
   \item Put a \indexompshow{critical} directive in front of the update. (Yes and
     very much no.)
@@ -175,17 +180,6 @@ It is also possible to have a combined
   where you weren't expecting it. The issue here is \indexterm{false
     sharing}; see~\HPSCref{sec:roundoff-parallel} for more explanation.
 \end{remark}
-
-There are some restrictions on the loop: basically, OpenMP needs to be
-able to determine in advance how many iterations there will be.
-\begin{itemize}
-\item The loop can not contains \n{break}, \n{return}, \n{exit} statements, or
-  \n{goto} to a label outside the loop.
-\item The \n{continue} (C) or \n{cycle} (F) statement is allowed.
-\item The index update has to be an increment (or decrement) by a fixed amount.
-\item The loop index variable is automatically private, and not changes to it
-  inside the loop are allowed.
-\end{itemize}
 
 \Level 0 {An example}
 
@@ -307,7 +301,7 @@ For reference, the commandlines executed were:
 \end{verbatim}
 
 \begin{cppnote}{Range syntax}
-  Parallel loops in C++ can use range-based syntax:
+  Parallel loops in can use range-based syntax as of \ompstandard{5.0}:
   %
   \cxxverbatimsnippet{ompcxxloop}
   %
@@ -434,19 +428,20 @@ for (i=0; i<nsteps; i++) {
 \end{multicols}
 
 \begin{enumerate}
-\item Use the \n{omp parallel for} construct to parallelize the loop.
+\item Use the \lstinline{omp parallel for} construct to parallelize the loop.
   As in the previous lab, you may at first see an incorrect result.
   Use the \indexompshow{reduction} clause to fix this.
 \item Your code should now see a decent speedup, but possible not for all cores.
   It is possible to get completely linear speedup by adjusting the schedule.
 
-  Start by using \indexompshow{schedule}\n{(static,$n$)}. Experiment with values
-  for~$n$.  When can you get a better speedup? Explain this.
-\item Since this code is somewhat dynamic, try \indexompshow{schedule}\n{(dynamic)}.
+  Start by using \indexompshow{schedule}\lstinline{(static,n)}.
+  Experiment with values for~$n$.
+  When can you get a better speedup? Explain this.
+\item Since this code is somewhat dynamic, try \indexompshow{schedule}\lstinline{(dynamic)}.
   This will actually give a fairly bad result. Why?  Use
   \indexompshow{schedule}\n{(dynamic,$n$)} instead, and experiment with values
   for~$n$.
-\item Finally, use \indexompshow{schedule}\n{(guided)}, where OpenMP uses a
+\item Finally, use \indexompshow{schedule}\lstinline{(guided)}, where OpenMP uses a
   heuristic.  What results does that give?
 \end{enumerate}
      
@@ -475,7 +470,7 @@ for k=1,n:
 
 The schedule can be declared explicitly, set at runtime
 through the \indexompshow{OMP_SCHEDULE} environment variable, or left up to the runtime system
-by specifying \n{auto}. Especially in the last two cases  you may want to enquire
+by specifying \lstinline{auto}. Especially in the last two cases  you may want to enquire
 what schedule is currently being used with
 \indexompshow{omp_get_schedule}.
 \begin{lstlisting}
@@ -483,7 +478,7 @@ int omp_get_schedule(omp_sched_t * kind, int * modifier );
 \end{lstlisting}
 
 Its mirror call is \indexompshow{omp_set_schedule}, which sets the
-value that is used when schedule value \n{runtime} is used. It is in
+value that is used when schedule value \lstinline{runtime} is used. It is in
 effect equivalent to setting the environment variable
 \indexompshow{OMP_SCHEDULE}.
 \begin{lstlisting}
@@ -541,7 +536,7 @@ for ( i=0; i<N; i++ )
   for ( j=0; j<N; j++ )
     A[i][j] = B[i][j] + C[i][j] 
 \end{lstlisting}
-all $N^2$ iterations are independent, but a regular \n{omp for}
+all $N^2$ iterations are independent, but a regular \lstinline{omp for}
 directive will only parallelize one level. The \indexclause{collapse}
 clause will parallelize more than one level:
 \begin{lstlisting}
@@ -711,7 +706,7 @@ contains the \emph{last} location where \n{a[i]} is zero.
 
 \Level 0 {Scaling tests}
 
-\verbatimsnippet{ompsineloop}
+\cverbatimsnippet{ompsineloop}
 
 \Level 1 {Lonestar 6}
 

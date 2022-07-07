@@ -16,10 +16,9 @@
 #include <omp.h>
 
 static int tp;
+#pragma omp threadprivate(tp)
 
 int main(int argc,char **argv) {
-
-#pragma omp threadprivate(tp)
 
 #pragma omp parallel num_threads(7)
   tp = omp_get_thread_num();

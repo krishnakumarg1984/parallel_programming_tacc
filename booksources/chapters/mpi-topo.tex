@@ -62,7 +62,11 @@ assists in finding a grid of a given dimension,
 attempting to minimize the diameter.
 %
 %%\cverbatimsnippet{dimscreate}
-\csnippetwithoutput{dimscreate}{examples/mpi/c}{cartdims}
+{
+  \def\snippetcodefraction{.45}
+  \def\snippetlistfraction{.55}
+  \csnippetwithoutput{dimscreate}{examples/mpi/c}{cartdims}
+  }
 %
 If the dimensions array is nonzero in a component, that one is not touched. 
 Of course, the product of the specified dimensions has to divide in
@@ -90,6 +94,7 @@ the input number of nodes.
 \end{comment}
 
 \Level 1 {Cartesian topology communicator}
+\label{sec:cart-comm-create}
 
 The cartesian topology is specified by giving
 \indexmpiref{MPI_Cart_create} the sizes of the processor grid along
@@ -292,6 +297,30 @@ use \indexmpishow{MPI_Dist_graph_neighbors}
 and \indexmpishow{MPI_Dist_graph_neighbors_count};
 section~\ref{sec:graph-neighbors}.
 
+By way of example we build an unsymmetric graph, that is,
+an edge $v_1\rightarrow v_2$ between vertices~$v_1,v_2$
+does not imply an edge~$v_2\rightarrow v_1$.
+%
+\csnippetwithblock{distgraphsetup}{\vbox to 0pt {\includegraphics[scale=.75]{distgraph}\vss}}
+
+Here we gather the coordinates of the source neighbors:
+
+{
+  \def\snippetcodefraction{.45}
+  \def\snippetlistfraction{.5}
+  \csnippetwithoutput{distgraphreadout}{examples/mpi/c}{graph}
+}
+
+However, we can't rely on the sources being ordered,
+so the following segment performs an explicit query for the
+source neighbors:
+
+{
+  \def\snippetcodefraction{.45}
+  \def\snippetlistfraction{.5}
+  \csnippetwithoutput{distgraphcount}{examples/mpi/c}{graphcount}
+}
+
 \begin{pythonnote}{Graph communicators}
   Graph communicator creation is a method of the \plstinline{Comm} class,
   and the graph communicator is a function return result:
@@ -321,6 +350,7 @@ is a wrapper around \indexmpishow{MPI_Dist_graph_create_adjacent}.
 \end{mplnote}
 
 \Level 1 {Neighbor collectives}
+\label{sec:mpi-neigh-coll}
 
 We can now use the graph topology to perform a gather or allgather
 \indexmpiref{MPI_Neighbor_allgather}

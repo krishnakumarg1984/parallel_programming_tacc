@@ -14,6 +14,9 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\newif\ifInBook
+\InBookfalse
+
 %%%%
 %%%% Outlining
 %%%%
@@ -132,6 +135,7 @@
 %%%%
 %%%% snippets
 %%%%
+\begin{comment}
 \def\verbatimsnippet#1{\verbatiminput{#1}} % snippets/
 \newcommand{\cverbatimsnippet}[2][XX]{
   % record this file as bracketed name
@@ -168,6 +172,7 @@
     {\lstset{style=reviewcode,language=C++}\begin{lstlisting}}
     {\end{lstlisting}
 }
+\end{comment}
 
 %%%%
 %%%% Prototypes
@@ -176,6 +181,7 @@
 \def\mpiRoutineRef#1{\RoutineRefStyle\verbatiminput{#1}}
 \def\RoutineRefStyle{\scriptsize}
 \newcommand\standardversion{}
+\newcommand\mpiparmtextsize{1.3in}
 \def\protoslide#{\bgroup \catcode`\_=12
   \afterassignment\protoslideinclude \def\protoname}
 \def\protoslideinclude{%
@@ -185,7 +191,7 @@
       \def\mpifunc##1{\texttt{##1}}
       \let\mpiarg\mpifunc \let\mpicode\mpifunc
       \let\const\mpifunc  \let\constskip\mpifunc
-    \scriptsize
+    \tiny
     \edef\tmp{\lowercase{\def\noexpand\standardroutine{\protoname}}}\tmp
     \IfFileExists
         {standard/\standardroutine\standardversion.tex}
@@ -296,6 +302,7 @@
 }
 \let\indexmpiref\indexmpishow
 \let\indexmpidef\indexmpishow
+\let\indexmpidepr\indexmpishow
 \let\indexmpldef\indexmpishow
 \let\indexmplref\indexmpishow
 \let\indexmplshow\indexmpishow

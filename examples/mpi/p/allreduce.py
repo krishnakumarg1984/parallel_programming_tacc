@@ -34,16 +34,16 @@ max_random = comm.allreduce(random_number,op=MPI.MAX)
 if procid==0:
     print("Python native:\n  max=%d" % max_random)
 
-myrandom = np.empty(1,dtype=np.int)
+myrandom = np.empty(1,dtype=int)
 myrandom[0] = random_number
-allrandom = np.empty(nprocs,dtype=np.int)
+allrandom = np.empty(nprocs,dtype=int)
 # numpy mode send
 comm.Allreduce(myrandom,allrandom[:1],op=MPI.MAX)
 
 if procid==0:
     print("Python numpy:\n  max=%d" % allrandom[0])
 
-sumrandom = np.zeros(1,dtype=np.int)
+sumrandom = np.zeros(1,dtype=int)
 sumrandom[0] = myrandom[0]
 #### WRONG polymorphic use does not work
 #comm.Allreduce(sumrandom[:1])

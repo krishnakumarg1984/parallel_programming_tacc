@@ -159,7 +159,7 @@ This is illustrated in figure~\ref{fig:data-contiguous}.
 
 \cverbatimsnippet[examples/mpi/c/contiguous.c]{contiguous}
 
-\fverbatimsnippet[examples/mpi/f/contiguous.F90]{contiguous-f}
+\fverbatimsnippet[examples/mpi/f08/contiguous.F90]{contiguous-f08}
 
 \pverbatimsnippet[examples/mpi/p/contiguous.py]{contiguousp}
 
@@ -227,8 +227,7 @@ declared as \lstinline{Integer}:
 \fverbatimsnippet[examples/mpi/f/vector.F90]{vector-f}
 
 \begin{pythonnote}{Vector type}
-  The vector creation routine is a method of the
-  \lstinline+MPI.Datatype+  class. 
+  The vector creation routine is a method of the datatype class.
   For the general discussion, see section~\ref{sec:data-commit}.
 \end{pythonnote}
 
@@ -353,7 +352,7 @@ The vector datatype can be used for blocks in an array of dimension
 more than~2 by using it recursively. However, this gets
 tedious. Instead, there is an explicit subarray type
 %
-\indexmpiref{MPI_Type_create_subarray}
+\indexmpiref{MPI_Type_create_subarray}.
 %
 This describes the dimensionality and extent of the array, and
 the starting point (the `upper left corner') and extent of the
@@ -371,13 +370,13 @@ mpl::subarray_layout<int>(
 
 \begin{exercise}
   \label{ex:cubegather}
-  \skeleton{cubegather}
-
   Assume that your number of processors is $P=Q^3$, and that each
   process has an array of identical size. Use
   \indexmpishow{MPI_Type_create_subarray} to gather all data onto a root process.
   Use a sequence of send and receive calls;
   \indexmpishow{MPI_Gather} does not work here.
+
+  \skeleton{cubegather}
 
 \begin{tacc}
 If you haven't started \n{idev} with the right number of processes,

@@ -4,7 +4,7 @@
 %%%%
 %%%% This text file is part of the source of 
 %%%% `Parallel Programming in MPI and OpenMP'
-%%%% by Victor Eijkhout, copyright 2012-2021
+%%%% by Victor Eijkhout, copyright 2012-2022
 %%%%
 %%%% mpi-moredata.tex : more about data
 %%%%
@@ -15,7 +15,7 @@
 
 With derived types, you saw that it was not necessary for
 the type of the sender and receiver to match.
-Howver, when the send buffer is constructed,
+However, when the send buffer is constructed,
 and the receive buffer unpacked,
 it is necessary for the successive types in that buffer to match.
 
@@ -71,11 +71,24 @@ See section~\ref{sec:data:struct} for the code defining the structure type.
   \indexmpidepr{MPI_Type_lb}, \indexmpidepr{MPI_Type_ub}.
 \end{remark}
 
+\begin{figure}[ht]
+  \includegraphics[scale=.5]{subarraytrueextent}
+  \caption{True lower bound and extent of a subarray data type}
+  \label{fig:subtrue}
+\end{figure}
+
 The \emph{subarray datatype}\index{MPI!datatype!subarray} need not
 start at the first element of the buffer, so the extent is an
-overstatement of how much data is involved. The routine
+overstatement of how much data is involved.
+In fact, the lower bound is zero,
+and the extent equals the size of the block
+from which the subarray is taken.
+The routine
 \indexmpiref{MPI_Type_get_true_extent} returns the lower bound,
 indicating where the data starts, and the extent from that point.
+This is illustrated in figure~\ref{fig:subtrue}.
+
+\csnippetwithoutput{trueextent}{examples/mpi/c}{trueextent}
 
 \begin{comment}
   Suppose we implement gather (see also Section Gather ) as a spanning
@@ -89,20 +102,39 @@ indicating where the data starts, and the extent from that point.
   provided which return the true extent of the datatype.
 \end{comment}
 
-\cverbatimsnippet[examples/mpi/c/trueextent.c]{trueextent}
-
-There is also a `big data' routine \indexmpishow{MPI_Type_get_true_extent_x}
+There are also `big data' routines
+\indexmpishow{MPI_Type_get_extent_x}
+\indexmpishow{MPI_Type_get_true_extent_x}
 that has an \indexmpishow{MPI_Count} as output.
+
+\begin{mpifournote}{Extent result as count}
+  The C routines
+  \indexmpishow{MPI_Type_get_extent_c}
+  \indexmpishow{MPI_Type_get_true_extent_c}
+  also output an \indexmpishow{MPI_Count}.
+\end{mpifournote}
 
 \Level 1 {Extent resizing}
 
 A type is partly characterized by its lower bound and extent,
 or equivalently lower bound and upperbound.
 Somewhat miraculously, you can actually change these to achieve special effects.
-This is needed for some cases of gather/scatter operations, or when the count
-of derived items in a buffer is more than one.
+This is needed for:
+\begin{itemize}
+\item
+  some cases of gather/scatter operations;
 
-To understand the latter case, consider the vector type from the previous section.
+The problem here is that MPI uses the extent of the send type in a scatter,
+or the receive type in a gather: if that type is 20 bytes big from
+its first to its last element, then
+data will be read out 20 bytes apart in a scatter, or written 20 bytes apart
+in a gather. This ignores the `gaps' in the type!
+(See exercise~\ref{ex:stridesend}.)
+
+\item When the count
+  of derived items in a buffer is more than one.
+
+Consider the vector type from the previous section.
 It is clear that
 \begin{lstlisting}
 MPI_Type_vector( 2*count,bs,stride,oldtype,&two_n_type );
@@ -112,12 +144,7 @@ will not give the same result as
 MPI_Type_vector( count,bs,stride,oldtype,&one_n_type );
 MPI_Type_contiguous( 2,&one_n_type,&two_n_type );
 \end{lstlisting}
-
-The problem here is that MPI uses the extent of the send type in a scatter,
-or the receive type in a gather: if that type is 20 bytes big from
-its first to its last element, then
-data will be read out 20 bytes apart in a scatter, or written 20 bytes apart
-in a gather. This ignores the `gaps' in the type!
+\end{itemize}
 
 The technicality on which the solution hinges is that you can `resize' a type
 with \indexmpiref{MPI_Type_create_resized}
@@ -128,7 +155,8 @@ actually is in it.
 
 \begin{figure}[ht]
   \includegraphics{extentpad}
-  \caption{Effect of resizing a type}
+  \caption{Contiguous type of two vectors,
+    before and after resizing the extent.}
   \label{fig:extentpad}
 \end{figure}
 
@@ -191,6 +219,11 @@ gather 4 elements from 3 procs:
  0 3 6 9 1 4 7 10 2 5 8 11
 \end{verbatim}
 
+\begin{figure}
+  \includegraphics[scale=.6]{stridegather}
+  \caption{Placement of gathered strided types.}
+  \label{fig:stridegather}
+\end{figure}
 Using a strided type still puts data end-to-end, but now there
 are unwritten gaps in the gather buffer:
 \begin{lstlisting}
@@ -198,6 +231,8 @@ MPI_Gather( mydata,localsize,MPI_INT,
             gathered,1,stridetype, // abut with gaps
             root,comm );  
 \end{lstlisting}
+This is illustrated in figure~\ref{fig:stridegather}.
+A sample printout of the result would be:
 \begin{verbatim}
  0 1879048192 1100361260 3 3 0 6 0 0 9 1 198654
 \end{verbatim}
@@ -384,13 +419,13 @@ A packed buffer is sent or received with a datatype of
 parameter to specify how much data is sent, but the receiving routine
 does not know this value a~priori, so has to specify an upper bound.
 
-\csnippetwithoutput{packunpack}{examples/mpi/pack}{pack}
+\csnippetwithoutput{packunpack}{examples/mpi/c}{pack}
 
 You can precompute the size of the required buffer with
 %
 \indexmpiref{MPI_Pack_size}.
 %
-\csnippetwithoutput{packsize}{examples/mpi/pack}{packsize}
+\csnippetwithoutput{packsize}{examples/mpi/c}{packsize}
 
 \begin{exercise}
   \label{ex:packAOS}

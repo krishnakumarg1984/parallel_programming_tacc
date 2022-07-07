@@ -3,7 +3,7 @@
    %%%%
    %%%% This program file is part of the book and course
    %%%% "Parallel Computing"
-   %%%% by Victor Eijkhout, copyright 2021
+   %%%% by Victor Eijkhout, copyright 2022
    %%%%
    %%%% partition.c : partitioned communication
    %%%%
@@ -47,7 +47,7 @@ int main(int argc,char **argv) {
       partitions[ip] = ip*SIZE;
     if (procno==src) {
       double *sendbuffer = (double*)malloc(bufsize*sizeof(double));
-      fill_buffer(sendbuffer,bufsize,1);
+      fill_buffer(sendbuffer,0,bufsize,1);
       double start = MPI_Wtime();
       MPI_Request send_request;
       MPI_Psend_init
@@ -55,9 +55,10 @@ int main(int argc,char **argv) {
          comm,MPI_INFO_NULL,&send_request);
       for (int it=0; it<ITERATIONS; it++) {
         MPI_Start(&send_request);
-        for (int ip=0; ip<nparts; ip++)
-          fill_buffer(sendbuffer,partitions[ip],partitions[ip+],ip);
+        for (int ip=0; ip<nparts; ip++) {
+          fill_buffer(sendbuffer,partitions[ip],partitions[ip+1],ip);
           MPI_Pready(ip,send_request);
+	}
         MPI_Wait(&send_request,MPI_STATUS_IGNORE);
         int confirm; MPI_Recv(&confirm,0,MPI_INT,tgt,0,comm,MPI_STATUS_IGNORE);
       }
@@ -72,11 +73,16 @@ int main(int argc,char **argv) {
         (recvbuffer,nparts,SIZE,MPI_DOUBLE,src,0,
          comm,MPI_INFO_NULL,&recv_request);
       for (int it=0; it<ITERATIONS; it++) {
-        MPI_Start(&recv_request);
+        MPI_Start(&recv_request); int r=1,flag;
+        for (int ip=0; ip<nparts; ip++) // cycle this many times
+          for (int ap=0; ap<nparts; ap++) { // check specific part
+            MPI_Parrived(recv_request,ap,&flag);
+            if (flag) {
+              r *= chck_buffer
+                (recvbuffer,partitions[ap],partitions[ap+1],ap);
+              break; }
+          }
         MPI_Wait(&recv_request,MPI_STATUS_IGNORE);
-        int r = 1;
-        for (ip=0; ip<nparts; ip++)
-          r *= chck_buffer(recvbuffer,partitions[ip],partitions[ip+1],ip);
         if (!r) printf("buffer problem %d\n",1);
         int confirm; MPI_Send(&confirm,0,MPI_INT,src,0,comm);
       }

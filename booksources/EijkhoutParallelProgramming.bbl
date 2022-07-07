@@ -27,7 +27,7 @@ Tom Cornebize, Franz~C Heinrich, Arnaud Legrand, and J{\'e}r{\^o}me Vienne.
 \bibitem{mpi4py:homepage}
 Lisandro Dalcin.
 \newblock {MPI for Python}, homepage.
-\newblock \url{https://mpi4py.bitbucket.io/}.
+\newblock \url{https://github.com/mpi4py/mpi4py}.
 
 \bibitem{Dehnadi:meta-analysis}
 Saeed Dehnadi, Richard Bornat, and Ray Adams.
@@ -158,6 +158,11 @@ R.~Thakur, W.~Gropp, and B.~Toonen.
   communication.
 \newblock {\em Int'l Journal of High Performance Computing Applications},
   19:119--128, 2005.
+
+\bibitem{slepc-homepage}
+{Universitat Politecnica de Valencia}.
+\newblock {SLEPC -- Scalable software for Eigenvalue Problem Computations}.
+\newblock \url{http://www.grycap.upv.es/slepc/}.
 
 \bibitem{Valiant:1990:BSP}
 Leslie~G. Valiant.

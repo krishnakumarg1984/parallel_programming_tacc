@@ -178,10 +178,8 @@ Logical operator reductions in Fortran:
   to evaluate the speedup that is attained and to find the best option.
 \end{exercise}
 
-\Level 1 {Types}
-
-Reduction can be applied to any type for which the operator is defined.
-The types to which \lstinline{max/min} are applicable are limited.
+\Level 1 {Reduction on arrays}
+\label{sec:omp-array-reduct}
 
 Starting with the \ompstandard{4.5} standard, you can reduce
 on statically allocated arrays:
@@ -189,6 +187,12 @@ on statically allocated arrays:
 int ar[N];
 #pragma omp parallel for reduction(+:ar[:N])
 \end{lstlisting}
+
+
+\Level 1 {Types}
+
+Reduction can be applied to any type for which the operator is defined.
+The types to which \lstinline{max/min} are applicable are limited.
 
 \Level 0 {Initial value for reductions}
 
@@ -325,6 +329,16 @@ For instance, recreating the maximum reduction would look like this:
   which is then called with specific data:
   %
   \cxxverbatimsnippet{ompreducttcall}
+\end{cppnote}
+
+\begin{cppnote}{Example: reduction over a map}
+  You can do a reduction over a \lstinline{std::map}
+  by merging thread-local maps:
+  \begin{multicols}{2}
+    \cxxverbatimsnippet{ompbincounter}
+    \columnbreak
+    \cxxverbatimsnippet{ompbinreduce}
+  \end{multicols}
 \end{cppnote}
 
 \Level 1 {Overloaded operators}

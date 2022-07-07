@@ -4,7 +4,7 @@
 %%
 %% This text file is part of the source of 
 %% `Parallel Computing'
-%% by Victor Eijkhout, copyright 2012-2021
+%% by Victor Eijkhout, copyright 2012-2022
 %%
 %% MPI API file for MPI_Type_create_subarray
 %%
@@ -16,23 +16,24 @@
 \begingroup
 \ttfamily\bfseries
 \catcode`\_=12
-\begin{tabular}{lllll}
+\begin{tabular}{
+l       % name
+l       % param name
+p{\mpiparmtextsize}  % explanation
+p{.7in} % ctype
+p{.9in} % ftype
+l       % inout
+}
 \toprule
 \mdseries\textrm{Name}&
 \mdseries\textrm{Param name}&
+\mdseries\textrm{Explanation}&
 \mdseries\textrm{C type}&
 \mdseries\textrm{F type}&
 \mdseries\textrm{inout}\\
 \midrule
-\hbox to 20pt{MPI_Type_create_subarray (\hss} \\
- & ndims & int & INTEGER  & IN \\&\hbox to 0pt{\footnotesize\sl number of array dimensions\hss} \\ [+3pt] 
- & array_of_sizes & const int[] & INTEGER(ndims)  & IN \\&\hbox to 0pt{\footnotesize\sl number of elements of type \mpiarg{oldtype} in each dimension of the full array\hss} \\ [+3pt] 
- & array_of_subsizes & const int[] & INTEGER(ndims)  & IN \\&\hbox to 0pt{\footnotesize\sl number of elements of type \mpiarg{oldtype} in each dimension of the subarray\hss} \\ [+3pt] 
- & array_of_starts & const int[] & INTEGER(ndims)  & IN \\&\hbox to 0pt{\footnotesize\sl starting coordinates of the subarray in each dimension\hss} \\ [+3pt] 
- & order & int & INTEGER  & IN \\&\hbox to 0pt{\footnotesize\sl array storage order flag\hss} \\ [+3pt] 
- & oldtype & MPI_Datatype & TYPE(MPI_Datatype)  & IN \\&\hbox to 0pt{\footnotesize\sl old datatype\hss} \\ [+3pt] 
- & newtype & MPI_Datatype* & TYPE(MPI_Datatype)  & OUT \\&\hbox to 0pt{\footnotesize\sl new datatype\hss} \\ [+3pt] 
-
+\hbox to 18pt{MPI_Type_create_subarray (\hss} \\
+ & ndims & number of array dimensions & int & INTEGER  & IN \\ & array_of_sizes & number of elements of type \mpiarg{oldtype} in each dimension of the full array & const int[] & INTEGER\discretionary{}{\kern10pt}{}(ndims)  & IN \\ & array_of_subsizes & number of elements of type \mpiarg{oldtype} in each dimension of the subarray & const int[] & INTEGER\discretionary{}{\kern10pt}{}(ndims)  & IN \\ & array_of_starts & starting coordinates of the subarray in each dimension & const int[] & INTEGER\discretionary{}{\kern10pt}{}(ndims)  & IN \\ & order & array storage order flag & int & INTEGER  & IN \\ & oldtype & old datatype & MPI_Datatype & TYPE\discretionary{}{\kern10pt}{}(MPI_Datatype)  & IN \\ & newtype & new datatype & MPI_Datatype* & TYPE\discretionary{}{\kern10pt}{}(MPI_Datatype)  & OUT \\
 &)\\
 
 \bottomrule

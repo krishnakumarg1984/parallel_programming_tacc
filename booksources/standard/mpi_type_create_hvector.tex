@@ -4,7 +4,7 @@
 %%
 %% This text file is part of the source of 
 %% `Parallel Computing'
-%% by Victor Eijkhout, copyright 2012-2021
+%% by Victor Eijkhout, copyright 2012-2022
 %%
 %% MPI API file for MPI_Type_create_hvector
 %%
@@ -16,28 +16,25 @@
 \begingroup
 \ttfamily\bfseries
 \catcode`\_=12
-\begin{tabular}{lllll}
+\begin{tabular}{
+l       % name
+l       % param name
+p{\mpiparmtextsize}  % explanation
+p{.7in} % ctype
+p{.9in} % ftype
+l       % inout
+}
 \toprule
 \mdseries\textrm{Name}&
 \mdseries\textrm{Param name}&
+\mdseries\textrm{Explanation}&
 \mdseries\textrm{C type}&
 \mdseries\textrm{F type}&
 \mdseries\textrm{inout}\\
 \midrule
-\hbox to 20pt{MPI_Type_create_hvector (\hss} \\
-\hbox to 20pt{MPI_Type_create_hvector_c (\hss} \\
- & count & int & INTEGER  & IN \\ [-3pt]
-(c) & & MPI_Count & \hbox to 0pt {INTEGER(KIND=MPI_COUNT_KIND) \hss} \\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl number of blocks\hss} \\ [+3pt] 
- & blocklength & int & INTEGER  & IN \\ [-3pt]
-(c) & & MPI_Count & \hbox to 0pt {INTEGER(KIND=MPI_COUNT_KIND) \hss} \\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl number of elements in each block\hss} \\ [+3pt] 
- & stride & MPI_Aint & INTEGER(KIND=MPI_ADDRESS_KIND)  & IN \\ [-3pt]
-(c) & & MPI_Count & \hbox to 0pt {INTEGER(KIND=MPI_COUNT_KIND) \hss} \\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl number of bytes between start of each block\hss} \\ [+3pt] 
- & oldtype & MPI_Datatype & TYPE(MPI_Datatype)  & IN \\&\hbox to 0pt{\footnotesize\sl old datatype\hss} \\ [+3pt] 
- & newtype & MPI_Datatype* & TYPE(MPI_Datatype)  & OUT \\&\hbox to 0pt{\footnotesize\sl new datatype\hss} \\ [+3pt] 
-
+\hbox to 18pt{MPI_Type_create_hvector (\hss} \\
+\hbox to 18pt{MPI_Type_create_hvector_c (\hss} \\
+ & count & number of blocks & $\left[ \begin{array}{ll}\mathtt{ int }  \\ \mathtt{ MPI_Count} \end{array} \right.$  & INTEGER  & IN \\ [+3pt] & blocklength & number of elements in each block & $\left[ \begin{array}{ll}\mathtt{ int }  \\ \mathtt{ MPI_Count} \end{array} \right.$  & INTEGER  & IN \\ [+3pt] & stride & number of bytes between start of each block & $\left[ \begin{array}{ll}\mathtt{ MPI_Aint }  \\ \mathtt{ MPI_Count} \end{array} \right.$  & INTEGER\discretionary{}{\kern10pt}{}(KIND=MPI_ADDRESS_KIND)  & IN \\ [+3pt] & oldtype & old datatype & MPI_Datatype & TYPE\discretionary{}{\kern10pt}{}(MPI_Datatype)  & IN \\ & newtype & new datatype & MPI_Datatype* & TYPE\discretionary{}{\kern10pt}{}(MPI_Datatype)  & OUT \\
 &)\\
 
 \bottomrule

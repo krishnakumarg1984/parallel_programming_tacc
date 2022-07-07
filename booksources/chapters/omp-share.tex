@@ -11,13 +11,15 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\label{sec:work-sharing}
-
 The declaration of a \indexterm{parallel region} establishes a team of
 threads. This offers the possibility of parallelism, but to actually
 get meaningful parallel activity you need something more.
 OpenMP uses the concept of a \indexterm{work sharing
 construct}: a way of dividing parallelizable work over a team of threads.
+
+\Level 0 {Work sharing constructs}
+\label{sec:work-sharing}
+
 The work sharing constructs are:
 \begin{itemize}
 \item \texttt{for} (for~C) or
@@ -37,7 +39,7 @@ The work sharing constructs are:
 
 A parallel loop is an example of independent work units that are numbered.
 If you have a pre-determined number of independent work units, 
-the \indexpragma{sections} is more appropriate. In a \n{sections} construct
+the \indexpragma{sections} is more appropriate. In a \lstinline{sections} construct
 can be any number of \indexpragma{section} constructs. These need to be
 independent, and they can be execute by any available thread in the current team,
 including having multiple sections done by the same thread.
@@ -71,7 +73,7 @@ y = y1+y2;
 \end{lstlisting}
 Instead of using two temporaries, you could also use a critical
 section; see section~\ref{sec:critical}.  However, the best solution
-is have a \n{reduction} clause on the \n{parallel sections} directive.
+is have a \lstinline{reduction} clause on the \lstinline{parallel sections} directive.
 For the sum
 \begin{lstlisting}
   y = f(x) + g(x)
@@ -94,7 +96,7 @@ or doing \emph{I/O}\index{I/O!in OpenMP} operations.
   // parallel stuff
 }
 \end{lstlisting}
-Another use of \n{single} is to perform initializations
+Another use of \lstinline{single} is to perform initializations
 in a parallel region:
 \begin{lstlisting}
 int a;
@@ -139,8 +141,8 @@ int a;
   This code is no longer correct. Explain.
 \end{exercise}
 
-Above we motivated the \n{single} directive as a way of initializing
-shared variables. It is also possible to use \n{single} to initialize
+Above we motivated the \lstinline{single} directive as a way of initializing
+shared variables. It is also possible to use \lstinline{single} to initialize
 private variables. In that case you add the \indexclausedef{copyprivate}
 clause. This is a good solution if setting the variable takes~I/O.
 
@@ -153,7 +155,7 @@ clause. This is a good solution if setting the variable takes~I/O.
 \Level 0 {Fortran array syntax parallelization}
 \label{sec:fortran-workshare}
 
-The \n{parallel do} directive is used to parallelize loops,
+The \lstinline{parallel do} directive is used to parallelize loops,
 and this applies to both C and Fortran. However, Fortran also
 has implied loops in its \emph{array syntax}\index{Fortran!array syntax}.
 To parallelize array syntax you can use the \indexpragma{workshare}

@@ -5,7 +5,7 @@
 #### Victor Eijkhout
 #### eijkhout@tacc.utexas.edu
 ####
-#### copyright Victor Eijkhout 2012-2021
+#### copyright Victor Eijkhout 2012-2022
 ####
 #### Make include file with general compile rules
 ####
@@ -16,9 +16,21 @@ MAKEFLAGS += --no-builtin-rules
 info ::
 	@echo
 	@echo "================ Compilation"
+	@if [ -z "${MODE}" ] ; then \
+	    echo "Please set MODE variable" && echo \
+	 ; else \
+	    case ${MODE} in \
+	        ( mpi | mpl | omp | hybrid | petsc | slepc | 1api ) \
+	            echo "using mode=${MODE}" ;; \
+	        ( * ) echo && echo "Unknown MODE=${MODE}" && echo ;; \
+	    esac \
+	 ; fi 
 	@echo "make APP (in ${APPS} ${EXERCISES} ${PROGRAMS} )"
 	@echo "    [ OPTLEVEL=0/1/2, default:${OPTLEVEL} ]"
 	@echo "    [ EXTRA_OPTIONS=... ]"
+	@echo "    [ EXTRA_INCLUDES=... ]"
+	@echo "    [ EXTRA_LIBS=... ]"
+	@echo "    [ ECHO=0/1 : echo commandline ]"
 OPTLEVEL = 2
 
 EXT_c = c
@@ -35,11 +47,11 @@ CXXFLAGS =
 FFLAGS =
 
 C_STD_FLAGS = -std=c99
+CFLAGS   += ${C_STD_FLAGS}
+
 CPPSTANDARD = 17
 CSTANDARD = 99
 CXX_STD_FLAGS = -std=c++${CPPSTANDARD}
-
-CFLAGS   += ${C_STD_FLAGS}
 CXXFLAGS += ${CXX_STD_FLAGS}
 
 OPTFLAGS = -O${OPTLEVEL} -g
@@ -69,6 +81,10 @@ else
       C_COMPILER   = ${MPI_C_COMPILER}
       CXX_COMPILER = ${MPI_CXX_COMPILER}
       F_COMPILER   = ${MPI_F_COMPILER}
+    else ifeq "${MODE}" "cuda"
+      C_COMPILER   = nvcc
+      CXX_COMPILER = nvcc
+      F_COMPILER   = /bin/false
     else ifeq "${MODE}" "1api"
       ifeq "${TACC_SYSTEM}" "frontera"
         CXX_COMPILER = syclcc
@@ -97,12 +113,36 @@ else
       CXXFLAGS += ${PETSC_CXX_INCLUDES} 
       FFLAGS += ${PETSC_FC_INCLUDES} 
 
+    else ifeq "${MODE}" "slepc"
+      ##
+      ## annoyingly, there is only an mpicc/mpicxx/mpif90 script
+      ## in the petsc bin dir, if you have --download-mpich
+      ## this may have changed in 3.12.4
+      ##
+      C_COMPILER = mpicc
+      # ${PETSC_DIR}/${PETSC_ARCH}/bin/mpicc
+      CXX_COMPILER = mpicxx
+      #${PETSC_DIR}/${PETSC_ARCH}/bin/mpicxx
+      F_COMPILER = mpif90
+      #${PETSC_DIR}/${PETSC_ARCH}/bin/mpif90
+      MPI_C_COMPILER   = ${C_COMPILER}
+      MPI_CXX_COMPILER = ${CXX_COMPILER}
+      MPI_F_COMPILER   = ${F_COMPILER}
+
+      CFLAGS += ${PETSC_CC_INCLUDES} 
+      CXXFLAGS += ${PETSC_CXX_INCLUDES} 
+      FFLAGS += ${PETSC_FC_INCLUDES} 
+
     else # other modes use the regular compilers
 
 	ifeq "${TACC_FAMILY_COMPILER}" "intel"
 	  C_COMPILER   = icc
 	  CXX_COMPILER = icpc
 	  F_COMPILER   = ifort
+	else ifeq "${TACC_FAMILY_COMPILER}" "intelx"
+	  C_COMPILER   = icx
+	  CXX_COMPILER = icpx
+	  F_COMPILER   = ifx
 	else ifeq "${TACC_FAMILY_COMPILER}" "oneapi"
 	  C_COMPILER   = icc
 	  CXX_COMPILER = icpc
@@ -154,28 +194,34 @@ CXXFLAGS += ${EXTRA_OPTIONS}
 FFLAGS   += ${EXTRA_OPTIONS}
 
 %.o : %.c
-	@cmdline="${C_COMPILER} -g -std=c${CSTANDARD} ${CFLAGS} \
+	@cmdline="${C_COMPILER} -g  ${EXTRA_INCLUDES} ${CFLAGS} \
 	    -c $<" \
-	 && if [ ! -z "${ECHO}" ] ; then \
-	        echo "Compiling: $$cmdline" ; fi \
+	 && if [ "${ECHO}" = "1" ] ; then \
+	        echo "Compiling: $$cmdline" \
+	         && echo "with ${C_COMPILER}=$$( which ${C_COMPILER} )" \
+	    ; fi \
 	 && eval $$cmdline
 %.o : %.cxx
-	@cmdline="${CXX_COMPILER} -g -std=c++${CPPSTANDARD} ${CXXFLAGS} \
+	@cmdline="${CXX_COMPILER} -g ${EXTRA_INCLUDES} ${CXXFLAGS} \
 	    -c $<" \
-	 && if [ ! -z "${ECHO}" ] ; then \
-	        echo "Compiling: $$cmdline" ; fi \
+	 && if [ "${ECHO}" = "1" ] ; then \
+	        echo "Compiling: $$cmdline" \
+	         && echo "with ${CXX_COMPILER}=$$( which ${CXX_COMPILER} )" \
+	    ; fi \
 	 && eval $$cmdline
 
 %.o : %.f
-	${F_COMPILER}   -c $< ${FFLAGS}
+	${F_COMPILER}   -c $< ${FFLAGS} ${EXTRA_INCLUDES} 
 %.o : %.F90
-	@cmdline="${F_COMPILER} -g ${FFLAGS} \
+	@cmdline="${F_COMPILER} -g ${FFLAGS} ${EXTRA_INCLUDES} \
 	    -c $<" \
-	 && if [ ! -z "${ECHO}" ] ; then \
-	        echo "Compiling: $$cmdline" ; fi \
+	 && if [ "${ECHO}" = "1" ] ; then \
+	        echo "Compiling: $$cmdline" \
+	         && echo "with ${F_COMPILER}=$$( which ${F_COMPILER} )" \
+	    ; fi \
 	 && eval $$cmdline
 %.o : %.f90
-	${F_COMPILER}   -c $< ${FFLAGS}
+	${F_COMPILER}   -c $< ${FFLAGS} ${EXTRA_INCLUDES} 
 
 ifeq "${MODE}" "mpi"
 C_LINKER   := ${MPI_C_COMPILER}
@@ -198,6 +244,8 @@ LINKER     := ${${LANGUAGE}_LINKER}
 
 ifeq "${MODE}" "petsc"
   LINK_FLAGS += ${PETSC_LIB}
+else ifeq "${MODE}" "slepc"
+  LINK_FLAGS += ${PETSC_LIB} -lslepc
 else ifeq "${MODE}" "hybrid"
   LINK_FLAGS += ${OMPFLAGS}
 else ifeq "${MODE}" "omp"
@@ -218,7 +266,7 @@ ${APPS} ${EXERCISES} ${PROGRAMS} ${WRONGS} : $$@.o ${EXTRA_OBJS}
 	@cmd="${LINKER} -o $@ $^ ${LINK_FLAGS} ${EXTRA_LIBS}" \
 	 && if [ "${ECHO}" = "1" ] ; then echo "Linking: $$cmd" ; fi \
 	 && eval $$cmd
-	@if [ "${ECHO}" = "1" ] ; then \
+	@if [ "${ECHO}" = "1" -a ! -z "${LINK_EXTRA_COMMANDS}" ] ; then \
 	    echo ${LINK_EXTRA_COMMANDS} \
 	    ; fi \
 	 && eval ${LINK_EXTRA_COMMANDS}
@@ -265,7 +313,7 @@ runapps :
 	for a in ${APPS} ${EXERCISES} ; do \
 	    echo "%%%%%%%%%%%%%%%% Compile $${a}" \
 	     && make --no-print-directory $${a} ECHO=${ECHO} \
-	     && if [ ${MODE} = "mpi" -o ${MODE} = "petsc" ] ; then \
+	     && if [ ${MODE} = "mpi" -o ${MODE} = "petsc" -o ${MODE} = "slepc" ] ; then \
 	            echo "%%%%%%%%%%%%%%%% mpirun $${a}" \
 	             && make --no-print-directory mpirun \
 	                    PROGRAM=$$a ECHO=${ECHO} \

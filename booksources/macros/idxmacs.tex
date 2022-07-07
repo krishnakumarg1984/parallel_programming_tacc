@@ -19,6 +19,7 @@
 \makeindex[name=mpl,title=,columns=1]
 \makeindex[name=omp,title=,columns=1]
 \makeindex[name=petsc,title=,columns=1]
+\makeindex[name=kokkos,title=,columns=1]
 \makeindex[name=sycl,title=,columns=1]
 \makeindex[name=python,title=,columns=1]
 
@@ -72,6 +73,10 @@
     \InnocentChars \def\\{\char`\\}\relax
     \ShowRoutinetrue
     \afterassignment\mpitoindexf\edef\indexedmpi}
+  \gdef\indexmpishowp#{\bgroup
+    \InnocentChars \def\\{\char`\\}\relax
+    \ShowRoutinetrue
+    \afterassignment\mpitoindexp\edef\indexedmpi}
   \gdef\indexmpishowsub#{\bgroup
     \InnocentChars
     \catcode`\_=13 \def_{\char95\discretionary{}{}{}}
@@ -118,6 +123,17 @@
     \noexpand\fi
     \noexpand\index[mpi]{\indexedmpi@{\catcode95=12
         \noexpand\texttt{\indexedmpi}}!in Fortran}%
+  }%
+  \tmp
+  \egroup\nobreak
+}
+\def\mpitoindexp{
+  \edef\tmp{%
+    \noexpand\ifShowRoutine
+        \noexpand\lstinline+\indexedmpi+\noexpand\nobreak
+    \noexpand\fi
+    \noexpand\index[mpi]{\indexedmpi@{\catcode95=12
+        \noexpand\texttt{\indexedmpi}}!in Python}%
   }%
   \tmp
   \egroup\nobreak
@@ -296,6 +312,13 @@
 \newcommand\syclIndexBF{\RoutineIndexFont{sycl}{textbf}\endgroup}
 \newcommand\syclIndexRM{\RoutineIndexFont{sycl}{textrm}\endgroup}
 
+% kokkos
+\newcommand\indexkokkosshow{\PackageIndex\kokkosIndexRM}
+\let\indexkokkos\indexkokkosshow
+\newcommand\indexkokkosdef {\PackageIndex\kokkosIndexBF}
+\newcommand\kokkosIndexBF{\RoutineIndexFont{kokkos}{textbf}\endgroup}
+\newcommand\kokkosIndexRM{\RoutineIndexFont{kokkos}{textrm}\endgroup}
+
 %%
 %% Define `indexedroutine' and invoke #1 which will process this
 %%
@@ -448,20 +471,33 @@
 \newcommand{\indexterm}[1]{\emph{#1}\index{#1}}
 \def\indextermdef#1{\emph{#1}\index{#1|textbf}}
 { \catcode`\_=13
-\gdef\tttoindex{%\tracingmacros=2
-  \edef\tmp{%
-    \noexpand\n{\indexedtt}%
-    \noexpand\index{\indexedtt@{\catcode95=12 \noexpand\texttt{\indexedtt}}}%
-  }%
-  \tmp
-  \egroup
-}
+  \gdef\tttoindex{%\tracingmacros=2
+    \edef\tmp{%
+      \noexpand\n{\indexedtt}%
+      \noexpand\index{\indexedtt@{%
+          \catcode95=12 \noexpand\texttt{\indexedtt}}}%
+    }%
+    \tmp
+    \egroup
+  }
+
 % used for unix, environment variables, stuff
-\gdef\indextermtt#{\bgroup \catcode`\_=12 % 13 \def_{\char95\discretionary{}{}{}}
-  \catcode`\>=12 \catcode`\<=12
-  \catcode`\&=12 \catcode`\^=12 \catcode`\~=12 \def\\{\char`\\}\relax
-  \tt \afterassignment\tttoindex\edef\indexedtt}
+  \gdef\indextermtt#{\bgroup \InnocentChars
+    \tt \afterassignment\tttoindex\edef\indexedtt}
+
+  \gdef\ttnotetoindex{%\tracingmacros=2
+    \edef\tmp{%
+      \noexpand\n{\indexedttnote}%
+      \noexpand\index{\indexedttnote@{%
+          \catcode95=12 \noexpand\texttt{\indexedttnote}}}%
+    }%
+    \tmp
+    \egroup
+  }
+  \gdef\indextermttnote#{\bgroup \InnocentChars
+    \tt \afterassignment\ttnotetoindex\edef\indexedttnote}
 }
+
 \let\indextermttdef\indextermtt
 \let\indexcommand     \indextermtt
 \let\indextermunix    \indextermtt

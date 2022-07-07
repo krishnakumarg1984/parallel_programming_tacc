@@ -77,19 +77,11 @@ You can also put each parallel loop in a parallel region of its own,
 but there is some overhead associated with creating and deleting the
 team of threads in between the regions.
 
-\Level 1 {Implicit barriers}
-
 At the end of a parallel region the team of threads is dissolved and
 only the master thread continues. Therefore, there is an
 \emph{implicit barrier at the end of a parallel region}%
 \index[omp]{parallel region!barrier at the end of}.
-
-There is some \emph{barrier behavior}\index{omp!for!barrier
-  behavior} associated with \n{omp for} loops and other
-\emph{worksharing constructs}\index{worksharing constructs!implied
-  barriers at} (see section~\ref{sec:fortran-workshare}).  For instance, there
-is an \indexterm{implicit barrier} at the end of the loop. This
-barrier behavior can be cancelled with the \indexclause{nowait}
+This barrier behavior can be cancelled with the \indexclause{nowait}
 clause.
 
 You will often see the idiom
@@ -187,16 +179,22 @@ in a technical sense.
 The first one is general and can contain an arbitrary sequence of instructions;
 the second one is more limited but has performance advantages.
 
-The typical application of a critical section is to update a variable:
+Beginning programmers are often tempted to use \indexpragma{critical}
+for updates in a loop:
 \begin{lstlisting}
 #pragma omp parallel
 {
   int mytid = omp_get_thread_num();
   double tmp = some_function(mytid);
+  // This Works, but Not Best Solution:
 #pragma omp critical
   sum += tmp;
 }
 \end{lstlisting}
+but this should really be done with a \indexpragma{reduction} clause,
+which will be far more efficient.
+
+A good use of critical sections is doing file writes or database updates.
 
 \begin{exercise}
   Consider  a loop where each iteration updates a variable.
@@ -228,7 +226,7 @@ if a thread is in one critical section, the other ones are all blocked.
 On the other hand, the syntax for \n{atomic} sections is limited to the update
 of a single memory location, but such sections
 are not exclusive and they can be more efficient, since they assume that there is a hardware
-mechanism for making them critical.
+mechanism for making them critical. See the next section.
 
 The problem with \n{critical} sections being mutually exclusive can be mitigated by naming them:
 \begin{lstlisting}
@@ -239,6 +237,26 @@ Critical sections are an easy way to turn an existing code into a correct parall
 However, there are performance disadvantages to critical sections,
 and sometimes a more drastic rewrite
 is called for.
+
+\Level 1 {\texttt{atomic} construct}
+\label{sec:atomic}
+
+The \indexompclause{atomic} clause has one of a limited number of forms,
+for which hardware support is likely.
+\begin{enumerate}
+\item \lstinline{omp atomic write} is followed by  a single assignment statement
+  to a shared variable.
+\item \lstinline{omp atomic read} is followed by  a single assignment statement
+  from a shared variable.
+\item \lstinline{omp atomic} is equivalent to \lstinline{omp atomic update};
+  it accomodates statements such as 
+  \begin{lstlisting}
+    x++; x += 1.5;
+  \end{lstlisting}
+\item \lstinline{omp atomic capture} can accomodate a single statement
+  similar to \lstinline{omp atomic update},
+  or a block that essentially combines a \lstinline{read} and \lstinline{update} form.
+\end{enumerate}
 
 \index{atomic operation!OpenMP|)}
 
@@ -481,34 +499,5 @@ but we will forego this.
 
 \index{Fibonacci sequence|)}
 
-\Level 0 {Review}
-
-\begin{exercise}
-  C++ only.\\
-  Write a class for a scalar that can be atommically updated:
-  %
-  \cxxverbatimsnippet{ompatomicinc}
-\end{exercise}
-
-
 \index{synchronization!in OpenMP|)}
 
-\Level 0 {Review questions}
-
-\begin{exercise}
-  C++ only: write a class with an atomic update method,
-  so as to make the following code work:
-\begin{lstlisting}
-  object my_object;
-#pragma omp parallel
-#pragma omp single
-#pragma omp taskgroup
-  for (int ithread=0; ithread<NTHREADS; ithread++) {
-#pragma omp task shared(my_object)
-    for (int iop=0; iop<NOPS; iop++)
-      my_object.inc(iop);
-  }
-  cout << "Did " << NTHREADS * NOPS << " updates, over " << NTHREADS
-       << " threads, resulting in " << my_object.value() << endl;
-\end{lstlisting}
-\end{exercise}

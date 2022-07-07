@@ -1,4 +1,4 @@
-my_number = np.empty(1,dtype=np.int)
+my_number = np.empty(1,dtype=int)
 src = 0; tgt = nprocs-1
 if procid==src:
     my_number[0] = 37

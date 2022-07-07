@@ -45,7 +45,7 @@ int main(int argc,char **argv) {
   MPI_Comm_split
     (comm,onnode_procid,procid,&crosscomm);
   MPI_Comm_rank(crosscomm,&nodeid);
-  printf("[%d] %dx%d\n",procid,nodeid,onnode_procid);
+  printf("[%2d] = (%d,%d)\n",procid,nodeid,onnode_procid);
 
   /*
    * Create data on global process zero,
@@ -55,7 +55,9 @@ int main(int argc,char **argv) {
   if (procid==0) shared_data = 3.14;
   if (onnode_procid==0)
     MPI_Bcast(&shared_data,1,MPI_DOUBLE,0,crosscomm);
-  printf("[%d] Head nodes should have shared data: %e\n",procid,shared_data);
+  if (procid==0)
+    printf("Head nodes should have shared data: %e\n",
+           shared_data);
 
   /*
    * Create window on the node communicator;
@@ -94,7 +96,8 @@ int main(int argc,char **argv) {
   /*
    * Check that we can indeed get at the data in the shared memory 
    */
-  printf("[%d,%d] data at shared window: %e\n",nodeid,onnode_procid,*win0_addr);
+  printf("[%d,%d] data at shared window %lx: %e\n",
+         nodeid,onnode_procid,(unsigned long)win0_addr,*win0_addr);
 
   /*
    * cleanup

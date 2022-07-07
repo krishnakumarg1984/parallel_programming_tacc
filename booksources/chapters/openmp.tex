@@ -12,7 +12,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\Level 0 {Runtime functions and internal control variables}
+\Level 0 {Runtime functions, environment variables, internal control variables}
 \label{ref:omp-environ}
 \index{OpenMP!environment variables|(textbf}
 \index{OpenMP!library routines|(textbf}
@@ -67,7 +67,8 @@ Here are the OpenMP \emph{environment variables}:
   section~\ref{sec:omp-proc-bind}.
 \item \indexompdef{OMP_STACKSIZE} Set default thread stack size
 \item \indexompdef{OMP_SCHEDULE} How threads are scheduled
-\item \indexompdef{OMP_THREAD_LIMIT} Set the maximum number of threads
+\item \indexompshow{OMP_THREAD_LIMIT} Set the maximum number of threads;
+  see section~\ref{sec:omp-team}.
 \item \indexompdef{OMP_WAIT_POLICY} How waiting threads are
   handled; \ac{ICV} \indexompdef{wait-policy-var}. Values:
   \n{ACTIVE} for keeping threads spinning, \n{PASSIVE} for possibly
@@ -109,7 +110,7 @@ Other settings:
   should be done in a parallel region.
 \item\indexompshow{omp_get_thread_num}
 \item\indexompshow{omp_in_parallel}: test if you are in a parallel
-  region (see for instance section~\ref{sec:parallelregion}).
+  region.
 \item\indexompshow{omp_get_num_procs}: query the physical number of cores available.
 \end{itemize}
 
@@ -323,6 +324,7 @@ ompt_start_tool_result_t *ompt_start_tool(unsigned int omp_version,
 (Example courtesy of \url{https://git.rwth-aachen.de/OpenMPTools/OMPT-Examples}.)
 
 \Level 0 {OpenMP standards}
+\label{sec:omp-standards}
 
 Here is the correspondence between the value of OpenMP versions
 (given by the \indexompshow{_OPENMP} macro)

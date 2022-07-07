@@ -204,7 +204,7 @@ ibrun python-mpi yourprogram.py
 \Level 0 {Language bindings}
 
 \Level 1 {C}
-\index{C!MPI bindigs|see{MPI, C bindings}}
+\index{C!MPI bindings|see{MPI, C bindings}}
 \index{MPI!C bindings|(}
 
 The MPI library is written in~C. 
@@ -233,18 +233,6 @@ Thus, MPI can be used from C++ by including
 #include <mpi.h>
 \end{verbatim}
 and using the C API.
-
-\begin{mpifournote}{Header file hpp}
-  The \mpistandard{4} standard supports integer arguments larger than 32 bits,
-  through the \lstinline+MPI_Count+ datatype.
-  All MPI routines are now polymorphic between using
-  \lstinline+int+ and \lstinline+MPI_Count+.
-  This requires including \indextermttdef{mpi.hpp}:
-\begin{verbatim}
-#include <mpi.hpp>
-\end{verbatim}
-  rather than \indextermtt{mpi.h}.
-\end{mpifournote}
 
 The \indexterm{boost} library has its own version of MPI, but it seems
 not to be under further development.  A~recent
@@ -327,9 +315,10 @@ For details see
   Python-specific notes will be indicated with a note like this.
 \end{pythonnote}
 
-The \indextermtt{mpi4py} package~\cite{mpi4py:homepage} of \emph{python bindings}
-is not defined by the MPI
-standards committee. Instead, it is the work of an individual,
+The \indextermttdef{mpi4py} package~\cite{mpi4py:homepage}
+of \emph{python bindings}
+is not defined by the MPI standards committee.
+Instead, it is the work of an individual,
 \indextermsub{Lisandro}{Dalcin}.
 
 In a way, the Python interface is the most elegant. It uses \ac{OO}

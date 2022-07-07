@@ -24,22 +24,38 @@ else
   MPIRUN=ibrun
   NPOPTION=-np
 endif
-NP = 4
-CATCHER = ../course-support/catchout
+NP_default = 4
+CATCHER = ${SCRIPTSDIR}/catchout
 .PHONY: mpirun catchrun
 info ::
 	@echo "make mpirun / slurmrun / catchrun"
 	@echo "    ( catchrun gives orderly output)"
 	@echo "    [ PROGRAM=... NP=... ]"
+	@echo "    [ ENVOPTIONS=... stuff before mpiexec ]"
+	@if [ "${LANGUAGE}" = "python" ] ; then \
+	    if [ -z "${PYTHON}"  ] ; then \
+	        echo "    please set PYTHON variable" \
+	    ; else \
+	        echo "    [ PYTHON=... (default: $$( which ${PYTHON} ) ) ]" \
+	    ; fi \
+	fi
+mpi_nprocs :
+	@if [ ! -z "${np_${PROGRAM}}" ] ; then \
+	        echo ${np_${PROGRAM}} \
+	; elif [ ! -z "${NP}" ] ; then \
+	        echo ${NP} \
+	; elif [ ! -z "${SLURM_NPROCS}" ] ; then \
+	        echo ${SLURM_NPROCS} \
+	; else \
+	        echo ${NP_default} \
+	; fi
 mpirun :
 	@if [ ! -f "${PROGRAM}${PROGRAM_EXTENSION}" ] ; then \
 	    echo "No such program: ${PROGRAM}" && exit 1 ; fi \
 	 && progargs="${PROGRAM}${PROGRAM_EXTENSION} ${OPTIONS}" \
 	 && if [ "${LANGUAGE}" = "python" ] ; then \
 	        progargs="${PYTHON} $$progargs" ; fi \
-	 && if [ -z "${np_${PROGRAM}}" ] ; then \
-	        np=${NP} ; \
-	    else np=${np_${PROGRAM}} ; fi \
+	 && np=`make --no-print-directory mpi_nprocs PROGRAM=${PROGRAM}` \
 	 && cmdline="${ENVOPTIONS} ${MPIRUN} ${NPOPTION} $$np $${progargs}" \
 	 && if [ "${ECHO}" = "1" ] ; then \
 	        echo $$cmdline ; fi \
@@ -48,10 +64,17 @@ mpirun :
 slurmrun :
 	${ENVOPTIONS} ${MPIRUN} -np ${SLURM_NPROCS} ${PYTHON} ${PROGRAM}${PROGRAM_EXTENSION} ${OPTIONS}
 catchrun :
+	@if [ ! -f "${CATCHER}" ] ; then \
+	    echo "Can not find catcher script: <<${CATCHER}>>" \
+	     && exit 1 ; fi
 	@${MPIRUN} -np ${NP} ${CATCHER} ${PROGRAM} >/dev/null 2>&1
 	@for i in `seq 0 $$(( NP-1 ))` ; do \
-	  echo "$$i:" ; \
-	  cat ${PROGRAM}.out$$i ; done
+	    cat ${PROGRAM}.out$$i \
+	        ${CATCHFILTER} \
+	  ; done > ${PROGRAM}.outall \
+	 && cat ${PROGRAM}.outall
+clean ::
+	@rm -f *.outall
 
 info ::
 	@echo && echo "================ Output and regression "
@@ -79,7 +102,8 @@ run_generic :
 	            NP=${NP} PYTHON=${PYTHON} PROGRAM_EXTENSION=${PROGRAM_EXTENSION} \
 	        mpirun PROGRAM=${PROGRAM}
 runs :
-	@for r in ${RUNS} ; do \
+	@logfile=allruns.out \
+	 && for r in ${RUNS} ; do \
 	    echo "---------------- Test run: $$r ----------------" \
 	     && runname=$${r##run_} \
 	     && make --no-print-directory \
@@ -87,7 +111,9 @@ runs :
 	            ENVOPTIONS=${ENVOPTIONS} NP=${NP} PYTHON=${PYTHON} \
 	            PROGRAM_EXTENSION=${PROGRAM_EXTENSION} OPTIONS=${OPTIONS} \
 	     ; \
-	 done
+	 done \
+	 2>&1 | tee $$logfile \
+	 && echo && echo "See $$logfile for full log" && echo
 runouts :
 	@for r in ${RUNS} ; do \
 	    echo "---------------- Test run: $$r ----------------" \
@@ -98,10 +124,12 @@ runouts :
 	            ENVOPTIONS=${ENVOPTIONS} NP=${NP} PYTHON=${PYTHON} \
 	            PROGRAM_EXTENSION=${PROGRAM_EXTENSION} OPTIONS=${OPTIONS} \
 	            RUNOUT=1 \
-	        2>&1 | tee $${runout} \
+	        | grep -v TACC: | grep -v "up to date" > $${runout} 2>/dev/null \
+	     && echo "see output in $${runout}" && cat $${runout} \
 	     && git add $${runout} \
 	    ; \
-	 done \
-	 && git status *.runout
+	 done
+clean ::
+	@rm -f *.out[0-9]*
 total_clean totalclean ::
 	@rm -f *.runout

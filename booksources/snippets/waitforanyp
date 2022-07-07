@@ -1,6 +1,6 @@
 ## irecvsource.py
 if procid==nprocs-1:
-    receive_buffer = np.empty(nprocs-1,dtype=np.int)
+    receive_buffer = np.empty(nprocs-1,dtype=int)
     requests = [ None ] * (nprocs-1)
     for sender in range(nprocs-1):
         requests[sender] = comm.Irecv(receive_buffer[sender:sender+1],source=sender)
@@ -15,6 +15,6 @@ else:
     mywait = random.randint(1,2*nprocs)
     print("[%d] wait for %d seconds" % (procid,mywait))
     time.sleep(mywait)
-    mydata = np.empty(1,dtype=np.int)
+    mydata = np.empty(1,dtype=int)
     mydata[0] = procid
     comm.Send([mydata,MPI.INT],dest=nprocs-1)

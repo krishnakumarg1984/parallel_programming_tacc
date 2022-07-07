@@ -101,10 +101,10 @@ initial team, and to \indexpragma{master} for the recursively created team.
 Let's consider two example program. First we consider the program for
 computing~$\pi$, which is purely compute-bound.
 
-\begin{tabular}{|r|rrr|}
-  \hline
+\begin{tabular}{rrrr}
+  \toprule
   \#threads&\n{close/cores}&\n{spread/sockets}&\n{spread/cores}\\
-  \hline
+  \midrule
    1& 0.359& 0.354& 0.353\\
    2& 0.177& 0.177& 0.177\\
    4& 0.088& 0.088& 0.088\\
@@ -112,7 +112,7 @@ computing~$\pi$, which is purely compute-bound.
    8& 0.044& 0.044& 0.044\\
   12& 0.029& 0.045& 0.029\\
   16& 0.022& 0.050& 0.022\\
-  \hline
+  \bottomrule
 \end{tabular}
 
 We see pretty much perfect speedup for the \n{OMP_PLACES=cores}
@@ -127,10 +127,10 @@ x^{(t+1)}_i = 2x^{(t)}_i-x^{(t)}_{i-1}-x^{(t)}_{i+1}
 This is a bandwidth-bound operation because the amount of computation
 per data item is low.
 
-\begin{tabular}{|r|rrr|}
-  \hline
+\begin{tabular}{rrrr}
+  \toprule
   \#threads&\n{close/cores}&\n{spread/sockets}&\n{spread/cores}\\
-  \hline
+  \midrule
    1& 2.88& 2.89& 2.88\\
    2& 1.71& 1.41& 1.42\\
    4& 1.11& 0.74& 0.74\\
@@ -138,7 +138,7 @@ per data item is low.
    8& 1.12& 0.57& 0.53\\
   12& 0.72& 0.53& 0.52\\
   16& 0.52& 0.61& 0.53\\
-  \hline
+  \bottomrule
 \end{tabular}
 
 Again we see that \n{OMP_PLACES=sockets} gives worse performance for
@@ -336,7 +336,7 @@ The problem with realizing first-touch in \emph{C++}%
 \index{C++!first-touch|see{first-touch, in C++}}%
 \index{first-touch!in C++}
 is that \lstinline+std::vector+ fills its allocation with default values.
-This makes
+This is known as `value-initialization', and it makes
 \begin{lstlisting}
 vector<double> x(N);
 \end{lstlisting}

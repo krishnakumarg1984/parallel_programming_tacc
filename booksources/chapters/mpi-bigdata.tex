@@ -21,7 +21,7 @@ meaning that it's maximally
 $2^{31}-1$.
 These day computers are big enough
 that this is a limitation.
-As of the MPI~\mpistandard{4} standard, this has been solved by allowing a
+As of the \mpistandard{4} standard, this has been solved by allowing a
 larger count parameter.
 The implementation of this depends somewhat on the language.
 
@@ -36,7 +36,11 @@ of type \indexmpishow{MPI_Count}.
 
 \cverbatimsnippet{reducecount}
 
+{
+\def\snippetcodefraction{.45}
+\def\snippetlistfraction{.5}  
 \csnippetwithoutput{bigpingpong}{examples/mpi/c}{pingpongbig}
+}
 
 \Level 1 {Fortran}
 \label{sec:f-largecount}
@@ -53,16 +57,20 @@ Since Fortran has polymorphism, the same routine names can be used.
 \begin{multicols}{2}
   The legit way of coding:
   %
+  \lstset{xleftmargin=0pt}
   \fverbatimsnippet{ftypecheck}
   \columnbreak
   \ldots~but you can see what's under the hood:
   %
+  \lstset{xleftmargin=0pt}
   \fverbatimsnippet{ftypecheck8}
 \end{multicols}
 
 Routines using this type are not available
 unless using the \indextermtt{mpi_f08} module.
 \end{mpifournote}
+
+\fverbatimsnippet{bigdataf}
 
 \Level 1 {Count datatype}
 

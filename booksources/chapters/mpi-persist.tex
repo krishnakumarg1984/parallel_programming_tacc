@@ -84,7 +84,11 @@ we use \indexmpiref{MPI_Startall} to start both at the same time,
 and \indexmpishow{MPI_Waitall} to test their completion.
 (There is \indexmpidef{MPI_Start} for starting a single persistent transfer.)
 %  
-\csnippetwithoutput{persist}{examples/mpi/c}{persist}
+{
+  \def\snippetcodefraction{.45}
+  \def\snippetlistfraction{.5}  
+  \csnippetwithoutput{persist}{examples/mpi/c}{persist}
+}
 %
 \pverbatimsnippet[examples/mpi/p/persist.py]{persistp}
 
@@ -98,7 +102,8 @@ of the other send modes:
   \indexmpishow{MPI_Ssend_init} for synchronous communication,
   section~\ref{sec:syncsend};
 \item
-  \indexmpishow{MPI_Rsend_init}.
+  \indexmpishow{MPI_Rsend_init} for ready sends,
+  section~\ref{sec:handshake}.
 \end{itemize}
 
 \index{persistent!point-to-point|)}
@@ -119,7 +124,7 @@ except for:
   an added final \indexmpishow{MPI_Request} parameter.
 \end{itemize}
 (See for instance~\indexmpiref{MPI_Allreduce_init}.)
-This request (or an array of requests) can then be used by
+This request (or an array of requests from multiple calls) can then be used by
 \indexmpishow{MPI_Start} (or \indexmpishow{MPI_Startall})
 to initiate the actual communication.
 
@@ -176,6 +181,9 @@ and in different order among the processes.
 \Level 1 {Persistent neighbor communications}
 
 \begin{mpifournote}{Neighborhood collectives, init}
+
+  There are persistent version of the neighborhood collectives;
+  section~\ref{sec:mpi-neigh-coll}.
 
   \begin{raggedlist} %pyskip
     \indexmpidef{MPI_Neighbor_allgather_init},
@@ -364,11 +372,7 @@ see section~\ref{sec:pack}.
 Additionally, a term of \indexmpidef{MPI_BSEND_OVERHEAD} is needed.
 See the above code fragment.
 
-The buffer is detached with \indexmpidef{MPI_Buffer_detach}:
-\begin{lstlisting}
-int MPI_Buffer_detach(
-  void *buffer, int *size);
-\end{lstlisting}
+The buffer is detached with \indexmpiref{MPI_Buffer_detach}.
 This returns the address and size of the buffer; the call blocks
 until all buffered messages have been delivered.
 

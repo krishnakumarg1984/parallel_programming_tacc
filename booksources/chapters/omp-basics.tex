@@ -4,7 +4,7 @@
 %%%%
 %%%% This text file is part of the source of 
 %%%% `Parallel Programming in MPI and OpenMP'
-%%%% by Victor Eijkhout, copyright 2012-2021
+%%%% by Victor Eijkhout, copyright 2012-2022
 %%%%
 %%%% omp-basics.tex : intro stuff
 %%%%
@@ -35,13 +35,13 @@ and getting the most out of the available parallelism available there.
 %
 Figure~\ref{fig:stampedenode} pictures a typical design of a node:
 within one enclosure you find two \emph{sockets}\index{socket|textbf}:
-single processor chips. Your personal laptop of computer will probably
+single processor chips.
+Your personal laptop or desktop computer will probably
 have one socket, most supercomputers have nodes with two or four
 sockets (the picture is of a \indextermbus{Stampede}{node} with two
-sockets)\footnote {In that picture you also see a co-processor: OpenMP
-  is increasingly targeting those too.}, although the recent
-\indextermbus{Intel}{Knight's Landing} is again a single-socket
-design.
+sockets).
+In either case there can be a \ac{GPU} as co-processor;
+supercomputer clusters can also have other types of \indexterm{accelerator}s.
 
 \begin{figure}[ht]
   \includegraphics[scale=.45]{sandybridge-eightcore-ann}
@@ -52,11 +52,17 @@ design.
 To see where OpenMP operates we need to dig into the
 sockets. Figure~\ref{fig:sandybridge} shows a picture of an
 \indextermbus{Intel}{Sandybridge} socket. You recognize a structure
-with eight \emph{cores}\indextermdef{core}: independent processing
-units, that all have access to the same memory. (In
-figure~\ref{fig:stampedenode} you saw four memory banks attached to
+with eight \indextermdef{core}s: independent processing
+units, that all have access to the same memory.
+(In
+figure~\ref{fig:stampedenode} you saw four memory chips,
+or DIMMs,
+attached to
 each of the two sockets; all of the sixteen cores have access to all
 that memory.)
+OpenMP makes it easy to explore all these cores in the same program.
+In version \ompstandard{5.0}, OpenMP also made it possible
+to offload computations to the GPU or other accelerator.
 
 To summarize the structure of the architecture that OpenMP targets:
 \begin{itemize}
@@ -64,6 +70,7 @@ To summarize the structure of the architecture that OpenMP targets:
 \item each socket has up to~60 cores;
 \item each core is an independent processing unit, with access to all
   the memory on the node.
+\item There can be an accelerator, which can be used to offload computations to.
 \end{itemize}
 
 \Level 1 {Target software}
@@ -121,53 +128,16 @@ OpenMP programming is typically done to take advantage of
 \indexterm{multicore} processors. Thus, to get a good speedup you
 would typically let your number of threads be equal to the number of
 cores. However, there is nothing to prevent you from creating more
-threads: the operating system will use \indexterm{time slicing} to let
+threads if that serves the natural expression of your algorithm:
+the operating system will use \indexterm{time slicing} to let
 them all be executed. You just don't get a speedup beyond the number
 of actually available cores.
 
 On some modern processors there are \indextermsub{hardware}{threads},
 meaning that a core can actually let more than thread be executed,
 with some speedup over the single thread. To use such a processor
-efficiently you would let the number of OpenMP threads be $2\times$ or
-$4\times$ the number of cores, depending on the hardware.
-
-\Level 1 {About thread data}
-
-In most programming languages, visibility of data
-is governed by rules on the \indextermbus{scope}{of variables}:
-a~variable is declared in a block, and it is then visible to any
-statement in that block and blocks with a \indextermsub{lexical}{scope}
-contained in it, but not in surrounding blocks:
-\begin{lstlisting}
-main () {
-  // no variable `x' define here
-  {
-    int x = 5;
-    if (somecondition) { x = 6; }
-    printf("x=%e\n",x); // prints 5 or 6
-  }
-  printf("x=%e\n",x); // syntax error: `x' undefined
-}
-\end{lstlisting}
-
-In C, you can redeclare a variable inside a nested scope:
-\begin{lstlisting}
-{
-  int x;
-  if (something) {
-    double x; // same name, different entity
-  }
-  x = ... // this refers to the integer again
-}
-\end{lstlisting}
-Doing so makes the outer variable inaccessible.
-
-Fortran has simpler rules, since it does not have blocks inside blocks.
-
-In OpenMP the situation is a bit more tricky because of the threads.
-When a team of threads is created they can all see the data of the
-master thread. However, they can also create data of their own.
-We will go into the details later.
+efficiently you would let the number of OpenMP threads be
+2 or~4 times the number of cores, depending on the hardware.
 
 \Level 0 {Compiling and running an OpenMP program}
 
@@ -211,7 +181,8 @@ will be defined. Thus, you can have conditional compilation by writing
 #endif
 \end{lstlisting}
 The value of this macro is a decimal value \n{yyyymm} denoting the OpenMP standard release
-that this compiler supports.
+that this compiler supports;
+see section~\ref{sec:omp-standards}.
 
 \begin{fortrannote}{OpenMP version}
   The parameter \indexompdef{openmp_version} contains the version in \n{yyyymm} format.
@@ -253,12 +224,12 @@ the benefit of the compiler that are otherwise not part of the
 language. This looks like:
 \begin{lstlisting}
 #pragma omp somedirective clause(value,othervalue)
-  parallel statement;
+  statement;
 
 #pragma omp somedirective clause(value,othervalue)
  {
-  parallel statement 1;
-  parallel statement 2;
+  statement 1;
+  statement 2;
  }
 \end{lstlisting}
 with
@@ -273,6 +244,7 @@ with
 Directives in C/C++ are case-sensitive. Directives can be broken over
 multiple lines by escaping the line end.
 
+\begin{fortrannote}{OpenMP sentinel}
 The sentinel in Fortran looks like a comment:
 \begin{lstlisting}
 !$omp directive clause(value)
@@ -280,7 +252,7 @@ The sentinel in Fortran looks like a comment:
 !$omp end directive
 \end{lstlisting}
 The difference with the C~directive is that
-Fortran can not have a block, so there is an explicit
+Fortran does not have code blocks, so there is an explicit
 \indextermsub{end-of}{directive} line.
 
 If you break a directive over more than one line, all but the last line
@@ -289,16 +261,20 @@ need to have a continuation character, and each line needs to have the sentinel:
 !$OMP parallel do &
 !%OMP   copyin(x),copyout(y)
 \end{lstlisting}
-The directives are case-insensitive. In
-\indextermbus{Fortran}{fixed-form source} files, \verb+c$omp+ and
-\verb+*$omp+ are allowed too.
+The directives are case-insensitive.
+In
+\indextermbus{Fortran}{fixed-form source} files
+(which is the only possibility in \fstandard{77}),
+\verb+c$omp+ and \verb+*$omp+ are allowed too.
+\end{fortrannote}
 
 \index{directives|)}
 
 \Level 1 {Parallel regions}
 
 The simplest way to create parallelism in OpenMP is to use
-the \indexpragma{parallel} pragma. A~block preceded by the \n{omp}\indexpragma{parallel} pragma
+the \indexpragma{parallel} pragma.
+A~block preceded by the \indexpragma{parallel} pragma
 is called a \emph{parallel region}; it
 is executed by a newly created team of threads. 
 This is an instance of the \indexac{SPMD} model:
@@ -322,7 +298,7 @@ all threads execute (redundantly) the same segment of code.
   can you set the value higher?
 \end{exercise}
 
-We will go into much more detail in section~\ref{sec:parallelregion}.
+We will go into much more detail in chapter~\ref{ch:omp-parallel}.
 
 \Level 1 {An actual OpenMP program!}
 
@@ -348,15 +324,12 @@ using the following functions:
   \label{ex:omp-procthreadn}
   Extend the program from exercise~\ref{ex:omp-procthread}. Make a
   complete program based on these lines:
-\begin{lstlisting}
-int tsum=0;
-#pragma omp parallel
-  tsum += /* the thread number */
-printf("Sum is %d\n",tsum);
-\end{lstlisting}
-Compile and run again. (In fact, run your program a number of times.)
-Do you see something unexpected? Can you think
-of an explanation?
+
+  \csnippetwithoutput{reductthreads}{code/omp/c}{sumthread}
+
+  Compile and run again. (In fact, run your program a number of times.)
+  Do you see something unexpected? Can you think
+  of an explanation?
 \end{exercise}
 
 If the above puzzles you, read about \indexterm{race condition}s
@@ -393,6 +366,7 @@ is governed by rules on the \indextermbus{scope}{of variables}:
 a~variable is declared in a block, and it is then visible to any
 statement in that block and blocks with a \indextermsub{lexical}{scope}
 contained in it, but not in surrounding blocks:
+\lstset{language=C}
 \begin{lstlisting}
 main () {
   // no variable `x' define here
@@ -471,7 +445,7 @@ to control whether data is private or shared.
 
 Many of the difficulties of parallel programming with OpenMP stem
 from the use of shared variables. For instance, if two threads
-update a shared variable, you not guarantee an order on the updates.
+update a shared variable, there is no guarantee an the order on the updates.
 
 We will discuss all this in detail in section~\ref{sec:ompdata}.
 
@@ -483,17 +457,18 @@ indicating where an activity can be forked for independent execution.
 There are two ways of doing this:
 \begin{enumerate}
 \item You can declare a parallel region and
-  split one thread into a whole team of threads. We will discuss this next
-  in section~\ref{sec:parallelregion}. The division of the work over the threads
-  is controlled by \indexterm{work sharing construct} (section~\ref{sec:work-sharing}).
+  split one thread into a whole team of threads.
+  We will discuss this next in chapter~\ref{ch:omp-parallel}.
+  The division of the work over the threads
+  is controlled by \indexterm{work sharing construct};
+  see chapter~\ref{ch:omp-share}.
 \item Alternatively, you can use tasks and indicating one parallel
-  activity at a time. You will see this in section~\ref{sec:omp:task}.
+  activity at a time. You will see this in section~\ref{ch:omp-task}.
 \end{enumerate}
 
 Note that OpenMP only indicates how much parallelism is present;
 whether independent activities are in fact executed in parallel
-is a runtime decision. The factors influencing this are discussed
-in section~\ref{sec:omp-howmany}.
+is a runtime decision.
 
 Declaring a parallel region tells OpenMP that a team of threads can be created.
 The actual size of the team depends on various factors (see section~\ref{ref:omp-environ}
@@ -507,8 +482,11 @@ for variables and functions mentioned in this section).
     routines} \indexompshow{omp_set_num_threads}. This routine takes
   precedence over the aforementioned environment variable if both are
   specified.
-\item A limit on the number of threads can also be set as a clause
-  on a parallel region.
+\item A limit on the number of threads can also be set as a
+  \indexompclause{num_threads} clause on a parallel region:
+  \begin{lstlisting}
+    #pragma omp parallel num_threads(ndata)
+  \end{lstlisting}
 \end{itemize}
 If you specify a greater amount of parallelism than the hardware supports,
 the runtime system will probably ignore your specification and choose a lower value.
@@ -550,6 +528,7 @@ Parallel  : count  4 cores and  1 threads out of max 16
 
 Another limit on the number of threads is imposed when you use nested parallel regions.
 This can arise if you have a parallel region in a subprogram which is sometimes called
-sequentially, sometimes in parallel. The variable \indexompshow{OMP_NESTED} controls
-whether the inner region will create a team of more than one thread.
+sequentially, sometimes in parallel.
+For details, see section~\ref{sec:omp-levels}.
+
 

@@ -1,6 +1,7 @@
 ## persist.py
-sendbuf = np.ones(size,dtype=np.int)
-recvbuf = np.ones(size,dtype=np.int)
+requests = [ None ] * 2
+sendbuf = np.ones(size,dtype=int)
+recvbuf = np.ones(size,dtype=int)
 if procid==src:
     print("Size:",size)
     times[isize] = MPI.Wtime()

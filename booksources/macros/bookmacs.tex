@@ -14,6 +14,20 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\newif\ifInBook
+\InBooktrue
+
+%% graphics stuff
+\renewcommand\topfraction{.85}
+\usepackage{graphicx,outliner}
+\usepackage{wrapfig}
+% plotting with tikz
+\usepackage{pgfplots}  
+\usepgfplotslibrary{external}
+\tikzexternalize
+\tikzsetexternalprefix{plots/}
+\pgfplotsset{width=5in,compat=1.7}  
+
 % fancy text stuff
 \usepackage{fontspec}
 \setmainfont[
@@ -53,6 +67,35 @@
   \noindent\fbox{#1}
   \verbatiminput{#1}\endgroup}
 }
+
+%%
+%% refer to sections in the HPC book
+%%
+\usepackage{xr-hyper}
+\externaldocument[HPSC-]{scicompbook}
+\newcommand\HPSCref[1]{HPC book, section-\ref{HPSC-#1}}
+%%
+%% hyperref
+%%
+\begin{notlulu}
+  \usepackage[xetex,colorlinks,pagebackref=true]{hyperref}
+  \hypersetup{bookmarksopen=true}
+  \renewcommand*{\backref}[1]{}
+  \renewcommand*{\backrefalt}[4]{[{\tiny%
+      \ifcase #1 Not cited.%
+      \or Cited on page~#2.%
+      \else Cited on pages #2.%
+      \fi%
+  }]}
+  \usepackage[all]{hypcap}
+\end{notlulu}
+\begin{lulu}
+  \usepackage{url}
+\end{lulu}
+
+\usepackage{etoolbox}
+\usepackage[all]{hypcap}
+
 \let\exref\ref
 
 \newtheorem{remark}{Remark}
@@ -147,7 +190,13 @@
 
 \newenvironment{raggedlist}{\begingroup\rightskip=0pt plus 2in}{\par\endgroup}
 \newenvironment{question}{\begin{quotation}\textbf{Question.\ }}{\end{quotation}}
-\newenvironment{example}{\begin{quotation}\textbf{Example.\ }}{\end{quotation}}
+\newenvironment
+    {example}
+    {\par\begin{raggedright}
+      \advance\leftskip by \unitindent
+      \noindent \hbox{\kern-\unitindent \textsl{Example.}}\kern1em\ignorespaces
+    }
+    {\par\end{raggedright}}
 \newenvironment{specialnote}[1]
                {\par\begin{raggedright}
                  \advance\leftskip by \unitindent
@@ -167,6 +216,9 @@
     {#1}
     {\par\advance\leftskip by \unitindent
       \refstepcounter{#1}
+      {\lccode32=45 \lccode47=45
+       \edef\tmp{\lowercase{\gdef\noexpand\commentarg{\CommentArg}}}\tmp}
+      \def\CommentCutFile{snippets/#1-\commentarg.cut}
       \noindent \hbox
                 {\kern-\unitindent \textsl{#4 note \arabic{#1}:\ \CommentArg.}}\ %
       \addcontentsline{#2}{#1}{\protect\numberline{\csname the#1\endcsname}\CommentArg}
@@ -177,6 +229,28 @@
       \lstset{language=C}
       \relax}
 }
+
+\begin{comment}
+\argcomment
+    {mplnote}
+    {\par\advance\leftskip by \unitindent
+      \refstepcounter{mplnote}
+
+      {\lccode32=45 \lccode47=45
+        \edef\tmp{\lowercase{\gdef\noexpand\commentarg{\CommentArg}}}\tmp}
+      \def\CommentCutFile{snippets/mplnote-\commentarg.cut}
+
+      %\index[mpl]{\CommentArg}%
+      \noindent \hbox{\kern-\unitindent \textsl{MPL note \arabic{mplnote}.}}\ %
+      \addcontentsline{lompl}{mplnote}{\protect\numberline{\themplnote}\CommentArg}
+      \lstset{language=C++}%
+    }
+    {\par \noindent\textsl{End of MPL note}\par
+      \advance\leftskip by -\unitindent
+      \lstset{language=C}
+      \relax}
+\end{comment}
+
 
 \newcommand\listftnnote{List of Fortran notes}
 \newlistof{fortrannote}{loftn}\listftnnote
@@ -244,3 +318,4 @@
 \def\chaptertitle{\csname\chaptername title\endcsname}
 \def\chaptershorttitle{\csname\chaptername shorttitle\endcsname}
 
+\newcommand\mpiparmtextsize{2in}

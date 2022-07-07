@@ -3,7 +3,7 @@
 ####
 #### This makefile is part of the source of 
 #### "Parallel Computing for Science and Engineering"
-#### by Victor Eijkhout, copyright 2013-6
+#### by Victor Eijkhout, copyright 2013-2022
 ####
 #### This is the makefile for the C examples
 ####     in examples/mpi/c
@@ -17,7 +17,7 @@ info ::
 	@echo "================================================================"
 	@echo "available rules:"
 
-APPS = thread procthread
+APPS = thread procthread portappmultiple portpthread
 
 MODE = hybrid
 LANGUAGE = C
@@ -36,5 +36,14 @@ run_procthread : procthread
 	    ; \
 	done
 
-include  ../../../makefiles/Make.run
+RUNS += run_portmultiple run_portpthread
+.PHONY: run_portmultiple run_portpthread
+run_portmultiple : portappmultiple
+run_portpthread : portpthread
+run_portmultiple run_portpthread : 
+	@export FI_MLX_ENABLE_SPAWN=yes \
+	 && export FI_MLX_NS_ENABLE=1 \
+	 && make --no-print-directory mpirun PROGRAM=./$^ ECHO=${ECHO}
+
+include  ../../../makefiles/Make.mpi_run
 include  ../../../makefiles/Make.clean

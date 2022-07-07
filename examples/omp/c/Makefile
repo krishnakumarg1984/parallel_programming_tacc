@@ -21,7 +21,7 @@ info ::
 	@echo "make app (where app=${APPS})"
 APPS = hello hellocount compliant proccount pi speedup scaling \
     parfor critfun reductexpr reductpar taskreduct \
-    alloc sharing race \
+    private alloc sharing race taskfor \
     threadprivate ireduct ireductinit ureduct reductpositive reductarray \
     taskgroup0 taskgroup1 taskgroup2 taskgroup3 taskgroup4 taskgroup5
 
@@ -39,6 +39,11 @@ RUNS += run_speedup
 .PHONY: run_speedup
 run_speedup : speedup
 	@make --no-print-directory omp_scaling PROGRAM=speedup
+
+RUNS += run_private
+.PHONY: run_private
+run_private : private
+	@make --no-print-directory omp_run PROGRAM=private NP=4
 
 RUNS += run_scaling
 .PHONY: run_scaling

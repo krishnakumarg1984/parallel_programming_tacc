@@ -4,7 +4,7 @@
 %%
 %% This text file is part of the source of 
 %% `Parallel Computing'
-%% by Victor Eijkhout, copyright 2012-2021
+%% by Victor Eijkhout, copyright 2012-2022
 %%
 %% MPI API file for MPI_Rsend_init
 %%
@@ -16,26 +16,25 @@
 \begingroup
 \ttfamily\bfseries
 \catcode`\_=12
-\begin{tabular}{lllll}
+\begin{tabular}{
+l       % name
+l       % param name
+p{\mpiparmtextsize}  % explanation
+p{.7in} % ctype
+p{.9in} % ftype
+l       % inout
+}
 \toprule
 \mdseries\textrm{Name}&
 \mdseries\textrm{Param name}&
+\mdseries\textrm{Explanation}&
 \mdseries\textrm{C type}&
 \mdseries\textrm{F type}&
 \mdseries\textrm{inout}\\
 \midrule
-\hbox to 20pt{MPI_Rsend_init (\hss} \\
-\hbox to 20pt{MPI_Rsend_init_c (\hss} \\
- & buf & const void* & TYPE(*), DIMENSION(..)  & IN \\&\hbox to 0pt{\footnotesize\sl initial address of send buffer\hss} \\ [+3pt] 
- & count & int & INTEGER  & IN \\ [-3pt]
-(c) & & MPI_Count & \hbox to 0pt {INTEGER(KIND=MPI_COUNT_KIND) \hss} \\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl number of elements sent\hss} \\ [+3pt] 
- & datatype & MPI_Datatype & TYPE(MPI_Datatype)  & IN \\&\hbox to 0pt{\footnotesize\sl type of each element\hss} \\ [+3pt] 
- & dest & int & INTEGER  & IN \\&\hbox to 0pt{\footnotesize\sl rank of destination\hss} \\ [+3pt] 
- & tag & int & INTEGER  & IN \\&\hbox to 0pt{\footnotesize\sl message tag\hss} \\ [+3pt] 
- & comm & MPI_Comm & TYPE(MPI_Comm)  & IN \\&\hbox to 0pt{\footnotesize\sl communicator\hss} \\ [+3pt] 
- & request & MPI_Request* & TYPE(MPI_Request)  & OUT \\&\hbox to 0pt{\footnotesize\sl communication request\hss} \\ [+3pt] 
-
+\hbox to 18pt{MPI_Rsend_init (\hss} \\
+\hbox to 18pt{MPI_Rsend_init_c (\hss} \\
+ & buf & initial address of send buffer & const void* & TYPE\discretionary{}{\kern10pt}{}(*), DIMENSION\discretionary{}{\kern10pt}{}(..)  & IN \\ & count & number of elements sent & $\left[ \begin{array}{ll}\mathtt{ int }  \\ \mathtt{ MPI_Count} \end{array} \right.$  & INTEGER  & IN \\ [+3pt] & datatype & type of each element & MPI_Datatype & TYPE\discretionary{}{\kern10pt}{}(MPI_Datatype)  & IN \\ & dest & rank of destination & int & INTEGER  & IN \\ & tag & message tag & int & INTEGER  & IN \\ & comm & communicator & MPI_Comm & TYPE\discretionary{}{\kern10pt}{}(MPI_Comm)  & IN \\ & request & communication request & MPI_Request* & TYPE\discretionary{}{\kern10pt}{}(MPI_Request)  & OUT \\
 &)\\
 
 \bottomrule

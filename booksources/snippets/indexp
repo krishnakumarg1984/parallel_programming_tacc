@@ -1,6 +1,6 @@
 ## indexed.py
-displacements = np.empty(count,dtype=np.int)
-blocklengths = np.empty(count,dtype=np.int)
+displacements = np.empty(count,dtype=int)
+blocklengths = np.empty(count,dtype=int)
 source = np.empty(totalcount,dtype=np.float64)
 target = np.empty(count,dtype=np.float64)
 if procid==sender:

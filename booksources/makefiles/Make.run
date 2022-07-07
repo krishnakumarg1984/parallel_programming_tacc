@@ -27,6 +27,7 @@ runs :
 	           NP=${NP} \
 	        2>&1 | tee $$runname.runout \
 	 ; done
+clean ::
+	@rm -f *.out[0-9]*
 total_clean ::
 	@rm -f *.runout
-

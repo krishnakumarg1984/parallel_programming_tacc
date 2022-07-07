@@ -4,7 +4,7 @@
 %%
 %% This text file is part of the source of 
 %% `Parallel Computing'
-%% by Victor Eijkhout, copyright 2012-2021
+%% by Victor Eijkhout, copyright 2012-2022
 %%
 %% MPI API file for MPI_Get_elements
 %%
@@ -16,22 +16,25 @@
 \begingroup
 \ttfamily\bfseries
 \catcode`\_=12
-\begin{tabular}{lllll}
+\begin{tabular}{
+l       % name
+l       % param name
+p{\mpiparmtextsize}  % explanation
+p{.7in} % ctype
+p{.9in} % ftype
+l       % inout
+}
 \toprule
 \mdseries\textrm{Name}&
 \mdseries\textrm{Param name}&
+\mdseries\textrm{Explanation}&
 \mdseries\textrm{C type}&
 \mdseries\textrm{F type}&
 \mdseries\textrm{inout}\\
 \midrule
-\hbox to 20pt{MPI_Get_elements (\hss} \\
-\hbox to 20pt{MPI_Get_elements_c (\hss} \\
- & status & const MPI_Status* & TYPE(MPI_Status)  & IN \\&\hbox to 0pt{\footnotesize\sl return status of receive operation\hss} \\ [+3pt] 
- & datatype & MPI_Datatype & TYPE(MPI_Datatype)  & IN \\&\hbox to 0pt{\footnotesize\sl datatype used by receive operation\hss} \\ [+3pt] 
- & count & int* & INTEGER  & OUT \\ [-3pt]
-(c) & & MPI_Count & \hbox to 0pt {INTEGER(KIND=MPI_COUNT_KIND) \hss} \\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl number of received basic elements\hss} \\ [+3pt] 
-
+\hbox to 18pt{MPI_Get_elements (\hss} \\
+\hbox to 18pt{MPI_Get_elements_c (\hss} \\
+ & status & return status of receive operation & const MPI_Status* & TYPE\discretionary{}{\kern10pt}{}(MPI_Status)  & IN \\ & datatype & datatype used by receive operation & MPI_Datatype & TYPE\discretionary{}{\kern10pt}{}(MPI_Datatype)  & IN \\ & count & number of received basic elements & $\left[ \begin{array}{ll}\mathtt{ int* }  \\ \mathtt{ MPI_Count} \end{array} \right.$  & INTEGER  & OUT \\ [+3pt]
 &)\\
 
 \bottomrule

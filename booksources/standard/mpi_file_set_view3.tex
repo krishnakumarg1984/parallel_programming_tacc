@@ -4,7 +4,7 @@
 %%
 %% This text file is part of the source of 
 %% `Parallel Computing'
-%% by Victor Eijkhout, copyright 2012-2021
+%% by Victor Eijkhout, copyright 2012-2022
 %%
 %% MPI API file for MPI_File_set_view
 %%
@@ -16,22 +16,24 @@
 \begingroup
 \ttfamily\bfseries
 \catcode`\_=12
-\begin{tabular}{lllll}
+\begin{tabular}{
+l       % name
+l       % param name
+p{\mpiparmtextsize}  % explanation
+p{.7in} % ctype
+p{.9in} % ftype
+l       % inout
+}
 \toprule
 \mdseries\textrm{Name}&
 \mdseries\textrm{Param name}&
+\mdseries\textrm{Explanation}&
 \mdseries\textrm{C type}&
 \mdseries\textrm{F type}&
 \mdseries\textrm{inout}\\
 \midrule
-\hbox to 20pt{MPI_File_set_view (\hss} \\
- & fh & MPI_File & TYPE(MPI_File)  \\&\hbox to 0pt{\footnotesize\sl file handle\hss} \\ [+3pt] 
- & disp & MPI_Offset & INTEGER(KIND=MPI_OFFSET_KIND)  \\&\hbox to 0pt{\footnotesize\sl displacement\hss} \\ [+3pt] 
- & etype & MPI_Datatype & TYPE(MPI_Datatype)  \\&\hbox to 0pt{\footnotesize\sl elementary datatype\hss} \\ [+3pt] 
- & filetype & MPI_Datatype & TYPE(MPI_Datatype)  \\&\hbox to 0pt{\footnotesize\sl filetype\hss} \\ [+3pt] 
- & datarep & const char* & CHARACTER  \\&\hbox to 0pt{\footnotesize\sl data representation\hss} \\ [+3pt] 
- & info & MPI_Info & TYPE(MPI_Info)  \\&\hbox to 0pt{\footnotesize\sl info object\hss} \\ [+3pt] 
-
+\hbox to 18pt{MPI_File_set_view (\hss} \\
+ & fh & file handle & MPI_File & TYPE\discretionary{}{\kern10pt}{}(MPI_File)  \\ & disp & displacement & MPI_Offset & INTEGER\discretionary{}{\kern10pt}{}(KIND=MPI_OFFSET_KIND)  \\ & etype & elementary datatype & MPI_Datatype & TYPE\discretionary{}{\kern10pt}{}(MPI_Datatype)  \\ & filetype & filetype & MPI_Datatype & TYPE\discretionary{}{\kern10pt}{}(MPI_Datatype)  \\ & datarep & data representation & const char* & CHARACTER  \\ & info & info object & MPI_Info & TYPE\discretionary{}{\kern10pt}{}(MPI_Info)  \\
 &)\\
 
 \bottomrule

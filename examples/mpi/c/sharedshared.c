@@ -5,7 +5,7 @@
    %%%% "Parallel Computing"
    %%%% by Victor Eijkhout, copyright 2013-7
    %%%%
-   %%%% sharedshared.c : illustrating shared memory
+   %%%% sharedshared.c : the beginnings of a shared memory 3pt operator
    %%%%
    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -39,8 +39,6 @@ int main(int argc,char **argv) {
   MPI_Comm_split_type(MPI_COMM_WORLD,MPI_COMM_TYPE_SHARED,procno,info,&sharedcomm);
   MPI_Comm_size(sharedcomm,&new_nprocs);
   MPI_Comm_rank(sharedcomm,&new_procno);
-
-  ASSERT(new_procno<CORES_PER_NODE);    
 
   if (new_nprocs!=nprocs) {
     printf("This example can only run on shared memory\n");

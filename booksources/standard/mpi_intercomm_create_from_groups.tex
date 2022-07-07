@@ -4,7 +4,7 @@
 %%
 %% This text file is part of the source of 
 %% `Parallel Computing'
-%% by Victor Eijkhout, copyright 2012-2021
+%% by Victor Eijkhout, copyright 2012-2022
 %%
 %% MPI API file for MPI_Intercomm_create_from_groups
 %%
@@ -16,24 +16,24 @@
 \begingroup
 \ttfamily\bfseries
 \catcode`\_=12
-\begin{tabular}{lllll}
+\begin{tabular}{
+l       % name
+l       % param name
+p{\mpiparmtextsize}  % explanation
+p{.7in} % ctype
+p{.9in} % ftype
+l       % inout
+}
 \toprule
 \mdseries\textrm{Name}&
 \mdseries\textrm{Param name}&
+\mdseries\textrm{Explanation}&
 \mdseries\textrm{C type}&
 \mdseries\textrm{F type}&
 \mdseries\textrm{inout}\\
 \midrule
-\hbox to 20pt{MPI_Intercomm_create_from_groups (\hss} \\
- & local_group & MPI_Group & TYPE(MPI_Group)  \\&\hbox to 0pt{\footnotesize\sl local group\hss} \\ [+3pt] 
- & local_leader & int & INTEGER  \\&\hbox to 0pt{\footnotesize\sl rank of local group leader in \mpiarg{local\_group}\hss} \\ [+3pt] 
- & remote_group & MPI_Group & TYPE(MPI_Group)  \\&\hbox to 0pt{\footnotesize\sl remote group, significant only at \mpiarg{local\_leader}\hss} \\ [+3pt] 
- & remote_leader & int & INTEGER  \\&\hbox to 0pt{\footnotesize\sl rank of remote group leader in \mpiarg{remote\_group}, significant only at \mpiarg{local\_leader}\hss} \\ [+3pt] 
- & stringtag & const char* & CHARACTER  \\&\hbox to 0pt{\footnotesize\sl unique idenitifier for this operation\hss} \\ [+3pt] 
- & info & MPI_Info & TYPE(MPI_Info)  \\&\hbox to 0pt{\footnotesize\sl info object\hss} \\ [+3pt] 
- & errhandler & MPI_Errhandler & TYPE(MPI_Errhandler)  \\&\hbox to 0pt{\footnotesize\sl error handler to be attached to new inter-communicator\hss} \\ [+3pt] 
- & newintercomm & MPI_Comm* & TYPE(MPI_Comm)  \\&\hbox to 0pt{\footnotesize\sl new inter-communicator\hss} \\ [+3pt] 
-
+\hbox to 18pt{MPI_Intercomm_create_from_groups (\hss} \\
+ & local_group & local group & MPI_Group & TYPE\discretionary{}{\kern10pt}{}(MPI_Group)  & IN \\ & local_leader & rank of local group leader in \mpiarg{local\_group} & int & INTEGER  & IN \\ & remote_group & remote group, significant only at \mpiarg{local\_leader} & MPI_Group & TYPE\discretionary{}{\kern10pt}{}(MPI_Group)  & IN \\ & remote_leader & rank of remote group leader in \mpiarg{remote\_group}, significant only at \mpiarg{local\_leader} & int & INTEGER  & IN \\ & stringtag & unique idenitifier for this operation & const char* & CHARACTER  & IN \\ & info & info object & MPI_Info & TYPE\discretionary{}{\kern10pt}{}(MPI_Info)  & IN \\ & errhandler & error handler to be attached to new inter-communicator & MPI_Errhandler & TYPE\discretionary{}{\kern10pt}{}(MPI_Errhandler)  & IN \\ & newintercomm & new inter-communicator & MPI_Comm* & TYPE\discretionary{}{\kern10pt}{}(MPI_Comm)  & OUT \\
 &)\\
 
 \bottomrule

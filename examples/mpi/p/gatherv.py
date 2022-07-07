@@ -24,7 +24,7 @@ if nprocs<2:
 
 localsize = random.randint(2,10)
 print("[%d] local size=%d" % (procid,localsize))
-localdata = np.empty(localsize,dtype=np.int)
+localdata = np.empty(localsize,dtype=int)
 for i in range(localsize):
     localdata[i] = procid
 
@@ -32,7 +32,7 @@ for i in range(localsize):
 globalsize = comm.reduce(localsize)
 if procid==0:
     print("Global size=%d" % globalsize)
-collecteddata = np.empty(globalsize,dtype=np.int)
+collecteddata = np.empty(globalsize,dtype=int)
 counts = comm.gather(localsize)
 comm.Gatherv(localdata, [collecteddata, counts])
 if procid==0:

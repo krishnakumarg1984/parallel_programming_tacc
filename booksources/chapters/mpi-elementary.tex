@@ -16,11 +16,14 @@
 \index{datatype!elementary|(}
 
 MPI has a number of elementary data types, corresponding to the 
-simple data types of programming languages.
+simple data types of the host languages.
 The names are made to resemble the types of C and~Fortran, 
-for instance \indexmpishow{MPI_FLOAT} and \indexmpishow{MPI_DOUBLE} in~C,
+for instance \indexmpishow{MPI_FLOAT} and \indexmpishow{MPI_DOUBLE}
+corresponding to \lstinline{float} and \lstinline{double} in~C,
 versus
-\indexmpishow{MPI_REAL} and \indexmpishow{MPI_DOUBLE_PRECISION} in~Fortran.
+\indexmpishow{MPI_REAL} and \indexmpishow{MPI_DOUBLE_PRECISION}
+corresponding to \finline{Real} and \finline{Double precision}
+in~Fortran.
 
 \begin{comment}
   MPI calls accept arrays of elements:
@@ -45,6 +48,7 @@ long int i;
 MPI_Send(&i,1,MPI_LONG,target,tag,comm);
 \end{lstlisting}
 
+\begin{table}[ht]
 \begin{tabular}{|ll|}
   \hline
   C type&MPI type\\
@@ -68,13 +72,47 @@ MPI_Send(&i,1,MPI_LONG,target,tag,comm);
 % other
 \lstinline+unsigned char+&\indexmpidef{MPI_BYTE}\\
 (does not correspond to a C type)&\indexmpishow{MPI_PACKED}\\
-\lstinline+MPI_Aint+&\indexmpishow{MPI_AINT}\\
   \hline
 \end{tabular}
+\caption{Elementary datatypes in C}
+\label{tab:elemen-c}
+\end{table}
+
+\begin{table}[ht]
+  \begin{tabular}{ll}
+    \toprule
+    \lstinline+_Bool+&\indexmpidef{MPI_C_BOOL}\\
+    \lstinline+float _Complex+&\indexmpidef{MPI_C_COMPLEX}\\
+                              &\indexmpidef{MPI_C_FLOAT_COMPLEX}\\
+    \lstinline+double _Complex+&\indexmpidef{MPI_C_DOUBLE_COMPLEX}\\
+    \lstinline+long double _Complex+&\indexmpidef{MPI_C_LONG_DOUBLE_COMPLEX}\\
+    \bottomrule
+  \end{tabular}
+  \caption{C99 synonym types.}
+  \label{tab:c99-types}  
+\end{table}
+
+\begin{table}[ht]
+  \begin{tabular}{ll}
+    \toprule
+    \lstinline+int8_t+&\indexmpidef{MPI_INT8_T}\\
+    \lstinline+int16_t+&\indexmpidef{MPI_INT16_T}\\
+    \lstinline+int32_t+&\indexmpidef{MPI_INT32_T}\\
+    \lstinline+int64_t+&\indexmpidef{MPI_INT64_T}\\
+    \midrule
+    \lstinline+uint8_t+&\indexmpidef{MPI_UINT8_T}\\
+    \lstinline+uint16_t+&\indexmpidef{MPI_UINT16_T}\\
+    \lstinline+uint32_t+&\indexmpidef{MPI_UINT32_T}\\
+    \lstinline+uint64_t+&\indexmpidef{MPI_UINT64_T}\\
+    \bottomrule
+  \end{tabular}
+  \caption{C11 fixed width integer types.}
+  \label{tab:c11-int-types}
+\end{table}
 
 \begin{itemize}
 \item
-  There is some, but not complete, support for \indexterm{C99} types.
+  There is some, but not complete, support for \cstandard{99} types.
 \item
   The \indexmpishow{MPI_LONG_INT} type is not an integer type,
   but rather a \lstinline{long} and an \lstinline{int} packed together;
@@ -185,7 +223,7 @@ predefined MPI datatypes. Hence the following routines exist to make
 
 Examples:
 \begin{lstlisting}
-INTEGER ( KIND = SELECTED_INTEGER_KIND(15) ) , &
+INTEGER ( KIND = SELECTED_INT_KIND(15) ) , &
  DIMENSION(100) :: array INTEGER :: root , integertype , error 
 
 CALL MPI_Type_create_f90_integer( 15 , integertype , error )
@@ -224,7 +262,7 @@ Numpy has three integer types,
 one corresponding to C~\lstinline{int}s,
 and two with the number of bits explicitly indicated.
 There used to be a \lstinline{np.int} type,
-but this is deprecated as of \indextermsub{Numpy}{1.20}
+but this is deprecated as of \indextermbus{Numpy}{1.20}
 
 Examples:
 
@@ -245,17 +283,18 @@ It is possible to derive the Numpy type corresponding to an MPI type:
 
 \lstset{language=C}
 
-\Level 1 {Byte addressing type}
+\Level 1 {Byte addressing types}
 \label{sec:mpi-byte-type}
 
 So far we have mostly been taking about datatypes in the context of
 sending them. The \indexmpidef{MPI_Aint} type is not so much for
 sending, as it is for describing the size of objects, such as the size
-of an \indexmpishow{MPI_Win} object; section~\ref{sec:windows}.
+of an \indexmpishow{MPI_Win} object (section~\ref{sec:windows})
+or byte displacements in \indexmpishow{MPI_Type_create_hindexed}.
 
 Addresses have type \indexmpishow{MPI_Aint}. The start of the address range is
 given in \indexmpishow{MPI_BOTTOM}.
-See also the \indexmpidef{MPI_Sizeof}
+See also the \indexmpishow{MPI_Sizeof}
 (section~\ref{sec:mpi-type-match})
 and
 \indexmpishow{MPI_Get_address} routines.
@@ -286,10 +325,9 @@ integer(kind=MPI_ADDRESS_KIND) :: winsize
 \end{lstlisting}
 \lstset{style=reviewcode,language=C} %pyskip
 
-Fortran lacks a \indextermtt{sizeof} operator to query the sizes of datatypes.
-Since sometimes exact byte counts are necessary,
-for instance in one-sided communication,
-Fortran can use the (deprecated) \indexmpidef{MPI_Sizeof} routine.
+Using this integer kind to compute the size of a window
+also requires being able to query the size of the datatype
+in that window.
 See section~\ref{sec:mpi-type-match} for details.
 
 Example usage in \indexmpishow{MPI_Win_create}:

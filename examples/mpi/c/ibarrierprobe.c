@@ -3,7 +3,7 @@
    %%%%
    %%%% This program file is part of the book and course
    %%%% "Parallel Computing"
-   %%%% by Victor Eijkhout, copyright 2018
+   %%%% by Victor Eijkhout, copyright 2018-2022
    %%%%
    %%%% findbarrier.c : illustrating MPI_Ibarrier
    %%%%
@@ -45,7 +45,7 @@ int main(int argc,char **argv) {
     MPI_Ssend(&data,1,MPI_FLOAT,receiver,0,comm);
   }
   /*
-   * Everyone posts the non-block barrier
+   * Everyone posts the non-blocking barrier
    * and gets a request to test/wait for
    */
   MPI_Request barrier_request;

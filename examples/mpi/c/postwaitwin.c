@@ -31,15 +31,15 @@ int main(int argc,char **argv) {
     if (procno>0 && procno<nprocs-1) goto skip;
 
     origin = 0; target = nprocs-1;
-    MPI_Comm_group(comm,&all_group);
 
+    MPI_Comm_group(comm,&all_group);
     if (procno==origin) {
       MPI_Group_incl(all_group,1,&target,&two_group);
       // access
       MPI_Win_start(two_group,0,the_window);
       MPI_Put( /* data on origin: */   &my_number, 1,MPI_INT,
                /* data on target: */   target,0,   1,MPI_INT,
-	       the_window);
+       the_window);
       MPI_Win_complete(the_window);
     }
 

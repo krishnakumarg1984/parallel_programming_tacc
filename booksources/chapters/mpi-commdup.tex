@@ -11,7 +11,9 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-With \indexmpiref{MPI_Comm_dup} you can make an exact duplicate of a communicator.
+With \indexmpiref{MPI_Comm_dup}
+you can make an exact duplicate of a communicator
+(see section~\ref{sec:mpi-comm-dup-lib} for an application).
 There is a nonblocking variant \indexmpiref{MPI_Comm_idup}.
 
 These calls do not propagate info hints
@@ -19,6 +21,13 @@ These calls do not propagate info hints
 to achieve this,
 use \indexmpidef{MPI_Comm_dup_with_info} and \indexmpidef{MPI_Comm_idup_with_info};
 section~\ref{sec:mpi-comm-info}.
+
+\begin{pythonnote}{Communicator duplication}
+  Duplicate communicators are created as output of the duplication routine:
+  \begin{lstlisting}
+    newcomm = comm.Dup()
+  \end{lstlisting}
+\end{pythonnote}
 
 \begin{mplnote}{Communicator duplication}
   Communicators can be duplicated but only during initialization.
@@ -38,6 +47,7 @@ init = comm;
 You may wonder what `an exact copy' means precisely.
 For this, think of a communicator as a context label that you can attach to,
 among others, operations such as sends and receives.
+And it's that label that counts, not what processes are in the communicator.
 A~send and a receive `belong together' if they have the same communicator context.
 Conversely, a~send in one communicator can not be matched
 to a receive in a duplicate communicator, made by \indexmpishow{MPI_Comm_dup}.
@@ -65,7 +75,7 @@ Comparing against \indexmpishow{MPI_COMM_NULL} is not allowed.
 \label{sec:mpi-comm-dup-lib}
 
 Duplicating a communicator may seem pointless, but it is actually very useful for the design of
-software libraries. Image that you have a code
+software libraries. Imagine that you have a code
 \lstset{style=reviewcode,language=C}
 \begin{lstlisting}
 MPI_Isend(...); MPI_Irecv(...);
@@ -76,8 +86,7 @@ and suppose that the library has receive calls. Now it is possible that the
 receive in the library inadvertently
 catches the message that was sent in the outer environment.
 
-In section~\ref{sec:mpi-semantics} it was explained that MPI messages are 
-nonovertaking. This may lead to confusing situations, witness the following.
+Let us consider an example.
 First of all, here is code where the library stores the communicator
 of the calling program:
 %

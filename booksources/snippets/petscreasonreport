@@ -2,7 +2,7 @@
 PetscInt its; KSPConvergedReason reason; 
 Vec Res; PetscReal norm;
 ierr = KSPGetConvergedReason(Solve,&reason); 
-ierr = KSPReasonView(Solve,PETSC_VIEWER_STDOUT_WORLD); 
+ierr = KSPConvergedReasonView(Solve,PETSC_VIEWER_STDOUT_WORLD); 
 if (reason<0) {
   PetscPrintf(comm,"Failure to converge: reason=%d\n",reason);
 } else {

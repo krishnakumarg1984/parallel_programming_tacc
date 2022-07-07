@@ -64,9 +64,14 @@ Here the \n{split_type} parameter has to be from the following (short) list:
 
 Splitting by shared memory:
 %
+\begingroup
+\def\snippetcodefraction{.45}
+\def\snippettextfraction{.5}
 \csnippetwithoutput{commsplittype}{examples/mpi/c}{commsplittype}
+\endgroup
 
 \begin{exercise}
+  \label{ex:mpi-node-proc-split}
   Write a program that uses \indexmpishow{MPI_Comm_split_type}
   to  analyze for a run
   \begin{enumerate}
@@ -75,7 +80,7 @@ Splitting by shared memory:
   \end{enumerate}
   If you run this program on an unequal distribution,
   say 10~processes on 3~nodes, what distribution do you find?
-  Is that $4+4+2$ or $4+3+3$?
+  \lstinputlisting{code/mpi/c/nodecount.runout}
 \end{exercise}
 
 \begin{remark}

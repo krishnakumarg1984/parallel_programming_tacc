@@ -106,6 +106,7 @@ with freely accessible members:
 \end{itemize}
 
 \begin{fortrannote}{Status object in f08}
+  \label{f:status-object}
   The \indextermtt{mpi_f08} module turns many handles
   (such as communicators)
   from Fortran \lstinline{Integer}s into \lstinline{Type}s.
@@ -117,6 +118,15 @@ with freely accessible members:
   (Remarkably, these routines are even available in~C,
   where they operate on \indexmpishow{MPI_Fint}, \indexmpishow{MPI_F08_status} arguments.)
 \end{fortrannote}
+
+\begin{pythonnote}{Status object}
+  The status object is explicitly created before being passed
+  to the receive routine. It has the usual query methods:
+  %
+  \pverbatimsnippet{statuscountp}
+
+  (The count function without argument returns a result in bytes.)
+\end{pythonnote}
 
 \begin{mplnote}{Status object}
   The \lstinline+mpl::status_t+ object is created by the receive
@@ -222,7 +232,8 @@ can be found by
 %
 \cverbatimsnippet[examples/mpi/c/count.c]{mpigetcount}
 %
-\fsnippetwithoutput{mpigetcountf08}[examples/mpi/f08/count.F90]{count}
+\fsnippetwithoutput{mpigetcountf08}{examples/mpi/f08}{count}
+% [/count.F90]
 
 This may be necessary since the \n{count} argument to \indexmpishow{MPI_Recv} is 
 the buffer size, not an indication of the actually received number of

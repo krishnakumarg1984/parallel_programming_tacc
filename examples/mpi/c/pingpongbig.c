@@ -70,10 +70,12 @@ int main(int argc,char **argv) {
     if (procno==processA) {
       double t = MPI_Wtime();
       for (int n=0; n<nexperiments; n++) {
-        MPI_Ssend_c(buffer,length,MPI_DOUBLE,
-                    processB,0,comm);
-        MPI_Recv_c(buffer,length,MPI_DOUBLE,
-                   processB,0,comm,MPI_STATUS_IGNORE);
+        MPI_Ssend_c
+          (buffer,length,MPI_DOUBLE,
+           processB,0,comm);
+        MPI_Recv_c
+          (buffer,length,MPI_DOUBLE,
+           processB,0,comm,MPI_STATUS_IGNORE);
       }
       t = MPI_Wtime()-t; t /= nexperiments;
       {
@@ -84,10 +86,12 @@ int main(int argc,char **argv) {
       }
     } else if (procno==processB) {
       for (int n=0; n<nexperiments; n++) {
-        MPI_Recv_c(buffer,length,MPI_DOUBLE,
-                   processA,0,comm,MPI_STATUS_IGNORE);
-        MPI_Ssend_c(buffer,length,MPI_DOUBLE,
-                    processA,0,comm);
+        MPI_Recv_c
+          (buffer,length,MPI_DOUBLE,
+             processA,0,comm,MPI_STATUS_IGNORE);
+        MPI_Ssend_c
+          (buffer,length,MPI_DOUBLE,
+           processA,0,comm);
       }
     }
   }

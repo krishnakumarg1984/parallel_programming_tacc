@@ -245,6 +245,20 @@ needed explicitly in \ac{OO} languages.
   \pverbatimsnippet[examples/mpi/p/allreduce.py]{allreducenump}
 \end{pythonnote}
 
+\begin{pythonnote}{Buffers from subarrays}
+  In many examples you will pass a whole Numpy array as send/receive buffer.
+  Should want to use a buffer that corresponds to a subset of an array,
+  you can use the following notation:
+\begin{lstlisting}
+MPI_Whatever( buffer[...,5] # more stuff    
+\end{lstlisting}
+for passing the buffer that starts at location~5 of the array.
+
+For even more complicated effects, use \n{numpy.frombuffer}:
+\psnippetwithoutput{pyfrombuf}{examples/mpi/p}{buffer}
+
+\end{pythonnote}
+
 \begin{mplnote}{Scalar buffers}
   \emph{Buffer}\index{buffer!MPI, in MPL} type handling
   is done through polymorphism and templating: no explicit indiation of types.
@@ -253,7 +267,7 @@ needed explicitly in \ac{OO} languages.
 \begin{lstlisting}
 float x,y;
 comm.bcast( 0,x ); // note: root first
-comm.allreduce( mpl::plus<float>(), x,y );
+comm.allreduce( mpl::plus<float>(), x,y ); // op first
 \end{lstlisting}
 where the reduction function needs to be compatible with the type of the buffer.
 \end{mplnote}

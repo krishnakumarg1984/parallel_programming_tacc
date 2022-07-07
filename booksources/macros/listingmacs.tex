@@ -13,13 +13,14 @@
 
 \usepackage{listings,xcolor}
 \newcommand\lstineline{LST TYPO\n}
+\newcommand\finline[1]{{\lstset{language=Fortran}\lstinline{#1}}}
 
 \def\codefontsize{\footnotesize}
 \lstdefinestyle{reviewcode}{
   belowcaptionskip=1\baselineskip, frame=L,
   breaklines=true, breakatwhitespace=true,
   postbreak=\hbox{{$\hookrightarrow$}}, % \textcolor{green}
-  xleftmargin=\unitindent, showstringspaces=false,
+  xleftmargin=.5\unitindent, showstringspaces=false,
   basicstyle=\codefontsize\ttfamily,
   keywordstyle=\bfseries\color{blue},
   commentstyle=\color{red!60!black},
@@ -47,7 +48,7 @@
     MPI_Comm_group,MPI_Comm_create,MPI_Comm_create_group,MPI_Comm_create_from_group,
     MPI_Comm_join,MPI_Comm_free,MPI_Comm_set_name,
     MPI_Comm_compare,MPI_Comm_get_info,MPI_Comm_set_info,
-    MPI_Comm_set_attr,MPI_Comm_get_attr,
+    MPI_Comm_set_attr,MPI_Comm_get_attr,MPI_Comm_delete_attr,
     MPI_Intercomm_create,MPI_Intercomm_merge,MPI_Comm_test_inter,MPI_Comm_remote_group,
     MPI_Group_size,MPI_Group_rank,MPI_Group_free,MPI_Group_incl,MPI_Group_excl,
     MPI_Group_union,MPI_Group_intersection,MPI_Group_difference,
@@ -64,9 +65,10 @@
     MPI_Ialltoall,MPI_Ialltoallv,MPI_Ialltoallw,
     MPI_Ibcast,MPI_Ibarrier,MPI_Iexscan,MPI_Iscan,MPI_Isomething,
     % p2p
-    MPI_Send,MPI_Send_c,MPI_Isend,MPI_Rsend,MPI_Irsend,MPI_Ssend,MPI_Issend,
+    MPI_Send,MPI_Send_c,MPI_Isend,MPI_Rsend,MPI_Irsend,
+    MPI_Ssend,MPI_Ssend_c,MPI_Issend,
     MPI_Bsend,MPI_Ibsend,MPI_Bsend_init,MPI_Cancel,
-    MPI_Recv,MPI_Irecv,MPI_Mrecv,MPI_Sendrecv,MPI_Sendrecv_replace,
+    MPI_Recv,MPI_Recv_c,MPI_Irecv,MPI_Mrecv,MPI_Sendrecv,MPI_Sendrecv_replace,
     MPI_Isendrecv,MPI_Isendrecv_replace,MPI_Sendrecv_init,MPI_Sendrecv_replace_init,
     MPI_Send_init,MPI_Ssend_init,MPI_Rsend_init,MPI_Recv_init,MPI_Start,MPI_Startall,
     MPI_Psend_init,MPI_Precv_init,MPI_Pready,MPI_Pready_range,MPI_Pready_list,MPI_Parrived,
@@ -76,7 +78,7 @@
     %% util
     MPI_Buffer_attach,MPI_Buffer_detach,
     MPI_Get_count,MPI_Get_count_c,MPI_Get_count_x,
-    MPI_Get_elements,MPI_Get_elements_c,MPI_Get_elements_x,MPI_Get_address,
+    MPI_Get_elements,MPI_Get_elements_c,MPI_Get_elements_x,MPI_Get_address,MPI_Address,
     MPI_Get_hw_resource_types,
     MPI_Request_free,MPI_Request_get_status,
     MPI_Status_f2f08,MPI_Status_f082f,
@@ -90,18 +92,20 @@
     MPI_Type_struct,MPI_Type_create_struct,
     MPI_Type_create_f90_integer,MPI_Type_create_f90_real,MPI_Type_create_f90_complex,
     MPI_Type_size,MPI_Type_size_x,MPI_Type_extent,MPI_Type_lb,MPI_Type_ub,
+    MPI_Type_get_attr,MPI_Type_set_attr,MPI_Type_delete_attr,
     MPI_Type_get_extent,MPI_Type_get_true_extent,
+    MPI_Type_get_extent_c,MPI_Type_get_true_extent_c,
     MPI_Type_get_extent_x,MPI_Type_get_true_extent_x,
     MPI_Type_get_envelope,MPI_Type_get_contents,
     MPI_Pack,MPI_Unpack,MPI_Pack_size,
     % I/O
-    MPI_File_open,MPI_File_close,MPI_File_delete,MPI_File_set_info,
+    MPI_File_open,MPI_File_close,MPI_File_delete,MPI_File_set_info,MPI_File_get_info,
     MPI_File_read,MPI_File_iread,MPI_File_read_all,MPI_File_iread_all,
-    MPI_File_read_at,MPI_File_read_at_all,MPI_File_iread_at_all,
+    MPI_File_read_at,MPI_File_read_at_all,MPI_File_iread_at,MPI_File_iread_at_all,
     MPI_File_read_all_begin,MPI_File_read_all_end,
     MPI_File_read_ordered,MPI_File_read_shared,MPI_File_iread_shared,
     MPI_File_write,MPI_File_iwrite,MPI_File_write_all,MPI_File_iwrite_all,
-    MPI_File_write_at,MPI_File_write_at_all,MPI_File_iwrite_at_all,
+    MPI_File_write_at,MPI_File_write_at_all,MPI_File_iwrite_at,MPI_File_iwrite_at_all,
     MPI_File_write_all_begin,MPI_File_write_all_end,
     MPI_File_write_shared,MPI_File_iwrite_shared,MPI_File_write_ordered,
     MPI_File_set_view,MPI_File_get_view,MPI_File_set_size,MPI_File_get_size,
@@ -143,6 +147,7 @@
     MPI_Session_create_errhandler,MPI_Session_set_errhandler,MPI_Session_get_errhandler,MPI_Session_call_errhandler,
     MPI_Win_create_errhandler,MPI_Win_set_errhandler,MPI_Win_get_errhandler,MPI_Win_call_errhandler,
     MPI_Errhandler_set,MPI_Errhandler_create,MPI_Errhandler_free,
+    MPI_Win_set_attr,MPI_Win_get_attr,MPI_Win_delete_attr,
     MPI_Errhandler_f2c,MPI_Errhandler_c2f,
     % utility and info
     MPI_Aint_add,MPI_Aint_diff,
@@ -181,7 +186,7 @@
     MPI_THREAD_SINGLE,MPI_THREAD_FUNNELED,MPI_THREAD_SERIALIZED,MPI_THREAD_MULTIPLE,
     % NULLs and ERRORs
     MPI_ARGV_NULL,MPI_ARGVS_NULL,MPI_COMM_NULL,MPI_DATATYPE_NULL,
-    MPI_GROUP_NULL,MPI_INFO_NULL,MPI_INFO_ENV,
+    MPI_GROUP_NULL,MPI_GROUP_EMPTY,MPI_INFO_NULL,MPI_INFO_ENV,
     MPI_OP_NULL,MPI_PROC_NULL,MPI_REQUEST_NULL,
     MPI_ERROR,MPI_SUCCESS,MPI_LASTUSEDCODE,MPI_ERR_LASTCODE,
     MPI_ERRORS_ARE_FATAL,MPI_ERRORS_RETURN,MPI_ERRORS_ABORT,
@@ -212,13 +217,14 @@
     MPI_COMPLEX,MPI_DOUBLE_COMPLEX,MPI_LOGICAL,
     MPI_FLOAT_INT,MPI_LONG_INT,MPI_LONG_LONG_INT,MPI_AINT,MPI_DOUBLE_INT,MPI_SHORT_INT,
     MPI_2INT,MPI_2INTEGER,MPI_LONG_DOUBLE_INT,MPI_2REAL,MPI_2DOUBLE_PRECISION,
+    MPI_C_BOOL,MPI_C_COMPLEX,MPI_C_FLOAT_COMPLEX,MPI_C_DOUBLE_COMPLEX,MPI_C_LONG_DOUBLE_COMPLEX,
     % -- kinds
     MPI_ADDRESS_KIND,MPI_COUNT_KIND,MPI_INTEGER_KIND,MPI_OFFSET_KIND,
     MPI_SUBARRAYS_SUPPORTED,MPI_ASYNC_PROTECTS_NONBLOCKING,
     MPI_CHAR,MPI_CHARACTER,MPI_SIGNED_CHAR,MPI_UNSIGNED_CHAR,
     MPI_BYTE,MPI_PACKED, MPI_MODE_CREATE,
-    % file modes
-    MPI_SEEK_SET,
+    % file stuff
+    MPI_SEEK_SET,MPI_FILE_NULL,
     MPI_MODE_RDONLY,MPI_MODE_WRONLY,MPI_MODE_RDWR,MPI_MODE_EXCL,MPI_MODE_DELETE_ON_CLOSE,
     MPI_MODE_UNIQUE_OPEN,MPI_MODE_SEQUENTIAL,MPI_MODE_APPEND,
     MPI_MODE_NOPUT,MPI_MODE_NOPRECEDE,MPI_MODE_NOSUCCEED,MPI_MODE_NOSTORE,
@@ -246,14 +252,17 @@
 }
 
 \lstset{emph={[3] %% types
-    MPI_Aint,MPI_Comm,MPI_Count,MPI_Datatype,MPI_Errhandler,MPI_File,MPI_Group,
+    MPI_Aint,MPI_Comm,MPI_Comm_attr_function,MPI_Count,
+    MPI_Datatype,MPI_Errhandler,MPI_File,MPI_Group,
     MPI_Info,MPI_Message,MPI_Offset,MPI_Op,MPI_Request,MPI_Session,MPI_Status,
     MPI_User_function,MPI_Win,
     MPI_T_enum,MPI_T_cvar_handle,MPI_T_pvar_session,MPI_T_pvar_handle,
     %% Fortrn types
     MPI_Fint,MPI_F08_status,
     %% OMP directives
-    for,parallel,sections,section,single,task,taskgroup,taskwait,workshare
+    for,parallel,sections,section,single,workshare,
+    task,taskgroup,taskwait,taskyield,task_reduction,in_reduction,
+    depend,final,priority,
     %% MPL methods
     environment,processor_name,communicator,comm_world,comm_self,split,split_shared,
     rank,size,tag,any,up,get_count,any_source,source,
@@ -314,7 +323,7 @@
     KSPCreate,KSPDestroy,KSPSetTolerances,KSPSetType,KSPSetFromOptions,
     KSPSetOperators,KSPGetOperators,KSPSetTolerances,KSPGMRESSetRestart,
     KSPSetUp,KSPSolve,KSPMatSolve,KSPGetIterationNumber,
-    KSPGetConvergedReason,KSPConvergenceReasonView,KSPReasonView,
+    KSPGetConvergedReason,KSPConvergedReasonView,KSPReasonView,
     KSPGetPC,PCSetType,PCHYPRESetType,
     PCFieldSplitSetBlockSize,PCFieldSplitSetType,
     KSPSetConvergenceTest,KSPConvergedDefault,KSPSetInitialGuessNonzero,

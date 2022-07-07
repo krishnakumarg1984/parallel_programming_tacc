@@ -28,16 +28,6 @@
 %% arbitrary numbers of output streams
 \usepackage{morewrites}
 
-%% graphics stuff
-\usepackage{graphicx,outliner}
-\usepackage{wrapfig}
-% plotting with tikz
-\usepackage{pgfplots}  
-\usepgfplotslibrary{external}
-\tikzexternalize
-\tikzsetexternalprefix{plots/}
-\pgfplotsset{width=5in,compat=1.7}  
-
 % fancy text stuff
 \usepackage{fontspec}
 \setmainfont[
@@ -191,7 +181,6 @@
 
 \input commonmacs
 \input acromacs
-\input bookmacs
 \input exmacs
 \input tutmacs
 
@@ -199,17 +188,7 @@
 \makeindex
 \input listingmacs
 \input snippetmacs
-
-\usepackage[xetex,colorlinks]{hyperref}
-\hypersetup{bookmarksopen=true}
-\usepackage{etoolbox}
-%%
-%% refer to sections in the HPC book
-%%
-\usepackage{xr-hyper}
-\externaldocument[HPSC-]{../scientific-computing-private/scicompbook}
-\newcommand\HPSCref[1]{HPSC-\nobreak\ref{HPSC-#1}}
-\usepackage[all]{hypcap}
+\input bookmacs
 
 \def\publicdraft{{\bf\normalsize \relax Public draft - open for comments}}
 \def\revdate{3rd edition 2022, formatted \today\\
@@ -230,7 +209,7 @@
 
 \author{Victor Eijkhout}
 \title{Parallel Programming for Science and Engineering\\
-\small Using MPI, OpenMP, and the PETSc library}
+  \small The Art of HPC, volume 2}
 \expandafter\date\expandafter{\revdate}
 \maketitle
 
@@ -315,6 +294,7 @@
 \lstset{language=Fortran}
 \CHAPTER{Co-array Fortran}{caf}
 \lstset{language=C++}
+\CHAPTER{Kokkos}{kokkos}
 \CHAPTER{Sycl, OneAPI, DPC++}{dpcpp}
 \CHAPTER{Python multiprocessing}{multiprocessing}
 
@@ -324,7 +304,6 @@
 \CHAPTER{Exploring computer architecture}{architecture}
 %% merged into next \CHAPTER{Process and thread affinity}{affinity}
 \CHAPTER{Hybrid computing}{hybrid}
-\CHAPTER{Random number generation}{random}
 \CHAPTER{Parallel I/O}{io}
 \CHAPTER{Support libraries}{libraries}
 
@@ -507,6 +486,12 @@ Where these appear in this book, a page reference is given.
 
 \begin{multicols*}{2}
 \printindex[petsc]
+\end{multicols*}
+
+\Level 0 {Index of KOKKOS commands}
+
+\begin{multicols*}{2}
+\printindex[kokkos]
 \end{multicols*}
 
 \Level 0 {Index of SYCL commands}

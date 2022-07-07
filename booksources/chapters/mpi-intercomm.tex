@@ -11,7 +11,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\Level 0 {Inter-communicators}
+\Level 0 {Intercommunicators}
 \label{sec:mpi-intercomm}
 
 In several scenarios it may be desirable to have a way to communicate
@@ -35,7 +35,7 @@ terms of those communicators, and this is what happens in an
 
 \begin{figure}[ht]
   \includegraphics[scale=.6]{intercomm}
-  \caption{Illustration of ranks in an inter-communicator setup}
+  \caption{Illustration of ranks in an intercommunicator setup}
   \label{fig:intercomm}
 \end{figure}
 
@@ -55,7 +55,7 @@ involves the following communicators:
 Even though the intercommunicator connects only two proceses, it is
 collective on the peer communicator.
 
-\Level 1 {Inter-communicator point-to-point}
+\Level 1 {Intercommunicator point-to-point}
 
 The local leaders can now communicate with each other.
 \begin{itemize}
@@ -72,7 +72,7 @@ local ordering of the other group is arranged. Using a complicated
 
 \cverbatimsnippet[examples/mpi/c/intercomm.c]{intercomm-ptp}
 
-\Level 1 {Inter-communicator collectives}
+\Level 1 {Intercommunicator collectives}
 
 The intercommunicator can be used in collectives such as
 a broadcast.
@@ -88,20 +88,20 @@ Gather and scatter behave similarly; the allgather is different: all
 send buffers of group~A are concatenated in rank order, and places on
 all processes of group~B.
 
-Inter-communicators can be used if two groups of process work
+Intercommunicators can be used if two groups of process work
 asynchronously with respect to each other; another application is
 fault tolerance (section~\ref{mpi:tolerant}).
 
 \cverbatimsnippet[examples/mpi/c/intercomm.c]{intercomm-bcast}
 
-\Level 1 {Inter-communicator querying}
+\Level 1 {Intercommunicator querying}
 \label{sec:mpi-inter-query}
 
 Some of the operations you have seen before for
-\indextermsubh{intra}{communicator}s behave differently with inter-communicator:
+\indextermsubh{intra}{communicator}s behave differently with intercommunicator:
 \begin{itemize}
 \item \indexmpishow{MPI_Comm_size} returns the size of the local
-  group, not the size of the inter-communicator.
+  group, not the size of the intercommunicator.
 \item \indexmpishow{MPI_Comm_rank} returns the rank in the local
   group.
 \item \indexmpishow{MPI_Comm_group} returns the local group.
@@ -115,7 +115,7 @@ On other processes this returns \indexmpishow{MPI_COMM_NULL}.
 Test whether a communicator is intra or inter:
 \indexmpiref{MPI_Comm_test_inter}.
 
-\indexmpishow{MPI_Comm_compare} works for inter-communicators.
+\indexmpishow{MPI_Comm_compare} works for intercommunicators.
 
 Processes connected through an intercommunicator can query
 the size of the `other' communicator with

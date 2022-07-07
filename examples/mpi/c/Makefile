@@ -25,7 +25,7 @@ APPS = init thread env outerr abort procname \
     probe testhang findbarrier ibarriertest ibarrierprobe backintime reductpositive \
     putfence putfencealloc getfence windynamic anysource \
     cancel scan exscan fft itranspose progress interleavegather \
-    postwaitwin passive numa \
+    postwaitwin passive numa nodecount \
     reduce reduceinplace reducecount \
     allreduce allreduceinplace gather gatherv allgatherv \
     randomupdatefence randomupdatelock randomupdateshared \
@@ -40,17 +40,16 @@ APPS = init thread env outerr abort procname \
     graph rightgraphtwo persist persistbcast partition \
     spawnmanager spawnworker spawnapp portapp publishapp \
     session sessionmix sessionmulti \
-    centraldiff blockwrite 
+    centraldiff filewrite blockwrite 
 # not ready for prime time: mvp2d
 WRONGS = sendblock ssendblock recvblock
 
 MODE = mpi
 LANGUAGE = C
 .SECONDEXPANSION:
-ifeq "${TACC_SYSTEM}" "macbookair"
-#  EXTRA_LIBS = -L/opt/local/lib -lefence
-endif
 include ../../../makefiles/Make.compile
+randomupdateshared.o windynamic.o numa.o getfence.o centraldiff.o : window.c
+graph.o : topo.c
 
 ##
 ## aux files
@@ -78,14 +77,19 @@ run_backintime : backintime
 	  ${MPIRUN} -n ${NP} ./backintime ; \
 	done | grep back
 
-RUNS += run_longint
-.PHONY: run_longint
-run_longint : longint
-	@./longint
-
-RUNS += run_struct
-run_struct : struct
-	${MPIRUN} -n ${NP} ./struct
+RUNS += run_graph run_graphcount
+.PHONY: run_graph run_graphcount
+run_graph run_graphcount : graph
+run_graph :
+	@make --no-print-directory catchrun \
+	    SCRIPTSDIR=../../../teaching/course-support \
+	    CATCHFILTER="| awk '/nbors/ {p=0} p==1 {print} /Nbors/ {p=1}'" \
+	    NP=6 PROGRAM=graph
+run_graphcount :
+	@make --no-print-directory catchrun \
+	    SCRIPTSDIR=../../../teaching/course-support \
+	    CATCHFILTER="| awk '/count/ {p=0} p==1 {print} /Count/ {p=1}'" \
+	    NP=6 PROGRAM=graph
 
 RUNS += run_progress
 .PHONY: run_progress
@@ -151,6 +155,11 @@ RUNS += run_commcompare
 run_commcompare : commcompare
 	@${MPIRUN} -n 1 ./commcompare
 
+RUNS += run_trueextent
+.PHONY: run_trueextent
+run_trueextent : trueextent
+	@${MPIRUN} -n 2 ./trueextent
+
 RUNS += run_pack run_packsize
 .PHONY: run_pack run_packsize
 run_pack : pack
@@ -165,11 +174,26 @@ RUNS += run_sessionmix
 run_sessionmix : sessionmix
 	@${MPIRUN} -n 4 ./sessionmix
 
+RUNS += run_write
+.PHONY: run_write
+run_write : filewrite
+	@${MPIRUN} -n 4 ./filewrite \
+	 && echo "octal dump:" \
+	 && od filewrite.dat
+
+RUNS += run_port
+.PHONY: run_port
+run_port : portapp
+	@export FI_MLX_ENABLE_SPAWN=yes \
+	 && export FI_MLX_NS_ENABLE=1 \
+	 && ${MPIRUN} -n 4 ./$^
+
 ####
 #### generic runs
 ####
-GENERICS = run_irecvsource run_commsplittype run_gatherv run_persist \
-    run_pingpongbig run_procname run_scan 
+GENERICS = run_irecvsource run_commsplittype run_gatherv run_longint \
+    run_persist \
+    run_pingpongbig run_procname run_struct run_scan 
 info ::
 	@echo "generics: ${GENERICS}"
 RUNS += ${GENERICS}
@@ -190,9 +214,6 @@ ${GENERICS} :
 
 MODE = mpi
 include ../../../makefiles/Make.clean
-#include ../../../makefiles/Make.mpi_run
-#include ../../../teaching/course-support/Make.mpi_regress
-CATCHER = ../../../teaching/course-support/catchout
 
 clean ::
-	@rm -f *.dat *.out[0-9]*
+	@rm -f *.dat

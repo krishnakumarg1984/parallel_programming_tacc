@@ -3,7 +3,7 @@
    %%%%
    %%%% This program file is part of the book and course
    %%%% "Parallel Computing"
-   %%%% by Victor Eijkhout, copyright 2013-2021
+   %%%% by Victor Eijkhout, copyright 2013-2022
    %%%%
    %%%% proccount.c : counting procs and threads
    %%%%
@@ -20,15 +20,17 @@ void nested_report() {
 #pragma omp parallel
 #pragma omp master
   printf("Nested    : %2d cores and %2d threads out of max %2d\n",
-	 omp_get_num_procs(),omp_get_num_threads(),omp_get_max_threads());
+         omp_get_num_procs(),
+         omp_get_num_threads(),
+         omp_get_max_threads());
 }
 
 int main(int argc,char **argv) {
 
   printf("Sequential: %2d cores and %2d threads out of max %2d\n",
-	 omp_get_num_procs(),
-	 omp_get_num_threads(),
-	 omp_get_max_threads());
+         omp_get_num_procs(),
+         omp_get_num_threads(),
+         omp_get_max_threads());
 
   int env_num_threads;
 #pragma omp parallel
@@ -36,9 +38,9 @@ int main(int argc,char **argv) {
   {
     env_num_threads = omp_get_num_threads();
     printf("Parallel  : %2d cores and %2d threads out of max %2d\n",
-	   omp_get_num_procs(),
-	   omp_get_num_threads(),
-	   omp_get_max_threads());
+           omp_get_num_procs(),
+           omp_get_num_threads(),
+           omp_get_max_threads());
   }
 
 #pragma omp parallel \
@@ -46,9 +48,9 @@ int main(int argc,char **argv) {
 #pragma omp master
   {
     printf("Double    : %2d cores and %2d threads out of max %2d\n",
-	   omp_get_num_procs(),
-	   omp_get_num_threads(),
-	   omp_get_max_threads());
+           omp_get_num_procs(),
+           omp_get_num_threads(),
+           omp_get_max_threads());
   }
   
 #pragma omp parallel

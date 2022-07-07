@@ -31,7 +31,8 @@ of \indexmpishow{MPI_COMM_WORLD}; rather, they get their own communicator, and a
 is established between this new group
 and the existing one. The first routine is
 \indexmpiref{MPI_Comm_spawn}, which tries to fire up multiple copies
-of a single named executable. Errors in starting up these codes are returned in an array of integers, or
+of a single named executable.
+Errors in starting up these codes are returned in an array of integers, or
 if you're feeling sure of yourself, specify \indexmpidef{MPI_ERRCODES_IGNORE}.
 
 It is not immediately clear whether there is opportunity for spawning
@@ -67,32 +68,12 @@ Then we actually spawn the processes:
 %
 \pverbatimsnippet[examples/mpi/p/spawnmanager.py]{spawnmanagerp}
 %
-You could start up a single copy of this program with 
-\begin{verbatim}
-mpiexec -n 1 spawnmanager
-\end{verbatim}
-but with a hostfile that has more than one host.
-
 A process can detect whether it was a spawning or a spawned process
 by using \indexmpishow{MPI_Comm_get_parent}:
-the resulting inter-communicator is \indexmpishow{MPI_COMM_NULL}
+the resulting intercommunicator is \indexmpishow{MPI_COMM_NULL}
 on the parent processes.
 \cverbatimsnippet[examples/mpi/c/spawnapp.c]{commparentdetect}
 
-\begin{taccnote}
-\indextermbus{Intel}{MPI} requires you to pass an option \n{-usize} to
-\indextermtt{mpiexec} indicating the size of the comm universe. With the TACC
-jobs starter \indextermtt{ibrun} do the following:
-\begin{verbatim}
-export FI_MLX_ENABLE_SPAWN=yes
-# specific
-MY_MPIRUN_OPTIONS="-usize 8" ibrun -np 4 spawnmanager
-# more generic
-MY_MPIRUN_OPTIONS="-usize ${SLURM_NPROCS}" ibrun -np 4 spawnmanager
-# using mpiexec:
-mpiexec -np 2 -usize ${SLURM_NPROCS} spawnmanager
-\end{verbatim}
-\end{taccnote}
 The spawned program looks very much like a regular MPI program, with
 its own initialization and finalize calls.
 
@@ -127,6 +108,29 @@ I detect I am worker 5/8 running on c209-028.frontera.tacc.utexas.edu
 I detect I am worker 6/8 running on c209-028.frontera.tacc.utexas.edu
 I detect I am worker 7/8 running on c209-028.frontera.tacc.utexas.edu
 \end{verbatim}
+
+\Level 1 {MPI startup with universe}
+
+You could start up a single copy of this program with 
+\begin{verbatim}
+mpiexec -n 1 spawnmanager
+\end{verbatim}
+but with a hostfile that has more than one host.
+
+\begin{taccnote}
+\indextermbus{Intel}{MPI} requires you to pass an option \n{-usize} to
+\indextermtt{mpiexec} indicating the size of the comm universe. With the TACC
+jobs starter \indextermtt{ibrun} do the following:
+\begin{verbatim}
+export FI_MLX_ENABLE_SPAWN=yes
+# specific
+MY_MPIRUN_OPTIONS="-usize 8" ibrun -np 4 spawnmanager
+# more generic
+MY_MPIRUN_OPTIONS="-usize ${SLURM_NPROCS}" ibrun -np 4 spawnmanager
+# using mpiexec:
+mpiexec -np 2 -usize ${SLURM_NPROCS} spawnmanager
+\end{verbatim}
+\end{taccnote}
 
 \Level 1 {MPMD}
 
@@ -209,7 +213,7 @@ which can then be discovered by other processes.
 
 \cverbatimsnippet[examples/mpi/c/publishapp.c]{publishmanager}
 
-Worker processes connect to the inter-communicator by
+Worker processes connect to the intercommunicator by
 
 \cverbatimsnippet[examples/mpi/c/publishapp.c]{publishworker}
 
@@ -242,7 +246,7 @@ being satisfied.
 \Level 1 {Unix sockets}
 
 It is also possible to create an
-\emph{inter-communicator} from a Unix
+\emph{intercommunicator} from a Unix
 \indexterm{socket}\index{communicator!inter!from socket}
 with
 \indexmpiref{MPI_Comm_join}.
@@ -269,8 +273,13 @@ if it is running in a multi-threaded environment.
 
 \begin{mpifournote}{Session model}
 
-Additionally, there is the \indexterm{session model},
-which can be described as doing multiple initializations and finalizations.
+In addition to the world,
+where all MPI is bracketed by \indexmpishow{MPI_Init}
+(or \indexmpishow{MPI_Init_thread}) and \indexmpishow{MPI_Finalize},
+there is the \indexterm{session model},
+where entities such as libraries can start/end their MPI session
+independently.
+
 The two models can be used in the same program, but there are limitations
 on how they can mix.
 
@@ -283,9 +292,20 @@ The \indextermdef{world model} of using MPI can be described as:
 \item With very few exceptions, all MPI calls appear in between the initialize and finalize calls.
 \end{enumerate}
 
-In the \indextermdef{session model}, the world model has become a single session,
-and it is possible to start multiple sessions, each on their own set of processes,
-possibly identical or overlapping.
+This has some problems:
+\begin{itemize}
+\item MPI can not be finalized and restarted;
+\item there is no threadsafe way of initializing MPI.
+\end{itemize}
+
+In the \indextermdef{session model},
+the world model has become a separate way of starting MPI.
+You can create a communicator using the world model
+in addition to starting multiple sessions,
+each on
+their own set of processes, possibly identical or overlapping.
+You can also create sessions without have an \indexmpishow{MPI_COMM_WORLD}
+created by the world model.
 
 You can not mix in a single call objects
 from different sessions,
@@ -355,6 +375,24 @@ is undefined behavior.
 Get the info object (section~\ref{sec:mpi-info}) from a process set:
 \indexmpishow{MPI_Session_get_pset_info}.
 This info object always has the key \indexmpishow{mpi_size}.
+
+\Level 1 {Example}
+
+As an example of the use of sessions, we declare a library class,
+where each library object starts and ends its own session:
+%
+\cverbatimsnippet{sessionlibdef}
+
+Now we create a main program, using the world model,
+which activates two libraries,
+passing data to them by parameter:
+%
+\cverbatimsnippet{sessionlibuse}
+%
+Note that no mpi calls will go between main program and either
+of the libraries,
+or between the two libraries,
+but this seems to make sense in this scenario.
 
 \begin{comment}
 7.2.4 When using the Sessions Model (Section 11.3) for initialization of MPI

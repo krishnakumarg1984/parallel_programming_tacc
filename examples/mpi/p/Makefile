@@ -20,28 +20,43 @@ info ::
 info ::
 	@echo "make regression"
 TESTS = \
-    allreduce.py anysource.py bcast.py \
+    allreduce.py anysource.py bcast.py bcastcolumn.py \
     buffertoolarge.py buffer4g.py \
-    gatherv.py getfence.py irecvnonblock.py irecvsource.py \
-    hello.py irecvloop.py persist.py putfence.py \
-    pingpong.py scan.py scipingpong.py tags.py \
+    gatherv.py getfence.py  irecvsource.py \
+    hello.py irecvloop.py irecvsingle.py persist.py putfence.py \
+    pingpong.py pingpongbig.py scan.py scipingpong.py tags.py \
+    randomupdatefence.py \
     commdup.py commsplit.py
 APPS = \
     allreduce anysource bcast buffertoolarge inttype \
-    gatherv getfence irecvnonblock \
-    hello irecvloop persist putfence rowcol \
-    pingpong scan scipingpong \
+    gatherv getfence \
+    hello irecvsingle irecvloop irecvsource persist putfence rowcol \
+    pingpong scan scipingpong pingpongbig \
     commdup commsplit 
 WRONGS = pingpongscalar.py buffer4g 
 
+RUNS = 
+LANGUAGE = python
+PYTHON = python3
+PROGRAM_EXTENSION = .py
+include ../../../makefiles/Make.mpi_run
+
 info ::
 	@echo "make run_spawn : process spawning example"
+RUNS += run_spawn
 .PHONY: run_spawn
 run_spawn :
 	@make regression APPS=spawn_manager
 
-RUNS = 
-include ../../../makefiles/Make.run
+RUNS += run_dup
+.PHONY: run_dup
+run_dup :
+	@make --no-print-directory mpirun PROGRAM=commsplit NP=8
+
+RUNS += run_buffer
+.PHONY: run_buffer
+run_buffer :
+	@make --no-print-directory mpirun PROGRAM=bcastcolumn NP=6
 
 TESTSWRONG = buffertoosmall.py 
 TESTSNOT = exscan.py

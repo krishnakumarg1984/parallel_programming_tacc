@@ -34,8 +34,9 @@ Example:
   }
 \end{lstlisting}
 All threads increment the same variable, so after the loop it will
-have a value of five plus the number of threads; or maybe less because of the data races
-involved. See \HPSCref{sec:shared-lock} for an explanation of the issues involved;
+have a value of five plus the number of threads;
+or maybe less because of the data races involved.
+This issue is discussed in \HPSCref{sec:shared-lock};
 see \ref{sec:critical} for a solution in OpenMP.
 
 Sometimes this global update is what you want; in other cases the
@@ -53,15 +54,11 @@ This concept extends to OpenMP parallel regions and directives:
 any variable declared in a block following an OpenMP directive
 will be local to the executing thread.
 
-Example:
-\begin{lstlisting}
-  int x = 5;
-#pragma omp parallel
-  {
-    int x; x = 3;
-    printf("local: x is %d\n",x);
-  }
-\end{lstlisting}
+In the following example, each thread creates a private variable~\n{x}
+and sets it to a unique value:
+%
+\csnippetwithoutput{privatex}{examples/omp/c}{private}
+%
 After the parallel region the outer variable~\n{x} will still have the
 value~\n{5}: there is no \indexterm{storage association} between the
 private variable and global one.
@@ -69,9 +66,7 @@ private variable and global one.
 \begin{fortrannote}{Private variables in parallel region}
   The Fortran language does not have this concept of scope, so you have to use a
   \indexclause{private} clause:
-\begin{lstlisting}
-!$OMP parallel private(x)
-\end{lstlisting}
+  \fsnippetwithoutput{privatexf}{examples/omp/f}{private}
 \end{fortrannote}
 
 The \indexpragma{private} directive declares data to have a separate copy 
@@ -225,6 +220,9 @@ On the other hand, in
 each thread gets a private pointer, but all pointers point to the same
 object.
 
+It is possible to perform a reduction on an array;
+see section~\ref{sec:omp-array-reduct}.
+
 \Level 0 {First and last private}
 
 Above, you saw that private variables are completely separate from any
@@ -302,6 +300,7 @@ $!OMP threadprivate( /blockname/ )
 Example:
 %
 \fsnippetwithoutput{threadprivf}{examples/omp/f}{priv}
+% [/count.F90]
 %
 \end{fortrannote}
 
@@ -348,10 +347,29 @@ in a parallel region.
   Explore performance implications of the different loop scheduling strategies.
 \end{exercise}
 
+\begin{cppnote}{Threadprivate random number generators}
+  The new C++ \lstinline{random} header has threadsafe generator,
+  by virtue of the statement in the standard that no STL object
+  can rely on global state.
+  The usual idiom 
+\begin{lstlisting}
+static random_device rd;
+static mt19937 rng(rd);    
+\end{lstlisting}
+can not be made threadsafe because of the initialization.
+However, the following works:
+%
+\cxxverbatimsnippet{privaterandom}
+%
+You can then use the generator safely and independently:
+%
+\cxxverbatimsnippet{privateranduse}
+\end{cppnote}
+
 \Level 0 {Allocators}
 
 The OpenMP was initially designed for shared memory.
-With accelerators (see chapter~\ref{ch:omp-gpu}, non-coherent memory was added to this.
+With accelerators (see chapter~\ref{ch:omp-gpu}), non-coherent memory was added to this.
 In the \ompstandard{5} standard, the story is further complicated, to account
 for new memory types such as \indextermsub{high-bandwidth}{memory}
 and \indextermsub{non-volatile}{memory}.

@@ -14,61 +14,63 @@
 \label{sec:omp:task}
 \index{OpenMP!tasks|(}
 
-Tasks are a mechanism that OpenMP uses under the cover:
+Tasks are a mechanism that OpenMP uses behind the scenes:
 if you specify something as being a task, OpenMP will create
 a `block of work': a~section of code plus the data environment
 in which it occurred. This block is set aside for execution at some later point.
+Thus, task-based code usually looks something like this:
+\begin{lstlisting}
+#pragma omp parallel
+{
+  // generate a bunch of tasks
+# pragma omp taskwait
+  // the result from the tasks is now available  
+}
+\end{lstlisting}
+For instance, a parallel loop was always implicitly translated to something like:
+\begin{multicols}{2}
+Sequential loop:
+\begin{lstlisting}
+for (int i=0; i<N; i++)
+  f(i);
+\end{lstlisting}
+\columnbreak
+Parallel loop:
+\begin{lstlisting}
+for (int ib=0; ib<nblocks; ib++) {
+  int first=... last=... ;
+# pragma omp task
+  for (int i=first; i<last; i++)
+    f(i)
+}
+#pragma omp taskwait
+// the results from the loop are available
+\end{lstlisting}
+\end{multicols}
 
-Let's look at a simple example using the \indexpragma{task} directive.
-\begin{quotation}
-  \begin{tabular}{|ll|}
-    \hline
-    Code&Execution\\
-    \hline
-    \n{\ x = f();}& the variable \n{x} gets a value\\
-    \n{#pragma omp task}&a task is created with the current value of \texttt{x}\\
-    \n{\ \{ y = g(x); \}}&\\
-    \n{\ z = h();}& the variable \n{z} gets a value\\
-    \hline
-  \end{tabular}
-\end{quotation}
-The thread that executes this code segment creates a task,
-which will later be executed, probably by a different thread
-(from the same team; we will not mention this from now on).
-The exact timing of the execution of the task is up to a \indextermbus{task}{scheduler},
-which operates invisible to the user.
-
-The task mechanism allows you to do things that are hard or impossible
-with the loop and section constructs. For instance, a \indexterm{while
-  loop} traversing a \indexterm{linked list} can be implemented with tasks:
-\begin{quotation}
-  \begin{tabular}{|ll|}
-    \hline
-    Code&Execution\\
-    \hline
-    \n{p = head_of_list();}& one thread traverses the list\\
-    \n{while (!end_of_list(p)) \{}\\
-    \n{#pragma omp task}& a task is created,\\
-    \n{\ process( p );}& one for each element\\
-    \n{\ p = next_element(p);}& the generating thread goes on without waiting\\
-    \n{\}}&the tasks are executed while \\
-          &more are being generated.\\
-    \hline
-  \end{tabular}
-\end{quotation}
-
-The way tasks and threads interact is different from the worksharing
-constructs you've seen so far. Typically, one thread will generate the
-tasks, adding them to a queue, from which all threads can take and
-execute them. This leads to the following idiom:
+If we stick with this example of implementing a parallel loop
+through tasks, the next question is: precisely who generates the tasks?
+The following code has a serious problem:
+\begin{lstlisting}
+// WRONG. DO NOT WRITE THIS
+#pragma omp parallel
+for (int ib=0; ib<nblocks; ib++) {
+  int first=... last=... ;
+# pragma omp task
+  for (int i=first; i<last; i++)
+    f(i)
+}
+\end{lstlisting}
+because the parallel region creates a team, and each thread in the team
+executes the task-generating code.
+Instead, we use the following idiom:
 \begin{lstlisting}
 #pragma omp parallel
 #pragma omp single
-{
-  ...
-#pragma omp task
-  { ... }
-  ...
+for (int ib=0; ib<nblocks; ib++) {
+  // setup stuff
+# pragma omp task
+  // task stuff
 }
 \end{lstlisting}
 \begin{enumerate}
@@ -79,11 +81,30 @@ execute them. This leads to the following idiom:
   that generated the tasks) 
 \end{enumerate}
 
-With tasks it becomes possible to parallelize processes that did not
-fit the earlier OpenMP constructs. For instance, if a certain
-operation needs to be applied to all elements of a linked list, you
-can have one thread go down the list, generating a task for each
-element of the list.
+Btw, the actual task queue is not visible to the programmer.
+Another aspect that is out of the programmer's control is
+the exact timing of the execution of the task:
+this is up to a \indextermbus{task}{scheduler},
+which operates invisible to the programmer.
+
+The task mechanism allows you to do things that are hard or impossible
+with the loop and section constructs. For instance, a \indexterm{while
+  loop} traversing a \indexterm{linked list} can be implemented with tasks:
+\begin{quotation}
+  \begin{tabular}{ll}
+    \toprule
+    Code&Execution\\
+    \midrule
+    \n{p = head_of_list();}& one thread traverses the list\\
+    \n{while (!end_of_list(p)) \{}\\
+    \n{#pragma omp task}& a task is created,\\
+    \n{\ process( p );}& one for each element\\
+    \n{\ p = next_element(p);}& the generating thread goes on without waiting\\
+    \n{\}}&the tasks are executed while \\
+          &more are being generated.\\
+    \bottomrule
+  \end{tabular}
+\end{quotation}
 
 Another concept that was hard to parallelize earlier is the `while
 loop'. This does not fit the requirement for OpenMP parallel loops
@@ -147,7 +168,7 @@ int count = 100;
 #pragma omp single
 {
   while (count>0) {
-#pragma omp task
+#   pragma omp task
     {
       int countcopy = count;
       if (count==50) {
@@ -169,7 +190,7 @@ int count = 100;
 {
   int count = 100;
   while (count>0) {
-#pragma omp task
+#   pragma omp task
     {
       int countcopy = count;
       if (count==50) {
@@ -220,10 +241,10 @@ you need the \indexpragma{taskwait} directive.
 The following creates two tasks, which can be executed
 in parallel, and then waits for the results:
 \begin{quotation}
-  \begin{tabular}{|ll|}
-    \hline
+  \begin{tabular}{ll}
+    \toprule
     Code&Execution\\
-    \hline
+    \midrule
     \n{\ x = f();}& the variable \n{x} gets a value\\
     \n{#pragma omp task}&\multirow{4}{*}{two tasks are created with the current value of \texttt{x}}\\
     \n{\ \{ y1 = g1(x); \}}&\\
@@ -231,7 +252,7 @@ in parallel, and then waits for the results:
     \n{\ \{ y2 = g2(x); \}}&\\
     \n{#pragma omp taskwait}& the thread waits until the tasks are finished\\
     \n{\ z = h(y1)+h(y2);}& the variable \n{z} is computed using the task results\\
-    \hline
+    \bottomrule
   \end{tabular}
 \end{quotation}
 

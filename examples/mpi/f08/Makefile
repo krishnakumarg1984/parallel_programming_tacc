@@ -16,9 +16,10 @@ info ::
 	@echo "================================================================"
 	@echo "available rules:"
 
-APPS = f08 count reduceinplace reduceinplaceptr section sectionisend \
-    anysource putfence matchkind struct \
-    waitnull vector vectorx typecheck typecheck8
+APPS = f08 procname count reduceinplace reduceinplaceptr section sectionisend \
+    anysource putfence matchkind contiguous struct \
+    waitnull vector vectorx pingpongbig
+WRONGS = typecheck typecheckarg typecheckbuf typecheck8
 
 LANGUAGE = F
 MODE = mpi
@@ -41,8 +42,15 @@ RUNS += run_waitnull
 .PHONY: run_waitnull
 run_waitnull : waitnull
 	${MPIEXEC} ${NP} waitnull
+
+RUNS += run_count
 .PHONY: run_count
 run_count : count
 	@make --no-print-directory run_generic PROGRAM=count
+
+RUNS += run_procname
+.PHONY: run_procname
+run_procname : procname
+	@make --no-print-directory run_generic PROGRAM=procname
 
 include  ../../../makefiles/Make.clean

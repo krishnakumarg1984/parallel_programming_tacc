@@ -4,7 +4,7 @@
 %%
 %% This text file is part of the source of 
 %% `Parallel Computing'
-%% by Victor Eijkhout, copyright 2012-2021
+%% by Victor Eijkhout, copyright 2012-2022
 %%
 %% MPI API file for MPI_Sendrecv_replace
 %%
@@ -16,25 +16,24 @@
 \begingroup
 \ttfamily\bfseries
 \catcode`\_=12
-\begin{tabular}{lllll}
+\begin{tabular}{
+l       % name
+l       % param name
+p{\mpiparmtextsize}  % explanation
+p{.7in} % ctype
+p{.9in} % ftype
+l       % inout
+}
 \toprule
 \mdseries\textrm{Name}&
 \mdseries\textrm{Param name}&
+\mdseries\textrm{Explanation}&
 \mdseries\textrm{C type}&
 \mdseries\textrm{F type}&
 \mdseries\textrm{inout}\\
 \midrule
-\hbox to 20pt{MPI_Sendrecv_replace (\hss} \\
- & buf & void* & TYPE(*), DIMENSION(..)  & INOUT \\&\hbox to 0pt{\footnotesize\sl initial address of send and receive buffer\hss} \\ [+3pt] 
- & count & int & INTEGER  & IN \\&\hbox to 0pt{\footnotesize\sl number of elements in send and receive buffer\hss} \\ [+3pt] 
- & datatype & MPI_Datatype & TYPE(MPI_Datatype)  & IN \\&\hbox to 0pt{\footnotesize\sl type of elements in send and receive buffer\hss} \\ [+3pt] 
- & dest & int & INTEGER  & IN \\&\hbox to 0pt{\footnotesize\sl rank of destination\hss} \\ [+3pt] 
- & sendtag & int & INTEGER  & IN \\&\hbox to 0pt{\footnotesize\sl send message tag\hss} \\ [+3pt] 
- & source & int & INTEGER  & IN \\&\hbox to 0pt{\footnotesize\sl rank of source or \const{MPI_ANY_SOURCE}\hss} \\ [+3pt] 
- & recvtag & int & INTEGER  & IN \\&\hbox to 0pt{\footnotesize\sl receive message tag or \const{MPI_ANY_TAG}\hss} \\ [+3pt] 
- & comm & MPI_Comm & TYPE(MPI_Comm)  & IN \\&\hbox to 0pt{\footnotesize\sl communicator\hss} \\ [+3pt] 
- & status & MPI_Status* & TYPE(MPI_Status)  & OUT \\&\hbox to 0pt{\footnotesize\sl status object\hss} \\ [+3pt] 
-
+\hbox to 18pt{MPI_Sendrecv_replace (\hss} \\
+ & buf & initial address of send and receive buffer & void* & TYPE\discretionary{}{\kern10pt}{}(*), DIMENSION\discretionary{}{\kern10pt}{}(..)  & INOUT \\ & count & number of elements in send and receive buffer & int & INTEGER  & IN \\ & datatype & type of elements in send and receive buffer & MPI_Datatype & TYPE\discretionary{}{\kern10pt}{}(MPI_Datatype)  & IN \\ & dest & rank of destination & int & INTEGER  & IN \\ & sendtag & send message tag & int & INTEGER  & IN \\ & source & rank of source or \const{MPI_ANY_SOURCE} & int & INTEGER  & IN \\ & recvtag & receive message tag or \const{MPI_ANY_TAG} & int & INTEGER  & IN \\ & comm & communicator & MPI_Comm & TYPE\discretionary{}{\kern10pt}{}(MPI_Comm)  & IN \\ & status & status object & MPI_Status* & TYPE\discretionary{}{\kern10pt}{}(MPI_Status)  & OUT \\
 &)\\
 
 \bottomrule

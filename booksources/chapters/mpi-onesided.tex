@@ -48,7 +48,7 @@ That does not mean that the origin can access arbitrary data on the target
 at arbitrary times. First of all, one-sided communication in MPI
 is limited to accessing only a specifically declared memory area on the target:
 the target declares an area of
-user-space memory that is accessible to other processes. This is known
+memory that is accessible to other processes. This is known
 as a \indexterm{window}. Windows limit how origin processes can access
 the target's memory: you can only `get' data from a window or `put' it
 into a window; all the other memory is not reachable from other processes.
@@ -59,9 +59,6 @@ or the recipient of a `get operation.
 The alternative to having windows is to use \indexterm{distributed shared memory}
 or \indexterm{virtual shared memory}: memory is distributed but acts as if
 it shared. The so-called \acf{PGAS} languages such as \ac{UPC} use this model.
-The MPI \ac{RMA} model makes it possible to 
-lock a window which makes programming slightly more cumbersome, but the
-implementation more efficient.
 
 Within one-sided communication, MPI has two modes: active RMA and
 passive RMA. In \indextermsub{active}{RMA}, or \indexterm{active target synchronization},
@@ -69,7 +66,10 @@ the target sets boundaries on the time period (the `epoch')
 during which its window can be accessed.
 The main advantage
 of this mode is that the origin program can perform many small transfers, which are
-aggregated behind the scenes. Active RMA acts much like asynchronous transfer with a
+aggregated behind the scenes.
+This would be appropriate for applications that are structured
+in a \ac{BSP} mode with \indexterm{superstep}s.
+Active RMA acts much like asynchronous transfer with a
 concluding \indexmpishow{MPI_Waitall}.
 
 In \indextermsub{passive}{RMA}, or \indexterm{passive target synchronization},
@@ -82,7 +82,7 @@ arbitrary time,
 there are problems. For instance, it requires a remote agent on the target,
 which may interfere with execution of the main thread, or conversely it may not be
 activated at the optimal time. Passive RMA is also very hard to debug and can lead
-to strange deadlocks.
+to race conditions.
 
 %% McLaren says use an info object
 
@@ -121,7 +121,7 @@ A window can be characteristized as follows:
 \item The window is the target of data in a put operation, or the
   source of data in a get operation; see figure~\ref{fig:putget}.
 \item There can be memory associated with a window, so it needs to be
-  freed explicitly with \indexmpidef{MPI_Win_free}.
+  freed explicitly with \indexmpishow{MPI_Win_free}.
 \end{itemize}
 
 The typical calls involved are:
@@ -140,7 +140,7 @@ MPI_Win_free( &window );
   \label{fig:putget}
 \end{figure}
 
-\Level 1 {Window creation and allocation}
+\Level 1 {Window creation and freeing}
 \label{sec:win-alloc}
 \index{window!memory allocation|(}
 
@@ -162,7 +162,7 @@ ways you can associate data with a window:
     section~\ref{mpi-comm-split-type}) you can create a window in that
     shared memory with \indexmpishow{MPI_Win_allocate_shared}.
     This will be useful for
-    \emph{MPI shared memory}\index{memory!shared, MPI};
+    MPI \emph{shared memory}\index{memory!shared, MPI};
     see chapter~\ref{ch:mpi-shared}.
   \end{itemize}
 \item Finally, you can create a window with
@@ -209,12 +209,22 @@ part of \indexmpishow{MPI_Win_allocate}, after which you need to
 \end{mpifournote}
 \end{itemize}
 
-This memory is freed with
-\begin{lstlisting}
-MPI_Free_mem()
-\end{lstlisting}
+This memory is freed with \indexmpidef{MPI_Free_mem}:
+\cverbatimsnippet{winallocate}
+(Note the lack of an ampersand in the free call!)
+
 These calls reduce to \lstinline{malloc} and \lstinline{free} if there is no special
 memory area; SGI is an example where such memory does exist.
+
+A window is freed with a call to the collective \indexmpiref{MPI_Win_free},
+which sets the window handle to \indexmpishow{MPI_WIN_NULL}.
+This call must only be done if all \ac{RMA} operations are concluded,
+by \indexmpishow{MPI_Win_fence}, \indexmpishow{MPI_Win_wait}, \indexmpishow{MPI_Win_complete},
+\indexmpishow{MPI_Win_unlock}, depending on the case.
+If the window memory was allocated internally by MPI through a call to
+\indexmpishow{MPI_Win_allocate} or \indexmpishow{MPI_Win_allocate_shared},
+it is freed.
+User memory used for the window can be freed after the \indexmpishow{MPI_Win_free} call.
 
 There will be more discussion of window memory in section~\ref{sec:win-model}.
 
@@ -366,11 +376,10 @@ int MPI_Win_post(MPI_Group group, int assert, MPI_Win win)
 int MPI_Win_wait(MPI_Win win)
 \end{lstlisting}
 In other words, this turns your window into the \indexterm{target} for a remote access.
-(There is a non-blocking version \indexmpidef{MPI_Win_test}
+There is a non-blocking version \indexmpidef{MPI_Win_test}
 of \indexmpidef{MPI_Win_wait}.
-See also \indexmpishow{MPI_Win_complete}.)
 
-You start and complete an \indextermsub{access}{epoch} with%
+You start and complete an \indextermsub{access}{epoch} with
 \indexmpidef{MPI_Win_start}~/ \indexmpidef{MPI_Win_complete}:
 \begin{lstlisting}
 int MPI_Win_start(MPI_Group group, int assert, MPI_Win win)
@@ -408,7 +417,7 @@ the target (the affected other process).
 As in the two-sided case, \indexmpishow{MPI_PROC_NULL} can be used as
 a target rank.
 
-The Put/Get/Accumulate routines have an \indexmpishow{MPI_Op}
+The Accumulate routine has an \indexmpishow{MPI_Op}
 argument that can be any of the usual operators, but no
 user-defined ones (see section~\ref{sec:operator-list}).
 
@@ -425,8 +434,8 @@ send. As such, it needs to specify
 
 The description of the data on the origin is the usual trio of
 buffer/count/datatype. However, the description of the data on the
-target is more complicated. It has a count and a datatype, but instead
-of an address it has a
+target is more complicated. It has a count and a datatype, but additionally
+it has a
 \emph{displacement}\index{window!displacement} with respect to the
 start of the window on the target. This displacement can be given in
 bytes, so its type is \indexmpishow{MPI_Aint}, but strictly speaking
@@ -459,6 +468,12 @@ is no longer allowed. Instead you get an error such as
 error #6285: There is no matching specific subroutine for this generic subroutine call.   [MPI_PUT]
 \end{verbatim}
 \end{fortrannote}
+
+\begin{pythonnote}{MPI one-sided transfer routines}
+  \indexmpishow{MPI_Put} (and Get and Accumulate)
+    accept at minimum the origin buffer and the target rank.
+    The displacement is by default zero.
+\end{pythonnote}
 
 \begin{exercise}
   \label{ex:rightput}
@@ -505,8 +520,8 @@ In a first version we separate computation and communication.
 Each iteration has two fences. Between the two fences in the loop body
 we do the \indexmpishow{MPI_Put} operation; between the second and and first one
 of the next iteration there is only computation, so we add the
-\n{NOPRECEDE} and \n{NOSUCCEED} assertions. 
-The \n{NOSTORE} assertion
+\indexmpishow{MPI_MODE_NOPRECEDE} and \indexmpishow{MPI_MODE_NOSUCCEED} assertions. 
+The \indexmpishow{MPI_MODE_NOSTORE} assertion
 states that the local window was not updated: the Put operation only
 works on remote windows.
 \begin{lstlisting}
@@ -534,9 +549,10 @@ for ( .... ) {
   MPI_Win_fence(MPI_MODE_NOSUCCEED, win); 
   }
 \end{lstlisting}
-The \n{NOPRECEDE} and \n{NOSUCCEED} assertions still hold, but the
-\n{Get} operation implies that instead of \n{NOSTORE} in the
-second fence, we use \n{NOPUT} in the first.
+The \indexmpishow{MPI_MODE_NOPRECEDE} and \indexmpishow{MPI_MODE_NOSUCCEED}
+ assertions still hold, but the
+\n{Get} operation implies that instead of \indexmpishow{MPI_MODE_NOSTORE} in the
+second fence, we use \indexmpishow{MPI_MODE_NOPUT} in the first.
 
 \Level 1 {Accumulate}
 
@@ -546,7 +562,7 @@ that are being put.
 
 Accumulate is an atomic reduction with remote result.
 This means that multiple accumulates to a single target
-gives the correct result.
+in the same epoch give the correct result.
 As with \indexmpishow{MPI_Reduce}, the 
 order in which the operands are accumulated is undefined.
 
@@ -562,6 +578,14 @@ this has the effect that only the last result to arrive is retained.
   collecting its own value: doing `communication' between a processor
   and itself is perfectly legal.
 \end{exercise}
+
+\begin{figure}[ht]
+  \includegraphics[scale=.5]{workpool}
+  \caption{Pool of work descriptors with shared stack pointers}
+  \label{fig:workpool}
+\end{figure}
+
+For the next exercise, refer to figure~\ref{fig:workpool}.
 
 \begin{exercise}
   \label{ex:countdown}
@@ -599,14 +623,13 @@ The following operations are well-defined inside one epoch:
 
 \Level 1 {Request-based operations}
 
-Analogous to \indexmpishow{MPI_Isend} there are request based one-sided operations:
+Analogous to \indexmpishow{MPI_Isend} there are request-based one-sided operations:
 %
 \indexmpiref{MPI_Rput}
 %
 and similarly \indexmpishow{MPI_Rget} and
 \indexmpishow{MPI_Raccumulate}
 and \indexmpishow{MPI_Rget_accumulate}.
-
 These only apply to passive target synchronization.
 Any \indexmpishow{MPI_Win_flush...} call also terminates these transfers.
 
@@ -739,7 +762,7 @@ and updates it in one atomic, that is, indivisible, action.
 \label{sec:passive-sync}
 
 In \indexterm{passive target synchronization} only the origin is
-actively involved: the target makes no calls whatsoever.
+actively involved: the target makes no synchronization calls.
 This means that the origin process remotely locks the window
 on the target, performs a one-sided transfer, and releases the window
 by unlocking it again.
@@ -852,13 +875,13 @@ In one-sided transfer one should keep straight the multiple instances
 of the data, and the various \indextermdef{completion}s that effect
 their \emph{consistency}\index{window!consistency}.
 \begin{itemize}
-\item The user data. This is the buffer that is passed to a \n{Put} or
-  \n{Get} call. For instance, after a \n{Put} call, but still in an
+\item The user data. This is the buffer that is passed to an RMA call.
+  For instance, after an \indexmpishow{MPI_Put} call, but still in an
   access epoch, the user buffer is not safe to reuse. Making sure the
   buffer has been transferred is called \indextermsub{local}{completion}.
 \item The window data. While this may be publicly accessible, it is
   not necessarily always consistent with internal copies.
-\item The remote data. Even a successful \n{Put} does not guarantee
+\item The remote data. Even a successful \indexmpishow{MPI_Put} does not guarantee
   that the other process has received the data. A~successful transfer
   is a \indextermsub{remote}{completion}.
 \end{itemize}
@@ -952,20 +975,17 @@ There are two memory models:
 \end{itemize}
 
 You can query the model of a window
-using the \indexmpishow{MPI_Win_get_attr} call
+using the \indexmpidef{MPI_Win_get_attr} call
 with the \indexmpidef{MPI_WIN_MODEL} keyword:
-\begin{lstlisting}
-int *memory_model;
-MPI_Win_get_attr(win, MPI_WIN_MODEL, &memory_model, &flag);
-\end{lstlisting}
+%
+\cverbatimsnippet{winmodel}
+%
 with possible values:
 \begin{itemize}
 \item \indexmpishow{MPI_WIN_SEPARATE},
 \item \indexmpishow{MPI_WIN_UNIFIED},
 \end{itemize}
-
-
-(Window models can be queried as attributes; see section~\ref{sec:win-attr}.)
+For more on attributes, see section~\ref{sec:win-attr}.
 
 \Level 1 {Dynamically attached memory}
 \label{sec:win-dynamic}

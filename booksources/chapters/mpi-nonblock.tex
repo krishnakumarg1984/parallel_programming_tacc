@@ -203,11 +203,22 @@ If you don't need the status objects, you can pass
   \skeleton{setdiff}
 \end{exercise}
 
+\begin{pythonnote}{Handling a single request}
+  Non-blocking routines such as \indexmpishowp{MPI_Isend}
+  return a request object.
+  The \indexmpishowp{MPI_Wait} is a class method,
+  not a method of the request object:
+  %
+  \pverbatimsnippet[examples/mpi/p/irecvloop.py]{irecvonep}  
+\end{pythonnote}
+
 \begin{pythonnote}{Request arrays}
-  In python creating the array for the returned requests is somewhat
-  tricky.
+  An array of requests (for the waitall/some/any calls)
+  is an ordinary Python list:
   %
   \pverbatimsnippet[examples/mpi/p/irecvloop.py]{irecvallp}  
+  %
+  The \indexmpishowp{MPI_Waitall} method is again a class method.
 \end{pythonnote}
 
 \Level 2 {Wait for any requests}
@@ -253,6 +264,7 @@ reference, and not an array of statuses!
 \end{mplnote}
 
 \begin{mplnote}{Wait any}
+  \label{mpl:wait_any}
   The \indexmpishow{irequest_pool} class has methods
   \indexmplshow{waitany}, \indexmplshow{waitall},
   \indexmplshow{testany}, \indexmplshow{testall},
@@ -265,6 +277,11 @@ reference, and not an array of statuses!
   \cxxverbatimsnippet[examples/mpi/mpl/irecvsource.cxx]{waitforanympl}
 
   Same for \indexmpishow{testany}, then false means no requests test true.
+\end{mplnote}
+
+\begin{mplnote}{Request handling}
+  \label{mpl:req_handle}
+  \cxxverbatimsnippet{waitforanympl}
 \end{mplnote}
 
 \Level 2 {Polling with MPI Wait any}

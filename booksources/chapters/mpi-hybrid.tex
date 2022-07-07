@@ -19,7 +19,9 @@ Below we will discuss what provisions exist for doing so.
 Using threads and other shared memory models in combination with MPI
 leads of course to the question how
 \indexterm{race condition}s are handled.
-Example of a code with a data race that pertains to MPI:
+Example of a code with a
+\emph{data race}\index{race condition!in MPI/OpenMP}
+that pertains to MPI:
 \begin{lstlisting}
 #pragma omp sections
 #pragma omp section

@@ -4,7 +4,7 @@
 %%
 %% This text file is part of the source of 
 %% `Parallel Computing'
-%% by Victor Eijkhout, copyright 2012-2021
+%% by Victor Eijkhout, copyright 2012-2022
 %%
 %% MPI API file for MPI_Alltoallw_init
 %%
@@ -16,36 +16,25 @@
 \begingroup
 \ttfamily\bfseries
 \catcode`\_=12
-\begin{tabular}{lllll}
+\begin{tabular}{
+l       % name
+l       % param name
+p{\mpiparmtextsize}  % explanation
+p{.7in} % ctype
+p{.9in} % ftype
+l       % inout
+}
 \toprule
 \mdseries\textrm{Name}&
 \mdseries\textrm{Param name}&
+\mdseries\textrm{Explanation}&
 \mdseries\textrm{C type}&
 \mdseries\textrm{F type}&
 \mdseries\textrm{inout}\\
 \midrule
-\hbox to 20pt{MPI_Alltoallw_init (\hss} \\
-\hbox to 20pt{MPI_Alltoallw_init_c (\hss} \\
- & sendbuf & const void* & TYPE(*), DIMENSION(..)  & IN \\&\hbox to 0pt{\footnotesize\sl starting address of send buffer\hss} \\ [+3pt] 
- & sendcounts & const int[] & INTEGER(*)  & IN \\ [-3pt]
-(c) & & MPI_Count & \hbox to 0pt {INTEGER(KIND=MPI_COUNT_KIND) \hss} \\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl integer array (of length group size) specifying the number of elements to send to each rank\hss} \\ [+3pt] 
- & sdispls & const int[] & INTEGER(*)  & IN \\ [-3pt]
-(c) & & MPI_Aint & \hbox to 0pt {INTEGER(KIND=MPI_ADDRESS_KIND) \hss} \\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl integer array (of length group size). Entry \mpicode{j} specifies the displacement in bytes (relative to \mpiarg{sendbuf}) from which to take the outgoing data destined for process \mpicode{j}\hss} \\ [+3pt] 
- & sendtypes & const MPI_Datatype[] & TYPE(MPI_Datatype)(*)  & IN \\&\hbox to 0pt{\footnotesize\sl Array of datatypes (of length group size). Entry \mpicode{j} specifies the type of data to send to process \mpicode{j}\hss} \\ [+3pt] 
- & recvbuf & void* & TYPE(*), DIMENSION(..)  & OUT \\&\hbox to 0pt{\footnotesize\sl address of receive buffer\hss} \\ [+3pt] 
- & recvcounts & const int[] & INTEGER(*)  & IN \\ [-3pt]
-(c) & & MPI_Count & \hbox to 0pt {INTEGER(KIND=MPI_COUNT_KIND) \hss} \\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl integer array (of length group size) specifying the number of elements that can be received from each rank\hss} \\ [+3pt] 
- & rdispls & const int[] & INTEGER(*)  & IN \\ [-3pt]
-(c) & & MPI_Aint & \hbox to 0pt {INTEGER(KIND=MPI_ADDRESS_KIND) \hss} \\ [-3pt]
-&\hbox to 0pt{\footnotesize\sl integer array (of length group size). Entry \mpicode{i} specifies the displacement in bytes (relative to \mpiarg{recvbuf}) at which to place the incoming data from process \mpicode{i}\hss} \\ [+3pt] 
- & recvtypes & const MPI_Datatype[] & TYPE(MPI_Datatype)(*)  & IN \\&\hbox to 0pt{\footnotesize\sl array of datatypes (of length group size). Entry \mpicode{i} specifies the type of data received from process \mpicode{i}\hss} \\ [+3pt] 
- & comm & MPI_Comm & TYPE(MPI_Comm)  & IN \\&\hbox to 0pt{\footnotesize\sl communicator\hss} \\ [+3pt] 
- & info & MPI_Info & TYPE(MPI_Info)  & IN \\&\hbox to 0pt{\footnotesize\sl info argument\hss} \\ [+3pt] 
- & request & MPI_Request* & TYPE(MPI_Request)  & OUT \\&\hbox to 0pt{\footnotesize\sl communication request\hss} \\ [+3pt] 
-
+\hbox to 18pt{MPI_Alltoallw_init (\hss} \\
+\hbox to 18pt{MPI_Alltoallw_init_c (\hss} \\
+ & sendbuf & starting address of send buffer & const void* & TYPE\discretionary{}{\kern10pt}{}(*), DIMENSION\discretionary{}{\kern10pt}{}(..)  & IN \\ & sendcounts & integer array (of length group size) specifying the number of elements to send to each rank & $\left[ \begin{array}{ll}\mathtt{ const int[] }  \\ \mathtt{ MPI_Count} \end{array} \right.$  & INTEGER\discretionary{}{\kern10pt}{}(*)  & IN \\ [+3pt] & sdispls & integer array (of length group size). Entry \mpicode{j} specifies the displacement in bytes (relative to \mpiarg{sendbuf}) from which to take the outgoing data destined for process \mpicode{j} & $\left[ \begin{array}{ll}\mathtt{ const int[] }  \\ \mathtt{ MPI_Aint} \end{array} \right.$  & INTEGER\discretionary{}{\kern10pt}{}(*)  & IN \\ [+3pt] & sendtypes & Array of datatypes (of length group size). Entry \mpicode{j} specifies the type of data to send to process \mpicode{j} & const MPI_Datatype[] & TYPE\discretionary{}{\kern10pt}{}(MPI_Datatype)\discretionary{}{\kern10pt}{}(*)  & IN \\ & recvbuf & address of receive buffer & void* & TYPE\discretionary{}{\kern10pt}{}(*), DIMENSION\discretionary{}{\kern10pt}{}(..)  & OUT \\ & recvcounts & integer array (of length group size) specifying the number of elements that can be received from each rank & $\left[ \begin{array}{ll}\mathtt{ const int[] }  \\ \mathtt{ MPI_Count} \end{array} \right.$  & INTEGER\discretionary{}{\kern10pt}{}(*)  & IN \\ [+3pt] & rdispls & integer array (of length group size). Entry \mpicode{i} specifies the displacement in bytes (relative to \mpiarg{recvbuf}) at which to place the incoming data from process \mpicode{i} & $\left[ \begin{array}{ll}\mathtt{ const int[] }  \\ \mathtt{ MPI_Aint} \end{array} \right.$  & INTEGER\discretionary{}{\kern10pt}{}(*)  & IN \\ [+3pt] & recvtypes & array of datatypes (of length group size). Entry \mpicode{i} specifies the type of data received from process \mpicode{i} & const MPI_Datatype[] & TYPE\discretionary{}{\kern10pt}{}(MPI_Datatype)\discretionary{}{\kern10pt}{}(*)  & IN \\ & comm & communicator & MPI_Comm & TYPE\discretionary{}{\kern10pt}{}(MPI_Comm)  & IN \\ & info & info argument & MPI_Info & TYPE\discretionary{}{\kern10pt}{}(MPI_Info)  & IN \\ & request & communication request & MPI_Request* & TYPE\discretionary{}{\kern10pt}{}(MPI_Request)  & OUT \\
 &)\\
 
 \bottomrule
