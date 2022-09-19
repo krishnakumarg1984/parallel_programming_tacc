@@ -66,14 +66,17 @@ int main(int argc,char **argv) {
   for (int cnt=0,s=1; cnt<NSIZES; s*=10,cnt++) {
     if (procno==src) {
       MPI_Send_init
-        (send,s,MPI_DOUBLE,tgt,0,comm,requests+0);
+        (send,s,MPI_DOUBLE,tgt,0,comm,
+         requests+0);
       MPI_Recv_init
-        (recv,s,MPI_DOUBLE,tgt,0,comm,requests+1);
+        (recv,s,MPI_DOUBLE,tgt,0,comm,
+         requests+1);
       t[cnt] = MPI_Wtime();//snipthis
       for (int n=0; n<NEXPERIMENTS; n++) {
         fill_buffer(send,s,n);
         MPI_Startall(2,requests);
-        MPI_Waitall(2,requests,MPI_STATUSES_IGNORE);
+        MPI_Waitall(2,requests,
+                    MPI_STATUSES_IGNORE);
         int r = chck_buffer(send,s,n);
         if (!r) printf("buffer problem %d\n",s);
       }

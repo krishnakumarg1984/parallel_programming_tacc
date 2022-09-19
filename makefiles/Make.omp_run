@@ -22,12 +22,15 @@ OMPSCHEDULE = static
 
 info ::
 	@echo "make omp_run [ NP=... ] PROGRAM=program"
-	@echo "make omp_scaling [ NP=... ] [ NDIV=... ] [ PROGRAM=... ]"
+	@echo "    [ RUNOUTID= .... (extra id, default blank) ]"
+	@echo "    [ RUN_OPTIONS=... (run options for executable) ]"
 	@echo "    OMPTHREADS= core range (default=${OMPTHREADS})"
 	@echo "    OMPSCHEDULE= core range (default=${OMPSCHEDULE})"
 	@echo "    NEST=true/false (default=${NEST})"
 	@echo "    BIND=true/false/cores/... (OMP_PROC_BIND, default=${BIND})"
 	@echo "    ACTIVE=... (default=${ACTIVE}) for OMP_MAX_ACTIVE_LEVELS"
+	@echo "make omp_scaling [ NP=... ] [ NDIV=... ] [ PROGRAM=... ]"
+	@echo "    [ SCRIPT_OPTIONS=.... (options for run rule) ]"
 
 .PHONY: omp_scaling
 BIND = true
@@ -42,6 +45,8 @@ omp_run :
 	 && command="OMP_PROC_BIND=${BIND} $$command" \
 	 && if [ "${NEST}" = true ] ; then \
 	         command="OMP_MAX_ACTIVE_LEVELS=${ACTIVE} $$command" ; fi \
+	 && if [ ! -z "${RUN_OPTIONS}" ] ; then \
+	        command="$$command ${RUN_OPTIONS}" ; fi \
 	 && if [ ${ECHO} = 1 ] ; then echo "executing: $$command" ; fi \
 	 && eval $$command
 omp_scaling :
@@ -50,14 +55,20 @@ omp_scaling :
 	 && if [ -z "${PROGRAM}" ] ; then \
 	        echo "Set PROGRAM variable" && exit 1 \
 	    ; fi \
-	 && results=${PROGRAM}-scaling.out \
+	 && if [ ! -z "${RUNOUTID}" ] ; then \
+	        results=${PROGRAM}-scaling-${RUNOUTID}.out \
+	    ; else results=${PROGRAM}-scaling.out ; fi \
 	 && ( \
 	    for t in $$ompthreads ; do \
-	        make --no-print-directory omp_run NP=$$t PROGRAM=${PROGRAM} NEST=${NEST} \
+	        make --no-print-directory omp_run NP=$$t PROGRAM=${PROGRAM} \
+	                ECHO=${ECHO} NEST=${NEST} \
+	                RUN_OPTIONS="${RUN_OPTIONS}" \
 	         && echo \
 	    ; done \
 	    ) | tee $$results \
-	 && cat $$results | awk '/threads/ { t = $$4 } /speedup=/ { print t " " $$6 }'
+	 && cat $$results | awk '/threads/ { t = $$4 } /speedup=/ { print t " " $$6 }' \
+	 && echo " scaling results in: $$results" \
+	 && git add $$results
 
 #
 # Utility targets
@@ -98,11 +109,15 @@ runs :
 	@for r in ${RUNS} ; do \
 	    echo "---------------- Test run: $$r ----------------" \
 	     && runname=$${r##run_} \
+	     && if [ ! -z "${RUNOUTID}" ] ; then \
+	            runout=$${runname}-${RUNOUTID}.runout \
+	        ; else runout=$${runname}.runout ; fi \
 	     && make --no-print-directory $$r OPTLEVEL=${OPTLEVEL} \
 	                NEST=${NEST} ACTIVE=${ACTIVE} OMPTHREADS="${OMPTHREADS}" \
-	            2>&1 | tee $$runname.runout \
-	     && git add  $$runname.runout \
-	 ; done
+	            2>&1 | tee $${runout} \
+	     && git add $${runout} \
+	 ; done \
+	 && echo "runout in:  $${runout}"
 
 total_clean ::
 	@rm -f *.runout

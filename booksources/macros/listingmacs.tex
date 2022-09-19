@@ -294,6 +294,7 @@
     PetscViewerCreate,PetscViewerSetType,PetscViewerDestroy,
     PetscViewerRead,PetscViewerPushFormat,PetscViewerPopFormat,
     %% DM and such
+    DMCreate,DMSetType,
     DMDACreate1d,DMDACreate2d,DMDACreate3d,DMCreateMatrix,DMSetUp,
     DMDAGetLocalInfo,DMDAGetCorners,DMSetUp,DMCreateMatrix,
     DMDACreate, % generic, for text only    
@@ -301,6 +302,10 @@
     DMRestoreLocalVector,DMRestoreGlobalVector,DMDAGetCorners,
     DMGlobalToLocal,DMGlobalToLocalBegin,DMGlobalToLocalEnd,
     DMLocalToGlobal,DMLocalToGlobalBegin,DMLocalToGlobalEnd,
+    DMSetLocalSection,
+    PetscSectionCreate,PetscSectionDestroy,PetscSectionSetUp
+    PetscSectionSetFieldComponents,PetscSectionSetChart,PetscSectionSetDof,
+    PetscSectionSetNumFields,PetscSectionSetFieldDof,
     DMDAVecGetArray,DMDAVecRestoreArray,
     MatCreate,MatDestroy,MatCreateSubMatrix,MatCreateSubMatrices,
     MatCreateFFT,MatCreateVecsFFTW,MatCreateVecs,
@@ -362,7 +367,7 @@
   emph={[5] %% PETSc keywords and macros
     ADD_VALUES,INSERT_VALUES,MPIU_REAL,MPIU_SCALAR,MPIU_COMPLEX,
     DM_BOUNDARY_NONE,DM_BOUNDARY_GHOSTED,DM_BOUNDARY_PERIODIC,
-    DMDA_STENCIL_STAR,DMDA_STENCIL_BOX,
+    DMDA_STENCIL_STAR,DMDA_STENCIL_BOX,DMPLEX,
     KSPCG,KSPPIPECG,KSPGMRES,KSPBCGS,KSPPREONLY,KSP_CONVERGED_ITERATING,
     MATMPIDENSE,MATMPIAIJ,MATSEQDENSE,MATSEQAIJ,MATMPIDENSECUDA,MATDENSECUDA,MATAIJCUSPARSE,
     MATSOLVERMUMPS,

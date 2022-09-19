@@ -33,7 +33,7 @@ l       % inout
 \mdseries\textrm{inout}\\
 \midrule
 \hbox to 18pt{MPI_File_iread (\hss} \\
- & fh & file handle & MPI_File & TYPE\discretionary{}{\kern10pt}{}(MPI_File)  & INOUT \\ & buf & initial address of buffer & void* & TYPE\discretionary{}{\kern10pt}{}(*), DIMENSION\discretionary{}{\kern10pt}{}(..)  & OUT \\ & count & number of elements in buffer & int & INTEGER  & IN \\ & datatype & datatype of each buffer element & MPI_Datatype & TYPE\discretionary{}{\kern10pt}{}(MPI_Datatype)  & IN \\ & request & request object & MPI_Request* & TYPE\discretionary{}{\kern10pt}{}(MPI_Request)  & OUT \\
+ & fh & file handle & MPI_File & TYPE\discretionary{}{\kern10pt}{}(MPI_File)  & INOUT \\ & buf & initial address of buffer & void* & TYPE(*), \hbox{}\kern10pt{}DIMENSION(..)  & OUT \\ & count & number of elements in buffer & int & INTEGER  & IN \\ & datatype & datatype of each buffer element & MPI_Datatype & TYPE\discretionary{}{\kern10pt}{}(MPI_Datatype)  & IN \\ & request & request object & MPI_Request* & TYPE\discretionary{}{\kern10pt}{}(MPI_Request)  & OUT \\
 &)\\
 
 \bottomrule

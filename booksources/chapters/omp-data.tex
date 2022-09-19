@@ -123,6 +123,13 @@ parallel region. The rules for variables in that function are as follows:
 \item The function arguments inherit their status from the calling environment.
 \end{itemize}
 
+\begin{fortrannote}{Saved variables}
+  Variables in subprograms are private, as in~C,
+  except if the have the \lstinline{Save} attribute.
+  This attribute is implicitly given to any variable
+  that has value-initialized.
+\end{fortrannote}
+
 \Level 0 {Temporary variables in a loop}
 
 It is common to have a variable that is set and used in each loop

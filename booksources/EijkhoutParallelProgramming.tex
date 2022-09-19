@@ -67,7 +67,7 @@
 
 \def\svnrev{428}
 % dashed lines; this may interfere with other table packages
-\usepackage{arydshln}
+% \usepackage{arydshln}
 
 \edef\revision{\svnrev}
 \def\lulurevision{}
@@ -81,6 +81,7 @@
 \addtolength{\evensidemargin}{-.5in}
 \renewcommand\topfraction{.95}
 \renewcommand\floatpagefraction{.75}
+\emergencystretch=1.5in
 
 \usepackage{fancyhdr}
 \pagestyle{fancy}\fancyhead{}\fancyfoot{}
@@ -106,6 +107,15 @@
 \setlength{\headheight}{14pt}
 \addtolength{\topmargin}{-1.6pt}
 
+\begin{lulu}
+%% no source listing in the printed book
+\def\chaptersourcelisting#1{}
+\end{lulu}
+\begin{notlulu}
+%% source listing for online book online
+\def\chaptersourcelisting#1{\newpage\listchaptersources{#1}}
+\end{notlulu}
+
 \newwrite\nx
 \newcommand\CHAPTER[2]{
   \Level 0 {#1}\label{ch:#2}
@@ -118,8 +128,7 @@
   \SetBaseLevel 1 \input chapters/#2
 
   % include the sources used in this chapter
-  \newpage
-  \listchaptersources\chapshortname
+  \chaptersourcelisting{\chapshortname}
 
   % write this chapter to a list of chapters
   \write\chapterlist{\chapshortname}
@@ -273,6 +282,7 @@
 \CHAPTER{OpenMP Examples}{omp-examples}
 
 \part{PETSc}
+\label{part:petsc}
 \addcontentsline{locpp}{cppnote}{PETSc}
 \addcontentsline{loftn}{fortrannote}{PETSc}
 \addcontentsline{lopy}{pythonnote}{PETSc}
@@ -378,6 +388,8 @@
 
 \Level 0 {General Index}
 
+\index{parallel!prefix|see{prefix}}
+
 %\begin{multicols*}{2}
 \printindex
 %\end{multicols*}
@@ -476,25 +488,25 @@ Where these appear in this book, a page reference is given.
 %\pylist{_Pickle}
 \end{multicols}
 
-\Level 0 {Index of OpenMP commands}
+\Level 0 {Index of OpenMP keywords}
 
 \begin{multicols*}{2}
 \printindex[omp]
 \end{multicols*}
 
-\Level 0 {Index of PETSc commands}
+\Level 0 {Index of PETSc keywords}
 
 \begin{multicols*}{2}
 \printindex[petsc]
 \end{multicols*}
 
-\Level 0 {Index of KOKKOS commands}
+\Level 0 {Index of KOKKOS keywords}
 
 \begin{multicols*}{2}
 \printindex[kokkos]
 \end{multicols*}
 
-\Level 0 {Index of SYCL commands}
+\Level 0 {Index of SYCL keywords}
 
 \begin{multicols*}{2}
 \printindex[sycl]

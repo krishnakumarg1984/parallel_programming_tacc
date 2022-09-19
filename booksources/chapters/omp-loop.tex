@@ -704,7 +704,11 @@ for (i=0; i<imax; i++) {
 You have now solved a slightly different problem: the result variable
 contains the \emph{last} location where \n{a[i]} is zero.
 
-\Level 0 {Scaling tests}
+\Level 0 {Tests}
+
+\Level 1 {Scaling tests}
+
+We take a simple loop and consider the influence of binding parameters.
 
 \cverbatimsnippet{ompsineloop}
 
@@ -864,6 +868,29 @@ physical core count of~$40$.
   \label{fig:longhorn-bind}
 \end{figure}
 
+\Level 1 {Array traversal}
+\label{sec:omp-row-col-major}
+
+Consider arrays 
+\begin{lstlisting}
+  float Amat[N][N];
+  float xvec[N],yvec[N];  
+\end{lstlisting}
+and the operation $s\leftarrow y^tAx$.
+
+\begin{enumerate}
+\item Code this as an OpenMP parallel double loop.
+\item Argue that the matrix $A$ can be traversed two ways:
+  by rows and columns, or by columns and rows, both
+  giving the same result (in exact arithmetic).
+\item Argue that the loops can be collapsed with \indexompshow{collapse}
+  directory.
+\item So now you have 4 variants in addition to the sequential code.
+  Time these.
+\end{enumerate}
+
+You should find that the row/column (or \indexterm{row-major}) variant
+is faster. Can you find reasons for this?
 
 \Level 0 {Review questions}
 
@@ -891,4 +918,17 @@ for (i=0; i<N; i++) {
   y[i] += A[i][j] * x[j]
 }
 \end{lstlisting}
+\end{exercise}
+
+\begin{exercise}
+  In this triple loop:
+\begin{lstlisting}
+for (int i=0; i<n; i++)
+  for (int j=0; j<n; j++)
+    for (int k=0; k<kmax; k++)
+      x[i][j] += f(i,j,k)
+\end{lstlisting}
+what OpenMP directives do you use?
+Can you collapse all levels?
+Does it matter what the loop bounds are?
 \end{exercise}

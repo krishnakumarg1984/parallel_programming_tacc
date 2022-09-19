@@ -58,6 +58,11 @@ RUNS += run_buffer
 run_buffer :
 	@make --no-print-directory mpirun PROGRAM=bcastcolumn NP=6
 
+RUNS += run_version
+.PHONY: run_version
+run_version :
+	@make --no-print-directory mpirun PROGRAM=version.py NP=1
+
 TESTSWRONG = buffertoosmall.py 
 TESTSNOT = exscan.py
 TESTS_IN_PROGRESS =  interleave.py

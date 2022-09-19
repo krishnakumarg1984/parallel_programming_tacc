@@ -4,7 +4,7 @@
 %%%%
 %%%% This text file is part of the source of 
 %%%% `Parallel Programming in MPI and OpenMP'
-%%%% by Victor Eijkhout, copyright 2012-2021
+%%%% by Victor Eijkhout, copyright 2012-2022
 %%%%
 %%%% multiprocessing.tex : python multiprocessing module
 %%%%
@@ -18,6 +18,10 @@ This is a parallel processing library that relies on subprocesses,
 rather than threads.
 
 \Level 0 {Software and hardware}
+
+The \n{multiprocessing} toolbox does its own hardware detection;
+it uses a single node, and however many cores the system tells it
+there are.
 
 \pverbatimsnippet{pycpycount}
 

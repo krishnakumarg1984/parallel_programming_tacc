@@ -144,8 +144,8 @@ else
 	  CXX_COMPILER = icpx
 	  F_COMPILER   = ifx
 	else ifeq "${TACC_FAMILY_COMPILER}" "oneapi"
-	  C_COMPILER   = icc
-	  CXX_COMPILER = icpc
+	  C_COMPILER   = icx
+	  CXX_COMPILER = icpx
 	  F_COMPILER   = ifort
 	else ifeq "${TACC_FAMILY_COMPILER}" "gcc"
 	  C_COMPILER   = gcc
@@ -327,6 +327,16 @@ runapps :
 	done \
 	) 2>&1 | tee run.log
 	@echo && echo "See run.log for all output" && echo 
-
+info ::
+	@echo "make extension : file extension depending on LANGUAGE"
+.PHONY: extension
+extension ::
+	@case ${LANGUAGE} in \
+	    ( C ) echo c ;; \
+	    ( CXX ) echo cxx ;; \
+	    ( F ) echo F90 ;; \
+	    ( P ) echo py ;; \
+	    ( * ) echo unknown ;; \
+	esac
 clean ::
 	@rm -f compile.log run.log

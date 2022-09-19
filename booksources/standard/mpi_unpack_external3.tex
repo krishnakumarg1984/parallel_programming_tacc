@@ -33,7 +33,7 @@ l       % inout
 \mdseries\textrm{inout}\\
 \midrule
 \hbox to 18pt{MPI_Unpack_external (\hss} \\
- & datarep & data representation & const char[] & CHARACTER  & IN \\ & inbuf & input buffer start & const void* & TYPE\discretionary{}{\kern10pt}{}(*), DIMENSION\discretionary{}{\kern10pt}{}(..)  & IN \\ & insize & input buffer size, in bytes & MPI_Aint & INTEGER\discretionary{}{\kern10pt}{}(KIND=MPI_ADDRESS_KIND)  & IN \\ & position & current position in buffer, in bytes & MPI_Aint* & INTEGER\discretionary{}{\kern10pt}{}(KIND=MPI_ADDRESS_KIND)  & INOUT \\ & outbuf & output buffer start & void* & TYPE\discretionary{}{\kern10pt}{}(*), DIMENSION\discretionary{}{\kern10pt}{}(..)  & OUT \\ & outcount & number of output data items & int & INTEGER  & IN \\ & datatype & datatype of output data item & MPI_Datatype & TYPE\discretionary{}{\kern10pt}{}(MPI_Datatype)  & IN \\
+ & datarep & data representation & const char[] & CHARACTER  & IN \\ & inbuf & input buffer start & const void* & TYPE(*), \hbox{}\kern10pt{}DIMENSION(..)  & IN \\ & insize & input buffer size, in bytes & MPI_Aint & INTEGER\discretionary{}{\kern10pt}{}(KIND=MPI_ADDRESS_KIND)  & IN \\ & position & current position in buffer, in bytes & MPI_Aint* & INTEGER\discretionary{}{\kern10pt}{}(KIND=MPI_ADDRESS_KIND)  & INOUT \\ & outbuf & output buffer start & void* & TYPE(*), \hbox{}\kern10pt{}DIMENSION(..)  & OUT \\ & outcount & number of output data items & int & INTEGER  & IN \\ & datatype & datatype of output data item & MPI_Datatype & TYPE\discretionary{}{\kern10pt}{}(MPI_Datatype)  & IN \\
 &)\\
 
 \bottomrule

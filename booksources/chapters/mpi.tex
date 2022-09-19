@@ -169,10 +169,13 @@ Attributes are:
   This value has to be at least 32767.
 \item \indexmpidepr{MPI_HOST}
   Host process rank, if such exists, \indexmpishow{MPI_PROC_NULL}, otherwise.
+  The standard does not define what it means to be a host, or even whether
+  there should be one to begin with.
 \item \indexmpishow{MPI_IO}
-rank of a node that has regular I/O facilities (possibly
-myrank). Nodes in the same communicator may return different values
-for this parameter.
+  rank of a node that has regular I/O facilities.
+  Nodes in the same communicator may return different values
+  for this parameter. If this return \indexmpishow{MPI_ANY_SOURCE},
+  all ranks can perform I/O.
 \item \indexmpishow{MPI_WTIME_IS_GLOBAL}
 Boolean variable that indicates whether clocks are synchronized.
 \end{itemize}
@@ -189,6 +192,14 @@ Also:
   if \indexmpishow{MPI_Comm_spawn_multiple} is used (section~\ref{sec:mpi-dynamic}),
   this attribute reports the how-manieth program we are in.
 \end{itemize}
+
+\begin{fortrannote}{Attribute querying}
+  Fortran has none of this double indirection stuff.
+  The value of the attribute is returned immediately,
+  as an integer of kind \indexmpishow{MPI_ADDRESS_KIND}:
+  %
+  \fverbatimsnippet{gettagubf}
+\end{fortrannote}
 
 \begin{pythonnote}{Universe size}
  \lstinline{mpi4py.MPI.UNIVERSE_SIZE}.
@@ -228,8 +239,16 @@ The actual length of the name is returned in the \n{resultlen} parameter.
 
 For runtime determination,
 The \indextermbus{MPI}{version} is available through two parameters
-\indexmpishow{MPI_VERSION} and \indexmpishow{MPI_SUBVERSION}
+\indexmpidef{MPI_VERSION} and \indexmpidef{MPI_SUBVERSION}
 or the function \indexmpiref{MPI_Get_version}.
+
+The library version can be queried with \indexmpidef{MPI_Get_library_version}.
+The result string has to fit in \indexmpidef{MPI_MAX_LIBRARY_VERSION_STRING}.
+
+\begin{pythonnote}{MPI Version}
+  A function is available for version and subversion, as well as explicit parameters:
+  \psnippetwithoutput{mpiversionp}{code/mpi/p}{version}
+\end{pythonnote}
 
 \Level 1 {Python utility functions}
 
@@ -1029,6 +1048,7 @@ mpiexec -n 2 programscript someinput
 \end{verbatim}
 
 \Level 1 {Standard out and error}
+\label{sec:mpi-env-rank}
 
 The \indexterm{stdout} and \indexterm{stderr} streams of an MPI
 process are returned through the ssh tunnel. Thus they can be caught
@@ -1036,6 +1056,16 @@ as the \emph{stdout/err}\index{mpiexec!stdout/err of} of
 \indextermtt{mpiexec}.
 
 \cverbatimsnippet[examples/mpi/c/outerr.c]{mpiouterr}
+
+The name of the variable is implementation dependent,
+for \indextermtt{mpich} and its derivates
+such as \indextermbus{Intel}{MPI} it is \indextermtt{PMI_RANK}.
+(There is a similar \indextermtt{PMI_SIZE}.)
+
+If you are only interested in displaying the rank
+\begin{itemize}
+\item \indextermtt{srun} has an option \n{--label}.
+\end{itemize}
 
 \Level 1 {Process status}
 
@@ -1079,11 +1109,8 @@ the sort of script of section~\ref{sec:mpi-stdin}
 can also be used to implement \indexac{MPMD} runs.
 We let the script start one of a number of programs,
 and we use
-the fact that the MPI rank is known in the environment.
-The name of the variable is implementation dependent,
-for \indextermtt{mpich} and its derivates
-such as \indextermbus{Intel}{MPI} it is \indextermtt{PMI_RANK}.
-(There is a similar \indextermtt{PMI_SIZE}.)
+the fact that the MPI rank is known in the environment;
+see section~\ref{sec:mpi-env-rank}.
 
 Use a script \n{mpmdscript}:
 \begin{multicols}{2}

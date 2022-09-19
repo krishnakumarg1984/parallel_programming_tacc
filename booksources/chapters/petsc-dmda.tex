@@ -4,7 +4,7 @@
 %%%%
 %%%% This text file is part of the source of 
 %%%% `Parallel Programming in MPI and OpenMP'
-%%%% by Victor Eijkhout, copyright 2012-2020
+%%%% by Victor Eijkhout, copyright 2012-2022
 %%%%
 %%%% petsc-dmda.tex : DMDA objects
 %%%%
@@ -51,7 +51,7 @@ DMDACreate2d( communicator,
   \end{itemize}
 \item
   \begin{figure}[ht]
-    \includegraphics[scale=.5]{starbox}
+    \includegraphics[scale=.1]{starbox}
     \caption{Star and box stencils}
     \label{fig:starbox}
   \end{figure}
@@ -194,98 +194,6 @@ and the connection to $(i,j-1)$ is missing on the left column.
 In all:
 %
 \cverbatimsnippet{grid2d5pt}
-
-
-\Level 0 {General Data Management}
-
-\begin{lstlisting}
-  ierr = DMCreate(PETSC_COMM_WORLD, &dm);CHKERRQ(ierr);
-  ierr = DMSetType(dm, DMPLEX);CHKERRQ(ierr);
-\end{lstlisting}
-
-A \indexpetscshow{DMPLEX} is by default two-dimensional.
-Use
-\begin{verbatim}
-plexprogram  -dm_plex_dim k
-\end{verbatim}
-for other dimensions.
-In two dimensions there are three levels of cells:
-\begin{itemize}
-\item
-  0-cells are vertices,
-\item 1-cells are edges, and
-\item 2-cells are triangles.
-\end{itemize}
-
-The default $2\times 2$ grid has:
-\begin{verbatim}
-[code/petsc/c 1087] ./plex7 -dm_view
-DM Object: Sphere 1 MPI processes
-  type: plex
-Sphere in 2 dimensions:
-  0-cells: 9
-  1-cells: 16
-  2-cells: 8
-\end{verbatim}
-
-For larger grids:
-\begin{verbatim}
-plexprogram -dm_plex_box_faces 4,4
-\end{verbatim}
-
-\begin{multicols}{2}
-  Graphics output from
-\begin{verbatim}
-plexprogram -dm_view draw -draw_pause 20
-\end{verbatim}
-\vfill
-\columnbreak
-\includegraphics[scale=.5]{dmplex4x4}
-\end{multicols}
-
-\begin{verbatim}
-plexprogram -dm_view :outputfile.tex:ascii_latex \
-            -dm_plex_view_scale 4
-\end{verbatim}
-
-\hbox to \textwidth {
-\input mesh-plex7-p1.tex
-\hfil
-\input mesh-plex7-p2.tex
-}
-
-\Level 1 {Matrix from dmplex}
-
-\begin{tabbing}
-  Loop \=over batch of elements (e):\\
-  \>Loop \=over element matrix entries (f,fc,g,gc --> i,j:\\
-  \>\>Loop \=over quadrature points (q):\\
-  \>\>\>Make \n{u_q} and \n{gradU_q} (loops over fields,Nb,Ncomp)\\
-  \>\>\>$elemMat[i,j] += $ \= $\psi^{fc}_f(q) g^{(0)}_{fc,gc}(u, \nabla u) \phi^{gc}_g(q)$\\
-  \>\>\>\> $+ \psi^{fc}_f(q) \cdot g^{(1)}w_{fc,gc,dg}(u, \nabla u) \nabla\phi^{gc}_g(q)$\\
-  \>\>\>\> $+ \nabla\psi^{fc}_f(q) \cdot g^{(2)}_{fc,gc,df}(u, \nabla u) \phi^{gc}_g(q)$\\
-  \>\>\>\> $+ \nabla\psi^{fc}_f(q) \cdot g^{(3)}_{fc,gc,df,dg}(u, \nabla u) \nabla\phi^{gc}_g(q)$\\
-\end{tabbing}
-
-\begin{lstlisting}
-  ierr = DMPlexGetDepthStratum(dm, 0, &vStart, &vEnd);CHKERRQ(ierr);
-  ierr = PetscSectionCreate(PetscObjectComm((PetscObject) dm), &s);CHKERRQ(ierr);
-  // setup the section
-  ierr = DMSetLocalSection(dm, s);CHKERRQ(ierr);
-  ierr = PetscSectionDestroy(&s);CHKERRQ(ierr);
-\end{lstlisting}
-
-\begin{lstlisting}
-  ierr = PetscSectionSetNumFields(s, 1);CHKERRQ(ierr);
-  ierr = PetscSectionSetFieldComponents(s, 0, 1);CHKERRQ(ierr);
-  ierr = PetscSectionSetChart(s, vStart, vEnd);CHKERRQ(ierr);
-  //  printf("start-end: %d -- %d\n",vStart,vEnd);
-  for (v = vStart; v < vEnd; ++v) {
-    ierr = PetscSectionSetDof(s, v, 1);CHKERRQ(ierr);
-    ierr = PetscSectionSetFieldDof(s, v, 0, 1);CHKERRQ(ierr);
-  }
-  ierr = PetscSectionSetUp(s);CHKERRQ(ierr);
-\end{lstlisting}
 
 \Level 0 {Constructing a vector on a grid}
 

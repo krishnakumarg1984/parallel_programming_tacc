@@ -370,6 +370,28 @@ For instance, recreating the maximum reduction would look like this:
 
 \index{omp!reduction!user-defined|)}
 
+\Level 0 {Scan / prefix operations}
+
+A `scan' or \indextermbus{prefix}{operation}
+is like a reduction, except that you're interested
+in the partial results.
+For this OpenMP, as of \ompstandard{5.0}, has the \indexompdef{scan} directive.
+This needs the following:
+\begin{itemize}
+\item The reduction clause gets a modifier \indexompclause{inscan}:
+\begin{lstlisting}
+#pragma omp parallel for reduction(inscan,+:sumvar)
+\end{lstlisting}
+\item In the body of the parallel loop there is a \indexompshow{scan} directive
+  that allows you to store the partial results:
+\begin{lstlisting}
+#pragma omp scan inclusive(sumvar)
+  partials[i] = sumvar
+\end{lstlisting}
+\end{itemize}
+
+\csnippetwithoutput{scaninc}{example/mpi/c}{scan}
+
 \Level 0 {Reductions and floating-point math}
 
 The mechanisms that OpenMP uses to make a reduction parallel go

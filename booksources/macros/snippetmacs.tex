@@ -30,6 +30,10 @@
 % #1 file name (or XX if not given)
 % #2 snippet name
 % #3 language
+\newif\ifincludesources\includesourcesfalse
+\begin{fullsources}
+\includesourcestrue
+\end{fullsources}
 \newcommand{\languageVerbatimSnippet}[3]{
   % record this file as bracketed name
   \def\xx{XX}\def\yy{#1}
@@ -42,12 +46,15 @@
   \lstset{style=reviewcode,language=C}
   \ifInBook
   \nobreak
-  \ifx\xx\yy\else
-  {\globaldefs=1 \addchaptersource{#1} }
-  \moveright .5\unitindent \hbox{%
-    \textsl{For the full source of this example, see section~\ref{lst:#1}}
-  }\par
-  \fi\fi
+  \ifincludesources
+    \ifx\xx\yy\else
+    {\globaldefs=1 \addchaptersource{#1} }
+      \moveright .5\unitindent \hbox{%
+        \textsl{For the full source of this example, see section~\ref{lst:#1}}
+      }\par
+  \fi % xx yy
+  \fi % includesources
+  \fi % InBook
 }
 
 \newenvironment{clisting}

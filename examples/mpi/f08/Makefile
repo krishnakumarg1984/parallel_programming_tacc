@@ -17,7 +17,7 @@ info ::
 	@echo "available rules:"
 
 APPS = f08 procname count reduceinplace reduceinplaceptr section sectionisend \
-    anysource putfence matchkind contiguous struct \
+    anysource putfence matchkind contiguous struct tags \
     waitnull vector vectorx pingpongbig
 WRONGS = typecheck typecheckarg typecheckbuf typecheck8
 
