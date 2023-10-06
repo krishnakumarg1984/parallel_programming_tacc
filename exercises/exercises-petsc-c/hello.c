@@ -8,37 +8,34 @@
  ****
  ****************************************************************/
 
-#include <stdio.h>
 #include "petsc.h"
+#include <stdio.h>
 
-int main(int Argc,char **Args)
+int main(int Argc, char** Args)
 {
-  int ierr,procno,nprocs;
+    int ierr, procno, nprocs;
 
-  ierr = PetscInitialize(&Argc,&Args,PETSC_NULL,PETSC_NULL); CHKERRQ(ierr);
-  MPI_Comm comm = PETSC_COMM_WORLD;
-  
-  MPI_Comm_rank(comm,&procno);
-  MPI_Comm_size(comm,&nprocs);
+    ierr = PetscInitialize(&Argc, &Args, PETSC_NULLPTR, PETSC_NULLPTR);
+    CHKERRQ(ierr);
+    MPI_Comm comm = PETSC_COMM_WORLD;
 
-  /*
-   * Exercise 1:
-   * -- use PetscPrintf to print only from process zero
-   *    make sure to remove the original printf!
-   */
-  printf(
-	 "Hello, I'm processor %d and %d processors have just initialized\n",
-	 procno,nprocs
-	 );
-  ierr = PetscPrintf
-    (
-/**** your code here ****/
-     ); CHKERRQ(ierr);
+    MPI_Comm_rank(comm, &procno);
+    MPI_Comm_size(comm, &nprocs);
 
-  /*
-   * Exercise 2:
-   * -- use PetscSynchronizedPrintf to let each processor print in sequence
-   */
+    /*
+     * Exercise 1:
+     * -- use PetscPrintf to print only from process zero
+     *    make sure to remove the original printf!
+     */
+    // printf("Hello, I'm processor %d and %d processors have just initialized\n", procno, nprocs);
+    /**** your code here ****/
+    ierr = PetscPrintf(comm, "Hello world!\n");
+    CHKERRQ(ierr);
+
+    /*
+     * Exercise 2:
+     * -- use PetscSynchronizedPrintf to let each processor print in sequence
+     */
 #if 0
   ierr = PetscSynchronizedPrintf
     (
@@ -47,7 +44,8 @@ int main(int Argc,char **Args)
   ierr = PetscSynchronizedFlush(comm,stdout); CHKERRQ(ierr);
 #endif
 
-  ierr = PetscFinalize(); CHKERRQ(ierr);
+    ierr = PetscFinalize();
+    CHKERRQ(ierr);
 
-  return 0;
+    return 0;
 }
