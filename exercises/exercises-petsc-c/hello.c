@@ -9,6 +9,7 @@
  ****************************************************************/
 
 #include "petsc.h"
+#include "petscerror.h"
 #include <stdio.h>
 
 int main(int Argc, char** Args)

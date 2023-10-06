@@ -1,5 +1,3 @@
--I/home/krishnakumar/sw_src/spack/opt/spack/linux-pop22-icelake/gcc-12.3.0/petsc-3.20.0-zrvpjbnj5om4pjy3hlpbua3aln7fcuoo/include/
--I/home/krishnakumar/sw_src/spack/opt/spack/linux-pop22-icelake/gcc-12.3.0/openmpi-4.1.5-ivqmarf72me6btl5b5ior3tkh5ferdyg/include
 -Waggregate-return
 -Wall
 -Wcast-align
