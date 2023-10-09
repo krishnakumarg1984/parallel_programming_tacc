@@ -10,20 +10,20 @@
  ****
  ****************************************************************/
 
-#include <stdlib.h>
-#include <stdio.h>
-
 #include <petscsys.h>
+#include <stdio.h>
+#include <stdlib.h>
 
-int main(int argc,char **argv)
+int main(int argc, char** argv)
 {
-  PetscErrorCode ierr;
-  char help[] = "\nSizse measurements.\n\n";
-  ierr = PetscInitialize(&argc,&argv,(char*)0,help); CHKERRQ(ierr);
+    char help[] = "\nSizse measurements.\n\n";
 
-  printf("size of PetscInt : %lu\n",sizeof(PetscInt));
-  printf("size of MPI Int  : %lu\n",sizeof(PetscMPIInt));
-  printf("size of PetscReal: %lu\n",sizeof(PetscReal));
+    PetscErrorCode ierr = PetscInitialize(&argc, &argv, (char*)0, help);
+    CHKERRQ(ierr);
 
-  return PetscFinalize();
+    printf("size of PetscInt : %zu\n", sizeof(PetscInt));
+    printf("size of MPI Int  : %zu\n", sizeof(PetscMPIInt));
+    printf("size of PetscReal: %zu\n", sizeof(PetscReal));
+
+    return PetscFinalize();
 }

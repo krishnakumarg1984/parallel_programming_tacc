@@ -10,23 +10,26 @@
  ****
  ****************************************************************/
 
-#include <stdlib.h>
-#include <stdio.h>
-
 #include <petsc.h>
+#include <stdio.h>
+#include <stdlib.h>
 
-PetscErrorCode this_function_bombs() {
-  PetscFunctionBegin;
-  SETERRQ(PETSC_COMM_SELF,1,"We cannot go on like this");
-  PetscFunctionReturn(0);
+static PetscErrorCode this_function_bombs(void)
+{
+    PetscFunctionBegin;
+    SETERRQ(PETSC_COMM_SELF, 1, "We cannot go on like this");
+    PetscFunctionReturn(0);
 }
 
-int main(int argc,char **argv)
+int main(int argc, char** argv)
 {
-  PetscErrorCode ierr;
+    char help[] = "\nInit example.\n\n";
 
-  char help[] = "\nInit example.\n\n";
-  ierr = PetscInitialize(&argc,&argv,(char*)0,help); CHKERRQ(ierr);
-  ierr = this_function_bombs(); CHKERRQ(ierr);
-  return PetscFinalize();
+    PetscErrorCode ierr = PetscInitialize(&argc, &argv, (char*)0, help);
+    CHKERRQ(ierr);
+
+    ierr = this_function_bombs();
+    CHKERRQ(ierr);
+
+    return PetscFinalize();
 }

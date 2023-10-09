@@ -1,0 +1,69 @@
+---
+
+CompileFlags:
+  # Tweak the parse settings
+  Add:
+    [
+      "-I$PETSC_DIR/include",
+      "-Wall",
+      "-Wcast-align",
+      "-Wcast-qual",
+      "-Wconversion",
+      "-Wdouble-promotion",
+      # "-Wduplicated-branches", # not in clang
+    # "-Wduplicated-cond", # not in clang
+      "-Wextra",
+      "-Wfatal-errors",
+      "-Wfloat-equal",
+      "-Wformat=2",
+      # "-Wformat-signedness", # not in clang
+      "-Wformat-truncation=2",
+      "-Wframe-larger-than=5000",
+      # "-Wjump-misses-init", # not in clang
+    # "-Wlogical-op", # not in clang
+      "-Wmissing-prototypes",
+      "-Wnull-dereference",
+      # "-Wno-sign-conversion",
+      "-Wpedantic",
+      "-Wshadow",
+      "-Wstack-usage=10000",
+      "-Wstrict-aliasing",
+      "-Wstrict-prototypes",
+      "-Wswitch-default",
+      "-Wswitch-enum",
+      # "-Wsync-nand", # not in clang
+    # "-Wtrampolines", # not in clang
+      "-Wundef",
+      "-Wunused",
+      "-Wunused-macros",
+      "-Wvla-larger-than=0",
+      "-lm",
+      "-march=native",
+      "-ldl",
+      "-std=c17",
+      "-pedantic-errors",
+      "-g",
+      "-ggdb",
+      "-O0",
+      "-DDEBUG",
+      "-fasynchronous-unwind-tables",
+      "-fno-omit-frame-pointer",
+      "-fno-sanitize-recover=all",
+      "-fno-sanitize=alignment",
+      "-fno-sanitize=null",
+      "-fsanitize=address",
+      "-fsanitize=integer",
+      "-fsanitize=signed-integer-overflow",
+      "-fsanitize=float-cast-overflow",
+      "-fsanitize=float-divide-by-zero",
+      "-fsanitize=undefined",
+      # "-fsanitize-trap", # undefined (for gcc only?)
+      "-fstack-clash-protection",
+      "-fstack-protector-all",
+      "-fstack-protector-strong",
+      "-fstrict-aliasing"
+    ]
+Diagnostics:
+  UnusedIncludes: Strict
+
+# vim: ft=yaml

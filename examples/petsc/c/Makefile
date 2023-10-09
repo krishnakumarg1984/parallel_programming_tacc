@@ -1,7 +1,7 @@
 ################################################################
 ################################################################
 ####
-#### This makefile is part of the source of 
+#### This makefile is part of the source of
 #### "Parallel Computing for Science and Engineering"
 #### by Victor Eijkhout, copyright 2013-2023
 ####
@@ -19,7 +19,7 @@ info ::
 	@echo "================================================================"
 	@echo "available rules:"
 
-APPS = init backtrace sizes split vecarray \
+APPS = init cudainit316 backtrace sizes split vecarray \
     optionsbegin viewhdf5 \
     average fftsine oddeven power transpose\
     dmrhs grid1d grid2d quintic1 \
@@ -39,7 +39,7 @@ info ::
 	@echo "    [ EXTRAFLAGS=whatever]"
 	@echo "      supported: EXTRAFLAGS=-DDEBUG"
 
-RUNS = 
+RUNS =
 include ../../../makefiles/Make.mpi_run
 
 RUNS += run_sizes

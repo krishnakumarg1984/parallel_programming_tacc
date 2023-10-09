@@ -10,33 +10,39 @@
  ****
  ****************************************************************/
 
-#include <stdlib.h>
-#include <stdio.h>
 #include <math.h>
+#include <petscvec.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 static char help[] = "\nOwership example.\n\n";
 
-#include <petscvec.h>
-
-int main(int argc,char **argv)
+int main(int argc, char** argv)
 {
-  Vec            x,y;               /* vectors */
-  int nprocs,procid;
-  PetscErrorCode ierr;
+    // Vec x, y; /* vectors */
+    PetscErrorCode ierr;
 
-  PetscInitialize(&argc,&argv,(char*)0,help);
-  MPI_Comm comm = PETSC_COMM_WORLD;
-  MPI_Comm_size(comm,&nprocs);
-  MPI_Comm_rank(comm,&procid);
-  
-  PetscInt N,n;
-  N = 100; n = PETSC_DECIDE;
-  PetscSplitOwnership(comm,&n,&N);
-  PetscPrintf(comm,"Global %d, local %d\n",N,n);
+    ierr = PetscInitialize(&argc, &argv, (char*)0, help);
+    CHKERRQ(ierr);
 
-  N = PETSC_DECIDE; n = 10;
-  PetscSplitOwnership(comm,&n,&N);
-  PetscPrintf(comm,"Global %d, local %d\n",N,n);
+    MPI_Comm comm = PETSC_COMM_WORLD;
 
-  return PetscFinalize();
+    int nprocs, procid;
+    MPI_Comm_size(comm, &nprocs);
+    MPI_Comm_rank(comm, &procid);
+
+    PetscInt N, n;
+    N = 100;
+    n = PETSC_DECIDE;
+    PetscSplitOwnership(comm, &n, &N);
+    PetscPrintf(comm, "Global %d, local %d\n", N, n);
+
+    N = PETSC_DECIDE;
+    n = 10;
+    PetscSplitOwnership(comm, &n, &N);
+    PetscPrintf(comm, "Global %d, local %d\n", N, n);
+
+    PetscPrintf(comm, "Size of PetscInt is %zu", sizeof(PetscInt));
+
+    return PetscFinalize();
 }

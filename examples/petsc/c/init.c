@@ -10,24 +10,24 @@
  ****
  ****************************************************************/
 
-#include <stdlib.h>
-#include <stdio.h>
-
 #include <petscsys.h>
+#include <stdio.h>
+#include <stdlib.h>
 
-int main(int argc,char **argv)
+int main(int argc, char** argv)
 {
-  PetscErrorCode ierr;
+    PetscErrorCode ierr;
+    const char help[] = "\nInit example.\n\n";
 
-  char help[] = "\nInit example.\n\n";
-  ierr = PetscInitialize
-    (&argc,&argv,(char*)0,help); CHKERRQ(ierr);
-  int flag;
-  MPI_Initialized(&flag);
-  if (flag)
-    printf("MPI was initialized by PETSc\n");
-  else
-    printf("MPI not yet initialized\n");
+    ierr = PetscInitialize(&argc, &argv, (char*)0, help);
+    CHKERRQ(ierr);
 
-  return PetscFinalize();
+    int flag;
+    MPI_Initialized(&flag);
+    if (flag)
+        printf("MPI was initialized by PETSc\n");
+    else
+        printf("MPI not yet initialized\n");
+
+    return PetscFinalize();
 }
