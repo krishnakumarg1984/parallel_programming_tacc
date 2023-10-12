@@ -27,6 +27,6 @@ find . -name "CPackConfig.cmake" -print -delete 2>/dev/null
 # find . -iname "MakeFile" -print -delete 2>/dev/null
 find . -iname "hello.txt" -print -delete 2>/dev/null
 find . -iname "hello.data" -print -delete 2>/dev/null
-find . -name "hello" -type f \( -perm -u=x -o -perm -g=x -o -perm -o=x \) -exec test -x {} \; -print 2>/dev/null
+find . -name "hello" -type f \( -perm -u=x -o -perm -g=x -o -perm -o=x \)  -print -delete 2>/dev/null
 
 echo "Removed build-output files. DONE!"
