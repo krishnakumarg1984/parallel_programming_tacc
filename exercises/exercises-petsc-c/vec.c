@@ -8,13 +8,18 @@
  ****
  ****************************************************************/
 
-#include "petscsys.h"
-#include <math.h>
+#include <petscsys.h>
 #include <petscvec.h>
 #include <stdio.h>
 #include <stdlib.h>
 
-static char help[] = "\nVector exercise. Commandline option: \"-n 123\" for vector size within each MPI rank.\n\n";
+#include <math.h>
+#define _USE_MATH_DEFINES // usually for some Win32 targets :(
+#ifndef M_PI
+#define M_PI 3.14159265358979323846
+#endif
+
+static char help[] = "\nVector exercise. Pass option: \"-nlocal 123\" for local vector size in each MPI rank.\n\n";
 
 #undef __FUNCT__
 #define __FUNCT__ "main"
@@ -27,12 +32,12 @@ int main(int argc, char** argv)
     /*
      * Get a commandline argument for the size of the problem
      */
-    PetscInt n = 200;
-    ierr       = PetscOptionsGetInt(NULL, NULL, "-n", &n, NULL);
+    PetscInt n_local = 200;
+    ierr             = PetscOptionsGetInt(NULL, NULL, "-nlocal", &n_local, NULL);
     CHKERRQ(ierr);
 
     MPI_Comm comm = PETSC_COMM_WORLD;
-    PetscPrintf(comm, "Local vector size (within each MPI rank) is to be set to: %d\n", n);
+    PetscPrintf(comm, "Local vector size (within each MPI rank) is to be set to: %d\n", n_local);
 
     int nprocs, procno;
     MPI_Comm_rank(comm, &procno);
@@ -48,7 +53,7 @@ int main(int argc, char** argv)
     ierr = VecSetType(x, VECMPI);
     CHKERRQ(ierr);
     // ierr = VecSetSizes(x, PETSC_DECIDE, n); // parameter ordering is: local, then global
-    ierr = VecSetSizes(x, n, PETSC_DECIDE); // parameter ordering is: local, then global
+    ierr = VecSetSizes(x, n_local, PETSC_DECIDE); // parameter ordering is: local, then global
     CHKERRQ(ierr);
     ierr = VecSetFromOptions(x);
     CHKERRQ(ierr);
@@ -107,7 +112,8 @@ int main(int argc, char** argv)
         /**** your code here ****/
         for (PetscInt index = myfirst; index < mylast; ++index)
         {
-            PetscScalar value = sin(index * 2. * 3.14159 / globalsize);
+            PetscScalar value = sin(index * 2.0 * M_PI / globalsize);
+            // PetscScalar value = 1.0;
             /**** your code here ****/
             ierr = VecSetValue(y, index, value, INSERT_VALUES);
             CHKERRQ(ierr);
@@ -122,10 +128,12 @@ int main(int argc, char** argv)
      * Exercise 2:
      * - compute inner product of x and y
      */
-    // PetscScalar inprod;
+    PetscScalar inprod;
     /**** your code here ****/
-    // ierr = PetscPrintf(comm, "Computed inner product as %f, should be about zero\n", inprod);
-    // CHKERRQ(ierr);
+    ierr = VecDot(x, y, &inprod);
+    CHKERRQ(ierr);
+    ierr = PetscPrintf(comm, "Computed inner product as %f, should be about zero\n", inprod);
+    CHKERRQ(ierr);
 
     /*
      * Exercise 3:
@@ -134,7 +142,17 @@ int main(int argc, char** argv)
      * -- check that the norm of the result is 1
      */
     /**** your code here ****/
-    // PetscPrintf(comm, "Norm of scaled vector is %f, should be 1\n", norm);
+    PetscReal norm_x;
+    ierr = VecNorm(x, NORM_2, &norm_x);
+    CHKERRQ(ierr);
+    ierr = PetscPrintf(comm, "Norm of vector x is %4.2f\n", norm_x);
+    CHKERRQ(ierr);
+
+    ierr = VecScale(x, 1.0 / norm_x);
+    CHKERRQ(ierr);
+    ierr = VecNorm(x, NORM_2, &norm_x);
+    CHKERRQ(ierr);
+    PetscPrintf(comm, "Norm of scaled vector is %4.2f, should be 1\n", norm_x);
 
     /*
        Free work space.  All PETSc objects should be destroyed when they
