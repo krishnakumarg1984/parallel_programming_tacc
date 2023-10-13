@@ -9,7 +9,22 @@
 ####
 ################################################################
 
+import sys
+
 from petsc4py import PETSc
+
+petsc_init_success = PETSc.Sys.isInitialized()
+# if petsc_init_success:
+#     PETSc.Sys.Print("PETSc is successfully initialized")
+# else:
+if not petsc_init_success:
+    PETSc.Sys.Print("PETSc is not initialized")
+    sys.exit(1)
+
+petsc_major_ver, petsc_minor_ver, petsc_patch_ver = PETSc.Sys.getVersion()
+print(f"PetSc version is: v{petsc_major_ver}.{petsc_minor_ver}.{petsc_patch_ver}")
+# print(f"PetSc version info is: {PETSc.Sys.getVersionInfo()}")
+
 
 # from mpi4py import MPI
 

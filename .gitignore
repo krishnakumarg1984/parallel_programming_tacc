@@ -277,3 +277,7 @@ TSWLatexianTemp*
 booksources/exercises/*.tex
 *.pdf
 .idea/
+init
+split
+hello
+vec

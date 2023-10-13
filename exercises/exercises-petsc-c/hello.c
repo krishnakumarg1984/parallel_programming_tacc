@@ -8,20 +8,40 @@
  ****
  ****************************************************************/
 
-#include "petsc.h"
-#include "petscerror.h"
+// #include <petsc.h>
+// #include <petscerror.h>
 #include "petscsys.h"
+#include "petscsystypes.h"
 #include <stdio.h>
+
+static const char program_help[] = "This is a PetSc 'Hello World' program.\n\n";
 
 int main(int argc, char** argv)
 {
-    int ierr = PetscInitialize(&argc, &argv, PETSC_NULLPTR, PETSC_NULLPTR);
+    // int ierr = PetscInitialize(&argc, &argv, PETSC_NULLPTR, PETSC_NULLPTR);
+    PetscErrorCode ierr;
+    ierr = PetscInitialize(&argc, &argv, PETSC_NULLPTR, program_help);
     CHKERRQ(ierr);
+
+    int flag;
+    MPI_Initialized(&flag);
+    if (flag)
+    {
+        printf("MPI was initialized by PETSc\n");
+    }
+    else
+    {
+        printf("MPI not yet initialized\n");
+    }
 
     MPI_Comm comm = PETSC_COMM_WORLD;
     int procno, nprocs;
     MPI_Comm_rank(comm, &procno);
     MPI_Comm_size(comm, &nprocs);
+
+    PetscPrintf(comm, "PetSc version is: %s\n", PETSC_VERSION_GIT);
+    PetscPrintf(comm, "PetSc major version is: %d\n", PETSC_VERSION_MAJOR);
+    PetscPrintf(comm, "PetSc minor version is: %d\n", PETSC_VERSION_MINOR);
 
     /*
      * Exercise 1:
@@ -44,8 +64,8 @@ int main(int argc, char** argv)
     CHKERRQ(ierr);
     // #endif
 
-    ierr = PetscFinalize();
-    CHKERRQ(ierr);
+    // ierr = PetscFinalize();
+    // CHKERRQ(ierr);
 
-    return 0;
+    return PetscFinalize();
 }

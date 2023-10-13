@@ -21,7 +21,7 @@ include ${PETSC_DIR}/lib/petsc/conf/variables
 LOCDIR = csolutions
 
 EXERCISE = hello
-EXERCISES = hello root vec matvec ksp shell oddeven grid plex
+EXERCISES = init hello split root vec matvec ksp shell oddeven grid plex
 #grid mat ksp shell ex46 ex46a
 np_root = 1
 np_oddeven = 2
