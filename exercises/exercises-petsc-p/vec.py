@@ -1,13 +1,4 @@
 #!/usr/bin/env python
-################################################################
-####
-#### This makefile is part of the tutorial
-#### `Introduction to the PETSc library'
-#### by Victor Eijkhout eijkhout@tacc.utexas.edu
-####
-#### copyright Victor Eijkhout 2012-6
-####
-################################################################
 
 import math
 import sys
@@ -21,8 +12,9 @@ has_nlocal = PETSc.Options().hasName("nlocal")
 if has_nlocal:
     PETSc.Sys.Print("Detected command line option '-nlocal'")
 
-n_local = 200  # default number of local vector elements
-# second argument is default, which is NOT optional
+n_local = 200  # default number of local vector elements in each rank
+
+# second argument is the default, which is NOT optional
 n_local = PETSc.Options().getInt("nlocal", n_local)
 PETSc.Sys.Print(f"Local vector size (within each MPI rank) is to be set to: {n_local}")
 
@@ -74,6 +66,9 @@ while local_index_y < local_last_idx_y:
 
 y.assemblyBegin()
 y.assemblyEnd()
+
+PETSc.Sys.Print(f"The sum of entries of y is: {y.sum():4.2f}", comm=comm)
+
 
 ####
 #### Exercise 1:

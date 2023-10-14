@@ -14,7 +14,7 @@
 #include <stdlib.h>
 
 #include <math.h>
-#define _USE_MATH_DEFINES // usually for some Win32 targets :(
+#define _USE_MATH_DEFINES // required usually for some Win32 targets :(
 #ifndef M_PI
 #define M_PI 3.14159265358979323846
 #endif
@@ -52,7 +52,6 @@ int main(int argc, char** argv)
     CHKERRQ(ierr);
     ierr = VecSetType(x, VECMPI);
     CHKERRQ(ierr);
-    // ierr = VecSetSizes(x, PETSC_DECIDE, n); // parameter ordering is: local, then global
     ierr = VecSetSizes(x, n_local, PETSC_DECIDE); // parameter ordering is: local, then global
     CHKERRQ(ierr);
     ierr = VecSetFromOptions(x);
@@ -77,6 +76,12 @@ int main(int argc, char** argv)
     PetscScalar two = 2.0;
 
     ierr = VecSet(y, two);
+    CHKERRQ(ierr);
+
+    PetscScalar sum_y;
+    ierr = VecSum(y, &sum_y);
+    CHKERRQ(ierr);
+    ierr = PetscPrintf(comm, "Sum of entries of y with uniform value of %4.2f is %4.2f\n", two, sum_y);
     CHKERRQ(ierr);
 
     {
@@ -121,6 +126,10 @@ int main(int argc, char** argv)
         ierr = VecAssemblyBegin(y);
         CHKERRQ(ierr);
         ierr = VecAssemblyEnd(y);
+        CHKERRQ(ierr);
+        ierr = VecSum(y, &sum_y);
+        CHKERRQ(ierr);
+        ierr = PetscPrintf(comm, "Sum of entries of y with uniform value of %4.2f is %4.2f\n", two, sum_y);
         CHKERRQ(ierr);
     }
 
