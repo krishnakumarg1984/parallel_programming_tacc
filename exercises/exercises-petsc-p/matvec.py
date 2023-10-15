@@ -59,7 +59,7 @@ nlocal = PETSc.Options().getInt("nlocal", 20)  # default is not optional
 ##
 A = CreateMatrix(comm, nlocal)
 
-A.view()  # just checking: screen output
+# A.view()  # just checking: screen output
 
 #### Exercise:
 #### - create a vector by finding the local size of the matrix
