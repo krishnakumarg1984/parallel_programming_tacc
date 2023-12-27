@@ -66,6 +66,9 @@ ksp.solve(b, x)
 
 x.viewFromOptions("-view_sol")
 
+print()
+print(x.norm(PETSc.NormType.NORM_2))
+
 # Things to try
 # -------------
 #

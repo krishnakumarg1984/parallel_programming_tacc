@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import math
+# import math
 import sys
 
 from petsc4py import init
@@ -120,7 +120,7 @@ else:
 #         print("Local norm incorrect on %d: %e" % (procno, nrm))
 #     else:
 #         print("Local norm succeeds on %d" % procno)
-# else:  # noqa: PLR5501
+# else:  # noqa: PLR5501 RUF100
 #     if abs(nrm) > 1.0e-14:
 #         print("Local norm incorrect on %d: %e" % (procno, nrm))
 #     else:
